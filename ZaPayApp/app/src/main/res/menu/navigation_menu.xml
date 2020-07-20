@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group>
+        <item
+            android:id="@+id/navMyProfile"
+            android:icon="@null"
+            android:title="@string/my_profile" />
+
+        <item
+            android:id="@+id/navBankAccount"
+            android:icon="@null"
+            android:title="@string/bank_account" />
+
+        <item
+            android:id="@+id/navTransaction"
+            android:icon="@null"
+            android:title="@string/transaction" />
+        <item
+            android:id="@+id/navHistory"
+            android:icon="@null"
+            android:title="@string/history" />
+        <item
+            android:id="@+id/navAboutUs"
+            android:icon="@null"
+            android:title="@string/about_us" />
+        <item
+            android:id="@+id/navTerms"
+            android:icon="@null"
+            android:title="@string/terms_and_conditions" />
+        <item
+            android:id="@+id/navHelp"
+            android:icon="@null"
+            android:title="@string/help" />
+    </group>
+
+    <group
+        android:checkableBehavior="single">
+        <item android:title="">
+            <menu>
+                <item
+                    android:id="@+id/navLogout"
+                    android:icon="@null"
+                    android:title="@string/logout" />
+            </menu>
+        </item>
+    </group>
+</menu>

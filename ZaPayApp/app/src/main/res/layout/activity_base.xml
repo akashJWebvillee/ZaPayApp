@@ -1,44 +1,68 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.org.zapayapp.uihelpers.AdvanceDrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.BaseActivity">
+    android:orientation="vertical">
 
-
+    <FrameLayout
+        android:id="@+id/activity_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:elevation="20dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:ignore="UselessParent">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="342dp"
+                android:background="@mipmap/base_bg"
+                tools:ignore="UselessParent" />
+
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
                 android:layout_margin="0dp"
-                android:background="@android:color/transparent"
+                android:contentInsetStart="0dp"
+                android:contentInsetLeft="0dp"
+                android:contentInsetRight="0dp"
+                android:contentInsetStartWithNavigation="0dp"
                 android:minHeight="?android:attr/actionBarSize"
-                android:paddingStart="3dp"
-                android:paddingEnd="3dp"
-                app:buttonGravity="top"
-                app:collapseIcon="@mipmap/ic_back">
+                android:padding="0dp"
+                android:theme="@style/ToolbarTextAppearance"
+                app:collapseIcon="@mipmap/ic_launcher"
+                app:contentInsetLeft="0dp"
+                app:contentInsetRight="0dp"
+                app:contentInsetStart="0dp"
+                app:contentInsetStartWithNavigation="0dp" />
 
-                <RelativeLayout
-                    android:id="@+id/toolbarRLView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:visibility="visible">
-
-                </RelativeLayout>
-            </androidx.appcompat.widget.Toolbar>
-
-
-
+            <FrameLayout
+                android:id="@+id/frameBase"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/toolbar" />
         </RelativeLayout>
-</RelativeLayout>
+    </FrameLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navView"
+        android:layout_width="250dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        android:scrollbars="none"
+        android:theme="@style/NavigationView"
+        app:headerLayout="@layout/navigation_header"
+        app:itemIconPadding="8dp"
+        app:itemMaxLines="2"
+        app:itemTextColor="@drawable/drawer_item_color"
+        app:itemTextAppearance="@style/NavigationTextViewStyle"
+        app:menu="@menu/navigation_menu" />
+
+</com.org.zapayapp.uihelpers.AdvanceDrawerLayout>
