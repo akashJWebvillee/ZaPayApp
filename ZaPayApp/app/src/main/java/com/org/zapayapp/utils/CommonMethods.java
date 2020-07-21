@@ -6,6 +6,19 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Build;
+import android.os.StrictMode;
+import android.text.Html;
+import android.text.Spanned;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Base64;
+import android.util.DisplayMetrics;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -24,6 +37,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.text.DecimalFormat;
 
 
 import com.google.android.material.badge.BadgeDrawable;
@@ -38,6 +58,7 @@ import java.util.Locale;
 import static android.content.Context.CLIPBOARD_SERVICE;
 
 public class CommonMethods {
+
     /**
      * Gets color wrapper.
      *
@@ -151,7 +172,6 @@ public class CommonMethods {
             ClipData.Item item = clipboard.getPrimaryClip().getItemAt(0);
             pasteString = item.getText();
         }
-
         if (pasteString != null) {
             // use it
             return pasteString.toString();
@@ -247,7 +267,7 @@ public class CommonMethods {
      * @param msg the msg
      */
     public static void showLogs(String TAG, String msg) {
-        Log.d(TAG, TAG + "  " + msg);
+        Log.d(TAG, msg);
     }
 
     /**
@@ -300,68 +320,10 @@ public class CommonMethods {
      * @param d the d
      * @return the double
      */
-    private static double roundTwoDecimals(double d) {
-        DecimalFormat formatter = (DecimalFormat) DecimalFormat.getNumberInstance(Locale.US);
-        formatter.applyPattern("0.00");
-        // DecimalFormat twoDForm = new DecimalFormat("0.00");
-        return Double.parseDouble(formatter.format(d));
+    public static double roundTwoDecimals(double d) {
+        DecimalFormat twoDForm = new DecimalFormat("#.##");
+        return Double.valueOf(twoDForm.format(d));
     }
-
-    public static double roundStringTwoDecimals(double d) {
-        double dValue = 0;
-        try {
-            String dd = String.valueOf(d);
-            Number value = NumberFormat.getInstance(new Locale("en", "US")).parse(enToAr(dd));
-            assert value != null;
-            dValue = value.doubleValue();
-            dValue = roundTwoDecimals(dValue);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return dValue;
-
-    }
-
-    private static String enToAr(String input) {
-        if (input == null || input.isEmpty()) {
-            return input;
-        }
-
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < input.length(); i++) {
-            char ch = input.charAt(i);
-            if (isNonstandardDigit(ch)) {
-                int numericValue = Character.getNumericValue(ch);
-                if (numericValue >= 0) {
-                    builder.append(numericValue);
-                }
-            } else {
-                builder.append(ch);
-            }
-        }
-
-        return builder.toString().replace("٫", ".");
-    }
-
-    private static boolean isNonstandardDigit(char ch) {
-        return Character.isDigit(ch) && !(ch >= '0' && ch <= '9');
-    }
-
-    /* PRIVATE METHODS */
-    private static String safeEnToAr(String text) {
-        return text
-                .replace("0", "\u0660")
-                .replace("1", "\u0661")
-                .replace("2", "\u0662")
-                .replace("3", "\u0663")
-                .replace("4", "\u0664")
-                .replace("5", "\u0665")
-                .replace("6", "\u0666")
-                .replace("7", "\u0667")
-                .replace("8", "\u0668")
-                .replace("9", "\u0669");
-    }
-
 
     /**
      * Capitalize first letter string.
@@ -568,47 +530,68 @@ public class CommonMethods {
         return strValue;
     }
 
+    public static void darkenStatusBar(Activity activity, int color) {
 
-
-
-   /* public static void setBadgeCount(Context context, LayerDrawable icon, String count) {
-        BadgeDrawable badge;
-
-        // Reuse drawable if possible
-        Drawable reuse = icon.findDrawableByLayerId(R.id.ic_badge);
-        if (reuse != null && reuse instanceof BadgeDrawable) {
-            badge = (BadgeDrawable) reuse;
-        } else {
-            badge = new BadgeDrawable(context);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            //activity.getWindow().setStatusBarColor(darkenColor(ContextCompat.getColor(activity, color)));
+            activity.getWindow().setStatusBarColor(ContextCompat.getColor(activity, color));
         }
-
-        badge.setCount(count);
-        icon.mutate();
-        icon.setDrawableByLayerId(R.id.ic_badge, badge);
     }
 
-    public static int getZoomLevel(Circle circle) {
-        int zoomLevel = 0;
-        if (circle != null) {
-            double radius = circle.getRadius();
-            double scale = radius / 500;
-            zoomLevel = (int) (16 - Math.log(scale) / Math.log(2));
-        }
-        return zoomLevel;
+    // Code to darken the color supplied (mostly color of toolbar)
+    private static int darkenColor(int color) {
+        float[] hsv = new float[3];
+        Color.colorToHSV(color, hsv);
+        hsv[2] *= 0.8f;
+        return Color.HSVToColor(hsv);
     }
 
-    public static int calculateZoomLevel(int screenWidth) {
-        double equatorLength = 40075004; // in meters
-        double widthInPixels = screenWidth;
-        double metersPerPixel = equatorLength / 256;
-        int zoomLevel = 1;
-        while ((metersPerPixel * widthInPixels) > 2000) {
-            metersPerPixel /= 2;
-            ++zoomLevel;
+    /**
+     * This method converts dp unit to equivalent pixels, depending on device density.
+     *
+     * @param dp A value in dp (density independent pixels) unit. Which we need to convert into pixels
+     * @param context Context to get resources and device specific display metrics
+     * @return A float value to represent px equivalent to dp depending on device density
+     */
+    public static float convertDpToPixel(float dp, Context context){
+        return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+    }
+
+    /**
+     * This method converts device specific pixels to density independent pixels.
+     *
+     * @param px A value in px (pixels) unit. Which we need to convert into db
+     * @param context Context to get resources and device specific display metrics
+     * @return A float value to represent dp equivalent to px value
+     */
+    public static float convertPixelsToDp(float px, Context context){
+        return px / ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+    }
+
+    public static String getMaskedEmailId(String emailId) {
+        return emailId.replaceAll("(^[^@]{3}|(?!^)\\G)[^@]", "$1*");
+    }
+
+    public static String getMaskedMobileNumber(String mobNumber) {
+        return mobNumber.replaceAll("\\d(?=(?:\\D*\\d){4})", "*");
+    }
+
+    public static String getBase64EncodedImage(String imageURL) throws IOException {
+        Bitmap bitmap;
+        URL newurl = null;
+        String base64 = "";
+        try {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            newurl = new URL(imageURL);
+            bitmap = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+            base64 = Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        Log.v(UserProfileActivity.class.getSimpleName(), "zoom level = " + zoomLevel);
-        return zoomLevel;
-    }*/
+        return base64;
+    }
 
 }
-

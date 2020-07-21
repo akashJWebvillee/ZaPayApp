@@ -6,6 +6,27 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/colorWhite</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="ToolbarTextAppearance">
+        <item name="colorAccent">@android:color/white</item>
+    </style>
+
+    <style name="NavigationTextViewStyle" parent="android:Widget.TextView">
+      <!--  <item name="android:fontFamily">@font/nunitosans_bold</item>-->
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="NavigationView">
+        <item name="android:listDivider">@android:color/transparent</item>
+        <!--<item name="android:fontFamily">@font/nunitosans_light</item>-->
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:scrollbarThumbVertical">@android:color/transparent</item>
     </style>
 
 

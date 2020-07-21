@@ -13,4 +13,29 @@
     <string name="term_and_condition_message">By creating an account you are agree to</string>
     <string name="term_and_condition">By creating an account you are agree to Terms and Conditions</string>
 
+
+    <!-- navigation strings-->
+    <string name="home">Home</string>
+    <string name="my_profile">My Profile</string>
+    <string name="bank_account">Bank Account</string>
+    <string name="transaction">Transaction</string>
+    <string name="history">History</string>
+    <string name="about_us">About Us</string>
+    <string name="terms_and_conditions">Terms &amp; Condition</string>
+    <string name="help">Help</string>
+    <string name="logout">Logout</string>
+    <string name="nav_drawer_opened">Navigation Drawer Open</string>
+    <string name="nav_drawer_closed">Navigation Drawer Closed</string>
+
+    <string name="title_activity_login">Sign in</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+
+
 </resources>
