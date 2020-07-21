@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
+    android:orientation="horizontal">
+
+    <View
+        android:id="@+id/navView"
+        android:layout_width="12dp"
+        android:layout_height="1dp"
+        android:background="@color/navTextSelectColor"/>
+
+    <TextView
+        android:id="@+id/navTextName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/my_profile"
+        android:layout_marginStart="43dp"
+        android:textColor="@drawable/drawer_item_color"
+        android:fontFamily="@font/gotha_pro_reg"/>
+</LinearLayout>

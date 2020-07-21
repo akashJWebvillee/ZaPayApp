@@ -14,4 +14,13 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
     }
 
+    @Override
+    protected boolean useToolbar() {
+        return true;
+    }
+
+    @Override
+    protected boolean useDrawerToggle() {
+        return true;
+    }
 }

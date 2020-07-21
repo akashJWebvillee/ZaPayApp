@@ -1,5 +1,4 @@
 package com.org.zapayapp.activity;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,15 +19,5 @@ public class SplashActivity extends BaseActivity {
                 finish();
             }
         },3000);
-    }
-
-    @Override
-    protected boolean useDrawerToggle() {
-        return false;
-    }
-
-    @Override
-    protected boolean useToolbar() {
-        return false;
     }
 }

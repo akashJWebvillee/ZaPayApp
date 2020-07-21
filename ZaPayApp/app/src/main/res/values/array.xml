@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="navMenuList">
+        <item>@string/my_profile</item>
+        <item>@string/bank_account</item>
+        <item>@string/transaction</item>
+        <item>@string/history</item>
+        <item>@string/about_us</item>
+        <item>@string/terms_and_conditions</item>
+        <item>@string/help</item>
+    </string-array>
+
+</resources>
