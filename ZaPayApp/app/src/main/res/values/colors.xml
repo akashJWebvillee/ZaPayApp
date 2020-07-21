@@ -2,10 +2,16 @@
 <resources>
     <color name="colorPrimary">#fc5c04</color>
     <color name="colorPrimaryDark">#fc5c04</color>
-    <color name="colorAccent">#9D9E9E</color>
+    <color name="colorAccent">#fc5c04</color>
     <color name="colorWhite">#F7F8F8</color>
     <color name="navTextColor">#19151B</color>
     <color name="navTextSelectColor">#FE5E00</color>
     <color name="navViewColor">#E9E5F3</color>
+
+    <color name="textColor">#6C676F</color>
+    <color name="navTextColorAlpha">#801E2931</color>
+
+    <color name="colorLineLightGrey">#19151B</color>
+
 
 </resources>
