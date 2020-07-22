@@ -33,7 +33,7 @@
 
 
     <style name="editTextStyle" parent="AppTheme">
-        <item name="fontFamily">@font/nunitosans_regular</item> <!-- normal font style-->
+        <item name="fontFamily">@font/gotha_pro_reg</item> <!-- normal font style-->
         <item name="android:textSize">20sp</item> <!-- 22 px :- 13.0 -->
         <item name="android:textColor">@color/textColor</item>
         <item name="android:textColorHint">@color/navTextColorAlpha</item>
@@ -41,9 +41,15 @@
     </style>
 
     <style name="textViewMediumStyleRegular" parent="AppTheme">
-        <item name="fontFamily">@font/nunitosans_regular</item>
+        <item name="fontFamily">@font/gotha_pro_reg</item>
         <item name="android:textSize">16sp</item> <!--16px == 10sp -->
         <item name="android:textColor">@color/textColor</item>
+    </style>
+
+
+    <style name="error_appearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorRed</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
 </resources>

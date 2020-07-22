@@ -7,6 +7,8 @@
     <string name="signup">SIGNUP</string>
     <string name="login_text">Login</string>
     <string name="signup_text">Sign Up</string>
+    <string name="send">SEND</string>
+    <string name="edit_profile">Edit Profile</string>
     <string name="enter_user_name">Enter user name</string>
     <string name="enter_password">Enter your password</string>
     <string name="forgot_password">Forgot password</string>
@@ -36,6 +38,11 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+
+    <!--profile-->
+    <string name="mobile_no">Mobile No</string>
+    <string name="change_password">Change Password</string>
+
 
 
 </resources>

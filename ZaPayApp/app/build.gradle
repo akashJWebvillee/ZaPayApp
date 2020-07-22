@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 29
@@ -35,6 +36,7 @@ dependencies {
 
 
     implementation 'com.github.dmytrodanylyk.shadow-layout:library:1.0.1'
+    implementation 'com.github.siyamed:android-shape-imageview:0.9.3@aar'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

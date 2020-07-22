@@ -1,5 +1,4 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -13,10 +12,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.org.zapayapp.R;
 import com.org.zapayapp.utils.CommonMethods;
 
@@ -28,7 +25,8 @@ public class LoginActivity extends AppCompatActivity {
     private RelativeLayout signUpRelativeLayout;
 
     private EditText etPassword;
-    private TextView loginButtonTV;
+    private TextView loginButtonTV,signUpButtonTV;
+    private TextView forgotPasswordTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +44,8 @@ public class LoginActivity extends AppCompatActivity {
         signUpRelativeLayout = findViewById(R.id.signUpRelativeLayout);
         etPassword = findViewById(R.id.etPassword);
         loginButtonTV = findViewById(R.id.loginButtonTV);
+        signUpButtonTV = findViewById(R.id.signUpButtonTV);
+        forgotPasswordTV = findViewById(R.id.forgotPasswordTV);
         termCondition();
     }
 
@@ -71,6 +71,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        forgotPasswordTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(LoginActivity.this,ForgotPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         loginButtonTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +93,17 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+        signUpButtonTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              Intent intent=new Intent(LoginActivity.this,HomeActivity.class);
+              startActivity(intent);
+            }
+        });
+
+
+
 
     }
 

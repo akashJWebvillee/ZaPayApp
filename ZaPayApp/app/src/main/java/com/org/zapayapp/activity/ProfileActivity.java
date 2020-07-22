@@ -1,14 +1,16 @@
 package com.org.zapayapp.activity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import com.org.zapayapp.R;
 
-public class HomeActivity extends BaseActivity {
+public class ProfileActivity extends BaseActivity {
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_profile);
     }
+
 
     @Override
     protected boolean useToolbar() {

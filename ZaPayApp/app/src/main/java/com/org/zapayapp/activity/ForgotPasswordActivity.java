@@ -1,13 +1,14 @@
 package com.org.zapayapp.activity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import com.org.zapayapp.R;
 
-public class HomeActivity extends BaseActivity {
+public class ForgotPasswordActivity extends BaseActivity {
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_forgot_password);
     }
 
     @Override
@@ -17,6 +18,6 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected boolean useDrawerToggle() {
-        return true;
+        return false;
     }
 }
