@@ -20,7 +20,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="700dp"
-            android:layout_marginTop="148dp"
+            android:layout_marginTop="93dp"
             android:background="@drawable/rectanguler_bottom_corner_bg" />
 
         <com.github.siyamed.shapeimageview.RoundedImageView
@@ -32,12 +32,12 @@
             app:siBorderWidth="0dp"
             app:siBorderColor="#00ffffff"
             app:siSquare="true"
-            android:layout_marginTop="100dp"/>
+            android:layout_marginTop="55dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="700dp"
-            android:layout_marginTop="148dp"
+            android:layout_marginTop="93dp"
             android:elevation="10dp"
             android:orientation="vertical"
             android:paddingStart="48dp"
@@ -111,6 +111,7 @@
                 android:textColor="@color/textColorBold" />
 
             <TextView
+                android:id="@+id/changePasswordTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -136,7 +137,7 @@
                 app:sl_shadowRadius="4dp">
 
                 <TextView
-                    android:id="@+id/loginButtonTV"
+                    android:id="@+id/editProfileTV"
                     android:layout_width="280dp"
                     android:layout_height="53dp"
                     style="@style/textViewMediumStyleRegular"

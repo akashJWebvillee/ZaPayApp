@@ -22,6 +22,6 @@ public class AboutUsActivity extends BaseActivity {
 
     @Override
     protected boolean useDrawerToggle() {
-        return true;
+        return false;
     }
 }

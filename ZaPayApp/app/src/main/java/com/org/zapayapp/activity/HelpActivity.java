@@ -17,6 +17,6 @@ public class HelpActivity extends BaseActivity {
 
     @Override
     protected boolean useDrawerToggle() {
-        return true;
+        return false;
     }
 }

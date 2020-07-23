@@ -17,6 +17,6 @@ public class TermConditionActivity extends BaseActivity {
 
     @Override
     protected boolean useDrawerToggle() {
-        return true;
+        return false;
     }
 }

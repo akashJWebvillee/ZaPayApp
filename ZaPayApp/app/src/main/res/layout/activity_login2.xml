@@ -190,9 +190,6 @@
 
 
 
-
-
-
         <RelativeLayout
             android:id="@+id/signUpRelativeLayout"
             android:layout_width="match_parent"

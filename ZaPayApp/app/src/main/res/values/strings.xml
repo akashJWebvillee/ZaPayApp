@@ -45,4 +45,28 @@
 
 
 
+    <!--Home screen-->
+    <string name="lend_money">Lend Money</string>
+    <string name="borrow_money">Borrow Money</string>
+
+    <string name="name">NAME</string>
+    <string name="email">EMAIL</string>
+    <string name="phone_no">PHONE NO</string>
+    <string name="address">ADDRESS</string>
+    <string name="enter_your_name">Enter your name</string>
+    <string name="enter_your_email">Enter your email</string>
+    <string name="enter_your_phone_no">Enter your phone no</string>
+    <string name="enter_your_address">Enter your address</string>
+    <string name="save">SAVE</string>
+
+
+    <string name="old_password">OLD PASSWORD</string>
+    <string name="new_password">NEW PASSWORD</string>
+    <string name="confirm_password">CONFIRM PASSWORD</string>
+    <string name="enter_old_password">Enter old password</string>
+    <string name="enter_new_password">Enter new password</string>
+    <string name="enter_confirm_password">Enter confirm password</string>
+
+
+
 </resources>

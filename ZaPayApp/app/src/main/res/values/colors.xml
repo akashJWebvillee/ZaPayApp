@@ -12,7 +12,7 @@
     <color name="textColorBold">#232323</color>
     <color name="navTextColorAlpha">#801E2931</color>
 
-    <color name="colorLineLightGrey">#19151B</color>
+    <color name="colorLineLightGrey">#ECECEC</color>
     <color name="colorRed">#D30202</color>
     <color name="backgroundColor">#EFEDED</color>
 
