@@ -14,7 +14,6 @@ public class AboutUsActivity extends BaseActivity {
         setContentView(R.layout.activity_about_us);
     }
 
-
     @Override
     protected boolean useToolbar() {
         return true;

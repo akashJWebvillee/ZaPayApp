@@ -8,15 +8,21 @@
     <color name="navTextSelectColor">#FE5E00</color>
     <color name="navViewColor">#E9E5F3</color>
 
-    <color name="textColor">#6C676F</color>
+    <color name="editTextViewColor">#1A19151B</color>
+    <color name="colorWhite70Alpha">#B3FFFFFF</color>
+    <color name="textColor">#19151B</color>
     <color name="textColorBold">#232323</color>
     <color name="navTextColorAlpha">#801E2931</color>
 
     <color name="colorLineLightGrey">#ECECEC</color>
     <color name="summaryLineColor">#FAF1EB</color>
+<!--
     <color name="colorRed">#EF0606</color>
+-->
+    <color name="colorRed">#FF0000</color>
     <color name="backgroundColor">#EFEDED</color>
     <color name="greenColor">#00AD15</color>
+    <color name="textColorTerms">#6C676F</color>
 
 
 </resources>

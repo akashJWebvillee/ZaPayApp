@@ -18,11 +18,10 @@
             android:layout_height="match_parent"
             tools:ignore="UselessParent">
 
-            <RelativeLayout
+            <FrameLayout
+                android:id="@+id/frameBase"
                 android:layout_width="match_parent"
-                android:layout_height="342dp"
-                android:background="@mipmap/base_bg"
-                tools:ignore="UselessParent" />
+                android:layout_height="match_parent" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -41,12 +40,6 @@
                 app:contentInsetRight="0dp"
                 app:contentInsetStart="0dp"
                 app:contentInsetStartWithNavigation="0dp" />
-
-            <FrameLayout
-                android:id="@+id/frameBase"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/toolbar" />
         </RelativeLayout>
     </FrameLayout>
 

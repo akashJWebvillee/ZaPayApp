@@ -1,8 +1,11 @@
 <resources>
     <string name="app_name">ZaPayApp</string>
-    <string name="app_name_blank"></string>
 
-
+    <!--login screen -->
+    <string name="user_name">User name</string>
+    <string name="mobile">Mobile</string>
+    <string name="important">Important</string>
+    <string name="confirm_your_password">Confirm your password</string>
     <string name="login">LOGIN</string>
     <string name="signup">SIGNUP</string>
     <string name="login_text">Login</string>
@@ -12,9 +15,7 @@
     <string name="enter_user_name">Enter user name</string>
     <string name="enter_password">Enter your password</string>
     <string name="forgot_password">Forgot password</string>
-    <string name="term_and_condition_message">By creating an account you are agree to</string>
-    <string name="term_and_condition">By creating an account you are agree to Terms and Conditions</string>
-
+    <string name="term_and_condition_message">By creating an account you are agree to Terms and Conditions</string>
 
     <!-- navigation strings-->
     <string name="home">Home</string>
@@ -28,6 +29,9 @@
     <string name="logout">Logout</string>
     <string name="nav_drawer_opened">Navigation Drawer Open</string>
     <string name="nav_drawer_closed">Navigation Drawer Closed</string>
+
+    <!--Forgot password Activity -->
+    <string name="enter_email_address_with_account">Enter your Email Address associated with your account</string>
 
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_email">Email</string>
@@ -48,8 +52,8 @@
     <string name="lend_money">Lend Money</string>
     <string name="borrow_money">Borrow Money</string>
 
-    <string name="name">NAME</string>
-    <string name="email">EMAIL</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
     <string name="phone_no">PHONE NO</string>
     <string name="address">ADDRESS</string>
     <string name="enter_your_name">Enter your name</string>
@@ -93,6 +97,5 @@
     <string name="decline">Decline</string>
     <string name="lending_summary">Lending Summary</string>
     <string name="lender">Lender</string>
-
 
 </resources>
