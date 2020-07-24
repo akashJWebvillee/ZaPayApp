@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    tools:context=".activity.BorrowSummaryActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="196dp"
+        android:background="@drawable/rectanguler_bottom_corner"
+        android:backgroundTint="@color/backgroundColor"></RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="76dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/rectanguler_bg"
+        android:orientation="vertical">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/borrow_summaryTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/gotha_pro_reg"
+                    android:text="@string/borrow_summary"
+                    android:textColor="@color/navTextColor"
+                    android:textSize="24sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/borrow_summaryTV"
+                    android:layout_marginTop="17dp"
+                    android:background="@color/summaryLineColor" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/nameTV"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="98dp"
+                    android:alpha="0.6"
+                    android:fontFamily="@font/gotha_pro_reg"
+                    android:gravity="start"
+                    android:text="@string/borrower"
+                    android:textColor="@color/navTextColor"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/nameTV"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="116dp"
+                    android:fontFamily="@font/gotha_pro_reg"
+                    android:gravity="start"
+                    android:text="John Doe"
+                    android:textColor="@color/navTextColor"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/nameTV"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="161dp"
+                    android:alpha="0.6"
+                    android:fontFamily="@font/gotha_pro_reg"
+                    android:gravity="start"
+                    android:text="@string/amount"
+                    android:textColor="@color/navTextColor"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="179dp"
+                    android:fontFamily="@font/gotha_pro_reg"
+                    android:gravity="start"
+                    android:text="$500.00 "
+                    android:textColor="@color/navTextColor"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/nameTV"
+                    android:layout_marginStart="187dp"
+                    android:layout_marginTop="161dp"
+                    android:alpha="0.6"
+                    android:fontFamily="@font/gotha_pro_reg"
+                    android:gravity="start"
+                    android:text="@string/terms"
+                    android:textColor="@color/navTextColor"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="187dp"
+                    android:layout_marginTop="179dp"
+                    android:fontFamily="@font/gotha_pro_reg"
+                    android:gravity="start"
+                    android:text="14% or $7.00"
+                    android:textColor="@color/navTextColor"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/nameTV"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="224dp"
+                    android:alpha="0.6"
+                    android:fontFamily="@font/gotha_pro_reg"
+                    android:gravity="start"
+                    android:text="@string/payments"
+                    android:textColor="@color/navTextColor"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="242dp"
+                    android:fontFamily="@font/gotha_pro_reg"
+                    android:gravity="start"
+                    android:text="3"
+                    android:textColor="@color/navTextColor"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/nameTV"
+                    android:layout_marginStart="187dp"
+                    android:layout_marginTop="224dp"
+                    android:alpha="0.6"
+                    android:fontFamily="@font/gotha_pro_reg"
+                    android:gravity="start"
+                    android:text="@string/payment_dates"
+                    android:textColor="@color/navTextColor"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="187dp"
+                    android:layout_marginTop="242dp"
+                    android:fontFamily="@font/gotha_pro_reg"
+                    android:gravity="start"
+                    android:text="03/07/2020"
+                    android:textColor="@color/navTextColor"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="278dp"
+                    android:background="@mipmap/dot_line" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="303dp"
+                    android:alpha="0.6"
+                    android:fontFamily="@font/gotha_pro_reg"
+                    android:gravity="start"
+                    android:text="@string/total_to_pay_back"
+                    android:textColor="@color/navTextColor"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="326dp"
+                    android:fontFamily="@font/gotha_pro_reg"
+                    android:gravity="start"
+                    android:text="$57.00"
+                    android:textColor="@color/navTextColor"
+                    android:textSize="20sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="326dp"
+                    android:layout_marginEnd="28dp"
+                    android:fontFamily="@font/gotha_pro_reg"
+                    android:gravity="start"
+                    android:text="View All"
+                    android:textColor="@color/navTextSelectColor"
+                    android:textSize="18sp"
+                    android:textStyle="normal" />
+
+                <View
+                    android:layout_width="75dp"
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="346dp"
+                    android:layout_marginEnd="28dp"
+                    android:background="@color/navTextSelectColor" />
+
+                <TextView
+                    android:id="@+id/navigateTV"
+                    style="@style/textViewMediumStyleRegular"
+                    android:layout_width="match_parent"
+                    android:layout_height="53dp"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="385dp"
+                    android:layout_marginEnd="27dp"
+                    android:background="@drawable/rectanguler_button_bg"
+                    android:backgroundTint="@color/navTextColor"
+                    android:gravity="center"
+                    android:text="@string/negotiate"
+                    android:textColor="@color/colorWhite"
+                    android:textStyle="normal" />
+
+
+                <TextView
+                    android:id="@+id/acceptTV"
+                    style="@style/textViewMediumStyleRegular"
+                    android:layout_width="match_parent"
+                    android:layout_height="53dp"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="458dp"
+                    android:layout_marginEnd="27dp"
+                    android:background="@drawable/rectanguler_button_bg"
+                    android:backgroundTint="@color/greenColor"
+                    android:gravity="center"
+                    android:text="@string/accept"
+                    android:textColor="@color/colorWhite"
+                    android:textStyle="normal" />
+
+
+                <TextView
+                    android:id="@+id/declineTV"
+                    style="@style/textViewMediumStyleRegular"
+                    android:layout_width="match_parent"
+                    android:layout_height="53dp"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="531dp"
+                    android:layout_marginEnd="27dp"
+                    android:layout_marginBottom="48dp"
+                    android:background="@drawable/rectanguler_button_bg"
+                    android:backgroundTint="@color/colorRed"
+                    android:gravity="center"
+                    android:text="@string/decline"
+                    android:textColor="@color/colorWhite"
+                    android:textStyle="normal" />
+
+
+            </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+</RelativeLayout>

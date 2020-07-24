@@ -13,8 +13,10 @@
     <color name="navTextColorAlpha">#801E2931</color>
 
     <color name="colorLineLightGrey">#ECECEC</color>
-    <color name="colorRed">#D30202</color>
+    <color name="summaryLineColor">#FAF1EB</color>
+    <color name="colorRed">#EF0606</color>
     <color name="backgroundColor">#EFEDED</color>
+    <color name="greenColor">#00AD15</color>
 
 
 </resources>

@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:font-weight="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:background="#00DC4E43"
     android:elevation="3dp"
-    card_view:cardCornerRadius="20dp">
+    card_view:cardCornerRadius="10dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp">
+        android:paddingTop="17dp"
+        android:paddingBottom="44dp">
 
         <RelativeLayout
             android:id="@+id/headerRL"
@@ -23,12 +24,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gotha_pro_reg"
+                android:fontFamily="@font/nunitosans_regular"
                 android:gravity="center"
-                android:text="@string/change_password"
+                android:text="@string/bank_account_change"
                 android:textColor="@color/textColorBold"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+                android:textSize="20sp"
+                android:textStyle="normal" />
 
         </RelativeLayout>
 
@@ -41,6 +42,7 @@
             android:background="@color/colorLineLightGrey" />
 
         <LinearLayout
+            android:id="@+id/LL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/headerLineView"
@@ -53,99 +55,76 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/gotha_pro_reg"
-                android:text="@string/old_password"
+                android:text="@string/account_number"
                 android:textColor="@color/textColorBold"
-                android:textSize="12dp"
-                android:textStyle="bold" />
+                android:textSize="11sp"
+                android:textStyle="normal" />
 
             <EditText
+                android:id="@+id/accountNumberTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
                 android:background="@drawable/edt_bg_selector"
                 android:fontFamily="@font/gotha_pro_reg"
-                android:hint="@string/enter_old_password"
+                android:hint="@string/enter_account_number"
                 android:importantForAutofill="no"
-                android:inputType="textPassword"
+                android:inputType="number"
                 android:maxLines="1"
                 android:paddingStart="0dp"
                 android:paddingTop="10dp"
                 android:paddingEnd="10dp"
                 android:paddingBottom="10dp"
-                android:textSize="15sp" />
-
+                android:textColor="@color/textColorBold"
+                android:textSize="15sp"
+                android:alpha="0.2"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="22dp"
                 android:fontFamily="@font/gotha_pro_reg"
-                android:text="@string/new_password"
+                android:text="@string/routing_number"
                 android:textColor="@color/textColorBold"
-                android:textSize="12dp"
-                android:textStyle="bold" />
+                android:textSize="11sp"
+                android:textStyle="normal" />
 
             <EditText
+                android:id="@+id/routNumberTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
                 android:background="@drawable/edt_bg_selector"
                 android:fontFamily="@font/gotha_pro_reg"
-                android:hint="@string/enter_new_password"
+                android:hint="@string/enter_routing_no"
                 android:importantForAutofill="no"
-                android:inputType="textPassword"
+                android:inputType="number"
                 android:maxLines="1"
                 android:paddingStart="0dp"
                 android:paddingTop="10dp"
                 android:paddingEnd="10dp"
                 android:paddingBottom="10dp"
-                android:textSize="15sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="22dp"
-                android:fontFamily="@font/gotha_pro_reg"
-                android:text="@string/confirm_password"
                 android:textColor="@color/textColorBold"
-                android:textSize="12dp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/editTextUsername"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:background="@drawable/edt_bg_selector"
-                android:fontFamily="@font/gotha_pro_reg"
-                android:hint="@string/enter_confirm_password"
-                android:importantForAutofill="no"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:paddingStart="0dp"
-                android:paddingTop="10dp"
-                android:paddingEnd="10dp"
-                android:paddingBottom="10dp"
-                android:textSize="15sp" />
-
-
-
-            <TextView
-                android:id="@+id/saveTV"
-                android:layout_width="match_parent"
-                android:layout_height="53dp"
-                android:background="@drawable/rectanguler_button_bg"
-                android:backgroundTint="@color/colorPrimary"
-                android:gravity="center"
-                android:text="@string/save"
-                android:textColor="@color/colorWhite"
-                android:textSize="16sp"
-                android:layout_marginTop="52dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"/>
-
+                android:textSize="15sp"
+                android:alpha="0.2"/>
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/saveTV"
+            android:layout_below="@+id/LL"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:background="@drawable/rectanguler_button_bg"
+            android:backgroundTint="@color/colorPrimary"
+            android:gravity="center"
+            android:text="@string/save"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp"
+            android:layout_marginTop="51dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="18dp"
+            android:layout_gravity="center_horizontal"
+            android:textStyle="normal"/>
 
 
     </RelativeLayout>

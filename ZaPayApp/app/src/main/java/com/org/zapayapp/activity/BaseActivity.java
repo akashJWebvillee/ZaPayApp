@@ -1,13 +1,10 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.LayoutRes;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BaseActivity extends AppCompatActivity {
-
     private NavigationView navView;
     private AdvanceDrawerLayout drawerLayout;
     protected FrameLayout activityContainer;
@@ -177,17 +173,22 @@ public class BaseActivity extends AppCompatActivity {
                 break;
             case 1:
                 if (currentScreen != BANK_ACCOUNT) {
+                    Intent intent=new Intent(this,BankInfoActivity.class);
+                    startActivity(intent);
                     //finish();
                 }
                 break;
             case 2:
                 if (currentScreen != TRANSACTION) {
+                   // Intent intent=new Intent(this,ProfileActivity.class);
+                    Intent intent=new Intent(this,BorrowSummaryActivity.class);
+                    startActivity(intent);
                    // finish();
                 }
                 break;
             case 3:
                 if (currentScreen != HISTORY) {
-                    Intent intent=new Intent(this,ProfileActivity.class);
+                    Intent intent=new Intent(this,HistoryActivity.class);
                     startActivity(intent);
                    // finish();
                 }

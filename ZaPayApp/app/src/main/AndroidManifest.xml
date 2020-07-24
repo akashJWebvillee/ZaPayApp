@@ -9,7 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.ProfileActivity"></activity>
+        <activity android:name=".activity.LendingSummaryActivity"></activity>
+        <activity android:name=".activity.BorrowSummaryActivity" />
+        <activity android:name=".activity.TransactionActivity" />
+        <activity android:name=".activity.HistoryActivity" />
+        <activity android:name=".activity.BankInfoActivity" />
+        <activity android:name=".activity.ProfileActivity" />
         <activity android:name=".activity.HelpActivity" />
         <activity android:name=".activity.AboutUsActivity" />
         <activity android:name=".activity.TermConditionActivity" />

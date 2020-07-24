@@ -44,7 +44,6 @@
     <string name="change_password">Change Password</string>
 
 
-
     <!--Home screen-->
     <string name="lend_money">Lend Money</string>
     <string name="borrow_money">Borrow Money</string>
@@ -67,6 +66,33 @@
     <string name="enter_new_password">Enter new password</string>
     <string name="enter_confirm_password">Enter confirm password</string>
 
+    <!--Bank info-->
+    <string name="bank_account_setup">Bank Account Setup</string>
+    <string name="account_number">Account Number</string>
+    <string name="routing_number">Routing Number</string>
+    <string name="change">Change</string>
+    <string name="bank_account_change">Bank Account Change</string>
+    <string name="enter_account_number">Enter account no</string>
+    <string name="enter_routing_no">Enter routing no</string>
+
+    <!--History-->
+    <string name="paid">Paid</string>
+    <string name="paid_from">Paid from :</string>
+
+    <!--accept summary-->
+    <string name="borrow_summary">Borrow Summary</string>
+    <string name="borrower">Borrower</string>
+    <string name="amount">Amount</string>
+    <string name="terms">Terms</string>
+    <string name="payments">Payments</string>
+    <string name="payment_dates">Payment Dates</string>
+    <string name="total_to_pay_back">Total to Pay Back</string>
+    <string name="view_all">View All</string>
+    <string name="negotiate">Negotiate</string>
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
+    <string name="lending_summary">Lending Summary</string>
+    <string name="lender">Lender</string>
 
 
 </resources>

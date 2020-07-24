@@ -1,9 +1,4 @@
 package com.org.zapayapp.activity;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -11,15 +6,13 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.org.zapayapp.R;
 
 public class ProfileActivity extends BaseActivity {
 private TextView editProfileTV;
 private TextView changePasswordTV;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +21,6 @@ private TextView changePasswordTV;
         initAction();
     }
 
-
     @Override
     protected boolean useToolbar() {
         return true;
@@ -36,7 +28,7 @@ private TextView changePasswordTV;
 
     @Override
     protected boolean useDrawerToggle() {
-        return true;
+        return false;
     }
 
     private void init(){
@@ -83,7 +75,6 @@ private TextView changePasswordTV;
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         dialog.show();
 
-
         TextView saveTV=dialog.findViewById(R.id.saveTV);
         saveTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,11 +82,7 @@ private TextView changePasswordTV;
                 dialog.dismiss();
             }
         });
-
-
     }
-
-
     private void changePasswordDialog(){
         final Dialog dialog = new Dialog(ProfileActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
