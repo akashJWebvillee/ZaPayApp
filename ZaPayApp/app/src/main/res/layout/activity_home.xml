@@ -3,18 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:scrollbars="none"
     tools:context=".activity.TermConditionActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="340dp"
-            android:background="@color/colorPrimary"
             android:contentDescription="@null">
 
             <LinearLayout
@@ -47,13 +45,7 @@
                     android:includeFontPadding="false"
                     android:text="Now lending and borrowing money is just a click away, explore below options" />
             </LinearLayout>
-
         </RelativeLayout>
-
-
-
-
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -63,7 +55,6 @@
             android:elevation="10dp"
             android:gravity="center"
             android:orientation="vertical">
-
 
             <ImageView
                 android:layout_width="50dp"
@@ -82,12 +73,9 @@
                 android:layout_marginTop="24dp"/>
         </LinearLayout>
 
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
-
                 android:background="@drawable/border_shedow"
                 android:elevation="10dp"
                 android:layout_marginTop="473dp"
@@ -112,14 +100,5 @@
                     android:textColor="@color/textColorBold"
                     android:layout_marginTop="24dp"/>
             </LinearLayout>
-
-
-
-
-
-
-
-
-
     </RelativeLayout>
 </ScrollView>

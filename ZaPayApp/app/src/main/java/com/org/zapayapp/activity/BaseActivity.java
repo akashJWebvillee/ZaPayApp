@@ -6,7 +6,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.LayoutRes;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -17,11 +16,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.navigation.NavigationView;
 import com.org.zapayapp.R;
 import com.org.zapayapp.adapters.NavigationAdapter;
 import com.org.zapayapp.uihelpers.AdvanceDrawerLayout;
 import com.org.zapayapp.utils.CommonMethods;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class BaseActivity extends AppCompatActivity {
     private ActionBarDrawerToggle drawerToggle;
     private TextView navTextName, ownerTextName, ownerTextSubName;
     private RecyclerView navRecycler;
-    private int currentScreen;
+    private int currentScreen = 100;
     protected int MY_PROFILE = 0;
     protected int BANK_ACCOUNT = 1;
     protected int TRANSACTION = 2;
@@ -140,6 +141,7 @@ public class BaseActivity extends AppCompatActivity {
 
     /**
      * Method use to show the drawer if required
+     *
      * @return true/false according to required by default is false
      */
     protected boolean useDrawerToggle() {
@@ -169,9 +171,8 @@ public class BaseActivity extends AppCompatActivity {
         switch (position) {
             case 0:
                 if (currentScreen != MY_PROFILE) {
-                    Intent intent=new Intent(this,ProfileActivity.class);
+                    Intent intent = new Intent(this, ProfileActivity.class);
                     startActivity(intent);
-
                     //finish();
                 }
                 break;
@@ -182,35 +183,35 @@ public class BaseActivity extends AppCompatActivity {
                 break;
             case 2:
                 if (currentScreen != TRANSACTION) {
-                   // finish();
+                    // finish();
                 }
                 break;
             case 3:
                 if (currentScreen != HISTORY) {
-                    Intent intent=new Intent(this,ProfileActivity.class);
+                    Intent intent = new Intent(this, ProfileActivity.class);
                     startActivity(intent);
-                   // finish();
+                    // finish();
                 }
                 break;
             case 4:
                 if (currentScreen != ABOUT_US) {
-                    Intent intent=new Intent(this,AboutUsActivity.class);
+                    Intent intent = new Intent(this, AboutUsActivity.class);
                     startActivity(intent);
                     //finish();
                 }
                 break;
             case 5:
                 if (currentScreen != TERMS_CONDITION) {
-                    Intent intent=new Intent(this,TermConditionActivity.class);
+                    Intent intent = new Intent(this, TermConditionActivity.class);
                     startActivity(intent);
-                   // finish();
+                    // finish();
                 }
                 break;
             case 6:
                 if (currentScreen != HELP) {
-                    Intent intent=new Intent(this,HelpActivity.class);
+                    Intent intent = new Intent(this, HelpActivity.class);
                     startActivity(intent);
-                   // finish();
+                    // finish();
                 }
                 break;
             case 7:
@@ -219,6 +220,10 @@ public class BaseActivity extends AppCompatActivity {
                 }
                 break;
         }
+    }
+
+    protected void setCurrentScreen(int currentScreen){
+        this.currentScreen = currentScreen;
     }
 
     private void closeDrawer() {

@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:scrollbars="none"
-    tools:context=".activity.TermConditionActivity">
+    android:scrollbars="none">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,12 +11,11 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="240dp"
-            android:background="@color/colorPrimary"
             android:contentDescription="@null" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="700dp"
+            android:layout_height="match_parent"
             android:layout_marginTop="148dp"
             android:background="@drawable/rectanguler_bottom_corner_bg"
             android:elevation="10dp"
@@ -27,14 +23,13 @@
             android:paddingStart="31dp"
             android:paddingEnd="31dp">
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/about_us"
                 android:textStyle="bold"
                 android:gravity="center"
-                android:textSize="24dp"
+                android:textSize="24sp"
                 android:fontFamily="@font/gotha_pro_reg"
                 android:textColor="@color/textColorBold"
                 android:layout_marginTop="35dp"/>
@@ -48,7 +43,6 @@
                 android:includeFontPadding="false"
                 android:text="Nemo enim ipsam voluptatem quia volpts sit aspernatur aut odit aut fugit sed quia consqu magni dolores eos qui ratione voluptatem qui nesciunt"
                 android:gravity="start"/>
-
         </LinearLayout>
     </RelativeLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

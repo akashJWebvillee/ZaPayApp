@@ -1,8 +1,4 @@
 package com.org.zapayapp.activity;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.graphics.Color;
@@ -11,15 +7,15 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.org.zapayapp.R;
 
 public class ProfileActivity extends BaseActivity {
-private TextView editProfileTV;
-private TextView changePasswordTV;
+
+    private TextView editProfileTV;
+    private TextView changePasswordTV;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +23,6 @@ private TextView changePasswordTV;
         init();
         initAction();
     }
-
 
     @Override
     protected boolean useToolbar() {
@@ -39,13 +34,12 @@ private TextView changePasswordTV;
         return true;
     }
 
-    private void init(){
-        changePasswordTV=findViewById(R.id.changePasswordTV);
-        editProfileTV=findViewById(R.id.editProfileTV);
+    private void init() {
+        changePasswordTV = findViewById(R.id.changePasswordTV);
+        editProfileTV = findViewById(R.id.editProfileTV);
     }
 
-    private void initAction(){
-
+    private void initAction() {
         changePasswordTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,7 +47,6 @@ private TextView changePasswordTV;
 
             }
         });
-
         editProfileTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,7 +54,6 @@ private TextView changePasswordTV;
 
             }
         });
-
         editProfileTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,50 +63,47 @@ private TextView changePasswordTV;
         });
     }
 
-    private void editProfileDialog(){
+    private void editProfileDialog() {
         final Dialog dialog = new Dialog(ProfileActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.edit_profile_dialog);
         dialog.setCanceledOnTouchOutside(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
         Window window = dialog.getWindow();
         window.setGravity(Gravity.CENTER);
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         dialog.show();
-
-
-        TextView saveTV=dialog.findViewById(R.id.saveTV);
+        TextView saveTV = dialog.findViewById(R.id.saveTV);
         saveTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
             }
         });
-
-
     }
 
-
-    private void changePasswordDialog(){
+    private void changePasswordDialog() {
         final Dialog dialog = new Dialog(ProfileActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.change_password_dialog);
         dialog.setCanceledOnTouchOutside(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
         Window window = dialog.getWindow();
         window.setGravity(Gravity.CENTER);
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         dialog.show();
-
-
-        TextView saveTV=dialog.findViewById(R.id.saveTV);
+        TextView saveTV = dialog.findViewById(R.id.saveTV);
         saveTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setCurrentScreen(MY_PROFILE);
     }
 }

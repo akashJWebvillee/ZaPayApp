@@ -1,4 +1,5 @@
 package com.org.zapayapp.activity;
+
 import android.os.Bundle;
 import com.org.zapayapp.R;
 
@@ -18,5 +19,11 @@ public class TermConditionActivity extends BaseActivity {
     @Override
     protected boolean useDrawerToggle() {
         return false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setCurrentScreen(TERMS_CONDITION);
     }
 }
