@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/tools"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:background="#00DC4E43"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
     android:elevation="3dp"
     card_view:cardCornerRadius="20dp">
 
@@ -24,13 +25,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gotha_pro_reg"
+                android:fontFamily="@font/gotha_promed"
                 android:gravity="center"
                 android:text="@string/edit_profile"
                 android:textColor="@color/textColorBold"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
+                android:textSize="20sp" />
         </RelativeLayout>
 
         <View
@@ -53,14 +52,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gotha_pro_reg"
                 android:text="@string/name"
+                android:textAllCaps="true"
+                android:fontFamily="@font/gotha_promed"
                 android:textColor="@color/textColorBold"
-                android:textSize="12dp"
-                android:textStyle="bold" />
+                android:textSize="11sp"/>
 
             <EditText
-                android:id="@+id/editTextUsername"
+                android:id="@+id/editTextName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
@@ -68,27 +67,28 @@
                 android:fontFamily="@font/gotha_pro_reg"
                 android:hint="@string/enter_your_name"
                 android:importantForAutofill="no"
-                android:inputType="text"
+                android:textColorHint="@color/textColorBold20Alpha"
+                android:inputType="number"
                 android:maxLines="1"
                 android:paddingStart="0dp"
                 android:paddingTop="10dp"
                 android:paddingEnd="10dp"
                 android:paddingBottom="10dp"
-                android:textSize="15sp" />
-
+                android:textColor="@color/textColorBold"
+                android:textSize="15sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="22dp"
-                android:fontFamily="@font/gotha_pro_reg"
-                android:text="@string/email"
+                android:textAllCaps="true"
+                android:fontFamily="@font/gotha_promed"
                 android:textColor="@color/textColorBold"
-                android:textSize="12dp"
-                android:textStyle="bold" />
+                android:textSize="11sp"
+                android:text="@string/email"/>
 
             <EditText
-                android:id="@+id/editTextUsername"
+                android:id="@+id/editTextEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
@@ -96,9 +96,11 @@
                 android:fontFamily="@font/gotha_pro_reg"
                 android:hint="@string/enter_your_email"
                 android:importantForAutofill="no"
+                android:textColorHint="@color/textColorBold20Alpha"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:paddingStart="0dp"
+                android:textColor="@color/textColorBold"
                 android:paddingTop="10dp"
                 android:paddingEnd="10dp"
                 android:paddingBottom="10dp"
@@ -108,14 +110,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="22dp"
-                android:fontFamily="@font/gotha_pro_reg"
-                android:text="@string/phone_no"
+                android:textAllCaps="true"
+                android:fontFamily="@font/gotha_promed"
                 android:textColor="@color/textColorBold"
-                android:textSize="12dp"
-                android:textStyle="bold" />
+                android:textSize="11sp"
+                android:text="@string/phone_no"/>
 
             <EditText
-                android:id="@+id/editTextUsername"
+                android:id="@+id/editTextPhoneNo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
@@ -123,10 +125,12 @@
                 android:fontFamily="@font/gotha_pro_reg"
                 android:hint="@string/enter_your_phone_no"
                 android:importantForAutofill="no"
+                android:textColorHint="@color/textColorBold20Alpha"
                 android:inputType="phone"
                 android:maxLines="1"
                 android:paddingStart="0dp"
                 android:paddingTop="10dp"
+                android:textColor="@color/textColorBold"
                 android:paddingEnd="10dp"
                 android:paddingBottom="10dp"
                 android:textSize="15sp" />
@@ -135,14 +139,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="22dp"
-                android:fontFamily="@font/gotha_pro_reg"
-                android:text="@string/address"
+                android:textAllCaps="true"
+                android:fontFamily="@font/gotha_promed"
                 android:textColor="@color/textColorBold"
-                android:textSize="12dp"
-                android:textStyle="bold" />
+                android:textSize="11sp"
+                android:text="@string/address"/>
 
             <EditText
-                android:id="@+id/editTextUsername"
+                android:id="@+id/editTextAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
@@ -151,15 +155,14 @@
                 android:hint="@string/enter_your_address"
                 android:importantForAutofill="no"
                 android:inputType="text"
+                android:textColorHint="@color/textColorBold20Alpha"
                 android:maxLines="1"
                 android:paddingStart="0dp"
                 android:paddingTop="10dp"
                 android:paddingEnd="10dp"
+                android:textColor="@color/textColorBold"
                 android:paddingBottom="10dp"
                 android:textSize="15sp" />
-
-
-
 
                 <TextView
                     android:id="@+id/saveTV"
@@ -169,15 +172,14 @@
                     android:backgroundTint="@color/colorPrimary"
                     android:gravity="center"
                     android:text="@string/save"
+                    android:textAllCaps="true"
+                    android:fontFamily="@font/gotha_probol"
                     android:textColor="@color/colorWhite"
                     android:textSize="16sp"
                     android:layout_marginTop="52dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"/>
-
         </LinearLayout>
-
-
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

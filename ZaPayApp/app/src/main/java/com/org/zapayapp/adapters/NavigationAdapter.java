@@ -20,7 +20,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private List<String> navList;
     private int TYPE_VIEW = 1;
     private int TYPE_OPTION = 2;
-    private int lastCheckedPos = 0;
+    private int lastCheckedPos = -1;
 
     public NavigationAdapter(Context context, List<String> navList) {
         this.context = context;
@@ -62,12 +62,12 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = null;
-        if (viewType == TYPE_OPTION) {
-            view = LayoutInflater.from(context).inflate(R.layout.view_navigation, parent, false);
-            return new MyHolder(view);
-        } else {
+        if (viewType == TYPE_VIEW) {
             view = LayoutInflater.from(context).inflate(R.layout.view_navigation_seperate, parent, false);
             return new MyHolderView(view);
+        } else {
+            view = LayoutInflater.from(context).inflate(R.layout.view_navigation, parent, false);
+            return new MyHolder(view);
         }
     }
 

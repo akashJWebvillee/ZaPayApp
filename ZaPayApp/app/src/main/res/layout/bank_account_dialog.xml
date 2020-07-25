@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:font-weight="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:background="#00DC4E43"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
     android:elevation="3dp"
     card_view:cardCornerRadius="10dp">
 
@@ -24,13 +25,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/nunitosans_regular"
+                android:fontFamily="@font/gotha_promed"
                 android:gravity="center"
                 android:text="@string/bank_account_change"
                 android:textColor="@color/textColorBold"
                 android:textSize="20sp"
-                android:textStyle="normal" />
-
+                />
         </RelativeLayout>
 
         <View
@@ -54,11 +54,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gotha_pro_reg"
+                android:fontFamily="@font/gotha_promed"
                 android:text="@string/account_number"
                 android:textColor="@color/textColorBold"
                 android:textSize="11sp"
-                android:textStyle="normal" />
+                android:textAllCaps="true"/>
 
             <EditText
                 android:id="@+id/accountNumberTV"
@@ -69,6 +69,7 @@
                 android:fontFamily="@font/gotha_pro_reg"
                 android:hint="@string/enter_account_number"
                 android:importantForAutofill="no"
+                android:textColorHint="@color/textColorBold20Alpha"
                 android:inputType="number"
                 android:maxLines="1"
                 android:paddingStart="0dp"
@@ -76,18 +77,18 @@
                 android:paddingEnd="10dp"
                 android:paddingBottom="10dp"
                 android:textColor="@color/textColorBold"
-                android:textSize="15sp"
-                android:alpha="0.2"/>
+                android:textSize="15sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="22dp"
-                android:fontFamily="@font/gotha_pro_reg"
+                android:fontFamily="@font/gotha_promed"
                 android:text="@string/routing_number"
+                android:textAllCaps="true"
                 android:textColor="@color/textColorBold"
                 android:textSize="11sp"
-                android:textStyle="normal" />
+                />
 
             <EditText
                 android:id="@+id/routNumberTV"
@@ -97,6 +98,7 @@
                 android:background="@drawable/edt_bg_selector"
                 android:fontFamily="@font/gotha_pro_reg"
                 android:hint="@string/enter_routing_no"
+                android:textColorHint="@color/textColorBold20Alpha"
                 android:importantForAutofill="no"
                 android:inputType="number"
                 android:maxLines="1"
@@ -105,8 +107,7 @@
                 android:paddingEnd="10dp"
                 android:paddingBottom="10dp"
                 android:textColor="@color/textColorBold"
-                android:textSize="15sp"
-                android:alpha="0.2"/>
+                android:textSize="15sp" />
         </LinearLayout>
 
         <TextView
@@ -121,10 +122,11 @@
             android:textColor="@color/colorWhite"
             android:textSize="16sp"
             android:layout_marginTop="51dp"
+            android:textAllCaps="true"
+            android:fontFamily="@font/gotha_probol"
             android:layout_marginStart="18dp"
             android:layout_marginEnd="18dp"
-            android:layout_gravity="center_horizontal"
-            android:textStyle="normal"/>
+            android:layout_gravity="center_horizontal" />
 
 
     </RelativeLayout>

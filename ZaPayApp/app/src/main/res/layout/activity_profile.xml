@@ -1,93 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:scrollbars="none"
-    tools:context=".activity.ForgotPasswordActivity">
-
     <RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="240dp"
-            android:background="@color/colorPrimary"
-            android:contentDescription="@null" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="700dp"
-            android:layout_marginTop="93dp"
-            android:background="@drawable/rectanguler_bottom_corner_bg" />
-
-        <com.github.siyamed.shapeimageview.RoundedImageView
-            android:layout_width="88dp"
-            android:layout_height="88dp"
-            android:src="@mipmap/ic_user"
-            app:siRadius="6dp"
-            android:layout_centerHorizontal="true"
-            app:siBorderWidth="0dp"
-            app:siBorderColor="#00ffffff"
-            app:siSquare="true"
-            android:layout_marginTop="55dp"/>
+            android:layout_height="342dp"
+            android:background="@mipmap/base_bg" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="700dp"
-            android:layout_marginTop="93dp"
+            android:layout_height="match_parent"
             android:elevation="10dp"
             android:orientation="vertical"
-            android:paddingStart="48dp"
-            android:paddingEnd="48dp">
+            android:layout_marginTop="148dp"
+            android:background="@drawable/rectanguler_bottom_corner_bg"
+            >
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="70dp"
+                android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingStart="48dp"
+                android:paddingEnd="48dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="John Deo"
-                android:textStyle="bold"
+                android:text="Jennifer Deo"
                 android:gravity="center"
-                android:textSize="24dp"
-                android:fontFamily="@font/gotha_pro_reg"
-                android:textColor="@color/textColorBold"
-                android:layout_marginTop="60dp"/>
+                android:textSize="24sp"
+                android:fontFamily="@font/gotha_promed"
+                android:textColor="@color/textColor" />
 
             <TextView
-                style="@style/textViewMediumStyleRegular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:layout_marginTop="0dp"
                 android:includeFontPadding="false"
+                android:fontFamily="@font/gotha_pro_reg"
                 android:text="junify@gmail.com"
+                android:textColor="@color/navTextColor60Alpha"
+                android:textSize="16sp"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"/>
 
-
             <TextView
-                style="@style/textViewMediumStyleRegular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:includeFontPadding="false"
                 android:text="@string/mobile_no"
+                android:textColor="@color/navTextColor50Alpha"
+                android:textSize="15sp"
+                android:fontFamily="@font/gotha_pro_reg"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:layout_marginTop="40dp"/>
+                android:layout_marginTop="26dp"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="9999888877"
-                android:textStyle="bold"
                 android:gravity="center"
-                android:textSize="20dp"
-                android:fontFamily="@font/gotha_pro_reg"
-                android:textColor="@color/textColorBold" />
-
+                android:textSize="20sp"
+                android:fontFamily="@font/gotha_promed"
+                android:textColor="@color/textColor" />
 
             <TextView
                 style="@style/textViewMediumStyleRegular"
@@ -95,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:includeFontPadding="false"
-                android:text="Address"
+                android:text="@string/address"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:layout_marginTop="26dp"/>
@@ -104,32 +92,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="101, Lorem ipsum dolor sit amet "
-                android:textStyle="bold"
                 android:gravity="center"
-                android:textSize="20dp"
-                android:fontFamily="@font/gotha_pro_reg"
-                android:textColor="@color/textColorBold" />
+                android:textSize="20sp"
+                android:fontFamily="@font/gotha_promed"
+                android:textColor="@color/textColor" />
 
             <TextView
                 android:id="@+id/changePasswordTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="154dp"
+                android:layout_height="36dp"
                 android:layout_gravity="center"
                 android:includeFontPadding="false"
                 android:text="@string/change_password"
                 android:background="@drawable/rectanguler_border"
-                android:paddingTop="5dp"
-                android:padding="10dp"
-                android:textSize="13dp"
-                android:fontFamily="@font/gotha_pro_reg"
-                android:paddingBottom="5dp"
-                android:layout_marginTop="202dp"/>
+                android:textColor="@color/textColor"
+                android:gravity="center"
+                android:textSize="13sp"
+                android:fontFamily="@font/gotha_promed"
+                android:layout_marginTop="150dp"/>
 
             <com.dd.ShadowLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="50dp"
                 app:sl_cornerRadius="56dp"
+                android:layout_marginBottom="50dp"
                 android:layout_gravity="center"
                 app:sl_dx="0dp"
                 app:sl_dy="0dp"
@@ -138,17 +125,29 @@
 
                 <TextView
                     android:id="@+id/editProfileTV"
-                    android:layout_width="280dp"
+                    android:layout_width="match_parent"
                     android:layout_height="53dp"
-                    style="@style/textViewMediumStyleRegular"
-                    android:textStyle="bold"
                     android:background="@drawable/rectanguler_button_bg"
                     android:backgroundTint="@color/colorPrimary"
                     android:gravity="center"
+                    android:fontFamily="@font/gotha_probol"
                     android:text="@string/edit_profile"
                     android:textColor="@color/colorWhite"
                     android:textSize="16sp"/>
             </com.dd.ShadowLayout>
+            </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
         </LinearLayout>
+
+        <com.github.siyamed.shapeimageview.RoundedImageView
+            android:layout_width="88dp"
+            android:layout_height="88dp"
+            android:src="@mipmap/ic_user"
+            app:siRadius="20dp"
+            android:layout_centerHorizontal="true"
+            app:siBorderWidth="0dp"
+            android:elevation="10dp"
+            app:siBorderColor="#00ffffff"
+            app:siSquare="true"
+            android:layout_marginTop="114dp"/>
     </RelativeLayout>
-</ScrollView>

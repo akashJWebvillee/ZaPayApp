@@ -1,7 +1,5 @@
 package com.org.zapayapp.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 
 import com.org.zapayapp.R;
@@ -22,5 +20,11 @@ public class AboutUsActivity extends BaseActivity {
     @Override
     protected boolean useDrawerToggle() {
         return false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setCurrentScreen(ABOUT_US);
     }
 }

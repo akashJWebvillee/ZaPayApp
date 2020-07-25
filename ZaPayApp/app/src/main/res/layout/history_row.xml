@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
     <androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        xmlns:font-weight="http://schemas.android.com/tools"
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:background="#00DC4E43"
         android:elevation="3dp"
         card_view:cardCornerRadius="10dp"
@@ -26,30 +20,26 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gotha_pro_reg"
+                android:fontFamily="@font/gotha_promed"
                 android:gravity="start"
                 android:text="@string/paid"
-                android:textColor="@color/navTextColor"
+                android:textColor="@color/textColor"
                 android:textSize="16sp"
-                android:textStyle="normal"
                 android:layout_marginTop="18dp"
                 android:layout_marginStart="14dp"/>
-
 
             <TextView
                 android:id="@+id/nameTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gotha_pro_reg"
+                android:fontFamily="@font/gotha_promed"
                 android:gravity="start"
                 android:text="$1400 "
-                android:textColor="@color/navTextColor"
+                android:textColor="@color/textColor"
                 android:textSize="16sp"
-                android:textStyle="normal"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="18dp"
                 android:layout_marginEnd="14dp"/>
-
 
             <TextView
                 android:layout_below="@+id/nameTV"
@@ -58,12 +48,10 @@
                 android:fontFamily="@font/gotha_pro_reg"
                 android:gravity="start"
                 android:text="John Doe"
-                android:textColor="@color/navTextColor"
+                android:textColor="@color/navTextColor70Alpha"
                 android:textSize="11sp"
-                android:textStyle="normal"
                 android:layout_marginTop="2dp"
-                android:layout_marginStart="14dp"
-                android:alpha="0.7"/>
+                android:layout_marginStart="14dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -71,17 +59,12 @@
                 android:fontFamily="@font/gotha_pro_reg"
                 android:gravity="start"
                 android:text=" 20 Jun 2020"
-                android:textColor="@color/navTextColor"
+                android:textColor="@color/navTextColor50Alpha"
                 android:textSize="10sp"
-                android:textStyle="normal"
                 android:layout_marginTop="2dp"
                 android:layout_marginStart="14dp"
-                android:alpha="0.5"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="12dp"/>
-
-
-
 
             <TextView
                 android:layout_toStartOf="@+id/bankNameTV"
@@ -90,10 +73,8 @@
                 android:fontFamily="@font/gotha_pro_reg"
                 android:gravity="start"
                 android:text="@string/paid_from"
-                android:textColor="@color/navTextColor"
+                android:textColor="@color/navTextColor50Alpha"
                 android:textSize="11sp"
-                android:textStyle="normal"
-                android:alpha="0.5"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="12dp"
                 android:layout_marginEnd="3dp"/>
@@ -102,20 +83,15 @@
                 android:id="@+id/bankNameTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gotha_pro_reg"
+                android:fontFamily="@font/gotha_promed"
                 android:gravity="start"
                 android:text="Bank name"
-                android:textColor="@color/navTextColor"
+                android:textColor="@color/navTextColor70Alpha"
                 android:textSize="11sp"
-                android:textStyle="normal"
                 android:layout_marginTop="2dp"
                 android:layout_marginEnd="14dp"
-                android:alpha="0.7"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginBottom="12dp"/>
-
         </RelativeLayout>
-
     </androidx.cardview.widget.CardView>
-</RelativeLayout>

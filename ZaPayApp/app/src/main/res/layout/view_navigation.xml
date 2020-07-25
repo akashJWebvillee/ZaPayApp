@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:paddingTop="20dp"
-    android:paddingBottom="20dp"
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp"
     android:orientation="horizontal">
 
     <View

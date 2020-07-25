@@ -54,18 +54,18 @@
 
     <string name="name">Name</string>
     <string name="email">Email</string>
-    <string name="phone_no">PHONE NO</string>
-    <string name="address">ADDRESS</string>
+    <string name="phone_no">Phone No</string>
+    <string name="address">Address</string>
     <string name="enter_your_name">Enter your name</string>
     <string name="enter_your_email">Enter your email</string>
     <string name="enter_your_phone_no">Enter your phone no</string>
     <string name="enter_your_address">Enter your address</string>
-    <string name="save">SAVE</string>
+    <string name="save">Save</string>
 
 
-    <string name="old_password">OLD PASSWORD</string>
-    <string name="new_password">NEW PASSWORD</string>
-    <string name="confirm_password">CONFIRM PASSWORD</string>
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_password">Confirm Password</string>
     <string name="enter_old_password">Enter old password</string>
     <string name="enter_new_password">Enter new password</string>
     <string name="enter_confirm_password">Enter confirm password</string>
@@ -97,5 +97,9 @@
     <string name="decline">Decline</string>
     <string name="lending_summary">Lending Summary</string>
     <string name="lender">Lender</string>
+
+    <!--lend borrow screen-->
+    <string name="next">Next</string>
+    <string name="enter_amount">Enter Amount</string>
 
 </resources>

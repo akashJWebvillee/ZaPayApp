@@ -14,6 +14,11 @@
     <color name="textColorBold">#232323</color>
     <color name="navTextColorAlpha">#801E2931</color>
 
+    <color name="navTextColor70Alpha">#B319151B</color>
+    <color name="navTextColor60Alpha">#9919151B</color>
+    <color name="navTextColor50Alpha">#8019151B</color>
+    <color name="textColorBold20Alpha">#33232323</color>
+
     <color name="colorLineLightGrey">#ECECEC</color>
     <color name="summaryLineColor">#FAF1EB</color>
 <!--

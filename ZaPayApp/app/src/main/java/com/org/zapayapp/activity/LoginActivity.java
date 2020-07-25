@@ -85,22 +85,12 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    if (wValidationLib.isEmailAddress(etEmailLayout,editTextUsername,getString(R.string.important),getString(R.string.important),true)){
-                       /* etEmailLayout.setErrorEnabled(false);
-                        editTextUsername.setBackgroundDrawable(CommonMethods.getDrawableWrapper(LoginActivity.this, R.drawable.edt_bg_normal));
-                        if (etPassword.getText().toString().length() > 0) {
+                    if (wValidationLib.isEmailAddress(etEmailLayout, editTextUsername, getString(R.string.important), getString(R.string.important), true)) {
+                        if (wValidationLib.isEmailAddress(etPasswordLayout, etPassword, getString(R.string.important), getString(R.string.important), true)) {
                             intent = new Intent(LoginActivity.this, HomeActivity.class);
                             startActivity(intent);
                             finish();
-                        } else {
-                            etPasswordLayout.setErrorEnabled(true);
-                            etPasswordLayout.setError(CustomTextInputLayout.setErrorMessage(LoginActivity.this, getString(R.string.important)));
-                            etPassword.setBackgroundDrawable(CommonMethods.getDrawableWrapper(LoginActivity.this, R.drawable.edt_bg_selected));
-                        }*/
-                    } else {
-                        etEmailLayout.setErrorEnabled(true);
-                        etEmailLayout.setError(CustomTextInputLayout.setErrorMessage(LoginActivity.this, getString(R.string.important)));
-                        editTextUsername.setBackgroundDrawable(CommonMethods.getDrawableWrapper(LoginActivity.this, R.drawable.edt_bg_selected));
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -116,6 +106,8 @@ public class LoginActivity extends BaseActivity {
             }
         });
         setSelectedView(1);
+        wValidationLib.removeError(etEmailLayout, editTextUsername);
+        //wValidationLib.removeError(etPasswordLayout, etPassword);
     }
 
     private void setSelectedView(int position) {
@@ -167,7 +159,6 @@ public class LoginActivity extends BaseActivity {
                 textTerms.length(), // End of the span (exclusive)
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE // Do not extend the span when text add later
         );
-
         mTextAgree.setText(ssBuilder);
         mTextAgree.setMovementMethod(LinkMovementMethod.getInstance());
     }

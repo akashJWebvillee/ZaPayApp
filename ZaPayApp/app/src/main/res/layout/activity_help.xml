@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:scrollbars="none"
-    tools:context=".activity.TermConditionActivity">
+    android:scrollbars="none">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="240dp"
-            android:background="@color/colorPrimary"
-            android:contentDescription="@null" />
+            android:layout_height="342dp"
+            android:background="@mipmap/base_bg" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="700dp"
+            android:layout_height="match_parent"
             android:layout_marginTop="148dp"
             android:background="@drawable/rectanguler_bottom_corner_bg"
             android:elevation="10dp"
@@ -27,27 +23,28 @@
             android:paddingStart="31dp"
             android:paddingEnd="31dp">
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/help"
-                android:textStyle="bold"
                 android:gravity="center"
-                android:textSize="24dp"
-                android:fontFamily="@font/gotha_pro_reg"
-                android:textColor="@color/textColorBold"
+                android:textSize="24sp"
+                android:fontFamily="@font/gotha_promed"
+                android:textColor="@color/textColor"
                 android:layout_marginTop="35dp"/>
 
             <TextView
-                style="@style/textViewMediumStyleRegular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:gravity="start"
+                android:fontFamily="@font/gotha_pro_reg"
+                android:textSize="14sp"
+                android:lineSpacingExtra="5dp"
+                android:textColor="@color/textColorTerms"
                 android:includeFontPadding="false"
-                android:text="Nemo enim ipsam voluptatem quia volpts sit aspernatur aut odit aut fugit sed quia consqu magni dolores eos qui ratione voluptatem qui nesciunt" />
+                android:text="Nemo enim ipsam voluptatem quia volpts sit aspernatur aut odit aut fugit sed quia consqu magni dolores eos qui ratione voluptatem qui nesciunt.\n\nQuis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat et pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum" />
         </LinearLayout>
     </RelativeLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

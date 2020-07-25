@@ -1,32 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:scrollbars="none"
-    tools:context=".activity.ForgotPasswordActivity">
-
     <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="342dp"
+            android:background="@mipmap/base_bg" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="93dp"
+            android:layout_marginTop="148dp"
             android:elevation="10dp"
             android:background="@drawable/rectanguler_bottom_corner_bg"
+            android:orientation="vertical">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/bank_account_setup"
-                android:textStyle="normal"
                 android:gravity="start"
                 android:textSize="24sp"
-                android:fontFamily="@font/gotha_pro_reg"
+                android:fontFamily="@font/gotha_promed"
                 android:textColor="@color/navTextColor"
                 android:layout_marginTop="70dp"
                 android:layout_marginStart="31dp"/>
@@ -40,19 +48,17 @@
                 android:text="@string/account_number"
                 android:layout_marginTop="49dp"
                 android:layout_marginStart="31dp"
-                android:textColor="@color/navTextColor"
-                android:alpha="0.5"/>
+                android:textColor="@color/navTextColor50Alpha"/>
 
             <TextView
                 android:id="@+id/accountNumberTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="5689 5689 2356"
-                android:textStyle="normal"
                 android:gravity="start"
                 android:textSize="22sp"
                 android:layout_marginTop="7dp"
-                android:fontFamily="@font/gotha_pro_reg"
+                android:fontFamily="@font/gotha_promed"
                 android:textColor="@color/navTextColor"
                 android:layout_marginStart="31dp"/>
 
@@ -65,26 +71,24 @@
                 android:text="@string/routing_number"
                 android:layout_marginTop="30dp"
                 android:layout_marginStart="31dp"
-                android:alpha="0.5"
-                android:textColor="@color/navTextColor"/>
+                android:textColor="@color/navTextColor50Alpha"/>
 
             <TextView
                 android:id="@+id/routingNumberTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2346574651321"
-                android:textStyle="normal"
                 android:gravity="start"
                 android:textSize="22sp"
                 android:layout_marginTop="7dp"
-                android:fontFamily="@font/gotha_pro_reg"
+                android:fontFamily="@font/gotha_promed"
                 android:textColor="@color/navTextColor"
                 android:layout_marginStart="31dp"/>
 
             <com.dd.ShadowLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="299dp"
+                android:layout_marginTop="180dp"
                 android:layout_marginBottom="50dp"
                 android:layout_marginStart="48dp"
                 android:layout_marginEnd="48dp"
@@ -99,14 +103,16 @@
                     android:id="@+id/changeTV"
                     android:layout_width="match_parent"
                     android:layout_height="53dp"
-                    style="@style/textViewMediumStyleRegular"
-                    android:textStyle="normal"
                     android:background="@drawable/rectanguler_button_bg"
                     android:backgroundTint="@color/colorPrimary"
                     android:gravity="center"
                     android:text="@string/change"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/gotha_probol"
                     android:textColor="@color/colorWhite" />
             </com.dd.ShadowLayout>
+
+        </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
         </LinearLayout>
     </RelativeLayout>
-</ScrollView>

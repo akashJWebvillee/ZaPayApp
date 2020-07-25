@@ -1,14 +1,19 @@
 package com.org.zapayapp.activity;
-import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.widget.ImageView;
+
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.os.Bundle;
+
 import com.org.zapayapp.R;
 import com.org.zapayapp.adapter.HistoryAdapter;
 
-public class HistoryActivity extends AppCompatActivity {
-private RecyclerView historyRecyclerView;
+public class HistoryActivity extends BaseActivity {
+
+    private RecyclerView historyRecyclerView;
+    private ImageView imgBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,21 +23,33 @@ private RecyclerView historyRecyclerView;
         initAction();
     }
 
-    private void init(){
-        historyRecyclerView=findViewById(R.id.historyRecyclerView);
-        historyRecyclerView.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
+    private void init() {
+        imgBack = findViewById(R.id.imgBack);
+        historyRecyclerView = findViewById(R.id.historyRecyclerView);
+
+    }
+
+    private void initAction() {
+        historyRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         historyRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        HistoryAdapter historyAdapter=new HistoryAdapter(HistoryActivity.this);
+        HistoryAdapter historyAdapter = new HistoryAdapter(HistoryActivity.this);
         historyRecyclerView.setAdapter(historyAdapter);
     }
 
-    private void initAction(){
-
-
+    @Override
+    protected boolean useDrawerToggle() {
+        return false;
     }
 
+    @Override
+    protected boolean useToolbar() {
+        return false;
+    }
 
-
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setCurrentScreen(HISTORY);
+    }
 }

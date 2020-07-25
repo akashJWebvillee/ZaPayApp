@@ -91,6 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="280dp"
                 android:layout_marginBottom="30dp"
+                android:elevation="3dp"
                 android:backgroundTint="@color/colorWhite"
                 android:background="@drawable/rectanguler_bg"
                 android:orientation="vertical">
@@ -102,13 +103,12 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="40dp"
                     android:layout_marginEnd="20dp"
+                    app:boxStrokeColor="@null"
                     app:hintEnabled="false"
                     app:errorTextAppearance="@style/error_appearance"
                     android:padding="0dp"
                     app:errorIconDrawable="@null"
-                    app:boxStrokeWidth="1dp"
-                    app:boxBackgroundMode="none"
-                    app:errorTextColor="@color/textColor">
+                    app:boxBackgroundMode="none">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextUsername"
@@ -124,7 +124,7 @@
                         android:gravity="center_vertical"
                         android:paddingEnd="10dp"
                         android:hint="@string/enter_your_email"
-                        android:background="@drawable/edt_bg_normal"/>
+                        android:background="@drawable/edt_bg_selector"/>
 
                 </com.org.zapayapp.uihelpers.CustomTextInputLayout>
 
@@ -154,6 +154,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="20dp"
+                    android:theme="@style/TextInputLayoutAppearance"
                     app:hintEnabled="false"
                     app:errorTextAppearance="@style/error_appearance"
                     android:padding="0dp"
@@ -176,7 +177,7 @@
                         android:paddingEnd="10dp"
                         android:hint="@string/enter_password"
                         android:inputType="textPassword"
-                        android:background="@drawable/edt_bg_normal"/>
+                        android:background="@drawable/edt_bg_selector"/>
                 </com.org.zapayapp.uihelpers.CustomTextInputLayout>
 
                 <TextView
@@ -202,6 +203,7 @@
                 android:layout_marginTop="54dp"
                 app:sl_cornerRadius="56dp"
                 app:sl_dx="0dp"
+                android:elevation="3dp"
                 android:layout_marginStart="29dp"
                 android:layout_marginEnd="29dp"
                 app:sl_dy="10dp"
@@ -354,7 +356,7 @@
                         android:id="@+id/mTextAgree"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/nunitosans_regular"
+                        android:fontFamily="@font/gotha_pro_reg"
                         android:text="@string/term_and_condition_message"
                         android:textColor="@color/textColor"
                         android:textSize="13sp" />
@@ -380,6 +382,7 @@
                     android:background="@drawable/rectanguler_button_bg"
                     android:backgroundTint="@color/colorPrimary"
                     android:gravity="center"
+                    android:lineSpacingExtra="5dp"
                     android:text="@string/signup"
                     android:fontFamily="@font/gotha_probol"
                     android:textColor="@color/colorWhite"

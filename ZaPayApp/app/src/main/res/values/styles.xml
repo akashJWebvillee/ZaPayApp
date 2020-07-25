@@ -9,8 +9,12 @@
         <item name="android:windowBackground">@color/colorWhite</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="colorControlNormal">#1A19151B</item>
-        <item name="colorControlActivated">#1A19151B</item>
+        <item name="textInputStyle">@style/Widget.MyApp.TextInputLayout</item>
+    </style>
+
+    <style name="Widget.MyApp.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
     </style>
 
     <style name="TextInputLayoutAppearance" parent="Widget.Design.TextInputLayout">
@@ -38,14 +42,14 @@
         <item name="android:scrollbarThumbVertical">@android:color/transparent</item>
     </style>
 
-    <style name="editTextStyle" parent="AppTheme">
+    <style name="editTextStyle">
         <item name="fontFamily">@font/gotha_pro_reg</item> <!-- normal font style-->
         <item name="android:textSize">20sp</item> <!-- 22 px :- 13.0 -->
         <item name="android:textColor">@color/textColor</item>
         <item name="android:textColorHint">@color/navTextColorAlpha</item>
     </style>
 
-    <style name="textViewMediumStyleRegular" parent="AppTheme">
+    <style name="textViewMediumStyleRegular">
         <item name="android:fontFamily">@font/gotha_pro_reg</item>
         <item name="android:textSize">16sp</item> <!--16px == 10sp -->
         <item name="android:textColor">@color/textColor</item>
@@ -55,6 +59,11 @@
         <item name="android:textColor">@color/textColor</item>
         <item name="android:textSize">11sp</item>
         <item name="android:gravity">end</item>
+        <item name="fontFamily">@font/gotha_probol</item>
+    </style>
+
+    <style name="TextAppearance.Design.Error" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textColor">@color/editTextViewColor</item>
     </style>
 
     <style name="DialogAnimation">

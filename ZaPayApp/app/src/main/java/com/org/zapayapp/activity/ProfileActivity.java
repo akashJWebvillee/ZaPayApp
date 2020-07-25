@@ -1,15 +1,13 @@
 package com.org.zapayapp.activity;
 
-import android.app.Dialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
 import android.widget.TextView;
 
 import com.org.zapayapp.R;
+import com.org.zapayapp.dialogs.ChangePassDialogActivity;
+import com.org.zapayapp.dialogs.EditProfileDialogActivity;
 
 public class ProfileActivity extends BaseActivity {
 
@@ -31,7 +29,7 @@ public class ProfileActivity extends BaseActivity {
 
     @Override
     protected boolean useDrawerToggle() {
-        return true;
+        return false;
     }
 
     private void init() {
@@ -43,60 +41,15 @@ public class ProfileActivity extends BaseActivity {
         changePasswordTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changePasswordDialog();
-
+                Intent intent = new Intent(ProfileActivity.this, ChangePassDialogActivity.class);
+                startActivity(intent);
             }
         });
         editProfileTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editProfileDialog();
-
-            }
-        });
-        editProfileTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editProfileDialog();
-
-            }
-        });
-    }
-
-    private void editProfileDialog() {
-        final Dialog dialog = new Dialog(ProfileActivity.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.edit_profile_dialog);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        Window window = dialog.getWindow();
-        window.setGravity(Gravity.CENTER);
-        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        dialog.show();
-        TextView saveTV = dialog.findViewById(R.id.saveTV);
-        saveTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-    }
-
-    private void changePasswordDialog() {
-        final Dialog dialog = new Dialog(ProfileActivity.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.change_password_dialog);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        Window window = dialog.getWindow();
-        window.setGravity(Gravity.CENTER);
-        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        dialog.show();
-        TextView saveTV = dialog.findViewById(R.id.saveTV);
-        saveTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
+                Intent intent = new Intent(ProfileActivity.this, EditProfileDialogActivity.class);
+                startActivity(intent);
             }
         });
     }

@@ -6,12 +6,9 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
-import androidx.core.content.ContextKt;
-
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.org.zapayapp.R;
-import com.org.zapayapp.activity.LoginActivity;
 import com.org.zapayapp.uihelpers.CustomTextInputLayout;
 
 import java.util.regex.Pattern;
@@ -36,26 +33,30 @@ public class WValidationLib {
         this.wContext = context;
     }
 
-    public void removeError(final TextInputLayout inputLayout,final TextInputEditText editText) {
+    public void removeError(final TextInputLayout inputLayout, final TextInputEditText editText) {
        /* editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    editText.setError(null);
-                }
+             //   if (!hasFocus) {
+                    inputLayout.setErrorEnabled(false);
+                    editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_selector));
+               // }
             }
         });*/
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                inputLayout.setError(null);
+                inputLayout.setErrorEnabled(false);
+                editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_selector));
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (inputLayout.isErrorEnabled()) {
+                    inputLayout.setError(null);
                     inputLayout.setErrorEnabled(false);
-                    editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_normal));
+                    editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_selector));
                 }
             }
 
@@ -74,7 +75,7 @@ public class WValidationLib {
      */
     public static boolean isConfirmPasswordValidation(TextInputLayout editTextPassword,
                                                       TextInputLayout editTextConfirmPassword, String requireMsg, String requireConfMsg, String errorMsg, String notMatchMsg,
-                                                     boolean required) {
+                                                      boolean required) {
        /* if (isPassword(editTextPassword, requireMsg, errorMsg, required)) {
             if (isPassword(editTextConfirmPassword, requireConfMsg, errorMsg, required)) {
                 if (isPasswordEqual(editTextPassword, editTextConfirmPassword, requireMsg, notMatchMsg)) {
@@ -92,9 +93,9 @@ public class WValidationLib {
      * @param required the required
      * @return the boolean
      */
-    public boolean isEmailAddress(CustomTextInputLayout inputLayout,TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
+    public boolean isEmailAddress(CustomTextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
         WValidationLib v_lib = new WValidationLib(wContext);
-        return v_lib.isValid(inputLayout,editText, EMAIL_REGEX, requireMsg, errorMsg, required);
+        return v_lib.isValid(inputLayout, editText, EMAIL_REGEX, requireMsg, errorMsg, required);
     }
 
     /**
@@ -104,9 +105,9 @@ public class WValidationLib {
      * @param required the required
      * @return the boolean
      */
-    public boolean isUserName(CustomTextInputLayout inputLayout,TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
+    public boolean isUserName(CustomTextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
         WValidationLib v_lib = new WValidationLib(wContext);
-        return v_lib.isValid(inputLayout,editText, USERNAME_REGEX, requireMsg, errorMsg, required);
+        return v_lib.isValid(inputLayout, editText, USERNAME_REGEX, requireMsg, errorMsg, required);
     }
 
     /**
@@ -116,9 +117,9 @@ public class WValidationLib {
      * @param required the required
      * @return the boolean
      */
-    public boolean isFullName(CustomTextInputLayout inputLayout,TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
+    public boolean isFullName(CustomTextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
         WValidationLib v_lib = new WValidationLib(wContext);
-        return v_lib.isValid(inputLayout,editText, FULL_NAME, requireMsg, errorMsg, required);
+        return v_lib.isValid(inputLayout, editText, FULL_NAME, requireMsg, errorMsg, required);
     }
 
     /**
@@ -128,9 +129,9 @@ public class WValidationLib {
      * @param required the required
      * @return the boolean
      */
-    public boolean isPassword(CustomTextInputLayout inputLayout,TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
+    public boolean isPassword(CustomTextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
         WValidationLib v_lib = new WValidationLib(wContext);
-        return v_lib.isValid(inputLayout,editText, PASSWORD_REGEX, requireMsg, errorMsg, required);
+        return v_lib.isValid(inputLayout, editText, PASSWORD_REGEX, requireMsg, errorMsg, required);
     }
 
     /**
@@ -140,9 +141,9 @@ public class WValidationLib {
      * @param required the required
      * @return the boolean
      */
-    public boolean isAlphaNumeric(CustomTextInputLayout inputLayout,TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
+    public boolean isAlphaNumeric(CustomTextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
         WValidationLib v_lib = new WValidationLib(wContext);
-        return v_lib.isValid(inputLayout,editText, ALPHANUMERIC, requireMsg, errorMsg, required);
+        return v_lib.isValid(inputLayout, editText, ALPHANUMERIC, requireMsg, errorMsg, required);
     }
 
     /**
@@ -152,9 +153,9 @@ public class WValidationLib {
      * @param required the required
      * @return the boolean
      */
-    public boolean isAlphabetic(CustomTextInputLayout inputLayout,TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
+    public boolean isAlphabetic(CustomTextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
         WValidationLib v_lib = new WValidationLib(wContext);
-        return v_lib.isValid(inputLayout,editText, ALPHA, requireMsg, errorMsg, required);
+        return v_lib.isValid(inputLayout, editText, ALPHA, requireMsg, errorMsg, required);
     }
 
     /**
@@ -164,9 +165,9 @@ public class WValidationLib {
      * @param required the required
      * @return the boolean
      */
-    public boolean isValidUrl(CustomTextInputLayout inputLayout,TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
+    public boolean isValidUrl(CustomTextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
         WValidationLib v_lib = new WValidationLib(wContext);
-        return v_lib.isValid(inputLayout,editText, VALID_URL_REGEX, requireMsg, errorMsg, required);
+        return v_lib.isValid(inputLayout, editText, VALID_URL_REGEX, requireMsg, errorMsg, required);
     }
 
     /**
@@ -176,9 +177,9 @@ public class WValidationLib {
      * @param required pass boolean to check if the following validation is required
      * @return true when all validations are success else false
      */
-    public boolean isEmpty(TextInputLayout inputLayout,TextInputEditText editText, String requireMsg, boolean required) {
+    public boolean isEmpty(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg, boolean required) {
         WValidationLib v_lib = new WValidationLib(wContext);
-        return v_lib.isEmptyValid(inputLayout,editText, requireMsg, required);
+        return v_lib.isEmptyValid(inputLayout, editText, requireMsg, required);
     }
 
     /**
@@ -226,9 +227,9 @@ public class WValidationLib {
      * @param required the required
      * @return the boolean
      */
-    public boolean isValidNumeric(TextInputLayout inputLayout,TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
+    public boolean isValidNumeric(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
         WValidationLib v_lib = new WValidationLib(wContext);
-        return v_lib.isValidNumber(inputLayout,editText, requireMsg, errorMsg, required);
+        return v_lib.isValidNumber(inputLayout, editText, requireMsg, errorMsg, required);
     }
 
     /**
@@ -240,15 +241,15 @@ public class WValidationLib {
      * @param required the required
      * @return the boolean
      */
-    public boolean isValid(CustomTextInputLayout inputLayout,TextInputEditText editText, String regex, String requireMsg, String errMsg, boolean required) {
+    public boolean isValid(CustomTextInputLayout inputLayout, TextInputEditText editText, String regex, String requireMsg, String errMsg, boolean required) {
 
         String text = editText.getText().toString().trim();
         // clearing the error, if it was previously set by some other values
         inputLayout.setError(null);
         inputLayout.setErrorEnabled(false);
-        editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_normal));
+        editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_selector));
         // text required and editText is blank, so return false
-        if (required && !hasText(inputLayout,editText, requireMsg)) {
+        if (required && !hasText(inputLayout, editText, requireMsg)) {
             return false;
         }
         // pattern doesn't match so returning false
@@ -256,8 +257,8 @@ public class WValidationLib {
             inputLayout.requestFocus();
             //inputLayout.setError(errMsg);
             inputLayout.setErrorEnabled(true);
-            inputLayout.setError(CustomTextInputLayout.setErrorMessage(wContext,errMsg));
-            editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_selected));
+            inputLayout.setError(CustomTextInputLayout.setErrorMessage(wContext, errMsg));
+            editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_error));
             return false;
         }
         return true;
@@ -271,19 +272,19 @@ public class WValidationLib {
      */
     // check the input field has any text or not
     // return true if it contains text otherwise false
-    private boolean hasText(TextInputLayout inputLayout,TextInputEditText editText, String requireMsg) {
+    private boolean hasText(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg) {
 
         String text = editText.getText().toString().trim();
         inputLayout.setError(null);
         inputLayout.setErrorEnabled(false);
-        editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_normal));
+        editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_selector));
         // length 0 means there is no text
         if (text.length() == 0) {
             inputLayout.requestFocus();
             //inputLayout.setError(requireMsg);
             inputLayout.setErrorEnabled(true);
-            inputLayout.setError(CustomTextInputLayout.setErrorMessage(wContext,requireMsg));
-            editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_selected));
+            inputLayout.setError(CustomTextInputLayout.setErrorMessage(wContext, requireMsg));
+            editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_error));
             return false;
         }
         return true;
@@ -382,18 +383,19 @@ public class WValidationLib {
      * @param required the required
      * @return the boolean
      */
-    public boolean isEmptyValid(TextInputLayout inputLayout,TextInputEditText editText, String requireMsg, boolean required) {
+    public boolean isEmptyValid(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg, boolean required) {
 
         //String text = editText.getEditText().getText().toString().trim();
         // clearing the error, if it was previously set by some other values
         inputLayout.setError(null);
         inputLayout.setErrorEnabled(false);
+        editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_selector));
         // text required and editText is blank, so return false
-        if (required && !hasText(inputLayout,editText, requireMsg)) {
+        if (required && !hasText(inputLayout, editText, requireMsg)) {
             inputLayout.requestFocus();
-            inputLayout.setError(requireMsg);
+            //inputLayout.setError(requireMsg);
             inputLayout.setErrorEnabled(true);
-            editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_selected));
+            editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_error));
             return false;
         }
         return true;
@@ -429,14 +431,15 @@ public class WValidationLib {
      */
     // check the input field has any digits or not
     // return true if it contains digits otherwise false
-    public boolean isValidNumber(TextInputLayout et,TextInputEditText editText, String requireMsg, String errMsg, boolean required) {
+    public boolean isValidNumber(TextInputLayout et, TextInputEditText editText, String requireMsg, String errMsg, boolean required) {
         String text = et.getEditText().getText().toString().trim();
         //CommonMethods.showLogs("text length ", "text length " + text.length());
         // clearing the error, if it was previously set by some other values
         et.setError(null);
         et.setErrorEnabled(false);
+        editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_selector));
         // text required and editText is blank, so return false
-        if (required && !hasText(et,editText, requireMsg)) {
+        if (required && !hasText(et, editText, requireMsg)) {
             return false;
         }
         // pattern doesn't match so returning false
@@ -450,6 +453,7 @@ public class WValidationLib {
             et.requestFocus();
             et.setError(errMsg);
             et.setErrorEnabled(true);
+            editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_error));
             return false;
         }
         return true;

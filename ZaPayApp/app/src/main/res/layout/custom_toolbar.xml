@@ -1,34 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="?android:attr/actionBarSize"
     android:layout_alignParentStart="true"
+    android:layout_margin="0dp"
+    app:contentInsetLeft="0dp"
+    app:contentInsetRight="0dp"
+    app:contentInsetStart="0dp"
+    app:contentInsetStartWithNavigation="0dp"
     android:background="@color/colorWhite">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@mipmap/back_arrow"
-            android:layout_centerVertical="true"
-            android:tint="@color/navTextColor" />
+        <LinearLayout
+            android:layout_width="50dp"
+            android:gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_height="match_parent">
 
+            <ImageView
+                android:id="@+id/imgBack"
+                android:layout_width="26dp"
+                android:layout_height="14dp"
+                android:src="@mipmap/ic_back"
+                android:contentDescription="@null"
+                android:tint="@color/navTextColor" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/history"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="148dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
             android:textSize="22sp"
+            android:fontFamily="@font/gotha_promed"
             android:text="@string/history"
             android:textColor="@color/navTextColor"
-            android:gravity="center_horizontal|top"/>
+            android:gravity="center"/>
     </RelativeLayout>
 </androidx.appcompat.widget.Toolbar>
 

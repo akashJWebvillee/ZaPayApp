@@ -45,6 +45,7 @@ public class BaseActivity extends AppCompatActivity {
     protected int HELP = 6;
     protected int LOGOUT = 8;//one value skip for view
     private Intent intent;
+    private NavigationAdapter adapter;
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
@@ -135,7 +136,7 @@ public class BaseActivity extends AppCompatActivity {
         navList.add(getString(R.string.help));
         navList.add("");
         navList.add(getString(R.string.logout));
-        NavigationAdapter adapter = new NavigationAdapter(this, navList);
+        adapter = new NavigationAdapter(this, navList);
         navRecycler.setAdapter(adapter);
     }
 
@@ -178,24 +179,21 @@ public class BaseActivity extends AppCompatActivity {
                 break;
             case 1:
                 if (currentScreen != BANK_ACCOUNT) {
-                    Intent intent=new Intent(this,BankInfoActivity.class);
+                    Intent intent = new Intent(this, BankInfoActivity.class);
                     startActivity(intent);
                     //finish();
                 }
                 break;
             case 2:
                 if (currentScreen != TRANSACTION) {
-                    // finish();
-                   // Intent intent=new Intent(this,ProfileActivity.class);
-                    Intent intent=new Intent(this,BorrowSummaryActivity.class);
+                    Intent intent = new Intent(this, BorrowSummaryActivity.class);
                     startActivity(intent);
-                   // finish();
+                    // finish();
                 }
                 break;
             case 3:
                 if (currentScreen != HISTORY) {
-                    //Intent intent = new Intent(this, ProfileActivity.class);
-                    Intent intent=new Intent(this,HistoryActivity.class);
+                    Intent intent = new Intent(this, HistoryActivity.class);
                     startActivity(intent);
                     // finish();
                 }
@@ -229,8 +227,11 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected void setCurrentScreen(int currentScreen){
+    protected void setCurrentScreen(int currentScreen) {
         this.currentScreen = currentScreen;
+        if (adapter != null) {
+            adapter.setSelected(currentScreen);
+        }
     }
 
     private void closeDrawer() {

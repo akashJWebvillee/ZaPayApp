@@ -1,6 +1,7 @@
 package com.org.zapayapp.activity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -10,16 +11,18 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.org.zapayapp.R;
+import com.org.zapayapp.dialogs.ChangeBankDialogActivity;
 
 public class BankInfoActivity extends BaseActivity {
-private TextView changeTV;
+
+    private TextView changeTV;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bank_info);
         init();
         initAction();
-
     }
 
     @Override
@@ -32,23 +35,22 @@ private TextView changeTV;
         return false;
     }
 
-    private void init(){
-        changeTV=findViewById(R.id.changeTV);
+    private void init() {
+        changeTV = findViewById(R.id.changeTV);
     }
 
-    private void initAction(){
+    private void initAction() {
         changeTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-           bankAccountChangeDialog();
+              //  bankAccountChangeDialog();
+                Intent intent = new Intent(BankInfoActivity.this, ChangeBankDialogActivity.class);
+                startActivity(intent);
             }
         });
-
-
     }
 
-
-    private void bankAccountChangeDialog(){
+    private void bankAccountChangeDialog() {
         final Dialog dialog = new Dialog(BankInfoActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.bank_account_dialog);
@@ -59,15 +61,12 @@ private TextView changeTV;
         window.setGravity(Gravity.CENTER);
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         dialog.show();
-
-
-        TextView saveTV=dialog.findViewById(R.id.saveTV);
+        TextView saveTV = dialog.findViewById(R.id.saveTV);
         saveTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
             }
         });
-
     }
 }
