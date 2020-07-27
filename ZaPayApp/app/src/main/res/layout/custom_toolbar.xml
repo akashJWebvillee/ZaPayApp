@@ -23,7 +23,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/imgBack"
+                android:id="@+id/backArrowImageView"
                 android:layout_width="26dp"
                 android:layout_height="14dp"
                 android:src="@mipmap/ic_back"
@@ -32,6 +32,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/titleTV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"

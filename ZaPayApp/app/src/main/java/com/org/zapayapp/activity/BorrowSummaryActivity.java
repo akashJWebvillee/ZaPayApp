@@ -3,9 +3,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-
 import com.org.zapayapp.R;
-
 public class BorrowSummaryActivity extends BaseActivity {
 private TextView navigateTV;
     @Override

@@ -72,6 +72,14 @@
         <item name="android:windowIsFloating">true</item>
     </style>
 
+
+
+    <style name="MyCustomTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="fontFamily">@font/gotha_promed</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
     <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
         <!-- Used for the buttons -->
         <item name="colorAccent">@color/colorPrimaryDark</item>

@@ -144,4 +144,18 @@
     <string name="submit">Submit</string>
 
 
+    <!--Transaction screen-->
+    <string name="pending">Pending</string>
+    <string name="negotiation">Negotiation</string>
+    <string name="completed">Completed</string>
+    <string name="no_of_intallment">No Of Intallment:</string>
+    <string name="borrow_mode">Borrow Mode:</string>
+
+
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
 </resources>

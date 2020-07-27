@@ -4,24 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
     android:orientation="vertical"
     tools:context=".activity.BorrowSummaryActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="342dp"
+        android:background="@mipmap/base_bg" />
+
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="196dp"
-        android:background="@drawable/rectanguler_bottom_corner"
-        android:backgroundTint="@color/backgroundColor"/>
+        android:layout_marginTop="251dp"
+        android:background="@drawable/rectanguler_bottom_corner" />
+    <!-- android:backgroundTint="@color/backgroundColor"-->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="131dp"
         android:layout_marginEnd="18dp"
         android:layout_marginBottom="50dp"
+        android:elevation="3dp"
+        android:backgroundTint="@color/colorWhite"
         android:background="@drawable/rectanguler_bg"
         android:orientation="vertical">
 
@@ -78,7 +85,6 @@
                     android:textSize="16sp"
                      />
 
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -92,7 +98,6 @@
                     android:textColor="@color/navTextColor"
                     android:textSize="14sp"
                      />
-
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -146,7 +151,6 @@
                     android:textSize="14sp"
                    />
 
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -173,7 +177,6 @@
                     android:textSize="14sp"
                     />
 
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -191,7 +194,6 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="278dp"
                     android:background="@mipmap/dot_line" />
-
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -219,6 +221,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/viewAllTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -232,10 +235,11 @@
                      />
 
                 <View
-                    android:layout_width="75dp"
-                    android:layout_height="0.5dp"
+                    android:layout_below="@+id/viewAllTV"
+                    android:layout_width="80dp"
+                    android:layout_height="1dp"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginTop="346dp"
+                    android:layout_marginTop="1dp"
                     android:layout_marginEnd="28dp"
                     android:background="@color/navTextSelectColor" />
 
