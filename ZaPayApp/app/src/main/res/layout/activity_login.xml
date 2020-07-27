@@ -121,6 +121,7 @@
                         android:paddingTop="10dp"
                         android:importantForAutofill="no"
                         android:inputType="textEmailAddress"
+                        android:nextFocusForward="@+id/etPassword"
                         android:gravity="center_vertical"
                         android:paddingEnd="10dp"
                         android:hint="@string/enter_your_email"
