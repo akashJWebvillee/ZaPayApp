@@ -6,11 +6,13 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
+
 import com.org.zapayapp.R;
 
-public class HomeActivity extends BaseActivity implements View.OnClickListener{
+public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
-    private LinearLayout homeLLLend,homeLLBorrow;
+    private LinearLayout homeLLLend, homeLLBorrow;
+    private Intent intent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,10 +34,15 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.homeLLBorrow:
+        switch (v.getId()) {
             case R.id.homeLLLend:
-                Intent intent = new Intent(HomeActivity.this,LendBorrowActivity.class);
+                intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
+                intent.putExtra("isBorrow", false);
+                startActivity(intent);
+                break;
+            case R.id.homeLLBorrow:
+                intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
+                intent.putExtra("isBorrow", true);
                 startActivity(intent);
                 break;
         }

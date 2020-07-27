@@ -37,6 +37,7 @@
                     android:textColor="@color/colorWhite"
                     android:gravity="start"
                     android:textSize="14sp"
+                    android:lineSpacingExtra="5dp"
                     android:fontFamily="@font/gotha_pro_reg"
                     android:includeFontPadding="false"
                     android:text="Now lending and borrowing money is just a click away, explore below options" />

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundColor"
+    android:background="@color/colorWhite"
     tools:context=".activity.LoginActivity">
 
     <RelativeLayout
@@ -346,16 +346,19 @@
 
                     <CheckBox
                         android:id="@+id/mChkAgree"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:background="@null"
-                        android:buttonTint="@color/colorPrimaryDark"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:background="@drawable/checkbox_selector"
+                        android:button="@null"
+                        android:checked="true"
                         android:text="" />
 
                     <TextView
                         android:id="@+id/mTextAgree"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:lineSpacingExtra="5dp"
                         android:fontFamily="@font/gotha_pro_reg"
                         android:text="@string/term_and_condition_message"
                         android:textColor="@color/textColor"

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:id="@+id/lendViewPayment"
+    android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_of_payments"
+            android:layout_marginStart="19dp"
+            android:layout_marginTop="50dp"
+            android:fontFamily="@font/gotha_promed"
+            android:textColor="@color/textColor"
+            android:textSize="16sp"/>
+
+        <EditText
+            android:id="@+id/lendPaymentEdtNo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:fontFamily="@font/gotha_pro_reg"
+            android:gravity="start|center_vertical"
+            android:layout_marginTop="11dp"
+            android:layout_marginStart="19dp"
+            android:paddingStart="15dp"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:maxLength="1"
+            android:paddingEnd="15dp"
+            android:textColorHint="@color/navTextColor50Alpha"
+            android:layout_marginEnd="19dp"
+            android:background="@drawable/rectanguler_border_light"
+            android:hint="@string/enter_no_of_payment"
+            android:textColor="@color/textColor"
+            android:textSize="17sp"/>
+</LinearLayout>

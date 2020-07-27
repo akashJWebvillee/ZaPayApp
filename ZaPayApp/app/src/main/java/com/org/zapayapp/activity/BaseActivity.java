@@ -219,7 +219,7 @@ public class BaseActivity extends AppCompatActivity {
                     // finish();
                 }
                 break;
-            case 7:
+            case 8:
                 if (currentScreen != LOGOUT) {
                     clearLogout();
                 }

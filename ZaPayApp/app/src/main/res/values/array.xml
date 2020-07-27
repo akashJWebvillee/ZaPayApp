@@ -10,4 +10,14 @@
         <item>@string/help</item>
     </string-array>
 
+    <string-array name="lendBorrowList">
+        <item>@string/my_profile</item>
+        <item>@string/bank_account</item>
+        <item>@string/transaction</item>
+        <item>@string/history</item>
+        <item>@string/about_us</item>
+        <item>@string/terms_and_conditions</item>
+        <item>@string/help</item>
+    </string-array>
+
 </resources>

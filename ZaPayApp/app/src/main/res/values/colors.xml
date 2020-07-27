@@ -21,6 +21,8 @@
 
     <color name="colorLineLightGrey">#ECECEC</color>
     <color name="summaryLineColor">#FAF1EB</color>
+
+    <color name="colorLineLightOrange">#FAF1EB</color>
 <!--
     <color name="colorRed">#EF0606</color>
 -->

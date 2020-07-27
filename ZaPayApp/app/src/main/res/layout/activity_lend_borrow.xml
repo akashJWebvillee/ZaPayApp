@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -28,52 +29,45 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginStart="18dp"
         android:layout_marginTop="220dp"
+        android:paddingBottom="50dp"
+        android:backgroundTint="@color/colorWhite"
+        android:background="@drawable/rectanguler_bg"
         android:elevation="3dp"
+        android:layout_marginBottom="35dp"
         android:layout_marginEnd="18dp"
-        android:layout_marginBottom="50dp"
         android:orientation="vertical">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="50dp">
-
                 <LinearLayout
-                    android:id="@+id/LL2"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="30dp"
-                    android:paddingBottom="100dp"
-                    android:elevation="3dp"
-                    android:backgroundTint="@color/colorWhite"
-                    android:background="@drawable/rectanguler_bg"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/lendTxtHeader"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/gotha_promed"
                         android:gravity="center"
                         android:paddingTop="20dp"
                         android:paddingBottom="20dp"
-                        android:text="@string/amount"
+                        android:text="@string/terms"
                         android:textColor="@color/textColorBold"
                         android:textSize="24sp"/>
 
                     <View
-                        android:id="@+id/headerLineView"
                         android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:background="@color/colorLineLightGrey" />
+                        android:layout_height="1dp"
+                        android:background="@color/colorLineLightOrange" />
 
                     <TextView
+                        android:id="@+id/lendTxtAmount"
                         android:layout_width="match_parent"
                         android:layout_height="78dp"
                         android:fontFamily="@font/gotha_pro_reg"
@@ -85,66 +79,100 @@
                         android:layout_marginEnd="19dp"
                         android:background="@drawable/rectanguler_border_light"
                         android:text="50"
-                        android:textColor="@color/textColorBold"
+                        android:textColor="@color/navTextColor50Alpha"
                         android:textSize="30sp"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/enter_amount"
-                        android:layout_marginStart="19dp"
-                        android:layout_marginTop="50dp"
-                        android:fontFamily="@font/gotha_promed"
-                        android:textColor="@color/textColorBold"
-                        android:textSize="16sp"/>
+                 <include
+                     layout="@layout/view_amount"/>
 
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:fontFamily="@font/gotha_pro_reg"
-                        android:gravity="start|center_vertical"
-                        android:layout_marginTop="11dp"
-                        android:layout_marginStart="19dp"
-                        android:paddingStart="15dp"
-                        android:paddingEnd="15dp"
-                        android:textColorHint="@color/navTextColor50Alpha"
-                        android:layout_marginEnd="19dp"
-                        android:background="@drawable/rectanguler_border_light"
-                        android:hint="@string/enter_amount"
-                        android:textColor="@color/textColor"
-                        android:textSize="17sp"/>
+                 <include
+                     layout="@layout/view_terms"/>
+
+                    <include
+                        layout="@layout/view_payment"/>
+
+                    <include
+                        layout="@layout/view_payback"/>
+
+                    <include
+                        layout="@layout/view_borrow_summary"/>
+
+                    <include
+                        layout="@layout/view_lending_summary"/>
+
+                    <include
+                        layout="@layout/view_contact"/>
 
                 </LinearLayout>
-
-                <com.dd.ShadowLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="16dp"
-                    app:sl_cornerRadius="56dp"
-                    android:elevation="3dp"
-                    app:sl_dx="0dp"
-                    app:sl_dy="10dp"
-                    app:sl_shadowColor="#46FC5C04"
-                    app:sl_shadowRadius="4dp">
-
-                    <TextView
-                        android:id="@+id/nextButtonTV"
-                        android:layout_width="140dp"
-                        android:layout_height="53dp"
-                        android:background="@drawable/rectanguler_button_bg"
-                        android:backgroundTint="@color/colorPrimary"
-                        android:gravity="center"
-                        android:lineSpacingExtra="5dp"
-                        android:text="@string/next"
-                        android:fontFamily="@font/gotha_probol"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="16sp" />
-                </com.dd.ShadowLayout>
-
-            </RelativeLayout>
         </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="38dp"
+        android:elevation="3dp"
+        android:weightSum="1"
+        android:layout_marginStart="38dp"
+        android:baselineAligned="false">
+
+        <com.dd.ShadowLayout
+            android:id="@+id/lendShadowBack"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:sl_cornerRadius="56dp"
+            android:layout_marginEnd="10dp"
+            android:elevation="3dp"
+            app:sl_dx="0dp"
+            app:sl_dy="10dp"
+            android:visibility="visible"
+            app:sl_shadowColor="#3319151B"
+            app:sl_shadowRadius="4dp">
+
+            <TextView
+                android:id="@+id/backButtonTV"
+                android:layout_width="match_parent"
+                android:layout_height="53dp"
+                android:background="@drawable/rectanguler_button_bg"
+                android:backgroundTint="@color/textColor"
+                android:gravity="center"
+                android:lineSpacingExtra="5dp"
+                android:text="@string/back"
+                android:fontFamily="@font/gotha_probol"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp" />
+        </com.dd.ShadowLayout>
+
+        <com.dd.ShadowLayout
+            android:id="@+id/lendShadowNext"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="10dp"
+            app:sl_cornerRadius="56dp"
+            app:sl_dx="0dp"
+            app:sl_dy="10dp"
+            app:sl_shadowColor="#46FC5C04"
+            app:sl_shadowRadius="4dp">
+
+            <TextView
+                android:id="@+id/nextButtonTV"
+                android:layout_width="match_parent"
+                android:layout_height="53dp"
+                android:background="@drawable/rectanguler_button_bg"
+                android:backgroundTint="@color/colorPrimary"
+                android:gravity="center"
+                android:lineSpacingExtra="5dp"
+                android:text="@string/next"
+                android:fontFamily="@font/gotha_probol"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp" />
+        </com.dd.ShadowLayout>
     </LinearLayout>
 </RelativeLayout>

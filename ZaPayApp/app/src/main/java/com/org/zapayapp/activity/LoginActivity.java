@@ -9,9 +9,11 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -86,7 +88,7 @@ public class LoginActivity extends BaseActivity {
             public void onClick(View v) {
                 try {
                     if (wValidationLib.isEmailAddress(etEmailLayout, editTextUsername, getString(R.string.important), getString(R.string.important), true)) {
-                        if (wValidationLib.isEmailAddress(etPasswordLayout, etPassword, getString(R.string.important), getString(R.string.important), true)) {
+                        if (wValidationLib.isEmpty(etPasswordLayout, etPassword, getString(R.string.important),  true)) {
                             intent = new Intent(LoginActivity.this, HomeActivity.class);
                             startActivity(intent);
                             finish();
@@ -107,7 +109,14 @@ public class LoginActivity extends BaseActivity {
         });
         setSelectedView(1);
         wValidationLib.removeError(etEmailLayout, editTextUsername);
-        //wValidationLib.removeError(etPasswordLayout, etPassword);
+        wValidationLib.removeError(etPasswordLayout, etPassword);
+
+        editTextUsername.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editTextUsername.setBackgroundDrawable(CommonMethods.getDrawableWrapper(LoginActivity.this, R.drawable.edt_bg_selector));
+            }
+        });
     }
 
     private void setSelectedView(int position) {

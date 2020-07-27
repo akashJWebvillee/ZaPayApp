@@ -1,6 +1,16 @@
 <resources>
     <string name="app_name">ZaPayApp</string>
 
+    <!-- Date picker fragment -->
+    <string name="show" translatable="false">Show</string>
+    <string name="both" translatable="false">Both</string>
+    <string name="min_current" translatable="false">maxCurrent</string>
+    <string name="max_current" translatable="false">minCurrent</string>
+    <string name="date_picker" translatable="false">Date Picker</string>
+    <string name="time_picker" translatable="false">Time Picker</string>
+    <string name="date_ok">OK</string>
+    <string name="date_cancel">Cancel</string>
+
     <!--login screen -->
     <string name="user_name">User name</string>
     <string name="mobile">Mobile</string>
@@ -100,6 +110,38 @@
 
     <!--lend borrow screen-->
     <string name="next">Next</string>
+    <string name="back">Back</string>
     <string name="enter_amount">Enter Amount</string>
+    <string name="select_terms">Select Terms</string>
+    <string name="fee">Fee</string>
+    <string name="percent">%</string>
+    <string name="discount">Discount</string>
+    <string name="none">None</string>
+    <string name="enter_percent">Enter Percent</string>
+    <string name="enter_fee">Enter Fee</string>
+    <string name="enter_discount">Enter discount</string>
+    <string name="no_of_payments">No of payment</string>
+    <string name="payback_date">Payback date</string>
+    <string name="borrow_summary_">Borrow summary</string>
+    <string name="lending_summary_">Lending summary</string>
+    <string name="select_contact">Select contact</string>
+    <string name="enter_no_of_payment">Enter no of payment</string>
+    <string name="start_date">Start Date</string>
+    <string name="select_date">Select date</string>
+
+    <string name="first_select_date">First select date</string>
+    <string name="second_select_date">Second select date</string>
+    <string name="third_select_date">Third select date</string>
+    <string name="fourth_select_date">Fourth select date</string>
+    <string name="fifth_select_date">Fifth select date</string>
+    <string name="sixth_select_date">Sixth select date</string>
+    <string name="seventh_select_date">Seventh select date</string>
+    <string name="eighth_select_date">Eighth select date</string>
+    <string name="ninth_select_date">Ninth select date</string>
+
+    <string name="total_to_payback">Total to Pay Back</string>
+    <string name="total_to_receive_back">Total to Receive Back</string>
+    <string name="submit">Submit</string>
+
 
 </resources>
