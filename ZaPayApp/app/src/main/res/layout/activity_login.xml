@@ -80,16 +80,15 @@
             android:layout_width="match_parent"
             android:layout_height="310dp"
             android:layout_below="@+id/LL1"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="15dp"
-            android:orientation="vertical"
             android:visibility="visible">
 
             <LinearLayout
                 android:id="@+id/LL2"
                 android:layout_width="match_parent"
                 android:layout_height="280dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
                 android:layout_marginBottom="30dp"
                 android:elevation="3dp"
                 android:backgroundTint="@color/colorWhite"
@@ -121,6 +120,7 @@
                         android:paddingTop="10dp"
                         android:importantForAutofill="no"
                         android:inputType="textEmailAddress"
+                        android:imeOptions="actionNext"
                         android:gravity="center_vertical"
                         android:paddingEnd="10dp"
                         android:hint="@string/enter_your_email"
@@ -177,6 +177,7 @@
                         android:paddingEnd="10dp"
                         android:hint="@string/enter_password"
                         android:inputType="textPassword"
+                        android:imeOptions="actionDone"
                         android:background="@drawable/edt_bg_selector"/>
                 </com.org.zapayapp.uihelpers.CustomTextInputLayout>
 
@@ -229,16 +230,17 @@
             android:layout_width="match_parent"
             android:layout_height="501dp"
             android:layout_below="@+id/LL1"
-            android:visibility="gone"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="15dp">
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="30dp"
                 android:background="@drawable/rectanguler_bg"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:elevation="3dp"
                 android:orientation="vertical">
 
                 <EditText
@@ -367,7 +369,7 @@
             </LinearLayout>
 
             <com.dd.ShadowLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
@@ -376,11 +378,14 @@
                 app:sl_dx="0dp"
                 app:sl_dy="10dp"
                 app:sl_shadowColor="#46FC5C04"
-                app:sl_shadowRadius="4dp">
+                app:sl_shadowRadius="4dp"
+                android:elevation="3dp"
+                android:layout_marginStart="29dp"
+                android:layout_marginEnd="29dp">
 
                 <TextView
                     android:id="@+id/signUpButtonTV"
-                    android:layout_width="280dp"
+                    android:layout_width="match_parent"
                     android:layout_height="53dp"
                     android:background="@drawable/rectanguler_button_bg"
                     android:backgroundTint="@color/colorPrimary"

@@ -1,5 +1,4 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -9,14 +8,10 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-
 import com.google.android.material.textfield.TextInputEditText;
 import com.org.zapayapp.R;
 import com.org.zapayapp.uihelpers.CustomTextInputLayout;
@@ -24,7 +19,6 @@ import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.WValidationLib;
 
 public class LoginActivity extends BaseActivity {
-
     private TextView loginTV;
     private TextView signUpTV;
     private TextView mTextAgree;
@@ -41,6 +35,7 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         inIt();
         inItAction();
     }
@@ -69,12 +64,14 @@ public class LoginActivity extends BaseActivity {
                 setSelectedView(1);
             }
         });
+
         signUpTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setSelectedView(2);
             }
         });
+
         forgotPasswordTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,6 +80,7 @@ public class LoginActivity extends BaseActivity {
                 //finish();
             }
         });
+
         loginButtonTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,6 +97,7 @@ public class LoginActivity extends BaseActivity {
                 }
             }
         });
+
         signUpButtonTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,6 +106,7 @@ public class LoginActivity extends BaseActivity {
                 finish();
             }
         });
+
         setSelectedView(1);
         wValidationLib.removeError(etEmailLayout, editTextUsername);
         wValidationLib.removeError(etPasswordLayout, etPassword);
@@ -125,6 +125,7 @@ public class LoginActivity extends BaseActivity {
             signUpTV.setTextColor(CommonMethods.getColorWrapper(this, R.color.colorWhite70Alpha));
             loginRelativeLayout.setVisibility(View.VISIBLE);
             signUpRelativeLayout.setVisibility(View.GONE);
+
         } else if (position == 2) {
             loginTV.setTextColor(CommonMethods.getColorWrapper(this, R.color.colorWhite70Alpha));
             signUpTV.setTextColor(CommonMethods.getColorWrapper(this, R.color.colorWhite));
@@ -155,6 +156,7 @@ public class LoginActivity extends BaseActivity {
                 ds.setColor(CommonMethods.getColorWrapper(LoginActivity.this, R.color.textColor));
             }
         };
+
         ssBuilder.setSpan(
                 new android.text.style.StyleSpan(Typeface.BOLD), // Span to add
                 40, // Start of the span (inclusive)

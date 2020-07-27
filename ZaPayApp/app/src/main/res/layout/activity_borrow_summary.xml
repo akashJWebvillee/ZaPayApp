@@ -10,14 +10,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="342dp"
-        android:background="@mipmap/base_bg" />
+        android:background="@mipmap/base_bg"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="251dp"
-        android:background="@drawable/rectanguler_bottom_corner"
-       ></RelativeLayout>
+        android:background="@drawable/rectanguler_bottom_corner"></RelativeLayout>
     <!-- android:backgroundTint="@color/backgroundColor"-->
 
     <LinearLayout
@@ -31,7 +30,6 @@
         android:background="@drawable/rectanguler_bg"
         android:elevation="3dp"
         android:orientation="vertical">
-
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -59,7 +57,6 @@
                     android:layout_marginTop="17dp"
                     android:background="@color/summaryLineColor" />
 
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -73,7 +70,6 @@
                     android:textColor="@color/navTextColor"
                     android:textSize="14sp"/>
 
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -85,7 +81,6 @@
                     android:text="John Doe"
                     android:textColor="@color/navTextColor"
                     android:textSize="16sp"/>
-
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -100,7 +95,6 @@
                     android:textColor="@color/navTextColor"
                     android:textSize="14sp"/>
 
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -108,11 +102,9 @@
                     android:layout_marginTop="179dp"
                     android:fontFamily="@font/gotha_pro_reg"
                     android:gravity="start"
-                    android:text="$500.00 "
+                    android:text="$500.00"
                     android:textColor="@color/navTextColor"
-                    android:textSize="16sp"
-                     />
-
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -125,8 +117,7 @@
                     android:gravity="start"
                     android:text="@string/terms"
                     android:textColor="@color/navTextColor"
-                    android:textSize="14sp"
-                     />
+                    android:textSize="14sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -137,8 +128,7 @@
                     android:gravity="start"
                     android:text="14% or $7.00"
                     android:textColor="@color/navTextColor"
-                    android:textSize="16sp"
-                     />
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -151,9 +141,7 @@
                     android:gravity="start"
                     android:text="@string/payments"
                     android:textColor="@color/navTextColor"
-                    android:textSize="14sp"
-                   />
-
+                    android:textSize="14sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -164,8 +152,7 @@
                     android:gravity="start"
                     android:text="3"
                     android:textColor="@color/navTextColor"
-                    android:textSize="16sp"
-                     />
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -178,8 +165,7 @@
                     android:gravity="start"
                     android:text="@string/payment_dates"
                     android:textColor="@color/navTextColor"
-                    android:textSize="14sp"
-                     />
+                    android:textSize="14sp"/>
 
 
                 <TextView
@@ -191,15 +177,13 @@
                     android:gravity="start"
                     android:text="03/07/2020"
                     android:textColor="@color/navTextColor"
-                    android:textSize="16sp"
-                     />
+                    android:textSize="16sp"/>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="278dp"
                     android:background="@mipmap/dot_line" />
-
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -211,8 +195,7 @@
                     android:gravity="start"
                     android:text="@string/total_to_pay_back"
                     android:textColor="@color/navTextColor"
-                    android:textSize="16sp"
-                    />
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -223,8 +206,7 @@
                     android:gravity="start"
                     android:text="$57.00"
                     android:textColor="@color/navTextColor"
-                    android:textSize="20sp"
-                    />
+                    android:textSize="20sp"/>
 
                 <TextView
                     android:id="@+id/viewAllTV"
@@ -237,8 +219,7 @@
                     android:gravity="start"
                     android:text="View All"
                     android:textColor="@color/navTextSelectColor"
-                    android:textSize="18sp"
-                    />
+                    android:textSize="18sp"/>
 
                 <View
                     android:layout_below="@+id/viewAllTV"
@@ -261,8 +242,7 @@
                     android:backgroundTint="@color/navTextColor"
                     android:gravity="center"
                     android:text="@string/negotiate"
-                    android:textColor="@color/colorWhite"
-                    />
+                    android:textColor="@color/colorWhite"/>
 
 
                 <TextView
@@ -277,9 +257,7 @@
                     android:backgroundTint="@color/greenColor"
                     android:gravity="center"
                     android:text="@string/accept"
-                    android:textColor="@color/colorWhite"
-                   />
-
+                    android:textColor="@color/colorWhite"/>
 
                 <TextView
                     android:id="@+id/declineTV"
@@ -294,9 +272,7 @@
                     android:backgroundTint="@color/colorRed"
                     android:gravity="center"
                     android:text="@string/decline"
-                    android:textColor="@color/colorWhite"
-                     />
-
+                    android:textColor="@color/colorWhite"/>
 
             </RelativeLayout>
         </androidx.core.widget.NestedScrollView>
