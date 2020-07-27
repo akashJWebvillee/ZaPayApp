@@ -1,8 +1,11 @@
 package com.org.zapayapp.activity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
+
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,7 +16,8 @@ import com.org.zapayapp.adapter.HistoryAdapter;
 public class HistoryActivity extends BaseActivity {
 
     private RecyclerView historyRecyclerView;
-    private ImageView imgBack;
+    private ImageView backArrowImageView;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,9 +28,9 @@ public class HistoryActivity extends BaseActivity {
     }
 
     private void init() {
-        imgBack = findViewById(R.id.imgBack);
+        toolbar=findViewById(R.id.customToolbar);
+        backArrowImageView=(ImageView) toolbar.findViewById(R.id.backArrowImageView);
         historyRecyclerView = findViewById(R.id.historyRecyclerView);
-
     }
 
     private void initAction() {
@@ -35,6 +39,14 @@ public class HistoryActivity extends BaseActivity {
 
         HistoryAdapter historyAdapter = new HistoryAdapter(HistoryActivity.this);
         historyRecyclerView.setAdapter(historyAdapter);
+
+
+        backArrowImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override

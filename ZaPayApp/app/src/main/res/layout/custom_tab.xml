@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@android:id/text1"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:textSize="16sp"
+    android:fontFamily="@font/gotha_promed"
+    android:gravity="center"
+    android:text="Pending"
+    android:textColor="@color/navTextColor"
+
+    />

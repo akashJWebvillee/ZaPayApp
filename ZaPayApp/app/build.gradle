@@ -38,6 +38,7 @@ dependencies {
     implementation 'com.github.dmytrodanylyk.shadow-layout:library:1.0.1'
     implementation 'com.github.siyamed:android-shape-imageview:0.9.3@aar'
 
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

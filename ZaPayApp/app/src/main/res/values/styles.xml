@@ -71,4 +71,12 @@
         <!--  <item name="android:windowExitAnimation">@anim/slide_down</item>-->
         <item name="android:windowIsFloating">true</item>
     </style>
+
+
+
+    <style name="MyCustomTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="fontFamily">@font/gotha_promed</item>
+        <item name="android:textSize">15sp</item>
+    </style>
 </resources>

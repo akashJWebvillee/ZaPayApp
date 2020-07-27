@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BaseActivity extends AppCompatActivity {
-
     private NavigationView navView;
     private AdvanceDrawerLayout drawerLayout;
     protected FrameLayout activityContainer;
@@ -186,7 +185,8 @@ public class BaseActivity extends AppCompatActivity {
                 break;
             case 2:
                 if (currentScreen != TRANSACTION) {
-                    Intent intent = new Intent(this, BorrowSummaryActivity.class);
+                    //Intent intent = new Intent(this, BorrowSummaryActivity.class);
+                    Intent intent = new Intent(this, TransactionActivity.class);
                     startActivity(intent);
                     // finish();
                 }

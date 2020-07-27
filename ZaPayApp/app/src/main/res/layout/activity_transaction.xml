@@ -6,53 +6,54 @@
     android:layout_height="match_parent"
     tools:context=".activity.TransactionActivity">
 
-
     <include
         android:id="@+id/toolbar"
         layout="@layout/custom_toolbar"/>
 
-
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="?actionBarSize"
         android:layout_marginTop="?actionBarSize">
-
-
-
 
         <!-- our tablayout to display tabs  -->
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
-            android:layout_height="37dp"
+            android:layout_height="47dp"
             android:minHeight="?attr/actionBarSize"
-            android:layout_marginTop="212dp"
+            android:layout_marginTop="18dp"
             app:tabMode="auto"
-            app:tabTextColor="@color/navTextColor"
+            app:tabTextColor="#6C676F"
+            app:tabSelectedTextColor="@color/navTextColor"
             app:tabGravity="fill"
             app:tabIndicatorColor="@color/colorPrimary"
-            app:tabIndicatorHeight="3dp"
+            app:tabIndicatorHeight="4dp"
+            app:tabMinWidth="25dp"
             app:tabIndicator="@drawable/tab_indicator"
             app:tabIndicatorFullWidth="false"
             app:tabPaddingStart="25dp"
-            app:tabPaddingEnd="25dp" />
+            app:tabPaddingEnd="25dp"
+            app:tabTextAppearance="@style/MyCustomTextAppearance"
+            />
+
+
+
+
 
 
         <View
             android:layout_below="@+id/tabLayout"
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/colorPrimary"/>
+            android:layout_height="1dp"
+            android:background="@color/summaryLineColor" />
 
         <!-- View pager to swipe views -->
         <androidx.viewpager.widget.ViewPager
-            android:id="@+id/pager"
+            android:id="@+id/viewPager"
             android:layout_below="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
         <!-- android:layout_marginTop="314dp"-->
-    </RelativeLayout>
 
+    </RelativeLayout>
 </RelativeLayout>
