@@ -110,13 +110,6 @@ public class LoginActivity extends BaseActivity {
         setSelectedView(1);
         wValidationLib.removeError(etEmailLayout, editTextUsername);
         wValidationLib.removeError(etPasswordLayout, etPassword);
-
-        editTextUsername.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editTextUsername.setBackgroundDrawable(CommonMethods.getDrawableWrapper(LoginActivity.this, R.drawable.edt_bg_selector));
-            }
-        });
     }
 
     private void setSelectedView(int position) {
