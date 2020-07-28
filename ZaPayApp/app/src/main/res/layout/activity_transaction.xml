@@ -15,6 +15,13 @@
         android:layout_height="match_parent"
         android:layout_marginTop="?actionBarSize">
 
+        <View
+            android:layout_marginTop="63dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/summaryLineColor" />
+
+
         <!-- our tablayout to display tabs  -->
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
@@ -28,24 +35,15 @@
             app:tabGravity="fill"
             app:tabIndicatorColor="@color/colorPrimary"
             app:tabIndicatorHeight="4dp"
-            app:tabMinWidth="25dp"
             app:tabIndicator="@drawable/tab_indicator"
-            app:tabIndicatorFullWidth="false"
             app:tabPaddingStart="25dp"
             app:tabPaddingEnd="25dp"
-            app:tabTextAppearance="@style/MyCustomTextAppearance"
-            />
+            android:background="#00000000"
+            app:tabTextAppearance="@style/MyCustomTextAppearance" />
 
-
-
-
-
-
-        <View
-            android:layout_below="@+id/tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/summaryLineColor" />
+        <!--
+        app:tabMinWidth="25dp"
+        app:tabIndicatorFullWidth="false"-->
 
         <!-- View pager to swipe views -->
         <androidx.viewpager.widget.ViewPager

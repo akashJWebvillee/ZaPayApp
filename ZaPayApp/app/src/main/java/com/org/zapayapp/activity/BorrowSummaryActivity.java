@@ -38,7 +38,7 @@ public class BorrowSummaryActivity extends BaseActivity {
         navigateTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(BorrowSummaryActivity.this, LendingSummaryActivity.class));
+                //startActivity(new Intent(BorrowSummaryActivity.this, LendingSummaryActivity.class));
             }
         });
 

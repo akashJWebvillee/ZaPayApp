@@ -1,16 +1,13 @@
 package com.org.zapayapp.fragment;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.org.zapayapp.R;
 import com.org.zapayapp.adapters.TransactionAdapter;
 
@@ -41,7 +38,7 @@ private RecyclerView negotiationRecyclerView;
     private void initAction() {
         negotiationRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         negotiationRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity());
+        TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity(),"negotiation");
         negotiationRecyclerView.setAdapter(transactionAdapter);
     }
 }

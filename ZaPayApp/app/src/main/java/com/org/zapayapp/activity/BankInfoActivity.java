@@ -1,5 +1,4 @@
 package com.org.zapayapp.activity;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,7 +8,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
-
 import com.org.zapayapp.R;
 import com.org.zapayapp.dialogs.ChangeBankDialogActivity;
 

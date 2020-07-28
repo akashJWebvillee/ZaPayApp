@@ -36,7 +36,7 @@ private RecyclerView completedRecyclerView;
     private void initAction() {
         completedRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         completedRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity());
+        TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity(),"");
         completedRecyclerView.setAdapter(transactionAdapter);
     }
 }
