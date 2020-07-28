@@ -42,7 +42,7 @@ public class PendingFragment extends Fragment {
     private void initAction() {
         pendingRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         pendingRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity());
+        TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity(),"pending");
         pendingRecyclerView.setAdapter(transactionAdapter);
     }
 }

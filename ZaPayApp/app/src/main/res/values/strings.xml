@@ -145,6 +145,7 @@
 
 
     <!--Transaction screen-->
+
     <string name="pending">Pending</string>
     <string name="negotiation">Negotiation</string>
     <string name="completed">Completed</string>

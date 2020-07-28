@@ -1,23 +1,18 @@
 package com.org.zapayapp.activity;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.ViewPager;
-
 import com.google.android.material.tabs.TabLayout;
 import com.org.zapayapp.R;
 import com.org.zapayapp.adapters.MyPaggerAdapter;
-
 import java.util.ArrayList;
 
 public class TransactionActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
-
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private Toolbar toolbar;
@@ -28,15 +23,17 @@ public class TransactionActivity extends AppCompatActivity implements TabLayout.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction);
+
         inIt();
         inItAction();
+
     }
 
     private void inIt() {
         toolbar = findViewById(R.id.toolbar);
         titleTV = toolbar.findViewById(R.id.titleTV);
-        backArrowImageView = toolbar.findViewById(R.id.backArrowImageView);
-        titleTV.setText("Transaction");
+        backArrowImageView = (ImageView) toolbar.findViewById(R.id.backArrowImageView);
+        titleTV.setText(getString(R.string.transaction));
 
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
@@ -49,9 +46,10 @@ public class TransactionActivity extends AppCompatActivity implements TabLayout.
         tabLayout.setTabTextColors(getResources().getColor(R.color.tabTextColor), getResources().getColor(R.color.navTextColor));
         // setcustomLayout(tabLayout);
 
-
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        //tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         //tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#04B804"));
+         tabLayout.setSelectedTabIndicator(R.drawable.tab_indicator);
+
 
         ArrayList<String> list = new ArrayList<>();
         list.add(getString(R.string.pending));
@@ -74,7 +72,6 @@ public class TransactionActivity extends AppCompatActivity implements TabLayout.
                 finish();
             }
         });
-
     }
 
     private void setcustomLayout(TabLayout tabLayout) {
@@ -100,4 +97,6 @@ public class TransactionActivity extends AppCompatActivity implements TabLayout.
     public void onTabReselected(TabLayout.Tab tab) {
 
     }
+
+
 }

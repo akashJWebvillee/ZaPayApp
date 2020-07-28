@@ -6,13 +6,10 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.org.zapayapp.R;
-import com.org.zapayapp.activity.LoginActivity;
 import com.org.zapayapp.uihelpers.CustomTextInputLayout;
-
 import java.util.regex.Pattern;
 
 public class WValidationLib {
@@ -51,6 +48,7 @@ public class WValidationLib {
                 editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_selector));
             }
         });
+
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -81,9 +79,7 @@ public class WValidationLib {
      * @param required                pass boolean to check if the following validation is required
      * @return true when all validations are success else false
      */
-    public static boolean isConfirmPasswordValidation(TextInputLayout editTextPassword,
-                                                      TextInputLayout editTextConfirmPassword, String requireMsg, String requireConfMsg, String errorMsg, String notMatchMsg,
-                                                      boolean required) {
+    public static boolean isConfirmPasswordValidation(TextInputLayout editTextPassword, TextInputLayout editTextConfirmPassword, String requireMsg, String requireConfMsg, String errorMsg, String notMatchMsg, boolean required) {
        /* if (isPassword(editTextPassword, requireMsg, errorMsg, required)) {
             if (isPassword(editTextConfirmPassword, requireConfMsg, errorMsg, required)) {
                 if (isPasswordEqual(editTextPassword, editTextConfirmPassword, requireMsg, notMatchMsg)) {

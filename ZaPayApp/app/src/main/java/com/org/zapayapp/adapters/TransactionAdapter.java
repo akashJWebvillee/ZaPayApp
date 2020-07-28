@@ -14,11 +14,12 @@ import com.org.zapayapp.activity.BorrowSummaryActivity;
 import com.org.zapayapp.activity.LendingSummaryActivity;
 
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.MyHolder> {
-
     private Context context;
+    private String data;
 
-    public TransactionAdapter(Context context) {
+    public TransactionAdapter(Context context, String data) {
         this.context = context;
+        this.data = data;
     }
 
     class MyHolder extends RecyclerView.ViewHolder {
@@ -37,14 +38,16 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TransactionAdapter.MyHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull TransactionAdapter.MyHolder holder, int position) {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (position % 2 == 0) {
-                    context.startActivity(new Intent(context, BorrowSummaryActivity.class));
-                }else {
-                    context.startActivity(new Intent(context, LendingSummaryActivity.class));
+                if (data.equalsIgnoreCase("pending")) {
+                    Intent intent = new Intent(context, BorrowSummaryActivity.class);
+                    context.startActivity(intent);
+                } else if (data.equalsIgnoreCase("negotiation")) {
+                    Intent intent = new Intent(context, LendingSummaryActivity.class);
+                    context.startActivity(intent);
                 }
             }
         });
