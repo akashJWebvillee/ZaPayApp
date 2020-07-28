@@ -1,5 +1,4 @@
 package com.org.zapayapp.utils;
-
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -30,6 +29,7 @@ public class WValidationLib {
 
     public WValidationLib(Context context) {
         this.wContext = context;
+
     }
 
     public void removeError(final TextInputLayout inputLayout, final TextInputEditText editText) {

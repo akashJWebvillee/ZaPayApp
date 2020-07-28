@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="342dp"
-        android:background="@mipmap/base_bg" />
+        android:background="@mipmap/base_bg"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/indicatorRecycler"
@@ -18,7 +18,7 @@
         android:layout_marginTop="94dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_height="100dp"/>
+        android:layout_height="wrap_content"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -55,8 +55,8 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/gotha_promed"
                         android:gravity="center"
-                        android:paddingTop="20dp"
-                        android:paddingBottom="20dp"
+                        android:paddingTop="24dp"
+                        android:paddingBottom="27dp"
                         android:text="@string/terms"
                         android:textColor="@color/textColorBold"
                         android:textSize="24sp"/>
@@ -72,6 +72,7 @@
                         android:layout_height="78dp"
                         android:fontFamily="@font/gotha_pro_reg"
                         android:gravity="end|center_vertical"
+
                         android:layout_marginTop="27dp"
                         android:layout_marginStart="19dp"
                         android:paddingStart="15dp"

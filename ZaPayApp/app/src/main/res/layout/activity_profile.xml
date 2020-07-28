@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="342dp"
+        android:background="@mipmap/base_bg" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="342dp"
-            android:background="@mipmap/base_bg" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="148dp"
+        android:background="@drawable/rectanguler_bottom_corner_bg"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:elevation="10dp"
-            android:orientation="vertical"
-            android:layout_marginTop="148dp"
-            android:background="@drawable/rectanguler_bottom_corner_bg">
-
-            <androidx.core.widget.NestedScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="70dp"
-                android:scrollbars="none">
+            android:layout_marginTop="70dp"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -31,128 +30,146 @@
                 android:paddingStart="48dp"
                 android:paddingEnd="48dp">
 
-            <TextView
-                android:id="@+id/profileTxtName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Jennifer Deo"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:fontFamily="@font/gotha_promed"
-                android:textColor="@color/textColor" />
-
-            <TextView
-                android:id="@+id/profileTxtEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_marginTop="0dp"
-                android:includeFontPadding="false"
-                android:fontFamily="@font/gotha_pro_reg"
-                android:text="junify@gmail.com"
-                android:textColor="@color/navTextColor60Alpha"
-                android:textSize="16sp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:includeFontPadding="false"
-                android:text="@string/mobile_no"
-                android:textColor="@color/navTextColor50Alpha"
-                android:textSize="15sp"
-                android:fontFamily="@font/gotha_pro_reg"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:layout_marginTop="26dp"/>
-
-            <TextView
-                android:id="@+id/profileTxtMobile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="9999888877"
-                android:gravity="center"
-                android:textSize="20sp"
-                android:fontFamily="@font/gotha_promed"
-                android:textColor="@color/textColor" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:includeFontPadding="false"
-                android:textColor="@color/navTextColor50Alpha"
-                android:textSize="15sp"
-                android:fontFamily="@font/gotha_pro_reg"
-                android:text="@string/address"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:layout_marginTop="26dp"/>
-
-            <TextView
-                android:id="@+id/profileTxtAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="101, Lorem ipsum dolor sit amet "
-                android:gravity="center"
-                android:textSize="20sp"
-                android:fontFamily="@font/gotha_promed"
-                android:textColor="@color/textColor" />
-
-            <TextView
-                android:id="@+id/changePasswordTV"
-                android:layout_width="154dp"
-                android:layout_height="36dp"
-                android:layout_gravity="center"
-                android:includeFontPadding="false"
-                android:text="@string/change_password"
-                android:background="@drawable/rectanguler_border"
-                android:textColor="@color/textColor"
-                android:gravity="center"
-                android:textSize="13sp"
-                android:fontFamily="@font/gotha_promed"
-                android:layout_marginTop="150dp"/>
-
-            <com.dd.ShadowLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                app:sl_cornerRadius="56dp"
-                android:layout_marginBottom="50dp"
-                android:layout_gravity="center"
-                app:sl_dx="0dp"
-                app:sl_dy="0dp"
-                app:sl_shadowColor="#2CFC5C04"
-                app:sl_shadowRadius="4dp">
+                <TextView
+                    android:id="@+id/profileTxtName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotha_promed"
+                    android:gravity="center"
+                    android:text="Jennifer Deo"
+                    android:textColor="@color/textColor"
+                    android:textSize="24sp" />
 
                 <TextView
-                    android:id="@+id/editProfileTV"
+                    android:id="@+id/profileTxtEmail"
                     android:layout_width="match_parent"
-                    android:layout_height="53dp"
-                    android:background="@drawable/rectanguler_button_bg"
-                    android:backgroundTint="@color/colorPrimary"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="0dp"
+                    android:fontFamily="@font/gotha_pro_reg"
                     android:gravity="center"
-                    android:fontFamily="@font/gotha_probol"
-                    android:text="@string/edit_profile"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="16sp"/>
-            </com.dd.ShadowLayout>
-            </LinearLayout>
-            </androidx.core.widget.NestedScrollView>
-        </LinearLayout>
+                    android:includeFontPadding="false"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="junify@gmail.com"
+                    android:textColor="@color/navTextColor60Alpha"
+                    android:textSize="16sp" />
 
-        <com.github.siyamed.shapeimageview.RoundedImageView
-            android:layout_width="88dp"
-            android:layout_height="88dp"
-            android:src="@mipmap/ic_user"
-            app:siRadius="20dp"
-            android:layout_centerHorizontal="true"
-            app:siBorderWidth="0dp"
-            android:elevation="10dp"
-            app:siBorderColor="#00ffffff"
-            app:siSquare="true"
-            android:layout_marginTop="114dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="26dp"
+                    android:fontFamily="@font/gotha_pro_reg"
+                    android:includeFontPadding="false"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="@string/mobile_no"
+                    android:textColor="@color/navTextColor50Alpha"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/profileTxtMobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotha_promed"
+                    android:gravity="center"
+                    android:text="9999888877"
+                    android:textColor="@color/textColor"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="26dp"
+                    android:fontFamily="@font/gotha_pro_reg"
+                    android:includeFontPadding="false"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="@string/address"
+                    android:textColor="@color/navTextColor50Alpha"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/profileTxtAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotha_promed"
+                    android:gravity="center"
+                    android:text="101, Lorem ipsum dolor sit amet "
+                    android:textColor="@color/textColor"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/changePasswordTV"
+                    android:layout_width="154dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="150dp"
+                    android:background="@drawable/rectanguler_border"
+                    android:fontFamily="@font/gotha_promed"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="@string/change_password"
+                    android:textColor="@color/textColor"
+                    android:textSize="13sp" />
+
+                <com.dd.ShadowLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginBottom="50dp"
+                    app:sl_cornerRadius="56dp"
+                    app:sl_dx="0dp"
+                    app:sl_dy="10dp"
+                    app:sl_shadowColor="#2CFC5C04"
+                    app:sl_shadowRadius="4dp">
+
+                    <TextView
+                        android:id="@+id/editProfileTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="53dp"
+                        android:background="@drawable/rectanguler_button_bg"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:fontFamily="@font/gotha_probol"
+                        android:gravity="center"
+                        android:text="@string/edit_profile"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="16sp" />
+                </com.dd.ShadowLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+
+
+    <com.github.siyamed.shapeimageview.RoundedImageView
+        android:layout_width="88dp"
+        android:layout_height="88dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="114dp"
+        android:elevation="0dp"
+        android:src="@mipmap/ic_user"
+        app:siBorderColor="#00ffffff"
+        app:siBorderWidth="0dp"
+        app:siRadius="20dp"
+        app:siSquare="true" />
+
+    <RelativeLayout
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="237dp"
+        android:layout_marginTop="182dp"
+        android:background="@drawable/edit_profile_bg"
+        android:elevation="3dp">
+
+        <ImageView
+            android:layout_width="9dp"
+            android:layout_height="9dp"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/edit_icon" />
     </RelativeLayout>
+
+
+</RelativeLayout>

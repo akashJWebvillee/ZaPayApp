@@ -112,6 +112,7 @@
     <string name="next">Next</string>
     <string name="back">Back</string>
     <string name="enter_amount">Enter Amount</string>
+    <string name="enter_your_amount">Enter your amount</string>
     <string name="select_terms">Select Terms</string>
     <string name="fee">Fee</string>
     <string name="percent">%</string>
@@ -119,8 +120,8 @@
     <string name="none">None</string>
     <string name="enter_percent">Enter Percent</string>
     <string name="enter_fee">Enter Fee</string>
-    <string name="enter_discount">Enter discount</string>
-    <string name="no_of_payments">No of payment</string>
+    <string name="enter_discount">Enter Discount</string>
+    <string name="no_of_payments">No. of payment</string>
     <string name="payback_date">Payback date</string>
     <string name="borrow_summary_">Borrow summary</string>
     <string name="lending_summary_">Lending summary</string>

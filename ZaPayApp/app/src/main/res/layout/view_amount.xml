@@ -31,7 +31,7 @@
             android:textColorHint="@color/navTextColor50Alpha"
             android:layout_marginEnd="19dp"
             android:background="@drawable/rectanguler_border_light"
-            android:hint="@string/enter_amount"
+            android:hint="@string/enter_your_amount"
             android:textColor="@color/textColor"
             android:textSize="17sp"/>
 </LinearLayout>

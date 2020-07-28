@@ -77,7 +77,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         lendShadowNext = findViewById(R.id.lendShadowNext);
 
         listIndicator = new ArrayList<>();
-
         wvDateLib = new WVDateLib(this);
     }
 
