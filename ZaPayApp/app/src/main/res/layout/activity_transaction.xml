@@ -41,17 +41,12 @@
             android:background="#00000000"
             app:tabTextAppearance="@style/MyCustomTextAppearance" />
 
-        <!--
-        app:tabMinWidth="25dp"
-        app:tabIndicatorFullWidth="false"-->
-
         <!-- View pager to swipe views -->
-        <androidx.viewpager.widget.ViewPager
+        <com.org.zapayapp.uihelpers.CustomViewPager
             android:id="@+id/viewPager"
             android:layout_below="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-        <!-- android:layout_marginTop="314dp"-->
 
     </RelativeLayout>
 </RelativeLayout>

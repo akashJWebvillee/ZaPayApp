@@ -391,7 +391,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         lendViewBorrow.setVisibility(View.GONE);
         lendViewLending.setVisibility(View.GONE);
         lendViewContact.setVisibility(View.GONE);
-
+        nextButtonTV.setText(getString(R.string.next));
         if (value == 0) {
             lendViewAmount.setVisibility(View.VISIBLE);
             lendTxtHeader.setText(CommonMethods.capitalize(getString(R.string.amount)));
