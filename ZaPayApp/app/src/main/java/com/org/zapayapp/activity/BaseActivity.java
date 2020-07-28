@@ -139,7 +139,7 @@ public class BaseActivity extends AppCompatActivity {
                 drawerLayout.setViewScrimColor(GravityCompat.START, Color.TRANSPARENT); //set drawer overlay coloe (color)
                 drawerLayout.setDrawerElevation(20); //set drawer elevation (dimension)
                 drawerLayout.setContrastThreshold(3); //set maximum of contrast ratio between white text and background color.
-                drawerLayout.setRadius(GravityCompat.START, 40); //set end container's corner radius (dimension)
+                //drawerLayout.setRadius(GravityCompat.START, 40); //set end container's corner radius (dimension)
                 drawerToggle.syncState();
             } else if (useToolbar() && getSupportActionBar() != null) {
                 // Use home/auth_back button instead
