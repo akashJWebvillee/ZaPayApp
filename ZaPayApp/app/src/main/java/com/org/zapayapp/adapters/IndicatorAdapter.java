@@ -20,10 +20,12 @@ public class IndicatorAdapter extends RecyclerView.Adapter<IndicatorAdapter.MyHo
     private Context context;
     private List<String> indicatorList;
     private int selectedPos = 0;
+    private boolean isBorrow;
 
-    public IndicatorAdapter(Context context, List<String> indicatorList) {
+    public IndicatorAdapter(Context context, List<String> indicatorList,boolean isBorrow) {
         this.context = context;
         this.indicatorList = indicatorList;
+        this.isBorrow = isBorrow;
     }
 
     class MyHolder extends RecyclerView.ViewHolder {

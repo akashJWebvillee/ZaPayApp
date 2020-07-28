@@ -33,6 +33,7 @@
     <color name="backgroundColor">#EFEDED</color>
     <color name="greenColor">#00AD15</color>
     <color name="textColorTerms">#6C676F</color>
+    <color name="colorBtnRed">#EF0606</color>
 
 
 </resources>

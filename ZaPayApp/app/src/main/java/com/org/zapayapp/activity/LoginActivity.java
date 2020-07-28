@@ -1,4 +1,5 @@
 package com.org.zapayapp.activity;
+
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -11,14 +12,17 @@ import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.org.zapayapp.R;
 import com.org.zapayapp.uihelpers.CustomTextInputLayout;
 import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.WValidationLib;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements View.OnClickListener {
+
     private TextView loginTV;
     private TextView signUpTV;
     private TextView mTextAgree;
@@ -58,54 +62,11 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void inItAction() {
-        loginTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setSelectedView(1);
-            }
-        });
-
-        signUpTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setSelectedView(2);
-            }
-        });
-
-        forgotPasswordTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
-                startActivity(intent);
-                //finish();
-            }
-        });
-
-        loginButtonTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    if (wValidationLib.isEmailAddress(etEmailLayout, editTextUsername, getString(R.string.important), getString(R.string.important), true)) {
-                        if (wValidationLib.isEmpty(etPasswordLayout, etPassword, getString(R.string.important),  true)) {
-                            intent = new Intent(LoginActivity.this, HomeActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        signUpButtonTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intent = new Intent(LoginActivity.this, HomeActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+        loginTV.setOnClickListener(this);
+        signUpTV.setOnClickListener(this);
+        forgotPasswordTV.setOnClickListener(this);
+        loginButtonTV.setOnClickListener(this);
+        signUpButtonTV.setOnClickListener(this);
 
         setSelectedView(1);
         wValidationLib.removeError(etEmailLayout, editTextUsername);
@@ -165,5 +126,42 @@ public class LoginActivity extends BaseActivity {
         );
         mTextAgree.setText(ssBuilder);
         mTextAgree.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.loginTV:
+                setSelectedView(1);
+                break;
+            case R.id.signUpTV:
+                setSelectedView(2);
+                break;
+            case R.id.forgotPasswordTV:
+                intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.loginButtonTV:
+                try {
+                    if (wValidationLib.isEmailAddress(etEmailLayout, editTextUsername, getString(R.string.important), getString(R.string.important), true)) {
+                        if (wValidationLib.isEmpty(etPasswordLayout, etPassword, getString(R.string.important), true)) {
+                            intent = new Intent(LoginActivity.this, HomeActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.signUpButtonTV:
+                intent = new Intent(LoginActivity.this, HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                finish();
+                break;
+        }
     }
 }

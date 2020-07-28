@@ -23,6 +23,7 @@
             android:gravity="start|center_vertical"
             android:layout_marginTop="11dp"
             android:layout_marginStart="19dp"
+            android:theme="@style/TextInputLayoutAppearance"
             android:paddingStart="15dp"
             android:importantForAutofill="no"
             android:inputType="number"

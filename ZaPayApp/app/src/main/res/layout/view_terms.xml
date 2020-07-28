@@ -96,6 +96,7 @@
             android:layout_marginTop="11dp"
             android:layout_marginStart="19dp"
             android:importantForAutofill="no"
+            android:theme="@style/TextInputLayoutAppearance"
             android:inputType="numberDecimal"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"

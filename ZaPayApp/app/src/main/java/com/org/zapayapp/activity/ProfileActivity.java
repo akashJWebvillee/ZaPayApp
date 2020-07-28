@@ -9,10 +9,10 @@ import com.org.zapayapp.R;
 import com.org.zapayapp.dialogs.ChangePassDialogActivity;
 import com.org.zapayapp.dialogs.EditProfileDialogActivity;
 
-public class ProfileActivity extends BaseActivity {
+public class ProfileActivity extends BaseActivity implements View.OnClickListener {
 
-    private TextView editProfileTV;
-    private TextView changePasswordTV;
+    private TextView editProfileTV,changePasswordTV,profileTxtName,profileTxtEmail,profileTxtMobile,profileTxtAddress;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,23 +35,29 @@ public class ProfileActivity extends BaseActivity {
     private void init() {
         changePasswordTV = findViewById(R.id.changePasswordTV);
         editProfileTV = findViewById(R.id.editProfileTV);
+        profileTxtName = findViewById(R.id.profileTxtName);
+        profileTxtEmail = findViewById(R.id.profileTxtEmail);
+        profileTxtMobile = findViewById(R.id.profileTxtMobile);
+        profileTxtAddress = findViewById(R.id.profileTxtAddress);
     }
 
     private void initAction() {
-        changePasswordTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, ChangePassDialogActivity.class);
+        changePasswordTV.setOnClickListener(this);
+        editProfileTV.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.changePasswordTV:
+                intent = new Intent(ProfileActivity.this, ChangePassDialogActivity.class);
                 startActivity(intent);
-            }
-        });
-        editProfileTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, EditProfileDialogActivity.class);
+                break;
+            case R.id.editProfileTV:
+                intent = new Intent(ProfileActivity.this, EditProfileDialogActivity.class);
                 startActivity(intent);
-            }
-        });
+                break;
+        }
     }
 
     @Override

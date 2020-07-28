@@ -22,6 +22,7 @@
             android:fontFamily="@font/gotha_pro_reg"
             android:gravity="start|center_vertical"
             android:layout_marginTop="11dp"
+            android:theme="@style/TextInputLayoutAppearance"
             android:layout_marginStart="19dp"
             android:paddingStart="15dp"
             android:importantForAutofill="no"

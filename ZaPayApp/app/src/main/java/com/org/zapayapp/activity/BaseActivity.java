@@ -26,22 +26,56 @@ import com.org.zapayapp.utils.CommonMethods;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Base activity.
+ */
 public class BaseActivity extends AppCompatActivity {
+
     private NavigationView navView;
     private AdvanceDrawerLayout drawerLayout;
+    /**
+     * The Activity container.
+     */
     protected FrameLayout activityContainer;
+    /**
+     * The Toolbar.
+     */
     protected Toolbar toolbar;
     private ActionBarDrawerToggle drawerToggle;
     private TextView navTextName, ownerTextName, ownerTextSubName;
     private RecyclerView navRecycler;
     private int currentScreen = 100;
+    /**
+     * The My profile.
+     */
     protected int MY_PROFILE = 0;
+    /**
+     * The Bank account.
+     */
     protected int BANK_ACCOUNT = 1;
+    /**
+     * The Transaction.
+     */
     protected int TRANSACTION = 2;
+    /**
+     * The History.
+     */
     protected int HISTORY = 3;
+    /**
+     * The About us.
+     */
     protected int ABOUT_US = 4;
+    /**
+     * The Terms condition.
+     */
     protected int TERMS_CONDITION = 5;
+    /**
+     * The Help.
+     */
     protected int HELP = 6;
+    /**
+     * The Logout.
+     */
     protected int LOGOUT = 8;//one value skip for view
     private Intent intent;
     private NavigationAdapter adapter;
@@ -142,16 +176,26 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * Method use to show the drawer if required
      *
-     * @return true/false according to required by default is false
+     * @return true /false according to required by default is false
      */
     protected boolean useDrawerToggle() {
         return false;
     }
 
+    /**
+     * Use toolbar boolean.
+     *
+     * @return the boolean
+     */
     protected boolean useToolbar() {
         return false;
     }
 
+    /**
+     * Hide slider boolean.
+     *
+     * @return the boolean
+     */
     protected boolean hideSlider() {
         return false;
     }
@@ -165,58 +209,55 @@ public class BaseActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * On navigation item selected.
+     *
+     * @param position the position
+     */
     public void onNavigationItemSelected(int position) {
         closeDrawer();
         CommonMethods.closeKeyboard(BaseActivity.this, activityContainer);
         switch (position) {
             case 0:
                 if (currentScreen != MY_PROFILE) {
-                    Intent intent = new Intent(this, ProfileActivity.class);
+                    intent = new Intent(this, ProfileActivity.class);
                     startActivity(intent);
-                    //finish();
                 }
                 break;
             case 1:
                 if (currentScreen != BANK_ACCOUNT) {
-                    Intent intent = new Intent(this, BankInfoActivity.class);
+                    intent = new Intent(this, BankInfoActivity.class);
                     startActivity(intent);
-                    //finish();
                 }
                 break;
             case 2:
                 if (currentScreen != TRANSACTION) {
-                    //Intent intent = new Intent(this, BorrowSummaryActivity.class);
-                    Intent intent = new Intent(this, TransactionActivity.class);
+                    intent = new Intent(this, TransactionActivity.class);
                     startActivity(intent);
-                    // finish();
                 }
                 break;
             case 3:
                 if (currentScreen != HISTORY) {
-                    Intent intent = new Intent(this, HistoryActivity.class);
+                    intent = new Intent(this, HistoryActivity.class);
                     startActivity(intent);
-                    // finish();
                 }
                 break;
             case 4:
                 if (currentScreen != ABOUT_US) {
-                    Intent intent = new Intent(this, AboutUsActivity.class);
+                    intent = new Intent(this, AboutUsActivity.class);
                     startActivity(intent);
-                    //finish();
                 }
                 break;
             case 5:
                 if (currentScreen != TERMS_CONDITION) {
-                    Intent intent = new Intent(this, TermConditionActivity.class);
+                    intent = new Intent(this, TermConditionActivity.class);
                     startActivity(intent);
-                    // finish();
                 }
                 break;
             case 6:
                 if (currentScreen != HELP) {
-                    Intent intent = new Intent(this, HelpActivity.class);
+                    intent = new Intent(this, HelpActivity.class);
                     startActivity(intent);
-                    // finish();
                 }
                 break;
             case 8:
@@ -227,6 +268,12 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+
+    /**
+     * Sets current screen.
+     *
+     * @param currentScreen the current screen
+     */
     protected void setCurrentScreen(int currentScreen) {
         this.currentScreen = currentScreen;
         if (adapter != null) {

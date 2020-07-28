@@ -16,8 +16,7 @@
             android:elevation="10dp"
             android:orientation="vertical"
             android:layout_marginTop="148dp"
-            android:background="@drawable/rectanguler_bottom_corner_bg"
-            >
+            android:background="@drawable/rectanguler_bottom_corner_bg">
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
@@ -33,6 +32,7 @@
                 android:paddingEnd="48dp">
 
             <TextView
+                android:id="@+id/profileTxtName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Jennifer Deo"
@@ -42,6 +42,7 @@
                 android:textColor="@color/textColor" />
 
             <TextView
+                android:id="@+id/profileTxtEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -69,6 +70,7 @@
                 android:layout_marginTop="26dp"/>
 
             <TextView
+                android:id="@+id/profileTxtMobile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="9999888877"
@@ -78,17 +80,20 @@
                 android:textColor="@color/textColor" />
 
             <TextView
-                style="@style/textViewMediumStyleRegular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:includeFontPadding="false"
+                android:textColor="@color/navTextColor50Alpha"
+                android:textSize="15sp"
+                android:fontFamily="@font/gotha_pro_reg"
                 android:text="@string/address"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:layout_marginTop="26dp"/>
 
             <TextView
+                android:id="@+id/profileTxtAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="101, Lorem ipsum dolor sit amet "

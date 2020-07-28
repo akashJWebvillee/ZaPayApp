@@ -1,7 +1,9 @@
 package com.org.zapayapp.activity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
 import com.org.zapayapp.R;
 
 public class SplashActivity extends BaseActivity {
@@ -16,6 +18,6 @@ public class SplashActivity extends BaseActivity {
                 startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                 finish();
             }
-        },3000);
+        }, 3000);
     }
 }

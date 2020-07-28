@@ -7,6 +7,9 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
+import com.microsoft.appcenter.AppCenter;
+import com.microsoft.appcenter.analytics.Analytics;
+import com.microsoft.appcenter.crashes.Crashes;
 import com.org.zapayapp.R;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener {
@@ -25,6 +28,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private void init() {
         homeLLLend = findViewById(R.id.homeLLLend);
         homeLLBorrow = findViewById(R.id.homeLLBorrow);
+
+        AppCenter.start(getApplication(), "7c7f48b8-92b9-419a-842c-536b68581c02",
+                Analytics.class, Crashes.class);// add this to trace the crashlytics
     }
 
     private void initAction() {

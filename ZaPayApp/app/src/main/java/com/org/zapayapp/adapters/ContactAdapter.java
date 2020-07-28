@@ -48,6 +48,10 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
     public void onBindViewHolder(@NonNull final MyHolder holder, final int position) {
         String model = contactList.get(position);
 
+        if (model != null && model.length() > 0) {
+            holder.contactTxtName.setText(model);
+        }
+
         if (selectedPos == holder.getAdapterPosition()) {
             holder.contactImgSelect.setImageResource(R.mipmap.ic_check_select);
             holder.contactTxtName.setSelected(true);

@@ -45,8 +45,8 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     private TextView lendTxtHeader, lendTxtAmount, lendTermsTxtOption, lendTermsTxtPercent, lendTermsTxtFee, lendTermsTxtDiscount, lendTermsTxtNone;
     private EditText lendAmountEdtAmount, lendTermsEdtOption, lendPaymentEdtNo;
     private LinearLayout lendViewAmount, lendViewTerms, lendViewPayment, lendViewPayback, lendViewBorrow, lendViewLending, lendViewContact;
-    private int amount, isTermsOption, isNoPayment, paybackPos;
-    private float finalTotalAmount;
+    private int isTermsOption, isNoPayment, paybackPos;
+    private float finalTotalAmount, amount;
     private WVDateLib wvDateLib;
     private RecyclerView paybackRecycler, contactRecycler;
     private List<String> paybackList, contactList;
@@ -60,8 +60,8 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lend_borrow);
         init();
-        initAction();
         getIntentValues();
+        initAction();
     }
 
     private void init() {
@@ -86,11 +86,14 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         listIndicator.add(getString(R.string.terms));
         listIndicator.add(getString(R.string.no_of_payments));
         listIndicator.add(getString(R.string.payback_date));
-        listIndicator.add(getString(R.string.borrow_summary_));
-        listIndicator.add(getString(R.string.lending_summary_));
+        if (isBorrow) {
+            listIndicator.add(getString(R.string.borrow_summary_));
+        } else {
+            listIndicator.add(getString(R.string.lending_summary_));
+        }
         listIndicator.add(getString(R.string.select_contact));
 
-        indicatorAdapter = new IndicatorAdapter(this, listIndicator);
+        indicatorAdapter = new IndicatorAdapter(this, listIndicator, isBorrow);
         indicatorRecycler.setAdapter(indicatorAdapter);
         nextButtonTV.setOnClickListener(this);
         backButtonTV.setOnClickListener(this);
@@ -106,10 +109,10 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         setIndicatorView(0);
     }
 
-    private void getIntentValues(){
+    private void getIntentValues() {
         intent = getIntent();
-        if(intent != null){
-            isBorrow = intent.getBooleanExtra("isBorrow",false);
+        if (intent != null) {
+            isBorrow = intent.getBooleanExtra("isBorrow", false);
         }
     }
 
@@ -124,7 +127,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                amount = Integer.parseInt(s.toString());
+                amount = Float.parseFloat(s.toString());
                 lendTxtAmount.setText(s);
             }
 
@@ -223,9 +226,11 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                     selectedPos = indicatorAdapter.getSelectedPos() + 1;
                     indicatorAdapter.setSelected(selectedPos);
                     setIndicatorView(selectedPos);
-                } else if (selectedPos == 6) {
+                } else if (selectedPos == 5) {
                     intent = new Intent(LendBorrowActivity.this, HomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     finish();
                 }
                 break;
@@ -286,9 +291,17 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
     private void setContactAdapter() {
         contactList.clear();
-        for (int i = 0; i < 10; i++) {
-            contactList.add("");
-        }
+        // for (int i = 0; i < 10; i++) {
+        contactList.add("Andrew");
+        contactList.add("Billy");
+        contactList.add("Chris");
+        contactList.add("Devin");
+        contactList.add("Erica");
+        contactList.add("Fill");
+        contactList.add("Gabriel");
+        contactList.add("Hofman");
+        contactList.add("James");
+        //}
         contactAdapter = new ContactAdapter(this, contactList);
         contactRecycler.setAdapter(contactAdapter);
     }
@@ -336,7 +349,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     private void setPaymentAmount() {
         try {
             String s = lendPaymentEdtNo.getText().toString();
-            if (s.length() == 0) {
+            if (s.length() == 0 || s.equals("0")) {
                 s = "1";
             }
             SpannableString span1 = new SpannableString(String.valueOf(finalTotalAmount));
@@ -401,21 +414,22 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             lendTxtAmount.setTextColor(CommonMethods.getColorWrapper(this, R.color.textColor));
             generatePaybackData();
         } else if (value == 4) {
-            lendTxtAmount.setVisibility(View.GONE);
-            lendViewBorrow.setVisibility(View.VISIBLE);
-            lendTxtHeader.setText(CommonMethods.capitalize(getString(R.string.borrow_summary)));
+            if (isBorrow) {
+                lendTxtAmount.setVisibility(View.GONE);
+                lendViewBorrow.setVisibility(View.VISIBLE);
+                lendTxtHeader.setText(CommonMethods.capitalize(getString(R.string.borrow_summary)));
+            } else {
+                lendTxtAmount.setVisibility(View.GONE);
+                lendViewLending.setVisibility(View.VISIBLE);
+                lendTxtHeader.setText(CommonMethods.capitalize(getString(R.string.lending_summary)));
+            }
         } else if (value == 5) {
-            lendTxtAmount.setVisibility(View.GONE);
-            lendViewLending.setVisibility(View.VISIBLE);
-            lendTxtHeader.setText(CommonMethods.capitalize(getString(R.string.lending_summary)));
-        } else if (value == 6) {
             lendTxtAmount.setVisibility(View.GONE);
             lendViewContact.setVisibility(View.VISIBLE);
             lendTxtHeader.setText(CommonMethods.capitalize(getString(R.string.select_contact)));
             setContactAdapter();
             nextButtonTV.setText(getString(R.string.submit));
         }
-
     }
 
     private void selectedTermsOption(int isOption) {

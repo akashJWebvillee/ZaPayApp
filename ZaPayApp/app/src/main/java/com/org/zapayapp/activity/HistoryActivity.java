@@ -4,14 +4,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.org.zapayapp.R;
-import com.org.zapayapp.adapter.HistoryAdapter;
+import com.org.zapayapp.adapters.HistoryAdapter;
 
 public class HistoryActivity extends BaseActivity {
 
@@ -28,8 +27,8 @@ public class HistoryActivity extends BaseActivity {
     }
 
     private void init() {
-        toolbar=findViewById(R.id.customToolbar);
-        backArrowImageView=(ImageView) toolbar.findViewById(R.id.backArrowImageView);
+        toolbar = findViewById(R.id.customToolbar);
+        backArrowImageView = toolbar.findViewById(R.id.backArrowImageView);
         historyRecyclerView = findViewById(R.id.historyRecyclerView);
     }
 
@@ -39,7 +38,6 @@ public class HistoryActivity extends BaseActivity {
 
         HistoryAdapter historyAdapter = new HistoryAdapter(HistoryActivity.this);
         historyRecyclerView.setAdapter(historyAdapter);
-
 
         backArrowImageView.setOnClickListener(new View.OnClickListener() {
             @Override

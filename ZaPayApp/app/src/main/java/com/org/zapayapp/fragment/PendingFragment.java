@@ -10,11 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.org.zapayapp.R;
-import com.org.zapayapp.activity.HistoryActivity;
-import com.org.zapayapp.adapter.HistoryAdapter;
 import com.org.zapayapp.adapters.TransactionAdapter;
 
 /**
