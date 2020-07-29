@@ -86,8 +86,8 @@
     <string name="routing_number">Routing Number</string>
     <string name="change">Change</string>
     <string name="bank_account_change">Bank Account Change</string>
-    <string name="enter_account_number">Enter account no</string>
-    <string name="enter_routing_no">Enter routing no</string>
+    <string name="enter_account_number">Enter account number</string>
+    <string name="enter_routing_number">Enter routing number</string>
 
     <!--History-->
     <string name="paid">Paid</string>
@@ -119,8 +119,11 @@
     <string name="discount">Discount</string>
     <string name="none">None</string>
     <string name="enter_percent">Enter Percent</string>
+    <string name="Enter_percent">Enter percent</string>
     <string name="enter_fee">Enter Fee</string>
+    <string name="Enter_fee">Enter fee</string>
     <string name="enter_discount">Enter Discount</string>
+    <string name="Enter_discount">Enter discount</string>
     <string name="no_of_payments">No. of payment</string>
     <string name="payback_date">Payback date</string>
     <string name="borrow_summary_">Borrow summary</string>
@@ -130,15 +133,15 @@
     <string name="start_date">Start Date</string>
     <string name="select_date">Select date</string>
 
-    <string name="first_select_date">First select date</string>
-    <string name="second_select_date">Second select date</string>
-    <string name="third_select_date">Third select date</string>
-    <string name="fourth_select_date">Fourth select date</string>
-    <string name="fifth_select_date">Fifth select date</string>
-    <string name="sixth_select_date">Sixth select date</string>
-    <string name="seventh_select_date">Seventh select date</string>
-    <string name="eighth_select_date">Eighth select date</string>
-    <string name="ninth_select_date">Ninth select date</string>
+    <string name="first_select_date">First Start Date</string>
+    <string name="second_select_date">Second Start Date</string>
+    <string name="third_select_date">Third Start Date</string>
+    <string name="fourth_select_date">Fourth Start Date</string>
+    <string name="fifth_select_date">Fifth Start Date</string>
+    <string name="sixth_select_date">Sixth Start Date</string>
+    <string name="seventh_select_date">Seventh Start Date</string>
+    <string name="eighth_select_date">Eighth Start Date</string>
+    <string name="ninth_select_date">Ninth Start Date</string>
 
     <string name="total_to_payback">Total to Pay Back</string>
     <string name="total_to_receive_back">Total to Receive Back</string>
@@ -146,7 +149,6 @@
 
 
     <!--Transaction screen-->
-
     <string name="pending">Pending</string>
     <string name="negotiation">Negotiation</string>
     <string name="completed">Completed</string>
@@ -154,9 +156,7 @@
     <string name="borrow_mode">Borrow Mode:</string>
 
 
-
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
 
 </resources>

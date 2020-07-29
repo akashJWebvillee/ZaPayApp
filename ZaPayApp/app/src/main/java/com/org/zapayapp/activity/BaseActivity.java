@@ -6,7 +6,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-
 import androidx.annotation.LayoutRes;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +15,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.material.navigation.NavigationView;
 import com.org.zapayapp.R;
 import com.org.zapayapp.adapters.NavigationAdapter;
@@ -139,7 +137,7 @@ public class BaseActivity extends AppCompatActivity {
                 drawerLayout.setViewScrimColor(GravityCompat.START, Color.TRANSPARENT); //set drawer overlay coloe (color)
                 drawerLayout.setDrawerElevation(20); //set drawer elevation (dimension)
                 drawerLayout.setContrastThreshold(3); //set maximum of contrast ratio between white text and background color.
-                //drawerLayout.setRadius(GravityCompat.START, 40); //set end container's corner radius (dimension)
+                drawerLayout.setRadius(GravityCompat.START, 40); //set end container's corner radius (dimension)
                 drawerToggle.syncState();
             } else if (useToolbar() && getSupportActionBar() != null) {
                 // Use home/auth_back button instead

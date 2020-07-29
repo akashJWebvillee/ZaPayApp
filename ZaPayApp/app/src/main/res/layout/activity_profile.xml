@@ -143,8 +143,44 @@
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 
+    <RelativeLayout
+        android:layout_width="98dp"
+        android:layout_height="98dp"
+        android:layout_marginTop="107dp"
+        android:layout_centerHorizontal="true">
 
-    <com.github.siyamed.shapeimageview.RoundedImageView
+        <com.github.siyamed.shapeimageview.RoundedImageView
+            android:layout_width="88dp"
+            android:layout_height="88dp"
+            android:elevation="0dp"
+            android:src="@mipmap/ic_user"
+            app:siBorderColor="#00ffffff"
+            app:siBorderWidth="0dp"
+            android:layout_centerInParent="true"
+            app:siRadius="20dp"
+            app:siSquare="true" />
+
+        <RelativeLayout
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/edit_profile_bg"
+            android:elevation="3dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="1dp">
+
+            <ImageView
+                android:layout_width="9dp"
+                android:layout_height="9dp"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/edit_icon" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+    <!--<com.github.siyamed.shapeimageview.RoundedImageView
         android:layout_width="88dp"
         android:layout_height="88dp"
         android:layout_centerHorizontal="true"
@@ -154,9 +190,9 @@
         app:siBorderColor="#00ffffff"
         app:siBorderWidth="0dp"
         app:siRadius="20dp"
-        app:siSquare="true" />
+        app:siSquare="true" />-->
 
-    <RelativeLayout
+  <!--  <RelativeLayout
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="237dp"
@@ -169,7 +205,7 @@
             android:layout_height="9dp"
             android:layout_centerInParent="true"
             android:src="@mipmap/edit_icon" />
-    </RelativeLayout>
+    </RelativeLayout>-->
 
 
 </RelativeLayout>

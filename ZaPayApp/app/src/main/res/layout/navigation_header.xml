@@ -17,11 +17,11 @@
 
     <TextView
         android:id="@+id/navTextName"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="22dp"
         android:textAlignment="viewStart"
-        android:text="John Deo"
+        android:text="Jennifer Doe"
         android:fontFamily="@font/gotha_promed"
         android:includeFontPadding="false"
         android:textColor="@color/navTextColor"

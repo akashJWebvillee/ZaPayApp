@@ -12,10 +12,12 @@
     card_view:cardCornerRadius="8dp">
 
     <RelativeLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="20dp"
         android:paddingBottom="20dp">
+
 
         <RelativeLayout
             android:id="@+id/headerRL"
@@ -41,6 +43,7 @@
             android:background="@color/colorLineLightGrey" />
 
         <LinearLayout
+            android:id="@+id/LL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/headerLineView"
@@ -62,7 +65,7 @@
                 android:id="@+id/editTextName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="4dp"
                 android:background="@drawable/edt_bg_selector"
                 android:theme="@style/TextInputLayoutAppearance"
                 android:fontFamily="@font/gotha_pro_reg"
@@ -92,7 +95,7 @@
                 android:id="@+id/editTextEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="4dp"
                 android:theme="@style/TextInputLayoutAppearance"
                 android:background="@drawable/edt_bg_selector"
                 android:fontFamily="@font/gotha_pro_reg"
@@ -122,7 +125,7 @@
                 android:id="@+id/editTextPhoneNo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="4dp"
                 android:theme="@style/TextInputLayoutAppearance"
                 android:background="@drawable/edt_bg_selector"
                 android:fontFamily="@font/gotha_pro_reg"
@@ -152,7 +155,7 @@
                 android:id="@+id/editTextAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="4dp"
                 android:background="@drawable/edt_bg_selector"
                 android:fontFamily="@font/gotha_pro_reg"
                 android:hint="@string/enter_your_address"
@@ -167,23 +170,70 @@
                 android:textColor="@color/textColorBold"
                 android:paddingBottom="10dp"
                 android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/saveTV"
-                    android:layout_width="match_parent"
-                    android:layout_height="53dp"
-                    android:background="@drawable/rectanguler_button_bg"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:gravity="center"
-                    android:text="@string/save"
-                    android:textAllCaps="true"
-                    android:fontFamily="@font/gotha_probol"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="16sp"
-                    android:layout_marginTop="52dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"/>
         </LinearLayout>
+
+       <!-- <com.dd.ShadowLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_below="@+id/LL"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="52dp"
+            app:sl_cornerRadius="56dp"
+            app:sl_dx="0dp"
+            app:sl_dy="10dp"
+            app:sl_shadowColor="#2CFC5C04"
+            app:sl_shadowRadius="4dp">
+
+            <TextView
+                android:id="@+id/saveTV"
+                android:layout_width="match_parent"
+                android:layout_height="53dp"
+                android:background="@drawable/rectanguler_button_bg"
+                android:backgroundTint="@color/colorPrimary"
+                android:gravity="center"
+                android:text="@string/save"
+                android:textAllCaps="true"
+                android:fontFamily="@font/gotha_probol"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"
+                android:layout_gravity="center_horizontal" />
+        </com.dd.ShadowLayout>-->
+
+
+        <com.dd.ShadowLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/LL"
+            android:layout_gravity="center"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="51dp"
+            android:layout_marginEnd="18dp"
+            app:sl_cornerRadius="56dp"
+            android:elevation="3dp"
+            app:sl_dx="0dp"
+            app:sl_dy="10dp"
+            app:sl_shadowColor="#2CFC5C04"
+            app:sl_shadowRadius="4dp">
+
+
+            <TextView
+                android:id="@+id/saveTV"
+                android:layout_width="match_parent"
+                android:layout_height="53dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/rectanguler_button_bg"
+                android:backgroundTint="@color/colorPrimary"
+                android:fontFamily="@font/gotha_probol"
+                android:gravity="center"
+                android:text="@string/save"
+                android:textAllCaps="true"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp" />
+        </com.dd.ShadowLayout>
+
+
+
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
