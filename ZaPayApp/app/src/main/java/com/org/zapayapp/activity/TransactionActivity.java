@@ -16,7 +16,6 @@ import com.org.zapayapp.uihelpers.CustomViewPager;
 import java.util.ArrayList;
 
 public class TransactionActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
-
     private TabLayout tabLayout;
     private CustomViewPager viewPager;
     private Toolbar toolbar;

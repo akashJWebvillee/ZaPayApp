@@ -1,5 +1,4 @@
 package com.org.zapayapp.activity;
-
 import android.os.Bundle;
 import com.org.zapayapp.R;
 
@@ -7,7 +6,6 @@ import com.org.zapayapp.R;
  * The type Help activity.
  */
 public class HelpActivity extends BaseActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -11,11 +11,37 @@
         android:layout_height="342dp"
         android:background="@mipmap/base_bg"/>
 
+   <!-- <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="251dp"
+        android:background="@drawable/oval_bg"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="251dp"
+        android:layout_marginTop="280dp"
         android:background="@drawable/rectanguler_bottom_corner"/>
+-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="251dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/oval_bg"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="27dp"
+            android:background="@drawable/rectanguler_bottom_corner"/>
+    </RelativeLayout>
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -266,6 +292,40 @@
                     android:gravity="center"
                     android:text="@string/decline"
                     android:textColor="@color/colorWhite"/>
+
+                <!-- <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@+id/nameTV"
+                    android:layout_marginStart="237dp"
+                    android:layout_marginTop="116dp">
+                    <ImageView
+                        android:layout_width="11dp"
+                        android:layout_height="11dp"
+                        android:src="@mipmap/ratting2"/>
+                    <ImageView
+                        android:layout_width="11dp"
+                        android:layout_height="11dp"
+                        android:src="@mipmap/ratting2"
+                        android:layout_marginStart="3.6dp"/>
+                    <ImageView
+                        android:layout_width="11dp"
+                        android:layout_height="11dp"
+                        android:src="@mipmap/ratting2"
+                        android:layout_marginStart="3.6dp"/>
+                    <ImageView
+                        android:layout_width="11dp"
+                        android:layout_height="11dp"
+                        android:src="@mipmap/ratting_blank"
+                        android:layout_marginStart="3.6dp"/>
+                    <ImageView
+                        android:layout_width="11dp"
+                        android:layout_height="11dp"
+                        android:src="@mipmap/ratting_blank"
+                        android:layout_marginStart="3.6dp"/>
+                </LinearLayout>-->
+
 
             </RelativeLayout>
         </androidx.core.widget.NestedScrollView>

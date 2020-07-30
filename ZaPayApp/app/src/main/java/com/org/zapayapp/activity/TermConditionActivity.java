@@ -1,5 +1,4 @@
 package com.org.zapayapp.activity;
-
 import android.os.Bundle;
 import com.org.zapayapp.R;
 

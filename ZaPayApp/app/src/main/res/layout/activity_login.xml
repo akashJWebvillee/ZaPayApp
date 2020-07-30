@@ -68,12 +68,32 @@
             </LinearLayout>
         </LinearLayout>
 
-        <RelativeLayout
+      <!--  <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:layout_below="@+id/LL1"
             android:layout_marginTop="70dp"
             android:background="@drawable/rectanguler_bottom_corner"/>
+-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_below="@+id/LL1"
+            android:layout_marginTop="70dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/oval_bg"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="27dp"
+                android:background="@drawable/rectanguler_bottom_corner"/>
+        </RelativeLayout>
+
+
 
         <RelativeLayout
             android:id="@+id/loginRelativeLayout"

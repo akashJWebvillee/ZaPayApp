@@ -14,6 +14,7 @@ import com.org.zapayapp.utils.CommonMethods;
 public class ChangeBankDialogActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView saveTV;
+    private TextView closeTV;
     private EditText accountNumberTV,routNumberTV;
     private String header = "";
 
@@ -46,10 +47,12 @@ public class ChangeBankDialogActivity extends AppCompatActivity implements View.
         saveTV = findViewById(R.id.saveTV);
         accountNumberTV = findViewById(R.id.accountNumberTV);
         routNumberTV = findViewById(R.id.routNumberTV);
+        closeTV = findViewById(R.id.closeTV);
     }
 
     private void initAction() {
         saveTV.setOnClickListener(this);
+        closeTV.setOnClickListener(this);
     }
 
     @Override
@@ -57,6 +60,8 @@ public class ChangeBankDialogActivity extends AppCompatActivity implements View.
         if (v.equals(saveTV)) {
             Intent returnIntent = new Intent();
             setResult(RESULT_OK, returnIntent);
+            finish();
+        }else if (v.equals(closeTV)){
             finish();
         }
     }

@@ -17,6 +17,7 @@ import com.org.zapayapp.utils.CommonMethods;
 public class EditProfileDialogActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView saveTV;
+    private TextView closeTV;
     private EditText editTextName,editTextEmail,editTextPhoneNo,editTextAddress;
     private String header = "";
 
@@ -51,10 +52,12 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPhoneNo = findViewById(R.id.editTextPhoneNo);
         editTextAddress = findViewById(R.id.editTextAddress);
+        closeTV = findViewById(R.id.closeTV);
     }
 
     private void initAction() {
         saveTV.setOnClickListener(this);
+        closeTV.setOnClickListener(this);
     }
 
     @Override
@@ -62,6 +65,8 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         if (v.equals(saveTV)) {
             Intent returnIntent = new Intent();
             setResult(RESULT_OK, returnIntent);
+            finish();
+        }else if (v.equals(closeTV)){
             finish();
         }
     }
