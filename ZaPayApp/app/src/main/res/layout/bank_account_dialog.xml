@@ -17,16 +17,15 @@
         android:layout_height="match_parent"
         android:paddingBottom="44dp">
 
-        <TextView
+        <ImageView
             android:id="@+id/closeTV"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:background="@drawable/clear"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/clear"
+            android:contentDescription="@null"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="15dp"
-            android:layout_marginTop="13dp"/>
-
-
+            android:layout_marginTop="15dp"/>
 
         <RelativeLayout
             android:id="@+id/headerRL"
@@ -75,7 +74,7 @@
                 android:id="@+id/accountNumberTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="14dp"
                 android:background="@drawable/edt_bg_selector"
                 android:fontFamily="@font/gotha_pro_reg"
                 android:hint="@string/enter_account_number"
@@ -83,7 +82,7 @@
                 android:inputType="number"
                 android:maxLines="1"
                 android:paddingStart="0dp"
-                android:paddingTop="10dp"
+                android:paddingTop="0dp"
                 android:paddingEnd="10dp"
                 android:paddingBottom="10dp"
                 android:textColor="@color/textColorBold"
@@ -105,7 +104,7 @@
                 android:id="@+id/routNumberTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="14dp"
                 android:background="@drawable/edt_bg_selector"
                 android:fontFamily="@font/gotha_pro_reg"
                 android:hint="@string/enter_routing_number"
@@ -113,7 +112,7 @@
                 android:inputType="number"
                 android:maxLines="1"
                 android:paddingStart="0dp"
-                android:paddingTop="10dp"
+                android:paddingTop="0dp"
                 android:paddingEnd="10dp"
                 android:paddingBottom="10dp"
                 android:textColor="@color/textColorBold"
@@ -121,7 +120,6 @@
                 android:textSize="15sp"
                 android:theme="@style/TextInputLayoutAppearance" />
         </LinearLayout>
-
 
         <com.dd.ShadowLayout
             android:layout_width="match_parent"

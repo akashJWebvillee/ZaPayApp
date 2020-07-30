@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -17,7 +18,7 @@ import com.org.zapayapp.utils.CommonMethods;
 public class EditProfileDialogActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView saveTV;
-    private TextView closeTV;
+    private ImageView closeTV;
     private EditText editTextName,editTextEmail,editTextPhoneNo,editTextAddress;
     private String header = "";
 

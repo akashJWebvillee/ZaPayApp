@@ -14,7 +14,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="375dp"
-            android:background="@mipmap/ic_login_background"/>
+            android:background="@color/colorAccent"/>
 
         <ImageView
             android:id="@+id/logoIV"
@@ -79,20 +79,19 @@
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:layout_below="@+id/LL1"
-            android:layout_marginTop="70dp">
+            android:layout_marginTop="50dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="66dp"
                 android:background="@drawable/oval_bg"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="27dp"
+                android:layout_marginTop="33dp"
                 android:background="@drawable/rectanguler_bottom_corner"/>
         </RelativeLayout>
-
 
 
         <RelativeLayout
@@ -136,14 +135,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableStart="@mipmap/login_mail"
-                        android:drawablePadding="17dp"
+                        android:drawablePadding="8dp"
                         android:paddingStart="0dp"
                         android:paddingTop="10dp"
                         android:importantForAutofill="no"
                         android:inputType="textEmailAddress"
                         android:imeOptions="actionNext"
                         android:gravity="center_vertical"
-                        android:paddingEnd="10dp"
+                        android:paddingEnd="0dp"
                         android:hint="@string/enter_your_email"
                         android:background="@drawable/edt_bg_selector"/>
 
@@ -172,11 +171,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableStart="@mipmap/ic_password"
-                        android:drawablePadding="17dp"
+                        android:drawablePadding="8dp"
                         android:paddingStart="0dp"
                         android:paddingTop="10dp"
                         android:gravity="center_vertical"
-                        android:paddingEnd="10dp"
+                        android:paddingEnd="0dp"
                         android:hint="@string/enter_password"
                         android:inputType="textPassword"
                         android:imeOptions="actionDone"
@@ -232,7 +231,7 @@
             android:layout_width="match_parent"
             android:layout_height="501dp"
             android:layout_below="@+id/LL1"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -251,10 +250,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="35dp"
                     android:layout_marginEnd="20dp"
                     android:drawableStart="@mipmap/ic_name"
-                    android:drawablePadding="17dp"
+                    android:drawablePadding="8dp"
                     android:hint="@string/name"
                     android:importantForAutofill="no"
                     android:theme="@style/TextInputLayoutAppearance"
@@ -275,7 +274,7 @@
                     android:layout_marginEnd="20dp"
                     android:theme="@style/TextInputLayoutAppearance"
                     android:drawableStart="@mipmap/login_mail"
-                    android:drawablePadding="17dp"
+                    android:drawablePadding="8dp"
                     android:hint="@string/email"
                     android:importantForAutofill="no"
                     android:inputType="textEmailAddress"
@@ -295,7 +294,7 @@
                     android:layout_marginEnd="20dp"
                     android:theme="@style/TextInputLayoutAppearance"
                     android:drawableStart="@mipmap/ic_mobile"
-                    android:drawablePadding="17dp"
+                    android:drawablePadding="8dp"
                     android:hint="@string/mobile"
                     android:importantForAutofill="no"
                     android:inputType="number"
@@ -316,7 +315,7 @@
                     android:layout_marginEnd="20dp"
                     android:theme="@style/TextInputLayoutAppearance"
                     android:drawableStart="@mipmap/ic_password"
-                    android:drawablePadding="17dp"
+                    android:drawablePadding="8dp"
                     android:hint="@string/enter_password"
                     android:importantForAutofill="no"
                     android:inputType="textPassword"
@@ -335,7 +334,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="20dp"
                     android:drawableStart="@mipmap/ic_password"
-                    android:drawablePadding="17dp"
+                    android:drawablePadding="8dp"
                     android:theme="@style/TextInputLayoutAppearance"
                     android:hint="@string/confirm_your_password"
                     android:importantForAutofill="no"
