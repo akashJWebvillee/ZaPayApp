@@ -14,12 +14,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.dd.ShadowLayout;
 import com.org.zapayapp.R;
 import com.org.zapayapp.adapters.ContactAdapter;
@@ -29,11 +31,13 @@ import com.org.zapayapp.model.ContactModel;
 import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.DatePickerFragmentDialogue;
 import com.org.zapayapp.utils.WVDateLib;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class LendBorrowActivity extends BaseActivity implements View.OnClickListener, DatePickerFragmentDialogue.DatePickerCallback {
+
     private RecyclerView indicatorRecycler;
     private List<String> listIndicator;
     private TextView nextButtonTV, backButtonTV;
@@ -52,6 +56,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     private ContactAdapter contactAdapter;
     private Intent intent;
     private boolean isBorrow;
+    private boolean isBack;
 
     private List<ContactModel> contactNumberList;
 
@@ -134,11 +139,11 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
             @Override
             public void afterTextChanged(Editable s) {
-                Log.e("CharSequence","CharSequence=========="+s);
-                if (s!=null&s.length()>0){
+                Log.e("CharSequence", "CharSequence==========" + s);
+                if (s != null & s.length() > 0) {
                     amount = Float.parseFloat(s.toString());
                     lendTxtAmount.setText(s);
-                }else {
+                } else {
                     amount = Float.parseFloat("0");
                     lendTxtAmount.setText("");
                 }
@@ -313,20 +318,20 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         contactList.add("James");
         //}
 
-       // contactAdapter = new ContactAdapter(this, contactList);
-       // contactRecycler.setAdapter(contactAdapter);
+        // contactAdapter = new ContactAdapter(this, contactList);
+        // contactRecycler.setAdapter(contactAdapter);
 
         contactNumberList.clear();
-        contactNumberList.add(new ContactModel("Andrew",false));
-        contactNumberList.add(new ContactModel("Billy",false));
-        contactNumberList.add(new ContactModel("Chris",false));
-        contactNumberList.add(new ContactModel("Devin",false));
-        contactNumberList.add(new ContactModel("Erica",false));
-        contactNumberList.add(new ContactModel("Erica",false));
-        contactNumberList.add(new ContactModel("Fill",false));
-        contactNumberList.add(new ContactModel("Gabriel",false));
-        contactNumberList.add(new ContactModel("Hofman",false));
-        contactNumberList.add(new ContactModel("James",false));
+        contactNumberList.add(new ContactModel("Andrew", false));
+        contactNumberList.add(new ContactModel("Billy", false));
+        contactNumberList.add(new ContactModel("Chris", false));
+        contactNumberList.add(new ContactModel("Devin", false));
+        contactNumberList.add(new ContactModel("Erica", false));
+        contactNumberList.add(new ContactModel("Erica", false));
+        contactNumberList.add(new ContactModel("Fill", false));
+        contactNumberList.add(new ContactModel("Gabriel", false));
+        contactNumberList.add(new ContactModel("Hofman", false));
+        contactNumberList.add(new ContactModel("James", false));
 
         contactAdapter = new ContactAdapter(this, contactNumberList);
         contactRecycler.setAdapter(contactAdapter);
@@ -418,7 +423,11 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         lendViewLending.setVisibility(View.GONE);
         lendViewContact.setVisibility(View.GONE);
         nextButtonTV.setText(getString(R.string.next));
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         if (value == 0) {
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             lendViewAmount.setVisibility(View.VISIBLE);
             lendTxtHeader.setText(CommonMethods.capitalize(getString(R.string.amount)));
             lendShadowBack.setVisibility(View.INVISIBLE);
