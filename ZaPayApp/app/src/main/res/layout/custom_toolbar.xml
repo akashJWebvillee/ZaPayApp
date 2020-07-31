@@ -34,6 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:textSize="22sp"
+            android:includeFontPadding="false"
             android:fontFamily="@font/gotha_promed"
             android:text="@string/history"
             android:textColor="@color/navTextColor"/>
