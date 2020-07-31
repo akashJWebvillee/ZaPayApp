@@ -1,5 +1,4 @@
 package com.org.zapayapp.dialogs;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;

@@ -1,5 +1,4 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.view.MenuItem;
@@ -20,7 +19,6 @@ import com.org.zapayapp.R;
 import com.org.zapayapp.adapters.NavigationAdapter;
 import com.org.zapayapp.uihelpers.AdvanceDrawerLayout;
 import com.org.zapayapp.utils.CommonMethods;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,15 +1,12 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-
 import com.org.zapayapp.R;
 import com.org.zapayapp.dialogs.ChangeBankDialogActivity;
 
 public class BankInfoActivity extends BaseActivity implements View.OnClickListener {
-
     private TextView changeTV,accountNumberTV,routingNumberTV;
 
     @Override
@@ -47,6 +44,4 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
     protected boolean useDrawerToggle() {
         return false;
     }
-
-
 }

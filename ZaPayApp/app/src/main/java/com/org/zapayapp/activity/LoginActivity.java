@@ -1,5 +1,4 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -12,9 +11,7 @@ import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-
 import com.google.android.material.textfield.TextInputEditText;
 import com.org.zapayapp.R;
 import com.org.zapayapp.uihelpers.CustomTextInputLayout;
@@ -22,7 +19,6 @@ import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.WValidationLib;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
-
     private TextView loginTV;
     private TextView signUpTV;
     private TextView mTextAgree;

@@ -5,14 +5,13 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="#00DC4E43"
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp"
+    android:background="#00DC4E43"
     android:elevation="3dp"
     card_view:cardCornerRadius="8dp">
 
-    <RelativeLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="20dp">
@@ -21,17 +20,17 @@
             android:id="@+id/closeTV"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/clear"
-            android:contentDescription="@null"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="15dp"
-            android:layout_marginTop="15dp"/>
+            android:contentDescription="@null"
+            android:src="@drawable/clear" />
 
         <RelativeLayout
             android:id="@+id/headerRL"
-            android:paddingTop="20dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -48,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_below="@+id/headerRL"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="16dp"
             android:background="@color/colorLineLightGrey" />
 
         <LinearLayout
@@ -64,23 +63,21 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/gotha_promed"
                 android:text="@string/name"
                 android:textAllCaps="true"
-                android:fontFamily="@font/gotha_promed"
                 android:textColor="@color/textColorBold"
-                android:textSize="11sp"/>
+                android:textSize="11sp" />
 
             <EditText
                 android:id="@+id/editTextName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/edt_bg_selector"
-                android:theme="@style/TextInputLayoutAppearance"
                 android:fontFamily="@font/gotha_pro_reg"
                 android:hint="@string/enter_your_name"
                 android:importantForAutofill="no"
-                android:textColorHint="@color/textColorBold20Alpha"
                 android:inputType="textCapWords"
                 android:maxLines="1"
                 android:paddingStart="0dp"
@@ -88,127 +85,129 @@
                 android:paddingEnd="10dp"
                 android:paddingBottom="10dp"
                 android:textColor="@color/textColorBold"
-                android:textSize="15sp"/>
+                android:textColorHint="@color/textColorBold20Alpha"
+                android:textSize="15sp"
+                android:theme="@style/TextInputLayoutAppearance" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="22dp"
-                android:textAllCaps="true"
                 android:fontFamily="@font/gotha_promed"
+                android:text="@string/email"
+                android:textAllCaps="true"
                 android:textColor="@color/textColorBold"
-                android:textSize="11sp"
-                android:text="@string/email"/>
+                android:textSize="11sp" />
 
             <EditText
                 android:id="@+id/editTextEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:theme="@style/TextInputLayoutAppearance"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/edt_bg_selector"
                 android:fontFamily="@font/gotha_pro_reg"
                 android:hint="@string/enter_your_email"
                 android:importantForAutofill="no"
-                android:textColorHint="@color/textColorBold20Alpha"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:paddingStart="0dp"
-                android:textColor="@color/textColorBold"
                 android:paddingTop="0dp"
                 android:paddingEnd="10dp"
                 android:paddingBottom="10dp"
-                android:textSize="15sp"/>
+                android:textColor="@color/textColorBold"
+                android:textColorHint="@color/textColorBold20Alpha"
+                android:textSize="15sp"
+                android:theme="@style/TextInputLayoutAppearance" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="22dp"
-                android:textAllCaps="true"
                 android:fontFamily="@font/gotha_promed"
+                android:text="@string/phone_no"
+                android:textAllCaps="true"
                 android:textColor="@color/textColorBold"
-                android:textSize="11sp"
-                android:text="@string/phone_no"/>
+                android:textSize="11sp" />
 
             <EditText
                 android:id="@+id/editTextPhoneNo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:theme="@style/TextInputLayoutAppearance"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/edt_bg_selector"
                 android:fontFamily="@font/gotha_pro_reg"
                 android:hint="@string/enter_your_phone_no"
                 android:importantForAutofill="no"
-                android:textColorHint="@color/textColorBold20Alpha"
                 android:inputType="phone"
                 android:maxLines="1"
                 android:paddingStart="0dp"
                 android:paddingTop="0dp"
-                android:textColor="@color/textColorBold"
                 android:paddingEnd="10dp"
                 android:paddingBottom="10dp"
-                android:textSize="15sp" />
+                android:textColor="@color/textColorBold"
+                android:textColorHint="@color/textColorBold20Alpha"
+                android:textSize="15sp"
+                android:theme="@style/TextInputLayoutAppearance" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="22dp"
-                android:textAllCaps="true"
                 android:fontFamily="@font/gotha_promed"
+                android:text="@string/address"
+                android:textAllCaps="true"
                 android:textColor="@color/textColorBold"
-                android:textSize="11sp"
-                android:text="@string/address"/>
+                android:textSize="11sp" />
 
             <EditText
                 android:id="@+id/editTextAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/edt_bg_selector"
                 android:fontFamily="@font/gotha_pro_reg"
                 android:hint="@string/enter_your_address"
-                android:theme="@style/TextInputLayoutAppearance"
                 android:importantForAutofill="no"
                 android:inputType="textCapSentences"
-                android:textColorHint="@color/textColorBold20Alpha"
                 android:maxLines="1"
                 android:paddingStart="0dp"
                 android:paddingTop="0dp"
                 android:paddingEnd="10dp"
-                android:textColor="@color/textColorBold"
                 android:paddingBottom="10dp"
-                android:textSize="15sp" />
+                android:textColor="@color/textColorBold"
+                android:textColorHint="@color/textColorBold20Alpha"
+                android:textSize="15sp"
+                android:theme="@style/TextInputLayoutAppearance" />
         </LinearLayout>
 
-       <!-- <com.dd.ShadowLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_below="@+id/LL"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="52dp"
-            app:sl_cornerRadius="56dp"
-            app:sl_dx="0dp"
-            app:sl_dy="10dp"
-            app:sl_shadowColor="#2CFC5C04"
-            app:sl_shadowRadius="4dp">
+        <!-- <com.dd.ShadowLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+             android:layout_below="@+id/LL"
+             android:layout_marginStart="10dp"
+             android:layout_marginEnd="10dp"
+             android:layout_marginTop="52dp"
+             app:sl_cornerRadius="56dp"
+             app:sl_dx="0dp"
+             app:sl_dy="10dp"
+             app:sl_shadowColor="#2CFC5C04"
+             app:sl_shadowRadius="4dp">
 
-            <TextView
-                android:id="@+id/saveTV"
-                android:layout_width="match_parent"
-                android:layout_height="53dp"
-                android:background="@drawable/rectanguler_button_bg"
-                android:backgroundTint="@color/colorPrimary"
-                android:gravity="center"
-                android:text="@string/save"
-                android:textAllCaps="true"
-                android:fontFamily="@font/gotha_probol"
-                android:textColor="@color/colorWhite"
-                android:textSize="16sp"
-                android:layout_gravity="center_horizontal" />
-        </com.dd.ShadowLayout>-->
+             <TextView
+                 android:id="@+id/saveTV"
+                 android:layout_width="match_parent"
+                 android:layout_height="53dp"
+                 android:background="@drawable/rectanguler_button_bg"
+                 android:backgroundTint="@color/colorPrimary"
+                 android:gravity="center"
+                 android:text="@string/save"
+                 android:textAllCaps="true"
+                 android:fontFamily="@font/gotha_probol"
+                 android:textColor="@color/colorWhite"
+                 android:textSize="16sp"
+                 android:layout_gravity="center_horizontal" />
+         </com.dd.ShadowLayout>-->
 
 
         <com.dd.ShadowLayout
@@ -219,8 +218,8 @@
             android:layout_marginStart="18dp"
             android:layout_marginTop="51dp"
             android:layout_marginEnd="18dp"
-            app:sl_cornerRadius="56dp"
             android:elevation="3dp"
+            app:sl_cornerRadius="56dp"
             app:sl_dx="0dp"
             app:sl_dy="10dp"
             app:sl_shadowColor="#2CFC5C04"

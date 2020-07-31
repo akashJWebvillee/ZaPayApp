@@ -1,16 +1,13 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-
 import com.org.zapayapp.R;
 import com.org.zapayapp.dialogs.ChangePassDialogActivity;
 import com.org.zapayapp.dialogs.EditProfileDialogActivity;
 
 public class ProfileActivity extends BaseActivity implements View.OnClickListener {
-
     private TextView editProfileTV,changePasswordTV,profileTxtName,profileTxtEmail,profileTxtMobile,profileTxtAddress;
     private Intent intent;
 

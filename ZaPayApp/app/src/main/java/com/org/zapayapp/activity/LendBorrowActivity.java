@@ -1,5 +1,4 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -14,14 +13,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.dd.ShadowLayout;
 import com.org.zapayapp.R;
 import com.org.zapayapp.adapters.ContactAdapter;
@@ -31,13 +28,11 @@ import com.org.zapayapp.model.ContactModel;
 import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.DatePickerFragmentDialogue;
 import com.org.zapayapp.utils.WVDateLib;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class LendBorrowActivity extends BaseActivity implements View.OnClickListener, DatePickerFragmentDialogue.DatePickerCallback {
-
     private RecyclerView indicatorRecycler;
     private List<String> listIndicator;
     private TextView nextButtonTV, backButtonTV;
@@ -57,7 +52,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     private Intent intent;
     private boolean isBorrow;
     private boolean isBack;
-
     private List<ContactModel> contactNumberList;
 
     @Override
@@ -127,12 +121,10 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-              /*
-                   amount = Float.parseFloat(s.toString());
+                /*
+                    amount = Float.parseFloat(s.toString());
                     lendTxtAmount.setText(s);
                 */
             }
@@ -147,7 +139,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                     amount = Float.parseFloat("0");
                     lendTxtAmount.setText("");
                 }
-
             }
         });
     }
