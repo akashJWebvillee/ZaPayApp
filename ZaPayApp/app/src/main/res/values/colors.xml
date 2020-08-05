@@ -21,6 +21,9 @@
     <color name="navTextColor50Alpha">#8019151B</color>
     <color name="textColorBold20Alpha">#33232323</color>
 
+
+    <color name="blackColor">#FC131313</color>
+
     <color name="colorLineLightGrey">#ECECEC</color>
     <color name="summaryLineColor">#FAF1EB</color>
     <color name="historyVerticalLineColor">#E4E4E4</color>

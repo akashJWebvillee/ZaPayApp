@@ -7,13 +7,10 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.org.zapayapp.R;
 import com.org.zapayapp.utils.CommonMethods;
-
 public class EditProfileDialogActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView saveTV;

@@ -1,6 +1,7 @@
 package com.org.zapayapp.activity;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,16 +10,22 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
+import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
 import com.org.zapayapp.uihelpers.CustomTextInputLayout;
 import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.WValidationLib;
@@ -28,19 +35,37 @@ import java.util.HashMap;
 
 import retrofit2.Call;
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener, APICallback {
+public class LoginActivity extends BaseActivity implements View.OnClickListener, APICallback,SimpleAlertFragment.AlertSimpleCallback{
 
     private TextView loginTV;
     private TextView signUpTV;
     private TextView mTextAgree;
     private CustomTextInputLayout etPasswordLayout, etEmailLayout;
+    private TextInputEditText etPassword, editTextUsername;
+
     private RelativeLayout loginRelativeLayout;
     private RelativeLayout signUpRelativeLayout;
-    private TextInputEditText etPassword, editTextUsername;
     private TextView loginButtonTV, signUpButtonTV;
     private TextView forgotPasswordTV;
     private Intent intent;
     private WValidationLib wValidationLib;
+
+    //signup data......
+    private CustomTextInputLayout userNameSignUpInputLayout;
+    private CustomTextInputLayout emailSignUpInputLayout;
+    private CustomTextInputLayout mobileSignUpInputLayout;
+    private CustomTextInputLayout passwordSignUpInputLayout;
+    private CustomTextInputLayout conformPasswordSignUpInputLayout;
+
+    private TextInputEditText userNameSignUpEditText;
+    private TextInputEditText emailSignUpEditText;
+    private TextInputEditText mobileSignUpEditText;
+    private TextInputEditText passwordSignUpEditText;
+    private TextInputEditText conformPasswordSignUpEditText;
+    private CheckBox mChkAgree;
+    private String firstName="";
+    private String lastName="";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +89,26 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         loginButtonTV = findViewById(R.id.loginButtonTV);
         signUpButtonTV = findViewById(R.id.signUpButtonTV);
         forgotPasswordTV = findViewById(R.id.forgotPasswordTV);
+
+        //SignUp screen......
+        userNameSignUpInputLayout = findViewById(R.id.userNameSignUpInputLayout);
+        emailSignUpInputLayout = findViewById(R.id.emailSignUpInputLayout);
+        mobileSignUpInputLayout = findViewById(R.id.mobileSignUpInputLayout);
+        passwordSignUpInputLayout = findViewById(R.id.passwordSignUpInputLayout);
+        conformPasswordSignUpInputLayout = findViewById(R.id.conformPasswordSignUpInputLayout);
+
+        userNameSignUpEditText = findViewById(R.id.userNameSignUpEditText);
+        emailSignUpEditText = findViewById(R.id.emailSignUpEditText);
+        mobileSignUpEditText = findViewById(R.id.mobileSignUpEditText);
+        passwordSignUpEditText = findViewById(R.id.passwordSignUpEditText);
+        conformPasswordSignUpEditText = findViewById(R.id.conformPasswordSignUpEditText);
+
+        mChkAgree = findViewById(R.id.mChkAgree);
+
+
         termCondition();
         wValidationLib = new WValidationLib(this);
+
     }
 
     private void inItAction() {
@@ -152,10 +195,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 try {
                     if (wValidationLib.isEmailAddress(etEmailLayout, editTextUsername, getString(R.string.important), getString(R.string.important), true)) {
                         if (wValidationLib.isEmpty(etPasswordLayout, etPassword, getString(R.string.important), true)) {
-                            intent = new Intent(LoginActivity.this, HomeActivity.class);
+                           /* intent = new Intent(LoginActivity.this, HomeActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
-                            finish();
+                            finish();*/
+                            callAPILogin();
+
                         }
                     }
                 } catch (Exception e) {
@@ -163,12 +208,79 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 }
                 break;
             case R.id.signUpButtonTV:
-                intent = new Intent(LoginActivity.this, HomeActivity.class);
+
+              /*  intent = new Intent(LoginActivity.this, HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                finish();
+                finish();*/
+
+
+                try {
+                    if (wValidationLib.isEmpty(userNameSignUpInputLayout, userNameSignUpEditText, getString(R.string.important), true)) {
+                        String firstNameLastName=userNameSignUpEditText.getText().toString().trim();
+                        String[] firstNameLastName1=firstNameLastName.split(" ");
+
+                        if (firstNameLastName1.length>1){
+                            firstName=firstNameLastName1[0];
+                            lastName=firstNameLastName1[1];
+
+                            if (wValidationLib.isEmailAddress(emailSignUpInputLayout, emailSignUpEditText, getString(R.string.important), getString(R.string.important), true)) {
+                           if (wValidationLib.isEmpty(mobileSignUpInputLayout, mobileSignUpEditText, getString(R.string.important), true)) {
+                               if (wValidationLib.isEmpty(passwordSignUpInputLayout, passwordSignUpEditText, getString(R.string.important), true)) {
+                                   if (wValidationLib.isEmpty(conformPasswordSignUpInputLayout, conformPasswordSignUpEditText, getString(R.string.important), true)) {
+                                       if (passwordSignUpEditText.getText().toString().trim().equalsIgnoreCase(conformPasswordSignUpEditText.getText().toString().trim())) {
+                                           if (mChkAgree.isChecked()) {
+                                               callAPISignUp();
+                                           } else {
+                                               //showSimpleAlert("Check Term and condition", "");
+                                               showSimpleAlert(getString(R.string.term_condition), "");
+                                           }
+                                       } else {
+                                           showSimpleAlert(getString(R.string.password_should_be_same), "");
+
+                                       }
+                                   }
+
+                               }
+
+
+                           }
+                       }
+
+                   }else {
+                            showSimpleAlert(getString(R.string.enter_last_name), "");
+                        }
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 break;
+        }
+    }
+
+
+    private void callAPISignUp(){
+        try {
+            HashMap<String, Object> values = apiCalling.getHashMapObject(
+                    "first_name", firstName,
+                    "last_name", lastName,
+                    "email", emailSignUpEditText.getText().toString().trim(),
+                    "mobile", mobileSignUpEditText.getText().toString().trim(),
+                    "password", passwordSignUpEditText.getText().toString().trim(),
+                    "device_type", "1",
+                    "device_token","123",
+                    "device_id", "111");
+
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.postApi(getString(R.string.api_signup), values);
+            if (apiCalling != null) {
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_signup), loginButtonTV);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -179,7 +291,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         try {
             HashMap<String, Object> values = apiCalling.getHashMapObject(
                     "email", editTextUsername.getText().toString(),
-                    "password", etPassword.getText().toString());
+                    "password", etPassword.getText().toString(),
+                    "device_type", "1",
+                    "device_token", "123",
+                    "device_id", "111"
+
+            );
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postApi(getString(R.string.api_signin), values);
             if (apiCalling != null) {
@@ -192,6 +309,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void apiCallback(JsonObject json, String from) {
+        Log.e("json","json======"+json);
         if (from != null) {
             int status = 0;
             String msg = "";
@@ -207,9 +325,34 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
                     }
                 } else {
-                   // showSimpleMsgAlert(msg, "", "");
+                    // showSimpleMsgAlert(msg, "", "");
                 }
+            }else if (from.equals(getResources().getString(R.string.api_signup))){
+
             }
+
+
         }
+    }
+
+    public void showSimpleAlert(String message, String from) {
+        try {
+            FragmentManager fm = getSupportFragmentManager();
+            Bundle args = new Bundle();
+            args.putString("header", message);
+            args.putString("textOk", getString(R.string.ok));
+            args.putString("textCancel", getString(R.string.cancel));
+            args.putString("from", from);
+            SimpleAlertFragment alert = new SimpleAlertFragment();
+            alert.setArguments(args);
+            alert.show(fm, "");
+        } catch (Resources.NotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onSimpleCallback(String from) {
+
     }
 }

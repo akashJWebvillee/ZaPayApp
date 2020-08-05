@@ -40,8 +40,9 @@ import static com.org.zapayapp.webservices.WNetworkCheck.getConnectivityStatus;
 
 
 public class APICalling extends BaseRequestParser implements ServiceCallback<JsonElement> {
+    //private static final String BASE_URL = "http://webvilleedemo.xyz:3000/api/";
 
-    private static final String BASE_URL = "http://webvilleedemo.xyz:3000/api/";
+    private static final String BASE_URL = "http://developer.webvilleedemo.xyz/zapay/";
     private static final String IMAGE_URL = "http://webvilleedemo.xyz:3000";
 
     private String TAG = "APICalling";

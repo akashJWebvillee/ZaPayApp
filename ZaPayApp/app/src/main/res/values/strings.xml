@@ -167,6 +167,19 @@
     <string name="borrow_mode">Borrow Mode:</string>
 
 
+    <string name="ok">OK</string>
+    <string name="cancel">CANCEL</string>
+
+
+    <!--signUp-->
+    <string name="enter_last_name">Enter last name</string>
+    <string name="password_should_be_same">Password Should be same</string>
+    <string name="term_condition">Check Term and condition</string>
+
+
+
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

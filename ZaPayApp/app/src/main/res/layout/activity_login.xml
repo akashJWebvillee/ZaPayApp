@@ -75,6 +75,7 @@
             android:layout_marginTop="70dp"
             android:background="@drawable/rectanguler_bottom_corner"/>
 -->
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="400dp"
@@ -94,12 +95,15 @@
         </RelativeLayout>
 
 
+
+
+
         <RelativeLayout
             android:id="@+id/loginRelativeLayout"
             android:layout_width="match_parent"
             android:layout_height="310dp"
             android:layout_below="@+id/LL1"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <LinearLayout
                 android:id="@+id/LL2"
@@ -226,182 +230,448 @@
             </com.dd.ShadowLayout>
         </RelativeLayout>
 
+
+
         <RelativeLayout
-            android:id="@+id/signUpRelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="501dp"
-            android:layout_below="@+id/LL1"
-            android:visibility="visible">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="30dp"
-                android:background="@drawable/rectanguler_bg"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
-                android:elevation="3dp"
-                android:orientation="vertical">
-
-                <EditText
-                    android:id="@+id/userNameET"
-                    style="@style/editTextStyle"
+                    android:id="@+id/signUpRelativeLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="35dp"
-                    android:layout_marginEnd="20dp"
-                    android:drawableStart="@mipmap/ic_name"
-                    android:drawablePadding="8dp"
-                    android:hint="@string/name"
-                    android:importantForAutofill="no"
-                    android:theme="@style/TextInputLayoutAppearance"
-                    android:inputType="textCapWords"
-                    android:maxLines="1"
-                    android:paddingStart="0dp"
-                    android:paddingEnd="10dp"
-                    android:paddingBottom="10dp"
-                    android:background="@drawable/edt_bg_normal"/>
+                    android:layout_height="520dp"
+                    android:layout_below="@+id/LL1"
+                    android:visibility="visible">
 
-                <EditText
-                    android:id="@+id/nameET"
-                    style="@style/editTextStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:theme="@style/TextInputLayoutAppearance"
-                    android:drawableStart="@mipmap/login_mail"
-                    android:drawablePadding="8dp"
-                    android:hint="@string/email"
-                    android:importantForAutofill="no"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:paddingStart="0dp"
-                    android:paddingEnd="10dp"
-                    android:paddingBottom="10dp"
-                    android:background="@drawable/edt_bg_normal"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="30dp"
+                        android:background="@drawable/rectanguler_bg"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:elevation="3dp"
+                        android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/mobileET"
-                    style="@style/editTextStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:theme="@style/TextInputLayoutAppearance"
-                    android:drawableStart="@mipmap/ic_mobile"
-                    android:drawablePadding="8dp"
-                    android:hint="@string/mobile"
-                    android:importantForAutofill="no"
-                    android:inputType="number"
-                    android:maxLines="1"
-                    android:maxLength="10"
-                    android:paddingStart="0dp"
-                    android:paddingEnd="10dp"
-                    android:paddingBottom="10dp"
-                    android:background="@drawable/edt_bg_normal"/>
+                        <com.org.zapayapp.uihelpers.CustomTextInputLayout
+                            android:id="@+id/userNameSignUpInputLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="40dp"
+                            android:layout_marginEnd="20dp"
+                            android:theme="@style/TextInputLayoutAppearance"
+                            app:boxStrokeColor="@null"
+                            app:hintEnabled="false"
+                            app:errorTextAppearance="@style/error_appearance"
+                            android:padding="0dp"
+                            app:errorIconDrawable="@null"
+                            app:boxBackgroundMode="none">
 
-                <EditText
-                    android:id="@+id/passwordET"
-                    style="@style/editTextStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:theme="@style/TextInputLayoutAppearance"
-                    android:drawableStart="@mipmap/ic_password"
-                    android:drawablePadding="8dp"
-                    android:hint="@string/enter_password"
-                    android:importantForAutofill="no"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:paddingStart="0dp"
-                    android:paddingEnd="10dp"
-                    android:paddingBottom="10dp"
-                    android:background="@drawable/edt_bg_normal"/>
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/userNameSignUpEditText"
+                                style="@style/editTextStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawableStart="@mipmap/ic_name"
+                                android:drawablePadding="8dp"
+                                android:paddingStart="0dp"
+                                android:paddingTop="10dp"
+                                android:importantForAutofill="no"
+                                android:inputType="text"
+                                android:imeOptions="actionNext"
+                                android:gravity="center_vertical"
+                                android:paddingEnd="0dp"
+                                android:hint="@string/name"
+                                android:background="@drawable/edt_bg_selector"/>
+                        </com.org.zapayapp.uihelpers.CustomTextInputLayout>
 
-                <EditText
-                    android:id="@+id/conformPasswordET"
-                    style="@style/editTextStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:drawableStart="@mipmap/ic_password"
-                    android:drawablePadding="8dp"
-                    android:theme="@style/TextInputLayoutAppearance"
-                    android:hint="@string/confirm_your_password"
-                    android:importantForAutofill="no"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:paddingStart="0dp"
-                    android:paddingEnd="10dp"
-                    android:paddingBottom="10dp"
-                    android:background="@drawable/edt_bg_normal"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:gravity="center_vertical"
-                    android:padding="10dp">
+                        <com.org.zapayapp.uihelpers.CustomTextInputLayout
+                            android:id="@+id/emailSignUpInputLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:theme="@style/TextInputLayoutAppearance"
+                            app:boxStrokeColor="@null"
+                            app:hintEnabled="false"
+                            app:errorTextAppearance="@style/error_appearance"
+                            android:padding="0dp"
+                            app:errorIconDrawable="@null"
+                            app:boxBackgroundMode="none">
 
-                    <CheckBox
-                        android:id="@+id/mChkAgree"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:background="@drawable/checkbox_selector"
-                        android:button="@null"
-                        android:checked="true"
-                        android:text="" />
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/emailSignUpEditText"
+                                style="@style/editTextStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawableStart="@mipmap/login_mail"
+                                android:drawablePadding="8dp"
+                                android:paddingStart="0dp"
+                                android:paddingTop="10dp"
+                                android:importantForAutofill="no"
+                                android:inputType="textEmailAddress"
+                                android:imeOptions="actionNext"
+                                android:gravity="center_vertical"
+                                android:paddingEnd="0dp"
+                                android:hint="@string/email"
+                                android:background="@drawable/edt_bg_selector"/>
+                        </com.org.zapayapp.uihelpers.CustomTextInputLayout>
 
-                    <TextView
-                        android:id="@+id/mTextAgree"
-                        android:layout_width="wrap_content"
+
+
+
+                        <com.org.zapayapp.uihelpers.CustomTextInputLayout
+                            android:id="@+id/mobileSignUpInputLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:theme="@style/TextInputLayoutAppearance"
+                            app:boxStrokeColor="@null"
+                            app:hintEnabled="false"
+                            app:errorTextAppearance="@style/error_appearance"
+                            android:padding="0dp"
+                            app:errorIconDrawable="@null"
+                            app:boxBackgroundMode="none">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/mobileSignUpEditText"
+                                style="@style/editTextStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawableStart="@mipmap/ic_mobile"
+                                android:drawablePadding="8dp"
+                                android:paddingStart="0dp"
+                                android:paddingTop="10dp"
+                                android:importantForAutofill="no"
+                                android:inputType="number"
+                                android:maxLength="10"
+                                android:imeOptions="actionNext"
+                                android:gravity="center_vertical"
+                                android:paddingEnd="0dp"
+                                android:hint="@string/mobile"
+                                android:background="@drawable/edt_bg_selector"/>
+                        </com.org.zapayapp.uihelpers.CustomTextInputLayout>
+
+
+
+                        <com.org.zapayapp.uihelpers.CustomTextInputLayout
+                            android:id="@+id/passwordSignUpInputLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:theme="@style/TextInputLayoutAppearance"
+                            app:boxStrokeColor="@null"
+                            app:hintEnabled="false"
+                            app:errorTextAppearance="@style/error_appearance"
+                            android:padding="0dp"
+                            app:errorIconDrawable="@null"
+                            app:boxBackgroundMode="none">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/passwordSignUpEditText"
+                                style="@style/editTextStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawableStart="@mipmap/ic_password"
+                                android:drawablePadding="8dp"
+                                android:paddingStart="0dp"
+                                android:paddingTop="10dp"
+                                android:importantForAutofill="no"
+                                android:inputType="textPassword"
+                                android:imeOptions="actionNext"
+                                android:gravity="center_vertical"
+                                android:paddingEnd="0dp"
+                                android:hint="@string/enter_password"
+                                android:background="@drawable/edt_bg_selector"/>
+                        </com.org.zapayapp.uihelpers.CustomTextInputLayout>
+
+
+                        <com.org.zapayapp.uihelpers.CustomTextInputLayout
+                            android:id="@+id/conformPasswordSignUpInputLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:theme="@style/TextInputLayoutAppearance"
+                            app:boxStrokeColor="@null"
+                            app:hintEnabled="false"
+                            app:errorTextAppearance="@style/error_appearance"
+                            android:padding="0dp"
+                            app:errorIconDrawable="@null"
+                            app:boxBackgroundMode="none">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/conformPasswordSignUpEditText"
+                                style="@style/editTextStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawableStart="@mipmap/ic_password"
+                                android:drawablePadding="8dp"
+                                android:paddingStart="0dp"
+                                android:paddingTop="10dp"
+                                android:importantForAutofill="no"
+                                android:inputType="textPassword"
+                                android:imeOptions="actionNext"
+                                android:gravity="center_vertical"
+                                android:paddingEnd="0dp"
+                                android:hint="@string/confirm_your_password"
+                                android:background="@drawable/edt_bg_selector"/>
+                        </com.org.zapayapp.uihelpers.CustomTextInputLayout>
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:gravity="center_vertical"
+                            android:padding="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp">
+
+                            <CheckBox
+                                android:id="@+id/mChkAgree"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:background="@drawable/checkbox_selector"
+                                android:button="@null"
+                                android:checked="true"
+                                android:text="" />
+
+                            <TextView
+                                android:id="@+id/mTextAgree"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:lineSpacingExtra="5dp"
+                                android:fontFamily="@font/gotha_pro_reg"
+                                android:text="@string/term_and_condition_message"
+                                android:textColor="@color/textColor"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <com.dd.ShadowLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:lineSpacingExtra="5dp"
-                        android:fontFamily="@font/gotha_pro_reg"
-                        android:text="@string/term_and_condition_message"
-                        android:textColor="@color/textColor"
-                        android:textSize="13sp" />
-                </LinearLayout>
-            </LinearLayout>
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="16dp"
+                        app:sl_cornerRadius="56dp"
+                        app:sl_dx="0dp"
+                        app:sl_dy="10dp"
+                        app:sl_shadowColor="#46FC5C04"
+                        app:sl_shadowRadius="4dp"
+                        android:elevation="3dp"
+                        android:layout_marginStart="29dp"
+                        android:layout_marginEnd="29dp">
 
-            <com.dd.ShadowLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="16dp"
-                app:sl_cornerRadius="56dp"
-                app:sl_dx="0dp"
-                app:sl_dy="10dp"
-                app:sl_shadowColor="#46FC5C04"
-                app:sl_shadowRadius="4dp"
-                android:elevation="3dp"
-                android:layout_marginStart="29dp"
-                android:layout_marginEnd="29dp">
+                        <TextView
+                            android:id="@+id/signUpButtonTV"
+                            android:layout_width="match_parent"
+                            android:layout_height="53dp"
+                            android:background="@drawable/rectanguler_button_bg"
+                            android:backgroundTint="@color/colorPrimary"
+                            android:gravity="center"
+                            android:lineSpacingExtra="5dp"
+                            android:text="@string/signup"
+                            android:fontFamily="@font/gotha_probol"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="16sp" />
+                    </com.dd.ShadowLayout>
+                </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/signUpButtonTV"
-                    android:layout_width="match_parent"
-                    android:layout_height="53dp"
-                    android:background="@drawable/rectanguler_button_bg"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:gravity="center"
-                    android:lineSpacingExtra="5dp"
-                    android:text="@string/signup"
-                    android:fontFamily="@font/gotha_probol"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="16sp" />
-            </com.dd.ShadowLayout>
-        </RelativeLayout>
+
+
+
+
+
+
+
+
+        <!--  <RelativeLayout
+              android:id="@+id/signUpRelativeLayout"
+              android:layout_width="match_parent"
+              android:layout_height="501dp"
+              android:layout_below="@+id/LL1"
+              android:visibility="visible">
+
+              <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:layout_marginBottom="30dp"
+                  android:background="@drawable/rectanguler_bg"
+                  android:layout_marginTop="10dp"
+                  android:layout_marginStart="15dp"
+                  android:layout_marginEnd="15dp"
+                  android:elevation="3dp"
+                  android:orientation="vertical">
+
+                  <EditText
+                      android:id="@+id/userNameET"
+                      style="@style/editTextStyle"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginStart="20dp"
+                      android:layout_marginTop="35dp"
+                      android:layout_marginEnd="20dp"
+                      android:drawableStart="@mipmap/ic_name"
+                      android:drawablePadding="8dp"
+                      android:hint="@string/name"
+                      android:importantForAutofill="no"
+                      android:theme="@style/TextInputLayoutAppearance"
+                      android:inputType="textCapWords"
+                      android:maxLines="1"
+                      android:paddingStart="0dp"
+                      android:paddingEnd="10dp"
+                      android:paddingBottom="10dp"
+                      android:background="@drawable/edt_bg_normal"/>
+
+                  <EditText
+                      android:id="@+id/emailSignUpET"
+                      style="@style/editTextStyle"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginStart="20dp"
+                      android:layout_marginTop="20dp"
+                      android:layout_marginEnd="20dp"
+                      android:theme="@style/TextInputLayoutAppearance"
+                      android:drawableStart="@mipmap/login_mail"
+                      android:drawablePadding="8dp"
+                      android:hint="@string/email"
+                      android:importantForAutofill="no"
+                      android:inputType="textEmailAddress"
+                      android:maxLines="1"
+                      android:paddingStart="0dp"
+                      android:paddingEnd="10dp"
+                      android:paddingBottom="10dp"
+                      android:background="@drawable/edt_bg_normal"/>
+
+                  <EditText
+                      android:id="@+id/mobileSignUpET"
+                      style="@style/editTextStyle"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginStart="20dp"
+                      android:layout_marginTop="20dp"
+                      android:layout_marginEnd="20dp"
+                      android:theme="@style/TextInputLayoutAppearance"
+                      android:drawableStart="@mipmap/ic_mobile"
+                      android:drawablePadding="8dp"
+                      android:hint="@string/mobile"
+                      android:importantForAutofill="no"
+                      android:inputType="number"
+                      android:maxLines="1"
+                      android:maxLength="10"
+                      android:paddingStart="0dp"
+                      android:paddingEnd="10dp"
+                      android:paddingBottom="10dp"
+                      android:background="@drawable/edt_bg_normal"/>
+
+                  <EditText
+                      android:id="@+id/passwordSignUpET"
+                      style="@style/editTextStyle"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginStart="20dp"
+                      android:layout_marginTop="20dp"
+                      android:layout_marginEnd="20dp"
+                      android:theme="@style/TextInputLayoutAppearance"
+                      android:drawableStart="@mipmap/ic_password"
+                      android:drawablePadding="8dp"
+                      android:hint="@string/enter_password"
+                      android:importantForAutofill="no"
+                      android:inputType="textPassword"
+                      android:maxLines="1"
+                      android:paddingStart="0dp"
+                      android:paddingEnd="10dp"
+                      android:paddingBottom="10dp"
+                      android:background="@drawable/edt_bg_normal"/>
+
+                  <EditText
+                      android:id="@+id/conformPasswordSignUpET"
+                      style="@style/editTextStyle"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginStart="20dp"
+                      android:layout_marginTop="20dp"
+                      android:layout_marginEnd="20dp"
+                      android:drawableStart="@mipmap/ic_password"
+                      android:drawablePadding="8dp"
+                      android:theme="@style/TextInputLayoutAppearance"
+                      android:hint="@string/confirm_your_password"
+                      android:importantForAutofill="no"
+                      android:inputType="textPassword"
+                      android:maxLines="1"
+                      android:paddingStart="0dp"
+                      android:paddingEnd="10dp"
+                      android:paddingBottom="10dp"
+                      android:background="@drawable/edt_bg_normal"/>
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="20dp"
+                      android:gravity="center_vertical"
+                      android:padding="10dp">
+
+                      <CheckBox
+                          android:id="@+id/mChkAgree"
+                          android:layout_width="15dp"
+                          android:layout_height="15dp"
+                          android:background="@drawable/checkbox_selector"
+                          android:button="@null"
+                          android:checked="true"
+                          android:text="" />
+
+                      <TextView
+                          android:id="@+id/mTextAgree"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginStart="8dp"
+                          android:lineSpacingExtra="5dp"
+                          android:fontFamily="@font/gotha_pro_reg"
+                          android:text="@string/term_and_condition_message"
+                          android:textColor="@color/textColor"
+                          android:textSize="13sp" />
+                  </LinearLayout>
+              </LinearLayout>
+
+              <com.dd.ShadowLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentBottom="true"
+                  android:layout_centerHorizontal="true"
+                  android:layout_marginTop="16dp"
+                  app:sl_cornerRadius="56dp"
+                  app:sl_dx="0dp"
+                  app:sl_dy="10dp"
+                  app:sl_shadowColor="#46FC5C04"
+                  app:sl_shadowRadius="4dp"
+                  android:elevation="3dp"
+                  android:layout_marginStart="29dp"
+                  android:layout_marginEnd="29dp">
+
+                  <TextView
+                      android:id="@+id/signUpButtonTV"
+                      android:layout_width="match_parent"
+                      android:layout_height="53dp"
+                      android:background="@drawable/rectanguler_button_bg"
+                      android:backgroundTint="@color/colorPrimary"
+                      android:gravity="center"
+                      android:lineSpacingExtra="5dp"
+                      android:text="@string/signup"
+                      android:fontFamily="@font/gotha_probol"
+                      android:textColor="@color/colorWhite"
+                      android:textSize="16sp" />
+              </com.dd.ShadowLayout>
+          </RelativeLayout>-->
+
+
     </RelativeLayout>
 </androidx.core.widget.NestedScrollView>
