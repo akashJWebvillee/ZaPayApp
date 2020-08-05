@@ -121,8 +121,6 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppCenter.start(getApplication(), "795eac31-b6f2-43ef-9545-45d57b52e530",
-                Analytics.class, Crashes.class);
         baseActivityInit();
     }
 
