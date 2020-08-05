@@ -1,5 +1,15 @@
 <resources>
     <string name="app_name">ZaPayApp</string>
+    <string name="app_name_folder">ZaPayApp</string>
+
+    <!-- Network Messages-->
+    <string name="network_conn">Please check network connection!</string>
+    <string name="unable_auth">Unable to authenticate.</string>
+    <string name="client_not_response">Client not responding.</string>
+    <string name="server_not_response">Please try again after sometime !!</string>
+    <string name="something_wrong">Something went wrong.</string>
+    <string name="retry">Retry</string>
+    <string name="something_wrong_check_network">Something went wrong. Please check your network connectivity.</string>
 
     <!-- Date picker fragment -->
     <string name="show" translatable="false">Show</string>

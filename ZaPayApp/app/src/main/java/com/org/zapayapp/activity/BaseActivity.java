@@ -1,11 +1,15 @@
 package com.org.zapayapp.activity;
+
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
 import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -14,11 +18,20 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
+import com.microsoft.appcenter.AppCenter;
+import com.microsoft.appcenter.analytics.Analytics;
+import com.microsoft.appcenter.crashes.Crashes;
 import com.org.zapayapp.R;
+import com.org.zapayapp.ZapayApp;
 import com.org.zapayapp.adapters.NavigationAdapter;
 import com.org.zapayapp.uihelpers.AdvanceDrawerLayout;
 import com.org.zapayapp.utils.CommonMethods;
+import com.org.zapayapp.webservices.APICalling;
+import com.org.zapayapp.webservices.RestAPI;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,6 +89,25 @@ public class BaseActivity extends AppCompatActivity {
     private Intent intent;
     private NavigationAdapter adapter;
 
+    /*Code for API calling*/
+    protected ZapayApp zapayApp;
+    /**
+     * The Gson.
+     */
+    protected Gson gson;
+    /**
+     * The Api calling.
+     */
+    protected APICalling apiCalling;
+    /**
+     * The Rest api.
+     */
+    protected RestAPI restAPI;
+    /**
+     * The Device token.
+     */
+    protected String deviceToken = "";
+
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         drawerLayout = (AdvanceDrawerLayout) getLayoutInflater().inflate(R.layout.activity_base, null);
@@ -84,6 +116,21 @@ public class BaseActivity extends AppCompatActivity {
         getLayoutInflater().inflate(layoutResID, frameBase, true);
         super.setContentView(drawerLayout);
         initialHeaderFooter();
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        AppCenter.start(getApplication(), "795eac31-b6f2-43ef-9545-45d57b52e530",
+                Analytics.class, Crashes.class);
+        baseActivityInit();
+    }
+
+    private void baseActivityInit() {
+        zapayApp = (ZapayApp) getApplicationContext();
+        restAPI = APICalling.webServiceInterface();
+        gson = new Gson();
+        apiCalling = new APICalling(this);
     }
 
     private void initialHeaderFooter() {

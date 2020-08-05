@@ -1,4 +1,5 @@
 package com.org.zapayapp.activity;
+
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -11,14 +12,24 @@ import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
+
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.uihelpers.CustomTextInputLayout;
 import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.WValidationLib;
+import com.org.zapayapp.webservices.APICallback;
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener {
+import java.util.HashMap;
+
+import retrofit2.Call;
+
+public class LoginActivity extends BaseActivity implements View.OnClickListener, APICallback {
+
     private TextView loginTV;
     private TextView signUpTV;
     private TextView mTextAgree;
@@ -158,6 +169,47 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 finish();
                 break;
+        }
+    }
+
+    /**
+     * API login
+     */
+    private void callAPILogin() {
+        try {
+            HashMap<String, Object> values = apiCalling.getHashMapObject(
+                    "email", editTextUsername.getText().toString(),
+                    "password", etPassword.getText().toString());
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.postApi(getString(R.string.api_signin), values);
+            if (apiCalling != null) {
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_signin), loginButtonTV);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void apiCallback(JsonObject json, String from) {
+        if (from != null) {
+            int status = 0;
+            String msg = "";
+            try {
+                status = json.get("code").getAsInt();
+                msg = json.get("message").getAsString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (from.equals(getResources().getString(R.string.api_signin))) {
+                if (status == 200) {
+                    if (json.get("data").isJsonObject()) {
+
+                    }
+                } else {
+                   // showSimpleMsgAlert(msg, "", "");
+                }
+            }
         }
     }
 }

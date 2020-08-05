@@ -35,5 +35,7 @@
     <color name="textColorTerms">#6C676F</color>
     <color name="colorBtnRed">#EF0606</color>
 
+    <color name="loaderpBg60Alpha">#99FFFFFF</color>
+
 
 </resources>
