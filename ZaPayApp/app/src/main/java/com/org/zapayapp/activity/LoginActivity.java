@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -13,10 +14,8 @@ import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
@@ -26,17 +25,26 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
+import com.org.zapayapp.rest.ApiClient;
+import com.org.zapayapp.rest.ApiInterface;
 import com.org.zapayapp.uihelpers.CustomTextInputLayout;
 import com.org.zapayapp.utils.CommonMethods;
+import com.org.zapayapp.utils.Const;
+import com.org.zapayapp.utils.MySession;
 import com.org.zapayapp.utils.WValidationLib;
 import com.org.zapayapp.webservices.APICallback;
+import com.org.zapayapp.webservices.MyProgressDialog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener, APICallback,SimpleAlertFragment.AlertSimpleCallback{
-
+public class LoginActivity extends BaseActivity implements View.OnClickListener, APICallback, SimpleAlertFragment.AlertSimpleCallback {
     private TextView loginTV;
     private TextView signUpTV;
     private TextView mTextAgree;
@@ -63,8 +71,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private TextInputEditText passwordSignUpEditText;
     private TextInputEditText conformPasswordSignUpEditText;
     private CheckBox mChkAgree;
-    private String firstName="";
-    private String lastName="";
+    private String firstName = "";
+    private String lastName = "aaaa";
 
 
     @Override
@@ -77,6 +85,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void inIt() {
+
+
         loginTV = findViewById(R.id.loginTV);
         signUpTV = findViewById(R.id.signUpTV);
         mTextAgree = findViewById(R.id.mTextAgree);
@@ -218,62 +228,94 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
                 try {
                     if (wValidationLib.isEmpty(userNameSignUpInputLayout, userNameSignUpEditText, getString(R.string.important), true)) {
-                        String firstNameLastName=userNameSignUpEditText.getText().toString().trim();
-                        String[] firstNameLastName1=firstNameLastName.split(" ");
+                        String firstNameLastName = userNameSignUpEditText.getText().toString().trim();
+                        String[] firstNameLastName1 = firstNameLastName.split(" ");
 
-                        if (firstNameLastName1.length>1){
-                            firstName=firstNameLastName1[0];
-                            lastName=firstNameLastName1[1];
+                        if (firstNameLastName1.length > 1) {
+                            firstName = firstNameLastName1[0];
+                            lastName = firstNameLastName1[1];
 
                             if (wValidationLib.isEmailAddress(emailSignUpInputLayout, emailSignUpEditText, getString(R.string.important), getString(R.string.important), true)) {
-                           if (wValidationLib.isEmpty(mobileSignUpInputLayout, mobileSignUpEditText, getString(R.string.important), true)) {
-                               if (wValidationLib.isEmpty(passwordSignUpInputLayout, passwordSignUpEditText, getString(R.string.important), true)) {
-                                   if (wValidationLib.isEmpty(conformPasswordSignUpInputLayout, conformPasswordSignUpEditText, getString(R.string.important), true)) {
-                                       if (passwordSignUpEditText.getText().toString().trim().equalsIgnoreCase(conformPasswordSignUpEditText.getText().toString().trim())) {
-                                           if (mChkAgree.isChecked()) {
-                                               callAPISignUp();
-                                           } else {
-                                               //showSimpleAlert("Check Term and condition", "");
-                                               showSimpleAlert(getString(R.string.term_condition), "");
-                                           }
-                                       } else {
-                                           showSimpleAlert(getString(R.string.password_should_be_same), "");
+                                if (wValidationLib.isEmpty(mobileSignUpInputLayout, mobileSignUpEditText, getString(R.string.important), true)) {
+                                    if (wValidationLib.isEmpty(passwordSignUpInputLayout, passwordSignUpEditText, getString(R.string.important), true)) {
+                                        if (wValidationLib.isEmpty(conformPasswordSignUpInputLayout, conformPasswordSignUpEditText, getString(R.string.important), true)) {
+                                            if (passwordSignUpEditText.getText().toString().trim().equalsIgnoreCase(conformPasswordSignUpEditText.getText().toString().trim())) {
+                                                if (mChkAgree.isChecked()) {
+                                                    callAPISignUp();
+                                                } else {
+                                                    //showSimpleAlert("Check Term and condition", "");
+                                                    showSimpleAlert(getString(R.string.term_condition), "");
+                                                }
+                                            } else {
+                                                showSimpleAlert(getString(R.string.password_should_be_same), "");
 
-                                       }
-                                   }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
 
-                               }
-
-
-                           }
-                       }
-
-                   }else {
+                        } else {
                             showSimpleAlert(getString(R.string.enter_last_name), "");
                         }
 
                     }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
+
+
+               /* try {
+                    if (wValidationLib.isEmpty(userNameSignUpInputLayout, userNameSignUpEditText, getString(R.string.important), true)) {
+                        if (wValidationLib.isFullName(userNameSignUpInputLayout, userNameSignUpEditText,getString(R.string.important), getString(R.string.important), true)){
+                            if (wValidationLib.isEmailAddress(emailSignUpInputLayout, emailSignUpEditText, getString(R.string.important), getString(R.string.important), true)) {
+                                if (wValidationLib.isEmpty(mobileSignUpInputLayout, mobileSignUpEditText, getString(R.string.important), true)) {
+                                    if (wValidationLib.isEmpty(passwordSignUpInputLayout, passwordSignUpEditText, getString(R.string.important), true)) {
+                                        if (wValidationLib.isEmpty(conformPasswordSignUpInputLayout, conformPasswordSignUpEditText, getString(R.string.important), true)) {
+                                            if (passwordSignUpEditText.getText().toString().trim().equalsIgnoreCase(conformPasswordSignUpEditText.getText().toString().trim())) {
+                                                if (mChkAgree.isChecked()) {
+                                                    callAPISignUp();
+                                                } else {
+                                                    //showSimpleAlert("Check Term and condition", "");
+                                                      showSimpleAlert(getString(R.string.term_condition), "");
+                                                }
+                                            } else {
+                                                showSimpleAlert(getString(R.string.password_should_be_same), "");
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                        }else {
+                            showSimpleAlert(getString(R.string.enter_last_name), "");
+                        }
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+*/
 
                 break;
         }
     }
 
+    private void callAPISignUp() {
+        HashMap<String, Object> values = apiCalling.getHashMapObject(
+                "first_name", firstName,
+                "last_name", lastName,
+                "email", emailSignUpEditText.getText().toString().trim(),
+                "mobile", mobileSignUpEditText.getText().toString().trim(),
+                "password", passwordSignUpEditText.getText().toString().trim(),
+                "device_type", Const.KEY.DEVICE_TYPE,
+                "device_token", "firebasetokenkey",
+                "device_id", Const.getDeviceId(LoginActivity.this));
 
-    private void callAPISignUp(){
+
         try {
-            HashMap<String, Object> values = apiCalling.getHashMapObject(
-                    "first_name", firstName,
-                    "last_name", lastName,
-                    "email", emailSignUpEditText.getText().toString().trim(),
-                    "mobile", mobileSignUpEditText.getText().toString().trim(),
-                    "password", passwordSignUpEditText.getText().toString().trim(),
-                    "device_type", "1",
-                    "device_token","123",
-                    "device_id", "111");
-
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postApi(getString(R.string.api_signup), values);
             if (apiCalling != null) {
@@ -282,6 +324,41 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+
+     /* String email=emailSignUpEditText.getText().toString().trim();
+      String mobile=mobileSignUpEditText.getText().toString().trim();
+      String password=passwordSignUpEditText.getText().toString().trim();
+
+      ApiInterface apiInterface = ApiClient.getClient();
+        Call<String> bodyCall = apiInterface.registration(firstName, lastName, email,mobile,password,Const.KEY.DEVICE_TYPE,"firebasetokenkey",Const.getDeviceId(LoginActivity.this));
+        bodyCall.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                MyProgressDialog.getInstance().dismiss();
+                Log.e("Login", "Login response====" + response.body());
+                try {
+                    JSONObject jsonObject = new JSONObject(response.body());
+                    String status = jsonObject.getString("status");
+                    String message = jsonObject.getString("message");
+                    if (status.equals("200")) {
+                        JSONObject object = jsonObject.getJSONObject("data");
+                        // MySession.MmkeSession(object);
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                MyProgressDialog.getInstance().dismiss();
+            }
+        });*/
+
     }
 
     /**
@@ -309,26 +386,40 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void apiCallback(JsonObject json, String from) {
-        Log.e("json","json======"+json);
+        Log.e("json", "json======" + json);
         if (from != null) {
             int status = 0;
             String msg = "";
             try {
-                status = json.get("code").getAsInt();
+                status = json.get("status").getAsInt();
                 msg = json.get("message").getAsString();
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+
             if (from.equals(getResources().getString(R.string.api_signin))) {
-                if (status == 200) {
-                    if (json.get("data").isJsonObject()) {
+                if (status==200){
+                    if (json.get("data").getAsJsonObject()!=null){
+                        JsonObject jsonObject=  json.get("data").getAsJsonObject();
+                        MySession.MakeSession(jsonObject);
+                        Intent intent=new Intent(LoginActivity.this,HomeActivity.class);
+                        startActivity(intent);
+                        finish();
 
                     }
-                } else {
-                    // showSimpleMsgAlert(msg, "", "");
+                }else {
+                    showSimpleAlert(msg, "");
                 }
-            }else if (from.equals(getResources().getString(R.string.api_signup))){
-
+            } else if (from.equals(getResources().getString(R.string.api_signup))) {
+                if (status==200){
+                    if (json.get("data").getAsJsonObject()!=null){
+                        JsonObject jsonObject=  json.get("data").getAsJsonObject();
+                        MySession.MakeSession(jsonObject);
+                    }
+                }else {
+                    showSimpleAlert(msg, "");
+                }
             }
 
 

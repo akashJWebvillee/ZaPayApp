@@ -10,6 +10,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -43,6 +44,21 @@ public interface RestAPI {
     @FormUrlEncoded
     @POST
     Call<JsonElement> postApi(@Url String remainingURL, @FieldMap Map<String, Object> fields);
+
+
+
+    @FormUrlEncoded
+    @POST
+    Call<JsonElement> postApi(@Url String remainingURL,
+                              @Field("first_name") String first_name,
+                              @Field("last_name") String last_name,
+                              @Field("email") String email
+                              , @Field("mobile") String mobile,
+                              @Field("password") String password
+                              , @Field("device_type") String device_type
+                                , @Field("device_token") String device_token
+                              , @Field("device_id") String device_id);
+
 
     @POST
     Call<JsonElement> postObjectApi(@Url String remainingURL, @Body Map<String, Object> fields);

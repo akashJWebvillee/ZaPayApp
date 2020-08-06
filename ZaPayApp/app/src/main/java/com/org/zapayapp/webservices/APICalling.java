@@ -3,6 +3,7 @@ package com.org.zapayapp.webservices;
 import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -42,8 +43,8 @@ import static com.org.zapayapp.webservices.WNetworkCheck.getConnectivityStatus;
 public class APICalling extends BaseRequestParser implements ServiceCallback<JsonElement> {
     //private static final String BASE_URL = "http://webvilleedemo.xyz:3000/api/";
 
-    private static final String BASE_URL = "http://developer.webvilleedemo.xyz/zapay/";
-    private static final String IMAGE_URL = "http://webvilleedemo.xyz:3000";
+    private static final String BASE_URL = "http://developer.webvilleedemo.xyz/zapay/api/";
+    private static final String IMAGE_URL = "http://developer.webvilleedemo.xyz/zapay/";
 
     private String TAG = "APICalling";
     private Activity activity;

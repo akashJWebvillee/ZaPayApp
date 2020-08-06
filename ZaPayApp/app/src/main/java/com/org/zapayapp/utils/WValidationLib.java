@@ -10,13 +10,12 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.org.zapayapp.R;
 import com.org.zapayapp.uihelpers.CustomTextInputLayout;
 import java.util.regex.Pattern;
-
 public class WValidationLib {
     /*
      * Regular Expression
      */
     private static final String EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-    private static final String PASSWORD_REGEX = "^.{6,15}$";
+    private static final String PASSWORD_REGEX = "^.{8,15}$";
     //private static final String PASSWORD_REGEX = "^(?![0-9]{6})[0-9a-zA-Z]{6,20}$";
     private static final String USERNAME_REGEX = "^([-_A-Za-z0-9])*$";
     private static final String FULL_NAME = "[\\p{L}- ]+";
@@ -122,6 +121,11 @@ public class WValidationLib {
      * @return the boolean
      */
     public boolean isFullName(CustomTextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
+        WValidationLib v_lib = new WValidationLib(wContext);
+        return v_lib.isValid(inputLayout, editText, FULL_NAME, requireMsg, errorMsg, required);
+    }
+
+    public boolean isFullName11(CustomTextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
         WValidationLib v_lib = new WValidationLib(wContext);
         return v_lib.isValid(inputLayout, editText, FULL_NAME, requireMsg, errorMsg, required);
     }
@@ -248,7 +252,7 @@ public class WValidationLib {
     public boolean isValid(CustomTextInputLayout inputLayout, TextInputEditText editText, String regex, String requireMsg, String errMsg, boolean required) {
 
         String text = editText.getText().toString().trim();
-        // clearing the error, if it was previously set by some other values
+        //clearing the error, if it was previously set by some other values
         inputLayout.setError(null);
         inputLayout.setErrorEnabled(false);
         editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_selector));
