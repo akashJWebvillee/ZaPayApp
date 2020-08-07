@@ -31,6 +31,7 @@ import com.org.zapayapp.uihelpers.CustomTextInputLayout;
 import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.MySession;
+import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.WValidationLib;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.MyProgressDialog;
@@ -56,7 +57,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private TextView loginButtonTV, signUpButtonTV;
     private TextView forgotPasswordTV;
     private Intent intent;
-    private WValidationLib wValidationLib;
+    //private WValidationLib wValidationLib;
 
     //signup data......
     private CustomTextInputLayout userNameSignUpInputLayout;
@@ -117,7 +118,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
 
         termCondition();
-        wValidationLib = new WValidationLib(this);
+       // wValidationLib = new WValidationLib(this);
 
     }
 
@@ -327,37 +328,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
 
 
-     /* String email=emailSignUpEditText.getText().toString().trim();
-      String mobile=mobileSignUpEditText.getText().toString().trim();
-      String password=passwordSignUpEditText.getText().toString().trim();
 
-      ApiInterface apiInterface = ApiClient.getClient();
-        Call<String> bodyCall = apiInterface.registration(firstName, lastName, email,mobile,password,Const.KEY.DEVICE_TYPE,"firebasetokenkey",Const.getDeviceId(LoginActivity.this));
-        bodyCall.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                MyProgressDialog.getInstance().dismiss();
-                Log.e("Login", "Login response====" + response.body());
-                try {
-                    JSONObject jsonObject = new JSONObject(response.body());
-                    String status = jsonObject.getString("status");
-                    String message = jsonObject.getString("message");
-                    if (status.equals("200")) {
-                        JSONObject object = jsonObject.getJSONObject("data");
-                        // MySession.MmkeSession(object);
-
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                MyProgressDialog.getInstance().dismiss();
-            }
-        });*/
 
     }
 
@@ -367,13 +338,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private void callAPILogin() {
         try {
             HashMap<String, Object> values = apiCalling.getHashMapObject(
-                    "email", editTextUsername.getText().toString(),
-                    "password", etPassword.getText().toString(),
-                    "device_type", "1",
-                    "device_token", "123",
-                    "device_id", "111"
+                    "email", editTextUsername.getText().toString().trim(),
+                    "password", etPassword.getText().toString().trim(),
+                    "device_type", Const.KEY.DEVICE_TYPE,
+                    "device_token","firebasetokenkey",
+                    "device_id", Const.getDeviceId(LoginActivity.this));
 
-            );
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postApi(getString(R.string.api_signin), values);
             if (apiCalling != null) {
@@ -397,7 +367,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 e.printStackTrace();
             }
 
-
             if (from.equals(getResources().getString(R.string.api_signin))) {
                 if (status==200){
                     if (json.get("data").getAsJsonObject()!=null){
@@ -416,6 +385,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     if (json.get("data").getAsJsonObject()!=null){
                         JsonObject jsonObject=  json.get("data").getAsJsonObject();
                         MySession.MakeSession(jsonObject);
+
+                        userNameSignUpEditText.setText("");
+                        emailSignUpEditText.setText("");
+                        mobileSignUpEditText.setText("");
+                        passwordSignUpEditText.setText("");
+                        conformPasswordSignUpEditText.setText("");
+                        firstName="";
+                        lastName="";
+
                     }
                 }else {
                     showSimpleAlert(msg, "");

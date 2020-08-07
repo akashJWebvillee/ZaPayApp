@@ -31,6 +31,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
         AppCenter.start(getApplication(), "7c7f48b8-92b9-419a-842c-536b68581c02",
                 Analytics.class, Crashes.class);// add this to trace the crashlytics
+
+
+
     }
 
     private void initAction() {
@@ -69,4 +72,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         super.onResume();
         setCurrentScreen(100);
     }
+
+
+
 }

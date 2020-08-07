@@ -2,5 +2,10 @@
 <resources>
     <string name="api_signin">signin</string>
     <string name="api_signup">signup</string>
+    <string name="api_reset_password">reset_password</string>
+    <string name="api_logout">logout</string>
+    <string name="api_change_password">change_password</string>
+    <string name="api_update_profile_image">update_profile_image</string>
+    <string name="api_get_user_details">get_user_details</string>
 
 </resources>

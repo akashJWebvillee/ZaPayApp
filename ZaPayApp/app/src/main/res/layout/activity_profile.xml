@@ -150,6 +150,7 @@
         android:layout_centerHorizontal="true">
 
         <com.github.siyamed.shapeimageview.RoundedImageView
+            android:id="@+id/profileImageView"
             android:layout_width="88dp"
             android:layout_height="88dp"
             android:elevation="0dp"

@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.LayoutRes;
@@ -21,27 +23,35 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
-import com.microsoft.appcenter.AppCenter;
-import com.microsoft.appcenter.analytics.Analytics;
-import com.microsoft.appcenter.crashes.Crashes;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.ZapayApp;
 import com.org.zapayapp.adapters.NavigationAdapter;
 import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
 import com.org.zapayapp.uihelpers.AdvanceDrawerLayout;
 import com.org.zapayapp.utils.CommonMethods;
+import com.org.zapayapp.utils.Const;
+import com.org.zapayapp.utils.MySession;
+import com.org.zapayapp.utils.SharedPref;
+import com.org.zapayapp.utils.WValidationLib;
+import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
 import com.org.zapayapp.webservices.RestAPI;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import retrofit2.Call;
 
 /**
  * The type Base activity.
  */
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity implements SimpleAlertFragment.AlertSimpleCallback, APICallback {
 
     private NavigationView navView;
     private AdvanceDrawerLayout drawerLayout;
@@ -55,6 +65,7 @@ public class BaseActivity extends AppCompatActivity {
     protected Toolbar toolbar;
     private ActionBarDrawerToggle drawerToggle;
     private TextView navTextName, ownerTextName, ownerTextSubName;
+    private ImageView imgLogo;
     private RecyclerView navRecycler;
     private int currentScreen = 100;
     /**
@@ -111,6 +122,8 @@ public class BaseActivity extends AppCompatActivity {
      */
     protected String deviceToken = "";
 
+    public WValidationLib wValidationLib;
+
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         drawerLayout = (AdvanceDrawerLayout) getLayoutInflater().inflate(R.layout.activity_base, null);
@@ -125,6 +138,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         baseActivityInit();
+        wValidationLib = new WValidationLib(this);
     }
 
     private void baseActivityInit() {
@@ -134,10 +148,13 @@ public class BaseActivity extends AppCompatActivity {
         apiCalling = new APICalling(this);
     }
 
+
+
     private void initialHeaderFooter() {
         toolbar = findViewById(R.id.toolbar);
         navView = findViewById(R.id.navView);
-        navTextName = findViewById(R.id.navTextName);
+       // navTextName = findViewById(R.id.navTextName);
+        setHeaderData(navView);
         navRecycler = findViewById(R.id.navRecycler);
         if (useToolbar()) {
             try {
@@ -306,7 +323,8 @@ public class BaseActivity extends AppCompatActivity {
                 break;
             case 8:
                 if (currentScreen != LOGOUT) {
-                    clearLogout();
+                    // clearLogout();
+                    callAPIResetPassword();
                 }
                 break;
         }
@@ -331,7 +349,47 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+
+    private void callAPIResetPassword() {
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        try {
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.postApiToken(token, getString(R.string.api_logout));
+            if (apiCalling != null) {
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_logout),activityContainer);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void apiCallback(JsonObject json, String from) {
+        Log.e("json", "json======" + json);
+        if (from != null) {
+            int status = 0;
+            String msg = "";
+            try {
+                status = json.get("status").getAsInt();
+                msg = json.get("message").getAsString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if (from.equals(getResources().getString(R.string.api_logout))) {
+                if (status == 200) {
+                    clearLogout();
+                } else {
+                    showSimpleAlert(msg, "");
+                }
+            }
+
+        }
+    }
+
     private void clearLogout() {
+
+        MySession.removeSession();
         intent = new Intent(BaseActivity.this, SplashActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
@@ -339,5 +397,48 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
+    public void showSimpleAlert(String message, String from) {
+        try {
+            FragmentManager fm = getSupportFragmentManager();
+            Bundle args = new Bundle();
+            args.putString("header", message);
+            args.putString("textOk", getString(R.string.ok));
+            args.putString("textCancel", getString(R.string.cancel));
+            args.putString("from", from);
+            SimpleAlertFragment alert = new SimpleAlertFragment();
+            alert.setArguments(args);
+            alert.show(fm, "");
+        } catch (Resources.NotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
+    @Override
+    public void onSimpleCallback(String from) {
+
+    }
+
+    private void setHeaderData(NavigationView navView){
+       /* View headerView = navView.getHeaderView(0);
+        imgLogo = headerView.findViewById(R.id.imgLogo);
+        navTextName = headerView.findViewById(R.id.navTextName);*/
+
+
+
+        imgLogo = navView.findViewById(R.id.imgLogo);
+        navTextName = navView.findViewById(R.id.navTextName);
+
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString().length() > 0) {
+            Glide.with(BaseActivity.this)
+                    .load(apiCalling.getImageUrl(SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString())).placeholder(R.mipmap.ic_user)
+                    .into(imgLogo);
+        }
+
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME) != null && SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME).toString().length() > 0) {
+            navTextName.setText(SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME, "") + " " + SharedPref.getPrefsHelper().getPref(Const.Var.LAST_NAME, ""));
+
+        }
+
+
+    }
 }

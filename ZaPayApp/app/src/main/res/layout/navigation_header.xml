@@ -2,18 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_vertical"
     android:paddingTop="44dp"
     android:paddingStart="55dp"
     android:paddingEnd="10dp"
     android:orientation="vertical">
 
-    <ImageView
+<!--    <ImageView
         android:id="@+id/imgLogo"
         android:layout_width="88dp"
         android:layout_height="88dp"
         android:contentDescription="@null"
-        android:src="@mipmap/ic_user" />
+        android:src="@mipmap/ic_user" />-->
+
+    <com.github.siyamed.shapeimageview.RoundedImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="88dp"
+        android:layout_height="88dp"
+        android:elevation="0dp"
+        android:src="@mipmap/ic_user"
+        app:siBorderColor="#00ffffff"
+        app:siBorderWidth="0dp"
+        app:siRadius="20dp"
+        app:siSquare="true" />
+
+
 
     <TextView
         android:id="@+id/navTextName"

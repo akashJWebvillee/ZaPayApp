@@ -31,8 +31,6 @@ public interface RestAPI {
     @GET
     Call<JsonElement> getApi(@Url String remainingURL);
 
-    @GET
-    Call<JsonElement> getApiToken(@Header("authorization") String authToken, @Url String remainingURL);
 
     @FormUrlEncoded
     @PUT
@@ -45,19 +43,25 @@ public interface RestAPI {
     @POST
     Call<JsonElement> postApi(@Url String remainingURL, @FieldMap Map<String, Object> fields);
 
+    @POST
+    Call<JsonElement> postApiToken(@Header("authorization") String authToken, @Url String remainingURL);
+
+    @GET
+    Call<JsonElement> getApiToken(@Header("authorization") String authToken, @Url String remainingURL);
 
 
     @FormUrlEncoded
     @POST
-    Call<JsonElement> postApi(@Url String remainingURL,
-                              @Field("first_name") String first_name,
-                              @Field("last_name") String last_name,
-                              @Field("email") String email
-                              , @Field("mobile") String mobile,
-                              @Field("password") String password
-                              , @Field("device_type") String device_type
-                                , @Field("device_token") String device_token
-                              , @Field("device_id") String device_id);
+    Call<JsonElement> postWithTokenApi(@Header("authorization") String authToken,@Url String remainingURL, @FieldMap Map<String, Object> fields);
+
+    @Multipart
+    @POST
+    Call<JsonElement> postWithTokenMultiPartApi(@Header("authorization") String authToken,@Url String remainingURL, @Part MultipartBody.Part image);
+
+
+
+
+
 
 
     @POST

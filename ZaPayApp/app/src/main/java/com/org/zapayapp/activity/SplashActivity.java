@@ -3,6 +3,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import com.org.zapayapp.R;
+import com.org.zapayapp.utils.Const;
+import com.org.zapayapp.utils.SharedPref;
 
 public class SplashActivity extends BaseActivity {
     @Override
@@ -13,8 +15,15 @@ public class SplashActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
-                finish();
+                if (SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID)!=null){
+                    startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                    finish();
+                }else {
+                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                    finish();
+                }
+
+
             }
         }, 3000);
     }

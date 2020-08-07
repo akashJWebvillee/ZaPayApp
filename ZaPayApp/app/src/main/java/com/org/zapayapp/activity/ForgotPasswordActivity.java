@@ -1,18 +1,26 @@
 package com.org.zapayapp.activity;
-
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
+import com.org.zapayapp.uihelpers.CustomTextInputLayout;
+import com.org.zapayapp.webservices.APICallback;
+import java.util.HashMap;
+import retrofit2.Call;
 
-public class ForgotPasswordActivity extends BaseActivity implements View.OnClickListener{
-
+public class ForgotPasswordActivity extends BaseActivity implements View.OnClickListener, APICallback {
     private TextView textViewSpannable;
     private TextView buttonSend;
+
+    private CustomTextInputLayout passwordInputLayout;
+    private TextInputEditText passwordEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +32,10 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
 
     private void init(){
         textViewSpannable = findViewById(R.id.textViewSpannable);
+        passwordInputLayout = findViewById(R.id.passwordInputLayout);
+        passwordEditText = findViewById(R.id.passwordEditText);
         buttonSend = findViewById(R.id.buttonSend);
+
     }
 
     private void initAction(){
@@ -42,7 +53,17 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.buttonSend) {
-            finish();
+
+            try {
+                if (wValidationLib.isEmpty(passwordInputLayout, passwordEditText, getString(R.string.important), true)) {
+                    if (wValidationLib.isEmailAddress(passwordInputLayout, passwordEditText, getString(R.string.important), getString(R.string.important), true)) {
+                        callAPIResetPassword();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
@@ -55,4 +76,47 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
     protected boolean useDrawerToggle() {
         return false;
     }
+
+
+    private void callAPIResetPassword() {
+        try {
+            HashMap<String, Object> values = apiCalling.getHashMapObject(
+                    "email", passwordEditText.getText().toString().trim());
+
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.postApi(getString(R.string.api_reset_password), values);
+            if (apiCalling != null) {
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_reset_password), buttonSend);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void apiCallback(JsonObject json, String from) {
+        Log.e("json", "json======" + json);
+        if (from != null) {
+            int status = 0;
+            String msg = "";
+            try {
+                status = json.get("status").getAsInt();
+                msg = json.get("message").getAsString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if (from.equals(getResources().getString(R.string.api_reset_password))) {
+                if (status==200){
+                    passwordEditText.setText("");
+                    showSimpleAlert(msg, "");
+
+                }else {
+                    showSimpleAlert(msg, "");
+                }
+            }
+
+        }
+    }
+
 }

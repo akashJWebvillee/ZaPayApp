@@ -1,15 +1,7 @@
 package com.org.zapayapp.utils;
 
-
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MySession {
     public static void MakeSession(JsonObject object) {
@@ -29,14 +21,66 @@ public class MySession {
             String email = object.get("email").getAsString();
             SharedPref.getPrefsHelper().savePref(Const.Var.EMAIL, email);
         }
+
         if (object.get("mobile") != null && object.get("mobile").getAsString() != null /*&& object.get("lat").getAsString().length() > 0*/) {
             String mobile = object.get("mobile").getAsString();
             SharedPref.getPrefsHelper().savePref(Const.Var.MOBILE, mobile);
         }
 
+        if (object.get("address1") != null && object.get("address1").getAsString() != null /*&& object.get("lat").getAsString().length() > 0*/) {
+            String address1 = object.get("address1").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.ADDRESS1, address1);
+        }
 
+        if (object.get("address2") != null && object.get("address2").getAsString() != null /*&& object.get("lat").getAsString().length() > 0*/) {
+            String address2 = object.get("address2").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.ADDRESS2, address2);
+        }
 
+        if (object.get("city") != null && object.get("city").getAsString() != null /*&& object.get("lat").getAsString().length() > 0*/) {
+            String city = object.get("city").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.CITY, city);
+        }
 
+        if (object.get("state") != null && object.get("state").getAsString() != null /*&& object.get("lat").getAsString().length() > 0*/) {
+            String state = object.get("state").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.STATE, state);
+        }
+
+        if (object.get("postal_code") != null && object.get("postal_code").getAsString() != null /*&& object.get("lat").getAsString().length() > 0*/) {
+            String postal_code = object.get("postal_code").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.POSTEL_CODE, postal_code);
+        }
+
+        if (object.get("dob") != null && object.get("dob").getAsString() != null /*&& object.get("lat").getAsString().length() > 0*/) {
+            String dob = object.get("dob").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.DOB, dob);
+        }
+
+        if (object.get("ssn") != null && object.get("ssn").getAsString() != null /*&& object.get("lat").getAsString().length() > 0*/) {
+            String ssn = object.get("ssn").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.SSN, ssn);
+        }
+
+        if (object.get("user_status") != null && object.get("user_status").getAsString() != null /*&& object.get("lat").getAsString().length() > 0*/) {
+            String user_status = object.get("user_status").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.USER_STATUS, user_status);
+        }
+
+        if (object.get("profile_image") != null && object.get("profile_image").getAsString() != null /*&& object.get("lat").getAsString().length() > 0*/) {
+            String profile_image = object.get("profile_image").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.PROFILE_IMAGE, profile_image);
+        }
+
+        if (object.get("email_verify") != null && object.get("email_verify").getAsString() != null /*&& object.get("lat").getAsString().length() > 0*/) {
+            String email_verify = object.get("email_verify").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.EMAIL_VERIFY, email_verify);
+        }
+
+        if (object.get("activity_status") != null && object.get("activity_status").getAsString() != null /*&& object.get("lat").getAsString().length() > 0*/) {
+            String activity_status = object.get("activity_status").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.ACTIVITY_STATUS, activity_status);
+        }
 
         if (object.get("created_at") != null && object.get("created_at").getAsString() != null && object.get("created_at").getAsString().length() > 0) {
             String created_at = object.get("created_at").getAsString();
@@ -51,37 +95,6 @@ public class MySession {
             String country = object.get("country").getAsString();
             SharedPref.getPrefsHelper().savePref(Const.Var.COUNTRY, country);
         }
-        if (object.get("_id") != null && object.get("_id").getAsString() != null && object.get("_id").getAsString().length() > 0) {
-            String _id = object.get("_id").getAsString();
-            SharedPref.getPrefsHelper().savePref(Const.Var._ID, _id);
-        }
-        if (object.get("userName") != null && object.get("userName").getAsString() != null && object.get("userName").getAsString().length() > 0) {
-            String userName = object.get("userName").getAsString();
-            SharedPref.getPrefsHelper().savePref(Const.Var.USER_NAME, userName);
-        }
-        if (object.get("email") != null && object.get("email").getAsString() != null && object.get("email").getAsString().length() > 0) {
-            String email = object.get("email").getAsString();
-            SharedPref.getPrefsHelper().savePref(Const.Var.EMAIL, email);
-        }
-        if (object.get("contactNo") != null && object.get("contactNo").getAsString() != null && object.get("contactNo").getAsString().length() > 0) {
-            String contactNo = object.get("contactNo").getAsString();
-            SharedPref.getPrefsHelper().savePref(Const.Var.CONTACT_NO, contactNo);
-        }
-        if (object.get("referCode") != null && object.get("referCode").getAsString() != null && object.get("referCode").getAsString().length() > 0) {
-            String referCode = object.get("referCode").getAsString();
-            SharedPref.getPrefsHelper().savePref(Const.Var.REFERRAL_CODE, referCode);
-        }
-        if (object.get("token") != null && object.get("token").getAsString() != null && object.get("token").getAsString().length() > 0) {
-            String token = object.get("token").getAsString();
-            SharedPref.getPrefsHelper().savePref(Const.Var.TOKEN, token);
-        }
-
-
-//this add by ashok....
-        if (object.get("radius") != null && object.get("radius").getAsString() != null && object.get("token").getAsString().length() > 0) {
-            String radius = object.get("radius").getAsString();
-            SharedPref.getPrefsHelper().savePref(Const.Var.RADIUS, radius);
-        }
 
         if (object.get("productPrice") != null && object.get("productPrice").getAsString() != null && object.get("token").getAsString().length() > 0) {
             String productPrice = object.get("productPrice").getAsString();
@@ -92,13 +105,11 @@ public class MySession {
 
     }
 
-/*
     public static void removeSession() {
-        SharedPref.getPrefsHelper().savePref(Const.Var._ID, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.USER_ID, null);
         SharedPref.getPrefsHelper().savePref(Const.Var.TOKEN, null);
-        SharedPref.getPrefsHelper().savePref(Const.Var.IS_VERIFIED, false);
+        //SharedPref.getPrefsHelper().savePref(Const.Var.IS_VERIFIED, false);
     }
-*/
 
 
 

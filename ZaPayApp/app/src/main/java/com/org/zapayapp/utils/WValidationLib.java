@@ -15,7 +15,7 @@ public class WValidationLib {
      * Regular Expression
      */
     private static final String EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-    private static final String PASSWORD_REGEX = "^.{8,15}$";
+    private static final String PASSWORD_REGEX = "^.{6,15}$";
     //private static final String PASSWORD_REGEX = "^(?![0-9]{6})[0-9a-zA-Z]{6,20}$";
     private static final String USERNAME_REGEX = "^([-_A-Za-z0-9])*$";
     private static final String FULL_NAME = "[\\p{L}- ]+";

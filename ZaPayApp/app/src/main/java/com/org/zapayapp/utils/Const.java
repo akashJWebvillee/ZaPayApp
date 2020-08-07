@@ -12,6 +12,20 @@ public class Const {
         String EMAIL = "email";
         String MOBILE = "mobile";
 
+
+      String ADDRESS1 = "address1";
+      String ADDRESS2 = "address2";
+      String CITY = "city";
+      String STATE = "state";
+      String POSTEL_CODE = "postal_code";
+      String DOB = "dob";
+      String SSN = "ssn";
+      String USER_STATUS = "user_status";
+      String PROFILE_IMAGE = "profile_image";
+      String EMAIL_VERIFY = "email_verify";
+      String ACTIVITY_STATUS = "activity_status";
+
+
         String CREATE_AT = "created_at";
         String TOKEN = "token";
 
