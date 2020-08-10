@@ -15,10 +15,11 @@ public class WValidationLib {
      * Regular Expression
      */
     private static final String EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-    private static final String PASSWORD_REGEX = "^.{6,15}$";
+    private static final String PASSWORD_REGEX = "^.{8,15}$";
     //private static final String PASSWORD_REGEX = "^(?![0-9]{6})[0-9a-zA-Z]{6,20}$";
     private static final String USERNAME_REGEX = "^([-_A-Za-z0-9])*$";
-    private static final String FULL_NAME = "[\\p{L}- ]+";
+    //private static final String FULL_NAME = "[\\p{L}- ]+";
+    private static final String FULL_NAME = "^[a-zA-Z]{4,}(?: [a-zA-Z]+){0,2}$";
     private static final String VALID_URL_REGEX = "(((f|ht){1}tp|tps:[//])[-a-zA-Z0-9@:%_\\+.~#?&//=]+)";
     private static final String ALPHANUMERIC = "[a-zA-Z0-9\\u00C0-\\u00FF \\\\./-\\\\?]*";
     private static final String ALPHA = "([a-zA-Z])\\w+";
@@ -78,14 +79,15 @@ public class WValidationLib {
      * @param required                pass boolean to check if the following validation is required
      * @return true when all validations are success else false
      */
-    public static boolean isConfirmPasswordValidation(TextInputLayout editTextPassword, TextInputLayout editTextConfirmPassword, String requireMsg, String requireConfMsg, String errorMsg, String notMatchMsg, boolean required) {
-       /* if (isPassword(editTextPassword, requireMsg, errorMsg, required)) {
-            if (isPassword(editTextConfirmPassword, requireConfMsg, errorMsg, required)) {
-                if (isPasswordEqual(editTextPassword, editTextConfirmPassword, requireMsg, notMatchMsg)) {
+    public boolean isConfirmPasswordValidation(CustomTextInputLayout editTextPasswordLay,TextInputEditText editTextPassword, CustomTextInputLayout editTextConfirmPasswordLay,TextInputEditText editTextConfirmPassword,
+                                               String requireMsg, String requireConfMsg, String errorMsg, String notMatchMsg, boolean required) {
+        if (isPassword(editTextPasswordLay,editTextPassword, requireMsg, errorMsg, required)) {
+            if (isPassword(editTextConfirmPasswordLay,editTextConfirmPassword, requireConfMsg, errorMsg, required)) {
+                if (isPasswordEqual(editTextPasswordLay, editTextConfirmPasswordLay, requireMsg, notMatchMsg)) {
                     return true;
                 }
             }
-        }*/
+        }
         return false;
     }
 
@@ -121,11 +123,6 @@ public class WValidationLib {
      * @return the boolean
      */
     public boolean isFullName(CustomTextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
-        WValidationLib v_lib = new WValidationLib(wContext);
-        return v_lib.isValid(inputLayout, editText, FULL_NAME, requireMsg, errorMsg, required);
-    }
-
-    public boolean isFullName11(CustomTextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
         WValidationLib v_lib = new WValidationLib(wContext);
         return v_lib.isValid(inputLayout, editText, FULL_NAME, requireMsg, errorMsg, required);
     }
@@ -457,7 +454,7 @@ public class WValidationLib {
             et.setErrorEnabled(true);
             return false;
         }
-        if (text.length() < 6) {
+        if (text.length() < 10) {
             et.requestFocus();
             et.setError(errMsg);
             et.setErrorEnabled(true);

@@ -5,7 +5,6 @@ import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -25,25 +24,15 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
-import com.org.zapayapp.rest.ApiClient;
-import com.org.zapayapp.rest.ApiInterface;
 import com.org.zapayapp.uihelpers.CustomTextInputLayout;
 import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.MySession;
-import com.org.zapayapp.utils.SharedPref;
-import com.org.zapayapp.utils.WValidationLib;
 import com.org.zapayapp.webservices.APICallback;
-import com.org.zapayapp.webservices.MyProgressDialog;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener, APICallback, SimpleAlertFragment.AlertSimpleCallback {
     private TextView loginTV;
@@ -118,7 +107,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
 
         termCondition();
-       // wValidationLib = new WValidationLib(this);
+        // wValidationLib = new WValidationLib(this);
 
     }
 
@@ -132,6 +121,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         setSelectedView(1);
         wValidationLib.removeError(etEmailLayout, editTextUsername);
         wValidationLib.removeError(etPasswordLayout, etPassword);
+
+        wValidationLib.removeError(userNameSignUpInputLayout, userNameSignUpEditText);
+        wValidationLib.removeError(emailSignUpInputLayout, emailSignUpEditText);
+        wValidationLib.removeError(mobileSignUpInputLayout, mobileSignUpEditText);
+        wValidationLib.removeError(passwordSignUpInputLayout, passwordSignUpEditText);
+        wValidationLib.removeError(conformPasswordSignUpInputLayout, conformPasswordSignUpEditText);
     }
 
     private void setSelectedView(int position) {
@@ -205,13 +200,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             case R.id.loginButtonTV:
                 try {
                     if (wValidationLib.isEmailAddress(etEmailLayout, editTextUsername, getString(R.string.important), getString(R.string.important), true)) {
-                        if (wValidationLib.isEmpty(etPasswordLayout, etPassword, getString(R.string.important), true)) {
+                        if (wValidationLib.isPassword(etPasswordLayout, etPassword, getString(R.string.important), getString(R.string.important), true)) {
                            /* intent = new Intent(LoginActivity.this, HomeActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             finish();*/
                             callAPILogin();
-
                         }
                     }
                 } catch (Exception e) {
@@ -219,104 +213,54 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 }
                 break;
             case R.id.signUpButtonTV:
-
               /*  intent = new Intent(LoginActivity.this, HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 finish();*/
-
-
                 try {
-                    if (wValidationLib.isEmpty(userNameSignUpInputLayout, userNameSignUpEditText, getString(R.string.important), true)) {
-                        String firstNameLastName = userNameSignUpEditText.getText().toString().trim();
-                        String[] firstNameLastName1 = firstNameLastName.split(" ");
-
-                        if (firstNameLastName1.length > 1) {
-                            firstName = firstNameLastName1[0];
-                            lastName = firstNameLastName1[1];
-
-                            if (wValidationLib.isEmailAddress(emailSignUpInputLayout, emailSignUpEditText, getString(R.string.important), getString(R.string.important), true)) {
-                                if (wValidationLib.isEmpty(mobileSignUpInputLayout, mobileSignUpEditText, getString(R.string.important), true)) {
-                                    if (wValidationLib.isEmpty(passwordSignUpInputLayout, passwordSignUpEditText, getString(R.string.important), true)) {
-                                        if (wValidationLib.isEmpty(conformPasswordSignUpInputLayout, conformPasswordSignUpEditText, getString(R.string.important), true)) {
-                                            if (passwordSignUpEditText.getText().toString().trim().equalsIgnoreCase(conformPasswordSignUpEditText.getText().toString().trim())) {
-                                                if (mChkAgree.isChecked()) {
-                                                    callAPISignUp();
-                                                } else {
-                                                    //showSimpleAlert("Check Term and condition", "");
-                                                    showSimpleAlert(getString(R.string.term_condition), "");
-                                                }
+                    if (wValidationLib.isFullName(userNameSignUpInputLayout, userNameSignUpEditText, getString(R.string.important), getString(R.string.important), true)) {
+                        if (wValidationLib.isEmailAddress(emailSignUpInputLayout, emailSignUpEditText, getString(R.string.important), getString(R.string.important), true)) {
+                            if (wValidationLib.isValidNumeric(mobileSignUpInputLayout, mobileSignUpEditText, getString(R.string.important), getString(R.string.important), true)) {
+                                if (wValidationLib.isEmpty(passwordSignUpInputLayout, passwordSignUpEditText, getString(R.string.important), true)) {
+                                    if (wValidationLib.isEmpty(conformPasswordSignUpInputLayout, conformPasswordSignUpEditText, getString(R.string.important), true)) {
+                                        if (wValidationLib.isConfirmPasswordValidation(passwordSignUpInputLayout, passwordSignUpEditText, conformPasswordSignUpInputLayout, conformPasswordSignUpEditText, getString(R.string.important), getString(R.string.important), getString(R.string.important), getString(R.string.important), true)) {
+                                            if (mChkAgree.isChecked()) {
+                                                callAPISignUp();
                                             } else {
-                                                showSimpleAlert(getString(R.string.password_should_be_same), "");
-
+                                                showSimpleAlert(getString(R.string.term_condition), "");
                                             }
                                         }
                                     }
                                 }
                             }
-
-                        } else {
-                                showSimpleAlert(getString(R.string.enter_last_name), "");
                         }
-
                     }
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-
-
-               /* try {
-                    if (wValidationLib.isEmpty(userNameSignUpInputLayout, userNameSignUpEditText, getString(R.string.important), true)) {
-                        if (wValidationLib.isFullName(userNameSignUpInputLayout, userNameSignUpEditText,getString(R.string.important), getString(R.string.important), true)){
-                            if (wValidationLib.isEmailAddress(emailSignUpInputLayout, emailSignUpEditText, getString(R.string.important), getString(R.string.important), true)) {
-                                if (wValidationLib.isEmpty(mobileSignUpInputLayout, mobileSignUpEditText, getString(R.string.important), true)) {
-                                    if (wValidationLib.isEmpty(passwordSignUpInputLayout, passwordSignUpEditText, getString(R.string.important), true)) {
-                                        if (wValidationLib.isEmpty(conformPasswordSignUpInputLayout, conformPasswordSignUpEditText, getString(R.string.important), true)) {
-                                            if (passwordSignUpEditText.getText().toString().trim().equalsIgnoreCase(conformPasswordSignUpEditText.getText().toString().trim())) {
-                                                if (mChkAgree.isChecked()) {
-                                                    callAPISignUp();
-                                                } else {
-                                                    //showSimpleAlert("Check Term and condition", "");
-                                                      showSimpleAlert(getString(R.string.term_condition), "");
-                                                }
-                                            } else {
-                                                showSimpleAlert(getString(R.string.password_should_be_same), "");
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                        }else {
-                            showSimpleAlert(getString(R.string.enter_last_name), "");
-                        }
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-*/
-
                 break;
         }
     }
 
     private void callAPISignUp() {
-        HashMap<String, Object> values = apiCalling.getHashMapObject(
-                "first_name", firstName,
-                "last_name", lastName,
-                "email", emailSignUpEditText.getText().toString().trim(),
-                "mobile", mobileSignUpEditText.getText().toString().trim(),
-                "password", passwordSignUpEditText.getText().toString().trim(),
-                "device_type", Const.KEY.DEVICE_TYPE,
-                "device_token", "firebasetokenkey",
-                "device_id", Const.getDeviceId(LoginActivity.this));
-
-
         try {
+            String firstNameLastName = userNameSignUpEditText.getText().toString().trim();
+            String[] firstNameLastName1 = firstNameLastName.split(" ");
+            if (firstNameLastName1.length > 1) {
+                firstName = firstNameLastName1[0];
+                lastName = firstNameLastName1[1];
+            }
+            HashMap<String, Object> values = apiCalling.getHashMapObject(
+                    "first_name", firstName,
+                    "last_name", lastName,
+                    "email", emailSignUpEditText.getText().toString().trim(),
+                    "mobile", mobileSignUpEditText.getText().toString().trim(),
+                    "password", passwordSignUpEditText.getText().toString().trim(),
+                    "device_type", Const.KEY.DEVICE_TYPE,
+                    "device_token", "firebasetokenkey",
+                    "device_id", Const.getDeviceId(LoginActivity.this));
+
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postApi(getString(R.string.api_signup), values);
             if (apiCalling != null) {
@@ -325,6 +269,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         } catch (Exception e) {
             e.printStackTrace();
         }
+
 
     }
 
@@ -337,7 +282,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     "email", editTextUsername.getText().toString().trim(),
                     "password", etPassword.getText().toString().trim(),
                     "device_type", Const.KEY.DEVICE_TYPE,
-                    "device_token","firebasetokenkey",
+                    "device_token", "firebasetokenkey",
                     "device_id", Const.getDeviceId(LoginActivity.this));
 
             zapayApp.setApiCallback(this);
@@ -364,34 +309,32 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             }
 
             if (from.equals(getResources().getString(R.string.api_signin))) {
-                if (status==200){
-                    if (json.get("data").getAsJsonObject()!=null){
-                        JsonObject jsonObject=  json.get("data").getAsJsonObject();
+                if (status == 200) {
+                    if (json.get("data").getAsJsonObject() != null) {
+                        JsonObject jsonObject = json.get("data").getAsJsonObject();
                         MySession.MakeSession(jsonObject);
-                        Intent intent=new Intent(LoginActivity.this,HomeActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(intent);
                         finish();
 
                     }
-                }else {
+                } else {
                     showSimpleAlert(msg, "");
                 }
             } else if (from.equals(getResources().getString(R.string.api_signup))) {
-                if (status==200){
-                    if (json.get("data").getAsJsonObject()!=null){
-                        JsonObject jsonObject=  json.get("data").getAsJsonObject();
+                if (status == 200) {
+                    if (json.get("data").getAsJsonObject() != null) {
+                        JsonObject jsonObject = json.get("data").getAsJsonObject();
                         MySession.MakeSession(jsonObject);
-
                         userNameSignUpEditText.setText("");
                         emailSignUpEditText.setText("");
                         mobileSignUpEditText.setText("");
                         passwordSignUpEditText.setText("");
                         conformPasswordSignUpEditText.setText("");
-                        firstName="";
-                        lastName="";
-
+                        firstName = "";
+                        lastName = "";
                     }
-                }else {
+                } else {
                     showSimpleAlert(msg, "");
                 }
             }
