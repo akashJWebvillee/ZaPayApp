@@ -82,13 +82,14 @@ public class MySession {
             SharedPref.getPrefsHelper().savePref(Const.Var.ACTIVITY_STATUS, activity_status);
         }
 
-        if (object.get("created_at") != null && object.get("created_at").getAsString() != null && object.get("created_at").getAsString().length() > 0) {
-            String created_at = object.get("created_at").getAsString();
-            SharedPref.getPrefsHelper().savePref(Const.Var.CREATE_AT, created_at);
-        }
         if (object.get("token") != null && object.get("token").getAsString() != null && object.get("token").getAsString().length() > 0) {
             String token = object.get("token").getAsString();
             SharedPref.getPrefsHelper().savePref(Const.Var.TOKEN, token);
+        }
+
+        if (object.get("created_at") != null && object.get("created_at").getAsString() != null && object.get("created_at").getAsString().length() > 0) {
+            String created_at = object.get("created_at").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.CREATE_AT, created_at);
         }
 
         /* if (object.get("country") != null && object.get("country").getAsString() != null && object.get("country").getAsString().length() > 0) {

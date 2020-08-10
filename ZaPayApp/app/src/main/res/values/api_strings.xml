@@ -8,4 +8,11 @@
     <string name="api_update_profile_image">update_profile_image</string>
     <string name="api_get_user_details">get_user_details</string>
 
+    <string name="api_get_content">get_content</string>
+    <string name="api_add_bank_account">add_bank_account</string>
+
+    <string name="api_get_states_list">get_states_list</string>
+    <string name="api_get_cities_list">get_cities_list</string>
+    <string name="api_update_profile">update_profile</string>
+
 </resources>

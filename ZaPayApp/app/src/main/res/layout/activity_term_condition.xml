@@ -34,6 +34,7 @@
                 android:layout_marginTop="35dp"/>
 
             <TextView
+                android:id="@+id/termCondtitionTV"
                 style="@style/textViewMediumStyleRegular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

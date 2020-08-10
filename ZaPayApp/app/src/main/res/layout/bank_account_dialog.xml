@@ -119,6 +119,13 @@
                 android:textColorHint="@color/textColorBold20Alpha"
                 android:textSize="15sp"
                 android:theme="@style/TextInputLayoutAppearance" />
+
+
+
+
+
+
+
         </LinearLayout>
 
         <com.dd.ShadowLayout

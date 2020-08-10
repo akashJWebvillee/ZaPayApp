@@ -85,10 +85,39 @@
                 android:textColor="@color/navTextColor"
                 android:layout_marginStart="31dp"/>
 
+
             <com.dd.ShadowLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="180dp"
+                android:layout_marginTop="150dp"
+                android:layout_marginStart="48dp"
+                android:layout_marginEnd="48dp"
+                app:sl_cornerRadius="56dp"
+                android:layout_gravity="center"
+                app:sl_dx="0dp"
+                app:sl_dy="10dp"
+                app:sl_shadowColor="#2CFC5C04"
+                app:sl_shadowRadius="4dp">
+
+                <TextView
+                    android:id="@+id/addTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="53dp"
+                    android:background="@drawable/rectanguler_button_bg"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:gravity="center"
+                    android:text="Add"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/gotha_probol"
+                    android:textColor="@color/colorWhite" />
+            </com.dd.ShadowLayout>
+
+
+
+            <com.dd.ShadowLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
                 android:layout_marginBottom="50dp"
                 android:layout_marginStart="48dp"
                 android:layout_marginEnd="48dp"

@@ -16,7 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
         <activity
             android:name=".activity.SplashActivity"
             android:screenOrientation="portrait"
@@ -100,14 +99,28 @@
             android:name=".dialogs.ChangeBankDialogActivity"
             android:fitsSystemWindows="true"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
-        <activity
+
+    <!--    <activity
             android:name=".dialogs.EditProfileDialogActivity"
             android:fitsSystemWindows="true"
-            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />-->
+
+        <activity
+            android:name=".dialogs.EditProfileDialogActivity"
+            android:screenOrientation="portrait"/>
+
+
         <activity
             android:name=".dialogs.ChangePassDialogActivity"
             android:fitsSystemWindows="true"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
+
+
+
+        <activity android:name=".dialogs.AdddBankDialogActivity"
+            android:fitsSystemWindows="true"
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert"/>
+
     </application>
 
 </manifest>

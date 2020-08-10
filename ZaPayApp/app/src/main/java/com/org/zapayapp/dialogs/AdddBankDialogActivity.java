@@ -1,4 +1,6 @@
 package com.org.zapayapp.dialogs;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -7,12 +9,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
@@ -20,7 +22,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.ZapayApp;
-import com.org.zapayapp.activity.BaseActivity;
 import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
 import com.org.zapayapp.uihelpers.CustomTextInputLayout;
 import com.org.zapayapp.utils.CommonMethods;
@@ -30,57 +31,52 @@ import com.org.zapayapp.utils.WValidationLib;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
 import com.org.zapayapp.webservices.RestAPI;
-
 import java.util.HashMap;
-
 import retrofit2.Call;
 
-public class ChangePassDialogActivity extends AppCompatActivity implements View.OnClickListener , APICallback ,SimpleAlertFragment.AlertSimpleCallback{
-
+public class AdddBankDialogActivity extends AppCompatActivity implements View.OnClickListener , APICallback,SimpleAlertFragment.AlertSimpleCallback{
     private TextView saveTV;
     private ImageView closeTV;
-    private EditText editTextName,editTextEmail,editTextPhoneNo,editTextAddress;
+    private EditText accountNumberTV,routNumberTV;
     private String header = "";
 
 
+    private Spinner bankAccountTypeSpinner;
+    String[] aacountType = { "savings", "checking "};
+    private String bankAccountType="";
 
 
 
-
-    private CustomTextInputLayout oldPasswordInputLayout;
-    private CustomTextInputLayout newPasswordInputLayout;
-    private CustomTextInputLayout confirmPasswordInputLayout;
-
-    private TextInputEditText oldPasswordUpEditText;
-    private TextInputEditText newPasswordUpEditText;
-    private TextInputEditText confirmPasswordUpEditText;
     public WValidationLib wValidationLib;
-
-
     /*Code for API calling*/
     protected ZapayApp zapayApp;
     protected Gson gson;
     protected APICalling apiCalling;
     protected RestAPI restAPI;
 
+    private CustomTextInputLayout accountNumberInputLayout;
+    private CustomTextInputLayout routNumberInputLayout;
+    private CustomTextInputLayout nameInputLayout;
+
+    private TextInputEditText accountNumberEditText;
+    private TextInputEditText routNumberEditText;
+    private TextInputEditText nameEditText;
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setBackgroundDrawable(CommonMethods.getDrawableWrapper(this, android.R.color.transparent));
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.change_password_dialog);
+        setContentView(R.layout.activity_addd_bank_dialog);
+
         getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         getIntentValues();
         init();
         initAction();
         apicodeInit();
-    }
 
-    private void apicodeInit() {
-        zapayApp = (ZapayApp) getApplicationContext();
-        restAPI = APICalling.webServiceInterface();
-        gson = new Gson();
-        apiCalling = new APICalling(this);
+
+
     }
 
     private void getIntentValues() {
@@ -96,30 +92,52 @@ public class ChangePassDialogActivity extends AppCompatActivity implements View.
         }
     }
 
+    private void apicodeInit() {
+        zapayApp = (ZapayApp) getApplicationContext();
+        restAPI = APICalling.webServiceInterface();
+        gson = new Gson();
+        apiCalling = new APICalling(this);
+    }
+
     private void init() {
-        wValidationLib=new WValidationLib(ChangePassDialogActivity.this);
+        wValidationLib=new WValidationLib(AdddBankDialogActivity.this);
 
         saveTV = findViewById(R.id.saveTV);
-       /* editTextName = findViewById(R.id.editTextName);
-        editTextEmail = findViewById(R.id.editTextEmail);
-        editTextPhoneNo = findViewById(R.id.editTextPhoneNo);
-        editTextAddress = findViewById(R.id.editTextAddress);*/
+        accountNumberTV = findViewById(R.id.accountNumberTV);
+        routNumberTV = findViewById(R.id.routNumberTV);
         closeTV = findViewById(R.id.closeTV);
 
 
-        oldPasswordInputLayout = findViewById(R.id.oldPasswordInputLayout);
-        newPasswordInputLayout = findViewById(R.id.newPasswordInputLayout);
-        confirmPasswordInputLayout = findViewById(R.id.confirmPasswordInputLayout);
+        accountNumberInputLayout = findViewById(R.id.accountNumberInputLayout);
+        routNumberInputLayout = findViewById(R.id.routNumberInputLayout);
+        nameInputLayout = findViewById(R.id.nameInputLayout);
 
-        oldPasswordUpEditText = findViewById(R.id.oldPasswordUpEditText);
-        newPasswordUpEditText = findViewById(R.id.newPasswordUpEditText);
-        confirmPasswordUpEditText = findViewById(R.id.confirmPasswordUpEditText);
-
+        accountNumberEditText = findViewById(R.id.accountNumberEditText);
+        routNumberEditText = findViewById(R.id.routNumberEditText);
+        nameEditText = findViewById(R.id.nameEditText);
     }
 
     private void initAction() {
         saveTV.setOnClickListener(this);
         closeTV.setOnClickListener(this);
+
+        bankAccountTypeSpinner = findViewById(R.id.bankAccountTypeSpinner);
+        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,aacountType);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        bankAccountTypeSpinner.setAdapter(aa);
+        bankAccountTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //bankAccountType= (String) parent.getItemAtPosition(position);
+                bankAccountType = aacountType[position];
+                Log.e("bankAccountType","bankAccountType======="+bankAccountType);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override
@@ -130,15 +148,15 @@ public class ChangePassDialogActivity extends AppCompatActivity implements View.
            // finish();
 
             try {
-                if (wValidationLib.isPassword(oldPasswordInputLayout, oldPasswordUpEditText, getString(R.string.important), getString(R.string.important),true)) {
-                        if (wValidationLib.isPassword(newPasswordInputLayout, newPasswordUpEditText, getString(R.string.important), getString(R.string.important),true)) {
-                            if (wValidationLib.isPassword(confirmPasswordInputLayout, confirmPasswordUpEditText, getString(R.string.important), getString(R.string.important),true)) {
-                                callAPIResetPassword();
 
+            if (wValidationLib.isEmpty(accountNumberInputLayout, accountNumberEditText, getString(R.string.important),true)) {
+                    if (wValidationLib.isEmpty(routNumberInputLayout, routNumberEditText, getString(R.string.important), true)) {
+                        if (wValidationLib.isEmpty(nameInputLayout, nameEditText, getString(R.string.important), true)) {
+                            callAPIAddBankAccount();
 
-                            }
                         }
                     }
+                }
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -151,19 +169,19 @@ public class ChangePassDialogActivity extends AppCompatActivity implements View.
         }
     }
 
-
-    private void callAPIResetPassword() {
+    private void callAPIAddBankAccount() {
         String token= SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
-
         try {
             HashMap<String, Object> values = apiCalling.getHashMapObject(
-                    "old_password", oldPasswordUpEditText.getText().toString().trim(),
-                    "new_password", newPasswordUpEditText.getText().toString().trim());
+                    "account_number", accountNumberEditText.getText().toString().trim(),
+                    "routing_number", routNumberEditText.getText().toString().trim(),
+                    "bank_account_type", bankAccountType,
+                    "name", nameEditText.getText().toString().trim());
 
             zapayApp.setApiCallback(this);
-            Call<JsonElement> call = restAPI.postWithTokenApi(token,getString(R.string.api_change_password), values);
+            Call<JsonElement> call = restAPI.postWithTokenApi(token,getString(R.string.api_add_bank_account), values);
             if (apiCalling != null) {
-                apiCalling.callAPI(zapayApp, call, getString(R.string.api_change_password), saveTV);
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_add_bank_account), saveTV);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -183,11 +201,13 @@ public class ChangePassDialogActivity extends AppCompatActivity implements View.
                 e.printStackTrace();
             }
 
-            if (from.equals(getResources().getString(R.string.api_change_password))) {
+            if (from.equals(getResources().getString(R.string.api_add_bank_account))) {
                 if (status==200){
-                    oldPasswordUpEditText.setText("");
-                    newPasswordUpEditText.setText("");
-                    confirmPasswordUpEditText.setText("");
+                    bankAccountType="";
+                    accountNumberEditText.setText("");
+                    routNumberEditText.setText("");
+                    nameEditText.setText("");
+
 
                     showSimpleAlert(msg, "");
                 }else {
@@ -216,7 +236,8 @@ public class ChangePassDialogActivity extends AppCompatActivity implements View.
 
     @Override
     public void onSimpleCallback(String from) {
-        finish();
+        //finish();
 
     }
 }
+

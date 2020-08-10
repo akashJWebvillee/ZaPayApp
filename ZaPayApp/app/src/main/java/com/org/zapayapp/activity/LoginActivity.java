@@ -257,7 +257,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                             }
 
                         } else {
-                            showSimpleAlert(getString(R.string.enter_last_name), "");
+                                showSimpleAlert(getString(R.string.enter_last_name), "");
                         }
 
                     }
@@ -325,10 +325,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
-
 
     }
 

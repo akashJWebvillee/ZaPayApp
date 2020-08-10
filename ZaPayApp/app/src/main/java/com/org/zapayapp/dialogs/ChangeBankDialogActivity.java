@@ -13,7 +13,6 @@ import com.org.zapayapp.R;
 import com.org.zapayapp.utils.CommonMethods;
 
 public class ChangeBankDialogActivity extends AppCompatActivity implements View.OnClickListener {
-
     private TextView saveTV;
     private ImageView closeTV;
     private EditText accountNumberTV,routNumberTV;

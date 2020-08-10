@@ -66,7 +66,10 @@ public class DatePickerFragmentDialogue extends DialogFragment implements DatePi
         }
         if (strDate != null && strDate.length() > 0 && getActivity() != null) {
             try {
+
                 SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+               // SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD", Locale.ENGLISH);
+
                 Date d = sdf.parse(strDate);
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(d);
@@ -125,7 +128,8 @@ public class DatePickerFragmentDialogue extends DialogFragment implements DatePi
     public void onDateSet(DatePicker view, int year, int month, int day) {
         Calendar c = Calendar.getInstance();
         c.set(year, month, day);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+        //SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
         String formattedDate = sdf.format(c.getTime());
         CommonMethods.showLogs("date picker", formattedDate);
         if (datePickerCallback != null) {

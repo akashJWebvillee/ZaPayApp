@@ -76,10 +76,19 @@
     <string name="email">Email</string>
     <string name="phone_no">Phone No</string>
     <string name="address">Address</string>
+    <string name="address1">Address 1</string>
+    <string name="address2">Address 2</string>
+    <string name="postal_code">Postal code</string>
+    <string name="ssn">SSN</string>
+    <string name="dob">Dob</string>
     <string name="enter_your_name">Enter your name</string>
     <string name="enter_your_email">Enter your email</string>
     <string name="enter_your_phone_no">Enter your phone no</string>
     <string name="enter_your_address">Enter your address</string>
+    <string name="enter_your_address2">Enter your address(optional)</string>
+    <string name="enter_your_postal_code">Enter your postal code</string>
+    <string name="enter_your_ssn_code">Enter your ssn code</string>
+    <string name="select_dob">Select dob</string>
     <string name="save">Save</string>
 
 
@@ -94,10 +103,13 @@
     <string name="bank_account_setup">Bank Account Setup</string>
     <string name="account_number">Account Number</string>
     <string name="routing_number">Routing Number</string>
+    <string name="Arbitrary_nickname">Arbitrary nickname</string>
     <string name="change">Change</string>
+    <string name="bank_account_add">Bank Account Add</string>
     <string name="bank_account_change">Bank Account Change</string>
     <string name="enter_account_number">Enter account number</string>
     <string name="enter_routing_number">Enter routing number</string>
+    <string name="enter_name">Enter name</string>
 
     <!--History-->
     <string name="paid">Paid</string>
@@ -173,11 +185,11 @@
 
     <!--signUp-->
     <string name="enter_last_name">Enter last name</string>
+    <string name="age_must_be_18_years_or_older">Age must be 18 years or older</string>
+    <string name="must_be_50_characters_or_less">Must be 50 characters or less</string>
+    <string name="postal_code_should_be_5_digit">Postal code should be 5 digit</string>
     <string name="password_should_be_same">Password Should be same</string>
     <string name="term_condition">Check Term and condition</string>
-
-
-
 
 
     <!-- TODO: Remove or change this placeholder text -->

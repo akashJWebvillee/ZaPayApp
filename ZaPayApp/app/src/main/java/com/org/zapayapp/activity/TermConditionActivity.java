@@ -1,13 +1,25 @@
 package com.org.zapayapp.activity;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
+import com.org.zapayapp.webservices.APICallback;
 
-public class TermConditionActivity extends BaseActivity {
+import java.util.HashMap;
+import retrofit2.Call;
+
+public class TermConditionActivity extends BaseActivity implements APICallback {
+private TextView termCondtitionTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_term_condition);
+
+        termCondtitionTV=findViewById(R.id.termCondtitionTV);
+        callAPITermCondition();
     }
 
     @Override
@@ -24,5 +36,50 @@ public class TermConditionActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         setCurrentScreen(TERMS_CONDITION);
+    }
+
+    private void callAPITermCondition() {
+        HashMap<String, Object> values = apiCalling.getHashMapObject(
+                "content_type", "terms_conditions");
+
+        try {
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.postApi(getString(R.string.api_get_content), values);
+            if (apiCalling != null) {
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_get_content), termCondtitionTV);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void apiCallback(JsonObject json, String from) {
+        Log.e("json", "json======" + json);
+        if (from != null) {
+            int status = 0;
+            String msg = "";
+            try {
+                status = json.get("status").getAsInt();
+                msg = json.get("message").getAsString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if (from.equals(getResources().getString(R.string.api_get_content))) {
+                if (status==200){
+                    if (json.get("data").getAsJsonObject()!=null){
+                        JsonObject jsonObject=  json.get("data").getAsJsonObject();
+
+
+
+
+                    }
+                }else {
+                    showSimpleAlert(msg, "");
+                }
+            }
+
+        }
     }
 }
