@@ -72,6 +72,7 @@
     <string name="lend_money">Lend Money</string>
     <string name="borrow_money">Borrow Money</string>
 
+    <string name="full_name">Full name</string>
     <string name="name">Name</string>
     <string name="email">Email</string>
     <string name="phone_no">Phone No</string>

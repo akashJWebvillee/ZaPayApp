@@ -275,11 +275,11 @@
                                 android:paddingStart="0dp"
                                 android:paddingTop="10dp"
                                 android:importantForAutofill="no"
-                                android:inputType="text"
+                                android:inputType="textCapWords|textNoSuggestions"
                                 android:imeOptions="actionNext"
                                 android:gravity="center_vertical"
                                 android:paddingEnd="0dp"
-                                android:hint="@string/name"
+                                android:hint="@string/full_name"
                                 android:background="@drawable/edt_bg_selector"/>
                         </com.org.zapayapp.uihelpers.CustomTextInputLayout>
 
