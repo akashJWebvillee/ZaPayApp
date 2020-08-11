@@ -12,16 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.org.zapayapp.R;
 import com.org.zapayapp.activity.LendBorrowActivity;
+import com.org.zapayapp.model.PabackModel;
 
 import java.util.List;
 
 public class PaybackAdapter extends RecyclerView.Adapter<PaybackAdapter.MyHolder> {
 
     private Context context;
-    private List<String> indicatorList;
+    private List<PabackModel> indicatorList;
     private int selectedPos = 0;
 
-    public PaybackAdapter(Context context, List<String> indicatorList) {
+    public PaybackAdapter(Context context, List<PabackModel> indicatorList) {
         this.context = context;
         this.indicatorList = indicatorList;
     }
@@ -48,7 +49,7 @@ public class PaybackAdapter extends RecyclerView.Adapter<PaybackAdapter.MyHolder
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, final int position) {
-        String model = indicatorList.get(position);
+        PabackModel model = indicatorList.get(position);
         if (position == 0) {
             holder.paybackTxtDateNo.setText(context.getString(R.string.first_select_date));
         } else if (position == 1) {
@@ -69,8 +70,8 @@ public class PaybackAdapter extends RecyclerView.Adapter<PaybackAdapter.MyHolder
             holder.paybackTxtDateNo.setText(context.getString(R.string.ninth_select_date));
         }
 
-        if (model != null && model.length() > 0) {
-            holder.paybackTxtDate.setText(model);
+        if (model != null && model.getPayDate().length() > 0) {
+            holder.paybackTxtDate.setText(model.getPayDate());
         }
 
         holder.paybackTxtSelect.setOnClickListener(new View.OnClickListener() {
@@ -90,7 +91,7 @@ public class PaybackAdapter extends RecyclerView.Adapter<PaybackAdapter.MyHolder
 
     public String getSelected() {
         if (selectedPos != -1) {
-            return indicatorList.get(selectedPos);
+            return indicatorList.get(selectedPos).getPayDate();
         }
         return null;
     }

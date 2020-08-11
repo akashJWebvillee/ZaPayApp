@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -31,10 +30,12 @@ import com.org.zapayapp.utils.WValidationLib;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
 import com.org.zapayapp.webservices.RestAPI;
+
 import java.util.HashMap;
+
 import retrofit2.Call;
 
-public class AdddBankDialogActivity extends AppCompatActivity implements View.OnClickListener , APICallback,SimpleAlertFragment.AlertSimpleCallback{
+public class VerifyBankDialogActivity extends AppCompatActivity implements View.OnClickListener , APICallback,SimpleAlertFragment.AlertSimpleCallback{
     private TextView saveTV;
     private ImageView closeTV;
     private String header = "";
@@ -49,31 +50,27 @@ public class AdddBankDialogActivity extends AppCompatActivity implements View.On
     protected APICalling apiCalling;
     protected RestAPI restAPI;
 
-    private CustomTextInputLayout accountNumberInputLayout;
-    private CustomTextInputLayout routNumberInputLayout;
-    private CustomTextInputLayout nameInputLayout;
+    private CustomTextInputLayout amount1InputLayout;
+    private CustomTextInputLayout amount2InputLayout;
 
-    private TextInputEditText accountNumberEditText;
-    private TextInputEditText routNumberEditText;
-    private TextInputEditText nameEditText;
+    private TextInputEditText amount1EditText;
+    private TextInputEditText amount2EditText;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setBackgroundDrawable(CommonMethods.getDrawableWrapper(this, android.R.color.transparent));
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_addd_bank_dialog);
-
+        setContentView(R.layout.activity_verify_bank_dialog);
         getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         getIntentValues();
         init();
         initAction();
         apicodeInit();
-
-
-
     }
-
     private void getIntentValues() {
         try {
             Intent intent = getIntent();
@@ -95,7 +92,7 @@ public class AdddBankDialogActivity extends AppCompatActivity implements View.On
     }
 
     private void init() {
-        wValidationLib=new WValidationLib(AdddBankDialogActivity.this);
+        wValidationLib=new WValidationLib(VerifyBankDialogActivity.this);
 
         saveTV = findViewById(R.id.saveTV);
         //accountNumberTV = findViewById(R.id.accountNumberTV);
@@ -103,38 +100,18 @@ public class AdddBankDialogActivity extends AppCompatActivity implements View.On
         closeTV = findViewById(R.id.closeTV);
 
 
-        accountNumberInputLayout = findViewById(R.id.accountNumberInputLayout);
-        routNumberInputLayout = findViewById(R.id.routNumberInputLayout);
-        nameInputLayout = findViewById(R.id.nameInputLayout);
+        amount1InputLayout = findViewById(R.id.amount1InputLayout);
+        amount2InputLayout = findViewById(R.id.amount2InputLayout);
 
-        accountNumberEditText = findViewById(R.id.accountNumberEditText);
-        routNumberEditText = findViewById(R.id.routNumberEditText);
-        nameEditText = findViewById(R.id.nameEditText);
+        amount1EditText = findViewById(R.id.amount1EditText);
+        amount2EditText = findViewById(R.id.amount2EditText);
+
     }
 
     private void initAction() {
         saveTV.setOnClickListener(this);
         closeTV.setOnClickListener(this);
 
-        String[] aacountType = getResources().getStringArray(R.array.accountTypeArray);
-
-        bankAccountTypeSpinner = findViewById(R.id.bankAccountTypeSpinner);
-        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,aacountType);
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        bankAccountTypeSpinner.setAdapter(aa);
-        bankAccountTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //bankAccountType= (String) parent.getItemAtPosition(position);
-                bankAccountType = aacountType[position];
-                Log.e("bankAccountType","bankAccountType======="+bankAccountType);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
     }
 
     @Override
@@ -142,16 +119,13 @@ public class AdddBankDialogActivity extends AppCompatActivity implements View.On
         if (v.equals(saveTV)) {
             Intent returnIntent = new Intent();
             setResult(RESULT_OK, returnIntent);
-           // finish();
+            // finish();
 
             try {
 
-            if (wValidationLib.isEmpty(accountNumberInputLayout, accountNumberEditText, getString(R.string.important),true)) {
-                    if (wValidationLib.isEmpty(routNumberInputLayout, routNumberEditText, getString(R.string.important), true)) {
-                        if (wValidationLib.isEmpty(nameInputLayout, nameEditText, getString(R.string.important), true)) {
-                            callAPIAddBankAccount();
-
-                        }
+                if (wValidationLib.isEmpty(amount1InputLayout, amount1EditText, getString(R.string.important),true)) {
+                    if (wValidationLib.isEmpty(amount2InputLayout, amount2EditText, getString(R.string.important), true)) {
+                        callAPIVerifyBankAccount();
                     }
                 }
 
@@ -164,19 +138,18 @@ public class AdddBankDialogActivity extends AppCompatActivity implements View.On
         }
     }
 
-    private void callAPIAddBankAccount() {
+    private void callAPIVerifyBankAccount() {
         String token= SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
             HashMap<String, Object> values = apiCalling.getHashMapObject(
-                    "account_number", accountNumberEditText.getText().toString().trim(),
-                    "routing_number", routNumberEditText.getText().toString().trim(),
-                    "bank_account_type", bankAccountType,
-                    "name", nameEditText.getText().toString().trim());
+                    "id", SharedPref.getPrefsHelper().getPref(Const.Var.BANKACCOUNT_ID).toString(),
+                    "amount1", amount1EditText.getText().toString().trim(),
+                    "amount2", amount2EditText.getText().toString().trim());
 
             zapayApp.setApiCallback(this);
-            Call<JsonElement> call = restAPI.postWithTokenApi(token,getString(R.string.api_add_bank_account), values);
+            Call<JsonElement> call = restAPI.postWithTokenApi(token,getString(R.string.api_verify_bank_account_by_micro_deposits), values);
             if (apiCalling != null) {
-                apiCalling.callAPI(zapayApp, call, getString(R.string.api_add_bank_account), saveTV);
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_verify_bank_account_by_micro_deposits), saveTV);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -196,14 +169,10 @@ public class AdddBankDialogActivity extends AppCompatActivity implements View.On
                 e.printStackTrace();
             }
 
-            if (from.equals(getResources().getString(R.string.api_add_bank_account))) {
+            if (from.equals(getResources().getString(R.string.api_verify_bank_account_by_micro_deposits))) {
                 if (status==200){
                     bankAccountType="";
-                    accountNumberEditText.setText("");
-                    routNumberEditText.setText("");
-                    nameEditText.setText("");
-
-                    showSimpleAlert(msg, getResources().getString(R.string.api_add_bank_account));
+                    showSimpleAlert(msg, getResources().getString(R.string.api_verify_bank_account_by_micro_deposits));
                 }else {
                     showSimpleAlert(msg, "");
                 }
@@ -230,12 +199,13 @@ public class AdddBankDialogActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onSimpleCallback(String from) {
-        if (from.equals(getResources().getString(R.string.api_add_bank_account))){ ;
+        if (from.equals(getResources().getString(R.string.api_verify_bank_account_by_micro_deposits))){ ;
             Intent intent=new Intent();
             //intent.putExtra("MESSAGE",message);
-            setResult(1,intent);
+            setResult(3,intent);
             finish();//finishing activity
         }
     }
 }
+
 

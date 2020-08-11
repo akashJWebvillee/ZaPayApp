@@ -9,10 +9,21 @@
     <string name="api_get_user_details">get_user_details</string>
 
     <string name="api_get_content">get_content</string>
+
     <string name="api_add_bank_account">add_bank_account</string>
+    <string name="api_get_bank_account_details">get_bank_account_details</string>
+    <string name="api_update_bank_account">update_bank_account</string>
+    <string name="api_verify_bank_account_by_micro_deposits">verify_bank_account_by_micro_deposits</string>
+
 
     <string name="api_get_states_list">get_states_list</string>
     <string name="api_get_cities_list">get_cities_list</string>
     <string name="api_update_profile">update_profile</string>
+
+    <string name="api_get_contact_list">get_contact_list</string>
+
+    <string name="api_transaction_request">transaction_request</string>
+    <string name="api_get_transaction_request">get_transaction_request</string>
+    <string name="api_get_transaction_history">get_transaction_history</string>
 
 </resources>

@@ -388,7 +388,6 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
     }
 
     private void clearLogout() {
-
         MySession.removeSession();
         intent = new Intent(BaseActivity.this, SplashActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -415,6 +414,13 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
 
     @Override
     public void onSimpleCallback(String from) {
+        if (from.equals(getResources().getString(R.string.api_transaction_request))){
+            intent = new Intent(BaseActivity.this, HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            finish();
+        }
 
     }
 

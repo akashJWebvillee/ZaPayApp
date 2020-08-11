@@ -326,8 +326,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     showSimpleAlert(msg, "");
                 }
             }
-
-
         }
     }
 

@@ -84,7 +84,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/nameTV"
                     android:layout_marginStart="27dp"
                     android:layout_marginTop="98dp"
                     android:fontFamily="@font/gotha_prolig"
@@ -94,9 +93,9 @@
                     android:textSize="14sp"/>
 
                 <TextView
+                    android:id="@+id/nameTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/nameTV"
                     android:layout_marginStart="27dp"
                     android:layout_marginTop="116dp"
                     android:fontFamily="@font/gotha_promed"
@@ -108,7 +107,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/nameTV"
                     android:layout_marginStart="27dp"
                     android:layout_marginTop="161dp"
                     android:fontFamily="@font/gotha_prolig"
@@ -131,7 +129,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/nameTV"
                     android:layout_marginStart="187dp"
                     android:layout_marginTop="161dp"
                     android:fontFamily="@font/gotha_prolig"
@@ -154,7 +151,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/nameTV"
                     android:layout_marginStart="27dp"
                     android:layout_marginTop="224dp"
                     android:fontFamily="@font/gotha_prolig"
@@ -177,7 +173,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/nameTV"
                     android:layout_marginStart="187dp"
                     android:layout_marginTop="224dp"
                     android:fontFamily="@font/gotha_prolig"

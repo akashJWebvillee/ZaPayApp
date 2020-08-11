@@ -39,7 +39,7 @@ public class StateAdapter extends BaseAdapter {
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return rowView(convertView, position, parent, true);
+        return rowView(convertView, position, parent, false);
     }
 
     private View rowView(View convertView, int position, ViewGroup parent, boolean isDropView) {
@@ -56,11 +56,11 @@ public class StateAdapter extends BaseAdapter {
         }
 
         if (isDropView) {
-            //holder.tvname.setPadding(30, 20, 20, 20);
-            holder.tvname.setPadding(0, 20, 20, 10);
+            holder.tvname.setPadding(30, 20, 20, 20);
+
         } else {
-           // holder.tvname.setPadding(0, 20, 20, 20);
-            holder.tvname.setPadding(20, 20, 20, 10);
+            holder.tvname.setPadding(0, 20, 20, 20);
+
         }
 
 

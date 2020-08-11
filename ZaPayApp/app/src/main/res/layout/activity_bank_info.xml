@@ -86,10 +86,15 @@
                 android:layout_marginStart="31dp"/>
 
 
+
+
+
+
+
             <com.dd.ShadowLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="150dp"
+                android:layout_marginTop="160dp"
                 android:layout_marginStart="48dp"
                 android:layout_marginEnd="48dp"
                 app:sl_cornerRadius="56dp"
@@ -106,7 +111,7 @@
                     android:background="@drawable/rectanguler_button_bg"
                     android:backgroundTint="@color/colorPrimary"
                     android:gravity="center"
-                    android:text="Add"
+                    android:text="@string/add"
                     android:textSize="16sp"
                     android:fontFamily="@font/gotha_probol"
                     android:textColor="@color/colorWhite" />
@@ -117,7 +122,7 @@
             <com.dd.ShadowLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="50dp"
                 android:layout_marginStart="48dp"
                 android:layout_marginEnd="48dp"

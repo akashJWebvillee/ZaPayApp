@@ -1,5 +1,6 @@
 package com.org.zapayapp.adapters;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.org.zapayapp.R;
+import com.org.zapayapp.listener.ContactListener;
 import com.org.zapayapp.model.ContactModel;
 
 import java.util.List;
@@ -17,15 +19,18 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
    // private List<String> contactList;
     private int selectedPos = -1;
    private List<ContactModel> contactList;
+   private ContactListener contactListener;
+
     /*public ContactAdapter(Context context, List<String> contactList) {
         this.context = context;
         this.contactList = contactList;
     }*/
 
 
-    public ContactAdapter(Context context, List<ContactModel> contactList) {
+    public ContactAdapter(Context context, ContactListener contactListener, List<ContactModel> contactList) {
         this.context = context;
         this.contactList = contactList;
+        this.contactListener=contactListener;
     }
 
     class MyHolder extends RecyclerView.ViewHolder {
@@ -51,13 +56,13 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
     public void onBindViewHolder(@NonNull final MyHolder holder, final int position) {
         final ContactModel model = contactList.get(position);
 
-        if (model.getName() != null && model.getName().length() > 0) {
-            holder.contactTxtName.setText(model.getName());
+        if (model.getFirstName() != null && model.getFirstName().length() > 0) {
+            holder.contactTxtName.setText(model.getFirstName());
         }
 
 
 
-       /* if (selectedPos == holder.getAdapterPosition()) {
+        if (selectedPos == holder.getAdapterPosition()) {
             holder.contactImgSelect.setImageResource(R.mipmap.ic_check_select);
             holder.contactTxtName.setSelected(true);
         } else {
@@ -70,15 +75,20 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
             public void onClick(View v) {
                 if (selectedPos != holder.getAdapterPosition()) {
                     selectedPos = holder.getAdapterPosition();
+                    contactListener.getContact(contactList.get(position));
+
                     notifyDataSetChanged();
                     }
             }
-        });*/
+        });
 
 
 
 
-      if (model.isSelect()){
+
+
+
+      /*if (model.isSelect()){
           holder.contactImgSelect.setImageResource(R.mipmap.ic_check_select);
           holder.contactTxtName.setSelected(true);
       }else {
@@ -99,12 +109,9 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
                     holder.contactTxtName.setSelected(true);
                     model.setSelect(true);
                 }
-
                 notifyDataSetChanged();
-
             }
-        });
-
+        });*/
 
 
     }
@@ -116,7 +123,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
 
     public String getSelected() {
         if (selectedPos != -1) {
-            return contactList.get(selectedPos).getName();
+            return contactList.get(selectedPos).getFirstName();
         }
         return null;
     }

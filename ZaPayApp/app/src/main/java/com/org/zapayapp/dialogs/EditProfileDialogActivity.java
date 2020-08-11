@@ -87,7 +87,6 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     private TextInputEditText ssnEditText;
     private TextInputEditText dobEditText;
 
-
     private Spinner stateSpinner,citySpinner;
     private List<StateModel> stateList;
     private StateAdapter stateAdapter;
@@ -166,9 +165,16 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         stateSpinner=findViewById(R.id.stateSpinner);
         citySpinner=findViewById(R.id.citySpinner);
 
-        dobEditText.setOnTouchListener((v, event) -> {
+      /*  dobEditText.setOnTouchListener((v, event) -> {
             datePickerDialog();
             return false;
+        });*/
+
+        dobEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datePickerDialog();
+            }
         });
 
 
@@ -286,14 +292,11 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                                                    }else {
                                                        showSimpleAlert(getString(R.string.age_must_be_18_years_or_older), "");
                                                    }
-
                                                }
-
                                            }
 
                                        }else {
                                            showSimpleAlert(getString(R.string.postal_code_should_be_5_digit), "");
-
                                        }
                                     }
 
@@ -312,17 +315,12 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                 }else {
                     showSimpleAlert(getString(R.string.enter_last_name), "");
                 }
-
-
-
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-
 
     private void callAPIGetState() {
         try {
@@ -426,16 +424,9 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                 }else {
                     showSimpleAlert(msg, "");
                 }
-
-
             }
-
         }
     }
-
-
-
-
 
     public void showSimpleAlert(String message, String from) {
         try {
@@ -458,11 +449,7 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         if (from.equals(getResources().getString(R.string.api_update_profile))){
             finish();
         }
-
-
-
     }
-
 
     private void setStateAdapter() {
         if (stateAdapter != null) {

@@ -1,4 +1,5 @@
 package com.org.zapayapp.activity;
+
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -20,19 +21,34 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dd.ShadowLayout;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.adapters.ContactAdapter;
 import com.org.zapayapp.adapters.IndicatorAdapter;
 import com.org.zapayapp.adapters.PaybackAdapter;
+import com.org.zapayapp.listener.ContactListener;
 import com.org.zapayapp.model.ContactModel;
+import com.org.zapayapp.model.PabackModel;
 import com.org.zapayapp.utils.CommonMethods;
+import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.DatePickerFragmentDialogue;
+import com.org.zapayapp.utils.EndlessRecyclerViewScrollListener;
+import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.WVDateLib;
+import com.org.zapayapp.webservices.APICallback;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import retrofit2.Call;
 
-public class LendBorrowActivity extends BaseActivity implements View.OnClickListener, DatePickerFragmentDialogue.DatePickerCallback {
+public class LendBorrowActivity extends BaseActivity implements View.OnClickListener, DatePickerFragmentDialogue.DatePickerCallback, APICallback ,ContactListener {
     private RecyclerView indicatorRecycler;
     private List<String> listIndicator;
     private TextView nextButtonTV, backButtonTV;
@@ -42,17 +58,27 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     private TextView lendTxtHeader, lendTxtAmount, lendTermsTxtOption, lendTermsTxtPercent, lendTermsTxtFee, lendTermsTxtDiscount, lendTermsTxtNone;
     private EditText lendAmountEdtAmount, lendTermsEdtOption, lendPaymentEdtNo;
     private LinearLayout lendViewAmount, lendViewTerms, lendViewPayment, lendViewPayback, lendViewBorrow, lendViewLending, lendViewContact;
-    private int isTermsOption, isNoPayment, paybackPos;
-    private float finalTotalAmount, amount;
+
+    private int isTermsOption,isNoPayment,paybackPos;
+    private float finalTotalAmount,amount;
+
+
     private WVDateLib wvDateLib;
     private RecyclerView paybackRecycler, contactRecycler;
-    private List<String> paybackList, contactList;
+   // private List<String> paybackList;
+    private List<PabackModel> paybackList;
     private PaybackAdapter paybackAdapter;
     private ContactAdapter contactAdapter;
     private Intent intent;
     private boolean isBorrow;
     private boolean isBack;
+
     private List<ContactModel> contactNumberList;
+    private EndlessRecyclerViewScrollListener scrollListener;
+    private int pageNo = 0;
+    private TextView noDataTv;
+    private String toId="";
+    private int request_by;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,8 +111,10 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         listIndicator.add(getString(R.string.no_of_payments));
         listIndicator.add(getString(R.string.payback_date));
         if (isBorrow) {
+            request_by=2;
             listIndicator.add(getString(R.string.borrow_summary_));
         } else {
+            request_by=1;
             listIndicator.add(getString(R.string.lending_summary_));
         }
         listIndicator.add(getString(R.string.select_contact));
@@ -121,6 +149,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 /*
@@ -215,13 +244,29 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     }
 
     private void initContactView() {
+       // contactList = new ArrayList<>();
+        contactNumberList = new ArrayList<>();
+
+        noDataTv = findViewById(R.id.noDataTv);
+
         lendViewContact = findViewById(R.id.lendViewContact);
         contactRecycler = findViewById(R.id.contactRecycler);
-        contactRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        contactRecycler.setLayoutManager(layoutManager);
         contactRecycler.setItemAnimator(new DefaultItemAnimator());
 
-        contactList = new ArrayList<>();
-        contactNumberList = new ArrayList<>();
+
+        scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                pageNo = page;
+                callAPIGetContactList(pageNo);
+            }
+        };
+        contactRecycler.addOnScrollListener(scrollListener);
+
+        pageNo = 0;
+        callAPIGetContactList(pageNo);
     }
 
     @Override
@@ -233,11 +278,23 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                     indicatorAdapter.setSelected(selectedPos);
                     setIndicatorView(selectedPos);
                 } else if (selectedPos == 5) {
-                    intent = new Intent(LendBorrowActivity.this, HomeActivity.class);
+                   /* intent = new Intent(LendBorrowActivity.this, HomeActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                    finish();
+                    finish();*/
+
+                   transactionRequestFunc();
+                }else if (selectedPos==4){
+                    for (int i=0;i<paybackList.size();i++){
+                        if (paybackList.get(i).isAddDate()){
+
+                        }else {
+                            showSimpleAlert("Please select all date","");
+                            break;
+                        }
+
+                    }
                 }
                 break;
             case R.id.backButtonTV:
@@ -262,11 +319,21 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         }
     }
 
+
+    private void transactionRequestFunc(){
+        if (!toId.equalsIgnoreCase("")){
+            callAPITransactionRequest();
+        }else {
+            showSimpleAlert(getString(R.string.please_select_contact),"");
+        }
+
+    }
+
     private void generatePaybackData() {
         lendTxtAmount.setText(wvDateLib.getCurrentDate());
         paybackList.clear();
         for (int i = 0; i < isNoPayment; i++) {
-            paybackList.add("");
+            paybackList.add(new PabackModel("",false));
         }
         setPaybackAdapter();
     }
@@ -291,28 +358,18 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void datePickerCallback(String selectedDate, int year, int month, int day, String from) throws ParseException {
-        paybackList.set(paybackPos, selectedDate);
+       // paybackList.set(paybackPos, selectedDate);
+        paybackList.set(paybackPos, new PabackModel(selectedDate,true));
         setPaybackAdapter();
     }
 
     private void setContactAdapter() {
-        contactList.clear();
-        // for (int i = 0; i < 10; i++) {
-        contactList.add("Andrew");
-        contactList.add("Billy");
-        contactList.add("Chris");
-        contactList.add("Devin");
-        contactList.add("Erica");
-        contactList.add("Fill");
-        contactList.add("Gabriel");
-        contactList.add("Hofman");
-        contactList.add("James");
-        //}
+
 
         // contactAdapter = new ContactAdapter(this, contactList);
         // contactRecycler.setAdapter(contactAdapter);
 
-        contactNumberList.clear();
+/*        contactNumberList.clear();
         contactNumberList.add(new ContactModel("Andrew", false));
         contactNumberList.add(new ContactModel("Billy", false));
         contactNumberList.add(new ContactModel("Chris", false));
@@ -322,9 +379,9 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         contactNumberList.add(new ContactModel("Fill", false));
         contactNumberList.add(new ContactModel("Gabriel", false));
         contactNumberList.add(new ContactModel("Hofman", false));
-        contactNumberList.add(new ContactModel("James", false));
+        contactNumberList.add(new ContactModel("James", false));*/
 
-        contactAdapter = new ContactAdapter(this, contactNumberList);
+        contactAdapter = new ContactAdapter(this,this, contactNumberList);
         contactRecycler.setAdapter(contactAdapter);
     }
 
@@ -398,6 +455,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
     private void setSelectedAmount() {
         lendTxtAmount.setText(String.valueOf(amount));
+
     }
 
     private void setIndicatorView(int value) {
@@ -439,7 +497,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             lendTxtHeader.setText(getString(R.string.start_date));
             lendTxtAmount.setTextColor(CommonMethods.getColorWrapper(this, R.color.textColor));
             generatePaybackData();
-        } else if (value == 4) {
+        } else if (value == 4 && isSelectedAllDate()) {
             if (isBorrow) {
                 lendTxtAmount.setVisibility(View.GONE);
                 lendViewBorrow.setVisibility(View.VISIBLE);
@@ -455,8 +513,12 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             lendTxtHeader.setText(CommonMethods.capitalize(getString(R.string.select_contact)));
             setContactAdapter();
             nextButtonTV.setText(getString(R.string.submit));
+
+
         }
     }
+
+
 
     private void selectedTermsOption(int isOption) {
         isTermsOption = isOption;
@@ -521,5 +583,148 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     protected void onResume() {
         super.onResume();
         setCurrentScreen(100);
+    }
+
+
+    private void callAPIGetContactList(int pageNo) {
+        if (pageNo == 0 && scrollListener != null) {
+            scrollListener.resetState();
+        }
+        HashMap<String, Object> values = apiCalling.getHashMapObject(
+                "page", pageNo,
+                "limit", "20");
+
+
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        try {
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_get_contact_list),values);
+            if (apiCalling != null) {
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_get_contact_list), contactRecycler);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean isSelectedAllDate(){
+        boolean dateSelect=false;
+        for (int i=0;i<paybackList.size();i++){
+            if (paybackList.get(i).isAddDate()){
+                dateSelect=true;
+            }else {
+                dateSelect=false;
+                showSimpleAlert("Please select all date","");
+                break;
+            }
+
+        }
+        return dateSelect;
+    }
+
+    private void callAPITransactionRequest() {
+        //private int isTermsOption, isNoPayment, paybackPos;//ashok
+        Log.e("transactionRequest","to_id==="+toId);
+        Log.e("transactionRequest","amount==="+amount);
+        Log.e("transactionRequest","total_amount==="+finalTotalAmount);
+        Log.e("transactionRequest","terms_type==="+isTermsOption+1);
+        Log.e("transactionRequest","terms_value==="+lendTermsEdtOption.getText().toString());
+        Log.e("transactionRequest","no_of_payment==="+isNoPayment);
+
+        JSONArray jsonArray=new JSONArray();
+        for (int i=0;i<paybackList.size();i++){
+            try {
+                JSONObject jsonObject=new JSONObject();
+                jsonObject.put("date",paybackList.get(i).getPayDate());
+                jsonArray.put(i,jsonObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        Log.e("transactionRequest","pay_date==="+jsonArray);
+        Log.e("transactionRequest","request_by==="+ String.valueOf(request_by));
+        Log.e("transactionRequest","request_type==="+0);
+        Log.e("transactionRequest","transaction_request_id===");
+
+
+
+        HashMap<String, Object> values = apiCalling.getHashMapObject(
+                "to_id", toId,
+                "amount", amount,
+                "total_amount", finalTotalAmount,
+                "terms_type", isTermsOption+1,
+                "terms_value", lendTermsEdtOption.getText().toString().trim(),
+                "no_of_payment", isNoPayment,
+                "pay_date", jsonArray.toString(),
+                "request_by", String.valueOf(request_by),
+                "request_type", "0",
+                "transaction_request_id", "");
+
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        try {
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_transaction_request),values);
+            if (apiCalling != null) {
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_transaction_request), contactRecycler);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public void apiCallback(JsonObject json, String from) {
+        Log.e("json", "json======" + json);
+        if (from != null) {
+            int status = 0;
+            String msg = "";
+            try {
+                status = json.get("status").getAsInt();
+                msg = json.get("message").getAsString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if (from.equals(getResources().getString(R.string.api_get_contact_list))) {
+                if (status == 200) {
+                    if (pageNo == 0) {
+                        contactNumberList.clear();
+                    }
+
+                    List<ContactModel> list = apiCalling.getDataList(json, "data", ContactModel.class);
+                    if (list.size() > 0) {
+                        noDataTv.setVisibility(View.GONE);
+                        contactRecycler.setVisibility(View.VISIBLE);
+                        contactNumberList.addAll(list);
+                        //setAdapter();
+
+                    } else {
+                        if (pageNo == 0) {
+                            noDataTv.setVisibility(View.VISIBLE);
+                            contactRecycler.setVisibility(View.GONE);
+                        }
+                    }
+
+                } else {
+                    showSimpleAlert(msg, "");
+                }
+            }else if (from.equals(getResources().getString(R.string.api_transaction_request))){
+                if (status==200){
+
+                    showSimpleAlert(msg, getResources().getString(R.string.api_transaction_request));
+                }else {
+                    showSimpleAlert(msg, "");
+                }
+            }
+
+        }
+    }
+
+    @Override
+    public void getContact(ContactModel contactModel) {
+         toId=contactModel.getId();
+
     }
 }

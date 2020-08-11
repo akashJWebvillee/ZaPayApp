@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
-    <RelativeLayout
+<RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -240,24 +239,46 @@
                     </com.org.zapayapp.uihelpers.CustomTextInputLayout>
 
 
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:fontFamily="@font/gotha_promed"
+                        android:text="@string/state"
+                        android:textAllCaps="true"
+                        android:textColor="@color/textColorBold"
+                        android:textSize="11sp" />
+
+
                     <Spinner
                         android:id="@+id/stateSpinner"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="8dp" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@drawable/edt_bg_selector"/>
 
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:fontFamily="@font/gotha_promed"
+                        android:text="@string/city"
+                        android:textAllCaps="true"
+                        android:textColor="@color/textColorBold"
+                        android:textSize="11sp" />
+
                     <Spinner
                         android:id="@+id/citySpinner"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="8dp" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp" />
 
                     <View
                         android:layout_width="match_parent"
@@ -402,6 +423,7 @@
                                 android:textColor="@color/textColorBold"
                                 android:textColorHint="@color/textColorBold20Alpha"
                                 android:textSize="15sp"
+                               android:focusable="false"
                                 android:theme="@style/TextInputLayoutAppearance"/>
                         </com.org.zapayapp.uihelpers.CustomTextInputLayout>
 

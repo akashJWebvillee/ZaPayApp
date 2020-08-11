@@ -40,7 +40,7 @@ public class CityAdapter extends BaseAdapter {
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return rowView(convertView, position, parent, true);
+        return rowView(convertView, position, parent, false);
     }
 
     private View rowView(View convertView, int position, ViewGroup parent, boolean isDropView) {

@@ -113,6 +113,40 @@ public class MySession {
     }
 
 
+    public static void saveBankData(JsonObject object) {
+        if (object.get("id") != null && object.get("id").getAsString() != null /*&& object.get("shopName").getAsString().length() > 0*/) {
+            String id = object.get("id").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.BANKACCOUNT_ID, id);
+        }
+
+        if (object.get("account_number") != null && object.get("account_number").getAsString() != null /*&& object.get("shopName").getAsString().length() > 0*/) {
+            String account_number = object.get("account_number").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.ACCOUNT_NUMBER, account_number);
+        }
+
+        if (object.get("routing_number") != null && object.get("routing_number").getAsString() != null /*&& object.get("shopName").getAsString().length() > 0*/) {
+            String routing_number = object.get("routing_number").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.ROUTING_NUMBER, routing_number);
+        }
+
+        if (object.get("bank_account_type") != null && object.get("bank_account_type").getAsString() != null /*&& object.get("shopName").getAsString().length() > 0*/) {
+            String bank_account_type = object.get("bank_account_type").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.BANKACCOUNT_TYPE, bank_account_type);
+        }
+
+        if (object.get("name") != null && object.get("name").getAsString() != null /*&& object.get("shopName").getAsString().length() > 0*/) {
+            String name = object.get("name").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.ACCOUNT_HOLDER_NAME, name);
+        }
+
+        if (object.get("dwolla_bank_account_status") != null && object.get("dwolla_bank_account_status").getAsString() != null /*&& object.get("shopName").getAsString().length() > 0*/) {
+            String dwolla_bank_account_status = object.get("dwolla_bank_account_status").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.BANK_ACCOUNT_STATUS, dwolla_bank_account_status);
+        }
+
+
+    }
+
 
 
 

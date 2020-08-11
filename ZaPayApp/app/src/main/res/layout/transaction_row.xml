@@ -18,6 +18,7 @@
         android:layout_height="89dp">
 
         <TextView
+            android:id="@+id/nameTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/gotha_promed"
@@ -29,7 +30,7 @@
             android:layout_marginStart="14dp"/>
 
         <TextView
-            android:id="@+id/nameTV"
+            android:id="@+id/amountTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/gotha_promed"
@@ -42,6 +43,7 @@
             android:layout_marginEnd="16dp"/>
 
         <TextView
+            android:id="@+id/dateTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/gotha_pro_reg"
@@ -65,7 +67,7 @@
             android:layout_marginStart="14dp" />
 
         <TextView
-            android:id="@+id/intallmentNoTV"
+            android:id="@+id/noOfPaymentTV"
             android:layout_toEndOf="@+id/intalmentTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -79,7 +81,7 @@
 
         <View
             android:id="@+id/verticaleView"
-            android:layout_toEndOf="@+id/intallmentNoTV"
+            android:layout_toEndOf="@+id/noOfPaymentTV"
             android:layout_width="1dp"
             android:layout_height="18dp"
             android:layout_marginTop="56dp"
@@ -100,6 +102,7 @@
             android:layout_marginTop="60dp" />
 
         <TextView
+            android:id="@+id/termTypeTV"
             android:layout_toEndOf="@+id/borroModeTitleTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

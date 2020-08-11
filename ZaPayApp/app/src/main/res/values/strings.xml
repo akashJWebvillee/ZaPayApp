@@ -79,6 +79,8 @@
     <string name="address">Address</string>
     <string name="address1">Address 1</string>
     <string name="address2">Address 2</string>
+    <string name="state">State</string>
+    <string name="city">City</string>
     <string name="postal_code">Postal code</string>
     <string name="ssn">SSN</string>
     <string name="dob">Dob</string>
@@ -191,9 +193,26 @@
     <string name="postal_code_should_be_5_digit">Postal code should be 5 digit</string>
     <string name="password_should_be_same">Password Should be same</string>
     <string name="term_condition">Check Term and condition</string>
+    <string name="please_select_contact">Please select contact</string>
+
+    <string name="no_data_found">No data found</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string-array name="accountTypeArray">
+        <item>savings</item>
+        <item>checking</item>
+    </string-array>
+
+    <string name="verify_account">Verify Account</string>
+    <string name="add">Add</string>
+    <string name="amount1">Amount 1</string>
+    <string name="amount2">Amount 2</string>
+    <string name="enter_amount1">Enter Amount 1</string>
+    <string name="enter_amount2">Enter Amount 2</string>
+
 
 </resources>

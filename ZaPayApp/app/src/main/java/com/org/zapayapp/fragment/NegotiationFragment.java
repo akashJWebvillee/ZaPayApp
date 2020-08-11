@@ -10,13 +10,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.org.zapayapp.R;
 import com.org.zapayapp.adapters.TransactionAdapter;
+import com.org.zapayapp.model.TransactionModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class NegotiationFragment extends Fragment {
 private RecyclerView negotiationRecyclerView;
-
+    private List<TransactionModel> trasactionList;
     public NegotiationFragment() {
         // Required empty public constructor
     }
@@ -32,13 +36,14 @@ private RecyclerView negotiationRecyclerView;
     }
 
     private void inIt(View view){
+        trasactionList=new ArrayList<>();
         negotiationRecyclerView=view.findViewById(R.id.negotiationRecyclerView);
     }
 
     private void initAction() {
         negotiationRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         negotiationRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity(),"negotiation");
+        TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity(),trasactionList,"negotiation");
         negotiationRecyclerView.setAdapter(transactionAdapter);
     }
 }

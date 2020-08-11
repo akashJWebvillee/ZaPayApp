@@ -1,7 +1,6 @@
 package com.org.zapayapp.utils;
 import android.content.Context;
 import android.provider.Settings;
-import android.widget.Toast;
 
 public class Const {
     public interface Var {
@@ -28,6 +27,16 @@ public class Const {
 
         String CREATE_AT = "created_at";
         String TOKEN = "token";
+
+
+
+        //bankAccount detail....
+        String BANKACCOUNT_ID = "bank_account_id";
+        String ACCOUNT_NUMBER = "account_number";
+        String ROUTING_NUMBER = "routing_number";
+        String BANKACCOUNT_TYPE = "bank_account_type";
+        String ACCOUNT_HOLDER_NAME = "name";
+        String BANK_ACCOUNT_STATUS = "dwolla_bank_account_status";
 
 
     }

@@ -9,12 +9,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.org.zapayapp.R;
 import com.org.zapayapp.adapters.TransactionAdapter;
+import com.org.zapayapp.model.TransactionModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class CompletedFragment extends Fragment {
 private RecyclerView completedRecyclerView;
+
+    private List<TransactionModel> trasactionList;
     public CompletedFragment() {
         // Required empty public constructor
     }
@@ -30,13 +36,15 @@ private RecyclerView completedRecyclerView;
     }
 
     private void inIt(View view){
+        trasactionList=new ArrayList<>();
         completedRecyclerView=view.findViewById(R.id.completedRecyclerView);
     }
 
     private void initAction() {
         completedRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         completedRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity(),"");
+
+        TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity(),trasactionList,"");
         completedRecyclerView.setAdapter(transactionAdapter);
     }
 }

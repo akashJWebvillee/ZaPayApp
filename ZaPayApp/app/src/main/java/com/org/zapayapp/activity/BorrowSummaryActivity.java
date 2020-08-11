@@ -5,11 +5,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.org.zapayapp.R;
+import com.org.zapayapp.model.TransactionModel;
 
 public class BorrowSummaryActivity extends BaseActivity {
 
     private TextView navigateTV;
-
+private TransactionModel transactionModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +31,10 @@ public class BorrowSummaryActivity extends BaseActivity {
 
 
     private void init() {
+        if (getIntent().getSerializableExtra("transactionModel")!=null){
+             transactionModel= (TransactionModel) getIntent().getSerializableExtra("transactionModel");
+        }
+
         navigateTV = findViewById(R.id.navigateTV);
     }
 
