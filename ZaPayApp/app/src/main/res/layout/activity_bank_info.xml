@@ -54,7 +54,7 @@
                 android:id="@+id/accountNumberTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="5689 5689 2356"
+                android:text=""
                 android:gravity="start"
                 android:textSize="22sp"
                 android:layout_marginTop="7dp"
@@ -77,18 +77,13 @@
                 android:id="@+id/routingNumberTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2346574651321"
+                android:text=""
                 android:gravity="start"
                 android:textSize="22sp"
                 android:layout_marginTop="7dp"
                 android:fontFamily="@font/gotha_promed"
                 android:textColor="@color/navTextColor"
                 android:layout_marginStart="31dp"/>
-
-
-
-
-
 
 
             <com.dd.ShadowLayout

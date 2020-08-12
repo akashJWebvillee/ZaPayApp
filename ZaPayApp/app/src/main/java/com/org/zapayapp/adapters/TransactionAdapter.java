@@ -14,6 +14,7 @@ import com.org.zapayapp.R;
 import com.org.zapayapp.activity.BorrowSummaryActivity;
 import com.org.zapayapp.activity.LendingSummaryActivity;
 import com.org.zapayapp.model.TransactionModel;
+import com.org.zapayapp.utils.TimeStamp;
 
 import java.util.List;
 
@@ -38,12 +39,12 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
-            nameTV=itemView.findViewById(R.id.nameTV);
-            dateTV=itemView.findViewById(R.id.dateTV);
-            amountTV=itemView.findViewById(R.id.amountTV);
-            noOfPaymentTV=itemView.findViewById(R.id.noOfPaymentTV);
-            termTypeTV=itemView.findViewById(R.id.termTypeTV);
-            borroModeTitleTV=itemView.findViewById(R.id.borroModeTitleTV);
+            nameTV = itemView.findViewById(R.id.nameTV);
+            dateTV = itemView.findViewById(R.id.dateTV);
+            amountTV = itemView.findViewById(R.id.amountTV);
+            noOfPaymentTV = itemView.findViewById(R.id.noOfPaymentTV);
+            termTypeTV = itemView.findViewById(R.id.termTypeTV);
+            borroModeTitleTV = itemView.findViewById(R.id.borroModeTitleTV);
         }
     }
 
@@ -57,48 +58,60 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull TransactionAdapter.MyHolder holder, int position) {
-       TransactionModel transactionModel= transactionModelsList.get(position);
+        TransactionModel transactionModel = transactionModelsList.get(position);
 
-        holder.noOfPaymentTV.setText(transactionModel.getNoOfPayment());
-        holder.amountTV.setText("$"+transactionModel.getAmount());
+        if (transactionModel.getFirstName() != null && transactionModel.getFirstName().length() > 0 && transactionModel.getFirstName() != null && transactionModel.getFirstName().length() > 0) {
+            holder.nameTV.setText(transactionModel.getFirstName() + " " + transactionModel.getLastName());
+        }
+
+        if (transactionModel.getCreatedAt() != null && transactionModel.getCreatedAt().length() > 0) {
+            holder.dateTV.setText(TimeStamp.timeFun(transactionModel.getCreatedAt()));
+            // holder.dateTV.setText(transactionModel.getCreatedAt());
+        }
+
+        if (transactionModel.getNoOfPayment() != null && transactionModel.getNoOfPayment().length() > 0) {
+            holder.noOfPaymentTV.setText(transactionModel.getNoOfPayment());
+        }
+
+        if (transactionModel.getAmount() != null && transactionModel.getAmount().length() > 0) {
+            holder.amountTV.setText("$" + transactionModel.getAmount());
+        }
 
 
-
-
-        if (transactionModel.getRequestBy().equalsIgnoreCase("1")){
+        if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
             holder.borroModeTitleTV.setText("Lend Mode:");
-        }else if (transactionModel.getRequestBy().equalsIgnoreCase("2")){
+        } else if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
             holder.borroModeTitleTV.setText("Borrow Mode:");
         }
 
-
-
-        if (transactionModel.getTermsType().equalsIgnoreCase("1")){
-            holder.termTypeTV.setText("Percent");
-        }else if (transactionModel.getTermsType().equalsIgnoreCase("2")){
-            holder.termTypeTV.setText("Free");
-        }else if (transactionModel.getTermsType().equalsIgnoreCase("3")){
-            holder.termTypeTV.setText("Discount");
-        }else if (transactionModel.getTermsType().equalsIgnoreCase("4")){
-            holder.termTypeTV.setText("None");
+        if (transactionModel.getTermsType().equalsIgnoreCase("1")) {
+            holder.termTypeTV.setText(transactionModel.getTermsValue() + " %");
+        } else if (transactionModel.getTermsType().equalsIgnoreCase("2")) {
+            holder.termTypeTV.setText(transactionModel.getTermsValue() + " Fee");
+        } else if (transactionModel.getTermsType().equalsIgnoreCase("3")) {
+            holder.termTypeTV.setText(transactionModel.getTermsValue() + " Discount");
+        } else if (transactionModel.getTermsType().equalsIgnoreCase("4")) {
+            holder.termTypeTV.setText(transactionModel.getTermsValue() + " None");
         }
-
-
-
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!transactionModel.getStatus().equalsIgnoreCase("2")){
+
                 if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                     Intent intent = new Intent(context, BorrowSummaryActivity.class);
-                    intent.putExtra("transactionModel",transactionModel);
+                    intent.putExtra("transactionModel", transactionModel);
                     context.startActivity(intent);
                 } else if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
                     Intent intent = new Intent(context, LendingSummaryActivity.class);
-                    intent.putExtra("transactionModel",transactionModel);
+                    intent.putExtra("transactionModel", transactionModel);
                     context.startActivity(intent);
                 }
+
+
+            }
             }
         });
 

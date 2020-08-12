@@ -95,10 +95,12 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     private CityAdapter cityAdapter;
     private String stateShortCode="";
     private String cityId="";
+    private String cityName="";
     private String firstName="";
     private String lastName="";
     private String dob="";
     private int ageInYear=0;
+    private  String stateName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -164,6 +166,8 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
 
         stateSpinner=findViewById(R.id.stateSpinner);
         citySpinner=findViewById(R.id.citySpinner);
+         stateName=SharedPref.getPrefsHelper().getPref(Const.Var.STATE).toString();
+
 
       /*  dobEditText.setOnTouchListener((v, event) -> {
             datePickerDialog();
@@ -209,9 +213,10 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                  cityId = cityList.get(position).getId();
-                String cityName = cityList.get(position).getCity();
+                 cityName = cityList.get(position).getCity();
                 Log.e("bankAccountType","stateId======="+cityId);
                 Log.e("bankAccountType","name======="+cityName);
+
 
             }
 
@@ -360,7 +365,8 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                     "address1", address1EditText.getText().toString().trim(),
                     "address2", address2EditText.getText().toString().trim(),
                     "state",stateShortCode,
-                    "city",cityId,
+                    //"city",cityId,AAAA
+                    "city",cityName,
                     "postal_code",postalCodeEditText.getText().toString().trim(),
                     "ssn",ssnEditText.getText().toString().trim(),
                     "dob",dobEditText.getText().toString().trim()
@@ -397,7 +403,6 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                         stateList.clear();
                         stateList.addAll(list);
                         setStateAdapter();
-
 
                     }
                 }else {
@@ -458,6 +463,18 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
             stateAdapter = new StateAdapter(this, stateList);
             stateSpinner.setAdapter(stateAdapter);
         }
+
+
+        if (stateName != null && stateName.length() > 0) {
+                int pos = 0;
+                for (int i = 0; i < stateList.size(); i++) {
+                    if (stateList.get(i).getShort_code().equals(stateName)) {
+                        pos = i;
+                    }
+                }
+                stateSpinner.setSelection(pos);
+            }
+
     }
 
 
@@ -471,6 +488,8 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
 
         cityAdapter = new CityAdapter(this, cityList);
         citySpinner.setAdapter(cityAdapter);
+
+
     }
 
     private void datePickerDialog() {
@@ -548,6 +567,5 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
 
         return ageInt;
     }
-
 
 }

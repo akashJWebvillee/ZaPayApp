@@ -11,9 +11,10 @@ import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
 import com.microsoft.appcenter.crashes.Crashes;
 import com.org.zapayapp.R;
+import com.org.zapayapp.utils.Const;
+import com.org.zapayapp.utils.SharedPref;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener {
-
     private LinearLayout homeLLLend, homeLLBorrow;
     private Intent intent;
 
@@ -45,14 +46,53 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.homeLLLend:
-                intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
+
+                if (SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE)!=null
+                        && SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString().length()>0 &&
+                        SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS1)!=null&& SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS1).toString().length()>0 &&
+                        SharedPref.getPrefsHelper().getPref(Const.Var.STATE)!=null&& SharedPref.getPrefsHelper().getPref(Const.Var.STATE).toString().length()>0 &&
+                        SharedPref.getPrefsHelper().getPref(Const.Var.CITY)!=null&& SharedPref.getPrefsHelper().getPref(Const.Var.CITY).toString().length()>0 &&
+                        SharedPref.getPrefsHelper().getPref(Const.Var.POSTEL_CODE)!=null&& SharedPref.getPrefsHelper().getPref(Const.Var.POSTEL_CODE).toString().length()>0 &&
+                        SharedPref.getPrefsHelper().getPref(Const.Var.SSN)!=null&& SharedPref.getPrefsHelper().getPref(Const.Var.SSN).toString().length()>0 &&
+                        SharedPref.getPrefsHelper().getPref(Const.Var.DOB)!=null&& SharedPref.getPrefsHelper().getPref(Const.Var.DOB).toString().length()>0){
+
+                    intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
+                    intent.putExtra("isBorrow", false);
+                    startActivity(intent);
+                }else {
+                    showSimpleAlert(getString(R.string.update_your_profile),getString(R.string.update_your_profile));
+                }
+
+                /* intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
                 intent.putExtra("isBorrow", false);
-                startActivity(intent);
+                startActivity(intent);*/
+
+
+
                 break;
             case R.id.homeLLBorrow:
-                intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
+                if (SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE)!=null
+                        && SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString().length()>0 &&
+                        SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS1)!=null&& SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS1).toString().length()>0 &&
+                        SharedPref.getPrefsHelper().getPref(Const.Var.STATE)!=null&& SharedPref.getPrefsHelper().getPref(Const.Var.STATE).toString().length()>0 &&
+                        SharedPref.getPrefsHelper().getPref(Const.Var.CITY)!=null&& SharedPref.getPrefsHelper().getPref(Const.Var.CITY).toString().length()>0 &&
+                        SharedPref.getPrefsHelper().getPref(Const.Var.POSTEL_CODE)!=null&& SharedPref.getPrefsHelper().getPref(Const.Var.POSTEL_CODE).toString().length()>0 &&
+                        SharedPref.getPrefsHelper().getPref(Const.Var.SSN)!=null&& SharedPref.getPrefsHelper().getPref(Const.Var.SSN).toString().length()>0 &&
+                        SharedPref.getPrefsHelper().getPref(Const.Var.DOB)!=null&& SharedPref.getPrefsHelper().getPref(Const.Var.DOB).toString().length()>0){
+
+                    intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
+                    intent.putExtra("isBorrow", true);
+                    startActivity(intent);
+                }else {
+                    showSimpleAlert(getString(R.string.update_your_profile),getString(R.string.update_your_profile));
+                }
+
+
+
+               /* intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
                 intent.putExtra("isBorrow", true);
-                startActivity(intent);
+                startActivity(intent);*/
+
                 break;
         }
     }

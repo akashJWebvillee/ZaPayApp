@@ -108,8 +108,37 @@ public class MySession {
 
     public static void removeSession() {
         SharedPref.getPrefsHelper().savePref(Const.Var.USER_ID, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.FIRST_NAME, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.LAST_NAME, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.EMAIL, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.MOBILE, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.ADDRESS1, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.ADDRESS2, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.CITY, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.STATE, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.POSTEL_CODE, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.DOB, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.SSN, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.USER_STATUS, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.PROFILE_IMAGE, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.EMAIL_VERIFY, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.ACTIVITY_STATUS, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.CREATE_AT, null);
         SharedPref.getPrefsHelper().savePref(Const.Var.TOKEN, null);
-        //SharedPref.getPrefsHelper().savePref(Const.Var.IS_VERIFIED, false);
+
+
+
+        SharedPref.getPrefsHelper().savePref(Const.Var.BANKACCOUNT_ID, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.ACCOUNT_NUMBER, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.ROUTING_NUMBER, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.BANKACCOUNT_TYPE, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.ACCOUNT_HOLDER_NAME, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.BANK_ACCOUNT_STATUS, null);
+
+
+
+        // SharedPref.getPrefsHelper().savePref(Const.Var.USER_ID, null);
+       // SharedPref.getPrefsHelper().savePref(Const.Var.TOKEN, null);
     }
 
 

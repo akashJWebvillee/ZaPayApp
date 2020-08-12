@@ -42,7 +42,6 @@
     </RelativeLayout>
 
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -116,6 +115,7 @@
                     android:textSize="14sp"/>
 
                 <TextView
+                    android:id="@+id/amountTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="27dp"
@@ -138,6 +138,7 @@
                     android:textSize="14sp"/>
 
                 <TextView
+                    android:id="@+id/termTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="187dp"
@@ -160,6 +161,7 @@
                     android:textSize="14sp"/>
 
                 <TextView
+                    android:id="@+id/noOfPaymentTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="27dp"
@@ -182,6 +184,7 @@
                     android:textSize="14sp"/>
 
                 <TextView
+                    android:id="@+id/paymentDateTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="187dp"
@@ -210,6 +213,7 @@
                     android:textSize="16sp"/>
 
                 <TextView
+                    android:id="@+id/totalPayBackTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="27dp"

@@ -85,9 +85,9 @@
                     android:textSize="14sp"/>
 
                 <TextView
+                    android:id="@+id/nameTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/nameTV"
                     android:layout_marginStart="27dp"
                     android:layout_marginTop="116dp"
                     android:fontFamily="@font/gotha_promed"
@@ -99,7 +99,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/nameTV"
                     android:layout_marginStart="27dp"
                     android:layout_marginTop="161dp"
                     android:fontFamily="@font/gotha_prolig"
@@ -109,6 +108,7 @@
                     android:textSize="14sp"/>
 
                 <TextView
+                    android:id="@+id/amountTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="27dp"
@@ -131,6 +131,7 @@
                     android:textSize="14sp"/>
 
                 <TextView
+                    android:id="@+id/termTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="187dp"
@@ -153,6 +154,7 @@
                     android:textSize="14sp"/>
 
                 <TextView
+                    android:id="@+id/noOfPaymentTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="27dp"
@@ -175,6 +177,7 @@
                     android:textSize="14sp"/>
 
                 <TextView
+                    android:id="@+id/paymentDateTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="187dp"
@@ -203,6 +206,7 @@
                     android:textSize="16sp"/>
 
                 <TextView
+                    android:id="@+id/totalReceivedBackTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="27dp"
@@ -236,7 +240,7 @@
                     android:background="@color/navTextSelectColor" />
 
                 <TextView
-                    android:id="@+id/navigateTV"
+                    android:id="@+id/negotiateTV"
                     android:textSize="16sp"
                     android:fontFamily="@font/gotha_probol"
                     android:layout_width="match_parent"

@@ -366,6 +366,7 @@
                             android:importantForAutofill="no"
                             android:inputType="textCapSentences"
                             android:maxLines="1"
+                            android:maxLength="4"
                             android:paddingStart="0dp"
                             android:paddingTop="0dp"
                             android:paddingEnd="10dp"
@@ -375,8 +376,6 @@
                             android:textSize="15sp"
                             android:theme="@style/TextInputLayoutAppearance"/>
                     </com.org.zapayapp.uihelpers.CustomTextInputLayout>
-
-
 
 
                     <TextView

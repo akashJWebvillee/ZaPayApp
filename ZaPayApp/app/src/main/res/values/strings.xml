@@ -214,5 +214,8 @@
     <string name="enter_amount1">Enter Amount 1</string>
     <string name="enter_amount2">Enter Amount 2</string>
 
+    <string name="enter_term">Enter term value</string>
+    <string name="update_your_profile">Update your profile</string>
+
 
 </resources>

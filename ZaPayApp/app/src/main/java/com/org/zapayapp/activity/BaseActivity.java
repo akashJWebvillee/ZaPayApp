@@ -41,9 +41,7 @@ import com.org.zapayapp.utils.WValidationLib;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
 import com.org.zapayapp.webservices.RestAPI;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -299,7 +297,8 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
                 break;
             case 3:
                 if (currentScreen != HISTORY) {
-                    intent = new Intent(this, HistoryActivity.class);
+                    //intent = new Intent(this, HistoryActivity.class);
+                    intent = new Intent(this, MyHistoryActivity.class);
                     startActivity(intent);
                 }
                 break;
@@ -420,6 +419,19 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             finish();
+
+        }else if (from.equals(getResources(). getString(R.string.update_your_profile))){
+            intent = new Intent(BaseActivity.this, ProfileActivity.class);
+            //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            //finish();
+        }else if (from.equals(getResources().getString(R.string.api_update_transaction_request_status))){
+            intent = new Intent(BaseActivity.this, TransactionActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
         }
 
     }

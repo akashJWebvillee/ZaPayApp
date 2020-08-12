@@ -13,4 +13,6 @@
         android:text="@string/hello_blank_fragment"
         android:layout_marginTop="22.5dp"/>
 
+    <include layout="@layout/view_no_data"/>
+
 </FrameLayout>

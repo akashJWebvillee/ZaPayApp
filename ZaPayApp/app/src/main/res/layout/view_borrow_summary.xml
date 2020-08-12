@@ -29,6 +29,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/amountTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/gotha_promed"
@@ -53,6 +54,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/termTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/gotha_promed"
@@ -86,6 +88,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/noOfPaymentTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/gotha_promed"
@@ -110,6 +113,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/paymentDateTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/gotha_promed"
@@ -136,6 +140,7 @@
         android:textSize="16sp" />
 
     <TextView
+        android:id="@+id/totalPayBackTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/gotha_promed"

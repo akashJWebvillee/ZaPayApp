@@ -1,8 +1,6 @@
 package com.org.zapayapp.model;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 
 public class TransactionModel implements Serializable {
@@ -48,7 +46,12 @@ public class TransactionModel implements Serializable {
     @SerializedName("updated_at")
     @Expose
     public String updatedAt;
-
+    @SerializedName("first_name")
+    @Expose
+    public String firstName;
+    @SerializedName("last_name")
+    @Expose
+    public String lastName;
 
     public String getId() {
         return id;
@@ -104,5 +107,13 @@ public class TransactionModel implements Serializable {
 
     public String getUpdatedAt() {
         return updatedAt;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 }

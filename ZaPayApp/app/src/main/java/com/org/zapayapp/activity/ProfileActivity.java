@@ -60,6 +60,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void init() {
+        Log.e("Token","Token======="+SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString());
+
         runtimePermissions = new WRuntimePermissions(this);
         changePasswordTV = findViewById(R.id.changePasswordTV);
         editProfileTV = findViewById(R.id.editProfileTV);

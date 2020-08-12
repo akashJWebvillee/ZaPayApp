@@ -133,7 +133,7 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
 
                     }
                 } else {
-                    showSimpleAlert(msg, "");
+                    //showSimpleAlert(msg, "");
                 }
             }
 
@@ -150,6 +150,8 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
             routingNumberTV.setText(SharedPref.getPrefsHelper().getPref(Const.Var.ROUTING_NUMBER, ""));
         }
 
+
+
         if (SharedPref.getPrefsHelper().getPref(Const.Var.BANKACCOUNT_ID) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BANKACCOUNT_ID).toString().length() > 0) {
             addTV.setText(getString(R.string.verify_account));
         } else {
@@ -163,6 +165,12 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
             addTV.setVisibility(View.VISIBLE);
         }
 
+
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.BANKACCOUNT_ID) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BANKACCOUNT_ID).toString().length() > 0) {
+            changeTV.setVisibility(View.VISIBLE);
+        } else {
+            changeTV.setVisibility(View.GONE);
+        }
 
     }
 }

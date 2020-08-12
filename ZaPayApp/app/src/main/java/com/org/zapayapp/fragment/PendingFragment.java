@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -26,6 +27,7 @@ import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
 import com.org.zapayapp.model.ContactModel;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.Const;
+import com.org.zapayapp.utils.EndlessRecyclerViewScrollListener;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
@@ -49,11 +51,16 @@ public class PendingFragment extends Fragment implements APICallback, SimpleAler
     protected RestAPI restAPI;
 
 
-
-
     TransactionActivity activity;
     private RecyclerView pendingRecyclerView;
     private List<TransactionModel> trasactionList;
+
+
+     private EndlessRecyclerViewScrollListener scrollListener;
+     private int pageNo=0;
+     private TextView noDataTv;
+
+
 
     public PendingFragment() {
         // Required empty public constructor
@@ -80,26 +87,47 @@ public class PendingFragment extends Fragment implements APICallback, SimpleAler
     private void inIt(View view) {
         trasactionList = new ArrayList<>();
         activity = (TransactionActivity) getActivity();
+        noDataTv = view.findViewById(R.id.noDataTv);
         pendingRecyclerView = view.findViewById(R.id.pendingRecyclerView);
 
     }
 
     private void initAction() {
-        pendingRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+       LinearLayoutManager layoutManager= new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+        pendingRecyclerView.setLayoutManager(layoutManager);
         pendingRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        //TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity(),"pending");
-        // pendingRecyclerView.setAdapter(transactionAdapter);
 
-        callAPIGetTransactionRequest();
+
+        scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                pageNo = page;
+                callAPIGetTransactionRequest(pageNo);
+            }
+        };
+        pendingRecyclerView.addOnScrollListener(scrollListener);
+       // pageNo = 0;
+       // callAPIGetTransactionRequest(pageNo);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        pageNo = 0;
+        callAPIGetTransactionRequest(pageNo);
+    }
 
-    private void callAPIGetTransactionRequest() {
+    private void callAPIGetTransactionRequest(int pageNo) {
         //  0=pending 1=negotiate, 2=accept
+        if (pageNo == 0 && scrollListener != null) {
+            scrollListener.resetState();
+        }
+
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
             HashMap<String, Object> values = apiCalling.getHashMapObject(
-                    "status", "0");
+                    "status", "0",
+                    "page", pageNo);
 
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_get_transaction_request), values);
@@ -126,15 +154,28 @@ public class PendingFragment extends Fragment implements APICallback, SimpleAler
 
             if (from.equals(getResources().getString(R.string.api_get_transaction_request))) {
                 if (status == 200) {
-                    trasactionList.clear();
+                    if (pageNo == 0) {
+                        trasactionList.clear();
+                    }
+
                     List<TransactionModel> list = apiCalling.getDataList(json, "data", TransactionModel.class);
                     if (list.size() > 0) {
+                        noDataTv.setVisibility(View.GONE);
+                        pendingRecyclerView.setVisibility(View.VISIBLE);
                         trasactionList.addAll(list);
                         setAdapter();
 
-                        //showSimpleAlert(msg, getResources().getString(R.string.api_get_transaction_request));
                     } else {
-                        //showSimpleAlert(msg, "");
+                        if (pageNo == 0) {
+                            noDataTv.setVisibility(View.VISIBLE);
+                            pendingRecyclerView.setVisibility(View.GONE);
+                        }
+                    }
+
+                }else {
+                    if (pageNo == 0){
+                        noDataTv.setVisibility(View.VISIBLE);
+                        pendingRecyclerView.setVisibility(View.GONE);
                     }
                 }
             }
