@@ -76,7 +76,7 @@ private TextView termCondtitionTV;
 
                     }
                 }else {
-                    showSimpleAlert(msg, "");
+                   // showSimpleAlert(msg, "");
                 }
             }
 

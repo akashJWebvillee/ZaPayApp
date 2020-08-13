@@ -15,7 +15,7 @@ public class SplashActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID)!=null){
+                if (SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID)!=null&&SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString().length()>0){
                     startActivity(new Intent(SplashActivity.this, HomeActivity.class));
                     finish();
                 }else {

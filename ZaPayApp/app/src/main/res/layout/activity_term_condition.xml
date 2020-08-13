@@ -40,12 +40,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="start"
-                android:fontFamily="@font/gotha_pro_reg"
+
                 android:textSize="14sp"
+                android:fontFamily="@font/gotha_pro_reg"
                 android:lineSpacingExtra="5dp"
+                android:includeFontPadding="false"
                 android:textColor="@color/textColorTerms"
                 android:layout_marginTop="20dp"
-                android:includeFontPadding="false"
+
                 android:text="Nemo enim ipsam voluptatem quia volpts sit aspernatur aut odit aut fugit sed quia consqu magni dolores eos qui ratione voluptatem qui nesciunt.\n\nQuis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.\n\nVel illum qui dolorem eum fugiat quo volupts nulla pariatur. Duis aute irure dolor in repreh enderit in voluptate velit esse cillum dolore eu fugiat et pariatur.\n\nExcepteur sint occaecat cupidatat non proide sunt in culpa qui officia." />
 
         </LinearLayout>

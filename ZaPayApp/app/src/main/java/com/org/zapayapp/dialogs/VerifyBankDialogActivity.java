@@ -172,6 +172,8 @@ public class VerifyBankDialogActivity extends AppCompatActivity implements View.
             if (from.equals(getResources().getString(R.string.api_verify_bank_account_by_micro_deposits))) {
                 if (status==200){
                     bankAccountType="";
+                    amount1EditText.setText("");
+                    amount2EditText.setText("");
                     showSimpleAlert(msg, getResources().getString(R.string.api_verify_bank_account_by_micro_deposits));
                 }else {
                     showSimpleAlert(msg, "");

@@ -232,7 +232,7 @@
 
 
 
-        <RelativeLayout
+         <RelativeLayout
                     android:id="@+id/signUpRelativeLayout"
                     android:layout_width="match_parent"
                     android:layout_height="520dp"
@@ -440,7 +440,7 @@
                                 android:layout_height="15dp"
                                 android:background="@drawable/checkbox_selector"
                                 android:button="@null"
-                                android:checked="true"
+                                android:checked="false"
                                 android:text="" />
 
                             <TextView

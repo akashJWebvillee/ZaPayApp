@@ -75,8 +75,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void inIt() {
-
-
         loginTV = findViewById(R.id.loginTV);
         signUpTV = findViewById(R.id.signUpTV);
         mTextAgree = findViewById(R.id.mTextAgree);
@@ -325,7 +323,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 if (status == 200) {
                     if (json.get("data").getAsJsonObject() != null) {
                         JsonObject jsonObject = json.get("data").getAsJsonObject();
-                        MySession.MakeSession(jsonObject);
+                       //MySession.MakeSession(jsonObject);
                         userNameSignUpEditText.setText("");
                         emailSignUpEditText.setText("");
                         mobileSignUpEditText.setText("");
@@ -333,13 +331,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         conformPasswordSignUpEditText.setText("");
                         firstName = "";
                         lastName = "";
+                        showSimpleAlert(msg, getString(R.string.api_signup));
                     }
                 } else {
                     showSimpleAlert(msg, "");
                 }
             }
-
-
         }
     }
 
@@ -361,6 +358,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onSimpleCallback(String from) {
-
+        if (from.equals(getString(R.string.api_signup))){
+            setSelectedView(1);
+        }
     }
 }

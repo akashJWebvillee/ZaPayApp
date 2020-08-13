@@ -96,6 +96,7 @@
                     android:maxLines="1"
                     android:paddingStart="0dp"
                     android:paddingTop="0dp"
+                    android:maxLength="17"
                     android:paddingEnd="10dp"
                     android:paddingBottom="10dp"
                     android:textColor="@color/textColorBold"
@@ -137,8 +138,9 @@
                     android:fontFamily="@font/gotha_pro_reg"
                     android:hint="@string/enter_routing_number"
                     android:importantForAutofill="no"
-                    android:inputType="number"
+                    android:inputType="text"
                     android:maxLines="1"
+                    android:maxLength="12"
                     android:paddingStart="0dp"
                     android:paddingTop="0dp"
                     android:paddingEnd="10dp"
@@ -195,12 +197,6 @@
                     android:textSize="15sp"
                     android:theme="@style/TextInputLayoutAppearance" />
             </com.org.zapayapp.uihelpers.CustomTextInputLayout>
-
-
-
-
-
-
 
 
             <Spinner

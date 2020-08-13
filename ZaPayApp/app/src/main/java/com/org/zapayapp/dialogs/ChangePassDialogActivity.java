@@ -43,10 +43,6 @@ public class ChangePassDialogActivity extends AppCompatActivity implements View.
     private String header = "";
 
 
-
-
-
-
     private CustomTextInputLayout oldPasswordInputLayout;
     private CustomTextInputLayout newPasswordInputLayout;
     private CustomTextInputLayout confirmPasswordInputLayout;
@@ -133,8 +129,11 @@ public class ChangePassDialogActivity extends AppCompatActivity implements View.
                 if (wValidationLib.isPassword(oldPasswordInputLayout, oldPasswordUpEditText, getString(R.string.important), getString(R.string.important),true)) {
                         if (wValidationLib.isPassword(newPasswordInputLayout, newPasswordUpEditText, getString(R.string.important), getString(R.string.important),true)) {
                             if (wValidationLib.isPassword(confirmPasswordInputLayout, confirmPasswordUpEditText, getString(R.string.important), getString(R.string.important),true)) {
-                                callAPIResetPassword();
-
+                               if (newPasswordUpEditText.getText().toString().trim().equals(confirmPasswordUpEditText.getText().toString().trim())){
+                                   callAPIResetPassword();
+                               }else {
+                                   showSimpleAlert(getString(R.string.new_password_and_confirm_password_should_be_same), getString(R.string.new_password_and_confirm_password_should_be_same));
+                               }
 
                             }
                         }
@@ -189,7 +188,7 @@ public class ChangePassDialogActivity extends AppCompatActivity implements View.
                     newPasswordUpEditText.setText("");
                     confirmPasswordUpEditText.setText("");
 
-                    showSimpleAlert(msg, "");
+                    showSimpleAlert(msg, getString(R.string.api_change_password));
                 }else {
                     showSimpleAlert(msg, "");
                 }
@@ -216,7 +215,10 @@ public class ChangePassDialogActivity extends AppCompatActivity implements View.
 
     @Override
     public void onSimpleCallback(String from) {
-        finish();
+        if (from.equals(getString(R.string.new_password_and_confirm_password_should_be_same))){
 
+        }else if (from.equals(getString(R.string.api_change_password))){
+            finish();
+        }
     }
 }

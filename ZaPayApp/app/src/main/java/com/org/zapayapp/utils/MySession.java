@@ -137,7 +137,7 @@ public class MySession {
 
 
 
-        // SharedPref.getPrefsHelper().savePref(Const.Var.USER_ID, null);
+         //SharedPref.getPrefsHelper().savePref(Const.Var.USER_ID, null);
        // SharedPref.getPrefsHelper().savePref(Const.Var.TOKEN, null);
     }
 

@@ -31,6 +31,7 @@ import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.ZapayApp;
 import com.org.zapayapp.adapters.NavigationAdapter;
+import com.org.zapayapp.alert_dialog.AlertLogoutFragment;
 import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
 import com.org.zapayapp.uihelpers.AdvanceDrawerLayout;
 import com.org.zapayapp.utils.CommonMethods;
@@ -49,7 +50,7 @@ import retrofit2.Call;
 /**
  * The type Base activity.
  */
-public class BaseActivity extends AppCompatActivity implements SimpleAlertFragment.AlertSimpleCallback, APICallback {
+public class BaseActivity extends AppCompatActivity implements SimpleAlertFragment.AlertSimpleCallback, APICallback, AlertLogoutFragment.AlertLogoutCallback {
 
     private NavigationView navView;
     private AdvanceDrawerLayout drawerLayout;
@@ -322,8 +323,8 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
                 break;
             case 8:
                 if (currentScreen != LOGOUT) {
-                    // clearLogout();
-                    callAPIResetPassword();
+                    alertLogOut();
+
                 }
                 break;
         }
@@ -349,7 +350,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
     }
 
 
-    private void callAPIResetPassword() {
+    private void callAPILogout() {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
             zapayApp.setApiCallback(this);
@@ -364,7 +365,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
 
     @Override
     public void apiCallback(JsonObject json, String from) {
-        Log.e("json", "json======" + json);
+        Log.e("json", "json======1111==" + json);
         if (from != null) {
             int status = 0;
             String msg = "";
@@ -426,15 +427,36 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             //finish();
-        }else if (from.equals(getResources().getString(R.string.api_update_transaction_request_status))){
-            intent = new Intent(BaseActivity.this, TransactionActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-
         }
 
     }
+
+
+
+    private void alertLogOut() {
+        try {
+            FragmentManager fm = getSupportFragmentManager();
+            Bundle args = new Bundle();
+            args.putString("header", getString(R.string.are_you_sure_do_you_want_to_logout));
+            args.putString("textOk", getString(R.string.ok));
+            args.putString("textCancel", getString(R.string.cancel));
+            AlertLogoutFragment alert = new AlertLogoutFragment();
+            alert.setArguments(args);
+            alert.show(fm, "");
+        } catch (Resources.NotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onLogoutCallback(boolean value) {
+        if (value) {
+            callAPILogout();
+        }
+    }
+
+
+
 
     private void setHeaderData(NavigationView navView){
        /* View headerView = navView.getHeaderView(0);
@@ -442,8 +464,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
         navTextName = headerView.findViewById(R.id.navTextName);*/
 
 
-
-        imgLogo = navView.findViewById(R.id.imgLogo);
+       imgLogo = navView.findViewById(R.id.imgLogo);
         navTextName = navView.findViewById(R.id.navTextName);
 
         if (SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString().length() > 0) {
@@ -456,7 +477,5 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             navTextName.setText(SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME, "") + " " + SharedPref.getPrefsHelper().getPref(Const.Var.LAST_NAME, ""));
 
         }
-
-
     }
 }

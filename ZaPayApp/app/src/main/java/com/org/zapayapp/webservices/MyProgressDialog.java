@@ -36,15 +36,14 @@ public class MyProgressDialog {
         if (dialog.getWindow() != null)
             dialog.getWindow().setBackgroundDrawableResource(R.color.loaderpBg60Alpha);
 
-        final ImageView loaderImg = dialog.findViewById(R.id.loaderImageView);
+       // final ImageView loaderImg = dialog.findViewById(R.id.loaderImageView);
+       // loaderImg.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
+        //Glide.with(context).load(R.raw.loader).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(loaderImg);
 
-        loaderImg.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
-
-        Glide.with(context).load(R.raw.loader).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(loaderImg);
-
+        dialog.setContentView(R.layout.custom_progress_bar);
         //dialog.setCancelable(false); //back button is not work .......
         //dialog.setCancelable(true);
-        dialog.setCanceledOnTouchOutside(false);
+        //dialog.setCanceledOnTouchOutside(false);
         if (!((AppCompatActivity) context).isFinishing())
             dialog.show();
     }

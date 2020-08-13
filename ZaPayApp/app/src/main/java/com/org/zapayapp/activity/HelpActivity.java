@@ -74,11 +74,11 @@ public class HelpActivity extends BaseActivity implements APICallback {
             if (from.equals(getResources().getString(R.string.api_get_content))) {
                 if (status==200){
                     if (json.get("data").getAsJsonObject()!=null){
-                        JsonObject jsonObject=  json.get("data").getAsJsonObject();
+                       // JsonObject jsonObject=  json.get("data").getAsJsonObject();
 
                     }
                 }else {
-                    showSimpleAlert(msg, "");
+                    //showSimpleAlert(msg, "");
                 }
             }
 

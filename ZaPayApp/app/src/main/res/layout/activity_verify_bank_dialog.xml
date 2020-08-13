@@ -64,11 +64,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gotha_promed"
                 android:text="To verify account you can put value for example amount1-0.10 ,amount2- 0.03"
                 android:gravity="center"
                 android:textColor="@color/textColorBold"
                 android:textSize="11sp"
+                android:fontFamily="@font/gotha_pro_reg"
+                android:lineSpacingExtra="5dp"
+                android:includeFontPadding="false"
                 android:padding="10dp"/>
 
             <TextView

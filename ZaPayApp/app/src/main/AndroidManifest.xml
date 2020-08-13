@@ -16,11 +16,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.MyHistoryActivity"></activity>
+        <activity android:name=".activity.MyHistoryActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
+           />
         <activity
             android:name=".activity.SplashActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -108,7 +112,8 @@
         -->
         <activity
             android:name=".dialogs.EditProfileDialogActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name=".dialogs.ChangePassDialogActivity"
             android:fitsSystemWindows="true"

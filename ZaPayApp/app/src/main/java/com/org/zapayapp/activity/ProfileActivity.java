@@ -50,6 +50,13 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        setCurrentScreen(MY_PROFILE);
+        callAPIGetUserDetail();
+    }
+
+    @Override
     protected boolean useToolbar() {
         return true;
     }
@@ -71,7 +78,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         profileTxtAddress = findViewById(R.id.profileTxtAddress);
         profileImageView = findViewById(R.id.profileImageView);
 
-        callAPIGetUserDetail();
+        //callAPIGetUserDetail();
     }
 
     private void initAction() {
@@ -139,11 +146,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setCurrentScreen(MY_PROFILE);
-    }
 
 
     private void openGallery() {
@@ -323,6 +325,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     if (json.get("data").getAsJsonObject() != null) {
                         JsonObject jsonObject = json.get("data").getAsJsonObject();
                         MySession.MakeSession(jsonObject);
+                        setDataOnScreen();
                     }
                 } else {
                     showSimpleAlert(msg, "");

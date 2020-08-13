@@ -1,5 +1,4 @@
 package com.org.zapayapp.alert_dialog;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -13,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import com.org.zapayapp.R;
 import com.org.zapayapp.utils.CommonMethods;
-
 
 public class SimpleAlertFragment extends DialogFragment {
 
@@ -68,9 +66,11 @@ public class SimpleAlertFragment extends DialogFragment {
     @Override
     public void onResume() {
         Dialog dialog = getDialog();
+        dialog.setCanceledOnTouchOutside(false);
         if (dialog != null && dialog.getWindow() != null) {
-            int w = CommonMethods.getScreenWidth() - 300;
+            int w = CommonMethods.getScreenWidth() - 150;
             dialog.getWindow().setLayout(w, ViewGroup.LayoutParams.WRAP_CONTENT);
+           // dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         }
         super.onResume();
     }

@@ -6,16 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.org.zapayapp.R;
-import com.org.zapayapp.activity.BorrowSummaryActivity;
-import com.org.zapayapp.activity.LendingSummaryActivity;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.TimeStamp;
-
 import java.util.List;
 
 public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAdapter.MyHolder> {
@@ -66,26 +61,26 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
         holder.amountTV.setText("$"+transactionModel.getAmount());
 
         if (transactionModel.getRequestBy().equalsIgnoreCase("1")){
-            holder.borroModeTitleTV.setText("Lend Mode:");
+            holder.borroModeTitleTV.setText(context.getString(R.string.lend_mode));
         }else if (transactionModel.getRequestBy().equalsIgnoreCase("2")){
-            holder.borroModeTitleTV.setText("Borrow Mode:");
+            holder.borroModeTitleTV.setText(context.getString(R.string.borrow_mode));
         }
 
         if (transactionModel.getTermsType().equalsIgnoreCase("1")){
-            holder.termTypeTV.setText(transactionModel.getTermsValue()+" %");
+            holder.termTypeTV.setText(transactionModel.getTermsValue()+" "+context.getString(R.string.percent));
         }else if (transactionModel.getTermsType().equalsIgnoreCase("2")){
-            holder.termTypeTV.setText(transactionModel.getTermsValue()+" Fee");
+            holder.termTypeTV.setText(transactionModel.getTermsValue()+" "+context.getString(R.string.fee));
         }else if (transactionModel.getTermsType().equalsIgnoreCase("3")){
-            holder.termTypeTV.setText(transactionModel.getTermsValue()+" Discount");
+            holder.termTypeTV.setText(transactionModel.getTermsValue()+" "+context.getString(R.string.discount));
         }else if (transactionModel.getTermsType().equalsIgnoreCase("4")){
-            holder.termTypeTV.setText(transactionModel.getTermsValue()+" None");
+            holder.termTypeTV.setText(transactionModel.getTermsValue()+" "+context.getString(R.string.none));
         }
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+           /*     if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                     Intent intent = new Intent(context, BorrowSummaryActivity.class);
                     intent.putExtra("transactionModel",transactionModel);
                     context.startActivity(intent);
@@ -93,7 +88,7 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
                     Intent intent = new Intent(context, LendingSummaryActivity.class);
                     intent.putExtra("transactionModel",transactionModel);
                     context.startActivity(intent);
-                }
+                }*/
             }
         });
 

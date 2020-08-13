@@ -60,7 +60,6 @@ import retrofit2.Call;
 public class EditProfileDialogActivity extends AppCompatActivity implements View.OnClickListener, APICallback,SimpleAlertFragment.AlertSimpleCallback, DatePickerFragmentDialogue.DatePickerCallback {
     private TextView saveTV;
     private ImageView closeTV;
-    private EditText editTextName,editTextEmail,editTextPhoneNo,editTextAddress;
     private String header = "";
 
     public WValidationLib wValidationLib;
@@ -69,7 +68,6 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     protected Gson gson;
     protected APICalling apiCalling;
     protected RestAPI restAPI;
-
 
     private CustomTextInputLayout nameEditTextInputLayout;
     private CustomTextInputLayout mobileInputLayout;
@@ -94,7 +92,7 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     private List<CityModel> cityList;
     private CityAdapter cityAdapter;
     private String stateShortCode="";
-    private String cityId="";
+    //private String cityId="";
     private String cityName="";
     private String firstName="";
     private String lastName="";
@@ -212,9 +210,8 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                 cityId = cityList.get(position).getId();
+                 //cityId = cityList.get(position).getId();
                  cityName = cityList.get(position).getCity();
-                Log.e("bankAccountType","stateId======="+cityId);
                 Log.e("bankAccountType","name======="+cityName);
 
 
@@ -230,33 +227,34 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
 
 
     private void setDataOnScreen() {
-        if (SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME) != null && SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME).toString().length() > 0) {
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME) != null && SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME).toString().length() > 1) {
             nameEditText.setText(SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME, "") + " " + SharedPref.getPrefsHelper().getPref(Const.Var.LAST_NAME, ""));
 
         }
 
-        if (SharedPref.getPrefsHelper().getPref(Const.Var.MOBILE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.MOBILE).toString().length() > 0) {
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.MOBILE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.MOBILE).toString().length() > 1) {
             mobileEditText.setText(SharedPref.getPrefsHelper().getPref(Const.Var.MOBILE, ""));
         }
 
-        if (SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS1) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS1).toString().length() > 0) {
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS1) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS1).toString().length() > 1) {
             address1EditText.setText(SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS1, ""));
         }
 
-        if (SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS2) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS2).toString().length() > 0) {
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS2) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS2).toString().length() > 1) {
             address2EditText.setText(SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS2, ""));
         }
 
-        if (SharedPref.getPrefsHelper().getPref(Const.Var.POSTEL_CODE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.POSTEL_CODE).toString().length() > 0) {
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.POSTEL_CODE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.POSTEL_CODE).toString().length() > 1) {
             postalCodeEditText.setText(SharedPref.getPrefsHelper().getPref(Const.Var.POSTEL_CODE, ""));
         }
 
-        if (SharedPref.getPrefsHelper().getPref(Const.Var.SSN) != null && SharedPref.getPrefsHelper().getPref(Const.Var.SSN).toString().length() > 0) {
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.SSN) != null && SharedPref.getPrefsHelper().getPref(Const.Var.SSN).toString().length() > 1) {
             ssnEditText.setText(SharedPref.getPrefsHelper().getPref(Const.Var.SSN, ""));
         }
 
-        if (SharedPref.getPrefsHelper().getPref(Const.Var.DOB) != null && SharedPref.getPrefsHelper().getPref(Const.Var.DOB).toString().length() > 0) {
-            dobEditText.setText(SharedPref.getPrefsHelper().getPref(Const.Var.DOB, ""));
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.DOB) != null && SharedPref.getPrefsHelper().getPref(Const.Var.DOB).toString().length() > 1) {
+            if (!SharedPref.getPrefsHelper().getPref(Const.Var.DOB).toString().trim().equalsIgnoreCase("0000-00-00"))
+                dobEditText.setText(SharedPref.getPrefsHelper().getPref(Const.Var.DOB, ""));
         }
 
     }
@@ -284,36 +282,48 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                     firstName = firstNameLastName1[0];
                     lastName = firstNameLastName1[1];
                     if (wValidationLib.isEmpty(mobileInputLayout, mobileEditText, getString(R.string.important), true)) {
-                        if (wValidationLib.isEmpty(address1InputLayout, address1EditText, getString(R.string.important), true)) {
-                            String address1 = address1EditText.getText().toString().trim();
-                            if (address1.length()<=51){
-                                if (address2EditText.getText().toString().trim().length()==0||address2EditText.getText().toString().trim().length()<=51){
-                                    if (wValidationLib.isEmpty(postalCodeInputLayout, postalCodeEditText, getString(R.string.important), true)) {
-                                       if (postalCodeEditText.getText().toString().trim().length()==5){
-                                           if (wValidationLib.isEmpty(ssnInputLayout, ssnEditText, getString(R.string.important), true)) {
-                                               if (wValidationLib.isEmpty(dobInputLayout, dobEditText, getString(R.string.important), true)) {
-                                                   if (ageInYear>=18){
-                                                       callAPIUpdateProfile();
-                                                   }else {
-                                                       showSimpleAlert(getString(R.string.age_must_be_18_years_or_older), "");
-                                                   }
-                                               }
-                                           }
+                        if (mobileEditText.getText().toString().trim().length()==10){
+                            if (wValidationLib.isEmpty(address1InputLayout, address1EditText, getString(R.string.important), true)) {
+                                String address1 = address1EditText.getText().toString().trim();
+                                if (address1.length()<=51){
+                                    if (address2EditText.getText().toString().trim().length()==0||address2EditText.getText().toString().trim().length()<=51){
+                                        if (wValidationLib.isEmpty(postalCodeInputLayout, postalCodeEditText, getString(R.string.important), true)) {
+                                            if (postalCodeEditText.getText().toString().trim().length()>=5){
+                                                if (wValidationLib.isEmpty(ssnInputLayout, ssnEditText, getString(R.string.important), true)) {
+                                                    if (ssnEditText.getText().toString().trim().length()>=4){
+                                                        if (wValidationLib.isEmpty(dobInputLayout, dobEditText, getString(R.string.important), true)) {
+                                                           // if (ageInYear>=18){
+                                                                callAPIUpdateProfile();
+                                                           //}else {
+                                                            //    showSimpleAlert(getString(R.string.age_must_be_18_years_or_older), "");
+                                                           // }
+                                                        }
 
-                                       }else {
-                                           showSimpleAlert(getString(R.string.postal_code_should_be_5_digit), "");
-                                       }
+
+                                                    }else {
+                                                        showSimpleAlert(getString(R.string.ssn_code_should_be_5_digit), "");
+
+                                                    }
+
+                                                }
+
+                                            }else {
+                                                showSimpleAlert(getString(R.string.postal_code_should_be_5_digit), "");
+                                            }
+                                        }
+
+                                    }else {
+                                        showSimpleAlert(getString(R.string.must_be_50_characters_or_less), "");
                                     }
 
                                 }else {
                                     showSimpleAlert(getString(R.string.must_be_50_characters_or_less), "");
+
                                 }
 
-                            }else {
-                                showSimpleAlert(getString(R.string.must_be_50_characters_or_less), "");
-
                             }
-
+                        }else {
+                            showSimpleAlert(getString(R.string.enter_valid_mobile),"");
                         }
                     }
 
@@ -339,7 +349,6 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         }
     }
 
-
     private void callAPIGetCity(String state_id) {
         try {
             HashMap<String, Object> values = apiCalling.getHashMapObject(
@@ -353,7 +362,6 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
             e.printStackTrace();
         }
     }
-
 
     private void callAPIUpdateProfile() {
         String token=SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
@@ -416,10 +424,12 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                         cityList.clear();
                         cityList.addAll(list);
                         setCityAdapter();
-
                     }
                 }else {
-                    showSimpleAlert(msg, "");
+                    cityName="";
+                    cityList.clear();
+                    setCityAdapter();
+                   // showSimpleAlert(msg, "");
                 }
 
             }else if (from.equals(getResources().getString(R.string.api_update_profile))){
@@ -517,9 +527,15 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
 
 
 
-                dob= year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+                 dob= year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
                  ageInYear=getAge(year,monthOfYear+1,dayOfMonth);
-                 dobEditText.setText(dob);
+
+                if (ageInYear>=18){
+                    dobEditText.setText(dob);
+                }else {
+                    showSimpleAlert(getString(R.string.age_must_be_18_years_or_older), "");
+                }
+
 
             }
         }, mYear, mMonth, mDay);
@@ -542,7 +558,6 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     @Override
     public void datePickerCallback(String selectedDate, int year, int month, int day, String from) throws ParseException {
         dob=selectedDate;
-        ageInYear=getAge(year,month,day);
         dobEditText.setText(dob);
 
         Log.e("ageInYear","ageInYear==="+ageInYear);

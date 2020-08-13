@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-
+import com.dd.ShadowLayout;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -16,15 +16,13 @@ import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.MySession;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
-
-import java.util.HashMap;
-
 import retrofit2.Call;
 
 public class BankInfoActivity extends BaseActivity implements View.OnClickListener, APICallback {
     private TextView changeTV, accountNumberTV, routingNumberTV;
     private TextView addTV;
     //get_bank_account_details
+    private ShadowLayout addShadowLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +37,7 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
         accountNumberTV = findViewById(R.id.accountNumberTV);
         routingNumberTV = findViewById(R.id.routingNumberTV);
         addTV = findViewById(R.id.addTV);
+        addShadowLayout = findViewById(R.id.addShadowLayout);
 
 
         setData();
@@ -130,10 +129,7 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
                     if (json.get("data").getAsJsonObject() != null) {
                         MySession.saveBankData(json.get("data").getAsJsonObject());
                         setData();
-
                     }
-                } else {
-                    //showSimpleAlert(msg, "");
                 }
             }
 
@@ -151,7 +147,6 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
         }
 
 
-
         if (SharedPref.getPrefsHelper().getPref(Const.Var.BANKACCOUNT_ID) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BANKACCOUNT_ID).toString().length() > 0) {
             addTV.setText(getString(R.string.verify_account));
         } else {
@@ -160,9 +155,11 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
 
         if (SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_STATUS) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_STATUS).toString().length() > 0 &&
                 SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_STATUS).toString().equalsIgnoreCase("verified")) {
-            addTV.setVisibility(View.GONE);
+            addTV.setVisibility(View.INVISIBLE);
+            addShadowLayout.setVisibility(View.INVISIBLE);
         } else {
             addTV.setVisibility(View.VISIBLE);
+            addShadowLayout.setVisibility(View.VISIBLE);
         }
 
 

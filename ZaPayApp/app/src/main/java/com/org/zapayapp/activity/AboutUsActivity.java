@@ -71,7 +71,7 @@ private TextView contentTV;
 
                     }
                 }else {
-                    showSimpleAlert(msg, "");
+                   // showSimpleAlert(msg, "");
                 }
             }
 

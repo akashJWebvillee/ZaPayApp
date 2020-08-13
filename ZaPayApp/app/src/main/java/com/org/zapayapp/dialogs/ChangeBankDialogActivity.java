@@ -163,13 +163,35 @@ public class ChangeBankDialogActivity extends AppCompatActivity implements View.
             //finish();
 
             try {
-            if (wValidationLib.isEmpty(accountNumberInputLayout, accountNumberEditText, getString(R.string.important),true)) {
+          /*  if (wValidationLib.isEmpty(accountNumberInputLayout, accountNumberEditText, getString(R.string.important),true)) {
                 if (wValidationLib.isEmpty(routNumberInputLayout, routNumberEditText, getString(R.string.important), true)) {
                     if (wValidationLib.isEmpty(nameInputLayout, nameEditText, getString(R.string.important), true)) {
                         callAPIUpdateBankAccount();
                     }
                 }
-            }
+            }*/
+                if (wValidationLib.isEmpty(accountNumberInputLayout, accountNumberEditText, getString(R.string.important),true)) {
+                    if (accountNumberEditText.getText().toString().trim().length()>=4&&accountNumberEditText.getText().toString().trim().length()<=17){
+                        if (wValidationLib.isEmpty(routNumberInputLayout, routNumberEditText, getString(R.string.important), true)) {
+                            if (routNumberEditText.getText().toString().trim().length()>=9){
+                                if (wValidationLib.isEmpty(nameInputLayout, nameEditText, getString(R.string.important), true)) {
+                                    callAPIUpdateBankAccount();
+                                }
+
+                            }else {
+                                showSimpleAlert(getString(R.string.enter_valid_routing_number),"");
+
+                            }
+
+                        }
+
+                    }else {
+                        showSimpleAlert(getString(R.string.enter_valid_account_number),"");
+                    }
+                }
+
+
+
 
         } catch (Exception e) {
             e.printStackTrace();
