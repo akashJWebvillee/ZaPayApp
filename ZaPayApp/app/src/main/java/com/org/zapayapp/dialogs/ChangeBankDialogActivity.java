@@ -1,4 +1,5 @@
 package com.org.zapayapp.dialogs;
+
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -8,10 +9,10 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -36,17 +37,16 @@ import java.util.HashMap;
 
 import retrofit2.Call;
 
-public class ChangeBankDialogActivity extends AppCompatActivity implements View.OnClickListener, APICallback,SimpleAlertFragment.AlertSimpleCallback {
+public class ChangeBankDialogActivity extends AppCompatActivity implements View.OnClickListener, APICallback, SimpleAlertFragment.AlertSimpleCallback {
     private TextView saveTV;
     private ImageView closeTV;
     private String header = "";
 
 
-
     private Spinner bankAccountTypeSpinner;
     //String[] aacountType = {"savings", "checking"};
 
-    private String bankAccountType="";
+    private String bankAccountType = "";
 
     public WValidationLib wValidationLib;
     /*Code for API calling*/
@@ -99,10 +99,10 @@ public class ChangeBankDialogActivity extends AppCompatActivity implements View.
     }
 
     private void init() {
-        wValidationLib=new WValidationLib(ChangeBankDialogActivity.this);
+        wValidationLib = new WValidationLib(ChangeBankDialogActivity.this);
         saveTV = findViewById(R.id.saveTV);
-       // accountNumberTV = findViewById(R.id.accountNumberTV);
-       // routNumberTV = findViewById(R.id.routNumberTV);
+        // accountNumberTV = findViewById(R.id.accountNumberTV);
+        // routNumberTV = findViewById(R.id.routNumberTV);
         closeTV = findViewById(R.id.closeTV);
 
         accountNumberInputLayout = findViewById(R.id.accountNumberInputLayout);
@@ -116,7 +116,7 @@ public class ChangeBankDialogActivity extends AppCompatActivity implements View.
     }
 
 
-    private void setData(){
+    private void setData() {
         if (SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER).toString().length() > 0) {
             accountNumberEditText.setText(SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER, ""));
         }
@@ -134,10 +134,10 @@ public class ChangeBankDialogActivity extends AppCompatActivity implements View.
         saveTV.setOnClickListener(this);
         closeTV.setOnClickListener(this);
 
-         String[] aacountType = getResources().getStringArray(R.array.accountTypeArray);
+        String[] aacountType = getResources().getStringArray(R.array.accountTypeArray);
 
-         bankAccountTypeSpinner = findViewById(R.id.bankAccountTypeSpinner);
-        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,aacountType);
+        bankAccountTypeSpinner = findViewById(R.id.bankAccountTypeSpinner);
+        ArrayAdapter aa = new ArrayAdapter(this, android.R.layout.simple_spinner_item, aacountType);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         bankAccountTypeSpinner.setAdapter(aa);
         bankAccountTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -145,7 +145,7 @@ public class ChangeBankDialogActivity extends AppCompatActivity implements View.
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //bankAccountType= (String) parent.getItemAtPosition(position);
                 bankAccountType = aacountType[position];
-                Log.e("bankAccountType","bankAccountType======="+bankAccountType);
+                Log.e("bankAccountType", "bankAccountType=======" + bankAccountType);
             }
 
             @Override
@@ -170,42 +170,31 @@ public class ChangeBankDialogActivity extends AppCompatActivity implements View.
                     }
                 }
             }*/
-                if (wValidationLib.isEmpty(accountNumberInputLayout, accountNumberEditText, getString(R.string.important),true)) {
-                    if (accountNumberEditText.getText().toString().trim().length()>=4&&accountNumberEditText.getText().toString().trim().length()<=17){
+                if (wValidationLib.isEmpty(accountNumberInputLayout, accountNumberEditText, getString(R.string.important), true)) {
+                    if (accountNumberEditText.getText().toString().trim().length() >= 4 && accountNumberEditText.getText().toString().trim().length() <= 17) {
                         if (wValidationLib.isEmpty(routNumberInputLayout, routNumberEditText, getString(R.string.important), true)) {
-                            if (routNumberEditText.getText().toString().trim().length()>=9){
+                            if (routNumberEditText.getText().toString().trim().length() >= 9) {
                                 if (wValidationLib.isEmpty(nameInputLayout, nameEditText, getString(R.string.important), true)) {
                                     callAPIUpdateBankAccount();
                                 }
-
-                            }else {
-                                showSimpleAlert(getString(R.string.enter_valid_routing_number),"");
-
+                            } else {
+                                showSimpleAlert(getString(R.string.enter_valid_routing_number), "");
                             }
-
                         }
-
-                    }else {
-                        showSimpleAlert(getString(R.string.enter_valid_account_number),"");
+                    } else {
+                        showSimpleAlert(getString(R.string.enter_valid_account_number), "");
                     }
                 }
-
-
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-
-        }else if (v.equals(closeTV)){
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (v.equals(closeTV)) {
             finish();
         }
     }
 
     private void callAPIUpdateBankAccount() {
-        String token= SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
             HashMap<String, Object> values = apiCalling.getHashMapObject(
                     "account_number", accountNumberEditText.getText().toString().trim(),
@@ -215,7 +204,7 @@ public class ChangeBankDialogActivity extends AppCompatActivity implements View.
                     "id", SharedPref.getPrefsHelper().getPref(Const.Var.BANKACCOUNT_ID).toString());
 
             zapayApp.setApiCallback(this);
-            Call<JsonElement> call = restAPI.postWithTokenApi(token,getString(R.string.api_update_bank_account), values);
+            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_update_bank_account), values);
             if (apiCalling != null) {
                 apiCalling.callAPI(zapayApp, call, getString(R.string.api_update_bank_account), saveTV);
             }
@@ -238,14 +227,14 @@ public class ChangeBankDialogActivity extends AppCompatActivity implements View.
             }
 
             if (from.equals(getResources().getString(R.string.api_update_bank_account))) {
-                if (status==200){
-                    bankAccountType="";
+                if (status == 200) {
+                    bankAccountType = "";
                     accountNumberEditText.setText("");
                     routNumberEditText.setText("");
                     nameEditText.setText("");
 
                     showSimpleAlert(msg, getResources().getString(R.string.api_update_bank_account));
-                }else {
+                } else {
                     showSimpleAlert(msg, "");
                 }
             }
@@ -271,10 +260,10 @@ public class ChangeBankDialogActivity extends AppCompatActivity implements View.
 
     @Override
     public void onSimpleCallback(String from) {
-        if (from.equals(getResources().getString(R.string.api_update_bank_account))){
-            Intent intent=new Intent();
+        if (from.equals(getResources().getString(R.string.api_update_bank_account))) {
+            Intent intent = new Intent();
             //intent.putExtra("MESSAGE",message);
-            setResult(2,intent);
+            setResult(2, intent);
             finish();//finishing activity
         }
     }
