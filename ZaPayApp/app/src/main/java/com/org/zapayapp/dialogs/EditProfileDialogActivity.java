@@ -1,42 +1,32 @@
 package com.org.zapayapp.dialogs;
+
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.TypeAdapter;
 import com.org.zapayapp.R;
 import com.org.zapayapp.ZapayApp;
-import com.org.zapayapp.activity.BaseActivity;
-import com.org.zapayapp.activity.ProfileActivity;
 import com.org.zapayapp.adapters.StateAdapter;
 import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
 import com.org.zapayapp.model.CityModel;
 import com.org.zapayapp.model.StateModel;
 import com.org.zapayapp.uihelpers.CustomTextInputLayout;
-import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.DatePickerFragmentDialogue;
 import com.org.zapayapp.utils.SharedPref;
@@ -44,8 +34,6 @@ import com.org.zapayapp.utils.WValidationLib;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
 import com.org.zapayapp.webservices.RestAPI;
-
-import org.json.JSONArray;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -57,7 +45,7 @@ import java.util.Locale;
 
 import retrofit2.Call;
 
-public class EditProfileDialogActivity extends AppCompatActivity implements View.OnClickListener, APICallback,SimpleAlertFragment.AlertSimpleCallback, DatePickerFragmentDialogue.DatePickerCallback {
+public class EditProfileDialogActivity extends AppCompatActivity implements View.OnClickListener, APICallback, SimpleAlertFragment.AlertSimpleCallback, DatePickerFragmentDialogue.DatePickerCallback {
     private TextView saveTV;
     private ImageView closeTV;
     private String header = "";
@@ -85,29 +73,29 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     private TextInputEditText ssnEditText;
     private TextInputEditText dobEditText;
 
-    private Spinner stateSpinner,citySpinner;
+    private Spinner stateSpinner, citySpinner;
     private List<StateModel> stateList;
     private StateAdapter stateAdapter;
 
     private List<CityModel> cityList;
     private CityAdapter cityAdapter;
-    private String stateShortCode="";
+    private String stateShortCode = "";
     //private String cityId="";
-    private String cityName="";
-    private String firstName="";
-    private String lastName="";
-    private String dob="";
-    private int ageInYear=0;
-    private  String stateName;
+    private String cityName = "";
+    private String firstName = "";
+    private String lastName = "";
+    private String dob = "";
+    private int ageInYear = 0;
+    private String stateName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //getWindow().setBackgroundDrawable(CommonMethods.getDrawableWrapper(this, android.R.color.transparent));
-       // supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        // supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.edit_profile_dialog);
-       // getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-       // getIntentValues();
+        // getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        // getIntentValues();
         apicodeInit();
         init();
         initAction();
@@ -136,9 +124,9 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     }
 
     private void init() {
-        wValidationLib=new WValidationLib(EditProfileDialogActivity.this);
-        stateList=new ArrayList<>();
-        cityList=new ArrayList<>();
+        wValidationLib = new WValidationLib(EditProfileDialogActivity.this);
+        stateList = new ArrayList<>();
+        cityList = new ArrayList<>();
 
         saveTV = findViewById(R.id.saveTV);
         closeTV = findViewById(R.id.closeTV);
@@ -161,10 +149,9 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         dobEditText = findViewById(R.id.dobEditText);
 
 
-
-        stateSpinner=findViewById(R.id.stateSpinner);
-        citySpinner=findViewById(R.id.citySpinner);
-         stateName=SharedPref.getPrefsHelper().getPref(Const.Var.STATE).toString();
+        stateSpinner = findViewById(R.id.stateSpinner);
+        citySpinner = findViewById(R.id.citySpinner);
+        stateName = SharedPref.getPrefsHelper().getPref(Const.Var.STATE).toString();
 
 
       /*  dobEditText.setOnTouchListener((v, event) -> {
@@ -210,9 +197,9 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                 //cityId = cityList.get(position).getId();
-                 cityName = cityList.get(position).getCity();
-                Log.e("bankAccountType","name======="+cityName);
+                //cityId = cityList.get(position).getId();
+                cityName = cityList.get(position).getCity();
+                Log.e("bankAccountType", "name=======" + cityName);
 
 
             }
@@ -266,68 +253,58 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
             setResult(RESULT_OK, returnIntent);
             //finish();
 
-           updateProfileFunc();
-        }else if (v.equals(closeTV)){
+            updateProfileFunc();
+        } else if (v.equals(closeTV)) {
             finish();
         }
     }
 
 
-    private void updateProfileFunc(){
+    private void updateProfileFunc() {
         try {
-            if (wValidationLib.isEmpty(nameEditTextInputLayout, nameEditText, getString(R.string.important),true)) {
+            if (wValidationLib.isEmpty(nameEditTextInputLayout, nameEditText, getString(R.string.important), true)) {
                 String firstNameLastName = nameEditText.getText().toString().trim();
                 String[] firstNameLastName1 = firstNameLastName.split(" ");
                 if (firstNameLastName1.length > 1) {
                     firstName = firstNameLastName1[0];
                     lastName = firstNameLastName1[1];
                     if (wValidationLib.isEmpty(mobileInputLayout, mobileEditText, getString(R.string.important), true)) {
-                        if (mobileEditText.getText().toString().trim().length()==10){
+                        if (mobileEditText.getText().toString().trim().length() == 10) {
                             if (wValidationLib.isEmpty(address1InputLayout, address1EditText, getString(R.string.important), true)) {
                                 String address1 = address1EditText.getText().toString().trim();
-                                if (address1.length()<=51){
-                                    if (address2EditText.getText().toString().trim().length()==0||address2EditText.getText().toString().trim().length()<=51){
+                                if (address1.length() <= 51) {
+                                    if (address2EditText.getText().toString().trim().length() == 0 || address2EditText.getText().toString().trim().length() <= 51) {
                                         if (wValidationLib.isEmpty(postalCodeInputLayout, postalCodeEditText, getString(R.string.important), true)) {
-                                            if (postalCodeEditText.getText().toString().trim().length()>=5){
+                                            if (postalCodeEditText.getText().toString().trim().length() >= 5) {
                                                 if (wValidationLib.isEmpty(ssnInputLayout, ssnEditText, getString(R.string.important), true)) {
-                                                    if (ssnEditText.getText().toString().trim().length()>=4){
+                                                    if (ssnEditText.getText().toString().trim().length() >= 4) {
                                                         if (wValidationLib.isEmpty(dobInputLayout, dobEditText, getString(R.string.important), true)) {
-                                                           // if (ageInYear>=18){
-                                                                callAPIUpdateProfile();
-                                                           //}else {
+                                                            // if (ageInYear>=18){
+                                                            callAPIUpdateProfile();
+                                                            //}else {
                                                             //    showSimpleAlert(getString(R.string.age_must_be_18_years_or_older), "");
-                                                           // }
+                                                            // }
                                                         }
-
-
-                                                    }else {
+                                                    } else {
                                                         showSimpleAlert(getString(R.string.ssn_code_should_be_5_digit), "");
-
                                                     }
-
                                                 }
-
-                                            }else {
+                                            } else {
                                                 showSimpleAlert(getString(R.string.postal_code_should_be_5_digit), "");
                                             }
                                         }
-
-                                    }else {
+                                    } else {
                                         showSimpleAlert(getString(R.string.must_be_50_characters_or_less), "");
                                     }
-
-                                }else {
+                                } else {
                                     showSimpleAlert(getString(R.string.must_be_50_characters_or_less), "");
-
                                 }
-
                             }
-                        }else {
-                            showSimpleAlert(getString(R.string.enter_valid_mobile),"");
+                        } else {
+                            showSimpleAlert(getString(R.string.enter_valid_mobile), "");
                         }
                     }
-
-                }else {
+                } else {
                     showSimpleAlert(getString(R.string.enter_last_name), "");
                 }
             }
@@ -354,7 +331,7 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
             HashMap<String, Object> values = apiCalling.getHashMapObject(
                     "state_id", state_id);
             zapayApp.setApiCallback(this);
-            Call<JsonElement> call = restAPI.postApi(getString(R.string.api_get_cities_list),values);
+            Call<JsonElement> call = restAPI.postApi(getString(R.string.api_get_cities_list), values);
             if (apiCalling != null) {
                 apiCalling.callAPI(zapayApp, call, getString(R.string.api_get_cities_list), saveTV);
             }
@@ -364,7 +341,7 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     }
 
     private void callAPIUpdateProfile() {
-        String token=SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
             HashMap<String, Object> values = apiCalling.getHashMapObject(
                     "first_name", firstName,
@@ -372,15 +349,15 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                     "mobile", mobileEditText.getText().toString().trim(),
                     "address1", address1EditText.getText().toString().trim(),
                     "address2", address2EditText.getText().toString().trim(),
-                    "state",stateShortCode,
+                    "state", stateShortCode,
                     //"city",cityId,AAAA
-                    "city",cityName,
-                    "postal_code",postalCodeEditText.getText().toString().trim(),
-                    "ssn",ssnEditText.getText().toString().trim(),
-                    "dob",dobEditText.getText().toString().trim()
+                    "city", cityName,
+                    "postal_code", postalCodeEditText.getText().toString().trim(),
+                    "ssn", ssnEditText.getText().toString().trim(),
+                    "dob", dobEditText.getText().toString().trim()
             );
             zapayApp.setApiCallback(this);
-            Call<JsonElement> call = restAPI.postWithTokenApi(token,getString(R.string.api_update_profile),values);
+            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_update_profile), values);
             if (apiCalling != null) {
                 apiCalling.callAPI(zapayApp, call, getString(R.string.api_update_profile), saveTV);
             }
@@ -404,39 +381,39 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
             }
 
             if (from.equals(getResources().getString(R.string.api_get_states_list))) {
-                if (status==200){
-                    if (json.get("data").getAsJsonArray()!=null){
-                      // JsonArray jsonArray = json.get("data").getAsJsonArray();
+                if (status == 200) {
+                    if (json.get("data").getAsJsonArray() != null) {
+                        // JsonArray jsonArray = json.get("data").getAsJsonArray();
                         List<StateModel> list = apiCalling.getDataList(json, "data", StateModel.class);
                         stateList.clear();
                         stateList.addAll(list);
                         setStateAdapter();
 
                     }
-                }else {
+                } else {
                     showSimpleAlert(msg, "");
                 }
-            }else if (from.equals(getResources().getString(R.string.api_get_cities_list))){
-                if (status==200){
-                    if (json.get("data").getAsJsonArray()!=null){
-                         //JsonArray jsonArray = json.get("data").getAsJsonArray();
+            } else if (from.equals(getResources().getString(R.string.api_get_cities_list))) {
+                if (status == 200) {
+                    if (json.get("data").getAsJsonArray() != null) {
+                        //JsonArray jsonArray = json.get("data").getAsJsonArray();
                         List<CityModel> list = apiCalling.getDataList(json, "data", CityModel.class);
                         cityList.clear();
                         cityList.addAll(list);
                         setCityAdapter();
                     }
-                }else {
-                    cityName="";
+                } else {
+                    cityName = "";
                     cityList.clear();
                     setCityAdapter();
-                   // showSimpleAlert(msg, "");
+                    // showSimpleAlert(msg, "");
                 }
 
-            }else if (from.equals(getResources().getString(R.string.api_update_profile))){
-                if (status==200){
+            } else if (from.equals(getResources().getString(R.string.api_update_profile))) {
+                if (status == 200) {
 
                     showSimpleAlert(msg, getResources().getString(R.string.api_update_profile));
-                }else {
+                } else {
                     showSimpleAlert(msg, "");
                 }
             }
@@ -461,7 +438,7 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
 
     @Override
     public void onSimpleCallback(String from) {
-        if (from.equals(getResources().getString(R.string.api_update_profile))){
+        if (from.equals(getResources().getString(R.string.api_update_profile))) {
             finish();
         }
     }
@@ -476,19 +453,19 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
 
 
         if (stateName != null && stateName.length() > 0) {
-                int pos = 0;
-                for (int i = 0; i < stateList.size(); i++) {
-                    if (stateList.get(i).getShort_code().equals(stateName)) {
-                        pos = i;
-                    }
+            int pos = 0;
+            for (int i = 0; i < stateList.size(); i++) {
+                if (stateList.get(i).getShort_code().equals(stateName)) {
+                    pos = i;
                 }
-                stateSpinner.setSelection(pos);
             }
+            stateSpinner.setSelection(pos);
+        }
 
     }
 
 
-    private void setCityAdapter(){
+    private void setCityAdapter() {
      /*   if (cityAdapter != null) {
             cityAdapter.notifyDataSetChanged();
         } else {
@@ -522,17 +499,16 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
 
                 String myFormat = "dd/MM/yyyy"; //In which you need put here
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-             //  timeText.setText(sdf.format(myCalendar.getTime()));
-               // dob=sdf.format(myCalendar.getTime());
+                //  timeText.setText(sdf.format(myCalendar.getTime()));
+                // dob=sdf.format(myCalendar.getTime());
 
 
+                dob = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+                ageInYear = getAge(year, monthOfYear + 1, dayOfMonth);
 
-                 dob= year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
-                 ageInYear=getAge(year,monthOfYear+1,dayOfMonth);
-
-                if (ageInYear>=18){
+                if (ageInYear >= 18) {
                     dobEditText.setText(dob);
-                }else {
+                } else {
                     showSimpleAlert(getString(R.string.age_must_be_18_years_or_older), "");
                 }
 
@@ -557,15 +533,15 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
 
     @Override
     public void datePickerCallback(String selectedDate, int year, int month, int day, String from) throws ParseException {
-        dob=selectedDate;
+        dob = selectedDate;
         dobEditText.setText(dob);
 
-        Log.e("ageInYear","ageInYear==="+ageInYear);
-        Log.e("ageInYear","dob==="+dob);
+        Log.e("ageInYear", "ageInYear===" + ageInYear);
+        Log.e("ageInYear", "dob===" + dob);
     }
 
 
-    private int getAge(int year, int month, int day){
+    private int getAge(int year, int month, int day) {
         Calendar dob = Calendar.getInstance();
         Calendar today = Calendar.getInstance();
 
@@ -573,12 +549,12 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
 
         int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
 
-        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)){
+        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)) {
             age--;
         }
 
         Integer ageInt = new Integer(age);
-       // String ageS = ageInt.toString();
+        // String ageS = ageInt.toString();
 
         return ageInt;
     }
