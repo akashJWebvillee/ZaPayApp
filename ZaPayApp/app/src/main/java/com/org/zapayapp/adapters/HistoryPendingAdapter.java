@@ -58,7 +58,7 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
         holder.nameTV.setText(transactionModel.getFirstName()+" "+transactionModel.getLastName());
         holder.dateTV.setText(TimeStamp.timeFun(transactionModel.getCreatedAt()));
         holder.noOfPaymentTV.setText(transactionModel.getNoOfPayment());
-        holder.amountTV.setText("$"+transactionModel.getAmount());
+        holder.amountTV.setText("$"+transactionModel.getTotalAmount());
 
         if (transactionModel.getRequestBy().equalsIgnoreCase("1")){
             holder.borroModeTitleTV.setText(context.getString(R.string.lend_mode));
@@ -67,13 +67,13 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
         }
 
         if (transactionModel.getTermsType().equalsIgnoreCase("1")){
-            holder.termTypeTV.setText(transactionModel.getTermsValue()+" "+context.getString(R.string.percent));
+            holder.termTypeTV.setText(context.getString(R.string.percent));
         }else if (transactionModel.getTermsType().equalsIgnoreCase("2")){
-            holder.termTypeTV.setText(transactionModel.getTermsValue()+" "+context.getString(R.string.fee));
+            holder.termTypeTV.setText(context.getString(R.string.fee));
         }else if (transactionModel.getTermsType().equalsIgnoreCase("3")){
-            holder.termTypeTV.setText(transactionModel.getTermsValue()+" "+context.getString(R.string.discount));
+            holder.termTypeTV.setText(context.getString(R.string.discount));
         }else if (transactionModel.getTermsType().equalsIgnoreCase("4")){
-            holder.termTypeTV.setText(transactionModel.getTermsValue()+" "+context.getString(R.string.none));
+            holder.termTypeTV.setText(context.getString(R.string.none));
         }
 
 

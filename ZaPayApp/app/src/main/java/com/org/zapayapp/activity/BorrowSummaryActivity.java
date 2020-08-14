@@ -63,8 +63,6 @@ private TextView declineTV;
              transactionModel= (TransactionModel) getIntent().getSerializableExtra("transactionModel");
         }
 
-
-
         nameTV = findViewById(R.id.nameTV);
         amountTV = findViewById(R.id.amountTV);
         termTV = findViewById(R.id.termTV);
@@ -79,7 +77,7 @@ private TextView declineTV;
     }
 
     private void initAction() {
-        nameTV.setText(transactionModel.getLastName());
+        nameTV.setText(transactionModel.getFirstName()+" "+ transactionModel.getLastName());
         amountTV.setText("$"+transactionModel.getAmount());
 
         noOfPaymentTV.setText(transactionModel.getNoOfPayment());

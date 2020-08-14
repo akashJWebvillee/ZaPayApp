@@ -25,8 +25,6 @@ public class WValidationLib {
     private static final String ALPHA = "([a-zA-Z])\\w+";
 
     private Context wContext;
-
-
     public WValidationLib(Context context) {
         this.wContext = context;
 

@@ -67,8 +67,8 @@ public class DatePickerFragmentDialogue extends DialogFragment implements DatePi
         if (strDate != null && strDate.length() > 0 && getActivity() != null) {
             try {
 
-                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
-               // SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD", Locale.ENGLISH);
+                //SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+                SimpleDateFormat sdf = new SimpleDateFormat(" yyyy-mm-dd", Locale.ENGLISH);
 
                 Date d = sdf.parse(strDate);
                 Calendar cal = Calendar.getInstance();

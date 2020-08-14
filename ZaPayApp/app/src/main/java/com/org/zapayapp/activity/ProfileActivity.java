@@ -142,11 +142,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
                 break;
 
-
         }
     }
-
-
 
     private void openGallery() {
         try {

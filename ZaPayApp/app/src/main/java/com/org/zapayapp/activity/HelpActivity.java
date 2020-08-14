@@ -2,14 +2,11 @@ package com.org.zapayapp.activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.webservices.APICallback;
-
 import java.util.HashMap;
-
 import retrofit2.Call;
 
 /**
@@ -41,7 +38,6 @@ public class HelpActivity extends BaseActivity implements APICallback {
         super.onResume();
         setCurrentScreen(HELP);
     }
-
 
     private void callAPIHelp() {
         HashMap<String, Object> values = apiCalling.getHashMapObject(
@@ -81,7 +77,6 @@ public class HelpActivity extends BaseActivity implements APICallback {
                     //showSimpleAlert(msg, "");
                 }
             }
-
         }
     }
 }

@@ -134,6 +134,12 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        setHeaderData();
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         baseActivityInit();
@@ -153,7 +159,9 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
         toolbar = findViewById(R.id.toolbar);
         navView = findViewById(R.id.navView);
        // navTextName = findViewById(R.id.navTextName);
-        setHeaderData(navView);
+        imgLogo = navView.findViewById(R.id.imgLogo);
+        navTextName = navView.findViewById(R.id.navTextName);
+      //  setHeaderData(navView);
         navRecycler = findViewById(R.id.navRecycler);
         if (useToolbar()) {
             try {
@@ -458,16 +466,12 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
 
 
 
-    private void setHeaderData(NavigationView navView){
+    private void setHeaderData(){
        /* View headerView = navView.getHeaderView(0);
         imgLogo = headerView.findViewById(R.id.imgLogo);
         navTextName = headerView.findViewById(R.id.navTextName);*/
 
-
-       imgLogo = navView.findViewById(R.id.imgLogo);
-        navTextName = navView.findViewById(R.id.navTextName);
-
-        if (SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString().length() > 0) {
+       if (SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString().length() > 0) {
             Glide.with(BaseActivity.this)
                     .load(apiCalling.getImageUrl(SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString())).placeholder(R.mipmap.ic_user)
                     .into(imgLogo);

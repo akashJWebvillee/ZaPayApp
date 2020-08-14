@@ -70,24 +70,31 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         }
 
         if (transactionModel.getAmount() != null && transactionModel.getAmount().length() > 0) {
-            holder.amountTV.setText("$" + transactionModel.getAmount());
+            //holder.amountTV.setText("$" + transactionModel.getAmount());
+            holder.amountTV.setText("$" + transactionModel.getTotalAmount());
         }
 
 
         if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
-            holder.borroModeTitleTV.setText("Lend Mode:");
+          //  holder.borroModeTitleTV.setText("Lend Mode:");
+            holder.borroModeTitleTV.setText(context.getString(R.string.lend_mode));
         } else if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
-            holder.borroModeTitleTV.setText("Borrow Mode:");
+            //holder.borroModeTitleTV.setText("Borrow Mode:");
+            holder.borroModeTitleTV.setText(context.getString(R.string.borrow_mode));
         }
 
         if (transactionModel.getTermsType().equalsIgnoreCase("1")) {
-            holder.termTypeTV.setText(transactionModel.getTermsValue() + " %");
+           // holder.termTypeTV.setText(transactionModel.getTermsValue() + " %");
+            holder.termTypeTV.setText(context.getString(R.string.percent));
         } else if (transactionModel.getTermsType().equalsIgnoreCase("2")) {
-            holder.termTypeTV.setText(transactionModel.getTermsValue() + " Fee");
+           // holder.termTypeTV.setText(transactionModel.getTermsValue() + " Fee");
+            holder.termTypeTV.setText(context.getString(R.string.fee));
         } else if (transactionModel.getTermsType().equalsIgnoreCase("3")) {
-            holder.termTypeTV.setText(transactionModel.getTermsValue() + " Discount");
+            //holder.termTypeTV.setText(transactionModel.getTermsValue() + " Discount");
+            holder.termTypeTV.setText(context.getString(R.string.discount));
         } else if (transactionModel.getTermsType().equalsIgnoreCase("4")) {
-            holder.termTypeTV.setText(transactionModel.getTermsValue() + " None");
+            //holder.termTypeTV.setText(transactionModel.getTermsValue() + " None");
+            holder.termTypeTV.setText(context.getString(R.string.none));
         }
 
 

@@ -140,14 +140,6 @@ public class HistoryPendingFragment extends Fragment implements APICallback, Sim
 
             if (from.equals(getResources().getString(R.string.api_get_transaction_history))) {
                 if (status == 200) {
-                /*    trasactionList.clear();
-                    List<TransactionModel> list = apiCalling.getDataList(json, "data", TransactionModel.class);
-                    if (list.size() > 0) {
-                        trasactionList.addAll(list);
-                        setAdapter();
-                    }
-                    */
-
                     if (pageNo == 0) {
                         trasactionList.clear();
                     }

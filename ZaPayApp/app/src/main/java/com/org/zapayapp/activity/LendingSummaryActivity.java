@@ -63,7 +63,9 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
     }
 
     private void inItAction(){
-        nameTV.setText(transactionModel.getLastName());
+        nameTV.setText(transactionModel.getFirstName()+" "+ transactionModel.getLastName());
+
+
         amountTV.setText("$"+transactionModel.getAmount());
 
         noOfPaymentTV.setText(transactionModel.getNoOfPayment());

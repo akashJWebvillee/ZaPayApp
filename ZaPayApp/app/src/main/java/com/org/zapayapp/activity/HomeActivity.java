@@ -1,13 +1,11 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
-
+import android.widget.TextView;
 import androidx.annotation.Nullable;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.microsoft.appcenter.AppCenter;
@@ -18,12 +16,12 @@ import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.MySession;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
-
 import retrofit2.Call;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener, APICallback {
     private LinearLayout homeLLLend, homeLLBorrow;
     private Intent intent;
+    private TextView titleTV;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,11 +34,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     private void init() {
         homeLLLend = findViewById(R.id.homeLLLend);
         homeLLBorrow = findViewById(R.id.homeLLBorrow);
+        titleTV = findViewById(R.id.titleTV);
 
         AppCenter.start(getApplication(), "7c7f48b8-92b9-419a-842c-536b68581c02",
                 Analytics.class, Crashes.class);// add this to trace the crashlytics
-
-
 
     }
 
@@ -49,6 +46,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         homeLLBorrow.setOnClickListener(this);
         callAPIGetUserDetail();
         callAPIGetBankAccountDetail();
+
+
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME)!=null&&SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME).toString().length()>0){
+            titleTV.setText(getString(R.string.hello)+" "+SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME).toString());
+        }
     }
 
     @Override
@@ -57,21 +59,21 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
             case R.id.homeLLLend:
 
                 if (//SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE)!=null
-                       // && SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString().length()>0 &&
-                        SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS1)!=null&& SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS1).toString().length()>0 &&
-                        SharedPref.getPrefsHelper().getPref(Const.Var.STATE)!=null&& SharedPref.getPrefsHelper().getPref(Const.Var.STATE).toString().length()>0 &&
-                        SharedPref.getPrefsHelper().getPref(Const.Var.CITY)!=null&& SharedPref.getPrefsHelper().getPref(Const.Var.CITY).toString().length()>0 &&
-                        SharedPref.getPrefsHelper().getPref(Const.Var.POSTEL_CODE)!=null&& SharedPref.getPrefsHelper().getPref(Const.Var.POSTEL_CODE).toString().length()>0 &&
-                        SharedPref.getPrefsHelper().getPref(Const.Var.SSN)!=null&& SharedPref.getPrefsHelper().getPref(Const.Var.SSN).toString().length()>0 &&
-                        SharedPref.getPrefsHelper().getPref(Const.Var.DOB)!=null&& SharedPref.getPrefsHelper().getPref(Const.Var.DOB).toString().length()>0){
+                    // && SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString().length()>0 &&
+                        SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS1) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS1).toString().length() > 0 &&
+                                SharedPref.getPrefsHelper().getPref(Const.Var.STATE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.STATE).toString().length() > 0 &&
+                                SharedPref.getPrefsHelper().getPref(Const.Var.CITY) != null && SharedPref.getPrefsHelper().getPref(Const.Var.CITY).toString().length() > 0 &&
+                                SharedPref.getPrefsHelper().getPref(Const.Var.POSTEL_CODE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.POSTEL_CODE).toString().length() > 0 &&
+                                SharedPref.getPrefsHelper().getPref(Const.Var.SSN) != null && SharedPref.getPrefsHelper().getPref(Const.Var.SSN).toString().length() > 0 &&
+                                SharedPref.getPrefsHelper().getPref(Const.Var.DOB) != null && SharedPref.getPrefsHelper().getPref(Const.Var.DOB).toString().length() > 0) {
 
 
                     intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
                     intent.putExtra("isBorrow", false);
                     startActivity(intent);
 
-                }else {
-                    showSimpleAlert(getString(R.string.update_your_profile),getString(R.string.update_your_profile));
+                } else {
+                    showSimpleAlert(getString(R.string.update_your_profile), getString(R.string.update_your_profile));
                 }
 
                 /* intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
@@ -79,23 +81,22 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                 startActivity(intent);*/
 
 
-
                 break;
             case R.id.homeLLBorrow:
                 if (//SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE)!=null
-                        //&& SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString().length()>0 &&
-                        SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS1)!=null&& SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS1).toString().length()>0 &&
-                        SharedPref.getPrefsHelper().getPref(Const.Var.STATE)!=null&& SharedPref.getPrefsHelper().getPref(Const.Var.STATE).toString().length()>0 &&
-                        SharedPref.getPrefsHelper().getPref(Const.Var.CITY)!=null&& SharedPref.getPrefsHelper().getPref(Const.Var.CITY).toString().length()>0 &&
-                        SharedPref.getPrefsHelper().getPref(Const.Var.POSTEL_CODE)!=null&& SharedPref.getPrefsHelper().getPref(Const.Var.POSTEL_CODE).toString().length()>0 &&
-                        SharedPref.getPrefsHelper().getPref(Const.Var.SSN)!=null&& SharedPref.getPrefsHelper().getPref(Const.Var.SSN).toString().length()>0 &&
-                        SharedPref.getPrefsHelper().getPref(Const.Var.DOB)!=null&& SharedPref.getPrefsHelper().getPref(Const.Var.DOB).toString().length()>0){
+                    //&& SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString().length()>0 &&
+                        SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS1) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS1).toString().length() > 0 &&
+                                SharedPref.getPrefsHelper().getPref(Const.Var.STATE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.STATE).toString().length() > 0 &&
+                                SharedPref.getPrefsHelper().getPref(Const.Var.CITY) != null && SharedPref.getPrefsHelper().getPref(Const.Var.CITY).toString().length() > 0 &&
+                                SharedPref.getPrefsHelper().getPref(Const.Var.POSTEL_CODE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.POSTEL_CODE).toString().length() > 0 &&
+                                SharedPref.getPrefsHelper().getPref(Const.Var.SSN) != null && SharedPref.getPrefsHelper().getPref(Const.Var.SSN).toString().length() > 0 &&
+                                SharedPref.getPrefsHelper().getPref(Const.Var.DOB) != null && SharedPref.getPrefsHelper().getPref(Const.Var.DOB).toString().length() > 0) {
 
                     intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
                     intent.putExtra("isBorrow", true);
                     startActivity(intent);
-                }else {
-                    showSimpleAlert(getString(R.string.update_your_profile),getString(R.string.update_your_profile));
+                } else {
+                    showSimpleAlert(getString(R.string.update_your_profile), getString(R.string.update_your_profile));
                 }
 
 
@@ -173,7 +174,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                 } else {
                     showSimpleAlert(msg, "");
                 }
-            }else if (from.equals(getResources().getString(R.string.api_get_bank_account_details))) {
+            } else if (from.equals(getResources().getString(R.string.api_get_bank_account_details))) {
                 if (status == 200) {
                     if (json.get("data").getAsJsonObject() != null) {
                         MySession.saveBankData(json.get("data").getAsJsonObject());

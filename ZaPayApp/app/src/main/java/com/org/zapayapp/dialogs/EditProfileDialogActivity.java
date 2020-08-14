@@ -4,29 +4,19 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
-
-import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.TypeAdapter;
 import com.org.zapayapp.R;
 import com.org.zapayapp.ZapayApp;
 import com.org.zapayapp.activity.BaseActivity;
@@ -44,8 +34,6 @@ import com.org.zapayapp.utils.WValidationLib;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
 import com.org.zapayapp.webservices.RestAPI;
-
-import org.json.JSONArray;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -206,7 +194,6 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
             }
         });
 
-
         citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -299,12 +286,9 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                                                            // }
                                                         }
 
-
                                                     }else {
                                                         showSimpleAlert(getString(R.string.ssn_code_should_be_5_digit), "");
-
                                                     }
-
                                                 }
 
                                             }else {
@@ -328,7 +312,7 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                     }
 
                 }else {
-                    showSimpleAlert(getString(R.string.enter_last_name), "");
+                    showSimpleAlert(getString(R.string.enter_full_name), "");
                 }
             }
 

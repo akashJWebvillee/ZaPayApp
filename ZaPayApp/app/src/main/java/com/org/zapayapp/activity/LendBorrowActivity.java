@@ -65,7 +65,8 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
     private int isTermsOption, isNoPayment, paybackPos;
 
-    private float finalTotalAmount;//instaalment amount
+    private float finalTotalAmount;//instalment amount
+    private float installmentAmount;//instalment amount
     private float amount;   //enter amount
     private float finalTotalPayBackAmount;//after add term amount
     private String paymenetDate;
@@ -87,7 +88,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     private TextView noDataTv;
     private String toId = "";
     private int request_by;
-    private String termValue="";
+    private String termValue = "";
 
 
     //borrow....
@@ -303,7 +304,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     private void initContactView() {
         // contactList = new ArrayList<>();
         contactNumberList = new ArrayList<>();
-
         noDataTv = findViewById(R.id.noDataTv);
 
         lendViewContact = findViewById(R.id.lendViewContact);
@@ -383,7 +383,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     finish();*/
-
                     transactionRequestFunc();
                 }
                 break;
@@ -428,14 +427,14 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
     private void transactionRequestFunc() {
         if (!toId.equalsIgnoreCase("")) {
-            if (SharedPref.getPrefsHelper().getPref(Const.Var.BANKACCOUNT_ID)!=null&&SharedPref.getPrefsHelper().getPref(Const.Var.BANKACCOUNT_ID).toString().length()>0){
-              if (SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_STATUS)!=null &&SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_STATUS).toString().length()>0
-                      &&SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_STATUS).toString().equalsIgnoreCase("verified")){
-                  callAPITransactionRequest();
-              }else {
-                  showSimpleAlert(getString(R.string.please_verify_bank_account), "");
-              }
-            }else {
+            if (SharedPref.getPrefsHelper().getPref(Const.Var.BANKACCOUNT_ID) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BANKACCOUNT_ID).toString().length() > 0) {
+                if (SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_STATUS) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_STATUS).toString().length() > 0
+                        && SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_STATUS).toString().equalsIgnoreCase("verified")) {
+                    callAPITransactionRequest();
+                } else {
+                    showSimpleAlert(getString(R.string.please_verify_bank_account), "");
+                }
+            } else {
                 showSimpleAlert(getString(R.string.please_add_bank_account), "");
             }
 
@@ -446,8 +445,9 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     }
 
     private void generatePaybackData() {
-        lendTxtAmount.setText(wvDateLib.getCurrentDate());
         paymenetDate = wvDateLib.getCurrentDate();
+        lendTxtAmount.setText(paymenetDate);
+
         paybackList.clear();
         for (int i = 0; i < isNoPayment; i++) {
             paybackList.add(new PabackModel("", false));
@@ -475,9 +475,19 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void datePickerCallback(String selectedDate, int year, int month, int day, String from) throws ParseException {
+       // String formattedDate = year+"-"+month+"-"+day;
+        String formattedDate = day+"/"+month+"/"+year;
+        Log.e("formattedDate","formattedDate==="+formattedDate);
         // paybackList.set(paybackPos, selectedDate);
-        paybackList.set(paybackPos, new PabackModel(selectedDate, true));
+        paybackList.set(paybackPos, new PabackModel(formattedDate, true));
         setPaybackAdapter();
+        if (paybackPos == 0) {
+            paymenetDate=formattedDate;
+            lendTxtAmount.setText(paymenetDate);
+
+
+
+        }
     }
 
     private void setContactAdapter() {
@@ -534,7 +544,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
     private void setPaymentAmount() {
         try {
-            String s = lendPaymentEdtNo.getText().toString();
+            String s = lendPaymentEdtNo.getText().toString().trim();
             if (s.length() == 0 || s.equals("0")) {
                 s = "1";
             }
@@ -546,7 +556,8 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             float totalAmount = finalTotalAmount / isNoPayment;
             String symbol = " / ";
 
-            finalTotalAmount = totalAmount;
+            // finalTotalAmount = totalAmount;//this line comment by ashok
+            installmentAmount = totalAmount;
             Spannable span2 = new SpannableString(s);
             span2.setSpan(new ForegroundColorSpan(CommonMethods.getColorWrapper(this, R.color.textColor)), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
@@ -582,7 +593,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         if (value == 0) {
-
             // lendAmountEdtAmount
             // lendTermsEdtOption
             // lendPaymentEdtNo
@@ -629,8 +639,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             lendTxtHeader.setText(CommonMethods.capitalize(getString(R.string.select_contact)));
             //setContactAdapter();
             nextButtonTV.setText(getString(R.string.submit));
-
-
         }
     }
 
@@ -763,13 +771,8 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
 
     private void callAPITransactionRequest() {
+        isTermsOption = isTermsOption + 1;
         //private int isTermsOption, isNoPayment, paybackPos;//ashok
-        Log.e("transactionRequest", "to_id===" + toId);
-        Log.e("transactionRequest", "amount===" + amount);
-        Log.e("transactionRequest", "total_amount===" + finalTotalAmount);
-        Log.e("transactionRequest", "terms_type===" + isTermsOption + 1);
-        Log.e("transactionRequest", "terms_value===" + lendTermsEdtOption.getText().toString().trim());
-        Log.e("transactionRequest", "no_of_payment===" + isNoPayment);
 
         JSONArray jsonArray = new JSONArray();
         for (int i = 0; i < paybackList.size(); i++) {
@@ -782,22 +785,30 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             }
         }
 
+
+        Log.e("transactionRequest", "to_id===" + toId);
+        Log.e("transactionRequest", "amount===" + amount);
+        Log.e("transactionRequest", "total_amount===" + finalTotalAmount);
+        Log.e("transactionRequest", "terms_type===" + isTermsOption);
+        Log.e("transactionRequest", "terms_value===" + lendTermsEdtOption.getText().toString().trim());
+        Log.e("transactionRequest", "no_of_payment===" + isNoPayment);
         Log.e("transactionRequest", "pay_date===" + jsonArray);
         Log.e("transactionRequest", "request_by===" + String.valueOf(request_by));
         Log.e("transactionRequest", "request_type===" + 0);
         Log.e("transactionRequest", "transaction_request_id===");
 
-        if (isTermsOption+1==4){
-            termValue="0";
-        }else {
-            termValue=lendTermsEdtOption.getText().toString().trim();
+
+        if (isTermsOption == 4) {
+            termValue = "0";
+        } else {
+            termValue = lendTermsEdtOption.getText().toString().trim();
         }
 
         HashMap<String, Object> values = apiCalling.getHashMapObject(
                 "to_id", toId,
                 "amount", amount,
                 "total_amount", finalTotalPayBackAmount,
-                "terms_type", isTermsOption + 1,
+                "terms_type", isTermsOption,
                 "terms_value", termValue,
                 "no_of_payment", isNoPayment,
                 "pay_date", jsonArray.toString(),

@@ -188,10 +188,11 @@
 
     <string name="ok">OK</string>
     <string name="cancel">CANCEL</string>
+    <string name="hello">Hello</string>
 
 
     <!--signUp-->
-    <string name="enter_last_name">Enter last name</string>
+    <string name="enter_full_name">Enter full name</string>
     <string name="age_must_be_18_years_or_older">Age must be 18 years or older</string>
     <string name="must_be_50_characters_or_less">Must be 50 characters or less</string>
     <string name="postal_code_should_be_5_digit">Postal code should be 5 digit</string>
