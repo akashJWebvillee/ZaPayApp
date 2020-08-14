@@ -1,4 +1,5 @@
 package com.org.zapayapp.activity;
+
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
@@ -6,13 +7,16 @@ import android.text.Spanned;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.uihelpers.CustomTextInputLayout;
 import com.org.zapayapp.webservices.APICallback;
+
 import java.util.HashMap;
+
 import retrofit2.Call;
 
 public class ForgotPasswordActivity extends BaseActivity implements View.OnClickListener, APICallback {
@@ -30,7 +34,7 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
         initAction();
     }
 
-    private void init(){
+    private void init() {
         textViewSpannable = findViewById(R.id.textViewSpannable);
         passwordInputLayout = findViewById(R.id.passwordInputLayout);
         passwordEditText = findViewById(R.id.passwordEditText);
@@ -38,7 +42,7 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
 
     }
 
-    private void initAction(){
+    private void initAction() {
         SpannableStringBuilder ssBuilder = new SpannableStringBuilder(getResources().getString(R.string.enter_email_address_with_account));
         ssBuilder.setSpan(
                 new android.text.style.StyleSpan(Typeface.BOLD), // Span to add
@@ -55,11 +59,11 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
         if (v.getId() == R.id.buttonSend) {
 
             try {
-                if (wValidationLib.isEmpty(passwordInputLayout, passwordEditText, getString(R.string.important), true)) {
-                    if (wValidationLib.isEmailAddress(passwordInputLayout, passwordEditText, getString(R.string.important), getString(R.string.important), true)) {
-                        callAPIResetPassword();
-                    }
+                //if (wValidationLib.isEmpty(passwordInputLayout, passwordEditText, getString(R.string.important), true)) {
+                if (wValidationLib.isEmailAddress(passwordInputLayout, passwordEditText, getString(R.string.important), getString(R.string.please_enter_valid_email), true)) {
+                    callAPIResetPassword();
                 }
+                // }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -107,11 +111,11 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
             }
 
             if (from.equals(getResources().getString(R.string.api_reset_password))) {
-                if (status==200){
+                if (status == 200) {
                     passwordEditText.setText("");
                     showSimpleAlert(msg, "");
 
-                }else {
+                } else {
                     showSimpleAlert(msg, "");
                 }
             }

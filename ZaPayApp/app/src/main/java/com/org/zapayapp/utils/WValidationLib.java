@@ -1,15 +1,19 @@
 package com.org.zapayapp.utils;
+
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.org.zapayapp.R;
 import com.org.zapayapp.uihelpers.CustomTextInputLayout;
+
 import java.util.regex.Pattern;
+
 public class WValidationLib {
     /*
      * Regular Expression
@@ -18,8 +22,8 @@ public class WValidationLib {
     private static final String PASSWORD_REGEX = "^.{8,15}$";
     //private static final String PASSWORD_REGEX = "^(?![0-9]{6})[0-9a-zA-Z]{6,20}$";
     private static final String USERNAME_REGEX = "^([-_A-Za-z0-9])*$";
-    //private static final String FULL_NAME = "[\\p{L}- ]+";
-    private static final String FULL_NAME = "^[a-zA-Z]{4,}(?: [a-zA-Z]+){0,2}$";
+    private static final String FULL_NAME = "^[\\p{L} .'-]+$";
+   // private static final String FULL_NAME = "^[a-zA-Z]{4,}(?: [a-zA-Z]+){0,2}$";
     private static final String VALID_URL_REGEX = "(((f|ht){1}tp|tps:[//])[-a-zA-Z0-9@:%_\\+.~#?&//=]+)";
     private static final String ALPHANUMERIC = "[a-zA-Z0-9\\u00C0-\\u00FF \\\\./-\\\\?]*";
     private static final String ALPHA = "([a-zA-Z])\\w+";
@@ -77,10 +81,10 @@ public class WValidationLib {
      * @param required                pass boolean to check if the following validation is required
      * @return true when all validations are success else false
      */
-    public boolean isConfirmPasswordValidation(CustomTextInputLayout editTextPasswordLay,TextInputEditText editTextPassword, CustomTextInputLayout editTextConfirmPasswordLay,TextInputEditText editTextConfirmPassword,
+    public boolean isConfirmPasswordValidation(CustomTextInputLayout editTextPasswordLay, TextInputEditText editTextPassword, CustomTextInputLayout editTextConfirmPasswordLay, TextInputEditText editTextConfirmPassword,
                                                String requireMsg, String requireConfMsg, String errorMsg, String notMatchMsg, boolean required) {
-        if (isPassword(editTextPasswordLay,editTextPassword, requireMsg, errorMsg, required)) {
-            if (isPassword(editTextConfirmPasswordLay,editTextConfirmPassword, requireConfMsg, errorMsg, required)) {
+        if (isPassword(editTextPasswordLay, editTextPassword, requireMsg, errorMsg, required)) {
+            if (isPassword(editTextConfirmPasswordLay, editTextConfirmPassword, requireConfMsg, errorMsg, required)) {
                 if (isPasswordEqual(editTextPasswordLay, editTextConfirmPasswordLay, requireMsg, notMatchMsg)) {
                     return true;
                 }
@@ -122,7 +126,7 @@ public class WValidationLib {
      */
     public boolean isFullName(CustomTextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
         WValidationLib v_lib = new WValidationLib(wContext);
-        return v_lib.isValid(inputLayout, editText, FULL_NAME, requireMsg, errorMsg, required);
+        return v_lib.isValidFull(inputLayout, editText, FULL_NAME, requireMsg, errorMsg, required);
     }
 
     /**
@@ -268,6 +272,38 @@ public class WValidationLib {
     }
 
     /**
+     * Is valid boolean.
+     *
+     * @param editText the edit text
+     * @param regex    the regex
+     * @param errMsg   the err msg
+     * @param required the required
+     * @return the boolean
+     */
+    public boolean isValidFull(CustomTextInputLayout inputLayout, TextInputEditText editText, String regex, String requireMsg, String errMsg, boolean required) {
+
+        String text = editText.getText().toString().trim();
+        //clearing the error, if it was previously set by some other values
+        inputLayout.setError(null);
+        inputLayout.setErrorEnabled(false);
+        editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_selector));
+        // text required and editText is blank, so return false
+        if (required && !hasText(inputLayout, editText, requireMsg)) {
+            return false;
+        }
+        // pattern doesn't match so returning false
+        if ((required && !Pattern.matches(regex, text)) || !editText.getText().toString().contains(" ")) {
+            inputLayout.requestFocus();
+            //inputLayout.setError(errMsg);
+            inputLayout.setErrorEnabled(true);
+            inputLayout.setError(CustomTextInputLayout.setErrorMessage(wContext, errMsg));
+            editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_error));
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Has text boolean.
      *
      * @param editText the edit text
@@ -398,6 +434,7 @@ public class WValidationLib {
             inputLayout.requestFocus();
             //inputLayout.setError(requireMsg);
             inputLayout.setErrorEnabled(true);
+            inputLayout.setError(CustomTextInputLayout.setErrorMessage(wContext, requireMsg));
             editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_error));
             return false;
         }
@@ -448,14 +485,17 @@ public class WValidationLib {
         // pattern doesn't match so returning false
         if (required && !TextUtils.isDigitsOnly(text)) {
             et.requestFocus();
-            et.setError(errMsg);
+           // et.setError(errMsg);
             et.setErrorEnabled(true);
+            et.setError(CustomTextInputLayout.setErrorMessage(wContext, errMsg));
+            editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_error));
             return false;
         }
         if (text.length() < 10) {
             et.requestFocus();
-            et.setError(errMsg);
+            //et.setError(errMsg);
             et.setErrorEnabled(true);
+            et.setError(CustomTextInputLayout.setErrorMessage(wContext, errMsg));
             editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_error));
             return false;
         }

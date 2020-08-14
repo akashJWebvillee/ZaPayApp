@@ -230,4 +230,11 @@
 
     <string name="lend_mode">Lend Mode:</string>
 
+    <!--Validation Messages -->
+    <string name="please_enter_valid_email">Please enter valid email.</string>
+    <string name="please_enter_valid_full_name">Please enter valid full name.</string>
+    <string name="please_enter_valid_mobile">Please enter 10 digit valid mobile.</string>
+    <string name="please_enter_valid_password">Please enter 8 character valid password.</string>
+    <string name="please_enter_valid_password_same">Password &amp; confirm password should be same.</string>
+
 </resources>
