@@ -197,8 +197,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.loginButtonTV:
                 try {
-                    if (wValidationLib.isEmailAddress(etEmailLayout, editTextUsername, getString(R.string.important), getString(R.string.important), true)) {
-                        if (wValidationLib.isPassword(etPasswordLayout, etPassword, getString(R.string.important), getString(R.string.important), true)) {
+                    if (wValidationLib.isEmailAddress(etEmailLayout, editTextUsername, getString(R.string.important), getString(R.string.please_enter_valid_email), true)) {
+                        if (wValidationLib.isPassword(etPasswordLayout, etPassword, getString(R.string.important), getString(R.string.please_enter_valid_password), true)) {
                            /* intent = new Intent(LoginActivity.this, HomeActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
@@ -217,12 +217,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 finish();*/
                 try {
-                    if (wValidationLib.isFullName(userNameSignUpInputLayout, userNameSignUpEditText, getString(R.string.important), getString(R.string.important), true)) {
-                        if (wValidationLib.isEmailAddress(emailSignUpInputLayout, emailSignUpEditText, getString(R.string.important), getString(R.string.important), true)) {
-                            if (wValidationLib.isValidNumeric(mobileSignUpInputLayout, mobileSignUpEditText, getString(R.string.important), getString(R.string.important), true)) {
-                                if (wValidationLib.isEmpty(passwordSignUpInputLayout, passwordSignUpEditText, getString(R.string.important), true)) {
-                                    if (wValidationLib.isEmpty(conformPasswordSignUpInputLayout, conformPasswordSignUpEditText, getString(R.string.important), true)) {
-                                        if (wValidationLib.isConfirmPasswordValidation(passwordSignUpInputLayout, passwordSignUpEditText, conformPasswordSignUpInputLayout, conformPasswordSignUpEditText, getString(R.string.important), getString(R.string.important), getString(R.string.important), getString(R.string.important), true)) {
+                    if (wValidationLib.isFullName(userNameSignUpInputLayout, userNameSignUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_full_name), true)) {
+                        if (wValidationLib.isEmailAddress(emailSignUpInputLayout, emailSignUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_email), true)) {
+                            if (wValidationLib.isValidNumeric(mobileSignUpInputLayout, mobileSignUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_mobile), true)) {
+                                if (wValidationLib.isPassword(passwordSignUpInputLayout, passwordSignUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_password),true)) {
+                                    if (wValidationLib.isPassword(conformPasswordSignUpInputLayout, conformPasswordSignUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_password),true)) {
+                                        if (wValidationLib.isConfirmPasswordValidation(passwordSignUpInputLayout, passwordSignUpEditText, conformPasswordSignUpInputLayout, conformPasswordSignUpEditText, getString(R.string.important), getString(R.string.important), getString(R.string.please_enter_valid_password), getString(R.string.please_enter_valid_password_same), true)) {
                                             if (mChkAgree.isChecked()) {
                                                 callAPISignUp();
                                             } else {

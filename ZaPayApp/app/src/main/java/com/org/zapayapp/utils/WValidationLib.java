@@ -1,15 +1,19 @@
 package com.org.zapayapp.utils;
+
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.org.zapayapp.R;
 import com.org.zapayapp.uihelpers.CustomTextInputLayout;
+
 import java.util.regex.Pattern;
+
 public class WValidationLib {
     /*
      * Regular Expression
@@ -79,10 +83,10 @@ public class WValidationLib {
      * @param required                pass boolean to check if the following validation is required
      * @return true when all validations are success else false
      */
-    public boolean isConfirmPasswordValidation(CustomTextInputLayout editTextPasswordLay,TextInputEditText editTextPassword, CustomTextInputLayout editTextConfirmPasswordLay,TextInputEditText editTextConfirmPassword,
+    public boolean isConfirmPasswordValidation(CustomTextInputLayout editTextPasswordLay, TextInputEditText editTextPassword, CustomTextInputLayout editTextConfirmPasswordLay, TextInputEditText editTextConfirmPassword,
                                                String requireMsg, String requireConfMsg, String errorMsg, String notMatchMsg, boolean required) {
-        if (isPassword(editTextPasswordLay,editTextPassword, requireMsg, errorMsg, required)) {
-            if (isPassword(editTextConfirmPasswordLay,editTextConfirmPassword, requireConfMsg, errorMsg, required)) {
+        if (isPassword(editTextPasswordLay, editTextPassword, requireMsg, errorMsg, required)) {
+            if (isPassword(editTextConfirmPasswordLay, editTextConfirmPassword, requireConfMsg, errorMsg, required)) {
                 if (isPasswordEqual(editTextPasswordLay, editTextConfirmPasswordLay, requireMsg, notMatchMsg)) {
                     return true;
                 }
@@ -400,6 +404,7 @@ public class WValidationLib {
             inputLayout.requestFocus();
             //inputLayout.setError(requireMsg);
             inputLayout.setErrorEnabled(true);
+            inputLayout.setError(CustomTextInputLayout.setErrorMessage(wContext, requireMsg));
             editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_error));
             return false;
         }
@@ -450,14 +455,17 @@ public class WValidationLib {
         // pattern doesn't match so returning false
         if (required && !TextUtils.isDigitsOnly(text)) {
             et.requestFocus();
-            et.setError(errMsg);
+           // et.setError(errMsg);
             et.setErrorEnabled(true);
+            et.setError(CustomTextInputLayout.setErrorMessage(wContext, errMsg));
+            editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_error));
             return false;
         }
         if (text.length() < 10) {
             et.requestFocus();
-            et.setError(errMsg);
+            //et.setError(errMsg);
             et.setErrorEnabled(true);
+            et.setError(CustomTextInputLayout.setErrorMessage(wContext, errMsg));
             editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_error));
             return false;
         }
