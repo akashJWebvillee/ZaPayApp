@@ -125,6 +125,7 @@ public class VerifyBankDialogActivity extends AppCompatActivity implements View.
 
                 if (wValidationLib.isEmpty(amount1InputLayout, amount1EditText, getString(R.string.important),true)) {
                     if (wValidationLib.isEmpty(amount2InputLayout, amount2EditText, getString(R.string.important), true)) {
+
                         callAPIVerifyBankAccount();
                     }
                 }

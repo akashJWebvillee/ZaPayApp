@@ -426,7 +426,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
 
     private void transactionRequestFunc() {
-        if (!toId.equalsIgnoreCase("")) {
+       /* if (!toId.equalsIgnoreCase("")) {
             if (SharedPref.getPrefsHelper().getPref(Const.Var.BANKACCOUNT_ID) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BANKACCOUNT_ID).toString().length() > 0) {
                 if (SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_STATUS) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_STATUS).toString().length() > 0
                         && SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_STATUS).toString().equalsIgnoreCase("verified")) {
@@ -441,7 +441,28 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         } else {
             showSimpleAlert(getString(R.string.please_select_contact), "");
         }
+*/
 
+
+        //activity_status=0  //signup
+        //activity_status=1  //updated profile
+        //activity_status=2   //added bank account
+        //activity_status=3   //verifyed bank account(ready to send request)
+
+
+        if (!toId.equalsIgnoreCase("")) {
+            if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("2")) {
+                if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("3")) {
+                    callAPITransactionRequest();
+                } else {
+                    showSimpleAlert(getString(R.string.please_verify_bank_account), "");
+                }
+            } else {
+                showSimpleAlert(getString(R.string.please_add_bank_account), "");
+            }
+        } else {
+            showSimpleAlert(getString(R.string.please_select_contact), "");
+        }
     }
 
     private void generatePaybackData() {
@@ -475,16 +496,15 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void datePickerCallback(String selectedDate, int year, int month, int day, String from) throws ParseException {
-       // String formattedDate = year+"-"+month+"-"+day;
-        String formattedDate = day+"/"+month+"/"+year;
-        Log.e("formattedDate","formattedDate==="+formattedDate);
+        // String formattedDate = year+"-"+month+"-"+day;
+        String formattedDate = day + "/" + month + "/" + year;
+        Log.e("formattedDate", "formattedDate===" + formattedDate);
         // paybackList.set(paybackPos, selectedDate);
         paybackList.set(paybackPos, new PabackModel(formattedDate, true));
         setPaybackAdapter();
         if (paybackPos == 0) {
-            paymenetDate=formattedDate;
+            paymenetDate = formattedDate;
             lendTxtAmount.setText(paymenetDate);
-
 
 
         }
@@ -773,6 +793,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     private void callAPITransactionRequest() {
         isTermsOption = isTermsOption + 1;
         //private int isTermsOption, isNoPayment, paybackPos;//ashok
+
 
         JSONArray jsonArray = new JSONArray();
         for (int i = 0; i < paybackList.size(); i++) {

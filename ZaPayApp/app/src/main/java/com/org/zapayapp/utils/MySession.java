@@ -1,7 +1,5 @@
 package com.org.zapayapp.utils;
-
 import com.google.gson.JsonObject;
-
 
 public class MySession {
     public static void MakeSession(JsonObject object) {

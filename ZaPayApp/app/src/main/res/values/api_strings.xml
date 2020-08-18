@@ -24,6 +24,7 @@
 
     <string name="api_transaction_request">transaction_request</string>
     <string name="api_get_transaction_request">get_transaction_request</string>
+    <string name="api_get_transaction_request_details">get_transaction_request_details</string>
     <string name="api_get_transaction_history">get_transaction_history</string>
 
     <string name="api_update_transaction_request_status">update_transaction_request_status</string>

@@ -1,21 +1,16 @@
 package com.org.zapayapp.fragment;
-
-import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -181,7 +176,6 @@ public class PendingFragment extends Fragment implements APICallback, SimpleAler
             }
         }
     }
-
 
     private void setAdapter() {
         TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity(), trasactionList, "pending");

@@ -501,4 +501,32 @@ public class WValidationLib {
         }
         return true;
     }
+
+
+    private boolean isValidAmount1(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg) {
+        String text = editText.getText().toString().trim();
+        float amount1=Float.parseFloat(text);
+        inputLayout.setError(null);
+        inputLayout.setErrorEnabled(false);
+        editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_selector));
+        // length 0 means there is no text
+        if (text.length() == 0) {
+            inputLayout.requestFocus();
+            //inputLayout.setError(requireMsg);
+            inputLayout.setErrorEnabled(true);
+            inputLayout.setError(CustomTextInputLayout.setErrorMessage(wContext, requireMsg));
+            editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_error));
+            return false;
+        }
+
+        if (amount1<=0.10){
+            inputLayout.requestFocus();
+            //inputLayout.setError(requireMsg);
+            inputLayout.setErrorEnabled(true);
+            inputLayout.setError(CustomTextInputLayout.setErrorMessage(wContext, requireMsg));
+            editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_error));
+            return false;
+        }
+        return true;
+    }
 }

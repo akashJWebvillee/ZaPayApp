@@ -31,6 +31,7 @@ import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.ZapayApp;
 import com.org.zapayapp.adapters.NavigationAdapter;
+import com.org.zapayapp.alert_dialog.AlertForcePopup;
 import com.org.zapayapp.alert_dialog.AlertLogoutFragment;
 import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
 import com.org.zapayapp.uihelpers.AdvanceDrawerLayout;
@@ -50,7 +51,7 @@ import retrofit2.Call;
 /**
  * The type Base activity.
  */
-public class BaseActivity extends AppCompatActivity implements SimpleAlertFragment.AlertSimpleCallback, APICallback, AlertLogoutFragment.AlertLogoutCallback {
+public class BaseActivity extends AppCompatActivity implements SimpleAlertFragment.AlertSimpleCallback, APICallback, AlertLogoutFragment.AlertLogoutCallback, AlertForcePopup.AlertForceCallback {
 
     private NavigationView navView;
     private AdvanceDrawerLayout drawerLayout;
@@ -461,6 +462,44 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
         if (value) {
             callAPILogout();
         }
+    }
+
+    public void showForceUpdate(String from, String headerMsg, boolean isAddress, String btnCancel, boolean isCancel) {
+        try {
+            FragmentManager fm = getSupportFragmentManager();
+            Bundle args = new Bundle();
+            args.putString("header", headerMsg);
+            args.putString("textOk", getString(R.string.ok));
+            args.putString("textCancel", btnCancel);
+            args.putString("from", from);
+            args.putBoolean("isAddress", isAddress);
+            AlertForcePopup alert = new AlertForcePopup();
+            alert.setCancelable(isCancel);
+            alert.setArguments(args);
+            alert.show(fm, "");
+        } catch (Resources.NotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onForceCallback(String from, boolean isAddress) {
+        if (from.equals(getString(R.string.session_expired))) {
+            clearLogout();
+        }
+
+  /*      else if (from.equals(getString(R.string.profile_incomplete))) {
+            intent = new Intent(BaseActivity.this, UserProfileActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            finish();
+            //}
+        } else if (from.equals(getString(R.string.version_check))) {
+            openGooglePlayStore();
+        }else if (from.equals(getString(R.string.exit_app))) {  //ye code ashok ne add kiya h.
+            finish();
+        }*/
     }
 
 

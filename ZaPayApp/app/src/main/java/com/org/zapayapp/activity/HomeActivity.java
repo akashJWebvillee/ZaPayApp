@@ -31,6 +31,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         initAction();
     }
 
+
+
     private void init() {
         homeLLLend = findViewById(R.id.homeLLLend);
         homeLLBorrow = findViewById(R.id.homeLLBorrow);
@@ -44,12 +46,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     private void initAction() {
         homeLLLend.setOnClickListener(this);
         homeLLBorrow.setOnClickListener(this);
-        callAPIGetUserDetail();
-        callAPIGetBankAccountDetail();
+       // callAPIGetUserDetail();
+       // callAPIGetBankAccountDetail();
 
 
-        if (SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME)!=null&&SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME).toString().length()>0){
-            titleTV.setText(getString(R.string.hello)+" "+SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME).toString());
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME) != null && SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME).toString().length() > 0) {
+            titleTV.setText(getString(R.string.hello) + " " + SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME).toString());
         }
     }
 
@@ -58,52 +60,34 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         switch (v.getId()) {
             case R.id.homeLLLend:
 
-                if (//SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE)!=null
-                    // && SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString().length()>0 &&
-                        SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS1) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS1).toString().length() > 0 &&
-                                SharedPref.getPrefsHelper().getPref(Const.Var.STATE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.STATE).toString().length() > 0 &&
-                                SharedPref.getPrefsHelper().getPref(Const.Var.CITY) != null && SharedPref.getPrefsHelper().getPref(Const.Var.CITY).toString().length() > 0 &&
-                                SharedPref.getPrefsHelper().getPref(Const.Var.POSTEL_CODE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.POSTEL_CODE).toString().length() > 0 &&
-                                SharedPref.getPrefsHelper().getPref(Const.Var.SSN) != null && SharedPref.getPrefsHelper().getPref(Const.Var.SSN).toString().length() > 0 &&
-                                SharedPref.getPrefsHelper().getPref(Const.Var.DOB) != null && SharedPref.getPrefsHelper().getPref(Const.Var.DOB).toString().length() > 0) {
+                //activity_status=0  //signup
+                //activity_status=1  //updated profile
+                //activity_status=2   //added bank account
+                //activity_status=3   //verifyed bank account(ready to send request)
 
 
-                    intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
-                    intent.putExtra("isBorrow", false);
-                    startActivity(intent);
-
-                } else {
-                    showSimpleAlert(getString(R.string.update_your_profile), getString(R.string.update_your_profile));
+                if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS)!=null&&SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().length()>0) {
+                    if (!SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("0")){
+                        intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
+                        intent.putExtra("isBorrow", false);
+                        startActivity(intent);
+                    }else {
+                        showSimpleAlert(getString(R.string.update_your_profile), getString(R.string.update_your_profile));
+                    }
                 }
-
-                /* intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
-                intent.putExtra("isBorrow", false);
-                startActivity(intent);*/
-
 
                 break;
+
             case R.id.homeLLBorrow:
-                if (//SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE)!=null
-                    //&& SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString().length()>0 &&
-                        SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS1) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS1).toString().length() > 0 &&
-                                SharedPref.getPrefsHelper().getPref(Const.Var.STATE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.STATE).toString().length() > 0 &&
-                                SharedPref.getPrefsHelper().getPref(Const.Var.CITY) != null && SharedPref.getPrefsHelper().getPref(Const.Var.CITY).toString().length() > 0 &&
-                                SharedPref.getPrefsHelper().getPref(Const.Var.POSTEL_CODE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.POSTEL_CODE).toString().length() > 0 &&
-                                SharedPref.getPrefsHelper().getPref(Const.Var.SSN) != null && SharedPref.getPrefsHelper().getPref(Const.Var.SSN).toString().length() > 0 &&
-                                SharedPref.getPrefsHelper().getPref(Const.Var.DOB) != null && SharedPref.getPrefsHelper().getPref(Const.Var.DOB).toString().length() > 0) {
-
-                    intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
-                    intent.putExtra("isBorrow", true);
-                    startActivity(intent);
-                } else {
-                    showSimpleAlert(getString(R.string.update_your_profile), getString(R.string.update_your_profile));
+                if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS)!=null&&SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().length()>0) {
+                    if (!SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("0")){
+                        intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
+                        intent.putExtra("isBorrow", true);
+                        startActivity(intent);
+                    }else {
+                        showSimpleAlert(getString(R.string.update_your_profile), getString(R.string.update_your_profile));
+                    }
                 }
-
-
-
-               /* intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
-                intent.putExtra("isBorrow", true);
-                startActivity(intent);*/
 
                 break;
         }
@@ -123,12 +107,14 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     protected void onResume() {
         super.onResume();
         setCurrentScreen(100);
+        callAPIGetUserDetail();
+        callAPIGetBankAccountDetail();
     }
-
 
     private void callAPIGetUserDetail() {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
+            //"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMzAiLCJmaXJzdF9uYW1lIjoiQXNob2twaXQiLCJsYXN0X25hbWUiOiJLdW1hciIsImVtYWlsIjoiYXNob2twaXRlY2guMTIzQGdtYWlsLmNvbSIsInJvbGUiOiIyIiwidGltZXN0YW1wIjoxNTk3NjQ1MDA2fQ.lkG8uyRzEcDN1gepzbPCASccoGWuVzg2zGeoIDIZvZk"
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.getApiToken(token, getString(R.string.api_get_user_details));
             if (apiCalling != null) {
@@ -171,6 +157,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                         JsonObject jsonObject = json.get("data").getAsJsonObject();
                         MySession.MakeSession(jsonObject);
                     }
+                }else if (status == 401) {
+                    showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
                 } else {
                     showSimpleAlert(msg, "");
                 }
@@ -179,6 +167,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                     if (json.get("data").getAsJsonObject() != null) {
                         MySession.saveBankData(json.get("data").getAsJsonObject());
                     }
+                }
+                if (status == 401) {
+                    showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
                 }
             } else if (from.equals(getResources().getString(R.string.api_logout))) {
                 if (status == 200) {

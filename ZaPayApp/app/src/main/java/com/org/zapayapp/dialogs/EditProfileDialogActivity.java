@@ -305,7 +305,7 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                         }
                     }
                 } else {
-                    showSimpleAlert(getString(R.string.enter_last_name), "");
+                    showSimpleAlert(getString(R.string.enter_full_name), "");
                 }
             }
 

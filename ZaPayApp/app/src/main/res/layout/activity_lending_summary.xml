@@ -92,7 +92,7 @@
                     android:layout_marginTop="116dp"
                     android:fontFamily="@font/gotha_promed"
                     android:gravity="start"
-                    android:text="William"
+                    android:text=""
                     android:textColor="@color/textColor"
                     android:textSize="16sp"/>
 
@@ -115,7 +115,7 @@
                     android:layout_marginTop="179dp"
                     android:fontFamily="@font/gotha_promed"
                     android:gravity="start"
-                    android:text="$500.00 "
+                    android:text=""
                     android:textColor="@color/textColor"
                     android:textSize="16sp"/>
 
@@ -138,7 +138,7 @@
                     android:layout_marginTop="179dp"
                     android:fontFamily="@font/gotha_promed"
                     android:gravity="start"
-                    android:text="14% or $7.00"
+                    android:text=""
                     android:textColor="@color/textColor"
                     android:textSize="16sp"/>
 
@@ -161,7 +161,7 @@
                     android:layout_marginTop="242dp"
                     android:fontFamily="@font/gotha_promed"
                     android:gravity="start"
-                    android:text="3"
+                    android:text=""
                     android:textColor="@color/textColor"
                     android:textSize="16sp"/>
 
@@ -184,7 +184,7 @@
                     android:layout_marginTop="242dp"
                     android:fontFamily="@font/gotha_promed"
                     android:gravity="start"
-                    android:text="03/07/2020"
+                    android:text=""
                     android:textColor="@color/textColor"
                     android:textSize="16sp"/>
 
@@ -213,7 +213,7 @@
                     android:layout_marginTop="326dp"
                     android:fontFamily="@font/gotha_promed"
                     android:gravity="start"
-                    android:text="$57.00"
+                    android:text=""
                     android:textColor="@color/textColor"
                     android:textSize="20sp"/>
 
