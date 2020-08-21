@@ -1,4 +1,5 @@
 package com.org.zapayapp.activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,10 @@ import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.TimeStamp;
 import com.org.zapayapp.webservices.APICallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import retrofit2.Call;
 
@@ -29,6 +34,7 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
     private TextView acceptTV;
     private TextView declineTV;
     private  String transactionId;
+    private TransactionModel transactionModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +65,11 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
 
     private void inItAction(){
         negotiateTV.setOnClickListener(v -> {
-       /*    Intent intent = new Intent(LendingSummaryActivity.this, LendBorrowActivity.class);
+            Intent intent = new Intent(LendingSummaryActivity.this, LendBorrowActivity.class);
             intent.putExtra("isBorrow", false);
-            startActivity(intent);*/
-            callAPIUpdateTransactionRequestStatus("1");
-
+            intent.putExtra("transactionModel", transactionModel);
+            startActivity(intent);
+            //callAPIUpdateTransactionRequestStatus("1");
         });
 
         acceptTV.setOnClickListener(v -> {
@@ -146,6 +152,7 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
             }else if (from.equals(getResources().getString(R.string.api_get_transaction_request_details))){
                 if (status==200){
                     if (json.get("data").getAsJsonObject()!=null){
+                        transactionModel= (TransactionModel) apiCalling.getDataObject(json.get("data").getAsJsonObject(),TransactionModel.class);
                         setaData(json.get("data").getAsJsonObject());
                     }
                 }else {
@@ -194,6 +201,19 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
         }*/
 
 
+        JSONObject jsonObject1=new JSONObject();
+        try {
+            jsonObject1.put("first_name",jsonObject.get("first_name").getAsString());
+            jsonObject1.put("last_name",jsonObject.get("last_name").getAsString());
+            jsonObject1.put("amount",jsonObject.get("amount").getAsString());
+            jsonObject1.put("no_of_payment",jsonObject.get("no_of_payment").getAsString());
+            jsonObject1.put("created_at",jsonObject.get("created_at").getAsString());
+            jsonObject1.put("first_name",jsonObject.get("first_name").getAsString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
 
 
 
@@ -236,6 +256,8 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 termTV.setText(terms_value+" "+getString(R.string.none));
             }
         }
+
+
     }
 
     public void showSimpleAlert(String message, String from) {

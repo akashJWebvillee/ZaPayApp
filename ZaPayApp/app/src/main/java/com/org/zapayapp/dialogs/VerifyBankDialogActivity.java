@@ -123,14 +123,31 @@ public class VerifyBankDialogActivity extends AppCompatActivity implements View.
 
             try {
 
-                if (wValidationLib.isEmpty(amount1InputLayout, amount1EditText, getString(R.string.important),true)) {
+             /*   if (wValidationLib.isEmpty(amount1InputLayout, amount1EditText, getString(R.string.important),true)) {
                     if (wValidationLib.isEmpty(amount2InputLayout, amount2EditText, getString(R.string.important), true)) {
-
                         callAPIVerifyBankAccount();
                     }
+                }*/
+
+
+             if (wValidationLib.isValidAmount1(amount1InputLayout, amount1EditText, getString(R.string.important),"Please enter valid amuunt", true)){
+                    Log.e("aaaaaaa","AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA===========");
+
+             }
+
+
+                float amount1 = Float.parseFloat(amount1EditText.getText().toString().trim());
+                Log.e("amount1","amount1======"+amount1);
+                if (amount1 < 0.11) {
+                    Log.e("amount1","amount1 True======"+amount1);
+                }else {
+                    Log.e("amount1","amount1 false condition");
                 }
 
-            } catch (Exception e) {
+
+
+
+                } catch (Exception e) {
                 e.printStackTrace();
             }
 

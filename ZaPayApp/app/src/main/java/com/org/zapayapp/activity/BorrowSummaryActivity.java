@@ -1,5 +1,6 @@
 package com.org.zapayapp.activity;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
+import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.TimeStamp;
@@ -29,6 +31,7 @@ private TextView navigateTV;
 private TextView acceptTV;
 private TextView declineTV;
 private  String transactionId;
+private TransactionModel transactionModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,10 +72,12 @@ private  String transactionId;
 
     private void initAction() {
         navigateTV.setOnClickListener(v -> {
-             /*    Intent intent = new Intent(LendingSummaryActivity.this, LendBorrowActivity.class);
-            intent.putExtra("isBorrow", false);
-            startActivity(intent);*/
-            callAPIUpdateTransactionRequestStatus("1");
+            Intent intent = new Intent(BorrowSummaryActivity.this, LendBorrowActivity.class);
+            intent.putExtra("isBorrow", true);
+            intent.putExtra("transactionModel", transactionModel);
+            startActivity(intent);
+
+            //callAPIUpdateTransactionRequestStatus("1");
         });
 
         acceptTV.setOnClickListener(v -> {
@@ -141,6 +146,7 @@ private  String transactionId;
             }else if (from.equals(getResources().getString(R.string.api_get_transaction_request_details))){
                 if (status==200){
                     if (json.get("data").getAsJsonObject()!=null){
+                         transactionModel= (TransactionModel) apiCalling.getDataObject(json.get("data").getAsJsonObject(),TransactionModel.class);
                         setaData(json.get("data").getAsJsonObject());
                     }
 
@@ -179,11 +185,7 @@ private  String transactionId;
 
 
 
-
-
-
-
-        if (jsonObject.get("first_name").getAsString()!=null&&jsonObject.get("first_name").getAsString().length()>0&&jsonObject.get("first_name").getAsString()!=null&&jsonObject.get("first_name").getAsString().length()>0){
+      if (jsonObject.get("first_name").getAsString()!=null&&jsonObject.get("first_name").getAsString().length()>0&&jsonObject.get("first_name").getAsString()!=null&&jsonObject.get("first_name").getAsString().length()>0){
             String first_name=jsonObject.get("first_name").getAsString();
             String last_name=jsonObject.get("last_name").getAsString();
             nameTV.setText(first_name+" "+ last_name);

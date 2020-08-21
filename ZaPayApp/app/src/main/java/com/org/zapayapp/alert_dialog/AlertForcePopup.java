@@ -92,7 +92,7 @@ public class AlertForcePopup extends DialogFragment {
     public void onResume() {
         Dialog dialog = getDialog();
         if (dialog != null && dialog.getWindow() != null) {
-            int w = CommonMethods.getScreenWidth() - 300;
+            int w = CommonMethods.getScreenWidth() - 200;
             dialog.getWindow().setLayout(w, ViewGroup.LayoutParams.WRAP_CONTENT);
         }
         super.onResume();

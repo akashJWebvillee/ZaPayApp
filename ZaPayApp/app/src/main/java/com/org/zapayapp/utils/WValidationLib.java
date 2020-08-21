@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -23,12 +24,13 @@ public class WValidationLib {
     //private static final String PASSWORD_REGEX = "^(?![0-9]{6})[0-9a-zA-Z]{6,20}$";
     private static final String USERNAME_REGEX = "^([-_A-Za-z0-9])*$";
     private static final String FULL_NAME = "^[\\p{L} .'-]+$";
-   // private static final String FULL_NAME = "^[a-zA-Z]{4,}(?: [a-zA-Z]+){0,2}$";
+    // private static final String FULL_NAME = "^[a-zA-Z]{4,}(?: [a-zA-Z]+){0,2}$";
     private static final String VALID_URL_REGEX = "(((f|ht){1}tp|tps:[//])[-a-zA-Z0-9@:%_\\+.~#?&//=]+)";
     private static final String ALPHANUMERIC = "[a-zA-Z0-9\\u00C0-\\u00FF \\\\./-\\\\?]*";
     private static final String ALPHA = "([a-zA-Z])\\w+";
 
     private Context wContext;
+
     public WValidationLib(Context context) {
         this.wContext = context;
 
@@ -485,7 +487,7 @@ public class WValidationLib {
         // pattern doesn't match so returning false
         if (required && !TextUtils.isDigitsOnly(text)) {
             et.requestFocus();
-           // et.setError(errMsg);
+            // et.setError(errMsg);
             et.setErrorEnabled(true);
             et.setError(CustomTextInputLayout.setErrorMessage(wContext, errMsg));
             editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_error));
@@ -503,27 +505,44 @@ public class WValidationLib {
     }
 
 
-    private boolean isValidAmount1(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg) {
-        String text = editText.getText().toString().trim();
-        float amount1=Float.parseFloat(text);
+    public boolean isValidAmount1(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
+        WValidationLib v_lib = new WValidationLib(wContext);
+        return v_lib.validAmount1(inputLayout, editText, requireMsg, errorMsg, required);
+    }
+
+
+    private boolean validAmount1(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
+        String text = inputLayout.getEditText().getText().toString().trim();
+
+        //CommonMethods.showLogs("text length ", "text length " + text.length());
+        // clearing the error, if it was previously set by some other values
         inputLayout.setError(null);
         inputLayout.setErrorEnabled(false);
         editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_selector));
-        // length 0 means there is no text
-        if (text.length() == 0) {
-            inputLayout.requestFocus();
-            //inputLayout.setError(requireMsg);
-            inputLayout.setErrorEnabled(true);
-            inputLayout.setError(CustomTextInputLayout.setErrorMessage(wContext, requireMsg));
-            editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_error));
+        // text required and editText is blank, so return false
+        if (required && !hasText(inputLayout, editText, requireMsg)) {
             return false;
         }
 
-        if (amount1<=0.10){
+        // pattern doesn't match so returning false
+       /* if (required) {
             inputLayout.requestFocus();
-            //inputLayout.setError(requireMsg);
+            // et.setError(errMsg);
             inputLayout.setErrorEnabled(true);
-            inputLayout.setError(CustomTextInputLayout.setErrorMessage(wContext, requireMsg));
+            inputLayout.setError(CustomTextInputLayout.setErrorMessage(wContext, errorMsg));
+            editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_error));
+            return false;
+        }*/
+
+
+        float amount1 = Float.parseFloat(text);
+        Log.e("amount1","amount1======"+amount1);
+        if (amount1 > 0.11) {
+            Log.e("amount1","amount1 if======"+amount1);
+            inputLayout.requestFocus();
+            //et.setError(errMsg);
+            inputLayout.setErrorEnabled(true);
+            inputLayout.setError(CustomTextInputLayout.setErrorMessage(wContext, errorMsg));
             editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_error));
             return false;
         }

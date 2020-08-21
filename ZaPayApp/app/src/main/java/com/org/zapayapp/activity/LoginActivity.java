@@ -1,5 +1,4 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Typeface;
@@ -15,10 +14,8 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
-
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -29,9 +26,7 @@ import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.MySession;
 import com.org.zapayapp.webservices.APICallback;
-
 import java.util.HashMap;
-
 import retrofit2.Call;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener, APICallback, SimpleAlertFragment.AlertSimpleCallback {
@@ -102,8 +97,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         conformPasswordSignUpEditText = findViewById(R.id.conformPasswordSignUpEditText);
 
         mChkAgree = findViewById(R.id.mChkAgree);
-
-
         termCondition();
         // wValidationLib = new WValidationLib(this);
 
@@ -267,8 +260,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
     /**
