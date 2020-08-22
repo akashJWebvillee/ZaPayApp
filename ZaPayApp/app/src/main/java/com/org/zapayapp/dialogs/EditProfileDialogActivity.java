@@ -11,9 +11,11 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -239,7 +241,6 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
             if (!SharedPref.getPrefsHelper().getPref(Const.Var.DOB).toString().trim().equalsIgnoreCase("0000-00-00"))
                 dobEditText.setText(SharedPref.getPrefsHelper().getPref(Const.Var.DOB, ""));
         }
-
     }
 
     @Override
@@ -258,7 +259,7 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
 
     private void updateProfileFunc() {
         try {
-            if (wValidationLib.isEmpty(nameEditTextInputLayout, nameEditText, getString(R.string.important), true)) {
+            /*if (wValidationLib.isEmpty(nameEditTextInputLayout, nameEditText, getString(R.string.important), true)) {
                 String firstNameLastName = nameEditText.getText().toString().trim();
                 String[] firstNameLastName1 = firstNameLastName.split(" ");
                 if (firstNameLastName1.length > 1) {
@@ -275,11 +276,7 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                                                 if (wValidationLib.isEmpty(ssnInputLayout, ssnEditText, getString(R.string.important), true)) {
                                                     if (ssnEditText.getText().toString().trim().length() >= 4) {
                                                         if (wValidationLib.isEmpty(dobInputLayout, dobEditText, getString(R.string.important), true)) {
-                                                            // if (ageInYear>=18){
                                                             callAPIUpdateProfile();
-                                                            //}else {
-                                                            //    showSimpleAlert(getString(R.string.age_must_be_18_years_or_older), "");
-                                                            // }
                                                         }
                                                     } else {
                                                         showSimpleAlert(getString(R.string.ssn_code_should_be_5_digit), "");
@@ -304,6 +301,30 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                     showSimpleAlert(getString(R.string.enter_full_name), "");
                 }
             }
+*/
+
+
+            if (wValidationLib.isFullName(nameEditTextInputLayout, nameEditText, getString(R.string.important), getString(R.string.please_enter_valid_full_name), true)) {
+                if (wValidationLib.isValidNumeric(mobileInputLayout, mobileEditText, getString(R.string.important), getString(R.string.please_enter_valid_mobile), true)) {
+                    if (wValidationLib.isValidAddress1(address1InputLayout, address1EditText, getString(R.string.important), getString(R.string.must_be_50_characters_or_less), true)) {
+                        if (wValidationLib.isValidAddress2(address2InputLayout, address2EditText, getString(R.string.important), getString(R.string.must_be_50_characters_or_less), false)) {
+                            if (wValidationLib.isValidPostalCode(postalCodeInputLayout, postalCodeEditText, getString(R.string.important), getString(R.string.postal_code_should_be_5_digit), true)) {
+                                if (wValidationLib.isValidSSNcode(ssnInputLayout, ssnEditText, getString(R.string.important), getString(R.string.ssn_code_should_be_5_digit), true)) {
+                                    if (wValidationLib.isEmpty(dobInputLayout, dobEditText, getString(R.string.important), true)) {
+                                        callAPIUpdateProfile();
+                                    }
+
+                                }
+
+                            }
+                        }
+
+                    }
+
+                }
+
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -337,6 +358,11 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     }
 
     private void callAPIUpdateProfile() {
+        String firstNameLastName = nameEditText.getText().toString().trim();
+        String[] firstNameLastName1 = firstNameLastName.split(" ");
+        firstName = firstNameLastName1[0];
+        lastName = firstNameLastName1[1];
+
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
             HashMap<String, Object> values = apiCalling.getHashMapObject(
@@ -386,7 +412,7 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                         setStateAdapter();
 
                     }
-                }else if (status==401){
+                } else if (status == 401) {
 
                 } else {
                     showSimpleAlert(msg, "");

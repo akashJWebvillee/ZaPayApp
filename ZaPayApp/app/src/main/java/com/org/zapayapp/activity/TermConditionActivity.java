@@ -1,23 +1,25 @@
 package com.org.zapayapp.activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.webservices.APICallback;
-
 import java.util.HashMap;
 import retrofit2.Call;
 
 public class TermConditionActivity extends BaseActivity implements APICallback {
 private TextView termCondtitionTV;
+private TextView noDataTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_term_condition);
 
+        noDataTv=findViewById(R.id.noDataTv);
         termCondtitionTV=findViewById(R.id.termCondtitionTV);
         callAPITermCondition();
     }
@@ -70,13 +72,16 @@ private TextView termCondtitionTV;
                 if (status==200){
                     if (json.get("data").getAsJsonObject()!=null){
                         JsonObject jsonObject=  json.get("data").getAsJsonObject();
-
-
-
+                        if (jsonObject.get("page_description").getAsString()!=null){
+                            termCondtitionTV.setText(jsonObject.get("page_description").getAsString());
+                        }
 
                     }
+                }else if (status==401){
+                    showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
                 }else {
                    // showSimpleAlert(msg, "");
+                    noDataTv.setVisibility(View.VISIBLE);
                 }
             }
 

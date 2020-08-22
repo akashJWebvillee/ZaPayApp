@@ -167,8 +167,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                     if (json.get("data").getAsJsonObject() != null) {
                         MySession.saveBankData(json.get("data").getAsJsonObject());
                     }
-                }
-                if (status == 401) {
+                }else if (status == 401) {
                     showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
                 }
             } else if (from.equals(getResources().getString(R.string.api_logout))) {
@@ -188,6 +187,4 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         startActivity(intent);
         finish();
     }
-
-
 }

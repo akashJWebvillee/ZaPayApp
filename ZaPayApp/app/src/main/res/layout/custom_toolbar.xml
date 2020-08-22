@@ -36,7 +36,7 @@
             android:textSize="22sp"
             android:includeFontPadding="false"
             android:fontFamily="@font/gotha_promed"
-            android:text="@string/history"
+            android:text=""
             android:textColor="@color/navTextColor"/>
     </RelativeLayout>
 </androidx.appcompat.widget.Toolbar>

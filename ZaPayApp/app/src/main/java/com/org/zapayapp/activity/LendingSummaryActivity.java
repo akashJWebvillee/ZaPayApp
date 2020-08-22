@@ -80,6 +80,13 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
             callAPIUpdateTransactionRequestStatus("3");
         });
 
+        viewAllTV.setOnClickListener(v -> {
+            Intent intent = new Intent(LendingSummaryActivity.this, ViewAllSummaryActivity.class);
+            //intent.putExtra("requestBy", transactionModel.getRequestBy());
+            intent.putExtra("transactionId", transactionId);
+            startActivity(intent);
+        });
+
 
     }
 

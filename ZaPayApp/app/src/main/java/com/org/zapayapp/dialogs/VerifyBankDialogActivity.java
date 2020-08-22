@@ -1,7 +1,6 @@
 package com.org.zapayapp.dialogs;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
-
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -9,12 +8,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -130,24 +126,16 @@ public class VerifyBankDialogActivity extends AppCompatActivity implements View.
                 }*/
 
 
-             if (wValidationLib.isValidAmount1(amount1InputLayout, amount1EditText, getString(R.string.important),"Please enter valid amuunt", true)){
-                    Log.e("aaaaaaa","AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA===========");
-
+             if (wValidationLib.isValidAmount1(amount1InputLayout, amount1EditText, getString(R.string.important),getString(R.string.amount1ValidationMsg), true)){
+                 if (wValidationLib.isValidAmount2(amount2InputLayout, amount2EditText, getString(R.string.important),getString(R.string.amount2ValidationMsg), true)){
+                     callAPIVerifyBankAccount();
+                 }
              }
 
 
-                float amount1 = Float.parseFloat(amount1EditText.getText().toString().trim());
-                Log.e("amount1","amount1======"+amount1);
-                if (amount1 < 0.11) {
-                    Log.e("amount1","amount1 True======"+amount1);
-                }else {
-                    Log.e("amount1","amount1 false condition");
-                }
 
 
-
-
-                } catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 

@@ -130,6 +130,9 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
                         MySession.saveBankData(json.get("data").getAsJsonObject());
                         setData();
                     }
+                }else if (status==401){
+                    showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
+
                 }
             }
 

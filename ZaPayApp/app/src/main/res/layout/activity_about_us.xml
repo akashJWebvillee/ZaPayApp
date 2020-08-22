@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="none">
@@ -44,8 +44,9 @@
                 android:textSize="14sp"
                 android:textColor="@color/textColorTerms"
                 android:includeFontPadding="false"
-                android:text="Nemo enim ipsam voluptatem quia volpts sit aspernatur aut odit aut fugit sed quia consqu magni dolores eos qui ratione voluptatem qui nesciunt.\n\nQuis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat et pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+                android:text="Nemo enim "
                 android:gravity="start"/>
+            <include layout="@layout/view_no_data"/>
         </LinearLayout>
     </RelativeLayout>
-</androidx.core.widget.NestedScrollView>
+</RelativeLayout>

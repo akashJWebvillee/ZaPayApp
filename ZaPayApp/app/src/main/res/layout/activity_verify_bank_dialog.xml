@@ -109,6 +109,7 @@
                     android:imeOptions="actionNext"
                     android:paddingStart="0dp"
                     android:paddingTop="0dp"
+                    android:maxLength="4"
                     android:paddingEnd="10dp"
                     android:paddingBottom="10dp"
                     android:textColor="@color/textColorBold"
@@ -123,6 +124,7 @@
                 android:layout_marginTop="22dp"
                 android:fontFamily="@font/gotha_promed"
                 android:text="@string/amount2"
+                android:maxLength="4"
                 android:textAllCaps="true"
                 android:textColor="@color/textColorBold"
                 android:textSize="11sp" />

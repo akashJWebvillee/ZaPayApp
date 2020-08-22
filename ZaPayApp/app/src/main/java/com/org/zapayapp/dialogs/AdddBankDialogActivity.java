@@ -144,9 +144,8 @@ public class AdddBankDialogActivity extends AppCompatActivity implements View.On
             setResult(RESULT_OK, returnIntent);
            // finish();
 
-            try {
-
-            if (wValidationLib.isEmpty(accountNumberInputLayout, accountNumberEditText, getString(R.string.important),true)) {
+           /* try {
+                if (wValidationLib.isEmpty(accountNumberInputLayout, accountNumberEditText, getString(R.string.important),true)) {
                 if (accountNumberEditText.getText().toString().trim().length()>=4&&accountNumberEditText.getText().toString().trim().length()<=17){
                     if (wValidationLib.isEmpty(routNumberInputLayout, routNumberEditText, getString(R.string.important), true)) {
                         if (routNumberEditText.getText().toString().trim().length()>=9){
@@ -156,23 +155,31 @@ public class AdddBankDialogActivity extends AppCompatActivity implements View.On
 
                         }else {
                             showSimpleAlert(getString(R.string.enter_valid_routing_number),"");
-
                         }
-
                     }
-
                 }else {
                     showSimpleAlert(getString(R.string.enter_valid_account_number),"");
                 }
-            }
+            }*/
 
 
-
+            try {
+                if (wValidationLib.isValidAccountNumber(accountNumberInputLayout, accountNumberEditText, getString(R.string.important),getString(R.string.enter_valid_account_number),true)) {
+                        if (wValidationLib.isValidRoutingNumber(routNumberInputLayout, routNumberEditText, getString(R.string.important), getString(R.string.enter_valid_routing_number),true)) {
+                            if (wValidationLib.isEmpty(nameInputLayout, nameEditText, getString(R.string.important), true)) {
+                                    callAPIAddBankAccount();
+                                }
+                        }
+                }
 
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+
+
+
 
         }else if (v.equals(closeTV)){
             finish();

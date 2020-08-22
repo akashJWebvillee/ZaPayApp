@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+    <include
+        android:id="@+id/customToolbar"
+        layout="@layout/custom_toolbar"/>
+
+    <LinearLayout
+        android:layout_below="@+id/customToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorWhite"
+        android:background="@drawable/rectanguler_bg"
+        android:elevation="0dp"
+        android:orientation="vertical">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="45dp"
+                    android:fontFamily="@font/gotha_prolig"
+                    android:gravity="start"
+                    android:text="@string/borrower"
+                    android:textColor="@color/navTextColor60Alpha"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/nameTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="63dp"
+                    android:fontFamily="@font/gotha_promed"
+                    android:gravity="start"
+                    android:text=""
+                    android:textColor="@color/textColor"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="108dp"
+                    android:fontFamily="@font/gotha_prolig"
+                    android:gravity="start"
+                    android:text="@string/amount"
+                    android:textColor="@color/navTextColor60Alpha"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/amountTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="126dp"
+                    android:fontFamily="@font/gotha_promed"
+                    android:gravity="start"
+                    android:text=""
+                    android:textColor="@color/textColor"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="222dp"
+                    android:layout_marginTop="108dp"
+                    android:fontFamily="@font/gotha_prolig"
+                    android:gravity="start"
+                    android:text="@string/terms"
+                    android:textColor="@color/navTextColor60Alpha"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/termTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="222dp"
+                    android:layout_marginTop="126dp"
+                    android:fontFamily="@font/gotha_promed"
+                    android:gravity="start"
+                    android:text=""
+                    android:textColor="@color/textColor"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="171dp"
+                    android:fontFamily="@font/gotha_prolig"
+                    android:gravity="start"
+                    android:text="@string/payments"
+                    android:textColor="@color/navTextColor60Alpha"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/noOfPaymentTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="189dp"
+                    android:fontFamily="@font/gotha_promed"
+                    android:gravity="start"
+                    android:text=""
+                    android:textColor="@color/textColor"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="222dp"
+                    android:layout_marginTop="171dp"
+                    android:fontFamily="@font/gotha_prolig"
+                    android:gravity="start"
+                    android:text="@string/payment_dates"
+                    android:textColor="@color/navTextColor60Alpha"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/paymentDateTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="222dp"
+                    android:layout_marginTop="189dp"
+                    android:fontFamily="@font/gotha_promed"
+                    android:gravity="start"
+                    android:text=""
+                    android:textColor="@color/textColor"
+                    android:textSize="16sp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="433dp"
+                    android:background="@drawable/dotted" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="458dp"
+                    android:fontFamily="@font/gotha_prolig"
+                    android:gravity="start"
+                    android:text="@string/total_to_pay_back"
+                    android:textColor="@color/navTextColor60Alpha"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:id="@+id/totalPayBackTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="481dp"
+                    android:fontFamily="@font/gotha_promed"
+                    android:gravity="start"
+                    android:text=""
+                    android:textColor="@color/navTextColor"
+                    android:textSize="20sp"/>
+
+
+                <TextView
+                    android:id="@+id/navigateTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="53dp"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="536dp"
+                    android:layout_marginEnd="27dp"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/gotha_probol"
+                    android:background="@drawable/rectanguler_button_bg"
+                    android:backgroundTint="@color/navTextColor"
+                    android:gravity="center"
+                    android:text="@string/negotiate"
+                    android:textColor="@color/colorWhite"/>
+
+                <TextView
+                    android:id="@+id/acceptTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="53dp"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="609dp"
+                    android:layout_marginEnd="27dp"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/gotha_probol"
+                    android:background="@drawable/rectanguler_button_bg"
+                    android:backgroundTint="@color/greenColor"
+                    android:gravity="center"
+                    android:text="@string/accept"
+                    android:textColor="@color/colorWhite"/>
+
+                <TextView
+                    android:id="@+id/declineTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="53dp"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="682dp"
+                    android:layout_marginEnd="27dp"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/gotha_probol"
+                    android:layout_marginBottom="48dp"
+                    android:background="@drawable/rectanguler_button_bg"
+                    android:backgroundTint="@color/colorBtnRed"
+                    android:gravity="center"
+                    android:text="@string/decline"
+                    android:textColor="@color/colorWhite"/>
+
+                <!-- <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@+id/nameTV"
+                    android:layout_marginStart="237dp"
+                    android:layout_marginTop="116dp">
+                    <ImageView
+                        android:layout_width="11dp"
+                        android:layout_height="11dp"
+                        android:src="@mipmap/ratting2"/>
+                    <ImageView
+                        android:layout_width="11dp"
+                        android:layout_height="11dp"
+                        android:src="@mipmap/ratting2"
+                        android:layout_marginStart="3.6dp"/>
+                    <ImageView
+                        android:layout_width="11dp"
+                        android:layout_height="11dp"
+                        android:src="@mipmap/ratting2"
+                        android:layout_marginStart="3.6dp"/>
+                    <ImageView
+                        android:layout_width="11dp"
+                        android:layout_height="11dp"
+                        android:src="@mipmap/ratting_blank"
+                        android:layout_marginStart="3.6dp"/>
+                    <ImageView
+                        android:layout_width="11dp"
+                        android:layout_height="11dp"
+                        android:src="@mipmap/ratting_blank"
+                        android:layout_marginStart="3.6dp"/>
+                </LinearLayout>-->
+
+
+            </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,6 +1,7 @@
 package com.org.zapayapp.activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -10,12 +11,14 @@ import retrofit2.Call;
 
 public class AboutUsActivity extends BaseActivity {
 private TextView contentTV;
+private TextView noDataTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
         contentTV=findViewById(R.id.contentTV);
+        noDataTv=findViewById(R.id.noDataTv);
 
         callAPIAboutUs();
     }
@@ -68,10 +71,16 @@ private TextView contentTV;
                 if (status==200){
                     if (json.get("data").getAsJsonObject()!=null){
                         JsonObject jsonObject=  json.get("data").getAsJsonObject();
+                        if (jsonObject.get("page_description").getAsString()!=null){
+                            contentTV.setText(jsonObject.get("page_description").getAsString());
+                        }
 
                     }
-                }else {
-                   // showSimpleAlert(msg, "");
+                }else if(status==401){
+                    showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
+                } else {
+                    showSimpleAlert(msg, "");
+                    noDataTv.setVisibility(View.VISIBLE);
                 }
             }
 

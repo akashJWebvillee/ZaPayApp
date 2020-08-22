@@ -314,7 +314,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                         }
                     }
                     showSimpleAlert(msg, "");
-                } else {
+                } else if (status==401){
+                    showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
+
+                }else {
                     showSimpleAlert(msg, "");
                 }
             } else if (from.equals(getResources().getString(R.string.api_get_user_details))) {
@@ -324,6 +327,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                         MySession.MakeSession(jsonObject);
                         setDataOnScreen();
                     }
+                }else if(status==401){
+                    showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
+
                 } else {
                     showSimpleAlert(msg, "");
                 }
