@@ -11,6 +11,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
+import com.org.zapayapp.chat.ChatActivity;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.SharedPref;
@@ -19,20 +20,21 @@ import com.org.zapayapp.webservices.APICallback;
 import java.util.HashMap;
 import retrofit2.Call;
 
-public class BorrowSummaryActivity extends BaseActivity implements APICallback, SimpleAlertFragment.AlertSimpleCallback  {
-private TextView nameTV;
-private TextView amountTV;
-private TextView termTV;
-private TextView noOfPaymentTV;
-private TextView paymentDateTV;
-private TextView totalPayBackTV;
-private TextView viewAllTV;
+public class BorrowSummaryActivity extends BaseActivity implements APICallback, SimpleAlertFragment.AlertSimpleCallback {
+    private TextView nameTV;
+    private TextView amountTV;
+    private TextView termTV;
+    private TextView noOfPaymentTV;
+    private TextView paymentDateTV;
+    private TextView totalPayBackTV;
+    private TextView viewAllTV;
+    private TextView navigateTV;
+    private TextView acceptTV;
+    private TextView declineTV;
+    private TextView chatTV;
+    private String transactionId;
+    private TransactionModel transactionModel;
 
-private TextView navigateTV;
-private TextView acceptTV;
-private TextView declineTV;
-private  String transactionId;
-private TransactionModel transactionModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,9 +66,10 @@ private TransactionModel transactionModel;
         navigateTV = findViewById(R.id.navigateTV);
         acceptTV = findViewById(R.id.acceptTV);
         declineTV = findViewById(R.id.declineTV);
+        chatTV = findViewById(R.id.chatTV);
 
-        if (getIntent().getStringExtra("transactionId")!=null){
-            transactionId=getIntent().getStringExtra("transactionId");
+        if (getIntent().getStringExtra("transactionId") != null) {
+            transactionId = getIntent().getStringExtra("transactionId");
             callAPIGetTransactionRequestDetail(transactionId);
         }
     }
@@ -96,16 +99,24 @@ private TransactionModel transactionModel;
             startActivity(intent);
         });
 
+        chatTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BorrowSummaryActivity.this, ChatActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
 
     private void callAPIGetTransactionRequestDetail(String transaction_request_id) {
-        String token= SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         HashMap<String, Object> values = apiCalling.getHashMapObject(
                 "transaction_request_id", transaction_request_id);
         try {
             zapayApp.setApiCallback(this);
-            Call<JsonElement> call = restAPI.postWithTokenApi(token,getString(R.string.api_get_transaction_request_details), values);
+            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_get_transaction_request_details), values);
             if (apiCalling != null) {
                 apiCalling.callAPI(zapayApp, call, getString(R.string.api_get_transaction_request_details), acceptTV);
             }
@@ -116,13 +127,13 @@ private TransactionModel transactionModel;
 
 
     private void callAPIUpdateTransactionRequestStatus(String status) {
-        String token= SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         HashMap<String, Object> values = apiCalling.getHashMapObject(
                 "transaction_request_id", transactionId,
                 "status", status);
         try {
             zapayApp.setApiCallback(this);
-            Call<JsonElement> call = restAPI.postWithTokenApi(token,getString(R.string.api_update_transaction_request_status), values);
+            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_update_transaction_request_status), values);
             if (apiCalling != null) {
                 apiCalling.callAPI(zapayApp, call, getString(R.string.api_update_transaction_request_status), acceptTV);
             }
@@ -145,19 +156,19 @@ private TransactionModel transactionModel;
             }
 
             if (from.equals(getResources().getString(R.string.api_update_transaction_request_status))) {
-                if (status==200){
+                if (status == 200) {
                     showSimpleAlert(msg, getResources().getString(R.string.api_update_transaction_request_status));
-                }else {
+                } else {
                     showSimpleAlert(msg, "");
                 }
-            }else if (from.equals(getResources().getString(R.string.api_get_transaction_request_details))){
-                if (status==200){
-                    if (json.get("data").getAsJsonObject()!=null){
-                         transactionModel= (TransactionModel) apiCalling.getDataObject(json.get("data").getAsJsonObject(),TransactionModel.class);
+            } else if (from.equals(getResources().getString(R.string.api_get_transaction_request_details))) {
+                if (status == 200) {
+                    if (json.get("data").getAsJsonObject() != null) {
+                        transactionModel = (TransactionModel) apiCalling.getDataObject(json.get("data").getAsJsonObject(), TransactionModel.class);
                         setaData(json.get("data").getAsJsonObject());
                     }
 
-                }else {
+                } else {
                     showSimpleAlert(msg, getResources().getString(R.string.api_update_transaction_request_status));
                 }
             }
@@ -166,9 +177,7 @@ private TransactionModel transactionModel;
     }
 
 
-
-
-    private void setaData(JsonObject jsonObject){
+    private void setaData(JsonObject jsonObject) {
       /*  String id=jsonObject.get("id").getAsString();
        String from_id=jsonObject.get("from_id").getAsString();
        String to_id=jsonObject.get("to_id").getAsString();
@@ -187,48 +196,43 @@ private TransactionModel transactionModel;
        String last_name=jsonObject.get("last_name").getAsString();*/
 
 
-
-
-
-
-
-      if (jsonObject.get("first_name").getAsString()!=null&&jsonObject.get("first_name").getAsString().length()>0&&jsonObject.get("first_name").getAsString()!=null&&jsonObject.get("first_name").getAsString().length()>0){
-            String first_name=jsonObject.get("first_name").getAsString();
-            String last_name=jsonObject.get("last_name").getAsString();
-            nameTV.setText(first_name+" "+ last_name);
+        if (jsonObject.get("first_name").getAsString() != null && jsonObject.get("first_name").getAsString().length() > 0 && jsonObject.get("first_name").getAsString() != null && jsonObject.get("first_name").getAsString().length() > 0) {
+            String first_name = jsonObject.get("first_name").getAsString();
+            String last_name = jsonObject.get("last_name").getAsString();
+            nameTV.setText(first_name + " " + last_name);
         }
 
-        if (jsonObject.get("amount").getAsString()!=null&&jsonObject.get("amount").getAsString().length()>0){
-            String amount=jsonObject.get("amount").getAsString();
-            amountTV.setText("$"+amount);
-         }
+        if (jsonObject.get("amount").getAsString() != null && jsonObject.get("amount").getAsString().length() > 0) {
+            String amount = jsonObject.get("amount").getAsString();
+            amountTV.setText("$" + amount);
+        }
 
-        if (jsonObject.get("no_of_payment").getAsString()!=null&&jsonObject.get("no_of_payment").getAsString().length()>0){
-            String no_of_payment=jsonObject.get("no_of_payment").getAsString();
+        if (jsonObject.get("no_of_payment").getAsString() != null && jsonObject.get("no_of_payment").getAsString().length() > 0) {
+            String no_of_payment = jsonObject.get("no_of_payment").getAsString();
             noOfPaymentTV.setText(no_of_payment);
         }
 
-        if (jsonObject.get("created_at").getAsString()!=null&&jsonObject.get("created_at").getAsString().length()>0){
-            String created_at=jsonObject.get("created_at").getAsString();
+        if (jsonObject.get("created_at").getAsString() != null && jsonObject.get("created_at").getAsString().length() > 0) {
+            String created_at = jsonObject.get("created_at").getAsString();
             paymentDateTV.setText(TimeStamp.timeFun(created_at));
         }
 
-        if (jsonObject.get("total_amount").getAsString()!=null&&jsonObject.get("total_amount").getAsString().length()>0){
-            String total_amount=jsonObject.get("total_amount").getAsString();
-            totalPayBackTV.setText("$"+total_amount);
+        if (jsonObject.get("total_amount").getAsString() != null && jsonObject.get("total_amount").getAsString().length() > 0) {
+            String total_amount = jsonObject.get("total_amount").getAsString();
+            totalPayBackTV.setText("$" + total_amount);
         }
 
-        if (jsonObject.get("terms_type").getAsString()!=null&&jsonObject.get("terms_type").getAsString().length()>0&&jsonObject.get("terms_value").getAsString()!=null&&jsonObject.get("terms_value").getAsString().length()>0){
-            String terms_type=jsonObject.get("terms_type").getAsString();
-            String terms_value=jsonObject.get("terms_value").getAsString();
+        if (jsonObject.get("terms_type").getAsString() != null && jsonObject.get("terms_type").getAsString().length() > 0 && jsonObject.get("terms_value").getAsString() != null && jsonObject.get("terms_value").getAsString().length() > 0) {
+            String terms_type = jsonObject.get("terms_type").getAsString();
+            String terms_value = jsonObject.get("terms_value").getAsString();
             if (terms_type.equalsIgnoreCase("1")) {
-                termTV.setText(terms_value+" "+getString(R.string.percent));
+                termTV.setText(terms_value + " " + getString(R.string.percent));
             } else if (terms_type.equalsIgnoreCase("2")) {
-                termTV.setText(terms_value+" "+getString(R.string.fee));
+                termTV.setText(terms_value + " " + getString(R.string.fee));
             } else if (terms_type.equalsIgnoreCase("3")) {
-                termTV.setText(terms_value+" "+getString(R.string.discount));
+                termTV.setText(terms_value + " " + getString(R.string.discount));
             } else if (terms_type.equalsIgnoreCase("4")) {
-                termTV.setText(terms_value+" "+getString(R.string.none));
+                termTV.setText(terms_value + " " + getString(R.string.none));
             }
         }
     }

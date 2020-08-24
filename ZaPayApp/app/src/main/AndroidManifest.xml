@@ -16,7 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.ViewAllSummaryActivity"></activity>
+        <activity android:name=".chat.ChatActivity"></activity>
+        <activity android:name=".activity.ViewAllSummaryActivity" />
         <activity
             android:name=".activity.MyHistoryActivity"
             android:screenOrientation="portrait"

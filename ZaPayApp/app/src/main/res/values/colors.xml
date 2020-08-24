@@ -40,5 +40,7 @@
 
     <color name="loaderpBg60Alpha">#99FFFFFF</color>
 
-
+<!--chat-->
+    <color name="color_userNameText">#3E3F42</color>
+    <color name="color_lightGray">#9ea0a5</color>
 </resources>

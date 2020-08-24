@@ -26,9 +26,7 @@ import com.org.zapayapp.utils.WValidationLib;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
 import com.org.zapayapp.webservices.RestAPI;
-
 import java.util.HashMap;
-
 import retrofit2.Call;
 
 public class VerifyBankDialogActivity extends AppCompatActivity implements View.OnClickListener , APICallback,SimpleAlertFragment.AlertSimpleCallback{

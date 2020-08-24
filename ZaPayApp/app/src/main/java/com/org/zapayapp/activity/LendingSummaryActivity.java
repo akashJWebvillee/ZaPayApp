@@ -3,12 +3,14 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import androidx.fragment.app.FragmentManager;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
+import com.org.zapayapp.chat.ChatActivity;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.SharedPref;
@@ -35,6 +37,7 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
     private TextView declineTV;
     private  String transactionId;
     private TransactionModel transactionModel;
+    private TextView chatTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,8 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
         negotiateTV=findViewById(R.id.negotiateTV);
         acceptTV=findViewById(R.id.acceptTV);
         declineTV=findViewById(R.id.declineTV);
+
+        chatTV=findViewById(R.id.chatTV);
 
         if (getIntent().getStringExtra("transactionId")!=null){
             transactionId=getIntent().getStringExtra("transactionId");
@@ -85,6 +90,15 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
             //intent.putExtra("requestBy", transactionModel.getRequestBy());
             intent.putExtra("transactionId", transactionId);
             startActivity(intent);
+        });
+
+
+        chatTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LendingSummaryActivity.this, ChatActivity.class);
+                startActivity(intent);
+            }
         });
 
 

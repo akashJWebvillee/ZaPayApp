@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:id="@+id/lendViewTerms"
     android:layout_width="match_parent"
@@ -87,7 +88,7 @@
             android:textColor="@color/textColor"
             android:textSize="16sp"/>
 
-        <EditText
+        <!--<EditText
             android:id="@+id/lendTermsEdtOption"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -105,5 +106,42 @@
             android:background="@drawable/rectanguler_border_light"
             android:hint="@string/enter_percent"
             android:textColor="@color/textColor"
-            android:textSize="17sp"/>
+            android:textSize="17sp"/>-->
+
+        <com.org.zapayapp.uihelpers.CustomTextInputLayout
+            android:id="@+id/lendTermsInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:theme="@style/TextInputLayoutAppearance"
+            app:boxStrokeColor="@null"
+            app:hintEnabled="false"
+            app:errorTextAppearance="@style/error_appearance"
+            android:padding="0dp"
+            app:errorIconDrawable="@null"
+            app:boxBackgroundMode="none">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/lendTermsEdtOption"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:fontFamily="@font/gotha_pro_reg"
+                    android:gravity="start|center_vertical"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginStart="19dp"
+                    android:importantForAutofill="no"
+                    android:theme="@style/TextInputLayoutAppearance"
+                    android:inputType="numberDecimal"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:textColorHint="@color/navTextColor50Alpha"
+                    android:layout_marginEnd="19dp"
+                    android:background="@drawable/rectanguler_border_light"
+                    android:hint="@string/enter_percent"
+                    android:textColor="@color/textColor"
+                    android:textSize="17sp"
+                    android:maxLength="4"
+                    android:paddingTop="1dp"
+                    android:paddingBottom="1dp"/>
+        </com.org.zapayapp.uihelpers.CustomTextInputLayout>
 </LinearLayout>

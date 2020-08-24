@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+   <!-- <RelativeLayout
+        android:id="@+id/rlOtherUserView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="76dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/imageViewProfile"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:src="@mipmap/user_dummy"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="0dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="9dp"
+            android:layout_toEndOf="@+id/imageViewProfile"
+            android:background="@drawable/rectanguler_receive_msg">
+
+            <TextView
+                android:id="@+id/msgTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginEnd="11dp"
+                android:fontFamily="@font/gotha_promed"
+                android:textColor="@color/color_userNameText"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/timeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/msgTextView"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="9dp"
+                android:textColor="@color/color_lightGray"
+                android:textSize="12sp"
+                android:text="10:50"/>
+        </RelativeLayout>
+    </RelativeLayout>-->
+
+
+    <RelativeLayout
+        android:id="@+id/rlMyView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="116dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_blue_bg_no_padding">
+
+        <TextView
+            android:id="@+id/sendMsgTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginEnd="11dp"
+            android:fontFamily="@font/gotha_promed"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp"
+            android:text="helooooo"/>
+
+        <TextView
+            android:id="@+id/timeMyTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sendMsgTV"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="9dp"
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp"
+            android:text="2:50"/>
+
+
+        <TextView
+            android:id="@+id/seenTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sendMsgTV"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="9dp"
+            android:layout_marginBottom="9dp"
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp"
+            android:text="see"/>
+    </RelativeLayout>
+</RelativeLayout>
+
+
+<!--
+
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/rlOtherUserView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="76dp"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/dateTV"
+            android:layout_toStartOf="@+id/sendMsgTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="24-4-2020"
+            android:textSize="12sp"
+            android:padding="2dp"
+            android:textColor="@color/colorWhite"/>
+
+        <TextView
+            android:id="@+id/sendMsgTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello"
+            android:textColor="@color/colorWhite"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_alignParentEnd="true"/>
+
+    </RelativeLayout>
+</RelativeLayout>-->

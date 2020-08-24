@@ -25,7 +25,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -48,6 +47,22 @@
                     android:text=""
                     android:textColor="@color/textColor"
                     android:textSize="16sp"/>
+
+                <TextView
+                    android:id="@+id/chatTV"
+                    android:layout_width="80dp"
+                    android:layout_height="26dp"
+                    android:layout_marginStart="265dp"
+                    android:layout_marginTop="45dp"
+                    android:fontFamily="@font/gotha_promed"
+                    android:gravity="center"
+                    android:text="@string/chat"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="11sp"
+                    android:background="@drawable/rectanguler_4redius"
+                    android:backgroundTint="@color/colorPrimary"/>
+
+
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -148,6 +163,7 @@
                     android:background="@drawable/dotted" />
 
                 <TextView
+                    android:id="@+id/totalPlayReceiveTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="27dp"

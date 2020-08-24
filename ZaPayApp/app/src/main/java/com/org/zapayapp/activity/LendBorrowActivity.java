@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dd.ShadowLayout;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -33,6 +34,7 @@ import com.org.zapayapp.listener.ContactListener;
 import com.org.zapayapp.model.ContactModel;
 import com.org.zapayapp.model.PabackModel;
 import com.org.zapayapp.model.TransactionModel;
+import com.org.zapayapp.uihelpers.CustomTextInputLayout;
 import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.DatePickerFragmentDialogue;
@@ -60,7 +62,9 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     private int selectedPos = 0;
     private IndicatorAdapter indicatorAdapter;
     private TextView lendTxtHeader, lendTxtAmount, lendTermsTxtOption, lendTermsTxtPercent, lendTermsTxtFee, lendTermsTxtDiscount, lendTermsTxtNone;
-    private EditText lendAmountEdtAmount, lendTermsEdtOption, lendPaymentEdtNo;
+    //private EditText lendAmountEdtAmount, lendTermsEdtOption, lendPaymentEdtNo;
+    private TextInputEditText lendAmountEdtAmount, lendTermsEdtOption, lendPaymentEdtNo;
+
     private LinearLayout lendViewAmount, lendViewTerms, lendViewPayment, lendViewPayback, lendViewBorrow, lendViewLending, lendViewContact;
     private int isTermsOption, isNoPayment, paybackPos;
 
@@ -112,6 +116,10 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     //this use for negotiation
     private TransactionModel transactionModel;
 
+    private CustomTextInputLayout lendAmountEdtAmountInputLayout;
+    private CustomTextInputLayout lendTermsInputLayout;
+    private CustomTextInputLayout lendNoOfPaymentInputLayout;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,6 +141,11 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         backButtonTV = findViewById(R.id.backButtonTV);
         lendShadowBack = findViewById(R.id.lendShadowBack);
         lendShadowNext = findViewById(R.id.lendShadowNext);
+
+
+        lendAmountEdtAmountInputLayout = findViewById(R.id.lendAmountEdtAmountInputLayout);
+        lendTermsInputLayout = findViewById(R.id.lendTermsInputLayout);
+        lendNoOfPaymentInputLayout = findViewById(R.id.lendNoOfPaymentInputLayout);
 
         listIndicator = new ArrayList<>();
         wvDateLib = new WVDateLib(this);
@@ -384,13 +397,10 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                     //setIndicatorView(selectedPos);
 
                     if (selectedPos == 0) {
-                        if (!lendAmountEdtAmount.getText().toString().trim().isEmpty()) {
+                        if (wValidationLib.isValidAmount(lendAmountEdtAmountInputLayout, lendAmountEdtAmount, getString(R.string.important), getString(R.string.enter_amount),true)) {
                             selectedPos = indicatorAdapter.getSelectedPos() + 1;
                             indicatorAdapter.setSelected(selectedPos);
                             setIndicatorView(selectedPos);
-                        } else {
-                            //Toast.makeText(LendBorrowActivity.this,"eneter amount",Toast.LENGTH_SHORT).show();
-                            showSimpleAlert(getString(R.string.enter_amount), "");
                         }
                     } else if (selectedPos == 1) {
                         if (!lendTermsEdtOption.getText().toString().trim().isEmpty() || isTermsOption == 3) {
@@ -398,7 +408,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                             indicatorAdapter.setSelected(selectedPos);
                             setIndicatorView(selectedPos);
                         } else {
-                            //Toast.makeText(LendBorrowActivity.this,"eneter term",Toast.LENGTH_SHORT).show();
                             showSimpleAlert(getString(R.string.enter_term), "");
                         }
                     } else if (selectedPos == 2) {

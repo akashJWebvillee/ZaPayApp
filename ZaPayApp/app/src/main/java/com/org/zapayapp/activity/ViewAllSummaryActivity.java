@@ -1,6 +1,4 @@
 package com.org.zapayapp.activity;
-
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 
@@ -18,17 +16,14 @@ import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.ZapayApp;
 import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
+import com.org.zapayapp.chat.ChatActivity;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.TimeStamp;
 import com.org.zapayapp.utils.WValidationLib;
 import com.org.zapayapp.webservices.APICallback;
-import com.org.zapayapp.webservices.APICalling;
-import com.org.zapayapp.webservices.RestAPI;
-
 import java.util.HashMap;
-
 import retrofit2.Call;
 
 public class ViewAllSummaryActivity extends BaseActivity implements APICallback, SimpleAlertFragment.AlertSimpleCallback {
@@ -39,33 +34,29 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
     private TextView paymentDateTV;
     private TextView totalPayBackTV;
     private TextView viewAllTV;
-
     private TextView navigateTV;
     private TextView acceptTV;
     private TextView declineTV;
+    private TextView totalPlayReceiveTV;
     private  String transactionId;
     private TransactionModel transactionModel;
     private Toolbar toolbar;
     private TextView titleTV;
     private ImageView backArrowImageView;
+    private TextView chatTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_all_summary);
-
         init();
         initAction();
     }
-
-
 
     private void init() {
         toolbar = findViewById(R.id.customToolbar);
         titleTV = toolbar.findViewById(R.id.titleTV);
         backArrowImageView = toolbar.findViewById(R.id.backArrowImageView);
-        titleTV.setText(getString(R.string.history));
-
 
         nameTV = findViewById(R.id.nameTV);
         amountTV = findViewById(R.id.amountTV);
@@ -74,10 +65,12 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         paymentDateTV = findViewById(R.id.paymentDateTV);
         totalPayBackTV = findViewById(R.id.totalPayBackTV);
         viewAllTV = findViewById(R.id.viewAllTV);
+        totalPlayReceiveTV = findViewById(R.id.totalPlayReceiveTV);
 
         navigateTV = findViewById(R.id.navigateTV);
         acceptTV = findViewById(R.id.acceptTV);
         declineTV = findViewById(R.id.declineTV);
+        chatTV = findViewById(R.id.chatTV);
 
         if (getIntent().getStringExtra("requestBy")!=null){
            String requestBy= transactionId=getIntent().getStringExtra("requestBy");
@@ -120,6 +113,13 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
             }
         });
 
+        chatTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ViewAllSummaryActivity.this, ChatActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -137,7 +137,6 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
             e.printStackTrace();
         }
     }
-
 
     private void callAPIUpdateTransactionRequestStatus(String status) {
         String token= SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
@@ -240,8 +239,10 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         if (transactionModel.getRequestBy()!=null&&transactionModel.getRequestBy().length()>0){
            if (transactionModel.getRequestBy().equalsIgnoreCase("1")){
                titleTV.setText(getString(R.string.lending_summary));
+               totalPlayReceiveTV.setText(getString(R.string.total_to_receive_back));
            }if (transactionModel.getRequestBy().equalsIgnoreCase("2")){
                 titleTV.setText(getString(R.string.borrow_summary));
+                totalPlayReceiveTV.setText(getString(R.string.total_to_pay_back));
             }
         }
     }

@@ -125,6 +125,7 @@
     <!--accept summary-->
     <string name="borrow_summary">Borrow Summary</string>
     <string name="borrower">Borrower</string>
+    <string name="chat">Chat</string>
     <string name="amount">Amount</string>
     <string name="terms">Terms</string>
     <string name="payments">Payments</string>
@@ -240,6 +241,11 @@
     <string name="your_session_expired">Your session has expired.\nPlease login again.</string>
     <string name="amount1ValidationMsg">Please enter less then 0.11.</string>
     <string name="amount2ValidationMsg">Please enter less then 0.11.</string>
+
+
+
+    <string name="enter_message">Enter your message here</string>
+    <string name="type_message">Please enter message</string>
 
 
 </resources>

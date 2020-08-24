@@ -331,6 +331,24 @@ public class WValidationLib {
         return true;
     }
 
+
+    private boolean hasTextRecangulerBg(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg) {
+        String text = editText.getText().toString().trim();
+        inputLayout.setError(null);
+        inputLayout.setErrorEnabled(false);
+        editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.rectanguler_borderr));
+        // length 0 means there is no text
+        if (text.length() == 0) {
+            inputLayout.requestFocus();
+            //inputLayout.setError(requireMsg);
+            inputLayout.setErrorEnabled(true);
+            inputLayout.setError(CustomTextInputLayout.setErrorMessage(wContext, requireMsg));
+            editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.rectanguler_borderr));
+            return false;
+        }
+        return true;
+    }
+
     /**
      * Has text boolean.
      *
@@ -770,5 +788,75 @@ public class WValidationLib {
         }
         return true;
     }
+
+
+
+
+
+
+
+    public boolean isValidAmount(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
+        WValidationLib v_lib = new WValidationLib(wContext);
+        return v_lib.validAmount(inputLayout, editText, requireMsg, errorMsg, required);
+    }
+
+    private boolean validAmount(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
+        String text = inputLayout.getEditText().getText().toString().trim();
+
+        //CommonMethods.showLogs("text length ", "text length " + text.length());
+        // clearing the error, if it was previously set by some other values
+        inputLayout.setError(null);
+        inputLayout.setErrorEnabled(false);
+        editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.rectanguler_borderr));
+        // text required and editText is blank, so return false
+        if (required && !hasTextRecangulerBg(inputLayout, editText, requireMsg)) {
+            return false;
+        }
+
+        if (text.length()<2) {
+            inputLayout.requestFocus();
+            //et.setError(errMsg);
+            inputLayout.setErrorEnabled(true);
+            inputLayout.setError(CustomTextInputLayout.setErrorMessage(wContext, errorMsg));
+            editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.rectanguler_borderr));
+            return false;
+        }
+        return true;
+    }
+
+
+
+    public boolean isValidTerm(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
+        WValidationLib v_lib = new WValidationLib(wContext);
+        return v_lib.validTerm(inputLayout, editText, requireMsg, errorMsg, required);
+    }
+
+    private boolean validTerm(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
+        String text = inputLayout.getEditText().getText().toString().trim();
+
+        //CommonMethods.showLogs("text length ", "text length " + text.length());
+        // clearing the error, if it was previously set by some other values
+        inputLayout.setError(null);
+        inputLayout.setErrorEnabled(false);
+        editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.rectanguler_borderr));
+        // text required and editText is blank, so return false
+        if (required && !hasTextRecangulerBg(inputLayout, editText, requireMsg)) {
+            return false;
+        }
+
+        if (text.length()<1) {
+            inputLayout.requestFocus();
+            //et.setError(errMsg);
+            inputLayout.setErrorEnabled(true);
+            inputLayout.setError(CustomTextInputLayout.setErrorMessage(wContext, errorMsg));
+            editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.rectanguler_borderr));
+            return false;
+        }
+        return true;
+    }
+
+
+
+
 
 }
