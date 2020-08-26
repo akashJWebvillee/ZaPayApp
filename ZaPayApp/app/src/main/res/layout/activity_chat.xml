@@ -93,7 +93,8 @@
             android:background="@drawable/circle_blue_bg"
             android:contentDescription="@null"
             android:padding="6dp"
-            android:src="@mipmap/ic_add" />
+            android:src="@mipmap/ic_add"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/camaraImageView"
@@ -104,6 +105,7 @@
             android:background="@drawable/circle_blue_bg"
             android:contentDescription="@null"
             android:padding="6dp"
-            android:src="@mipmap/ic_camera" />
+            android:src="@mipmap/ic_camera"
+            android:visibility="gone"/>
     </RelativeLayout>
 </RelativeLayout>

@@ -30,6 +30,7 @@ import com.org.zapayapp.R;
 import com.org.zapayapp.adapters.ContactAdapter;
 import com.org.zapayapp.adapters.IndicatorAdapter;
 import com.org.zapayapp.adapters.PaybackAdapter;
+import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
 import com.org.zapayapp.listener.ContactListener;
 import com.org.zapayapp.model.ContactModel;
 import com.org.zapayapp.model.PabackModel;
@@ -127,7 +128,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         init();
         getIntentValues();
         initAction();
-
     }
 
     private void init() {
@@ -306,9 +306,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         paybackRecycler = findViewById(R.id.paybackRecycler);
         paybackRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         paybackRecycler.setItemAnimator(new DefaultItemAnimator());
-
         paybackList = new ArrayList<>();
-
 
         //for negotiation
         /*if (transactionModel.getPayDate()!=null&&transactionModel.getPayDate().length()>0){
@@ -403,21 +401,23 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                             setIndicatorView(selectedPos);
                         }
                     } else if (selectedPos == 1) {
-                        if (!lendTermsEdtOption.getText().toString().trim().isEmpty() || isTermsOption == 3) {
+                        if (wValidationLib.isValidTerm(lendTermsInputLayout, lendTermsEdtOption, getString(R.string.important), getString(R.string.enter_term),true)||isTermsOption == 3) {
+                            //  if (!lendTermsEdtOption.getText().toString().trim().isEmpty() || isTermsOption == 3) {
                             selectedPos = indicatorAdapter.getSelectedPos() + 1;
                             indicatorAdapter.setSelected(selectedPos);
                             setIndicatorView(selectedPos);
-                        } else {
-                            showSimpleAlert(getString(R.string.enter_term), "");
-                        }
+                        } //else {
+                          //  showSimpleAlert(getString(R.string.enter_term), "");
+                       // }
                     } else if (selectedPos == 2) {
-                        if (!lendPaymentEdtNo.getText().toString().trim().isEmpty()) {
+                        if (wValidationLib.isValidNoOfPayment(lendNoOfPaymentInputLayout, lendPaymentEdtNo, getString(R.string.important), getString(R.string.enter_no_of_payment),true)) {
+                            //if (!lendPaymentEdtNo.getText().toString().trim().isEmpty()) {
                             selectedPos = indicatorAdapter.getSelectedPos() + 1;
                             indicatorAdapter.setSelected(selectedPos);
                             setIndicatorView(selectedPos);
-                        } else {
-                            showSimpleAlert(getString(R.string.enter_no_of_payment), "");
-                        }
+                        } //else {
+                           // showSimpleAlert(getString(R.string.enter_no_of_payment), "");
+                       // }
                     } else if (selectedPos == 3) {
                         if (isSelectedAllDate()) {
                             selectedPos = indicatorAdapter.getSelectedPos() + 1;
@@ -484,24 +484,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
 
     private void transactionRequestFunc() {
-       /* if (!toId.equalsIgnoreCase("")) {
-            if (SharedPref.getPrefsHelper().getPref(Const.Var.BANKACCOUNT_ID) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BANKACCOUNT_ID).toString().length() > 0) {
-                if (SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_STATUS) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_STATUS).toString().length() > 0
-                        && SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_STATUS).toString().equalsIgnoreCase("verified")) {
-                    callAPITransactionRequest();
-                } else {
-                    showSimpleAlert(getString(R.string.please_verify_bank_account), "");
-                }
-            } else {
-                showSimpleAlert(getString(R.string.please_add_bank_account), "");
-            }
-
-        } else {
-            showSimpleAlert(getString(R.string.please_select_contact), "");
-        }
-*/
-
-
         //activity_status=0  //signup
         //activity_status=1  //updated profile
         //activity_status=2   //added bank account
@@ -509,15 +491,16 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
 
         if (!toId.equalsIgnoreCase("")) {
-            if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("2")) {
-                if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("3")) {
-                    callAPITransactionRequest();
-                } else {
-                    showSimpleAlert(getString(R.string.please_verify_bank_account), "");
-                }
-            } else {
-                showSimpleAlert(getString(R.string.please_add_bank_account), "");
-            }
+
+            if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("1")){
+              showSimpleAlert(getString(R.string.please_add_bank_account), getString(R.string.please_add_bank_account));
+          }else if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("2")){
+              showSimpleAlert(getString(R.string.please_verify_bank_account), getString(R.string.please_verify_bank_account));
+          }else if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("3")){
+              callAPITransactionRequest();
+          }
+
+
         } else {
             showSimpleAlert(getString(R.string.please_select_contact), "");
         }
@@ -549,16 +532,22 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 }
 
                 lendTxtAmount.setText(paybackList.get(0).getPayDate());
+                // setPaybackAdapter();
+
+
+
+                if (paybackList.size()!=isNoPayment){
+                    paybackList.clear();
+                    for (int i = 0; i < isNoPayment; i++) {
+                        paybackList.add(new PabackModel("", false));
+                    }
+                }
                 setPaybackAdapter();
-
-
-
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         } else {
-
             paybackList.clear();
             for (int i = 0; i < isNoPayment; i++) {
                 paybackList.add(new PabackModel("", false));
@@ -589,7 +578,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     public void datePickerCallback(String selectedDate, int year, int month, int day, String from) throws ParseException {
         // String formattedDate = year+"-"+month+"-"+day;
         String formattedDate = day + "/" + month + "/" + year;
-        Log.e("formattedDate", "formattedDate===" + formattedDate);
         //paybackList.set(paybackPos, selectedDate);
         paybackList.set(paybackPos, new PabackModel(formattedDate, true));
         setPaybackAdapter();
@@ -799,6 +787,8 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             lendTermsEdtOption.setVisibility(View.GONE);
             lendTermsTxtNone.setTextColor(CommonMethods.getColorWrapper(this, R.color.colorWhite));
             lendTermsTxtNone.setBackground(CommonMethods.getDrawableWrapper(this, R.drawable.dark_grey_bg_rounded));
+
+          boolean bb= wValidationLib.isValidTerm(lendTermsInputLayout, lendTermsEdtOption, getString(R.string.important),"",false);
         }
     }
 

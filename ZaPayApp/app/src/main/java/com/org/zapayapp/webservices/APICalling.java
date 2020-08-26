@@ -19,6 +19,8 @@ import com.org.zapayapp.ZapayApp;
 import com.org.zapayapp.activity.SplashActivity;
 import com.org.zapayapp.utils.CommonMethods;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -273,7 +275,14 @@ public class APICalling extends BaseRequestParser implements ServiceCallback<Jso
                             apiCallback.apiCallback(jsonObj, from);
                         }
                     } else if (statusCode == 401) {
-                        unauthenticated(response, call, this, view);
+                        // unauthenticated(response, call, this, view);
+
+                        //this code Write by ashok
+                        JsonObject jsonObject=new JsonObject();
+                        jsonObject.addProperty("status","401");
+                        jsonObject.addProperty("message","Unauthorized Access!");
+                        apiCallback.apiCallback(jsonObject, from);
+
                     } else if (statusCode >= 400 && statusCode < 500) {
                         clientError(response, call, this, view);
                     } else if (statusCode >= 500 && statusCode < 600) {

@@ -572,7 +572,6 @@ public class WValidationLib {
     }
 
 
-
     private boolean validAmount2(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
         String text = inputLayout.getEditText().getText().toString().trim();
 
@@ -599,8 +598,6 @@ public class WValidationLib {
     }
 
 
-
-
     public boolean isValidAccountNumber(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
         WValidationLib v_lib = new WValidationLib(wContext);
         return v_lib.validAccountNumber(inputLayout, editText, requireMsg, errorMsg, required);
@@ -620,7 +617,7 @@ public class WValidationLib {
         }
 
 
-        if (text.length()<4||text.length()>17) {
+        if (text.length() < 4 || text.length() > 17) {
             inputLayout.requestFocus();
             //et.setError(errMsg);
             inputLayout.setErrorEnabled(true);
@@ -630,8 +627,6 @@ public class WValidationLib {
         }
         return true;
     }
-
-
 
 
     public boolean isValidRoutingNumber(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
@@ -652,7 +647,7 @@ public class WValidationLib {
             return false;
         }
 
-        if (text.length()<9) {
+        if (text.length() < 9) {
             inputLayout.requestFocus();
             //et.setError(errMsg);
             inputLayout.setErrorEnabled(true);
@@ -662,8 +657,6 @@ public class WValidationLib {
         }
         return true;
     }
-
-
 
 
     public boolean isValidAddress1(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
@@ -684,7 +677,7 @@ public class WValidationLib {
             return false;
         }
 
-        if (text.length()>51) {
+        if (text.length() > 51) {
             inputLayout.requestFocus();
             //et.setError(errMsg);
             inputLayout.setErrorEnabled(true);
@@ -694,7 +687,6 @@ public class WValidationLib {
         }
         return true;
     }
-
 
 
     public boolean isValidAddress2(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
@@ -716,7 +708,7 @@ public class WValidationLib {
         }
 
         //                                if (address2EditText.getText().toString().trim().length() == 0 || address2EditText.getText().toString().trim().length() <= 51) {
-        if (text.length()>51) {
+        if (text.length() > 51) {
             inputLayout.requestFocus();
             //et.setError(errMsg);
             inputLayout.setErrorEnabled(true);
@@ -726,8 +718,6 @@ public class WValidationLib {
         }
         return true;
     }
-
-
 
 
     public boolean isValidPostalCode(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
@@ -748,7 +738,7 @@ public class WValidationLib {
             return false;
         }
 
-        if (text.length()<5) {
+        if (text.length() < 5) {
             inputLayout.requestFocus();
             //et.setError(errMsg);
             inputLayout.setErrorEnabled(true);
@@ -778,7 +768,7 @@ public class WValidationLib {
             return false;
         }
 
-        if (text.length()<4) {
+        if (text.length() < 4) {
             inputLayout.requestFocus();
             //et.setError(errMsg);
             inputLayout.setErrorEnabled(true);
@@ -788,11 +778,6 @@ public class WValidationLib {
         }
         return true;
     }
-
-
-
-
-
 
 
     public boolean isValidAmount(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
@@ -812,8 +797,8 @@ public class WValidationLib {
         if (required && !hasTextRecangulerBg(inputLayout, editText, requireMsg)) {
             return false;
         }
-
-        if (text.length()<2) {
+        float amount = Float.parseFloat(text);
+        if (amount < 1) {
             inputLayout.requestFocus();
             //et.setError(errMsg);
             inputLayout.setErrorEnabled(true);
@@ -821,9 +806,9 @@ public class WValidationLib {
             editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.rectanguler_borderr));
             return false;
         }
+
         return true;
     }
-
 
 
     public boolean isValidTerm(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
@@ -844,7 +829,42 @@ public class WValidationLib {
             return false;
         }
 
-        if (text.length()<1) {
+        if (text!=null&&text.length()>0){
+            float term = Float.parseFloat(text);
+            if (term<1) {
+                inputLayout.requestFocus();
+                //et.setError(errMsg);
+                inputLayout.setErrorEnabled(true);
+                inputLayout.setError(CustomTextInputLayout.setErrorMessage(wContext, errorMsg));
+                editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.rectanguler_borderr));
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+
+    public boolean isValidNoOfPayment(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
+        WValidationLib v_lib = new WValidationLib(wContext);
+        return v_lib.validNoOfPayment(inputLayout, editText, requireMsg, errorMsg, required);
+    }
+
+    private boolean validNoOfPayment(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
+        String text = inputLayout.getEditText().getText().toString().trim();
+
+        //CommonMethods.showLogs("text length ", "text length " + text.length());
+        // clearing the error, if it was previously set by some other values
+        inputLayout.setError(null);
+        inputLayout.setErrorEnabled(false);
+        editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.rectanguler_borderr));
+        // text required and editText is blank, so return false
+        if (required && !hasTextRecangulerBg(inputLayout, editText, requireMsg)) {
+            return false;
+        }
+        float noOfPayment = Float.parseFloat(text);
+        if (noOfPayment<1) {
             inputLayout.requestFocus();
             //et.setError(errMsg);
             inputLayout.setErrorEnabled(true);
@@ -854,9 +874,6 @@ public class WValidationLib {
         }
         return true;
     }
-
-
-
 
 
 }

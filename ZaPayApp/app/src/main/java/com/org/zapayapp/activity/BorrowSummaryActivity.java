@@ -34,7 +34,7 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
     private TextView chatTV;
     private String transactionId;
     private TransactionModel transactionModel;
-
+    private String negotaiionAcceptDeclineStaatus="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,19 +76,23 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
 
     private void initAction() {
         navigateTV.setOnClickListener(v -> {
-            Intent intent = new Intent(BorrowSummaryActivity.this, LendBorrowActivity.class);
+            negotaiionAcceptDeclineStaatus="1";
+            callAPIUpdateTransactionRequestStatus("1");
+
+           /* Intent intent = new Intent(BorrowSummaryActivity.this, LendBorrowActivity.class);
             intent.putExtra("isBorrow", true);
             intent.putExtra("transactionModel", transactionModel);
-            startActivity(intent);
+            startActivity(intent);*/
 
-            //callAPIUpdateTransactionRequestStatus("1");
         });
 
         acceptTV.setOnClickListener(v -> {
+            negotaiionAcceptDeclineStaatus="2";
             callAPIUpdateTransactionRequestStatus("2");
         });
 
         declineTV.setOnClickListener(v -> {
+            negotaiionAcceptDeclineStaatus="3";
             callAPIUpdateTransactionRequestStatus("3");
         });
 
@@ -157,7 +161,15 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
 
             if (from.equals(getResources().getString(R.string.api_update_transaction_request_status))) {
                 if (status == 200) {
-                    showSimpleAlert(msg, getResources().getString(R.string.api_update_transaction_request_status));
+                    if (!negotaiionAcceptDeclineStaatus.equalsIgnoreCase("1")){
+                        showSimpleAlert(msg, getResources().getString(R.string.api_update_transaction_request_status));
+                    }else {
+                        Intent intent = new Intent(BorrowSummaryActivity.this, LendBorrowActivity.class);
+                        intent.putExtra("isBorrow", true);
+                        intent.putExtra("transactionModel", transactionModel);
+                        startActivity(intent);
+                    }
+
                 } else {
                     showSimpleAlert(msg, "");
                 }

@@ -46,8 +46,13 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
     private void initAction() {
         changeTV.setOnClickListener(this);
         addTV.setOnClickListener(this);
-
         callAPIGetBankAccountDetail();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        callAPIGetUserDetail();
     }
 
     @Override
@@ -111,6 +116,21 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
+
+    private void callAPIGetUserDetail() {
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        try {
+            //"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMzAiLCJmaXJzdF9uYW1lIjoiQXNob2twaXQiLCJsYXN0X25hbWUiOiJLdW1hciIsImVtYWlsIjoiYXNob2twaXRlY2guMTIzQGdtYWlsLmNvbSIsInJvbGUiOiIyIiwidGltZXN0YW1wIjoxNTk3NjQ1MDA2fQ.lkG8uyRzEcDN1gepzbPCASccoGWuVzg2zGeoIDIZvZk"
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.getApiToken(token, getString(R.string.api_get_user_details));
+            if (apiCalling != null) {
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_get_user_details), addTV);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void apiCallback(JsonObject json, String from) {
         Log.e("json", "json======" + json);
@@ -133,6 +153,17 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
                 }else if (status==401){
                     showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
 
+                }
+            }else  if (from.equals(getResources().getString(R.string.api_get_user_details))) {
+                if (status == 200) {
+                    if (json.get("data").getAsJsonObject() != null) {
+                        JsonObject jsonObject = json.get("data").getAsJsonObject();
+                        MySession.MakeSession(jsonObject);
+                    }
+                }else if (status == 401) {
+                    showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
+                } else {
+                    showSimpleAlert(msg, "");
                 }
             }
 

@@ -39,6 +39,8 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
     private TransactionModel transactionModel;
     private TextView chatTV;
 
+    private String negotaiionAcceptDeclineStaatus="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,18 +72,22 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
 
     private void inItAction(){
         negotiateTV.setOnClickListener(v -> {
-            Intent intent = new Intent(LendingSummaryActivity.this, LendBorrowActivity.class);
+            negotaiionAcceptDeclineStaatus="1";
+            callAPIUpdateTransactionRequestStatus("1");
+
+        /*    Intent intent = new Intent(LendingSummaryActivity.this, LendBorrowActivity.class);
             intent.putExtra("isBorrow", false);
             intent.putExtra("transactionModel", transactionModel);
-            startActivity(intent);
-            //callAPIUpdateTransactionRequestStatus("1");
+            startActivity(intent);*/
         });
 
         acceptTV.setOnClickListener(v -> {
+            negotaiionAcceptDeclineStaatus="2";
             callAPIUpdateTransactionRequestStatus("2");
         });
 
         declineTV.setOnClickListener(v -> {
+            negotaiionAcceptDeclineStaatus="3";
             callAPIUpdateTransactionRequestStatus("3");
         });
 
@@ -133,8 +139,6 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
     }
 
 
-
-
     private void callAPIUpdateTransactionRequestStatus(String status) {
         String token= SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         HashMap<String, Object> values = apiCalling.getHashMapObject(
@@ -166,7 +170,14 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
 
             if (from.equals(getResources().getString(R.string.api_update_transaction_request_status))) {
                 if (status==200){
-                    showSimpleAlert(msg, getResources().getString(R.string.api_update_transaction_request_status));
+                    if (!negotaiionAcceptDeclineStaatus.equalsIgnoreCase("1")){
+                        showSimpleAlert(msg, getResources().getString(R.string.api_update_transaction_request_status));
+                    }else {
+                        Intent intent = new Intent(LendingSummaryActivity.this, LendBorrowActivity.class);
+                        intent.putExtra("isBorrow", false);
+                        intent.putExtra("transactionModel", transactionModel);
+                        startActivity(intent);
+                    }
                 }else {
                     showSimpleAlert(msg, "");
                 }
@@ -222,17 +233,6 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
         }*/
 
 
-        JSONObject jsonObject1=new JSONObject();
-        try {
-            jsonObject1.put("first_name",jsonObject.get("first_name").getAsString());
-            jsonObject1.put("last_name",jsonObject.get("last_name").getAsString());
-            jsonObject1.put("amount",jsonObject.get("amount").getAsString());
-            jsonObject1.put("no_of_payment",jsonObject.get("no_of_payment").getAsString());
-            jsonObject1.put("created_at",jsonObject.get("created_at").getAsString());
-            jsonObject1.put("first_name",jsonObject.get("first_name").getAsString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
 
 

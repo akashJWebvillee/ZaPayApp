@@ -240,7 +240,7 @@
     <string name="session_expired">Session expired</string>
     <string name="your_session_expired">Your session has expired.\nPlease login again.</string>
     <string name="amount1ValidationMsg">Please enter less then 0.11.</string>
-    <string name="amount2ValidationMsg">Please enter less then 0.11.</string>
+    <string name="amount2ValidationMsg">Please enter less then 0.04.</string>
 
 
 

@@ -1,5 +1,4 @@
 package com.org.zapayapp.chat;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.org.zapayapp.R;
 import com.org.zapayapp.activity.BaseActivity;
-
 import java.util.ArrayList;
 import java.util.List;
 

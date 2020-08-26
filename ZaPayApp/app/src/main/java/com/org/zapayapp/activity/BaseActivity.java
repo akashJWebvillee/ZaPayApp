@@ -436,10 +436,17 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             //finish();
+        }else if (from.equals(getResources().getString(R.string.please_add_bank_account))){
+        intent = new Intent(BaseActivity.this, BankInfoActivity.class);
+        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+         startActivity(intent);
+       // overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+       // finish();
+    }else if (from.equals(getResources().getString(R.string.please_verify_bank_account))){
+            intent = new Intent(BaseActivity.this, BankInfoActivity.class);
+            startActivity(intent);
         }
-
     }
-
 
 
     private void alertLogOut() {
