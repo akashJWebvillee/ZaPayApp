@@ -6,11 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.org.zapayapp.R;
+import com.org.zapayapp.activity.BorrowSummaryActivity;
+import com.org.zapayapp.activity.LendingSummaryActivity;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.TimeStamp;
+
 import java.util.List;
 
 public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAdapter.MyHolder> {
@@ -34,12 +39,12 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
-            nameTV=itemView.findViewById(R.id.nameTV);
-            dateTV=itemView.findViewById(R.id.dateTV);
-            amountTV=itemView.findViewById(R.id.amountTV);
-            noOfPaymentTV=itemView.findViewById(R.id.noOfPaymentTV);
-            termTypeTV=itemView.findViewById(R.id.termTypeTV);
-            borroModeTitleTV=itemView.findViewById(R.id.borroModeTitleTV);
+            nameTV = itemView.findViewById(R.id.nameTV);
+            dateTV = itemView.findViewById(R.id.dateTV);
+            amountTV = itemView.findViewById(R.id.amountTV);
+            noOfPaymentTV = itemView.findViewById(R.id.noOfPaymentTV);
+            termTypeTV = itemView.findViewById(R.id.termTypeTV);
+            borroModeTitleTV = itemView.findViewById(R.id.borroModeTitleTV);
         }
     }
 
@@ -53,59 +58,45 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
 
     @Override
     public void onBindViewHolder(@NonNull HistoryPendingAdapter.MyHolder holder, int position) {
-        TransactionModel transactionModel= transactionModelsList.get(position);
+        TransactionModel transactionModel = transactionModelsList.get(position);
 
-        holder.nameTV.setText(transactionModel.getFirstName()+" "+transactionModel.getLastName());
+        holder.nameTV.setText(transactionModel.getFirstName() + " " + transactionModel.getLastName());
         holder.dateTV.setText(TimeStamp.timeFun(transactionModel.getCreatedAt()));
         holder.noOfPaymentTV.setText(transactionModel.getNoOfPayment());
-        holder.amountTV.setText("$"+transactionModel.getTotalAmount());
+        holder.amountTV.setText("$" + transactionModel.getTotalAmount());
 
-        if (transactionModel.getRequestBy().equalsIgnoreCase("1")){
+        if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
             holder.borroModeTitleTV.setText(context.getString(R.string.lend_mode));
-        }else if (transactionModel.getRequestBy().equalsIgnoreCase("2")){
+        } else if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
             holder.borroModeTitleTV.setText(context.getString(R.string.borrow_mode));
         }
 
-        if (transactionModel.getTermsType().equalsIgnoreCase("1")){
+        if (transactionModel.getTermsType().equalsIgnoreCase("1")) {
             holder.termTypeTV.setText(context.getString(R.string.percent));
-        }else if (transactionModel.getTermsType().equalsIgnoreCase("2")){
+        } else if (transactionModel.getTermsType().equalsIgnoreCase("2")) {
             holder.termTypeTV.setText(context.getString(R.string.fee));
-        }else if (transactionModel.getTermsType().equalsIgnoreCase("3")){
+        } else if (transactionModel.getTermsType().equalsIgnoreCase("3")) {
             holder.termTypeTV.setText(context.getString(R.string.discount));
-        }else if (transactionModel.getTermsType().equalsIgnoreCase("4")){
+        } else if (transactionModel.getTermsType().equalsIgnoreCase("4")) {
             holder.termTypeTV.setText(context.getString(R.string.none));
         }
-
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-           /*     if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
-                    Intent intent = new Intent(context, BorrowSummaryActivity.class);
-                    intent.putExtra("transactionModel",transactionModel);
-                    context.startActivity(intent);
-                } else if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
-                    Intent intent = new Intent(context, LendingSummaryActivity.class);
-                    intent.putExtra("transactionModel",transactionModel);
-                    context.startActivity(intent);
-                }*/
-            }
-        });
-
-
-
-     /*   holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (data.equalsIgnoreCase("pending")) {
-                    Intent intent = new Intent(context, BorrowSummaryActivity.class);
-                    context.startActivity(intent);
-                } else if (data.equalsIgnoreCase("negotiation")) {
-                    Intent intent = new Intent(context, LendingSummaryActivity.class);
-                    context.startActivity(intent);
+                if (!transactionModel.getStatus().equalsIgnoreCase("2")) {
+                    if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+                        Intent intent = new Intent(context, BorrowSummaryActivity.class);
+                        intent.putExtra("transactionId", transactionModel.getId());
+                        context.startActivity(intent);
+                    } else if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
+                        Intent intent = new Intent(context, LendingSummaryActivity.class);
+                        intent.putExtra("transactionId", transactionModel.getId());
+                        context.startActivity(intent);
+                    }
                 }
             }
-        });*/
+        });
     }
 
     @Override

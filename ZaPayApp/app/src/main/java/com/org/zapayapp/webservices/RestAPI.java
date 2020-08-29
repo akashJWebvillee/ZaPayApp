@@ -31,14 +31,6 @@ public interface RestAPI {
     @GET
     Call<JsonElement> getApi(@Url String remainingURL);
 
-
-    @FormUrlEncoded
-    @PUT
-    Call<JsonElement> putApi(@Url String remainingURL, @FieldMap Map<String, Object> fields);
-
-    @HTTP(method = "DELETE", hasBody = true)
-    Call<JsonElement> deleteApi(@Url String remainingURL, @Body JsonElement params);
-
     @FormUrlEncoded
     @POST
     Call<JsonElement> postApi(@Url String remainingURL, @FieldMap Map<String, Object> fields);
@@ -49,7 +41,6 @@ public interface RestAPI {
     @GET
     Call<JsonElement> getApiToken(@Header("authorization") String authToken, @Url String remainingURL);
 
-
     @FormUrlEncoded
     @POST
     Call<JsonElement> postWithTokenApi(@Header("authorization") String authToken,@Url String remainingURL, @FieldMap Map<String, Object> fields);
@@ -58,47 +49,4 @@ public interface RestAPI {
     @POST
     Call<JsonElement> postWithTokenMultiPartApi(@Header("authorization") String authToken,@Url String remainingURL, @Part MultipartBody.Part image);
 
-
-    @POST
-    Call<JsonElement> postObjectApi(@Url String remainingURL, @Body Map<String, Object> fields);
-
-    @Multipart
-    @POST
-    Call<JsonElement> postMultiPartApi(@Url String remainingURL, @PartMap Map<String, RequestBody> fields, @Part MultipartBody.Part image);
-
-    @Multipart
-    @POST
-    Call<JsonElement> postMultiPartApi(@Url String remainingURL, @Part MultipartBody.Part image);
-
-    @Multipart
-    @POST
-    Call<JsonElement> postMultipleMultiPartApi(@Url String remainingURL, @PartMap Map<String, RequestBody> fields, @Part(encoding = "8-bit") MultipartBody.Part[] image);
-
-    @GET
-    Call<ResponseBody> download(@Url String fileUrl);
-
-    @Headers({
-            "Accept: application/json",
-            "Content-Type: application/json"
-    })
-    @POST
-    Call<JsonElement> postApiWithToken(@Header("token") String authToken, @Url String remainingURL, @Body String params);
-
-    @FormUrlEncoded
-    @POST
-    Call<JsonElement> postApiWithToken(@Header("token") String authToken, @Url String remainingURL, @FieldMap Map<String, Object> fields);
-
-    @Headers({
-            "Accept: application/json",
-            "Content-Type: application/json"
-    })
-    @GET
-    Call<JsonElement> getApiWithToken(@Header("token") String authToken, @Url String remainingURL);
-
-    @Headers({
-            "Accept: application/json",
-            "Content-Type: application/json"
-    })
-    @POST
-    Call<JsonElement> postApiWithToken(@Header("token") String authToken, @Url String remainingURL, @Body JsonElement params);
 }

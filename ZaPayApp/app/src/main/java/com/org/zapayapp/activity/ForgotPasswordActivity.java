@@ -99,7 +99,6 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void apiCallback(JsonObject json, String from) {
-        Log.e("json", "json======" + json);
         if (from != null) {
             int status = 0;
             String msg = "";

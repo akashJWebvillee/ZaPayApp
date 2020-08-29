@@ -12,7 +12,6 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -69,6 +68,10 @@ dependencies {
 
     /*for use circle imageview with border*/
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    implementation('com.github.nkzawa:socket.io-client:0.6.0') {
+        exclude group: 'org.json', module: 'json'
+    }
 }
 
 

@@ -4,16 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".chat.ChatActivity">
+
     <include
         android:id="@+id/customToolbar"
-        layout="@layout/custom_toolbar"/>
+        layout="@layout/custom_toolbar" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/msgSwipeLayout"
-        android:layout_below="@+id/customToolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/messageRL"
+        android:layout_below="@+id/customToolbar"
         android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
@@ -24,8 +25,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-
 
     <RelativeLayout
         android:id="@+id/messageRL"
@@ -43,28 +42,18 @@
             android:layout_toStartOf="@+id/addImageView"
             android:background="@drawable/rectanguler_msg_bg">
 
-            <ImageView
-                android:id="@+id/emojiImageView"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_centerVertical="true"
-                android:visibility="gone"
-                android:layout_marginStart="12dp"
-                android:src="@mipmap/ic_launcher" />
-
             <EditText
                 android:id="@+id/messageEditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="12dp"
                 android:layout_toStartOf="@+id/sendImageView"
-                android:layout_toEndOf="@+id/emojiImageView"
                 android:background="@null"
-                android:paddingEnd="5dp"
                 android:gravity="center|start"
                 android:hint="@string/enter_message"
                 android:inputType="textCapSentences"
                 android:lines="1"
+                android:paddingEnd="5dp"
                 android:textSize="12sp" />
 
             <ImageView
@@ -94,7 +83,7 @@
             android:contentDescription="@null"
             android:padding="6dp"
             android:src="@mipmap/ic_add"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/camaraImageView"
@@ -106,6 +95,6 @@
             android:contentDescription="@null"
             android:padding="6dp"
             android:src="@mipmap/ic_camera"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </RelativeLayout>
 </RelativeLayout>

@@ -35,6 +35,7 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
     private String transactionId;
     private TransactionModel transactionModel;
     private String negotaiionAcceptDeclineStaatus="";
+    private Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +98,7 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
         });
 
         viewAllTV.setOnClickListener(v -> {
-            Intent intent = new Intent(BorrowSummaryActivity.this, ViewAllSummaryActivity.class);
+            intent = new Intent(BorrowSummaryActivity.this, ViewAllSummaryActivity.class);
             //intent.putExtra("requestBy", transactionModel.getRequestBy());
             intent.putExtra("transactionId", transactionId);
             startActivity(intent);
@@ -106,11 +107,11 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
         chatTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(BorrowSummaryActivity.this, ChatActivity.class);
+                intent = new Intent(BorrowSummaryActivity.this, ChatActivity.class);
+                intent.putExtra("transactionModel", transactionModel);
                 startActivity(intent);
             }
         });
-
     }
 
 
@@ -148,7 +149,6 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
 
     @Override
     public void apiCallback(JsonObject json, String from) {
-        Log.e("json", "json======" + json);
         if (from != null) {
             int status = 0;
             String msg = "";
@@ -164,12 +164,11 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                     if (!negotaiionAcceptDeclineStaatus.equalsIgnoreCase("1")){
                         showSimpleAlert(msg, getResources().getString(R.string.api_update_transaction_request_status));
                     }else {
-                        Intent intent = new Intent(BorrowSummaryActivity.this, LendBorrowActivity.class);
+                        intent = new Intent(BorrowSummaryActivity.this, LendBorrowActivity.class);
                         intent.putExtra("isBorrow", true);
                         intent.putExtra("transactionModel", transactionModel);
                         startActivity(intent);
                     }
-
                 } else {
                     showSimpleAlert(msg, "");
                 }
@@ -179,12 +178,10 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                         transactionModel = (TransactionModel) apiCalling.getDataObject(json.get("data").getAsJsonObject(), TransactionModel.class);
                         setaData(json.get("data").getAsJsonObject());
                     }
-
                 } else {
                     showSimpleAlert(msg, getResources().getString(R.string.api_update_transaction_request_status));
                 }
             }
-
         }
     }
 

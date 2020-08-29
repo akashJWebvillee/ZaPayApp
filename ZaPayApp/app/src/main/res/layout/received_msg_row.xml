@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="wrap_content">
-
 
     <RelativeLayout
         android:id="@+id/rlOtherUserView"
@@ -10,7 +10,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="76dp">
 
-        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageViewProfile"
             android:layout_width="34dp"
             android:layout_height="34dp"
@@ -49,5 +49,4 @@
                 android:text="10:50"/>
         </RelativeLayout>
     </RelativeLayout>
-
 </RelativeLayout>

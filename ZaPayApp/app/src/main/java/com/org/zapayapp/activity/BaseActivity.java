@@ -24,6 +24,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.Socket;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -43,6 +45,10 @@ import com.org.zapayapp.utils.WValidationLib;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
 import com.org.zapayapp.webservices.RestAPI;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -124,6 +130,160 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
 
     public WValidationLib wValidationLib;
 
+    /**
+     * Socket connection
+     */
+    public Socket mSocket;
+    private boolean isConnected;
+    /*Chat sockets*/
+    private String JOIN = "join_chat_ack";
+    private String SEND_MSG_ACK = "send_message_ack";
+    private String RECEIVE_MSG = "receive_message_ack";
+    private String RECEIVE_MSG_ACK = "receive_message_success_ack";
+    private String READ_MSG_ACK = "read_message_ack";
+
+    private Emitter.Listener onConnect = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            // if (!isConnected) {
+            isConnected = true;
+            Log.w("NETWORK_CONNECTION", "Emitter.Listener onConnect :- " + " Network Connected !!!");
+            CommonMethods.showLogs("exception", isConnected + "isConnected");
+        }
+    };
+
+    private Emitter.Listener onReConnect = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            // if (!isConnected) {
+            isConnected = true;
+            Log.w("NETWORK_CONNECTION", "Emitter.Listener onReConnect :- " + " Network ReConnected !!!");
+            CommonMethods.showLogs("exception", isConnected + "isConnected");
+        }
+    };
+
+    private Emitter.Listener onDisconnect = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            isConnected = false;
+            Log.w("NETWORK_CONNECTION", "Emitter.Listener onDisconnect :- " + " Network disconnected !!!");
+            CommonMethods.showLogs("exception", isConnected + " ");
+        }
+    };
+
+    private Emitter.Listener onConnectError = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            Log.w("NETWORK_CONNECTION", "Emitter.Listener onConnectError :- " + " Network Connect Error !!!");
+
+            CommonMethods.showLogs("exception", isConnected + " ");
+        }
+    };
+
+    private Emitter.Listener onJoinEmtListener = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            // final JSONObject jsonObject = (JSONObject) args[0];
+            CommonMethods.showLogs("onJoin", "onJoin :- " + "Joined successfully !!" + args);
+            Log.w("SOCKET CONNECTION", "onJoinEmtListener called");
+        }
+    };
+
+    private Emitter.Listener onSendMsgAckEmtListener = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            try {
+                final JSONObject jsonObject = (JSONObject) args[0];
+                CommonMethods.showLogs("onSendMsgAck", "onSendMsgAck :- " + jsonObject);
+                if (jsonObject.getInt("status") == 200) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                onMsgSentReceived(jsonObject, false);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+    private Emitter.Listener onReceiveMsgEmtListener = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            try {
+                final JSONObject jsonObject = (JSONObject) args[0];
+                Log.w(BaseActivity.class.getSimpleName(), "onReceiveMsgEmtListener :- " + jsonObject);
+                if (jsonObject.getInt("status") == 200) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                onMsgSentReceived(jsonObject, true);
+                                sendReceiveAck(jsonObject);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+    private Emitter.Listener onReceiveMsgAckEmtListener = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            try {
+                final JSONObject jsonObject = (JSONObject) args[0];
+                CommonMethods.showLogs(BaseActivity.class.getSimpleName(), "onReceiveMsgAck :- " + jsonObject);
+                if (jsonObject.getInt("status") == 200) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                onMsgReceivedAck(jsonObject);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+    private Emitter.Listener onReadMsgAckEmtListener = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            try {
+                final JSONObject jsonObject = (JSONObject) args[0];
+                CommonMethods.showLogs(BaseActivity.class.getSimpleName(), "onReadMsgAck :- " + jsonObject);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            onMsgReadAck(jsonObject);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         drawerLayout = (AdvanceDrawerLayout) getLayoutInflater().inflate(R.layout.activity_base, null);
@@ -132,12 +292,6 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
         getLayoutInflater().inflate(layoutResID, frameBase, true);
         super.setContentView(drawerLayout);
         initialHeaderFooter();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setHeaderData();
     }
 
     @Override
@@ -155,14 +309,13 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
     }
 
 
-
     private void initialHeaderFooter() {
         toolbar = findViewById(R.id.toolbar);
         navView = findViewById(R.id.navView);
-       // navTextName = findViewById(R.id.navTextName);
+        // navTextName = findViewById(R.id.navTextName);
         imgLogo = navView.findViewById(R.id.imgLogo);
         navTextName = navView.findViewById(R.id.navTextName);
-      //  setHeaderData(navView);
+        //  setHeaderData(navView);
         navRecycler = findViewById(R.id.navRecycler);
         if (useToolbar()) {
             try {
@@ -365,7 +518,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postApiToken(token, getString(R.string.api_logout));
             if (apiCalling != null) {
-                apiCalling.callAPI(zapayApp, call, getString(R.string.api_logout),activityContainer);
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_logout), activityContainer);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -374,7 +527,6 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
 
     @Override
     public void apiCallback(JsonObject json, String from) {
-        Log.e("json", "json======1111==" + json);
         if (from != null) {
             int status = 0;
             String msg = "";
@@ -397,6 +549,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
     }
 
     private void clearLogout() {
+        disconnectSocket();
         MySession.removeSession();
         intent = new Intent(BaseActivity.this, SplashActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -423,26 +576,21 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
 
     @Override
     public void onSimpleCallback(String from) {
-        if (from.equals(getResources().getString(R.string.api_transaction_request))){
+        if (from.equals(getResources().getString(R.string.api_transaction_request))) {
             intent = new Intent(BaseActivity.this, HomeActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             finish();
-
-        }else if (from.equals(getResources(). getString(R.string.update_your_profile))){
+        } else if (from.equals(getResources().getString(R.string.update_your_profile))) {
             intent = new Intent(BaseActivity.this, ProfileActivity.class);
-            //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             //finish();
-        }else if (from.equals(getResources().getString(R.string.please_add_bank_account))){
-        intent = new Intent(BaseActivity.this, BankInfoActivity.class);
-        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-         startActivity(intent);
-       // overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-       // finish();
-    }else if (from.equals(getResources().getString(R.string.please_verify_bank_account))){
+        } else if (from.equals(getResources().getString(R.string.please_add_bank_account))) {
+            intent = new Intent(BaseActivity.this, BankInfoActivity.class);
+            startActivity(intent);
+        } else if (from.equals(getResources().getString(R.string.please_verify_bank_account))) {
             intent = new Intent(BaseActivity.this, BankInfoActivity.class);
             startActivity(intent);
         }
@@ -510,14 +658,8 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
     }
 
 
-
-
-    private void setHeaderData(){
-       /* View headerView = navView.getHeaderView(0);
-        imgLogo = headerView.findViewById(R.id.imgLogo);
-        navTextName = headerView.findViewById(R.id.navTextName);*/
-
-       if (SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString().length() > 0) {
+    private void setHeaderData() {
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString().length() > 0) {
             Glide.with(BaseActivity.this)
                     .load(apiCalling.getImageUrl(SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString())).placeholder(R.mipmap.ic_user)
                     .into(imgLogo);
@@ -525,7 +667,121 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
 
         if (SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME) != null && SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME).toString().length() > 0) {
             navTextName.setText(SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME, "") + " " + SharedPref.getPrefsHelper().getPref(Const.Var.LAST_NAME, ""));
+        }
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID) != null && SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString().length() > 0) {
+            disconnectSocket(); // 2
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID) != null && SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString().length() > 0) {
+            setHeaderData();
+            disconnectSocket(); // 2
+            connectSocket();
+        }
+    }
+
+    public void connectSocket() {
+        Log.e("SOCKET CONNECTION", "connectSocket() called");
+        mSocket = zapayApp.getmSocket();
+        try {
+            if (mSocket != null/* && !mSocket.connected()*/) {
+                mSocket.on(Socket.EVENT_CONNECT, onConnect);
+                mSocket.on(Socket.EVENT_RECONNECT, onReConnect);
+                mSocket.on(Socket.EVENT_DISCONNECT, onDisconnect);
+                mSocket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
+                mSocket.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
+                mSocket.on(JOIN, onJoinEmtListener);
+                mSocket.on(SEND_MSG_ACK, onSendMsgAckEmtListener);
+                mSocket.on(RECEIVE_MSG, onReceiveMsgEmtListener);
+                mSocket.on(RECEIVE_MSG_ACK, onReceiveMsgAckEmtListener);
+                mSocket.on(READ_MSG_ACK, onReadMsgAckEmtListener);
+                mSocket.connect();
+                Log.v(BaseActivity.class.getSimpleName(), "mSocket.connected() :- " + true);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String user_id = SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID, "");
+        if (user_id != null) {
+            if (!user_id.equals("")) {
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("uid", user_id);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                mSocket.emit("join_chat", user_id);
+                CommonMethods.showLogs("uid", user_id + " ");
+            }
+        }
+    }
+
+    public void disconnectSocket() {
+        Log.e("SOCKET CONNECTION", "disconnectSocket() called --- " + 2);
+        mSocket = zapayApp.getmSocket();
+        try {
+            if (mSocket != null /*&& mSocket.connected()*/) {
+                mSocket.disconnect();
+                mSocket.off(Socket.EVENT_CONNECT, onConnect);
+                mSocket.off(Socket.EVENT_RECONNECT, onReConnect);
+                mSocket.off(Socket.EVENT_DISCONNECT, onDisconnect);
+                mSocket.off(Socket.EVENT_CONNECT_ERROR, onConnectError);
+                mSocket.off(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
+                mSocket.off(JOIN, onJoinEmtListener);
+                mSocket.off(SEND_MSG_ACK, onSendMsgAckEmtListener);
+                mSocket.off(RECEIVE_MSG, onReceiveMsgEmtListener);
+                mSocket.off(RECEIVE_MSG_ACK, onReceiveMsgAckEmtListener);
+                mSocket.off(READ_MSG_ACK, onReadMsgAckEmtListener);
+                Log.v(BaseActivity.class.getSimpleName(), "mSocket.connected() :- " + false);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void onMsgSentReceived(JSONObject jsonObject, boolean isReceive) {
+        Log.w(BaseActivity.class.getSimpleName(), "onMsgSentReceived :-" + jsonObject);
+        Log.w(BaseActivity.class.getSimpleName(), "isReceive :-" + isReceive);
+
+    }
+
+    public void onMsgReceivedAck(JSONObject jsonObject) {
+        CommonMethods.showLogs("msg in class", jsonObject.toString());
+        Log.w("BaseActivity", "onMsgReceivedAck -- MSG Received Listener  :-" + jsonObject);
+    }
+
+    public void onMsgReadAck(JSONObject jsonObject) {
+        CommonMethods.showLogs("msg in class", jsonObject.toString());
+        Log.w("BaseActivity", "onMsgReadAck -- MSG Read Listener  :-" + jsonObject);
+    }
+
+    private void sendReceiveAck(final JSONObject object) {
+        try {
+            //{"status":200,"message":"success","data":{"receiver_id":"52","sender_id":"53","message":"Hello","transaction_request_id":"103","message_id":108,"status":0,"created_at":1598699350222}}
+            JSONObject msg_data = null;
+            String transaction_request_id = "", msg_sender_id = "", msg_id = "";
+            msg_data = object.getJSONObject("data");
+            transaction_request_id = msg_data.get("transaction_request_id").toString();  // 74
+            msg_sender_id = msg_data.get("sender_id").toString(); //73
+            msg_id = msg_data.get("message_id").toString(); //73
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("sender_id", msg_sender_id);
+            jsonObject.put("message_id", msg_id);
+            jsonObject.put("transaction_request_id", transaction_request_id);
+            mSocket.emit("receive_message_success", jsonObject.toString());
+            Log.w("ChatActivity", "receive_message_ack !!!" + jsonObject.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

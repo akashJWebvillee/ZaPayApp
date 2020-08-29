@@ -17,13 +17,10 @@ public class SplashActivity extends BaseActivity {
             public void run() {
                 if (SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID)!=null&&SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString().length()>0){
                     startActivity(new Intent(SplashActivity.this, HomeActivity.class));
-                    finish();
                 }else {
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));
-                    finish();
                 }
-
-
+                finish();
             }
         }, 3000);
     }

@@ -41,13 +41,11 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 import static com.org.zapayapp.webservices.WNetworkCheck.TYPE_NOT_CONNECTED;
 import static com.org.zapayapp.webservices.WNetworkCheck.getConnectivityStatus;
 
-
 public class APICalling extends BaseRequestParser implements ServiceCallback<JsonElement> {
-    //private static final String BASE_URL = "http://webvilleedemo.xyz:3000/api/";
 
     private static final String BASE_URL = "https://developer.webvilleedemo.xyz/zapay/api/";
+    public static final String CHAT_SERVER_URL = "http://mean.webvilleedemo.xyz:3005";
     private static final String IMAGE_URL = "https://developer.webvilleedemo.xyz/zapay/";
-
     private String TAG = "APICalling";
     private Activity activity;
     private Gson gson;

@@ -52,6 +52,9 @@ public class TransactionModel implements Serializable {
     @SerializedName("last_name")
     @Expose
     public String lastName;
+    @SerializedName("profile_image")
+    @Expose
+    public String profileImage;
 
     public String getId() {
         return id;
@@ -115,5 +118,9 @@ public class TransactionModel implements Serializable {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public String getProfileImage() {
+        return profileImage;
     }
 }

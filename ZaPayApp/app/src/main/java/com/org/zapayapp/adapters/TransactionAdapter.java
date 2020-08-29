@@ -1,17 +1,21 @@
 package com.org.zapayapp.adapters;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.org.zapayapp.R;
 import com.org.zapayapp.activity.BorrowSummaryActivity;
 import com.org.zapayapp.activity.LendingSummaryActivity;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.TimeStamp;
+
 import java.util.List;
 
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.MyHolder> {
@@ -76,7 +80,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
 
         if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
-          //  holder.borroModeTitleTV.setText("Lend Mode:");
+            //  holder.borroModeTitleTV.setText("Lend Mode:");
             holder.borroModeTitleTV.setText(context.getString(R.string.lend_mode));
         } else if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
             //holder.borroModeTitleTV.setText("Borrow Mode:");
@@ -84,10 +88,10 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         }
 
         if (transactionModel.getTermsType().equalsIgnoreCase("1")) {
-           // holder.termTypeTV.setText(transactionModel.getTermsValue() + " %");
+            // holder.termTypeTV.setText(transactionModel.getTermsValue() + " %");
             holder.termTypeTV.setText(context.getString(R.string.percent));
         } else if (transactionModel.getTermsType().equalsIgnoreCase("2")) {
-           // holder.termTypeTV.setText(transactionModel.getTermsValue() + " Fee");
+            // holder.termTypeTV.setText(transactionModel.getTermsValue() + " Fee");
             holder.termTypeTV.setText(context.getString(R.string.fee));
         } else if (transactionModel.getTermsType().equalsIgnoreCase("3")) {
             //holder.termTypeTV.setText(transactionModel.getTermsValue() + " Discount");
@@ -101,38 +105,20 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!transactionModel.getStatus().equalsIgnoreCase("2")){
-
-                if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
-                    Intent intent = new Intent(context, BorrowSummaryActivity.class);
-                    //intent.putExtra("transactionModel", transactionModel);
-                    intent.putExtra("transactionId", transactionModel.getId());
-                    context.startActivity(intent);
-                } else if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
-                    Intent intent = new Intent(context, LendingSummaryActivity.class);
-                  //  intent.putExtra("transactionModel", transactionModel);
-                    intent.putExtra("transactionId", transactionModel.getId());
-                    context.startActivity(intent);
-                }
-
+                if (!transactionModel.getStatus().equalsIgnoreCase("2")) {
+                    if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+                        Intent intent = new Intent(context, BorrowSummaryActivity.class);
+                        //intent.putExtra("transactionModel", transactionModel);
+                        intent.putExtra("transactionId", transactionModel.getId());
+                        context.startActivity(intent);
+                    } else if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
+                        Intent intent = new Intent(context, LendingSummaryActivity.class);
+                        intent.putExtra("transactionId", transactionModel.getId());
+                        context.startActivity(intent);
+                    }
                 }
             }
         });
-
-
-
-     /*   holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (data.equalsIgnoreCase("pending")) {
-                    Intent intent = new Intent(context, BorrowSummaryActivity.class);
-                    context.startActivity(intent);
-                } else if (data.equalsIgnoreCase("negotiation")) {
-                    Intent intent = new Intent(context, LendingSummaryActivity.class);
-                    context.startActivity(intent);
-                }
-            }
-        });*/
     }
 
     @Override

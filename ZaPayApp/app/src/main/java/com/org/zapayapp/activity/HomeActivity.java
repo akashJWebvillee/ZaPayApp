@@ -140,7 +140,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void apiCallback(JsonObject json, String from) {
-        Log.e("json", "json=home=====" + json);
         if (from != null) {
             int status = 0;
             String msg = "";

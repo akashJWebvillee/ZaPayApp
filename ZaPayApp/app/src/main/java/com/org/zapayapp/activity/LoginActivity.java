@@ -286,7 +286,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void apiCallback(JsonObject json, String from) {
-        Log.e("json", "json======" + json);
         if (from != null) {
             int status = 0;
             String msg = "";

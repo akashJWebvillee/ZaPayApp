@@ -131,7 +131,6 @@ public class HistoryNegotiationFragment extends Fragment implements APICallback,
 
     @Override
     public void apiCallback(JsonObject json, String from) {
-        Log.e("json", "json======" + json);
         if (from != null) {
             int status = 0;
             String msg = "";

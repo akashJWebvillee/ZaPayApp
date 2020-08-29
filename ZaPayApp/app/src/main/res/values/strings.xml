@@ -139,6 +139,11 @@
     <string name="lending_summary">Lending Summary</string>
     <string name="lender">Lender</string>
 
+    <!-- Chat Screen-->
+    <string name="chat_send">Send</string>
+    <string name="chat_received">Received</string>
+    <string name="chat_seen">Seen</string>
+
     <!--lend borrow screen-->
     <string name="next">Next</string>
     <string name="back">Back</string>

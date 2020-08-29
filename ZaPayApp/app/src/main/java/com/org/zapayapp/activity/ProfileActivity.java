@@ -292,7 +292,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void apiCallback(JsonObject json, String from) {
-        Log.e("json", "json======" + json);
         if (from != null) {
             int status = 0;
             String msg = "";
@@ -302,7 +301,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
             if (from.equals(getResources().getString(R.string.api_update_profile_image))) {
                 if (status == 200) {
                     path = "";
