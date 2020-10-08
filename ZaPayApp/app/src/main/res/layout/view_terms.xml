@@ -1,147 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:id="@+id/lendViewTerms"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/gotha_promed"
+        android:text="@string/select_terms"
+        android:textColor="@color/textColor"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="19dp"
+        android:orientation="horizontal"
+        android:weightSum="1">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/select_terms"
-            android:layout_marginStart="19dp"
-            android:layout_marginTop="50dp"
-            android:fontFamily="@font/gotha_promed"
-            android:textColor="@color/textColor"
-            android:textSize="16sp"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="19dp"
-            android:layout_marginEnd="19dp"
-            android:layout_marginTop="11dp"
-            android:weightSum="1"
-            android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/lendTermsTxtPercent"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="0.15"
-                    android:background="@drawable/grey_bg_rounded"
-                    android:layout_marginEnd="5dp"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:fontFamily="@font/gotha_pro_reg"
-                    android:text="@string/percent"/>
-
-                <TextView
-                    android:id="@+id/lendTermsTxtFee"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="0.20"
-                    android:background="@drawable/grey_bg_rounded"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:gravity="center"
-                    android:fontFamily="@font/gotha_pro_reg"
-                    android:textSize="18sp"
-                    android:text="@string/fee"/>
-
-                <TextView
-                    android:id="@+id/lendTermsTxtDiscount"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="0.4"
-                    android:background="@drawable/grey_bg_rounded"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:gravity="center"
-                    android:fontFamily="@font/gotha_pro_reg"
-                    android:textSize="18sp"
-                    android:text="@string/discount"/>
-
-                <TextView
-                    android:id="@+id/lendTermsTxtNone"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="0.25"
-                    android:textSize="18sp"
-                    android:background="@drawable/grey_bg_rounded"
-                    android:layout_marginStart="5dp"
-                    android:fontFamily="@font/gotha_pro_reg"
-                    android:layout_marginEnd="5dp"
-                    android:gravity="center"
-                    android:text="@string/none"/>
-        </LinearLayout>
+            android:id="@+id/lendTermsTxtPercent"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="0.15"
+            android:background="@drawable/grey_bg_rounded"
+            android:fontFamily="@font/gotha_pro_reg"
+            android:gravity="center"
+            android:text="@string/percent"
+            android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/lendTermsTxtOption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/enter_percent"
-            android:layout_marginStart="19dp"
-            android:layout_marginTop="34dp"
-            android:fontFamily="@font/gotha_promed"
-            android:textColor="@color/textColor"
-            android:textSize="16sp"/>
+            android:id="@+id/lendTermsTxtFee"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="0.20"
+            android:background="@drawable/grey_bg_rounded"
+            android:fontFamily="@font/gotha_pro_reg"
+            android:gravity="center"
+            android:text="@string/fee"
+            android:textSize="18sp" />
 
-        <!--<EditText
+        <TextView
+            android:id="@+id/lendTermsTxtDiscount"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="0.4"
+            android:background="@drawable/grey_bg_rounded"
+            android:fontFamily="@font/gotha_pro_reg"
+            android:gravity="center"
+            android:text="@string/discount"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/lendTermsTxtNone"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="0.25"
+            android:background="@drawable/grey_bg_rounded"
+            android:fontFamily="@font/gotha_pro_reg"
+            android:gravity="center"
+            android:text="@string/none"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/lendTermsTxtOption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="34dp"
+        android:fontFamily="@font/gotha_promed"
+        android:text="@string/enter_percent"
+        android:textColor="@color/textColor"
+        android:textSize="16sp" />
+
+    <com.org.zapayapp.uihelpers.CustomTextInputLayout
+        android:id="@+id/lendTermsInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:padding="0dp"
+        android:theme="@style/TextInputLayoutAppearance"
+        app:boxBackgroundMode="none"
+        app:boxStrokeColor="@null"
+        app:errorIconDrawable="@null"
+        app:errorTextAppearance="@style/error_appearance"
+        app:hintEnabled="false">
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/lendTermsEdtOption"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:fontFamily="@font/gotha_pro_reg"
-            android:gravity="start|center_vertical"
-            android:layout_marginTop="11dp"
             android:layout_marginStart="19dp"
-            android:importantForAutofill="no"
-            android:theme="@style/TextInputLayoutAppearance"
-            android:inputType="numberDecimal"
-            android:paddingStart="15dp"
-            android:paddingEnd="15dp"
-            android:textColorHint="@color/navTextColor50Alpha"
+            android:layout_marginTop="0dp"
             android:layout_marginEnd="19dp"
             android:background="@drawable/rectanguler_border_light"
+            android:fontFamily="@font/gotha_pro_reg"
+            android:gravity="start|center_vertical"
             android:hint="@string/enter_percent"
+            android:importantForAutofill="no"
+            android:inputType="numberDecimal"
+            android:maxLength="4"
+            android:paddingStart="15dp"
+            android:paddingTop="1dp"
+            android:paddingEnd="15dp"
+            android:paddingBottom="1dp"
             android:textColor="@color/textColor"
-            android:textSize="17sp"/>-->
-
-        <com.org.zapayapp.uihelpers.CustomTextInputLayout
-            android:id="@+id/lendTermsInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="11dp"
-            android:theme="@style/TextInputLayoutAppearance"
-            app:boxStrokeColor="@null"
-            app:hintEnabled="false"
-            app:errorTextAppearance="@style/error_appearance"
-            android:padding="0dp"
-            app:errorIconDrawable="@null"
-            app:boxBackgroundMode="none">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/lendTermsEdtOption"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:fontFamily="@font/gotha_pro_reg"
-                    android:gravity="start|center_vertical"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginStart="19dp"
-                    android:importantForAutofill="no"
-                    android:theme="@style/TextInputLayoutAppearance"
-                    android:inputType="numberDecimal"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="15dp"
-                    android:textColorHint="@color/navTextColor50Alpha"
-                    android:layout_marginEnd="19dp"
-                    android:background="@drawable/rectanguler_border_light"
-                    android:hint="@string/enter_percent"
-                    android:textColor="@color/textColor"
-                    android:textSize="17sp"
-                    android:maxLength="4"
-                    android:paddingTop="1dp"
-                    android:paddingBottom="1dp"/>
-        </com.org.zapayapp.uihelpers.CustomTextInputLayout>
+            android:textColorHint="@color/navTextColor50Alpha"
+            android:textSize="17sp"
+            android:theme="@style/TextInputLayoutAppearance" />
+    </com.org.zapayapp.uihelpers.CustomTextInputLayout>
 </LinearLayout>

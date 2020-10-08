@@ -2,26 +2,27 @@ package com.org.zapayapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
 import com.dd.ShadowLayout;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
-import com.org.zapayapp.dialogs.AdddBankDialogActivity;
+import com.org.zapayapp.dialogs.AddBankDialogActivity;
 import com.org.zapayapp.dialogs.ChangeBankDialogActivity;
 import com.org.zapayapp.dialogs.VerifyBankDialogActivity;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.MySession;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
+
 import retrofit2.Call;
 
 public class BankInfoActivity extends BaseActivity implements View.OnClickListener, APICallback {
+
     private TextView changeTV, accountNumberTV, routingNumberTV;
     private TextView addTV;
-    //get_bank_account_details
     private ShadowLayout addShadowLayout;
 
     @Override
@@ -38,8 +39,6 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
         routingNumberTV = findViewById(R.id.routingNumberTV);
         addTV = findViewById(R.id.addTV);
         addShadowLayout = findViewById(R.id.addShadowLayout);
-
-
         setData();
     }
 
@@ -59,21 +58,15 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View v) {
         if (v.getId() == R.id.changeTV) {
             Intent intent = new Intent(BankInfoActivity.this, ChangeBankDialogActivity.class);
-            //startActivity(intent);
             startActivityForResult(intent, 2);
-
         } else if (v.getId() == R.id.addTV) {
             if (addTV.getText().toString().trim().equals(getString(R.string.add))) {
-                Intent intent = new Intent(BankInfoActivity.this, AdddBankDialogActivity.class);
-                // startActivity(intent);
+                Intent intent = new Intent(BankInfoActivity.this, AddBankDialogActivity.class);
                 startActivityForResult(intent, 1);
             } else {
                 Intent intent = new Intent(BankInfoActivity.this, VerifyBankDialogActivity.class);
-                // startActivity(intent);
                 startActivityForResult(intent, 3);
             }
-
-
         }
     }
 
@@ -120,7 +113,6 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
     private void callAPIGetUserDetail() {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
-            //"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMzAiLCJmaXJzdF9uYW1lIjoiQXNob2twaXQiLCJsYXN0X25hbWUiOiJLdW1hciIsImVtYWlsIjoiYXNob2twaXRlY2guMTIzQGdtYWlsLmNvbSIsInJvbGUiOiIyIiwidGltZXN0YW1wIjoxNTk3NjQ1MDA2fQ.lkG8uyRzEcDN1gepzbPCASccoGWuVzg2zGeoIDIZvZk"
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.getApiToken(token, getString(R.string.api_get_user_details));
             if (apiCalling != null) {
@@ -149,17 +141,17 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
                         MySession.saveBankData(json.get("data").getAsJsonObject());
                         setData();
                     }
-                }else if (status==401){
+                } else if (status == 401) {
                     showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
 
                 }
-            }else  if (from.equals(getResources().getString(R.string.api_get_user_details))) {
+            } else if (from.equals(getResources().getString(R.string.api_get_user_details))) {
                 if (status == 200) {
                     if (json.get("data").getAsJsonObject() != null) {
                         JsonObject jsonObject = json.get("data").getAsJsonObject();
                         MySession.MakeSession(jsonObject);
                     }
-                }else if (status == 401) {
+                } else if (status == 401) {
                     showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
                 } else {
                     showSimpleAlert(msg, "");
@@ -174,18 +166,14 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
         if (SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER).toString().length() > 0) {
             accountNumberTV.setText(SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER, ""));
         }
-
         if (SharedPref.getPrefsHelper().getPref(Const.Var.ROUTING_NUMBER) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ROUTING_NUMBER).toString().length() > 0) {
             routingNumberTV.setText(SharedPref.getPrefsHelper().getPref(Const.Var.ROUTING_NUMBER, ""));
         }
-
-
-        if (SharedPref.getPrefsHelper().getPref(Const.Var.BANKACCOUNT_ID) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BANKACCOUNT_ID).toString().length() > 0) {
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_ID) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_ID).toString().length() > 0) {
             addTV.setText(getString(R.string.verify_account));
         } else {
             addTV.setText(getString(R.string.add));
         }
-
         if (SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_STATUS) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_STATUS).toString().length() > 0 &&
                 SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_STATUS).toString().equalsIgnoreCase("verified")) {
             addTV.setVisibility(View.INVISIBLE);
@@ -194,13 +182,10 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
             addTV.setVisibility(View.VISIBLE);
             addShadowLayout.setVisibility(View.VISIBLE);
         }
-
-
-        if (SharedPref.getPrefsHelper().getPref(Const.Var.BANKACCOUNT_ID) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BANKACCOUNT_ID).toString().length() > 0) {
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_ID) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_ID).toString().length() > 0) {
             changeTV.setVisibility(View.VISIBLE);
         } else {
             changeTV.setVisibility(View.GONE);
         }
-
     }
 }

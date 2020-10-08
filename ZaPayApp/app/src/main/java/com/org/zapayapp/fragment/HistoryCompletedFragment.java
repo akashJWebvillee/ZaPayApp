@@ -170,7 +170,7 @@ public class HistoryCompletedFragment extends Fragment implements APICallback, S
     }
 
     private void setAdapter() {
-        HistoryPendingAdapter historyPendingAdapter = new HistoryPendingAdapter(getActivity(), trasactionList, "pending");
+        HistoryPendingAdapter historyPendingAdapter = new HistoryPendingAdapter(getActivity(), trasactionList, getString(R.string.history));
         pendingRecyclerView.setAdapter(historyPendingAdapter);
     }
 

@@ -169,7 +169,7 @@ public class HistoryPendingFragment extends Fragment implements APICallback, Sim
     }
 
     private void setAdapter() {
-        HistoryPendingAdapter historyPendingAdapter = new HistoryPendingAdapter(getActivity(), trasactionList, "pending");
+        HistoryPendingAdapter historyPendingAdapter = new HistoryPendingAdapter(getActivity(), trasactionList, getString(R.string.history));
         pendingRecyclerView.setAdapter(historyPendingAdapter);
     }
 

@@ -1,4 +1,6 @@
 package com.org.zapayapp.utils;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -7,19 +9,13 @@ public class SharedPref {
     private final SharedPreferences sharedPreferences;
     private final SharedPreferences.Editor editor;
 
+    @SuppressLint("CommitPrefEdits")
     private SharedPref(Context context) {
         instance = this;
         String prefsFile = context.getPackageName();
         sharedPreferences = context.getSharedPreferences(prefsFile, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
     }
-
-/*    public SharedPref(Context context) {
-        instance = this;
-        String prefsFile = context.getPackageName();
-        sharedPreferences = context.getSharedPreferences(prefsFile, Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-    }*/
 
     public static SharedPref getPrefsHelper() {
         return instance;
@@ -30,7 +26,6 @@ public class SharedPref {
             new SharedPref(context);
         }
     }
-
 
     public void delete(String key) {
         if (sharedPreferences.contains(key)) {

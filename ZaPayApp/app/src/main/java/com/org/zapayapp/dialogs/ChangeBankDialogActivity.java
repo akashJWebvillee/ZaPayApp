@@ -205,7 +205,7 @@ public class ChangeBankDialogActivity extends AppCompatActivity implements View.
                     "routing_number", routNumberEditText.getText().toString().trim(),
                     "bank_account_type", bankAccountType,
                     "name", nameEditText.getText().toString().trim(),
-                    "id", SharedPref.getPrefsHelper().getPref(Const.Var.BANKACCOUNT_ID).toString());
+                    "id", SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_ID).toString());
 
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_update_bank_account), values);

@@ -1,110 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.HomeActivity">
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".activity.HomeActivity">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="340dp"
-            android:background="@mipmap/base_bg">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginStart="29dp"
-                android:layout_marginTop="125dp"
-                tools:ignore="UselessParent">
-
-                <TextView
-                    android:id="@+id/titleTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Hello Friend"
-                    android:gravity="center"
-                    android:textSize="23sp"
-                    android:fontFamily="@font/gotha_promed"
-                    android:textColor="@color/colorWhite" />
-
-                <TextView
-                    android:layout_width="246dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="15dp"
-                    android:textColor="@color/colorWhite"
-                    android:gravity="start"
-                    android:textSize="14sp"
-                    android:lineSpacingExtra="5dp"
-                    android:fontFamily="@font/gotha_pro_reg"
-                    android:includeFontPadding="false"
-                    android:text="Now lending and borrowing money is just a click away, explore below options" />
-            </LinearLayout>
-        </RelativeLayout>
+        android:layout_height="340dp"
+        android:background="@mipmap/base_bg">
 
         <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="125dp"
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
+
+            <TextView
+                android:id="@+id/titleTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotha_promed"
+                android:gravity="center"
+                android:text="@string/hello"
+                android:textColor="@color/colorWhite"
+                android:textSize="23sp" />
+
+            <TextView
+                android:layout_width="246dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/gotha_pro_reg"
+                android:gravity="start"
+                android:includeFontPadding="false"
+                android:lineSpacingExtra="5dp"
+                android:text="@string/explore_lending_borrowing"
+                android:textColor="@color/colorWhite"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="250dp"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:id="@+id/homeLLLend"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:weightSum="1"
-            android:layout_marginTop="250dp"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/rectanguler_bottom_home_corner_bg"
+            android:elevation="10dp"
+            android:gravity="center"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/homeLLLend"
-                android:layout_width="match_parent"
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="65dp"
+                android:contentDescription="@null"
+                android:src="@mipmap/ic_lend_money" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/gotha_promed"
                 android:gravity="center"
-                android:background="@drawable/rectanguler_bottom_home_corner_bg"
-                android:layout_height="0dp"
-                android:elevation="10dp"
-                android:orientation="vertical"
-                android:layout_weight="0.5">
-
-                <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="65dp"
-                    android:contentDescription="@null"
-                    android:src="@mipmap/ic_lend_money"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/lend_money"
-                    android:gravity="center"
-                    android:textSize="24sp"
-                    android:fontFamily="@font/gotha_promed"
-                    android:textColor="@color/textColor"
-                    android:layout_marginTop="10dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/homeLLBorrow"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:background="@drawable/border_shedow"
-                android:elevation="10dp"
-                android:layout_weight="0.5">
-
-                <ImageView
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    android:src="@mipmap/ic_borrow_money"
-                    android:contentDescription="@null"
-                    android:layout_gravity="center_horizontal"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/borrow_money"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center"
-                    android:textSize="24sp"
-                    android:fontFamily="@font/gotha_promed"
-                    android:textColor="@color/textColorBold"
-                    android:layout_marginTop="10dp"/>
-            </LinearLayout>
+                android:text="@string/lend_money"
+                android:textColor="@color/textColor"
+                android:textSize="24sp" />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/homeLLBorrow"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/border_shedow"
+            android:elevation="10dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_gravity="center_horizontal"
+                android:contentDescription="@null"
+                android:src="@mipmap/ic_borrow_money" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/gotha_promed"
+                android:gravity="center"
+                android:text="@string/borrow_money"
+                android:textColor="@color/textColorBold"
+                android:textSize="24sp" />
+        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>

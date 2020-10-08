@@ -3,10 +3,11 @@ package com.org.zapayapp.activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
 import androidx.fragment.app.FragmentManager;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -17,43 +18,27 @@ import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.TimeStamp;
 import com.org.zapayapp.webservices.APICallback;
+
 import java.util.HashMap;
+
 import retrofit2.Call;
 
-public class BorrowSummaryActivity extends BaseActivity implements APICallback, SimpleAlertFragment.AlertSimpleCallback {
-    private TextView nameTV;
-    private TextView amountTV;
-    private TextView termTV;
-    private TextView noOfPaymentTV;
-    private TextView paymentDateTV;
-    private TextView totalPayBackTV;
-    private TextView viewAllTV;
-    private TextView navigateTV;
-    private TextView acceptTV;
-    private TextView declineTV;
-    private TextView chatTV;
+public class BorrowSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener {
+
+    private TextView nameTV, amountTV, termTV, noOfPaymentTV, paymentDateTV, totalPayBackTV, viewAllTV, navigateTV, acceptTV, declineTV, chatTV;
     private String transactionId;
     private TransactionModel transactionModel;
-    private String negotaiionAcceptDeclineStaatus="";
+    private String negotiationAcceptDeclineStatus = "";
     private Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_borrow_summary);
         init();
         initAction();
+        getIntentValues();
     }
-
-    @Override
-    protected boolean useToolbar() {
-        return true;
-    }
-
-    @Override
-    protected boolean useDrawerToggle() {
-        return false;
-    }
-
 
     private void init() {
         nameTV = findViewById(R.id.nameTV);
@@ -68,52 +53,67 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
         acceptTV = findViewById(R.id.acceptTV);
         declineTV = findViewById(R.id.declineTV);
         chatTV = findViewById(R.id.chatTV);
-
-        if (getIntent().getStringExtra("transactionId") != null) {
-            transactionId = getIntent().getStringExtra("transactionId");
-            callAPIGetTransactionRequestDetail(transactionId);
-        }
     }
 
     private void initAction() {
-        navigateTV.setOnClickListener(v -> {
-            negotaiionAcceptDeclineStaatus="1";
-            callAPIUpdateTransactionRequestStatus("1");
+        navigateTV.setOnClickListener(this);
+        acceptTV.setOnClickListener(this);
+        declineTV.setOnClickListener(this);
+        viewAllTV.setOnClickListener(this);
+        chatTV.setOnClickListener(this);
+    }
 
-           /* Intent intent = new Intent(BorrowSummaryActivity.this, LendBorrowActivity.class);
-            intent.putExtra("isBorrow", true);
-            intent.putExtra("transactionModel", transactionModel);
-            startActivity(intent);*/
+    private void getIntentValues() {
+        intent = getIntent();
+        if (intent != null && intent.getStringExtra("transactionId") != null) {
+            transactionId = intent.getStringExtra("transactionId");
+            if (intent.getStringExtra("moveFrom") != null) {
+                if (getString(R.string.transaction).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
+                    callAPIGetTransactionRequestDetail(transactionId);
+                } else if (getString(R.string.history).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
+                    callAPIGetHistoryRequestDetail(transactionId);
+                }
+            }
+        }
+    }
 
-        });
+    @Override
+    protected boolean useToolbar() {
+        return true;
+    }
 
-        acceptTV.setOnClickListener(v -> {
-            negotaiionAcceptDeclineStaatus="2";
-            callAPIUpdateTransactionRequestStatus("2");
-        });
+    @Override
+    protected boolean useDrawerToggle() {
+        return false;
+    }
 
-        declineTV.setOnClickListener(v -> {
-            negotaiionAcceptDeclineStaatus="3";
-            callAPIUpdateTransactionRequestStatus("3");
-        });
-
-        viewAllTV.setOnClickListener(v -> {
-            intent = new Intent(BorrowSummaryActivity.this, ViewAllSummaryActivity.class);
-            //intent.putExtra("requestBy", transactionModel.getRequestBy());
-            intent.putExtra("transactionId", transactionId);
-            startActivity(intent);
-        });
-
-        chatTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.negotiateTV:
+                negotiationAcceptDeclineStatus = "1";
+                callAPIUpdateTransactionRequestStatus("1");
+                break;
+            case R.id.acceptTV:
+                negotiationAcceptDeclineStatus = "2";
+                callAPIUpdateTransactionRequestStatus("2");
+                break;
+            case R.id.declineTV:
+                negotiationAcceptDeclineStatus = "3";
+                callAPIUpdateTransactionRequestStatus("3");
+                break;
+            case R.id.viewAllTV:
+                intent = new Intent(BorrowSummaryActivity.this, ViewAllSummaryActivity.class);
+                intent.putExtra("transactionId", transactionId);
+                startActivity(intent);
+                break;
+            case R.id.chatTV:
                 intent = new Intent(BorrowSummaryActivity.this, ChatActivity.class);
                 intent.putExtra("transactionModel", transactionModel);
                 startActivity(intent);
-            }
-        });
+                break;
+        }
     }
-
 
     private void callAPIGetTransactionRequestDetail(String transaction_request_id) {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
@@ -130,6 +130,20 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
         }
     }
 
+    private void callAPIGetHistoryRequestDetail(String transaction_request_id) {
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        HashMap<String, Object> values = apiCalling.getHashMapObject(
+                "transaction_request_id", transaction_request_id);
+        try {
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_get_transaction_history_details), values);
+            if (apiCalling != null) {
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_get_transaction_history_details), acceptTV);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private void callAPIUpdateTransactionRequestStatus(String status) {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
@@ -161,9 +175,9 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
 
             if (from.equals(getResources().getString(R.string.api_update_transaction_request_status))) {
                 if (status == 200) {
-                    if (!negotaiionAcceptDeclineStaatus.equalsIgnoreCase("1")){
+                    if (!negotiationAcceptDeclineStatus.equalsIgnoreCase("1")) {
                         showSimpleAlert(msg, getResources().getString(R.string.api_update_transaction_request_status));
-                    }else {
+                    } else {
                         intent = new Intent(BorrowSummaryActivity.this, LendBorrowActivity.class);
                         intent.putExtra("isBorrow", true);
                         intent.putExtra("transactionModel", transactionModel);
@@ -176,7 +190,16 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                 if (status == 200) {
                     if (json.get("data").getAsJsonObject() != null) {
                         transactionModel = (TransactionModel) apiCalling.getDataObject(json.get("data").getAsJsonObject(), TransactionModel.class);
-                        setaData(json.get("data").getAsJsonObject());
+                        setData(json.get("data").getAsJsonObject());
+                    }
+                } else {
+                    showSimpleAlert(msg, getResources().getString(R.string.api_update_transaction_request_status));
+                }
+            } else if (from.equals(getResources().getString(R.string.api_get_transaction_history_details))) {
+                if (status == 200) {
+                    if (json.get("data").getAsJsonObject() != null) {
+                        transactionModel = (TransactionModel) apiCalling.getDataObject(json.get("data").getAsJsonObject(), TransactionModel.class);
+                        setData(json.get("data").getAsJsonObject());
                     }
                 } else {
                     showSimpleAlert(msg, getResources().getString(R.string.api_update_transaction_request_status));
@@ -185,52 +208,28 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
         }
     }
 
-
-    private void setaData(JsonObject jsonObject) {
-      /*  String id=jsonObject.get("id").getAsString();
-       String from_id=jsonObject.get("from_id").getAsString();
-       String to_id=jsonObject.get("to_id").getAsString();
-       String amount=jsonObject.get("amount").getAsString();
-       String total_amount=jsonObject.get("total_amount").getAsString();
-       String status=jsonObject.get("status").getAsString();
-       String terms_type=jsonObject.get("terms_type").getAsString();
-       String terms_value=jsonObject.get("terms_value").getAsString();
-       String no_of_payment=jsonObject.get("no_of_payment").getAsString();
-       String pay_date=jsonObject.get("pay_date").getAsString();
-       String updated_by=jsonObject.get("updated_by").getAsString();
-       String request_by=jsonObject.get("request_by").getAsString();
-       String created_at=jsonObject.get("created_at").getAsString();
-       String updated_at=jsonObject.get("updated_at").getAsString();
-       String first_name=jsonObject.get("first_name").getAsString();
-       String last_name=jsonObject.get("last_name").getAsString();*/
-
-
+    private void setData(JsonObject jsonObject) {
         if (jsonObject.get("first_name").getAsString() != null && jsonObject.get("first_name").getAsString().length() > 0 && jsonObject.get("first_name").getAsString() != null && jsonObject.get("first_name").getAsString().length() > 0) {
             String first_name = jsonObject.get("first_name").getAsString();
             String last_name = jsonObject.get("last_name").getAsString();
             nameTV.setText(first_name + " " + last_name);
         }
-
         if (jsonObject.get("amount").getAsString() != null && jsonObject.get("amount").getAsString().length() > 0) {
             String amount = jsonObject.get("amount").getAsString();
             amountTV.setText("$" + amount);
         }
-
         if (jsonObject.get("no_of_payment").getAsString() != null && jsonObject.get("no_of_payment").getAsString().length() > 0) {
             String no_of_payment = jsonObject.get("no_of_payment").getAsString();
             noOfPaymentTV.setText(no_of_payment);
         }
-
         if (jsonObject.get("created_at").getAsString() != null && jsonObject.get("created_at").getAsString().length() > 0) {
             String created_at = jsonObject.get("created_at").getAsString();
             paymentDateTV.setText(TimeStamp.timeFun(created_at));
         }
-
         if (jsonObject.get("total_amount").getAsString() != null && jsonObject.get("total_amount").getAsString().length() > 0) {
             String total_amount = jsonObject.get("total_amount").getAsString();
             totalPayBackTV.setText("$" + total_amount);
         }
-
         if (jsonObject.get("terms_type").getAsString() != null && jsonObject.get("terms_type").getAsString().length() > 0 && jsonObject.get("terms_value").getAsString() != null && jsonObject.get("terms_value").getAsString().length() > 0) {
             String terms_type = jsonObject.get("terms_type").getAsString();
             String terms_value = jsonObject.get("terms_value").getAsString();

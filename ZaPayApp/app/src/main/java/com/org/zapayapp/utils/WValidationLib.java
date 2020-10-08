@@ -37,15 +37,15 @@ public class WValidationLib {
     }
 
     public void removeError(final TextInputLayout inputLayout, final TextInputEditText editText) {
-       /* editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-             //   if (!hasFocus) {
+                if (!hasFocus) {
                     inputLayout.setErrorEnabled(false);
                     editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_selector));
-               // }
+                }
             }
-        });*/
+        });
         editText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

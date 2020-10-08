@@ -1,6 +1,7 @@
 package com.org.zapayapp.adapters;
-import android.app.PendingIntent;
+
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -12,26 +13,21 @@ import com.org.zapayapp.fragment.PendingFragment;
 
 import java.util.ArrayList;
 
-public class MyPaggerAdapter extends FragmentStatePagerAdapter {
-    int tabCount;
+public class MyPagerAdapter extends FragmentStatePagerAdapter {
+    private int tabCount;
     private Context context;
-    private ArrayList<String> list;
 
     //Constructor to the class
-    public MyPaggerAdapter(Context context, FragmentManager fm, int tabCount, ArrayList<String> list) {
-        super(fm);
+    public MyPagerAdapter(Context context, FragmentManager fm, int tabCount) {
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         //Initializing tab count
         this.tabCount = tabCount;
         this.context = context;
-        this.list = list;
-
     }
 
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        //Returning the current tabs
-
         switch (position) {
             case 0:
                 PendingFragment tab1 = new PendingFragment();

@@ -1,4 +1,5 @@
 package com.org.zapayapp.activity;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,7 +12,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
+
 import com.bumptech.glide.Glide;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -25,16 +28,19 @@ import com.org.zapayapp.utils.MySession;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.WFileUtils;
 import com.org.zapayapp.utils.WRuntimePermissions;
+import com.org.zapayapp.webservices.APICalling;
+
 import java.io.File;
+
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 
 public class ProfileActivity extends BaseActivity implements View.OnClickListener {
+
     private TextView editProfileTV, changePasswordTV, profileTxtName, profileTxtEmail, profileTxtMobile, profileTxtAddress;
     private Intent intent;
-
     private ImageView profileImageView;
     private WRuntimePermissions runtimePermissions;
     private String path = "";
@@ -67,8 +73,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void init() {
-        Log.e("Token","Token======="+SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString());
-
         runtimePermissions = new WRuntimePermissions(this);
         changePasswordTV = findViewById(R.id.changePasswordTV);
         editProfileTV = findViewById(R.id.editProfileTV);
@@ -77,15 +81,12 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         profileTxtMobile = findViewById(R.id.profileTxtMobile);
         profileTxtAddress = findViewById(R.id.profileTxtAddress);
         profileImageView = findViewById(R.id.profileImageView);
-
-        //callAPIGetUserDetail();
     }
 
     private void initAction() {
         changePasswordTV.setOnClickListener(this);
         editProfileTV.setOnClickListener(this);
         profileImageView.setOnClickListener(this);
-
         setDataOnScreen();
     }
 
@@ -93,27 +94,22 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private void setDataOnScreen() {
         if (SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString().length() > 0) {
             Glide.with(ProfileActivity.this)
-                    .load(apiCalling.getImageUrl(SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString())).placeholder(R.mipmap.ic_user)
+                    .load(APICalling.getImageUrl(SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString())).placeholder(R.mipmap.ic_user)
                     .into(profileImageView);
         }
-
         if (SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME) != null && SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME).toString().length() > 0) {
-            profileTxtName.setText(SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME, "") + " " + SharedPref.getPrefsHelper().getPref(Const.Var.LAST_NAME, ""));
-
+            String name = SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME, "") + " " + SharedPref.getPrefsHelper().getPref(Const.Var.LAST_NAME, "");
+            profileTxtName.setText(name);
         }
-
         if (SharedPref.getPrefsHelper().getPref(Const.Var.EMAIL) != null && SharedPref.getPrefsHelper().getPref(Const.Var.EMAIL).toString().length() > 0) {
             profileTxtEmail.setText(SharedPref.getPrefsHelper().getPref(Const.Var.EMAIL, ""));
-
         }
         if (SharedPref.getPrefsHelper().getPref(Const.Var.MOBILE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.MOBILE).toString().length() > 0) {
             profileTxtMobile.setText(SharedPref.getPrefsHelper().getPref(Const.Var.MOBILE, ""));
         }
-
         if (SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS1) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS1).toString().length() > 0) {
             profileTxtAddress.setText(SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS1, ""));
         }
-
     }
 
     @Override
@@ -127,9 +123,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 intent = new Intent(ProfileActivity.this, EditProfileDialogActivity.class);
                 startActivity(intent);
                 break;
-
             case R.id.profileImageView:
-
                 if (Build.VERSION.SDK_INT >= 23) {
                     if (runtimePermissions.checkPermissionForStorage()) {
                         openGallery();
@@ -139,9 +133,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 } else {
                     openGallery();
                 }
-
                 break;
-
         }
     }
 
@@ -184,8 +176,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     openGallery();
                 } else if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
-
-
                     if (runtimePermissions.requestPermissionForStorageDenied()) {
                         runtimePermissions.showAlertDialog(WRuntimePermissions.STORAGE_MSG, WRuntimePermissions.REQUEST_CODE_STORAGE, this);
                     } else {
@@ -193,8 +183,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     }
                 }
                 break;
-
-
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
@@ -256,15 +244,11 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-
     private void callAPIUploadFile() {
         Log.e("click here", "click here path==" + path);
         File file = new File(path);
-        //RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
         RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        // MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("file", file.getName(), requestBody);
         MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("profile_image", file.getName(), requestBody);
-        // RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), file.getName());
         try {
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postWithTokenMultiPartApi(SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString(), getString(R.string.api_update_profile_image), fileToUpload);
@@ -312,10 +296,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                         }
                     }
                     showSimpleAlert(msg, "");
-                } else if (status==401){
+                } else if (status == 401) {
                     showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
 
-                }else {
+                } else {
                     showSimpleAlert(msg, "");
                 }
             } else if (from.equals(getResources().getString(R.string.api_get_user_details))) {
@@ -325,7 +309,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                         MySession.MakeSession(jsonObject);
                         setDataOnScreen();
                     }
-                }else if(status==401){
+                } else if (status == 401) {
                     showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
 
                 } else {
@@ -334,5 +318,4 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             }
         }
     }
-
 }

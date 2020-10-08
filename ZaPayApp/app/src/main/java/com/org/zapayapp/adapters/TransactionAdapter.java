@@ -61,12 +61,12 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         TransactionModel transactionModel = transactionModelsList.get(position);
 
         if (transactionModel.getFirstName() != null && transactionModel.getFirstName().length() > 0 && transactionModel.getFirstName() != null && transactionModel.getFirstName().length() > 0) {
-            holder.nameTV.setText(transactionModel.getFirstName() + " " + transactionModel.getLastName());
+            String name = transactionModel.getFirstName() + " " + transactionModel.getLastName();
+            holder.nameTV.setText(name);
         }
 
         if (transactionModel.getCreatedAt() != null && transactionModel.getCreatedAt().length() > 0) {
             holder.dateTV.setText(TimeStamp.timeFun(transactionModel.getCreatedAt()));
-            // holder.dateTV.setText(transactionModel.getCreatedAt());
         }
 
         if (transactionModel.getNoOfPayment() != null && transactionModel.getNoOfPayment().length() > 0) {
@@ -74,33 +74,24 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         }
 
         if (transactionModel.getAmount() != null && transactionModel.getAmount().length() > 0) {
-            //holder.amountTV.setText("$" + transactionModel.getAmount());
             holder.amountTV.setText("$" + transactionModel.getTotalAmount());
         }
 
-
         if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
-            //  holder.borroModeTitleTV.setText("Lend Mode:");
             holder.borroModeTitleTV.setText(context.getString(R.string.lend_mode));
         } else if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
-            //holder.borroModeTitleTV.setText("Borrow Mode:");
             holder.borroModeTitleTV.setText(context.getString(R.string.borrow_mode));
         }
 
         if (transactionModel.getTermsType().equalsIgnoreCase("1")) {
-            // holder.termTypeTV.setText(transactionModel.getTermsValue() + " %");
             holder.termTypeTV.setText(context.getString(R.string.percent));
         } else if (transactionModel.getTermsType().equalsIgnoreCase("2")) {
-            // holder.termTypeTV.setText(transactionModel.getTermsValue() + " Fee");
             holder.termTypeTV.setText(context.getString(R.string.fee));
         } else if (transactionModel.getTermsType().equalsIgnoreCase("3")) {
-            //holder.termTypeTV.setText(transactionModel.getTermsValue() + " Discount");
             holder.termTypeTV.setText(context.getString(R.string.discount));
         } else if (transactionModel.getTermsType().equalsIgnoreCase("4")) {
-            //holder.termTypeTV.setText(transactionModel.getTermsValue() + " None");
             holder.termTypeTV.setText(context.getString(R.string.none));
         }
-
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,11 +99,12 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                 if (!transactionModel.getStatus().equalsIgnoreCase("2")) {
                     if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                         Intent intent = new Intent(context, BorrowSummaryActivity.class);
-                        //intent.putExtra("transactionModel", transactionModel);
+                        intent.putExtra("moveFrom", data);
                         intent.putExtra("transactionId", transactionModel.getId());
                         context.startActivity(intent);
                     } else if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
                         Intent intent = new Intent(context, LendingSummaryActivity.class);
+                        intent.putExtra("moveFrom", data);
                         intent.putExtra("transactionId", transactionModel.getId());
                         context.startActivity(intent);
                     }

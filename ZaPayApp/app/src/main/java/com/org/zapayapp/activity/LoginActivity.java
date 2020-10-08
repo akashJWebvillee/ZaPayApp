@@ -1,4 +1,5 @@
 package com.org.zapayapp.activity;
+
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Typeface;
@@ -9,13 +10,14 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -26,7 +28,9 @@ import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.MySession;
 import com.org.zapayapp.webservices.APICallback;
+
 import java.util.HashMap;
+
 import retrofit2.Call;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener, APICallback, SimpleAlertFragment.AlertSimpleCallback {
@@ -41,7 +45,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private TextView loginButtonTV, signUpButtonTV;
     private TextView forgotPasswordTV;
     private Intent intent;
-    //private WValidationLib wValidationLib;
 
     //signup data......
     private CustomTextInputLayout userNameSignUpInputLayout;
@@ -59,12 +62,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private String firstName = "";
     private String lastName = "aaaa";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         inIt();
         inItAction();
     }
@@ -97,9 +98,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         conformPasswordSignUpEditText = findViewById(R.id.conformPasswordSignUpEditText);
 
         mChkAgree = findViewById(R.id.mChkAgree);
-        termCondition();
-        // wValidationLib = new WValidationLib(this);
-
     }
 
     private void inItAction() {
@@ -108,16 +106,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         forgotPasswordTV.setOnClickListener(this);
         loginButtonTV.setOnClickListener(this);
         signUpButtonTV.setOnClickListener(this);
-
         setSelectedView(1);
-        wValidationLib.removeError(etEmailLayout, editTextUsername);
-        wValidationLib.removeError(etPasswordLayout, etPassword);
-
-        wValidationLib.removeError(userNameSignUpInputLayout, userNameSignUpEditText);
-        wValidationLib.removeError(emailSignUpInputLayout, emailSignUpEditText);
-        wValidationLib.removeError(mobileSignUpInputLayout, mobileSignUpEditText);
-        wValidationLib.removeError(passwordSignUpInputLayout, passwordSignUpEditText);
-        wValidationLib.removeError(conformPasswordSignUpInputLayout, conformPasswordSignUpEditText);
+        removeError();
+        termCondition();
     }
 
     private void setSelectedView(int position) {
@@ -126,13 +117,23 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             signUpTV.setTextColor(CommonMethods.getColorWrapper(this, R.color.colorWhite70Alpha));
             loginRelativeLayout.setVisibility(View.VISIBLE);
             signUpRelativeLayout.setVisibility(View.GONE);
-
         } else if (position == 2) {
             loginTV.setTextColor(CommonMethods.getColorWrapper(this, R.color.colorWhite70Alpha));
             signUpTV.setTextColor(CommonMethods.getColorWrapper(this, R.color.colorWhite));
             loginRelativeLayout.setVisibility(View.GONE);
             signUpRelativeLayout.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void removeError() {
+        wValidationLib.removeError(etEmailLayout, editTextUsername);
+        wValidationLib.removeError(etPasswordLayout, etPassword);
+
+        wValidationLib.removeError(userNameSignUpInputLayout, userNameSignUpEditText);
+        wValidationLib.removeError(emailSignUpInputLayout, emailSignUpEditText);
+        wValidationLib.removeError(mobileSignUpInputLayout, mobileSignUpEditText);
+        wValidationLib.removeError(passwordSignUpInputLayout, passwordSignUpEditText);
+        wValidationLib.removeError(conformPasswordSignUpInputLayout, conformPasswordSignUpEditText);
     }
 
     private void termCondition() {
@@ -190,12 +191,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.loginButtonTV:
                 try {
+                    removeError();
                     if (wValidationLib.isEmailAddress(etEmailLayout, editTextUsername, getString(R.string.important), getString(R.string.please_enter_valid_email), true)) {
                         if (wValidationLib.isPassword(etPasswordLayout, etPassword, getString(R.string.important), getString(R.string.please_enter_valid_password), true)) {
-                           /* intent = new Intent(LoginActivity.this, HomeActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-                            finish();*/
                             callAPILogin();
                         }
                     }
@@ -204,17 +202,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 }
                 break;
             case R.id.signUpButtonTV:
-              /*  intent = new Intent(LoginActivity.this, HomeActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                finish();*/
                 try {
                     if (wValidationLib.isFullName(userNameSignUpInputLayout, userNameSignUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_full_name), true)) {
                         if (wValidationLib.isEmailAddress(emailSignUpInputLayout, emailSignUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_email), true)) {
                             if (wValidationLib.isValidNumeric(mobileSignUpInputLayout, mobileSignUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_mobile), true)) {
-                                if (wValidationLib.isPassword(passwordSignUpInputLayout, passwordSignUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_password),true)) {
-                                    if (wValidationLib.isPassword(conformPasswordSignUpInputLayout, conformPasswordSignUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_password),true)) {
+                                if (wValidationLib.isPassword(passwordSignUpInputLayout, passwordSignUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_password), true)) {
+                                    if (wValidationLib.isPassword(conformPasswordSignUpInputLayout, conformPasswordSignUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_password), true)) {
                                         if (wValidationLib.isConfirmPasswordValidation(passwordSignUpInputLayout, passwordSignUpEditText, conformPasswordSignUpInputLayout, conformPasswordSignUpEditText, getString(R.string.important), getString(R.string.important), getString(R.string.please_enter_valid_password), getString(R.string.please_enter_valid_password_same), true)) {
                                             if (mChkAgree.isChecked()) {
                                                 callAPISignUp();
@@ -251,7 +244,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     "device_type", Const.KEY.DEVICE_TYPE,
                     "device_token", "firebasetokenkey",
                     "device_id", Const.getDeviceId(LoginActivity.this));
-
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postApi(getString(R.string.api_signup), values);
             if (apiCalling != null) {
@@ -304,7 +296,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(intent);
                         finish();
-
                     }
                 } else {
                     showSimpleAlert(msg, "");
@@ -313,7 +304,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 if (status == 200) {
                     if (json.get("data").getAsJsonObject() != null) {
                         JsonObject jsonObject = json.get("data").getAsJsonObject();
-                       //MySession.MakeSession(jsonObject);
+                        //MySession.MakeSession(jsonObject);
                         userNameSignUpEditText.setText("");
                         emailSignUpEditText.setText("");
                         mobileSignUpEditText.setText("");
@@ -348,7 +339,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onSimpleCallback(String from) {
-        if (from.equals(getString(R.string.api_signup))){
+        if (from.equals(getString(R.string.api_signup))) {
             setSelectedView(1);
         }
     }

@@ -64,6 +64,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         toolbar = findViewById(R.id.customToolbar);
         titleTV = toolbar.findViewById(R.id.titleTV);
         backArrowImageView = toolbar.findViewById(R.id.backArrowImageView);
+        backArrowImageView.setVisibility(View.VISIBLE);
         titleTV.setText(getString(R.string.chat));
 
         msgRecyclerView = findViewById(R.id.msgRecyclerView);
@@ -117,11 +118,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         switch (v.getId()) {
             case R.id.sendImageView:
                 if (!messageEditText.getText().toString().trim().isEmpty()) {
-                 /*   String msg = messageEditText.getText().toString().trim();
-                    msgList.add(new ChatMessageModel(msg, 1));
-                    messageEditText.setText("");
-                    setMsgAdapter();
-                    scrollRecyclerViewToBottom(msgRecyclerView);*/
                     JSONObject jsonObject = new JSONObject();
                     try {
                         //receiver_id,sender_id,message,transaction_request_id

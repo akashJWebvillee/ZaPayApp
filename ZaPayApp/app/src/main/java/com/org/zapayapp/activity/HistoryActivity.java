@@ -1,14 +1,16 @@
 package com.org.zapayapp.activity;
+
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -19,17 +21,18 @@ import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.EndlessRecyclerViewScrollListener;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
+
 import java.util.HashMap;
 import java.util.List;
+
 import retrofit2.Call;
 
-public class HistoryActivity extends BaseActivity implements APICallback,SimpleAlertFragment.AlertSimpleCallback{
+public class HistoryActivity extends BaseActivity implements APICallback, SimpleAlertFragment.AlertSimpleCallback {
+
     private RecyclerView historyRecyclerView;
     private ImageView backArrowImageView;
     private Toolbar toolbar;
-
-
-    private int pageNo=0;
+    private int pageNo = 0;
     private EndlessRecyclerViewScrollListener scrollListener;
 
     @Override
@@ -43,11 +46,12 @@ public class HistoryActivity extends BaseActivity implements APICallback,SimpleA
     private void init() {
         toolbar = findViewById(R.id.customToolbar);
         backArrowImageView = toolbar.findViewById(R.id.backArrowImageView);
+        backArrowImageView.setVisibility(View.VISIBLE);
         historyRecyclerView = findViewById(R.id.historyRecyclerView);
     }
 
     private void initAction() {
-       LinearLayoutManager layoutManager= new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         historyRecyclerView.setLayoutManager(layoutManager);
         historyRecyclerView.setItemAnimator(new DefaultItemAnimator());
         scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
@@ -63,11 +67,8 @@ public class HistoryActivity extends BaseActivity implements APICallback,SimpleA
         callAPIGetTransactionHistory(pageNo);
 
 
-
         HistoryAdapter historyAdapter = new HistoryAdapter(HistoryActivity.this);
         historyRecyclerView.setAdapter(historyAdapter);
-
-
 
 
         backArrowImageView.setOnClickListener(new View.OnClickListener() {
@@ -76,8 +77,6 @@ public class HistoryActivity extends BaseActivity implements APICallback,SimpleA
                 finish();
             }
         });
-
-
     }
 
     @Override
@@ -101,13 +100,13 @@ public class HistoryActivity extends BaseActivity implements APICallback,SimpleA
             scrollListener.resetState();
         }
 
-        String token= SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
             HashMap<String, Object> values = apiCalling.getHashMapObject(
                     "page", pageNo);
 
             zapayApp.setApiCallback(this);
-            Call<JsonElement> call = restAPI.postWithTokenApi(token,getString(R.string.api_get_transaction_history), values);
+            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_get_transaction_history), values);
             if (apiCalling != null) {
                 apiCalling.callAPI(zapayApp, call, getString(R.string.api_get_transaction_history), historyRecyclerView);
             }
@@ -129,38 +128,31 @@ public class HistoryActivity extends BaseActivity implements APICallback,SimpleA
             }
 
             if (from.equals(getResources().getString(R.string.api_get_transaction_history))) {
-
                 if (status == 200) {
                     if (pageNo == 0) {
-                       // contactNumberList.clear();
+                        // contactNumberList.clear();
                     }
-
                     List<ContactModel> list = apiCalling.getDataList(json, "data", ContactModel.class);
                     if (list.size() > 0) {
-                       // noDataTv.setVisibility(View.GONE);
+                        // noDataTv.setVisibility(View.GONE);
                         historyRecyclerView.setVisibility(View.VISIBLE);
-                       // contactNumberList.addAll(list);
+                        // contactNumberList.addAll(list);
                         //setAdapter();
-
                     } else {
                         if (pageNo == 0) {
-                           // noDataTv.setVisibility(View.VISIBLE);
+                            // noDataTv.setVisibility(View.VISIBLE);
                             historyRecyclerView.setVisibility(View.GONE);
                         }
                     }
-
                 } else {
                     showSimpleAlert(msg, "");
                 }
-
-
-                }
             }
         }
+    }
 
 
-
-    private void setAdapter(){
+    private void setAdapter() {
 
     }
 
@@ -182,7 +174,8 @@ public class HistoryActivity extends BaseActivity implements APICallback,SimpleA
 
     @Override
     public void onSimpleCallback(String from) {
-        if (from.equals(getResources().getString(R.string.api_get_transaction_request))){ ;
+        if (from.equals(getResources().getString(R.string.api_get_transaction_request))) {
+
 
         }
     }

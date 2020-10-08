@@ -16,7 +16,6 @@
         android:textColor="@color/textColor"
         android:textSize="16sp" />
 
-
     <com.org.zapayapp.uihelpers.CustomTextInputLayout
         android:id="@+id/lendAmountEdtAmountInputLayout"
         android:layout_width="match_parent"
@@ -55,46 +54,3 @@
     </com.org.zapayapp.uihelpers.CustomTextInputLayout>
 </LinearLayout>
 
-
-    <!--
-
-    <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/lendViewAmount"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="19dp"
-            android:layout_marginTop="50dp"
-            android:fontFamily="@font/gotha_promed"
-            android:text="@string/enter_amount"
-            android:textColor="@color/textColor"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/lendAmountEdtAmount"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="19dp"
-            android:layout_marginTop="11dp"
-            android:layout_marginEnd="19dp"
-            android:background="@drawable/rectanguler_border_light"
-            android:fontFamily="@font/gotha_pro_reg"
-            android:gravity="start|center_vertical"
-            android:hint="@string/enter_your_amount"
-            android:importantForAutofill="no"
-            android:inputType="numberDecimal"
-            android:paddingStart="15dp"
-            android:paddingEnd="15dp"
-            android:textColor="@color/textColor"
-            android:textColorHint="@color/navTextColor50Alpha"
-            android:textSize="17sp"
-            android:theme="@style/TextInputLayoutAppearance" />
-
-
-    </LinearLayout>-->

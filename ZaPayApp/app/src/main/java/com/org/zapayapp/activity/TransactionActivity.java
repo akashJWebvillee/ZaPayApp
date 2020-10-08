@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.tabs.TabLayout;
 import com.org.zapayapp.R;
-import com.org.zapayapp.adapters.MyPaggerAdapter;
+import com.org.zapayapp.adapters.MyPagerAdapter;
 import com.org.zapayapp.uihelpers.CustomViewPager;
 import java.util.ArrayList;
 
@@ -30,6 +30,7 @@ public class TransactionActivity extends AppCompatActivity implements TabLayout.
         toolbar = findViewById(R.id.toolbar);
         titleTV = toolbar.findViewById(R.id.titleTV);
         backArrowImageView = (ImageView) toolbar.findViewById(R.id.backArrowImageView);
+        backArrowImageView.setVisibility(View.VISIBLE);
         titleTV.setText(getString(R.string.transaction));
 
         tabLayout = findViewById(R.id.tabLayout);
@@ -42,14 +43,9 @@ public class TransactionActivity extends AppCompatActivity implements TabLayout.
 
         tabLayout.setTabTextColors(getResources().getColor(R.color.tabTextColor), getResources().getColor(R.color.navTextColor));
         tabLayout.setSelectedTabIndicator(R.drawable.tab_indicator);
-        ArrayList<String> list = new ArrayList<>();
-        list.add(getString(R.string.pending));
-        list.add(getString(R.string.negotiation));
-        list.add(getString(R.string.completed));
 
-
-        MyPaggerAdapter myPaggerAdapter = new MyPaggerAdapter(this, getSupportFragmentManager(), tabLayout.getTabCount(), list);
-        viewPager.setAdapter(myPaggerAdapter);
+        MyPagerAdapter myPagerAdapter = new MyPagerAdapter(this, getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(myPagerAdapter);
         viewPager.setPagingEnabled(false);
         //Adding onTabSelectedListener to swipe views
         tabLayout.addOnTabSelectedListener(this);

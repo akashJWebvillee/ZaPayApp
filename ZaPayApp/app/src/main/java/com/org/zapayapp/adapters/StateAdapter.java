@@ -60,18 +60,14 @@ public class StateAdapter extends BaseAdapter {
 
         } else {
             holder.tvname.setPadding(0, 20, 20, 20);
-
         }
-
 
         StateModel item = typeList.get(position);
         if(item.getState()!=null && item.getState().length()>0){
             String categoryName= item.getState();
             String catName = categoryName.substring(0, 1).toUpperCase() + categoryName.substring(1);
-            //holder.tvname.setText(item.getCateTypeName());
             holder.tvname.setText(catName);
         }
-
         return vi;
     }
     class ViewHolder {

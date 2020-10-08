@@ -1,52 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="wrap_content">
+    android:id="@+id/rlOtherUserView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:layout_marginEnd="76dp">
+
+    <com.github.siyamed.shapeimageview.CircularImageView
+        android:id="@+id/imageViewProfile"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:src="@mipmap/user_dummy"
+        app:siBorderColor="#FF000000"
+        app:siBorderWidth="0dp" />
 
     <RelativeLayout
-        android:id="@+id/rlOtherUserView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="76dp">
+        android:layout_marginStart="9dp"
+        android:layout_toEndOf="@+id/imageViewProfile"
+        android:background="@drawable/rectanguler_receive_msg">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imageViewProfile"
-            android:layout_width="34dp"
-            android:layout_height="34dp"
-            android:src="@mipmap/user_dummy"
-            app:civ_border_color="#FF000000"
-            app:civ_border_width="0dp" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/receiveMsgTV"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="9dp"
-            android:layout_toEndOf="@+id/imageViewProfile"
-            android:background="@drawable/rectanguler_receive_msg">
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginEnd="11dp"
+            android:fontFamily="@font/gotha_promed"
+            android:textColor="@color/color_userNameText"
+            android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/receiveMsgTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="9dp"
-                android:layout_marginEnd="11dp"
-                android:fontFamily="@font/gotha_promed"
-                android:textColor="@color/color_userNameText"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/timeTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/receiveMsgTV"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="7dp"
-                android:layout_marginBottom="9dp"
-                android:textColor="@color/color_lightGray"
-                android:textSize="12sp"
-                android:text="10:50"/>
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/timeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/receiveMsgTV"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="9dp"
+            android:textColor="@color/color_lightGray"
+            android:textSize="12sp" />
     </RelativeLayout>
 </RelativeLayout>

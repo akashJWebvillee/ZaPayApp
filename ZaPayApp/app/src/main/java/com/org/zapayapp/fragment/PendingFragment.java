@@ -177,7 +177,7 @@ public class PendingFragment extends Fragment implements APICallback, SimpleAler
     }
 
     private void setAdapter() {
-        TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity(), trasactionList, "pending");
+        TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity(), trasactionList, getString(R.string.transaction));
         pendingRecyclerView.setAdapter(transactionAdapter);
     }
 

@@ -20,7 +20,6 @@ public class PaybackAdapter extends RecyclerView.Adapter<PaybackAdapter.MyHolder
 
     private Context context;
     private List<PabackModel> indicatorList;
-    private int selectedPos = 0;
 
     public PaybackAdapter(Context context, List<PabackModel> indicatorList) {
         this.context = context;
@@ -87,21 +86,5 @@ public class PaybackAdapter extends RecyclerView.Adapter<PaybackAdapter.MyHolder
     @Override
     public int getItemCount() {
         return indicatorList.size();
-    }
-
-    public String getSelected() {
-        if (selectedPos != -1) {
-            return indicatorList.get(selectedPos).getPayDate();
-        }
-        return null;
-    }
-
-    public int getSelectedPos() {
-        return selectedPos;
-    }
-
-    public void setSelected(int position) {
-        selectedPos = position;
-        notifyDataSetChanged();
     }
 }

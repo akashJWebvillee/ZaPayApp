@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/custom_toolbar"/>
+        layout="@layout/custom_toolbar" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,37 +16,34 @@
         android:layout_marginTop="?actionBarSize">
 
         <View
-            android:layout_marginTop="63dp"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginTop="63dp"
             android:background="@color/summaryLineColor" />
 
-
-        <!-- our tablayout to display tabs  -->
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="47dp"
-            android:minHeight="?attr/actionBarSize"
             android:layout_marginTop="18dp"
-            app:tabMode="auto"
-            app:tabTextColor="#6C676F"
-            app:tabSelectedTextColor="@color/navTextColor"
+            android:background="#00000000"
+            android:minHeight="?attr/actionBarSize"
             app:tabGravity="fill"
+            app:tabIndicator="@drawable/tab_indicator"
             app:tabIndicatorColor="@color/colorPrimary"
             app:tabIndicatorHeight="4dp"
-            app:tabIndicator="@drawable/tab_indicator"
-            app:tabPaddingStart="25dp"
+            app:tabMode="auto"
             app:tabPaddingEnd="25dp"
-            android:background="#00000000"
-            app:tabTextAppearance="@style/MyCustomTextAppearance" />
+            app:tabPaddingStart="25dp"
+            app:tabSelectedTextColor="@color/navTextColor"
+            app:tabTextAppearance="@style/MyCustomTextAppearance"
+            app:tabTextColor="#6C676F" />
 
-        <!-- View pager to swipe views -->
         <com.org.zapayapp.uihelpers.CustomViewPager
             android:id="@+id/viewPager"
-            android:layout_below="@+id/tabLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tabLayout" />
 
     </RelativeLayout>
 </RelativeLayout>

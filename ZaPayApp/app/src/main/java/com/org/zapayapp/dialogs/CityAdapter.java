@@ -6,8 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
 import com.org.zapayapp.R;
 import com.org.zapayapp.model.CityModel;
+
 import java.util.List;
 
 public class CityAdapter extends BaseAdapter {
@@ -19,6 +21,7 @@ public class CityAdapter extends BaseAdapter {
         this.context = context;
         this.typeList = typeList;
     }
+
     @Override
     public int getCount() {
         return typeList.size();
@@ -33,11 +36,13 @@ public class CityAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
+
     // Below code is used to hide first item.
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
         return rowView(convertView, position, parent, true);
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         return rowView(convertView, position, parent, false);
@@ -63,15 +68,15 @@ public class CityAdapter extends BaseAdapter {
 
 
         CityModel item = typeList.get(position);
-        if(item.getCity()!=null && item.getCity().length()>0){
-            String categoryName= item.getCity();
+        if (item.getCity() != null && item.getCity().length() > 0) {
+            String categoryName = item.getCity();
             String catName = categoryName.substring(0, 1).toUpperCase() + categoryName.substring(1);
-            //holder.tvname.setText(item.getCateTypeName());
             holder.tvname.setText(catName);
         }
 
         return vi;
     }
+
     class ViewHolder {
         private TextView tvname;
     }

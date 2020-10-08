@@ -298,7 +298,6 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         baseActivityInit();
-        wValidationLib = new WValidationLib(this);
     }
 
     private void baseActivityInit() {
@@ -306,8 +305,8 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
         restAPI = APICalling.webServiceInterface();
         gson = new Gson();
         apiCalling = new APICalling(this);
+        wValidationLib = new WValidationLib(this);
     }
-
 
     private void initialHeaderFooter() {
         toolbar = findViewById(R.id.toolbar);
@@ -593,6 +592,8 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
         } else if (from.equals(getResources().getString(R.string.please_verify_bank_account))) {
             intent = new Intent(BaseActivity.this, BankInfoActivity.class);
             startActivity(intent);
+        } else if (from.equals(getResources().getString(R.string.api_update_transaction_request_status))) {
+            finish();
         }
     }
 

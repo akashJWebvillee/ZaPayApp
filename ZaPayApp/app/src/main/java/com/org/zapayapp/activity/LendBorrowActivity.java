@@ -63,7 +63,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     private int selectedPos = 0;
     private IndicatorAdapter indicatorAdapter;
     private TextView lendTxtHeader, lendTxtAmount, lendTermsTxtOption, lendTermsTxtPercent, lendTermsTxtFee, lendTermsTxtDiscount, lendTermsTxtNone;
-    //private EditText lendAmountEdtAmount, lendTermsEdtOption, lendPaymentEdtNo;
     private TextInputEditText lendAmountEdtAmount, lendTermsEdtOption, lendPaymentEdtNo;
 
     private LinearLayout lendViewAmount, lendViewTerms, lendViewPayment, lendViewPayback, lendViewBorrow, lendViewLending, lendViewContact;

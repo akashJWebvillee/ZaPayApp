@@ -1,53 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlMyView"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginStart="116dp"
+    android:layout_marginTop="16dp"
+    android:background="@drawable/rounded_blue_bg_no_padding">
 
-    <RelativeLayout
-        android:id="@+id/rlMyView"
+    <TextView
+        android:id="@+id/sendMsgTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="116dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/rounded_blue_bg_no_padding">
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="11dp"
+        android:fontFamily="@font/gotha_promed"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/sendMsgTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="9dp"
-            android:layout_marginEnd="11dp"
-            android:fontFamily="@font/gotha_promed"
-            android:textColor="@color/colorWhite"
-            android:textSize="16sp"
-            android:text="helooooo"/>
+    <TextView
+        android:id="@+id/timeMyTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sendMsgTV"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="9dp"
+        android:textColor="@color/colorWhite"
+        android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/timeMyTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/sendMsgTV"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="9dp"
-            android:textColor="@color/colorWhite"
-            android:textSize="12sp"
-            android:text="2:50"/>
-
-        <TextView
-            android:id="@+id/seenTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/sendMsgTV"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginEnd="9dp"
-            android:layout_marginBottom="9dp"
-            android:textColor="@color/colorWhite"
-            android:textSize="12sp"
-            android:text="seen"/>
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/seenTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sendMsgTV"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginBottom="9dp"
+        android:textColor="@color/colorWhite"
+        android:textSize="12sp" />
 </RelativeLayout>
 

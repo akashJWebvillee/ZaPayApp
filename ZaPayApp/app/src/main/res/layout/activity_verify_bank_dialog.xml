@@ -64,7 +64,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="To verify account you can put value for example amount1-0.10 ,amount2- 0.03"
+                android:text="@string/verify_account_msg"
                 android:gravity="center"
                 android:textColor="@color/textColorBold"
                 android:textSize="11sp"
@@ -180,7 +180,6 @@
             app:sl_dy="10dp"
             app:sl_shadowColor="#2CFC5C04"
             app:sl_shadowRadius="4dp">
-
 
             <TextView
                 android:id="@+id/saveTV"

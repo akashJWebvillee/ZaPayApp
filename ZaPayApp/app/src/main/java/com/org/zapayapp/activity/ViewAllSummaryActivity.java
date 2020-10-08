@@ -1,29 +1,28 @@
 package com.org.zapayapp.activity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
-import com.org.zapayapp.ZapayApp;
 import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
 import com.org.zapayapp.chat.ChatActivity;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.TimeStamp;
-import com.org.zapayapp.utils.WValidationLib;
 import com.org.zapayapp.webservices.APICallback;
+
 import java.util.HashMap;
+
 import retrofit2.Call;
 
 public class ViewAllSummaryActivity extends BaseActivity implements APICallback, SimpleAlertFragment.AlertSimpleCallback {
@@ -38,7 +37,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
     private TextView acceptTV;
     private TextView declineTV;
     private TextView totalPlayReceiveTV;
-    private  String transactionId;
+    private String transactionId;
     private TransactionModel transactionModel;
     private Toolbar toolbar;
     private TextView titleTV;
@@ -57,6 +56,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         toolbar = findViewById(R.id.customToolbar);
         titleTV = toolbar.findViewById(R.id.titleTV);
         backArrowImageView = toolbar.findViewById(R.id.backArrowImageView);
+        backArrowImageView.setVisibility(View.VISIBLE);
 
         nameTV = findViewById(R.id.nameTV);
         amountTV = findViewById(R.id.amountTV);
@@ -72,17 +72,17 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         declineTV = findViewById(R.id.declineTV);
         chatTV = findViewById(R.id.chatTV);
 
-        if (getIntent().getStringExtra("requestBy")!=null){
-           String requestBy= transactionId=getIntent().getStringExtra("requestBy");
-           if (requestBy.equalsIgnoreCase("1")){
-               titleTV.setText(getString(R.string.lending_summary));
-           }else {
-               titleTV.setText(getString(R.string.borrow_summary));
-           }
+        if (getIntent().getStringExtra("requestBy") != null) {
+            String requestBy = transactionId = getIntent().getStringExtra("requestBy");
+            if (requestBy.equalsIgnoreCase("1")) {
+                titleTV.setText(getString(R.string.lending_summary));
+            } else {
+                titleTV.setText(getString(R.string.borrow_summary));
+            }
         }
 
-        if (getIntent().getStringExtra("transactionId")!=null){
-            transactionId=getIntent().getStringExtra("transactionId");
+        if (getIntent().getStringExtra("transactionId") != null) {
+            transactionId = getIntent().getStringExtra("transactionId");
             callAPIGetTransactionRequestDetail(transactionId);
         }
 
@@ -124,12 +124,12 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
 
 
     private void callAPIGetTransactionRequestDetail(String transaction_request_id) {
-        String token= SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         HashMap<String, Object> values = apiCalling.getHashMapObject(
                 "transaction_request_id", transaction_request_id);
         try {
             zapayApp.setApiCallback(this);
-            Call<JsonElement> call = restAPI.postWithTokenApi(token,getString(R.string.api_get_transaction_request_details), values);
+            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_get_transaction_request_details), values);
             if (apiCalling != null) {
                 apiCalling.callAPI(zapayApp, call, getString(R.string.api_get_transaction_request_details), acceptTV);
             }
@@ -139,13 +139,13 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
     }
 
     private void callAPIUpdateTransactionRequestStatus(String status) {
-        String token= SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         HashMap<String, Object> values = apiCalling.getHashMapObject(
                 "transaction_request_id", transactionId,
                 "status", status);
         try {
             zapayApp.setApiCallback(this);
-            Call<JsonElement> call = restAPI.postWithTokenApi(token,getString(R.string.api_update_transaction_request_status), values);
+            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_update_transaction_request_status), values);
             if (apiCalling != null) {
                 apiCalling.callAPI(zapayApp, call, getString(R.string.api_update_transaction_request_status), acceptTV);
             }
@@ -167,79 +167,77 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
             }
 
             if (from.equals(getResources().getString(R.string.api_update_transaction_request_status))) {
-                if (status==200){
+                if (status == 200) {
                     showSimpleAlert(msg, getResources().getString(R.string.api_update_transaction_request_status));
-                }else {
+                } else {
                     showSimpleAlert(msg, "");
                 }
-            }else if (from.equals(getResources().getString(R.string.api_get_transaction_request_details))){
-                if (status==200){
-                    if (json.get("data").getAsJsonObject()!=null){
-                        transactionModel= (TransactionModel) apiCalling.getDataObject(json.get("data").getAsJsonObject(),TransactionModel.class);
+            } else if (from.equals(getResources().getString(R.string.api_get_transaction_request_details))) {
+                if (status == 200) {
+                    if (json.get("data").getAsJsonObject() != null) {
+                        transactionModel = (TransactionModel) apiCalling.getDataObject(json.get("data").getAsJsonObject(), TransactionModel.class);
                         setaData(json.get("data").getAsJsonObject());
                     }
 
-                }else if(status==401){
+                } else if (status == 401) {
                     showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
 
                 } else {
                     showSimpleAlert(msg, getResources().getString(R.string.api_update_transaction_request_status));
                 }
             }
-
         }
     }
 
 
-
-    private void setaData(JsonObject jsonObject){
-        if (jsonObject.get("first_name").getAsString()!=null&&jsonObject.get("first_name").getAsString().length()>0&&jsonObject.get("first_name").getAsString()!=null&&jsonObject.get("first_name").getAsString().length()>0){
-            String first_name=jsonObject.get("first_name").getAsString();
-            String last_name=jsonObject.get("last_name").getAsString();
-            nameTV.setText(first_name+" "+ last_name);
+    private void setaData(JsonObject jsonObject) {
+        if (jsonObject.get("first_name").getAsString() != null && jsonObject.get("first_name").getAsString().length() > 0 && jsonObject.get("first_name").getAsString() != null && jsonObject.get("first_name").getAsString().length() > 0) {
+            String first_name = jsonObject.get("first_name").getAsString();
+            String last_name = jsonObject.get("last_name").getAsString();
+            nameTV.setText(first_name + " " + last_name);
         }
 
-        if (jsonObject.get("amount").getAsString()!=null&&jsonObject.get("amount").getAsString().length()>0){
-            String amount=jsonObject.get("amount").getAsString();
-            amountTV.setText("$"+amount);
+        if (jsonObject.get("amount").getAsString() != null && jsonObject.get("amount").getAsString().length() > 0) {
+            String amount = jsonObject.get("amount").getAsString();
+            amountTV.setText("$" + amount);
         }
 
-        if (jsonObject.get("no_of_payment").getAsString()!=null&&jsonObject.get("no_of_payment").getAsString().length()>0){
-            String no_of_payment=jsonObject.get("no_of_payment").getAsString();
+        if (jsonObject.get("no_of_payment").getAsString() != null && jsonObject.get("no_of_payment").getAsString().length() > 0) {
+            String no_of_payment = jsonObject.get("no_of_payment").getAsString();
             noOfPaymentTV.setText(no_of_payment);
         }
 
-        if (jsonObject.get("created_at").getAsString()!=null&&jsonObject.get("created_at").getAsString().length()>0){
-            String created_at=jsonObject.get("created_at").getAsString();
+        if (jsonObject.get("created_at").getAsString() != null && jsonObject.get("created_at").getAsString().length() > 0) {
+            String created_at = jsonObject.get("created_at").getAsString();
             paymentDateTV.setText(TimeStamp.timeFun(created_at));
         }
 
-        if (jsonObject.get("total_amount").getAsString()!=null&&jsonObject.get("total_amount").getAsString().length()>0){
-            String total_amount=jsonObject.get("total_amount").getAsString();
-            totalPayBackTV.setText("$"+total_amount);
+        if (jsonObject.get("total_amount").getAsString() != null && jsonObject.get("total_amount").getAsString().length() > 0) {
+            String total_amount = jsonObject.get("total_amount").getAsString();
+            totalPayBackTV.setText("$" + total_amount);
         }
 
-        if (jsonObject.get("terms_type").getAsString()!=null&&jsonObject.get("terms_type").getAsString().length()>0&&jsonObject.get("terms_value").getAsString()!=null&&jsonObject.get("terms_value").getAsString().length()>0){
-            String terms_type=jsonObject.get("terms_type").getAsString();
-            String terms_value=jsonObject.get("terms_value").getAsString();
+        if (jsonObject.get("terms_type").getAsString() != null && jsonObject.get("terms_type").getAsString().length() > 0 && jsonObject.get("terms_value").getAsString() != null && jsonObject.get("terms_value").getAsString().length() > 0) {
+            String terms_type = jsonObject.get("terms_type").getAsString();
+            String terms_value = jsonObject.get("terms_value").getAsString();
             if (terms_type.equalsIgnoreCase("1")) {
-                termTV.setText(terms_value+" "+getString(R.string.percent));
+                termTV.setText(terms_value + " " + getString(R.string.percent));
             } else if (terms_type.equalsIgnoreCase("2")) {
-                termTV.setText(terms_value+" "+getString(R.string.fee));
+                termTV.setText(terms_value + " " + getString(R.string.fee));
             } else if (terms_type.equalsIgnoreCase("3")) {
-                termTV.setText(terms_value+" "+getString(R.string.discount));
+                termTV.setText(terms_value + " " + getString(R.string.discount));
             } else if (terms_type.equalsIgnoreCase("4")) {
-                termTV.setText(terms_value+" "+getString(R.string.none));
+                termTV.setText(terms_value + " " + getString(R.string.none));
             }
         }
 
 
-
-        if (transactionModel.getRequestBy()!=null&&transactionModel.getRequestBy().length()>0){
-           if (transactionModel.getRequestBy().equalsIgnoreCase("1")){
-               titleTV.setText(getString(R.string.lending_summary));
-               totalPlayReceiveTV.setText(getString(R.string.total_to_receive_back));
-           }if (transactionModel.getRequestBy().equalsIgnoreCase("2")){
+        if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
+            if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
+                titleTV.setText(getString(R.string.lending_summary));
+                totalPlayReceiveTV.setText(getString(R.string.total_to_receive_back));
+            }
+            if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                 titleTV.setText(getString(R.string.borrow_summary));
                 totalPlayReceiveTV.setText(getString(R.string.total_to_pay_back));
             }

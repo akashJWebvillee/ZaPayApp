@@ -60,10 +60,23 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
     public void onBindViewHolder(@NonNull HistoryPendingAdapter.MyHolder holder, int position) {
         TransactionModel transactionModel = transactionModelsList.get(position);
 
-        holder.nameTV.setText(transactionModel.getFirstName() + " " + transactionModel.getLastName());
-        holder.dateTV.setText(TimeStamp.timeFun(transactionModel.getCreatedAt()));
-        holder.noOfPaymentTV.setText(transactionModel.getNoOfPayment());
-        holder.amountTV.setText("$" + transactionModel.getTotalAmount());
+
+        if (transactionModel.getFirstName() != null && transactionModel.getFirstName().length() > 0 && transactionModel.getFirstName() != null && transactionModel.getFirstName().length() > 0) {
+            String name = transactionModel.getFirstName() + " " + transactionModel.getLastName();
+            holder.nameTV.setText(name);
+        }
+
+        if (transactionModel.getCreatedAt() != null && transactionModel.getCreatedAt().length() > 0) {
+            holder.dateTV.setText(TimeStamp.timeFun(transactionModel.getCreatedAt()));
+        }
+
+        if (transactionModel.getNoOfPayment() != null && transactionModel.getNoOfPayment().length() > 0) {
+            holder.noOfPaymentTV.setText(transactionModel.getNoOfPayment());
+        }
+
+        if (transactionModel.getAmount() != null && transactionModel.getAmount().length() > 0) {
+            holder.amountTV.setText("$" + transactionModel.getTotalAmount());
+        }
 
         if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
             holder.borroModeTitleTV.setText(context.getString(R.string.lend_mode));
@@ -87,10 +100,12 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
                 if (!transactionModel.getStatus().equalsIgnoreCase("2")) {
                     if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                         Intent intent = new Intent(context, BorrowSummaryActivity.class);
+                        intent.putExtra("moveFrom", data);
                         intent.putExtra("transactionId", transactionModel.getId());
                         context.startActivity(intent);
                     } else if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
                         Intent intent = new Intent(context, LendingSummaryActivity.class);
+                        intent.putExtra("moveFrom", data);
                         intent.putExtra("transactionId", transactionModel.getId());
                         context.startActivity(intent);
                     }

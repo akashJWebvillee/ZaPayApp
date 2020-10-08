@@ -1,148 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="342dp"
+        android:background="@mipmap/base_bg" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="342dp"
-            android:background="@mipmap/base_bg" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="148dp"
-            android:elevation="10dp"
-            android:background="@drawable/rectanguler_bottom_corner_bg"
-            android:orientation="vertical">
+        android:layout_marginTop="148dp"
+        android:background="@drawable/rectanguler_bottom_corner_bg"
+        android:elevation="10dp"
+        android:orientation="vertical">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/bank_account_setup"
-                android:gravity="start"
-                android:textSize="24sp"
-                android:fontFamily="@font/gotha_promed"
-                android:textColor="@color/navTextColor"
-                android:layout_marginTop="70dp"
-                android:layout_marginStart="31dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:includeFontPadding="false"
-                android:textSize="16sp"
-                android:fontFamily="@font/gotha_pro_reg"
-                android:text="@string/account_number"
-                android:layout_marginTop="49dp"
-                android:layout_marginStart="31dp"
-                android:textColor="@color/navTextColor50Alpha"/>
-
-            <TextView
-                android:id="@+id/accountNumberTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:gravity="start"
-                android:textSize="22sp"
-                android:layout_marginTop="7dp"
-                android:fontFamily="@font/gotha_promed"
-                android:textColor="@color/navTextColor"
-                android:layout_marginStart="31dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:includeFontPadding="false"
-                android:textSize="16sp"
-                android:fontFamily="@font/gotha_pro_reg"
-                android:text="@string/routing_number"
-                android:layout_marginTop="30dp"
-                android:layout_marginStart="31dp"
-                android:textColor="@color/navTextColor50Alpha"/>
-
-            <TextView
-                android:id="@+id/routingNumberTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:gravity="start"
-                android:textSize="22sp"
-                android:layout_marginTop="7dp"
-                android:fontFamily="@font/gotha_promed"
-                android:textColor="@color/navTextColor"
-                android:layout_marginStart="31dp"/>
-
-
-            <com.dd.ShadowLayout
-                android:id="@+id/addShadowLayout"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="160dp"
-                android:layout_marginStart="48dp"
-                android:layout_marginEnd="48dp"
-                app:sl_cornerRadius="56dp"
-                android:layout_gravity="center"
-                app:sl_dx="0dp"
-                app:sl_dy="10dp"
-                app:sl_shadowColor="#2CFC5C04"
-                app:sl_shadowRadius="4dp">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/addTV"
-                    android:layout_width="match_parent"
-                    android:layout_height="53dp"
-                    android:background="@drawable/rectanguler_button_bg"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:gravity="center"
-                    android:text="@string/add"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/gotha_probol"
-                    android:textColor="@color/colorWhite" />
-            </com.dd.ShadowLayout>
-
-
-
-            <com.dd.ShadowLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="50dp"
-                android:layout_marginStart="48dp"
-                android:layout_marginEnd="48dp"
-                app:sl_cornerRadius="56dp"
-                android:layout_gravity="center"
-                app:sl_dx="0dp"
-                app:sl_dy="10dp"
-                app:sl_shadowColor="#2CFC5C04"
-                app:sl_shadowRadius="4dp">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="31dp"
+                    android:layout_marginTop="70dp"
+                    android:fontFamily="@font/gotha_promed"
+                    android:gravity="start"
+                    android:text="@string/bank_account_setup"
+                    android:textColor="@color/navTextColor"
+                    android:textSize="24sp" />
 
                 <TextView
-                    android:id="@+id/changeTV"
-                    android:layout_width="match_parent"
-                    android:layout_height="53dp"
-                    android:background="@drawable/rectanguler_button_bg"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:gravity="center"
-                    android:text="@string/change"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/gotha_probol"
-                    android:textColor="@color/colorWhite" />
-            </com.dd.ShadowLayout>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="31dp"
+                    android:layout_marginTop="49dp"
+                    android:fontFamily="@font/gotha_pro_reg"
+                    android:includeFontPadding="false"
+                    android:text="@string/account_number"
+                    android:textColor="@color/navTextColor50Alpha"
+                    android:textSize="16sp" />
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/accountNumberTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="31dp"
+                    android:layout_marginTop="7dp"
+                    android:fontFamily="@font/gotha_promed"
+                    android:gravity="start"
+                    android:text=""
+                    android:textColor="@color/navTextColor"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="31dp"
+                    android:layout_marginTop="30dp"
+                    android:fontFamily="@font/gotha_pro_reg"
+                    android:includeFontPadding="false"
+                    android:text="@string/routing_number"
+                    android:textColor="@color/navTextColor50Alpha"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/routingNumberTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="31dp"
+                    android:layout_marginTop="7dp"
+                    android:fontFamily="@font/gotha_promed"
+                    android:gravity="start"
+                    android:text=""
+                    android:textColor="@color/navTextColor"
+                    android:textSize="22sp" />
+
+
+                <com.dd.ShadowLayout
+                    android:id="@+id/addShadowLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="48dp"
+                    android:layout_marginTop="160dp"
+                    android:layout_marginEnd="48dp"
+                    app:sl_cornerRadius="56dp"
+                    app:sl_dx="0dp"
+                    app:sl_dy="10dp"
+                    app:sl_shadowColor="#2CFC5C04"
+                    app:sl_shadowRadius="4dp">
+
+                    <TextView
+                        android:id="@+id/addTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="53dp"
+                        android:background="@drawable/rectanguler_button_bg"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:fontFamily="@font/gotha_probol"
+                        android:gravity="center"
+                        android:text="@string/add"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="16sp" />
+                </com.dd.ShadowLayout>
+
+
+                <com.dd.ShadowLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="48dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="48dp"
+                    android:layout_marginBottom="50dp"
+                    app:sl_cornerRadius="56dp"
+                    app:sl_dx="0dp"
+                    app:sl_dy="10dp"
+                    app:sl_shadowColor="#2CFC5C04"
+                    app:sl_shadowRadius="4dp">
+
+                    <TextView
+                        android:id="@+id/changeTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="53dp"
+                        android:background="@drawable/rectanguler_button_bg"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:fontFamily="@font/gotha_probol"
+                        android:gravity="center"
+                        android:text="@string/change"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="16sp" />
+                </com.dd.ShadowLayout>
+
+            </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-        </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

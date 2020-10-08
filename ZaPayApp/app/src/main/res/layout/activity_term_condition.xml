@@ -26,12 +26,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/terms_and_conditions"
-                android:gravity="center"
-                android:textSize="24sp"
+                android:layout_marginTop="35dp"
                 android:fontFamily="@font/gotha_promed"
+                android:gravity="center"
+                android:text="@string/terms_and_conditions"
                 android:textColor="@color/textColor"
-                android:layout_marginTop="35dp"/>
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/termCondtitionTV"
@@ -39,17 +39,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:gravity="start"
-                android:textSize="14sp"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/gotha_pro_reg"
-                android:lineSpacingExtra="5dp"
+                android:gravity="start"
                 android:includeFontPadding="false"
+                android:lineSpacingExtra="5dp"
                 android:textColor="@color/textColorTerms"
-                android:layout_marginTop="20dp" />
-            <!--android:text="Nemo enim ipsam voluptatem quia volpts sit aspernatur aut odit aut fugit sed quia consqu magni dolores eos qui ratione voluptatem qui nesciunt.\n\nQuis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.\n\nVel illum qui dolorem eum fugiat quo volupts nulla pariatur. Duis aute irure dolor in repreh enderit in voluptate velit esse cillum dolore eu fugiat et pariatur.\n\nExcepteur sint occaecat cupidatat non proide sunt in culpa qui officia." -->
-            <include layout="@layout/view_no_data"/>
+                android:textSize="14sp" />
+
+            <include layout="@layout/view_no_data" />
         </LinearLayout>
-
-
     </RelativeLayout>
 </RelativeLayout>

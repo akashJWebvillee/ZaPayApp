@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="209dp"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
     android:layout_marginStart="55dp"
+    android:gravity="center_vertical"
     android:orientation="horizontal">
 
     <View
@@ -11,5 +11,5 @@
         android:layout_height="1dp"
         android:layout_marginTop="25dp"
         android:layout_marginBottom="25dp"
-        android:background="@color/navViewColor"/>
+        android:background="@color/navViewColor" />
 </LinearLayout>

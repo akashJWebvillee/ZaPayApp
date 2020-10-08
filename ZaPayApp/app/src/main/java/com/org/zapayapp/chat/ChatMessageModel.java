@@ -9,17 +9,6 @@ public class ChatMessageModel {
     public static final int RECEIVED_MSG = 0;
     public static final int SEND_MSG = 1;
 
-    private int msgType;
-
-    public ChatMessageModel(String message, int msgType) {
-        this.message = message;
-        this.msgType = msgType;
-    }
-
-    public int getMsgType() {
-        return msgType;
-    }
-
     public ChatMessageModel() {
     }
 
@@ -87,10 +76,6 @@ public class ChatMessageModel {
         this.receiverId = receiverId;
     }
 
-    public String getTransactionRequestId() {
-        return transactionRequestId;
-    }
-
     public void setTransactionRequestId(String transactionRequestId) {
         this.transactionRequestId = transactionRequestId;
     }
@@ -119,48 +104,24 @@ public class ChatMessageModel {
         this.createdAt = createdAt;
     }
 
-    public String getSenderFirstName() {
-        return senderFirstName;
-    }
-
     public void setSenderFirstName(String senderFirstName) {
         this.senderFirstName = senderFirstName;
-    }
-
-    public String getSenderLastName() {
-        return senderLastName;
     }
 
     public void setSenderLastName(String senderLastName) {
         this.senderLastName = senderLastName;
     }
 
-    public String getSenderProfileImage() {
-        return senderProfileImage;
-    }
-
     public void setSenderProfileImage(String senderProfileImage) {
         this.senderProfileImage = senderProfileImage;
-    }
-
-    public String getReceiverFirstName() {
-        return receiverFirstName;
     }
 
     public void setReceiverFirstName(String receiverFirstName) {
         this.receiverFirstName = receiverFirstName;
     }
 
-    public String getReceiverLastName() {
-        return receiverLastName;
-    }
-
     public void setReceiverLastName(String receiverLastName) {
         this.receiverLastName = receiverLastName;
-    }
-
-    public String getReceiverProfileImage() {
-        return receiverProfileImage;
     }
 
     public void setReceiverProfileImage(String receiverProfileImage) {
@@ -172,11 +133,8 @@ public class ChatMessageModel {
         public int compare(ChatMessageModel s1, ChatMessageModel s2) {
             long sendOn1 = s1.getCreatedAt();
             long sendOn2 = s2.getCreatedAt();
-
             //ascending order
             return Long.compare(sendOn1, sendOn2);
-
-            //descending order
-            //return StudentName2.compareTo(StudentName1);
-        }};
+        }
+    };
 }

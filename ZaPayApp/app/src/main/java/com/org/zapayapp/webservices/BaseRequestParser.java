@@ -19,14 +19,6 @@ import okhttp3.RequestBody;
 public class BaseRequestParser {
 
     /**
-     * The constant playStoreLink.
-     */
-    public static String playStoreLink = "https://play.google.com.admin/store/apps/details?id=com.baqalaty";
-    /**
-     * The constant newtWorkMessage.
-     */
-    public static String newtWorkMessage = "Please check your network settings.";
-    /**
      * The Run in background.
      */
     public boolean runInBackground = false;
@@ -46,10 +38,6 @@ public class BaseRequestParser {
      * The Cache enabled.
      */
     public boolean cacheEnabled = false;
-    /**
-     * The M progress bar handler.
-     */
-   public ProgressBarHandler mProgressBarHandler;
     /**
      * The Loader view.
      */
@@ -130,12 +118,7 @@ public class BaseRequestParser {
     public void showLoader(Activity activity) {
         if (activity != null && !(activity).isDestroyed()) {
             if (!runInBackground) {
-              /*  if (null != loaderView) {
-                    loaderView.setVisibility(View.VISIBLE);
-                } else*/ if (null != mProgressBarHandler) {
-                   ///mProgressBarHandler.show();
-                    MyProgressDialog.getInstance().show(activity);
-                }
+                MyProgressDialog.getInstance().show(activity);
             }
         }
     }
@@ -148,12 +131,7 @@ public class BaseRequestParser {
     public void hideLoader(Activity activity) {
         if (activity != null && !(activity).isDestroyed()) {
             if (!runInBackground) {
-               /* if (null != loaderView) {
-                    loaderView.setVisibility(View.GONE);
-                } else*/if (null != mProgressBarHandler) {
-                  // mProgressBarHandler.hide();
-                    MyProgressDialog.getInstance().dismiss();
-                }
+                MyProgressDialog.getInstance().dismiss();
             }
         }
     }

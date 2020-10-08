@@ -146,7 +146,7 @@ public class VerifyBankDialogActivity extends AppCompatActivity implements View.
         String token= SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
             HashMap<String, Object> values = apiCalling.getHashMapObject(
-                    "id", SharedPref.getPrefsHelper().getPref(Const.Var.BANKACCOUNT_ID).toString(),
+                    "id", SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_ID).toString(),
                     "amount1", amount1EditText.getText().toString().trim(),
                     "amount2", amount2EditText.getText().toString().trim());
 

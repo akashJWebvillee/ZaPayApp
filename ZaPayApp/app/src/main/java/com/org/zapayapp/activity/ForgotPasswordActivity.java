@@ -59,11 +59,9 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
         if (v.getId() == R.id.buttonSend) {
 
             try {
-                //if (wValidationLib.isEmpty(passwordInputLayout, passwordEditText, getString(R.string.important), true)) {
                 if (wValidationLib.isEmailAddress(passwordInputLayout, passwordEditText, getString(R.string.important), getString(R.string.please_enter_valid_email), true)) {
                     callAPIResetPassword();
                 }
-                // }
             } catch (Exception e) {
                 e.printStackTrace();
             }

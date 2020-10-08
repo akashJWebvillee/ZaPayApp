@@ -31,8 +31,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         initAction();
     }
 
-
-
     private void init() {
         homeLLLend = findViewById(R.id.homeLLLend);
         homeLLBorrow = findViewById(R.id.homeLLBorrow);
@@ -46,9 +44,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     private void initAction() {
         homeLLLend.setOnClickListener(this);
         homeLLBorrow.setOnClickListener(this);
-       // callAPIGetUserDetail();
-       // callAPIGetBankAccountDetail();
-
 
         if (SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME) != null && SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME).toString().length() > 0) {
             titleTV.setText(getString(R.string.hello) + " " + SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME).toString());

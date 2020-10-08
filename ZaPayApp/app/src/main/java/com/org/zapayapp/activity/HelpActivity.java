@@ -1,28 +1,37 @@
 package com.org.zapayapp.activity;
+
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.webservices.APICallback;
+
 import java.util.HashMap;
+
 import retrofit2.Call;
 
-/**
- * The type Help activity.
- */
 public class HelpActivity extends BaseActivity implements APICallback {
+
     private TextView contentTV;
     private TextView noDataTv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
+        init();
+        initAction();
 
-        contentTV=findViewById(R.id.contentTV);
-        noDataTv=findViewById(R.id.noDataTv);
+    }
+    private void init(){
+        contentTV = findViewById(R.id.contentTV);
+        noDataTv = findViewById(R.id.noDataTv);
+    }
+
+    private void initAction(){
         callAPIHelp();
     }
 
@@ -45,7 +54,6 @@ public class HelpActivity extends BaseActivity implements APICallback {
     private void callAPIHelp() {
         HashMap<String, Object> values = apiCalling.getHashMapObject(
                 "content_type", "help");
-
         try {
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postApi(getString(R.string.api_get_content), values);
@@ -68,20 +76,17 @@ public class HelpActivity extends BaseActivity implements APICallback {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
             if (from.equals(getResources().getString(R.string.api_get_content))) {
-                if (status==200){
-                    if (json.get("data").getAsJsonObject()!=null){
-                        JsonObject jsonObject=  json.get("data").getAsJsonObject();
-                        if (jsonObject.get("page_description").getAsString()!=null){
+                if (status == 200) {
+                    if (json.get("data").getAsJsonObject() != null) {
+                        JsonObject jsonObject = json.get("data").getAsJsonObject();
+                        if (jsonObject.get("page_description").getAsString() != null) {
                             contentTV.setText(jsonObject.get("page_description").getAsString());
                         }
-
                     }
-                }else if (status==401){
+                } else if (status == 401) {
                     showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
-
-                }else {
+                } else {
                     showSimpleAlert(msg, "");
                     noDataTv.setVisibility(View.VISIBLE);
                 }

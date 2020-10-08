@@ -3,23 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
+    android:orientation="horizontal"
     android:paddingTop="15dp"
-    android:paddingBottom="15dp"
-    android:orientation="horizontal">
+    android:paddingBottom="15dp">
 
     <View
         android:id="@+id/navView"
         android:layout_width="12dp"
         android:layout_height="1dp"
-        android:background="@color/navTextSelectColor"/>
+        android:background="@color/navTextSelectColor" />
 
     <TextView
         android:id="@+id/navTextName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="@string/my_profile"
         android:layout_marginStart="43dp"
+        android:fontFamily="@font/gotha_pro_reg"
+        android:text="@string/my_profile"
         android:textColor="@drawable/drawer_item_color"
-        android:fontFamily="@font/gotha_pro_reg"/>
+        android:textSize="20sp" />
 </LinearLayout>

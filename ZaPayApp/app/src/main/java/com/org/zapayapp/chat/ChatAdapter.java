@@ -4,16 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.github.siyamed.shapeimageview.CircularImageView;
 import com.org.zapayapp.R;
-import com.org.zapayapp.activity.ProfileActivity;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.WVDateLib;
@@ -21,7 +19,6 @@ import com.org.zapayapp.webservices.APICalling;
 
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -62,7 +59,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     receivedMessageHolder.timeTextView.setText(wvDateLib.milliSecToDate(chatModel.getCreatedAt()));
                 }
                 if(receiverProfileImg != null && receiverProfileImg.length()>0){
-                    Glide.with(context).load(APICalling.getImageUrl(receiverProfileImg)).placeholder(R.mipmap.ic_user).into(receivedMessageHolder.imageViewProfile);
+                    Glide.with(context).load(APICalling.getImageUrl(receiverProfileImg)).placeholder(R.mipmap.ic_user).circleCrop().into(receivedMessageHolder.imageViewProfile);
                 }
             } else if (holder instanceof SendMessageHolder) {
                 SendMessageHolder sendMessageHolder =  ((SendMessageHolder) holder);
@@ -104,7 +101,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     class ReceivedMessageHolder extends RecyclerView.ViewHolder {
         private TextView receiveMsgTV,timeTextView;
-        private CircleImageView imageViewProfile;
+        private CircularImageView imageViewProfile;
 
         public ReceivedMessageHolder(@NonNull View itemView) {
             super(itemView);

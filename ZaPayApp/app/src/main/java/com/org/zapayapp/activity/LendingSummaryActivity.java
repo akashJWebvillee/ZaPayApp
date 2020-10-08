@@ -1,17 +1,13 @@
 package com.org.zapayapp.activity;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.fragment.app.FragmentManager;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
-import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
 import com.org.zapayapp.chat.ChatActivity;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.Const;
@@ -23,23 +19,13 @@ import java.util.HashMap;
 
 import retrofit2.Call;
 
-public class LendingSummaryActivity extends BaseActivity implements APICallback, SimpleAlertFragment.AlertSimpleCallback {
-    private TextView nameTV;
-    private TextView amountTV;
-    private TextView termTV;
-    private TextView noOfPaymentTV;
-    private TextView paymentDateTV;
-    private TextView totalReceivedBackTV;
-    private TextView viewAllTV;
+public class LendingSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener {
 
-    private TextView negotiateTV;
-    private TextView acceptTV;
-    private TextView declineTV;
+    private TextView nameTV, amountTV, termTV, noOfPaymentTV, paymentDateTV, totalReceivedBackTV, viewAllTV;
+    private TextView negotiateTV, acceptTV, declineTV, chatTV;
     private String transactionId;
     private TransactionModel transactionModel;
-    private TextView chatTV;
-
-    private String negotaiionAcceptDeclineStaatus = "";
+    private String negotiationAcceptDeclineStatus = "";
     private Intent intent;
 
     @Override
@@ -48,6 +34,7 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
         setContentView(R.layout.activity_lending_summary);
         inIt();
         inItAction();
+        getIntentValues();
     }
 
     private void inIt() {
@@ -62,50 +49,57 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
         negotiateTV = findViewById(R.id.negotiateTV);
         acceptTV = findViewById(R.id.acceptTV);
         declineTV = findViewById(R.id.declineTV);
-
         chatTV = findViewById(R.id.chatTV);
-
-        if (getIntent().getStringExtra("transactionId") != null) {
-            transactionId = getIntent().getStringExtra("transactionId");
-            callAPIGetTransactionRequestDetail(transactionId);
-        }
     }
 
     private void inItAction() {
-        negotiateTV.setOnClickListener(v -> {
-            negotaiionAcceptDeclineStaatus = "1";
-            callAPIUpdateTransactionRequestStatus("1");
+        negotiateTV.setOnClickListener(this);
+        acceptTV.setOnClickListener(this);
+        declineTV.setOnClickListener(this);
+        viewAllTV.setOnClickListener(this);
+        chatTV.setOnClickListener(this);
+    }
 
-        /*    Intent intent = new Intent(LendingSummaryActivity.this, LendBorrowActivity.class);
-            intent.putExtra("isBorrow", false);
-            intent.putExtra("transactionModel", transactionModel);
-            startActivity(intent);*/
-        });
+    private void getIntentValues() {
+        intent = getIntent();
+        if (intent != null && intent.getStringExtra("transactionId") != null) {
+            transactionId = intent.getStringExtra("transactionId");
+            if (intent.getStringExtra("moveFrom") != null) {
+                if (getString(R.string.transaction).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
+                    callAPIGetTransactionRequestDetail(transactionId);
+                } else if (getString(R.string.history).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
+                    callAPIGetHistoryRequestDetail(transactionId);
+                }
+            }
+        }
+    }
 
-        acceptTV.setOnClickListener(v -> {
-            negotaiionAcceptDeclineStaatus = "2";
-            callAPIUpdateTransactionRequestStatus("2");
-        });
-
-        declineTV.setOnClickListener(v -> {
-            negotaiionAcceptDeclineStaatus = "3";
-            callAPIUpdateTransactionRequestStatus("3");
-        });
-
-        viewAllTV.setOnClickListener(v -> {
-            intent = new Intent(LendingSummaryActivity.this, ViewAllSummaryActivity.class);
-            intent.putExtra("transactionId", transactionId);
-            startActivity(intent);
-        });
-
-        chatTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.negotiateTV:
+                negotiationAcceptDeclineStatus = "1";
+                callAPIUpdateTransactionRequestStatus("1");
+                break;
+            case R.id.acceptTV:
+                negotiationAcceptDeclineStatus = "2";
+                callAPIUpdateTransactionRequestStatus("2");
+                break;
+            case R.id.declineTV:
+                negotiationAcceptDeclineStatus = "3";
+                callAPIUpdateTransactionRequestStatus("3");
+                break;
+            case R.id.viewAllTV:
+                intent = new Intent(LendingSummaryActivity.this, ViewAllSummaryActivity.class);
+                intent.putExtra("transactionId", transactionId);
+                startActivity(intent);
+                break;
+            case R.id.chatTV:
                 intent = new Intent(LendingSummaryActivity.this, ChatActivity.class);
                 intent.putExtra("transactionModel", transactionModel);
                 startActivity(intent);
-            }
-        });
+                break;
+        }
     }
 
     @Override
@@ -134,6 +128,20 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
         }
     }
 
+    private void callAPIGetHistoryRequestDetail(String transaction_request_id) {
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        HashMap<String, Object> values = apiCalling.getHashMapObject(
+                "transaction_request_id", transaction_request_id);
+        try {
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_get_transaction_history_details), values);
+            if (apiCalling != null) {
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_get_transaction_history_details), acceptTV);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private void callAPIUpdateTransactionRequestStatus(String status) {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
@@ -164,7 +172,7 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
             }
             if (from.equals(getResources().getString(R.string.api_update_transaction_request_status))) {
                 if (status == 200) {
-                    if (!negotaiionAcceptDeclineStaatus.equalsIgnoreCase("1")) {
+                    if (!negotiationAcceptDeclineStatus.equalsIgnoreCase("1")) {
                         showSimpleAlert(msg, getResources().getString(R.string.api_update_transaction_request_status));
                     } else {
                         intent = new Intent(LendingSummaryActivity.this, LendBorrowActivity.class);
@@ -179,7 +187,16 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 if (status == 200) {
                     if (json.get("data").getAsJsonObject() != null) {
                         transactionModel = (TransactionModel) apiCalling.getDataObject(json.get("data").getAsJsonObject(), TransactionModel.class);
-                        setaData(json.get("data").getAsJsonObject());
+                        setData(json.get("data").getAsJsonObject());
+                    }
+                } else {
+                    showSimpleAlert(msg, getResources().getString(R.string.api_update_transaction_request_status));
+                }
+            } else if (from.equals(getResources().getString(R.string.api_get_transaction_history_details))) {
+                if (status == 200) {
+                    if (json.get("data").getAsJsonObject() != null) {
+                        transactionModel = (TransactionModel) apiCalling.getDataObject(json.get("data").getAsJsonObject(), TransactionModel.class);
+                        setData(json.get("data").getAsJsonObject());
                     }
                 } else {
                     showSimpleAlert(msg, getResources().getString(R.string.api_update_transaction_request_status));
@@ -188,43 +205,7 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
         }
     }
 
-    private void setaData(JsonObject jsonObject) {
-        /*String id=jsonObject.get("id").getAsString();
-        String from_id=jsonObject.get("from_id").getAsString();
-        String to_id=jsonObject.get("to_id").getAsString();
-        String amount=jsonObject.get("amount").getAsString();
-        String total_amount=jsonObject.get("total_amount").getAsString();
-        String status=jsonObject.get("status").getAsString();
-        String terms_type=jsonObject.get("terms_type").getAsString();
-        String terms_value=jsonObject.get("terms_value").getAsString();
-        String no_of_payment=jsonObject.get("no_of_payment").getAsString();
-        String pay_date=jsonObject.get("pay_date").getAsString();
-        String updated_by=jsonObject.get("updated_by").getAsString();
-        String request_by=jsonObject.get("request_by").getAsString();
-        String created_at=jsonObject.get("created_at").getAsString();
-        String updated_at=jsonObject.get("updated_at").getAsString();
-        String first_name=jsonObject.get("first_name").getAsString();
-        String last_name=jsonObject.get("last_name").getAsString();
-
-        nameTV.setText(first_name+" "+ last_name);
-        amountTV.setText("$"+amount);
-
-        noOfPaymentTV.setText(no_of_payment);
-        paymentDateTV.setText(TimeStamp.timeFun(created_at));
-
-        totalReceivedBackTV.setText("$"+total_amount);
-
-        if (terms_type.equalsIgnoreCase("1")) {
-            termTV.setText(terms_value+" "+getString(R.string.percent));
-        } else if (terms_type.equalsIgnoreCase("2")) {
-            termTV.setText(terms_value+" "+getString(R.string.fee));
-        } else if (terms_type.equalsIgnoreCase("3")) {
-            termTV.setText(terms_value+" "+getString(R.string.discount));
-        } else if (terms_type.equalsIgnoreCase("4")) {
-            termTV.setText(terms_value+" "+getString(R.string.none));
-        }*/
-
-
+    private void setData(JsonObject jsonObject) {
         if (jsonObject.get("first_name").getAsString() != null && jsonObject.get("first_name").getAsString().length() > 0 && jsonObject.get("first_name").getAsString() != null && jsonObject.get("first_name").getAsString().length() > 0) {
             String first_name = jsonObject.get("first_name").getAsString();
             String last_name = jsonObject.get("last_name").getAsString();
@@ -263,31 +244,6 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
             } else if (terms_type.equalsIgnoreCase("4")) {
                 termTV.setText(terms_value + " " + getString(R.string.none));
             }
-        }
-
-
-    }
-
-    public void showSimpleAlert(String message, String from) {
-        try {
-            FragmentManager fm = getSupportFragmentManager();
-            Bundle args = new Bundle();
-            args.putString("header", message);
-            args.putString("textOk", getString(R.string.ok));
-            args.putString("textCancel", getString(R.string.cancel));
-            args.putString("from", from);
-            SimpleAlertFragment alert = new SimpleAlertFragment();
-            alert.setArguments(args);
-            alert.show(fm, "");
-        } catch (Resources.NotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onSimpleCallback(String from) {
-        if (from.equals(getResources().getString(R.string.api_update_transaction_request_status))) {
-            finish();
         }
     }
 }

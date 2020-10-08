@@ -66,8 +66,9 @@ public class SimpleAlertFragment extends DialogFragment {
     @Override
     public void onResume() {
         Dialog dialog = getDialog();
+        assert dialog != null;
         dialog.setCanceledOnTouchOutside(false);
-        if (dialog != null && dialog.getWindow() != null) {
+        if (dialog.getWindow() != null) {
             int w = CommonMethods.getScreenWidth() - 150;
             dialog.getWindow().setLayout(w, ViewGroup.LayoutParams.WRAP_CONTENT);
            // dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);

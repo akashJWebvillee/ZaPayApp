@@ -5,15 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="?android:attr/actionBarSize"
     android:background="@color/colorWhite"
-    app:contentInsetStartWithNavigation="0dp"
-    app:contentInsetStart="0dp">
-
-    <!--android:layout_alignParentStart="true"
-    android:layout_margin="0dp"
-    app:contentInsetLeft="0dp"
-    app:contentInsetRight="0dp"
     app:contentInsetStart="0dp"
-    app:contentInsetStartWithNavigation="0dp"-->
+    app:contentInsetStartWithNavigation="0dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -23,21 +16,42 @@
             android:id="@+id/backArrowImageView"
             android:layout_width="26dp"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="28dp"
+            android:contentDescription="@null"
             android:src="@mipmap/ic_back"
             android:tint="@color/navTextColor"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="28dp"/>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/titleTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textSize="22sp"
-            android:includeFontPadding="false"
             android:fontFamily="@font/gotha_promed"
-            android:text=""
-            android:textColor="@color/navTextColor"/>
+            android:includeFontPadding="false"
+            android:textColor="@color/navTextColor"
+            android:textSize="22sp" />
+
+        <ImageView
+            android:id="@+id/cancelImageView"
+            android:layout_width="26dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="28dp"
+            android:contentDescription="@null"
+            android:src="@drawable/clear"
+            android:tint="@color/navTextColor"
+            android:visibility="gone" />
+
+        <View
+            android:id="@+id/headerLineView"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/titleTV"
+            android:layout_marginTop="16dp"
+            android:background="@color/colorLineLightGrey" />
     </RelativeLayout>
 </androidx.appcompat.widget.Toolbar>
 

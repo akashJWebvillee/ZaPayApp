@@ -8,7 +8,6 @@ import android.widget.TextView;
 import com.google.android.material.tabs.TabLayout;
 import com.org.zapayapp.R;
 import com.org.zapayapp.adapters.MyHistoryPaggerAdapter;
-import com.org.zapayapp.adapters.MyPaggerAdapter;
 import com.org.zapayapp.uihelpers.CustomViewPager;
 import java.util.ArrayList;
 
@@ -31,6 +30,7 @@ public class MyHistoryActivity extends AppCompatActivity implements TabLayout.On
         toolbar = findViewById(R.id.toolbar);
         titleTV = toolbar.findViewById(R.id.titleTV);
         backArrowImageView = (ImageView) toolbar.findViewById(R.id.backArrowImageView);
+        backArrowImageView.setVisibility(View.VISIBLE);
         titleTV.setText(getString(R.string.history));
 
         tabLayout = findViewById(R.id.tabLayout);
@@ -43,16 +43,10 @@ public class MyHistoryActivity extends AppCompatActivity implements TabLayout.On
 
         tabLayout.setTabTextColors(getResources().getColor(R.color.tabTextColor), getResources().getColor(R.color.navTextColor));
         tabLayout.setSelectedTabIndicator(R.drawable.tab_indicator);
-        ArrayList<String> list = new ArrayList<>();
-        list.add(getString(R.string.pending));
-        list.add(getString(R.string.negotiation));
-        list.add(getString(R.string.completed));
 
-
-        MyHistoryPaggerAdapter myHistoryPaggerAdapter = new MyHistoryPaggerAdapter(this, getSupportFragmentManager(), tabLayout.getTabCount(), list);
+        MyHistoryPaggerAdapter myHistoryPaggerAdapter = new MyHistoryPaggerAdapter(this, getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(myHistoryPaggerAdapter);
         viewPager.setPagingEnabled(false);
-        //Adding onTabSelectedListener to swipe views
         tabLayout.addOnTabSelectedListener(this);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     }

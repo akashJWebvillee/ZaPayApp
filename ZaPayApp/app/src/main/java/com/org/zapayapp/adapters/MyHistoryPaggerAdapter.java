@@ -1,26 +1,28 @@
 package com.org.zapayapp.adapters;
+
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+
 import com.org.zapayapp.fragment.HistoryCompletedFragment;
 import com.org.zapayapp.fragment.HistoryNegotiationFragment;
 import com.org.zapayapp.fragment.HistoryPendingFragment;
+
 import java.util.ArrayList;
 
 public class MyHistoryPaggerAdapter extends FragmentStatePagerAdapter {
-    int tabCount;
+    private int tabCount;
     private Context context;
-    private ArrayList<String> list;
 
     //Constructor to the class
-    public MyHistoryPaggerAdapter(Context context, FragmentManager fm, int tabCount, ArrayList<String> list) {
-        super(fm);
+    public MyHistoryPaggerAdapter(Context context, FragmentManager fm, int tabCount) {
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         //Initializing tab count
         this.tabCount = tabCount;
         this.context = context;
-        this.list = list;
     }
 
     @NonNull
@@ -37,7 +39,6 @@ public class MyHistoryPaggerAdapter extends FragmentStatePagerAdapter {
                 return tab2;
             case 2:
                 HistoryCompletedFragment tab3 = new HistoryCompletedFragment();
-                //CompletedFragment tab3 = new CompletedFragment();
                 return tab3;
             default:
                 return null;

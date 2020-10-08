@@ -9,13 +9,6 @@
         android:layout_height="342dp"
         android:background="@mipmap/base_bg" />
 
-   <!-- <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="251dp"
-        android:background="@drawable/rectanguler_bottom_corner" />
--->
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,15 +17,14 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/oval_bg"/>
+            android:background="@drawable/oval_bg" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="27dp"
-            android:background="@drawable/rectanguler_bottom_corner"/>
+            android:background="@drawable/rectanguler_bottom_corner" />
     </RelativeLayout>
-
 
 
     <LinearLayout
@@ -42,9 +34,9 @@
         android:layout_marginTop="131dp"
         android:layout_marginEnd="18dp"
         android:layout_marginBottom="50dp"
-        android:elevation="3dp"
-        android:backgroundTint="@color/colorWhite"
         android:background="@drawable/rectanguler_bg"
+        android:backgroundTint="@color/colorWhite"
+        android:elevation="3dp"
         android:orientation="vertical">
 
         <androidx.core.widget.NestedScrollView
@@ -82,7 +74,7 @@
                     android:gravity="start"
                     android:text="@string/lender"
                     android:textColor="@color/navTextColor60Alpha"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/nameTV"
@@ -94,7 +86,7 @@
                     android:gravity="start"
                     android:text=""
                     android:textColor="@color/textColor"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/chatTV"
@@ -102,13 +94,13 @@
                     android:layout_height="26dp"
                     android:layout_marginStart="259dp"
                     android:layout_marginTop="98dp"
+                    android:background="@drawable/rectanguler_4redius"
+                    android:backgroundTint="@color/colorPrimary"
                     android:fontFamily="@font/gotha_promed"
                     android:gravity="center"
                     android:text="@string/chat"
                     android:textColor="@color/colorWhite"
-                    android:textSize="11sp"
-                    android:background="@drawable/rectanguler_4redius"
-                    android:backgroundTint="@color/colorPrimary"/>
+                    android:textSize="11sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -119,7 +111,7 @@
                     android:gravity="start"
                     android:text="@string/amount"
                     android:textColor="@color/navTextColor60Alpha"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/amountTV"
@@ -131,7 +123,7 @@
                     android:gravity="start"
                     android:text=""
                     android:textColor="@color/textColor"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -142,7 +134,7 @@
                     android:gravity="start"
                     android:text="@string/terms"
                     android:textColor="@color/navTextColor60Alpha"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/termTV"
@@ -154,7 +146,7 @@
                     android:gravity="start"
                     android:text=""
                     android:textColor="@color/textColor"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -165,7 +157,7 @@
                     android:gravity="start"
                     android:text="@string/payments"
                     android:textColor="@color/navTextColor60Alpha"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/noOfPaymentTV"
@@ -177,7 +169,7 @@
                     android:gravity="start"
                     android:text=""
                     android:textColor="@color/textColor"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -188,7 +180,7 @@
                     android:gravity="start"
                     android:text="@string/payback_dates"
                     android:textColor="@color/navTextColor60Alpha"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/paymentDateTV"
@@ -200,7 +192,7 @@
                     android:gravity="start"
                     android:text=""
                     android:textColor="@color/textColor"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
 
                 <View
                     android:layout_width="match_parent"
@@ -217,7 +209,7 @@
                     android:gravity="start"
                     android:text="@string/total_to_receive_back"
                     android:textColor="@color/navTextColor60Alpha"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/totalReceivedBackTV"
@@ -229,7 +221,7 @@
                     android:gravity="start"
                     android:text=""
                     android:textColor="@color/textColor"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/viewAllTV"
@@ -242,12 +234,12 @@
                     android:gravity="start"
                     android:text="@string/view_all"
                     android:textColor="@color/navTextSelectColor"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp" />
 
                 <View
-                    android:layout_below="@+id/viewAllTV"
                     android:layout_width="80dp"
                     android:layout_height="1dp"
+                    android:layout_below="@+id/viewAllTV"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="1dp"
                     android:layout_marginEnd="28dp"
@@ -255,8 +247,6 @@
 
                 <TextView
                     android:id="@+id/negotiateTV"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/gotha_probol"
                     android:layout_width="match_parent"
                     android:layout_height="53dp"
                     android:layout_marginStart="27dp"
@@ -264,14 +254,14 @@
                     android:layout_marginEnd="27dp"
                     android:background="@drawable/rectanguler_button_bg"
                     android:backgroundTint="@color/navTextColor"
+                    android:fontFamily="@font/gotha_probol"
                     android:gravity="center"
                     android:text="@string/negotiate"
-                    android:textColor="@color/colorWhite"/>
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/acceptTV"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/gotha_probol"
                     android:layout_width="match_parent"
                     android:layout_height="53dp"
                     android:layout_marginStart="27dp"
@@ -279,14 +269,14 @@
                     android:layout_marginEnd="27dp"
                     android:background="@drawable/rectanguler_button_bg"
                     android:backgroundTint="@color/greenColor"
+                    android:fontFamily="@font/gotha_probol"
                     android:gravity="center"
                     android:text="@string/accept"
-                    android:textColor="@color/colorWhite"/>
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/declineTV"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/gotha_probol"
                     android:layout_width="match_parent"
                     android:layout_height="53dp"
                     android:layout_marginStart="27dp"
@@ -295,9 +285,11 @@
                     android:layout_marginBottom="48dp"
                     android:background="@drawable/rectanguler_button_bg"
                     android:backgroundTint="@color/colorBtnRed"
+                    android:fontFamily="@font/gotha_probol"
                     android:gravity="center"
                     android:text="@string/decline"
-                    android:textColor="@color/colorWhite"/>
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16sp" />
 
 
                 <!--<LinearLayout

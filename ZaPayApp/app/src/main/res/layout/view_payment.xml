@@ -1,77 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
     android:id="@+id/lendViewPayment"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/no_of_payments"
-            android:layout_marginStart="19dp"
-            android:layout_marginTop="50dp"
-            android:fontFamily="@font/gotha_promed"
-            android:textColor="@color/textColor"
-            android:textSize="16sp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/gotha_promed"
+        android:text="@string/no_of_payments"
+        android:textColor="@color/textColor"
+        android:textSize="16sp" />
 
-        <!--<EditText
+    <com.org.zapayapp.uihelpers.CustomTextInputLayout
+        android:id="@+id/lendNoOfPaymentInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:padding="0dp"
+        android:theme="@style/TextInputLayoutAppearance"
+        app:boxBackgroundMode="none"
+        app:boxStrokeColor="@null"
+        app:errorIconDrawable="@null"
+        app:errorTextAppearance="@style/error_appearance"
+        app:hintEnabled="false">
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/lendPaymentEdtNo"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginStart="19dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="19dp"
+            android:background="@drawable/rectanguler_border_light"
             android:fontFamily="@font/gotha_pro_reg"
             android:gravity="start|center_vertical"
-            android:layout_marginTop="11dp"
-            android:layout_marginStart="19dp"
-            android:theme="@style/TextInputLayoutAppearance"
-            android:paddingStart="15dp"
+            android:hint="@string/enter_no_of_payment"
             android:importantForAutofill="no"
             android:inputType="number"
             android:maxLength="1"
+            android:paddingStart="15dp"
+            android:paddingTop="1dp"
             android:paddingEnd="15dp"
-            android:textColorHint="@color/navTextColor50Alpha"
-            android:layout_marginEnd="19dp"
-            android:background="@drawable/rectanguler_border_light"
-            android:hint="@string/enter_no_of_payment"
+            android:paddingBottom="1dp"
             android:textColor="@color/textColor"
-            android:textSize="17sp"/>-->
-
-
-        <com.org.zapayapp.uihelpers.CustomTextInputLayout
-            android:id="@+id/lendNoOfPaymentInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="11dp"
-            android:theme="@style/TextInputLayoutAppearance"
-            app:boxStrokeColor="@null"
-            app:hintEnabled="false"
-            app:errorTextAppearance="@style/error_appearance"
-            android:padding="0dp"
-            app:errorIconDrawable="@null"
-            app:boxBackgroundMode="none">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/lendPaymentEdtNo"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:fontFamily="@font/gotha_pro_reg"
-                    android:gravity="start|center_vertical"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginStart="19dp"
-                    android:theme="@style/TextInputLayoutAppearance"
-                    android:paddingStart="15dp"
-                    android:importantForAutofill="no"
-                    android:inputType="number"
-                    android:maxLength="1"
-                    android:paddingEnd="15dp"
-                    android:textColorHint="@color/navTextColor50Alpha"
-                    android:layout_marginEnd="19dp"
-                    android:background="@drawable/rectanguler_border_light"
-                    android:hint="@string/enter_no_of_payment"
-                    android:textColor="@color/textColor"
-                    android:textSize="17sp"
-                    android:paddingTop="1dp"
-                    android:paddingBottom="1dp"/>
-        </com.org.zapayapp.uihelpers.CustomTextInputLayout>
+            android:textColorHint="@color/navTextColor50Alpha"
+            android:textSize="17sp"
+            android:theme="@style/TextInputLayoutAppearance" />
+    </com.org.zapayapp.uihelpers.CustomTextInputLayout>
 </LinearLayout>

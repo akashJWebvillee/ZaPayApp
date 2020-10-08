@@ -229,8 +229,8 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
             address2EditText.setText(SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS2, ""));
         }
 
-        if (SharedPref.getPrefsHelper().getPref(Const.Var.POSTEL_CODE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.POSTEL_CODE).toString().length() > 1) {
-            postalCodeEditText.setText(SharedPref.getPrefsHelper().getPref(Const.Var.POSTEL_CODE, ""));
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.POSTAL_CODE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.POSTAL_CODE).toString().length() > 1) {
+            postalCodeEditText.setText(SharedPref.getPrefsHelper().getPref(Const.Var.POSTAL_CODE, ""));
         }
 
         if (SharedPref.getPrefsHelper().getPref(Const.Var.SSN) != null && SharedPref.getPrefsHelper().getPref(Const.Var.SSN).toString().length() > 1) {

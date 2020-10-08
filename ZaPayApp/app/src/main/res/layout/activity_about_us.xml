@@ -44,7 +44,6 @@
                 android:textSize="14sp"
                 android:textColor="@color/textColorTerms"
                 android:includeFontPadding="false"
-                android:text="Nemo enim "
                 android:gravity="start"/>
             <include layout="@layout/view_no_data"/>
         </LinearLayout>

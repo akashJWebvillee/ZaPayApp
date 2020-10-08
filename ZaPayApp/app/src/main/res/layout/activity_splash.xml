@@ -3,18 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.SplashActivity"
-    android:background="@color/colorPrimary">
-
+    android:background="@color/colorPrimary"
+    tools:context=".activity.SplashActivity">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:src="@mipmap/logo_banner"
         android:layout_centerInParent="true"
         android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"/>
-
+        android:layout_marginEnd="20dp"
+        android:contentDescription="@null"
+        android:src="@mipmap/logo_banner" />
 
 </RelativeLayout>
-<!--android:background="@mipmap/splash_bg"-->

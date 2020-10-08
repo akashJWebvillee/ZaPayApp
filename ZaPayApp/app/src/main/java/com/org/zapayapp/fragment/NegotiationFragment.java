@@ -168,7 +168,7 @@ public class NegotiationFragment extends Fragment implements APICallback, Simple
     }
 
     private void setAdapter() {
-        TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity(), trasactionList, "pending");
+        TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity(), trasactionList, getString(R.string.transaction));
         negotiationRecyclerView.setAdapter(transactionAdapter);
     }
 

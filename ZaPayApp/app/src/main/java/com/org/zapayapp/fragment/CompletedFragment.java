@@ -1,6 +1,8 @@
 package com.org.zapayapp.fragment;
+
 import android.content.res.Resources;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -35,10 +37,8 @@ import java.util.List;
 
 import retrofit2.Call;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class CompletedFragment extends Fragment implements APICallback, SimpleAlertFragment.AlertSimpleCallback{
+
+public class CompletedFragment extends Fragment implements APICallback, SimpleAlertFragment.AlertSimpleCallback {
     /*Code for API calling*/
     protected ZapayApp zapayApp;
     protected Gson gson;
@@ -53,7 +53,7 @@ public class CompletedFragment extends Fragment implements APICallback, SimpleAl
 
 
     private EndlessRecyclerViewScrollListener scrollListener;
-    private int pageNo=0;
+    private int pageNo = 0;
     private TextView noDataTv;
 
     public CompletedFragment() {
@@ -64,7 +64,7 @@ public class CompletedFragment extends Fragment implements APICallback, SimpleAl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view=inflater.inflate(R.layout.fragment_completed, container, false);
+        View view = inflater.inflate(R.layout.fragment_completed, container, false);
         apicodeInit();
         inIt(view);
         initAction();
@@ -78,15 +78,15 @@ public class CompletedFragment extends Fragment implements APICallback, SimpleAl
         apiCalling = new APICalling(getContext());
     }
 
-    private void inIt(View view){
-        trasactionList=new ArrayList<>();
+    private void inIt(View view) {
+        trasactionList = new ArrayList<>();
         activity = (TransactionActivity) getActivity();
-        completedRecyclerView=view.findViewById(R.id.completedRecyclerView);
-        noDataTv=view.findViewById(R.id.noDataTv);
+        completedRecyclerView = view.findViewById(R.id.completedRecyclerView);
+        noDataTv = view.findViewById(R.id.noDataTv);
     }
 
     private void initAction() {
-       LinearLayoutManager layoutManager= new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         completedRecyclerView.setLayoutManager(layoutManager);
         completedRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
@@ -105,6 +105,7 @@ public class CompletedFragment extends Fragment implements APICallback, SimpleAl
 
 
     }
+
     private void callAPIGetTransactionRequest(int pageNo) {
         //  0=pending 1=negotiate, 2=accept
         if (pageNo == 0 && scrollListener != null) {
@@ -158,7 +159,7 @@ public class CompletedFragment extends Fragment implements APICallback, SimpleAl
                         }
                     }
 
-                }else {
+                } else {
                     if (pageNo == 0) {
                         noDataTv.setVisibility(View.VISIBLE);
                         completedRecyclerView.setVisibility(View.GONE);
@@ -170,7 +171,7 @@ public class CompletedFragment extends Fragment implements APICallback, SimpleAl
 
 
     private void setAdapter() {
-        TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity(), trasactionList, "pending");
+        TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity(), trasactionList, getString(R.string.transaction));
         completedRecyclerView.setAdapter(transactionAdapter);
     }
 
@@ -193,7 +194,6 @@ public class CompletedFragment extends Fragment implements APICallback, SimpleAl
     @Override
     public void onSimpleCallback(String from) {
         if (from.equals(getResources().getString(R.string.api_get_transaction_request))) {
-            ;
 
         }
     }

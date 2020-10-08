@@ -1,143 +1,383 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="20dp">
 
-<RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/custom_toolbar" />
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:scrollbars="none">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+            <LinearLayout
+                android:id="@+id/LL"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="20dp">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="36dp"
+                android:layout_marginEnd="24dp"
+                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/closeTV"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="15dp"
-                    android:contentDescription="@null"
-                    android:src="@drawable/clear" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotha_promed"
+                    android:text="@string/name"
+                    android:textAllCaps="true"
+                    android:textColor="@color/textColorBold"
+                    android:textSize="11sp" />
 
-                <RelativeLayout
-                    android:id="@+id/headerRL"
+                <com.org.zapayapp.uihelpers.CustomTextInputLayout
+                    android:id="@+id/nameEditTextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="20dp">
+                    android:layout_marginTop="8dp"
+                    android:padding="0dp"
+                    android:theme="@style/TextInputLayoutAppearance"
+                    app:boxBackgroundMode="none"
+                    app:boxStrokeColor="@null"
+                    app:errorIconDrawable="@null"
+                    app:errorTextAppearance="@style/error_appearance"
+                    app:hintEnabled="false">
 
-                    <TextView
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/nameEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/gotha_promed"
-                        android:gravity="center"
-                        android:text="@string/edit_profile"
+                        android:layout_marginTop="0dp"
+                        android:background="@drawable/edt_bg_selector"
+                        android:fontFamily="@font/gotha_pro_reg"
+                        android:hint="@string/enter_your_name"
+                        android:importantForAutofill="no"
+                        android:inputType="textCapWords"
+                        android:maxLines="1"
+                        android:paddingStart="0dp"
+                        android:paddingTop="0dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="10dp"
                         android:textColor="@color/textColorBold"
-                        android:textSize="20sp" />
-                </RelativeLayout>
+                        android:textColorHint="@color/textColorBold20Alpha"
+                        android:textSize="15sp"
+                        android:theme="@style/TextInputLayoutAppearance" />
+                </com.org.zapayapp.uihelpers.CustomTextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:fontFamily="@font/gotha_promed"
+                    android:text="@string/phone_no"
+                    android:textAllCaps="true"
+                    android:textColor="@color/textColorBold"
+                    android:textSize="11sp" />
+
+                <com.org.zapayapp.uihelpers.CustomTextInputLayout
+                    android:id="@+id/mobileInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:padding="0dp"
+                    android:theme="@style/TextInputLayoutAppearance"
+                    app:boxBackgroundMode="none"
+                    app:boxStrokeColor="@null"
+                    app:errorIconDrawable="@null"
+                    app:errorTextAppearance="@style/error_appearance"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/mobileEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/edt_bg_selector"
+                        android:fontFamily="@font/gotha_pro_reg"
+                        android:hint="@string/enter_your_phone_no"
+                        android:importantForAutofill="no"
+                        android:inputType="phone"
+                        android:maxLength="10"
+                        android:maxLines="1"
+                        android:paddingStart="0dp"
+                        android:paddingTop="0dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="10dp"
+                        android:textColor="@color/textColorBold"
+                        android:textColorHint="@color/textColorBold20Alpha"
+                        android:textSize="15sp"
+                        android:theme="@style/TextInputLayoutAppearance" />
+                </com.org.zapayapp.uihelpers.CustomTextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:fontFamily="@font/gotha_promed"
+                    android:text="@string/address1"
+                    android:textAllCaps="true"
+                    android:textColor="@color/textColorBold"
+                    android:textSize="11sp" />
+
+                <com.org.zapayapp.uihelpers.CustomTextInputLayout
+                    android:id="@+id/address1InputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:padding="0dp"
+                    android:theme="@style/TextInputLayoutAppearance"
+                    app:boxBackgroundMode="none"
+                    app:boxStrokeColor="@null"
+                    app:errorIconDrawable="@null"
+                    app:errorTextAppearance="@style/error_appearance"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/address1EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/edt_bg_selector"
+                        android:fontFamily="@font/gotha_pro_reg"
+                        android:hint="@string/enter_your_address"
+                        android:importantForAutofill="no"
+                        android:inputType="textCapSentences"
+                        android:maxLines="1"
+                        android:paddingStart="0dp"
+                        android:paddingTop="0dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="10dp"
+                        android:textColor="@color/textColorBold"
+                        android:textColorHint="@color/textColorBold20Alpha"
+                        android:textSize="15sp"
+                        android:theme="@style/TextInputLayoutAppearance" />
+                </com.org.zapayapp.uihelpers.CustomTextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:fontFamily="@font/gotha_promed"
+                    android:text="@string/address2"
+                    android:textAllCaps="true"
+                    android:textColor="@color/textColorBold"
+                    android:textSize="11sp" />
+
+                <com.org.zapayapp.uihelpers.CustomTextInputLayout
+                    android:id="@+id/address2InputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:padding="0dp"
+                    android:theme="@style/TextInputLayoutAppearance"
+                    app:boxBackgroundMode="none"
+                    app:boxStrokeColor="@null"
+                    app:errorIconDrawable="@null"
+                    app:errorTextAppearance="@style/error_appearance"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/address2EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/edt_bg_selector"
+                        android:fontFamily="@font/gotha_pro_reg"
+                        android:hint="@string/enter_your_address2"
+                        android:importantForAutofill="no"
+                        android:inputType="textCapSentences"
+                        android:maxLines="1"
+                        android:paddingStart="0dp"
+                        android:paddingTop="0dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="10dp"
+                        android:textColor="@color/textColorBold"
+                        android:textColorHint="@color/textColorBold20Alpha"
+                        android:textSize="15sp"
+                        android:theme="@style/TextInputLayoutAppearance" />
+                </com.org.zapayapp.uihelpers.CustomTextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:fontFamily="@font/gotha_promed"
+                    android:text="@string/state"
+                    android:textAllCaps="true"
+                    android:textColor="@color/textColorBold"
+                    android:textSize="11sp" />
+
+                <Spinner
+                    android:id="@+id/stateSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp" />
 
                 <View
-                    android:id="@+id/headerLineView"
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_below="@+id/headerRL"
-                    android:layout_marginTop="16dp"
-                    android:background="@color/colorLineLightGrey" />
+                    android:layout_height="1dp"
+                    android:background="@drawable/edt_bg_selector" />
 
-                <LinearLayout
-                    android:id="@+id/LL"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:fontFamily="@font/gotha_promed"
+                    android:text="@string/city"
+                    android:textAllCaps="true"
+                    android:textColor="@color/textColorBold"
+                    android:textSize="11sp" />
+
+                <Spinner
+                    android:id="@+id/citySpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/headerLineView"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="36dp"
-                    android:layout_marginEnd="24dp"
-                    android:orientation="vertical">
+                    android:layout_marginTop="3dp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/gotha_promed"
-                        android:text="@string/name"
-                        android:textAllCaps="true"
-                        android:textColor="@color/textColorBold"
-                        android:textSize="11sp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@drawable/edt_bg_selector" />
 
-                    <com.org.zapayapp.uihelpers.CustomTextInputLayout
-                        android:id="@+id/nameEditTextInputLayout"
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:fontFamily="@font/gotha_promed"
+                    android:text="@string/postal_code"
+                    android:textAllCaps="true"
+                    android:textColor="@color/textColorBold"
+                    android:textSize="11sp" />
+
+                <com.org.zapayapp.uihelpers.CustomTextInputLayout
+                    android:id="@+id/postalCodeInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:padding="0dp"
+                    android:theme="@style/TextInputLayoutAppearance"
+                    app:boxBackgroundMode="none"
+                    app:boxStrokeColor="@null"
+                    app:errorIconDrawable="@null"
+                    app:errorTextAppearance="@style/error_appearance"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/postalCodeEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:theme="@style/TextInputLayoutAppearance"
-                        app:boxStrokeColor="@null"
-                        app:hintEnabled="false"
-                        app:errorTextAppearance="@style/error_appearance"
-                        android:padding="0dp"
-                        app:errorIconDrawable="@null"
-                        app:boxBackgroundMode="none">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/nameEditText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="0dp"
-                            android:background="@drawable/edt_bg_selector"
-                            android:fontFamily="@font/gotha_pro_reg"
-                            android:hint="@string/enter_your_name"
-                            android:importantForAutofill="no"
-                            android:inputType="textCapWords"
-                            android:maxLines="1"
-                            android:paddingStart="0dp"
-                            android:paddingTop="0dp"
-                            android:paddingEnd="10dp"
-                            android:paddingBottom="10dp"
-                            android:textColor="@color/textColorBold"
-                            android:textColorHint="@color/textColorBold20Alpha"
-                            android:textSize="15sp"
-                            android:theme="@style/TextInputLayoutAppearance"/>
-                    </com.org.zapayapp.uihelpers.CustomTextInputLayout>
-
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="22dp"
-                        android:fontFamily="@font/gotha_promed"
-                        android:text="@string/phone_no"
-                        android:textAllCaps="true"
+                        android:background="@drawable/edt_bg_selector"
+                        android:fontFamily="@font/gotha_pro_reg"
+                        android:hint="@string/enter_your_postal_code"
+                        android:importantForAutofill="no"
+                        android:inputType="number"
+                        android:maxLength="5"
+                        android:maxLines="1"
+                        android:paddingStart="0dp"
+                        android:paddingTop="0dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="10dp"
                         android:textColor="@color/textColorBold"
-                        android:textSize="11sp" />
+                        android:textColorHint="@color/textColorBold20Alpha"
+                        android:textSize="15sp"
+                        android:theme="@style/TextInputLayoutAppearance" />
+                </com.org.zapayapp.uihelpers.CustomTextInputLayout>
 
-                    <com.org.zapayapp.uihelpers.CustomTextInputLayout
-                        android:id="@+id/mobileInputLayout"
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:fontFamily="@font/gotha_promed"
+                    android:text="@string/ssn"
+                    android:textAllCaps="true"
+                    android:textColor="@color/textColorBold"
+                    android:textSize="11sp" />
+
+                <com.org.zapayapp.uihelpers.CustomTextInputLayout
+                    android:id="@+id/ssnInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:padding="0dp"
+                    android:theme="@style/TextInputLayoutAppearance"
+                    app:boxBackgroundMode="none"
+                    app:boxStrokeColor="@null"
+                    app:errorIconDrawable="@null"
+                    app:errorTextAppearance="@style/error_appearance"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/ssnEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:theme="@style/TextInputLayoutAppearance"
-                        app:boxStrokeColor="@null"
-                        app:hintEnabled="false"
-                        app:errorTextAppearance="@style/error_appearance"
+                        android:background="@drawable/edt_bg_selector"
+                        android:fontFamily="@font/gotha_pro_reg"
+                        android:hint="@string/enter_your_ssn_code"
+                        android:importantForAutofill="no"
+                        android:inputType="textCapSentences"
+                        android:maxLength="4"
+                        android:maxLines="1"
+                        android:paddingStart="0dp"
+                        android:paddingTop="0dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="10dp"
+                        android:textColor="@color/textColorBold"
+                        android:textColorHint="@color/textColorBold20Alpha"
+                        android:textSize="15sp"
+                        android:theme="@style/TextInputLayoutAppearance" />
+                </com.org.zapayapp.uihelpers.CustomTextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:fontFamily="@font/gotha_promed"
+                    android:text="@string/dob"
+                    android:textAllCaps="true"
+                    android:textColor="@color/textColorBold"
+                    android:textSize="11sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.org.zapayapp.uihelpers.CustomTextInputLayout
+                        android:id="@+id/dobInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
                         android:padding="0dp"
+                        android:theme="@style/TextInputLayoutAppearance"
+                        app:boxBackgroundMode="none"
+                        app:boxStrokeColor="@null"
                         app:errorIconDrawable="@null"
-                        app:boxBackgroundMode="none">
+                        app:errorTextAppearance="@style/error_appearance"
+                        app:hintEnabled="false">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/mobileEditText"
+                            android:id="@+id/dobEditText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:background="@drawable/edt_bg_selector"
+                            android:focusable="false"
                             android:fontFamily="@font/gotha_pro_reg"
-                            android:hint="@string/enter_your_phone_no"
+                            android:hint="@string/select_dob"
                             android:importantForAutofill="no"
-                            android:inputType="phone"
+                            android:inputType="textCapSentences"
                             android:maxLines="1"
-                            android:maxLength="10"
                             android:paddingStart="0dp"
                             android:paddingTop="0dp"
                             android:paddingEnd="10dp"
@@ -147,584 +387,40 @@
                             android:textSize="15sp"
                             android:theme="@style/TextInputLayoutAppearance" />
                     </com.org.zapayapp.uihelpers.CustomTextInputLayout>
+                </RelativeLayout>
+            </LinearLayout>
 
+            <com.dd.ShadowLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/LL"
+                android:layout_gravity="center"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="51dp"
+                android:layout_marginEnd="18dp"
+                android:elevation="3dp"
+                app:sl_cornerRadius="56dp"
+                app:sl_dx="0dp"
+                app:sl_dy="10dp"
+                app:sl_shadowColor="#2CFC5C04"
+                app:sl_shadowRadius="4dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="22dp"
-                        android:fontFamily="@font/gotha_promed"
-                        android:text="@string/address1"
-                        android:textAllCaps="true"
-                        android:textColor="@color/textColorBold"
-                        android:textSize="11sp" />
-
-
-                    <com.org.zapayapp.uihelpers.CustomTextInputLayout
-                        android:id="@+id/address1InputLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:theme="@style/TextInputLayoutAppearance"
-                        app:boxStrokeColor="@null"
-                        app:hintEnabled="false"
-                        app:errorTextAppearance="@style/error_appearance"
-                        android:padding="0dp"
-                        app:errorIconDrawable="@null"
-                        app:boxBackgroundMode="none">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/address1EditText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:background="@drawable/edt_bg_selector"
-                            android:fontFamily="@font/gotha_pro_reg"
-                            android:hint="@string/enter_your_address"
-                            android:importantForAutofill="no"
-                            android:inputType="textCapSentences"
-                            android:maxLines="1"
-                            android:paddingStart="0dp"
-                            android:paddingTop="0dp"
-                            android:paddingEnd="10dp"
-                            android:paddingBottom="10dp"
-                            android:textColor="@color/textColorBold"
-                            android:textColorHint="@color/textColorBold20Alpha"
-                            android:textSize="15sp"
-                            android:theme="@style/TextInputLayoutAppearance"/>
-                    </com.org.zapayapp.uihelpers.CustomTextInputLayout>
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="22dp"
-                        android:fontFamily="@font/gotha_promed"
-                        android:text="@string/address2"
-                        android:textAllCaps="true"
-                        android:textColor="@color/textColorBold"
-                        android:textSize="11sp" />
-
-                    <com.org.zapayapp.uihelpers.CustomTextInputLayout
-                        android:id="@+id/address2InputLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:theme="@style/TextInputLayoutAppearance"
-                        app:boxStrokeColor="@null"
-                        app:hintEnabled="false"
-                        app:errorTextAppearance="@style/error_appearance"
-                        android:padding="0dp"
-                        app:errorIconDrawable="@null"
-                        app:boxBackgroundMode="none">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/address2EditText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:background="@drawable/edt_bg_selector"
-                            android:fontFamily="@font/gotha_pro_reg"
-                            android:hint="@string/enter_your_address2"
-                            android:importantForAutofill="no"
-                            android:inputType="textCapSentences"
-                            android:maxLines="1"
-                            android:paddingStart="0dp"
-                            android:paddingTop="0dp"
-                            android:paddingEnd="10dp"
-                            android:paddingBottom="10dp"
-                            android:textColor="@color/textColorBold"
-                            android:textColorHint="@color/textColorBold20Alpha"
-                            android:textSize="15sp"
-                            android:theme="@style/TextInputLayoutAppearance"/>
-                    </com.org.zapayapp.uihelpers.CustomTextInputLayout>
-
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="22dp"
-                        android:fontFamily="@font/gotha_promed"
-                        android:text="@string/state"
-                        android:textAllCaps="true"
-                        android:textColor="@color/textColorBold"
-                        android:textSize="11sp" />
-
-
-                    <Spinner
-                        android:id="@+id/stateSpinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@drawable/edt_bg_selector"/>
-
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="22dp"
-                        android:fontFamily="@font/gotha_promed"
-                        android:text="@string/city"
-                        android:textAllCaps="true"
-                        android:textColor="@color/textColorBold"
-                        android:textSize="11sp" />
-
-                    <Spinner
-                        android:id="@+id/citySpinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@drawable/edt_bg_selector"/>
-
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="22dp"
-                        android:fontFamily="@font/gotha_promed"
-                        android:text="@string/postal_code"
-                        android:textAllCaps="true"
-                        android:textColor="@color/textColorBold"
-                        android:textSize="11sp" />
-                    <com.org.zapayapp.uihelpers.CustomTextInputLayout
-                        android:id="@+id/postalCodeInputLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:theme="@style/TextInputLayoutAppearance"
-                        app:boxStrokeColor="@null"
-                        app:hintEnabled="false"
-                        app:errorTextAppearance="@style/error_appearance"
-                        android:padding="0dp"
-                        app:errorIconDrawable="@null"
-                        app:boxBackgroundMode="none">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/postalCodeEditText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:background="@drawable/edt_bg_selector"
-                            android:fontFamily="@font/gotha_pro_reg"
-                            android:hint="@string/enter_your_postal_code"
-                            android:importantForAutofill="no"
-                            android:inputType="number"
-                            android:maxLines="1"
-                            android:paddingStart="0dp"
-                            android:paddingTop="0dp"
-                            android:maxLength="5"
-                            android:paddingEnd="10dp"
-                            android:paddingBottom="10dp"
-                            android:textColor="@color/textColorBold"
-                            android:textColorHint="@color/textColorBold20Alpha"
-                            android:textSize="15sp"
-                            android:theme="@style/TextInputLayoutAppearance"/>
-                    </com.org.zapayapp.uihelpers.CustomTextInputLayout>
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="22dp"
-                        android:fontFamily="@font/gotha_promed"
-                        android:text="@string/ssn"
-                        android:textAllCaps="true"
-                        android:textColor="@color/textColorBold"
-                        android:textSize="11sp" />
-
-                    <com.org.zapayapp.uihelpers.CustomTextInputLayout
-                        android:id="@+id/ssnInputLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:theme="@style/TextInputLayoutAppearance"
-                        app:boxStrokeColor="@null"
-                        app:hintEnabled="false"
-                        app:errorTextAppearance="@style/error_appearance"
-                        android:padding="0dp"
-                        app:errorIconDrawable="@null"
-                        app:boxBackgroundMode="none">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/ssnEditText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:background="@drawable/edt_bg_selector"
-                            android:fontFamily="@font/gotha_pro_reg"
-                            android:hint="@string/enter_your_ssn_code"
-                            android:importantForAutofill="no"
-                            android:inputType="textCapSentences"
-                            android:maxLines="1"
-                            android:maxLength="4"
-                            android:paddingStart="0dp"
-                            android:paddingTop="0dp"
-                            android:paddingEnd="10dp"
-                            android:paddingBottom="10dp"
-                            android:textColor="@color/textColorBold"
-                            android:textColorHint="@color/textColorBold20Alpha"
-                            android:textSize="15sp"
-                            android:theme="@style/TextInputLayoutAppearance"/>
-                    </com.org.zapayapp.uihelpers.CustomTextInputLayout>
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="22dp"
-                        android:fontFamily="@font/gotha_promed"
-                        android:text="@string/dob"
-                        android:textAllCaps="true"
-                        android:textColor="@color/textColorBold"
-                        android:textSize="11sp"/>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <com.org.zapayapp.uihelpers.CustomTextInputLayout
-                            android:id="@+id/dobInputLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:theme="@style/TextInputLayoutAppearance"
-                            app:boxStrokeColor="@null"
-                            app:hintEnabled="false"
-                            app:errorTextAppearance="@style/error_appearance"
-                            android:padding="0dp"
-                            app:errorIconDrawable="@null"
-                            app:boxBackgroundMode="none">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/dobEditText"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:background="@drawable/edt_bg_selector"
-                                android:fontFamily="@font/gotha_pro_reg"
-                                android:hint="@string/select_dob"
-                                android:importantForAutofill="no"
-                                android:inputType="textCapSentences"
-                                android:maxLines="1"
-                                android:paddingStart="0dp"
-                                android:paddingTop="0dp"
-                                android:paddingEnd="10dp"
-                                android:paddingBottom="10dp"
-                                android:textColor="@color/textColorBold"
-                                android:textColorHint="@color/textColorBold20Alpha"
-                                android:textSize="15sp"
-                               android:focusable="false"
-                                android:theme="@style/TextInputLayoutAppearance"/>
-                        </com.org.zapayapp.uihelpers.CustomTextInputLayout>
-
-                    </RelativeLayout>
-
-
-
-
-
-
-
-
-
-
-
-
-                </LinearLayout>
-
-
-
-
-                <com.dd.ShadowLayout
+                <TextView
+                    android:id="@+id/saveTV"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/LL"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="18dp"
-                    android:layout_marginTop="51dp"
-                    android:layout_marginEnd="18dp"
-                    android:elevation="3dp"
-                    app:sl_cornerRadius="56dp"
-                    app:sl_dx="0dp"
-                    app:sl_dy="10dp"
-                    app:sl_shadowColor="#2CFC5C04"
-                    app:sl_shadowRadius="4dp">
-
-
-                    <TextView
-                        android:id="@+id/saveTV"
-                        android:layout_width="match_parent"
-                        android:layout_height="53dp"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@drawable/rectanguler_button_bg"
-                        android:backgroundTint="@color/colorPrimary"
-                        android:fontFamily="@font/gotha_probol"
-                        android:gravity="center"
-                        android:text="@string/save"
-                        android:textAllCaps="true"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="16sp" />
-                </com.dd.ShadowLayout>
-            </RelativeLayout>
-        </ScrollView>
-    </RelativeLayout>
-
-
-
-
-
-<!--
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/card_view"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:layout_marginStart="10dp"
-    android:layout_marginEnd="10dp"
-    android:background="#00DC4E43"
-    android:elevation="3dp"
-    card_view:cardCornerRadius="8dp">
-
-    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="20dp">
-
-        <ImageView
-            android:id="@+id/closeTV"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="15dp"
-            android:contentDescription="@null"
-            android:src="@drawable/clear" />
-
-        <RelativeLayout
-            android:id="@+id/headerRL"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="20dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/gotha_promed"
-                android:gravity="center"
-                android:text="@string/edit_profile"
-                android:textColor="@color/textColorBold"
-                android:textSize="20sp" />
-        </RelativeLayout>
-
-        <View
-            android:id="@+id/headerLineView"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_below="@+id/headerRL"
-            android:layout_marginTop="16dp"
-            android:background="@color/colorLineLightGrey" />
-
-        <LinearLayout
-            android:id="@+id/LL"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/headerLineView"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="36dp"
-            android:layout_marginEnd="24dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/gotha_promed"
-                android:text="@string/name"
-                android:textAllCaps="true"
-                android:textColor="@color/textColorBold"
-                android:textSize="11sp" />
-
-            <EditText
-                android:id="@+id/editTextName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/edt_bg_selector"
-                android:fontFamily="@font/gotha_pro_reg"
-                android:hint="@string/enter_your_name"
-                android:importantForAutofill="no"
-                android:inputType="textCapWords"
-                android:maxLines="1"
-                android:paddingStart="0dp"
-                android:paddingTop="0dp"
-                android:paddingEnd="10dp"
-                android:paddingBottom="10dp"
-                android:textColor="@color/textColorBold"
-                android:textColorHint="@color/textColorBold20Alpha"
-                android:textSize="15sp"
-                android:theme="@style/TextInputLayoutAppearance" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="22dp"
-                android:fontFamily="@font/gotha_promed"
-                android:text="@string/email"
-                android:textAllCaps="true"
-                android:textColor="@color/textColorBold"
-                android:textSize="11sp" />
-
-            <EditText
-                android:id="@+id/editTextEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/edt_bg_selector"
-                android:fontFamily="@font/gotha_pro_reg"
-                android:hint="@string/enter_your_email"
-                android:importantForAutofill="no"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:paddingStart="0dp"
-                android:paddingTop="0dp"
-                android:paddingEnd="10dp"
-                android:paddingBottom="10dp"
-                android:textColor="@color/textColorBold"
-                android:textColorHint="@color/textColorBold20Alpha"
-                android:textSize="15sp"
-                android:theme="@style/TextInputLayoutAppearance" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="22dp"
-                android:fontFamily="@font/gotha_promed"
-                android:text="@string/phone_no"
-                android:textAllCaps="true"
-                android:textColor="@color/textColorBold"
-                android:textSize="11sp" />
-
-            <EditText
-                android:id="@+id/editTextPhoneNo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/edt_bg_selector"
-                android:fontFamily="@font/gotha_pro_reg"
-                android:hint="@string/enter_your_phone_no"
-                android:importantForAutofill="no"
-                android:inputType="phone"
-                android:maxLines="1"
-                android:paddingStart="0dp"
-                android:paddingTop="0dp"
-                android:paddingEnd="10dp"
-                android:paddingBottom="10dp"
-                android:textColor="@color/textColorBold"
-                android:textColorHint="@color/textColorBold20Alpha"
-                android:textSize="15sp"
-                android:theme="@style/TextInputLayoutAppearance" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="22dp"
-                android:fontFamily="@font/gotha_promed"
-                android:text="@string/address"
-                android:textAllCaps="true"
-                android:textColor="@color/textColorBold"
-                android:textSize="11sp" />
-
-            <EditText
-                android:id="@+id/editTextAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/edt_bg_selector"
-                android:fontFamily="@font/gotha_pro_reg"
-                android:hint="@string/enter_your_address"
-                android:importantForAutofill="no"
-                android:inputType="textCapSentences"
-                android:maxLines="1"
-                android:paddingStart="0dp"
-                android:paddingTop="0dp"
-                android:paddingEnd="10dp"
-                android:paddingBottom="10dp"
-                android:textColor="@color/textColorBold"
-                android:textColorHint="@color/textColorBold20Alpha"
-                android:textSize="15sp"
-                android:theme="@style/TextInputLayoutAppearance" />
+                    android:layout_height="53dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/rectanguler_button_bg"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:fontFamily="@font/gotha_probol"
+                    android:gravity="center"
+                    android:text="@string/save"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16sp" />
+            </com.dd.ShadowLayout>
         </LinearLayout>
-
-        &lt;!&ndash; <com.dd.ShadowLayout
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_gravity="center"
-             android:layout_below="@+id/LL"
-             android:layout_marginStart="10dp"
-             android:layout_marginEnd="10dp"
-             android:layout_marginTop="52dp"
-             app:sl_cornerRadius="56dp"
-             app:sl_dx="0dp"
-             app:sl_dy="10dp"
-             app:sl_shadowColor="#2CFC5C04"
-             app:sl_shadowRadius="4dp">
-
-             <TextView
-                 android:id="@+id/saveTV"
-                 android:layout_width="match_parent"
-                 android:layout_height="53dp"
-                 android:background="@drawable/rectanguler_button_bg"
-                 android:backgroundTint="@color/colorPrimary"
-                 android:gravity="center"
-                 android:text="@string/save"
-                 android:textAllCaps="true"
-                 android:fontFamily="@font/gotha_probol"
-                 android:textColor="@color/colorWhite"
-                 android:textSize="16sp"
-                 android:layout_gravity="center_horizontal" />
-         </com.dd.ShadowLayout>&ndash;&gt;
+    </ScrollView>
+</RelativeLayout>
 
 
-        <com.dd.ShadowLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/LL"
-            android:layout_gravity="center"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="51dp"
-            android:layout_marginEnd="18dp"
-            android:elevation="3dp"
-            app:sl_cornerRadius="56dp"
-            app:sl_dx="0dp"
-            app:sl_dy="10dp"
-            app:sl_shadowColor="#2CFC5C04"
-            app:sl_shadowRadius="4dp">
-
-
-            <TextView
-                android:id="@+id/saveTV"
-                android:layout_width="match_parent"
-                android:layout_height="53dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/rectanguler_button_bg"
-                android:backgroundTint="@color/colorPrimary"
-                android:fontFamily="@font/gotha_probol"
-                android:gravity="center"
-                android:text="@string/save"
-                android:textAllCaps="true"
-                android:textColor="@color/colorWhite"
-                android:textSize="16sp" />
-        </com.dd.ShadowLayout>
-    </RelativeLayout>
-</androidx.cardview.widget.CardView>-->

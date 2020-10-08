@@ -188,33 +188,16 @@
     <string name="pending">Pending</string>
     <string name="negotiation">Negotiation</string>
     <string name="completed">Completed</string>
-    <string name="no_of_intallment">No Of Intallment:</string>
+    <string name="no_of_installment">No Of Installment:</string>
     <string name="borrow_mode">Borrow Mode:</string>
 
 
     <string name="ok">OK</string>
-    <string name="cancel">CANCEL</string>
+    <string name="cancel">Cancel</string>
     <string name="hello">Hello</string>
 
 
-    <!--signUp-->
-    <string name="enter_full_name">Enter full name</string>
-    <string name="age_must_be_18_years_or_older">Age must be 18 years or older</string>
-    <string name="must_be_50_characters_or_less">Must be 50 characters or less</string>
-    <string name="postal_code_should_be_5_digit">Postal code should be 5 digit</string>
-    <string name="ssn_code_should_be_5_digit">SSN code should be 4 digit</string>
-    <string name="password_should_be_same">Password Should be same</string>
-    <string name="term_condition">Accept Term and condition</string>
-    <string name="please_select_contact">Please select contact</string>
-    <string name="please_add_bank_account">Please add bank account</string>
-    <string name="please_verify_bank_account">Please verify bank account</string>
-    <string name="are_you_sure_do_you_want_to_logout">Are you sure? do you want to logout?</string>
-
     <string name="no_data_found">No data found</string>
-
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
     <string-array name="accountTypeArray">
@@ -229,10 +212,9 @@
     <string name="enter_amount1">Enter Amount 1</string>
     <string name="enter_amount2">Enter Amount 2</string>
 
-
     <string name="enter_term">Enter term value</string>
     <string name="update_your_profile">Update your profile</string>
-    <string name="new_password_and_confirm_password_should_be_same">New password and confirm password should be same</string>
+
 
     <string name="lend_mode">Lend Mode:</string>
 
@@ -246,11 +228,24 @@
     <string name="your_session_expired">Your session has expired.\nPlease login again.</string>
     <string name="amount1ValidationMsg">Please enter less then 0.11.</string>
     <string name="amount2ValidationMsg">Please enter less then 0.04.</string>
-
-
-
     <string name="enter_message">Enter your message here</string>
     <string name="type_message">Please enter message</string>
+    <string name="new_password_and_confirm_password_should_be_same">New password and confirm password should be same</string>
+
+    <!--signUp-->
+    <string name="enter_full_name">Enter full name</string>
+    <string name="age_must_be_18_years_or_older">Age must be 18 years or older</string>
+    <string name="must_be_50_characters_or_less">Must be 50 characters or less</string>
+    <string name="postal_code_should_be_5_digit">Postal code should be 5 digit</string>
+    <string name="ssn_code_should_be_5_digit">SSN code should be 4 digit</string>
+    <string name="password_should_be_same">Password Should be same</string>
+    <string name="term_condition">Accept Term and condition</string>
+    <string name="please_select_contact">Please select contact</string>
+    <string name="please_add_bank_account">Please add bank account</string>
+    <string name="please_verify_bank_account">Please verify bank account</string>
+    <string name="are_you_sure_do_you_want_to_logout">Are you sure? do you want to logout?</string>
+    <string name="explore_lending_borrowing">Now lending and borrowing money is just a click away, explore below options</string>
+    <string name="verify_account_msg">To verify account you can put value for example amount1-0.10 ,amount2- 0.03</string>
 
 
 </resources>

@@ -3,11 +3,9 @@ package com.org.zapayapp.webservices;
 import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
@@ -16,10 +14,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.ZapayApp;
-import com.org.zapayapp.activity.SplashActivity;
 import com.org.zapayapp.utils.CommonMethods;
-
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -60,9 +55,6 @@ public class APICalling extends BaseRequestParser implements ServiceCallback<Jso
     public APICalling(Context context) {
         activity = (Activity) context;
         mFileCache = new FileCache(activity.getResources().getString(R.string.app_name_folder), activity);
-        if (!(activity instanceof SplashActivity)) {
-            mProgressBarHandler = new ProgressBarHandler(activity);
-        }
     }
 
     /**
@@ -89,6 +81,38 @@ public class APICalling extends BaseRequestParser implements ServiceCallback<Jso
         httpClient.addInterceptor(logging);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient.build())
+                .build();
+        return retrofit.create(RestAPI.class);
+    }
+
+
+ /**
+     * Web service interface rest api.
+     *
+     * @return the rest api
+     */
+    public static RestAPI webServiceUploadInterface() {
+        HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(null, null, null);
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.connectTimeout(2, TimeUnit.MINUTES)
+                .writeTimeout(2, TimeUnit.MINUTES)
+                .readTimeout(2, TimeUnit.MINUTES)
+                .hostnameVerifier(new HostnameVerifier() {
+                    @Override
+                    public boolean verify(String hostname, SSLSession session) {
+                        return true;
+                    }
+                })
+                .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager);
+        httpClient.addInterceptor(logging);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://skyarena.webnsoftsolution.com/skyarenaapi/")
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient.build())

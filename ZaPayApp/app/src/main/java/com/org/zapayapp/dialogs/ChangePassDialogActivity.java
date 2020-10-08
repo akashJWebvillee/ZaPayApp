@@ -1,13 +1,10 @@
 package com.org.zapayapp.dialogs;
 
-import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,19 +36,9 @@ public class ChangePassDialogActivity extends AppCompatActivity implements View.
 
     private TextView saveTV;
     private ImageView closeTV;
-    private EditText editTextName, editTextEmail, editTextPhoneNo, editTextAddress;
-    private String header = "";
-
-
-    private CustomTextInputLayout oldPasswordInputLayout;
-    private CustomTextInputLayout newPasswordInputLayout;
-    private CustomTextInputLayout confirmPasswordInputLayout;
-
-    private TextInputEditText oldPasswordUpEditText;
-    private TextInputEditText newPasswordUpEditText;
-    private TextInputEditText confirmPasswordUpEditText;
+    private CustomTextInputLayout oldPasswordInputLayout, newPasswordInputLayout, confirmPasswordInputLayout;
+    private TextInputEditText oldPasswordUpEditText, newPasswordUpEditText, confirmPasswordUpEditText;
     public WValidationLib wValidationLib;
-
 
     /*Code for API calling*/
     protected ZapayApp zapayApp;
@@ -66,43 +53,22 @@ public class ChangePassDialogActivity extends AppCompatActivity implements View.
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.change_password_dialog);
         getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        getIntentValues();
         init();
         initAction();
-        apicodeInit();
+        apiCodeInit();
     }
 
-    private void apicodeInit() {
+    private void apiCodeInit() {
         zapayApp = (ZapayApp) getApplicationContext();
         restAPI = APICalling.webServiceInterface();
         gson = new Gson();
         apiCalling = new APICalling(this);
-    }
-
-    private void getIntentValues() {
-        try {
-            Intent intent = getIntent();
-            if (intent != null) {
-                if (intent.getStringExtra("header") != null) {
-                    header = intent.getStringExtra("header");
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        wValidationLib = new WValidationLib(ChangePassDialogActivity.this);
     }
 
     private void init() {
-        wValidationLib = new WValidationLib(ChangePassDialogActivity.this);
-
         saveTV = findViewById(R.id.saveTV);
-       /* editTextName = findViewById(R.id.editTextName);
-        editTextEmail = findViewById(R.id.editTextEmail);
-        editTextPhoneNo = findViewById(R.id.editTextPhoneNo);
-        editTextAddress = findViewById(R.id.editTextAddress);*/
         closeTV = findViewById(R.id.closeTV);
-
-
         oldPasswordInputLayout = findViewById(R.id.oldPasswordInputLayout);
         newPasswordInputLayout = findViewById(R.id.newPasswordInputLayout);
         confirmPasswordInputLayout = findViewById(R.id.confirmPasswordInputLayout);
@@ -110,7 +76,6 @@ public class ChangePassDialogActivity extends AppCompatActivity implements View.
         oldPasswordUpEditText = findViewById(R.id.oldPasswordUpEditText);
         newPasswordUpEditText = findViewById(R.id.newPasswordUpEditText);
         confirmPasswordUpEditText = findViewById(R.id.confirmPasswordUpEditText);
-
     }
 
     private void initAction() {
@@ -121,19 +86,10 @@ public class ChangePassDialogActivity extends AppCompatActivity implements View.
     @Override
     public void onClick(View v) {
         if (v.equals(saveTV)) {
-            Intent returnIntent = new Intent();
-            setResult(RESULT_OK, returnIntent);
-            // finish();
-
             try {
                 if (wValidationLib.isPassword(oldPasswordInputLayout, oldPasswordUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_password), true)) {
                     if (wValidationLib.isPassword(newPasswordInputLayout, newPasswordUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_password), true)) {
                         if (wValidationLib.isPassword(confirmPasswordInputLayout, confirmPasswordUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_password), true)) {
-                             /*  if (newPasswordUpEditText.getText().toString().trim().equals(confirmPasswordUpEditText.getText().toString().trim())){
-                                   callAPIResetPassword();
-                               }else {
-                                   showSimpleAlert(getString(R.string.new_password_and_confirm_password_should_be_same), getString(R.string.new_password_and_confirm_password_should_be_same));
-                               }*/
                             if (wValidationLib.isConfirmPasswordValidation(newPasswordInputLayout, newPasswordUpEditText, confirmPasswordInputLayout, confirmPasswordUpEditText, getString(R.string.important), getString(R.string.important), getString(R.string.please_enter_valid_password), getString(R.string.please_enter_valid_password_same), true)) {
                                 callAPIResetPassword();
                             }
@@ -143,8 +99,6 @@ public class ChangePassDialogActivity extends AppCompatActivity implements View.
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-
         } else if (v.equals(closeTV)) {
             finish();
         }
@@ -180,7 +134,6 @@ public class ChangePassDialogActivity extends AppCompatActivity implements View.
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
             if (from.equals(getResources().getString(R.string.api_change_password))) {
                 if (status == 200) {
                     oldPasswordUpEditText.setText("");
@@ -192,7 +145,6 @@ public class ChangePassDialogActivity extends AppCompatActivity implements View.
                     showSimpleAlert(msg, "");
                 }
             }
-
         }
     }
 
@@ -214,9 +166,7 @@ public class ChangePassDialogActivity extends AppCompatActivity implements View.
 
     @Override
     public void onSimpleCallback(String from) {
-        if (from.equals(getString(R.string.new_password_and_confirm_password_should_be_same))) {
-
-        } else if (from.equals(getString(R.string.api_change_password))) {
+        if (from.equals(getString(R.string.api_change_password))) {
             finish();
         }
     }
