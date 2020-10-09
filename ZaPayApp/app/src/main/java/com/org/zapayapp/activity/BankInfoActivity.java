@@ -23,7 +23,7 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
 
     private TextView changeTV, accountNumberTV, routingNumberTV;
     private TextView addTV;
-    private ShadowLayout addShadowLayout;
+    private ShadowLayout addShadowLayout,addShadowChange;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void init() {
-        changeTV = findViewById(R.id.changeTV);
+        addShadowChange = findViewById(R.id.addShadowChange);
         accountNumberTV = findViewById(R.id.accountNumberTV);
         routingNumberTV = findViewById(R.id.routingNumberTV);
         addTV = findViewById(R.id.addTV);
@@ -43,7 +43,7 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initAction() {
-        changeTV.setOnClickListener(this);
+        addShadowChange.setOnClickListener(this);
         addTV.setOnClickListener(this);
         callAPIGetBankAccountDetail();
     }
@@ -56,7 +56,7 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.changeTV) {
+        if (v.getId() == R.id.addShadowChange) {
             Intent intent = new Intent(BankInfoActivity.this, ChangeBankDialogActivity.class);
             startActivityForResult(intent, 2);
         } else if (v.getId() == R.id.addTV) {
@@ -75,13 +75,11 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
         super.onActivityResult(requestCode, resultCode, data);
         // check if the request code is same as what is passed  here it is 2
         if (requestCode == 1) {
-            // String message=data.getStringExtra("MESSAGE");
             callAPIGetBankAccountDetail();
         } else if (requestCode == 2) {
             callAPIGetBankAccountDetail();
         } else if (requestCode == 3) {
             callAPIGetBankAccountDetail();
-
         }
     }
 
@@ -108,7 +106,6 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
             e.printStackTrace();
         }
     }
-
 
     private void callAPIGetUserDetail() {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
@@ -157,7 +154,6 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
                     showSimpleAlert(msg, "");
                 }
             }
-
         }
     }
 
@@ -183,9 +179,9 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
             addShadowLayout.setVisibility(View.VISIBLE);
         }
         if (SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_ID) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_ID).toString().length() > 0) {
-            changeTV.setVisibility(View.VISIBLE);
+            addShadowChange.setVisibility(View.VISIBLE);
         } else {
-            changeTV.setVisibility(View.GONE);
+            addShadowChange.setVisibility(View.GONE);
         }
     }
 }

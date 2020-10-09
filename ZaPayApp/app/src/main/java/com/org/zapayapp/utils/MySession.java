@@ -76,6 +76,10 @@ public class MySession {
             String created_at = object.get("created_at").getAsString();
             SharedPref.getPrefsHelper().savePref(Const.Var.CREATE_AT, created_at);
         }
+        if (object.get("currency") != null && object.get("currency").getAsString() != null && object.get("currency").getAsString().length() > 0) {
+            String currency = object.get("currency").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.CURRENCY, currency);
+        }
     }
 
     public static void removeSession() {

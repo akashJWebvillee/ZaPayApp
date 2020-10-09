@@ -1,11 +1,13 @@
 package com.org.zapayapp.activity;
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.microsoft.appcenter.AppCenter;
@@ -16,9 +18,11 @@ import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.MySession;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
+
 import retrofit2.Call;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener, APICallback {
+
     private LinearLayout homeLLLend, homeLLBorrow;
     private Intent intent;
     private TextView titleTV;
@@ -54,36 +58,30 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.homeLLLend:
-
                 //activity_status=0  //signup
                 //activity_status=1  //updated profile
                 //activity_status=2   //added bank account
                 //activity_status=3   //verifyed bank account(ready to send request)
-
-
-                if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS)!=null&&SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().length()>0) {
-                    if (!SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("0")){
+                if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().length() > 0) {
+                    if (!SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("0")) {
                         intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
                         intent.putExtra("isBorrow", false);
                         startActivity(intent);
-                    }else {
+                    } else {
                         showSimpleAlert(getString(R.string.update_your_profile), getString(R.string.update_your_profile));
                     }
                 }
-
                 break;
-
             case R.id.homeLLBorrow:
-                if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS)!=null&&SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().length()>0) {
-                    if (!SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("0")){
+                if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().length() > 0) {
+                    if (!SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("0")) {
                         intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
                         intent.putExtra("isBorrow", true);
                         startActivity(intent);
-                    }else {
+                    } else {
                         showSimpleAlert(getString(R.string.update_your_profile), getString(R.string.update_your_profile));
                     }
                 }
-
                 break;
         }
     }
@@ -151,7 +149,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                         JsonObject jsonObject = json.get("data").getAsJsonObject();
                         MySession.MakeSession(jsonObject);
                     }
-                }else if (status == 401) {
+                } else if (status == 401) {
                     showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
                 } else {
                     showSimpleAlert(msg, "");
@@ -161,7 +159,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                     if (json.get("data").getAsJsonObject() != null) {
                         MySession.saveBankData(json.get("data").getAsJsonObject());
                     }
-                }else if (status == 401) {
+                } else if (status == 401) {
                     showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
                 }
             } else if (from.equals(getResources().getString(R.string.api_logout))) {

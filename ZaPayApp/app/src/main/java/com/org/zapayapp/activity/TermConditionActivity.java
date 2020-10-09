@@ -14,16 +14,23 @@ import java.util.HashMap;
 import retrofit2.Call;
 
 public class TermConditionActivity extends BaseActivity implements APICallback {
-    private TextView termCondtitionTV;
+    private TextView termConditionTV;
     private TextView noDataTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_term_condition);
+        init();
+        initAction();
+    }
 
+    private void init() {
+        termConditionTV = findViewById(R.id.termCondtitionTV);
         noDataTv = findViewById(R.id.noDataTv);
-        termCondtitionTV = findViewById(R.id.termCondtitionTV);
+    }
+
+    private void initAction() {
         callAPITermCondition();
     }
 
@@ -46,12 +53,11 @@ public class TermConditionActivity extends BaseActivity implements APICallback {
     private void callAPITermCondition() {
         HashMap<String, Object> values = apiCalling.getHashMapObject(
                 "content_type", "terms_conditions");
-
         try {
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postApi(getString(R.string.api_get_content), values);
             if (apiCalling != null) {
-                apiCalling.callAPI(zapayApp, call, getString(R.string.api_get_content), termCondtitionTV);
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_get_content), termConditionTV);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -74,17 +80,15 @@ public class TermConditionActivity extends BaseActivity implements APICallback {
                     if (json.get("data").getAsJsonObject() != null) {
                         JsonObject jsonObject = json.get("data").getAsJsonObject();
                         if (jsonObject.get("page_description").getAsString() != null) {
-                            termCondtitionTV.setText(jsonObject.get("page_description").getAsString());
+                            termConditionTV.setText(jsonObject.get("page_description").getAsString());
                         }
                     }
                 } else if (status == 401) {
                     showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
                 } else {
-                    // showSimpleAlert(msg, "");
                     noDataTv.setVisibility(View.VISIBLE);
                 }
             }
-
         }
     }
 }

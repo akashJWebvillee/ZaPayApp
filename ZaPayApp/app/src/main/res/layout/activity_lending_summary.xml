@@ -26,16 +26,14 @@
             android:background="@drawable/rectanguler_bottom_corner" />
     </RelativeLayout>
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
         android:layout_marginTop="131dp"
         android:layout_marginEnd="18dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="30dp"
         android:background="@drawable/rectanguler_bg"
-        android:backgroundTint="@color/colorWhite"
         android:elevation="3dp"
         android:orientation="vertical">
 
@@ -59,6 +57,7 @@
                     android:textSize="24sp" />
 
                 <View
+                    android:id="@+id/lendingView"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/borrow_summaryTV"
@@ -66,10 +65,12 @@
                     android:background="@color/summaryLineColor" />
 
                 <TextView
+                    android:id="@+id/lendTxtName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/lendingView"
                     android:layout_marginStart="27dp"
-                    android:layout_marginTop="98dp"
+                    android:layout_marginTop="30dp"
                     android:fontFamily="@font/gotha_prolig"
                     android:gravity="start"
                     android:text="@string/lender"
@@ -78,13 +79,16 @@
 
                 <TextView
                     android:id="@+id/nameTV"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/lendTxtName"
                     android:layout_marginStart="27dp"
-                    android:layout_marginTop="116dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toStartOf="@+id/chatTV"
+                    android:ellipsize="end"
                     android:fontFamily="@font/gotha_promed"
                     android:gravity="start"
-                    android:text=""
+                    android:maxLines="1"
                     android:textColor="@color/textColor"
                     android:textSize="16sp" />
 
@@ -92,8 +96,10 @@
                     android:id="@+id/chatTV"
                     android:layout_width="80dp"
                     android:layout_height="26dp"
-                    android:layout_marginStart="259dp"
-                    android:layout_marginTop="98dp"
+                    android:layout_below="@+id/lendingView"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="28dp"
                     android:background="@drawable/rectanguler_4redius"
                     android:backgroundTint="@color/colorPrimary"
                     android:fontFamily="@font/gotha_promed"
@@ -102,109 +108,156 @@
                     android:textColor="@color/colorWhite"
                     android:textSize="11sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/lendLLAmountTerms"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/nameTV"
                     android:layout_marginStart="27dp"
-                    android:layout_marginTop="161dp"
-                    android:fontFamily="@font/gotha_prolig"
-                    android:gravity="start"
-                    android:text="@string/amount"
-                    android:textColor="@color/navTextColor60Alpha"
-                    android:textSize="14sp" />
+                    android:layout_marginTop="30dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1"
+                    android:baselineAligned="false">
 
-                <TextView
-                    android:id="@+id/amountTV"
-                    android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/lendTxtAmount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/gotha_prolig"
+                            android:gravity="start"
+                            android:text="@string/amount"
+                            android:textColor="@color/navTextColor60Alpha"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/amountTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/gotha_promed"
+                            android:gravity="start"
+                            android:text=""
+                            android:textColor="@color/textColor"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/lendTxtTerms"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/gotha_prolig"
+                            android:gravity="start"
+                            android:text="@string/terms"
+                            android:textColor="@color/navTextColor60Alpha"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/termTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/gotha_promed"
+                            android:gravity="start"
+                            android:text=""
+                            android:textColor="@color/textColor"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lendLLPaymentPayback"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/lendLLAmountTerms"
                     android:layout_marginStart="27dp"
-                    android:layout_marginTop="179dp"
-                    android:fontFamily="@font/gotha_promed"
-                    android:gravity="start"
-                    android:text=""
-                    android:textColor="@color/textColor"
-                    android:textSize="16sp" />
+                    android:layout_marginTop="30dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1"
+                    android:baselineAligned="false">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="187dp"
-                    android:layout_marginTop="161dp"
-                    android:fontFamily="@font/gotha_prolig"
-                    android:gravity="start"
-                    android:text="@string/terms"
-                    android:textColor="@color/navTextColor60Alpha"
-                    android:textSize="14sp" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/termTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="187dp"
-                    android:layout_marginTop="179dp"
-                    android:fontFamily="@font/gotha_promed"
-                    android:gravity="start"
-                    android:text=""
-                    android:textColor="@color/textColor"
-                    android:textSize="16sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/gotha_prolig"
+                            android:gravity="start"
+                            android:text="@string/payments"
+                            android:textColor="@color/navTextColor60Alpha"
+                            android:textSize="14sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="27dp"
-                    android:layout_marginTop="224dp"
-                    android:fontFamily="@font/gotha_prolig"
-                    android:gravity="start"
-                    android:text="@string/payments"
-                    android:textColor="@color/navTextColor60Alpha"
-                    android:textSize="14sp" />
+                        <TextView
+                            android:id="@+id/noOfPaymentTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/gotha_promed"
+                            android:gravity="start"
+                            android:text=""
+                            android:textColor="@color/textColor"
+                            android:textSize="16sp" />
+                    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/noOfPaymentTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="27dp"
-                    android:layout_marginTop="242dp"
-                    android:fontFamily="@font/gotha_promed"
-                    android:gravity="start"
-                    android:text=""
-                    android:textColor="@color/textColor"
-                    android:textSize="16sp" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="187dp"
-                    android:layout_marginTop="224dp"
-                    android:fontFamily="@font/gotha_prolig"
-                    android:gravity="start"
-                    android:text="@string/payback_dates"
-                    android:textColor="@color/navTextColor60Alpha"
-                    android:textSize="14sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/gotha_prolig"
+                            android:gravity="start"
+                            android:text="@string/payback_dates"
+                            android:textColor="@color/navTextColor60Alpha"
+                            android:textSize="14sp" />
 
-                <TextView
-                    android:id="@+id/paymentDateTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="187dp"
-                    android:layout_marginTop="242dp"
-                    android:fontFamily="@font/gotha_promed"
-                    android:gravity="start"
-                    android:text=""
-                    android:textColor="@color/textColor"
-                    android:textSize="16sp" />
+                        <TextView
+                            android:id="@+id/paymentDateTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/gotha_promed"
+                            android:gravity="start"
+                            android:text=""
+                            android:textColor="@color/textColor"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                </LinearLayout>
 
                 <View
+                    android:id="@+id/lendViewDot"
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:layout_marginTop="278dp"
+                    android:layout_below="@+id/lendLLPaymentPayback"
+                    android:layout_marginTop="21dp"
                     android:background="@drawable/dotted" />
 
                 <TextView
+                    android:id="@+id/lendTxtTotalReceive"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/lendViewDot"
                     android:layout_marginStart="27dp"
-                    android:layout_marginTop="303dp"
+                    android:layout_marginTop="25dp"
                     android:fontFamily="@font/gotha_prolig"
                     android:gravity="start"
                     android:text="@string/total_to_receive_back"
@@ -215,8 +268,9 @@
                     android:id="@+id/totalReceivedBackTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/lendTxtTotalReceive"
                     android:layout_marginStart="27dp"
-                    android:layout_marginTop="326dp"
+                    android:layout_marginTop="5dp"
                     android:fontFamily="@font/gotha_promed"
                     android:gravity="start"
                     android:text=""
@@ -227,8 +281,9 @@
                     android:id="@+id/viewAllTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/lendViewDot"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginTop="326dp"
+                    android:layout_marginTop="48dp"
                     android:layout_marginEnd="28dp"
                     android:fontFamily="@font/gotha_promed"
                     android:gravity="start"
@@ -237,21 +292,24 @@
                     android:textSize="18sp" />
 
                 <View
+                    android:id="@+id/lendViewAllLine"
                     android:layout_width="80dp"
                     android:layout_height="1dp"
                     android:layout_below="@+id/viewAllTV"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="1dp"
                     android:layout_marginEnd="28dp"
+                    android:layout_marginBottom="42dp"
                     android:background="@color/navTextSelectColor" />
 
                 <TextView
                     android:id="@+id/negotiateTV"
                     android:layout_width="match_parent"
                     android:layout_height="53dp"
+                    android:layout_below="@+id/lendViewAllLine"
                     android:layout_marginStart="27dp"
-                    android:layout_marginTop="385dp"
                     android:layout_marginEnd="27dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@drawable/rectanguler_button_bg"
                     android:backgroundTint="@color/navTextColor"
                     android:fontFamily="@font/gotha_probol"
@@ -264,9 +322,10 @@
                     android:id="@+id/acceptTV"
                     android:layout_width="match_parent"
                     android:layout_height="53dp"
+                    android:layout_below="@+id/negotiateTV"
                     android:layout_marginStart="27dp"
-                    android:layout_marginTop="458dp"
                     android:layout_marginEnd="27dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@drawable/rectanguler_button_bg"
                     android:backgroundTint="@color/greenColor"
                     android:fontFamily="@font/gotha_probol"
@@ -279,8 +338,8 @@
                     android:id="@+id/declineTV"
                     android:layout_width="match_parent"
                     android:layout_height="53dp"
+                    android:layout_below="@+id/acceptTV"
                     android:layout_marginStart="27dp"
-                    android:layout_marginTop="531dp"
                     android:layout_marginEnd="27dp"
                     android:layout_marginBottom="48dp"
                     android:background="@drawable/rectanguler_button_bg"
@@ -290,40 +349,6 @@
                     android:text="@string/decline"
                     android:textColor="@color/colorWhite"
                     android:textSize="16sp" />
-
-
-                <!--<LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_below="@+id/nameTV"
-                    android:layout_marginStart="237dp"
-                    android:layout_marginTop="116dp">
-                    <ImageView
-                        android:layout_width="11dp"
-                        android:layout_height="11dp"
-                        android:src="@mipmap/ratting2"/>
-                    <ImageView
-                        android:layout_width="11dp"
-                        android:layout_height="11dp"
-                        android:src="@mipmap/ratting2"
-                        android:layout_marginStart="3.6dp"/>
-                    <ImageView
-                        android:layout_width="11dp"
-                        android:layout_height="11dp"
-                        android:src="@mipmap/ratting2"
-                        android:layout_marginStart="3.6dp"/>
-                    <ImageView
-                        android:layout_width="11dp"
-                        android:layout_height="11dp"
-                        android:src="@mipmap/ratting_blank"
-                        android:layout_marginStart="3.6dp"/>
-                    <ImageView
-                        android:layout_width="11dp"
-                        android:layout_height="11dp"
-                        android:src="@mipmap/ratting_blank"
-                        android:layout_marginStart="3.6dp"/>
-                </LinearLayout>-->
 
             </RelativeLayout>
         </androidx.core.widget.NestedScrollView>

@@ -20,4 +20,9 @@
         <item>@string/help</item>
     </string-array>
 
+    <string-array name="accountTypeArray">
+        <item>@string/saving</item>
+        <item>@string/checking</item>
+    </string-array>
+
 </resources>

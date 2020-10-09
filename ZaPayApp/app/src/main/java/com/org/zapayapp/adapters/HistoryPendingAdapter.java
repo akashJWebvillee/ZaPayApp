@@ -14,6 +14,8 @@ import com.org.zapayapp.R;
 import com.org.zapayapp.activity.BorrowSummaryActivity;
 import com.org.zapayapp.activity.LendingSummaryActivity;
 import com.org.zapayapp.model.TransactionModel;
+import com.org.zapayapp.utils.Const;
+import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.TimeStamp;
 
 import java.util.List;
@@ -44,7 +46,7 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
             amountTV = itemView.findViewById(R.id.amountTV);
             noOfPaymentTV = itemView.findViewById(R.id.noOfPaymentTV);
             termTypeTV = itemView.findViewById(R.id.termTypeTV);
-            borroModeTitleTV = itemView.findViewById(R.id.borroModeTitleTV);
+            borroModeTitleTV = itemView.findViewById(R.id.borrowModeTitleTV);
         }
     }
 
@@ -75,7 +77,8 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
         }
 
         if (transactionModel.getAmount() != null && transactionModel.getAmount().length() > 0) {
-            holder.amountTV.setText("$" + transactionModel.getTotalAmount());
+            String total_amount = SharedPref.getPrefsHelper().getPref(Const.Var.CURRENCY, "") + transactionModel.getTotalAmount();
+            holder.amountTV.setText(total_amount);
         }
 
         if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {

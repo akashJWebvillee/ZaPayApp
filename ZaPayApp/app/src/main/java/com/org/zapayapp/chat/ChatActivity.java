@@ -2,7 +2,6 @@ package com.org.zapayapp.chat;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -255,7 +254,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
             e.printStackTrace();
         }
         mSocket.emit("read_message", jsonObject.toString());
-        Log.w("ChatActivity", "Calling read event for read all messages !!!");
+        CommonMethods.showLogs("ChatActivity", "Calling read event for read all messages !!!");
 
     }
 
@@ -266,7 +265,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
             messageEditText.setText("");
         }
         //{"status":200,"message":"success","data":{"receiver_id":"53","sender_id":"52","message":"Hi","transaction_request_id":"103","message_id":55}}
-        Log.e(TAG, "" + "onMsgSentReceived ()");
+            CommonMethods.showLogs(TAG, "" + "onMsgSentReceived ()");
 
             JSONObject msg_data = null;
             String msg_receiver_id = "", msg_sender_id = "", msg = "", msg_id = "",transaction_request_id="",status="0";
@@ -314,7 +313,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
            // scrollRecyclerViewToBottom(msgRecyclerView);
             if (isReceive) {
                 callEventReadAll();
-                Log.w("ChatActivity", "Message received :- " + jsonObject);
+                CommonMethods.showLogs("ChatActivity", "Message received :- " + jsonObject);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -328,7 +327,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
             //{"status":200,"message":"success","data":{"sender_id":"5e54a668db07c1478d627b59",
             // "message_id":"5e7dc9b3acffa9404943fcb1",
             // "conversation_id":"5e722b2cf5822302f55f9ef0"}}
-            Log.e(TAG , jsonObject.toString());
+            CommonMethods.showLogs(TAG , jsonObject.toString());
             JSONObject msg_data = null;
             String transaction_request_id = "", msg_sender_id = "", msg_id = "",status="0";
             try {
@@ -361,7 +360,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     public void onMsgReadAck(JSONObject jsonObject) {
         super.onMsgReadAck(jsonObject);
         try {
-            Log.e(TAG ," onMsgReadAck-------------" +  jsonObject.toString());
+            CommonMethods.showLogs(TAG ," onMsgReadAck-------------" +  jsonObject.toString());
             JSONObject msg_data = null;
             String transaction_request_id = "", msg_sender_id = "", status="0";
             try {

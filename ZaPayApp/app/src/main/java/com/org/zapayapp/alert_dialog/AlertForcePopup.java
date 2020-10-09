@@ -16,6 +16,7 @@ import com.org.zapayapp.R;
 import com.org.zapayapp.utils.CommonMethods;
 
 public class AlertForcePopup extends DialogFragment {
+
     private AlertForceCallback mListener;
     private Context context;
     private boolean isAddress;

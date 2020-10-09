@@ -138,6 +138,7 @@
     <string name="decline">Decline</string>
     <string name="lending_summary">Lending Summary</string>
     <string name="lender">Lender</string>
+    <string name="rating">Rating</string>
 
     <!-- Chat Screen-->
     <string name="chat_send">Send</string>
@@ -190,6 +191,8 @@
     <string name="completed">Completed</string>
     <string name="no_of_installment">No Of Installment:</string>
     <string name="borrow_mode">Borrow Mode:</string>
+    <string name="saving">Saving</string>
+    <string name="checking">Checking</string>
 
 
     <string name="ok">OK</string>
@@ -198,12 +201,6 @@
 
 
     <string name="no_data_found">No data found</string>
-
-
-    <string-array name="accountTypeArray">
-        <item>savings</item>
-        <item>checking</item>
-    </string-array>
 
     <string name="verify_account">Verify Account</string>
     <string name="add">Add</string>
@@ -245,7 +242,7 @@
     <string name="please_verify_bank_account">Please verify bank account</string>
     <string name="are_you_sure_do_you_want_to_logout">Are you sure? do you want to logout?</string>
     <string name="explore_lending_borrowing">Now lending and borrowing money is just a click away, explore below options</string>
-    <string name="verify_account_msg">To verify account you can put value for example amount1-0.10 ,amount2- 0.03</string>
+    <string name="verify_account_msg">To verify account you can put value for example amount1&#8211;0.10 ,amount2&#8211; 0.03</string>
 
 
 </resources>

@@ -1,22 +1,33 @@
 package com.org.zapayapp.activity;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.google.android.material.tabs.TabLayout;
 import com.org.zapayapp.R;
+import com.org.zapayapp.ZapayApp;
 import com.org.zapayapp.adapters.MyHistoryPaggerAdapter;
 import com.org.zapayapp.uihelpers.CustomViewPager;
-import java.util.ArrayList;
+import com.org.zapayapp.webservices.APICalling;
+import com.org.zapayapp.webservices.RestAPI;
 
-public class MyHistoryActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener{
+public class MyHistoryActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
+
     private TabLayout tabLayout;
     private CustomViewPager viewPager;
     private Toolbar toolbar;
     private TextView titleTV;
     private ImageView backArrowImageView;
+
+    /*Code for API calling*/
+    public ZapayApp zapayApp;
+    public APICalling apiCalling;
+    public RestAPI restAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +47,6 @@ public class MyHistoryActivity extends AppCompatActivity implements TabLayout.On
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
 
-        //Adding the tabs using addTab() method
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.pending)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.negotiation)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.completed)));
@@ -52,6 +62,9 @@ public class MyHistoryActivity extends AppCompatActivity implements TabLayout.On
     }
 
     private void inItAction() {
+        zapayApp = (ZapayApp) getApplicationContext();
+        restAPI = APICalling.webServiceInterface();
+        apiCalling = new APICalling(this);
         backArrowImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

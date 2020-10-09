@@ -4,7 +4,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,9 +19,8 @@ import java.util.HashMap;
 import retrofit2.Call;
 
 public class ForgotPasswordActivity extends BaseActivity implements View.OnClickListener, APICallback {
-    private TextView textViewSpannable;
-    private TextView buttonSend;
 
+    private TextView textViewSpannable, buttonSend;
     private CustomTextInputLayout passwordInputLayout;
     private TextInputEditText passwordEditText;
 
@@ -116,8 +114,6 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
                     showSimpleAlert(msg, "");
                 }
             }
-
         }
     }
-
 }

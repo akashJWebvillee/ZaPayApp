@@ -45,13 +45,6 @@
             android:tint="@color/navTextColor"
             android:visibility="gone" />
 
-        <View
-            android:id="@+id/headerLineView"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/titleTV"
-            android:layout_marginTop="16dp"
-            android:background="@color/colorLineLightGrey" />
     </RelativeLayout>
 </androidx.appcompat.widget.Toolbar>
 

@@ -219,12 +219,11 @@
                     android:id="@+id/stateSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:overlapAnchor="false"
+                    android:minHeight="20dp"
+                    android:background="@drawable/bg_spinner"
+                    android:dropDownWidth="match_parent"
                     android:layout_marginTop="3dp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@drawable/edt_bg_selector" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -240,13 +239,11 @@
                     android:id="@+id/citySpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:overlapAnchor="false"
+                    android:background="@drawable/bg_spinner"
+                    android:minHeight="20dp"
+                    android:dropDownWidth="match_parent"
                     android:layout_marginTop="3dp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@drawable/edt_bg_selector" />
-
 
                 <TextView
                     android:layout_width="wrap_content"

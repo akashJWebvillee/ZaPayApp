@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -147,7 +146,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
         public void call(Object... args) {
             // if (!isConnected) {
             isConnected = true;
-            Log.w("NETWORK_CONNECTION", "Emitter.Listener onConnect :- " + " Network Connected !!!");
+            CommonMethods.showLogs("NETWORK_CONNECTION", "Emitter.Listener onConnect :- " + " Network Connected !!!");
             CommonMethods.showLogs("exception", isConnected + "isConnected");
         }
     };
@@ -157,7 +156,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
         public void call(Object... args) {
             // if (!isConnected) {
             isConnected = true;
-            Log.w("NETWORK_CONNECTION", "Emitter.Listener onReConnect :- " + " Network ReConnected !!!");
+            CommonMethods.showLogs("NETWORK_CONNECTION", "Emitter.Listener onReConnect :- " + " Network ReConnected !!!");
             CommonMethods.showLogs("exception", isConnected + "isConnected");
         }
     };
@@ -166,7 +165,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
         @Override
         public void call(Object... args) {
             isConnected = false;
-            Log.w("NETWORK_CONNECTION", "Emitter.Listener onDisconnect :- " + " Network disconnected !!!");
+            CommonMethods.showLogs("NETWORK_CONNECTION", "Emitter.Listener onDisconnect :- " + " Network disconnected !!!");
             CommonMethods.showLogs("exception", isConnected + " ");
         }
     };
@@ -174,7 +173,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
     private Emitter.Listener onConnectError = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-            Log.w("NETWORK_CONNECTION", "Emitter.Listener onConnectError :- " + " Network Connect Error !!!");
+            CommonMethods.showLogs("NETWORK_CONNECTION", "Emitter.Listener onConnectError :- " + " Network Connect Error !!!");
 
             CommonMethods.showLogs("exception", isConnected + " ");
         }
@@ -185,7 +184,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
         public void call(Object... args) {
             // final JSONObject jsonObject = (JSONObject) args[0];
             CommonMethods.showLogs("onJoin", "onJoin :- " + "Joined successfully !!" + args);
-            Log.w("SOCKET CONNECTION", "onJoinEmtListener called");
+            CommonMethods.showLogs("SOCKET CONNECTION", "onJoinEmtListener called");
         }
     };
 
@@ -218,7 +217,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
         public void call(Object... args) {
             try {
                 final JSONObject jsonObject = (JSONObject) args[0];
-                Log.w(BaseActivity.class.getSimpleName(), "onReceiveMsgEmtListener :- " + jsonObject);
+                CommonMethods.showLogs(BaseActivity.class.getSimpleName(), "onReceiveMsgEmtListener :- " + jsonObject);
                 if (jsonObject.getInt("status") == 200) {
                     runOnUiThread(new Runnable() {
                         @Override
@@ -585,7 +584,6 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             intent = new Intent(BaseActivity.this, ProfileActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-            //finish();
         } else if (from.equals(getResources().getString(R.string.please_add_bank_account))) {
             intent = new Intent(BaseActivity.this, BankInfoActivity.class);
             startActivity(intent);
@@ -594,9 +592,14 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             startActivity(intent);
         } else if (from.equals(getResources().getString(R.string.api_update_transaction_request_status))) {
             finish();
+        } else if (from.equalsIgnoreCase(getString(R.string.api_signup))) {
+            moveToLogin();
         }
     }
 
+    protected void moveToLogin() {
+
+    }
 
     private void alertLogOut() {
         try {
@@ -653,7 +656,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             //}
         } else if (from.equals(getString(R.string.version_check))) {
             openGooglePlayStore();
-        }else if (from.equals(getString(R.string.exit_app))) {  //ye code ashok ne add kiya h.
+        }else if (from.equals(getString(R.string.exit_app))) {  //ye code  ne add kiya h.
             finish();
         }*/
     }
@@ -690,7 +693,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
     }
 
     public void connectSocket() {
-        Log.e("SOCKET CONNECTION", "connectSocket() called");
+        CommonMethods.showLogs("SOCKET CONNECTION", "connectSocket() called");
         mSocket = zapayApp.getmSocket();
         try {
             if (mSocket != null/* && !mSocket.connected()*/) {
@@ -705,7 +708,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
                 mSocket.on(RECEIVE_MSG_ACK, onReceiveMsgAckEmtListener);
                 mSocket.on(READ_MSG_ACK, onReadMsgAckEmtListener);
                 mSocket.connect();
-                Log.v(BaseActivity.class.getSimpleName(), "mSocket.connected() :- " + true);
+                CommonMethods.showLogs(BaseActivity.class.getSimpleName(), "mSocket.connected() :- " + true);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -727,7 +730,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
     }
 
     public void disconnectSocket() {
-        Log.e("SOCKET CONNECTION", "disconnectSocket() called --- " + 2);
+        CommonMethods.showLogs("SOCKET CONNECTION", "disconnectSocket() called --- " + 2);
         mSocket = zapayApp.getmSocket();
         try {
             if (mSocket != null /*&& mSocket.connected()*/) {
@@ -742,7 +745,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
                 mSocket.off(RECEIVE_MSG, onReceiveMsgEmtListener);
                 mSocket.off(RECEIVE_MSG_ACK, onReceiveMsgAckEmtListener);
                 mSocket.off(READ_MSG_ACK, onReadMsgAckEmtListener);
-                Log.v(BaseActivity.class.getSimpleName(), "mSocket.connected() :- " + false);
+                CommonMethods.showLogs(BaseActivity.class.getSimpleName(), "mSocket.connected() :- " + false);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -750,19 +753,19 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
     }
 
     public void onMsgSentReceived(JSONObject jsonObject, boolean isReceive) {
-        Log.w(BaseActivity.class.getSimpleName(), "onMsgSentReceived :-" + jsonObject);
-        Log.w(BaseActivity.class.getSimpleName(), "isReceive :-" + isReceive);
+        CommonMethods.showLogs(BaseActivity.class.getSimpleName(), "onMsgSentReceived :-" + jsonObject);
+        CommonMethods.showLogs(BaseActivity.class.getSimpleName(), "isReceive :-" + isReceive);
 
     }
 
     public void onMsgReceivedAck(JSONObject jsonObject) {
         CommonMethods.showLogs("msg in class", jsonObject.toString());
-        Log.w("BaseActivity", "onMsgReceivedAck -- MSG Received Listener  :-" + jsonObject);
+        CommonMethods.showLogs("BaseActivity", "onMsgReceivedAck -- MSG Received Listener  :-" + jsonObject);
     }
 
     public void onMsgReadAck(JSONObject jsonObject) {
         CommonMethods.showLogs("msg in class", jsonObject.toString());
-        Log.w("BaseActivity", "onMsgReadAck -- MSG Read Listener  :-" + jsonObject);
+        CommonMethods.showLogs("BaseActivity", "onMsgReadAck -- MSG Read Listener  :-" + jsonObject);
     }
 
     private void sendReceiveAck(final JSONObject object) {
@@ -780,7 +783,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             jsonObject.put("message_id", msg_id);
             jsonObject.put("transaction_request_id", transaction_request_id);
             mSocket.emit("receive_message_success", jsonObject.toString());
-            Log.w("ChatActivity", "receive_message_ack !!!" + jsonObject.toString());
+            CommonMethods.showLogs("ChatActivity", "receive_message_ack !!!" + jsonObject.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -89,7 +88,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         profileImageView.setOnClickListener(this);
         setDataOnScreen();
     }
-
 
     private void setDataOnScreen() {
         if (SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString().length() > 0) {
@@ -245,7 +243,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void callAPIUploadFile() {
-        Log.e("click here", "click here path==" + path);
         File file = new File(path);
         RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("profile_image", file.getName(), requestBody);

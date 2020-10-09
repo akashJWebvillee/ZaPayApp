@@ -1,10 +1,8 @@
 package com.org.zapayapp.dialogs;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
@@ -14,14 +12,15 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.ZapayApp;
+import com.org.zapayapp.adapters.CityAdapter;
 import com.org.zapayapp.adapters.StateAdapter;
 import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
 import com.org.zapayapp.model.CityModel;
@@ -34,43 +33,28 @@ import com.org.zapayapp.utils.WValidationLib;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
 import com.org.zapayapp.webservices.RestAPI;
+
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
+
 import retrofit2.Call;
 
 public class EditProfileDialogActivity extends AppCompatActivity implements View.OnClickListener, APICallback, SimpleAlertFragment.AlertSimpleCallback, DatePickerFragmentDialogue.DatePickerCallback {
-    private TextView saveTV;
-    private ImageView closeTV;
-    private String header = "";
 
-    public WValidationLib wValidationLib;
+    private TextView saveTV, titleTV;
+    private ImageView cancelImageView;
+
+    private WValidationLib wValidationLib;
     /*Code for API calling*/
-    protected ZapayApp zapayApp;
-    protected Gson gson;
-    protected APICalling apiCalling;
-    protected RestAPI restAPI;
+    private ZapayApp zapayApp;
+    private APICalling apiCalling;
+    private RestAPI restAPI;
 
-    private CustomTextInputLayout nameEditTextInputLayout;
-    private CustomTextInputLayout mobileInputLayout;
-    private CustomTextInputLayout address1InputLayout;
-    private CustomTextInputLayout address2InputLayout;
-    private CustomTextInputLayout postalCodeInputLayout;
-    private CustomTextInputLayout ssnInputLayout;
-    private CustomTextInputLayout dobInputLayout;
-
-    private TextInputEditText nameEditText;
-    private TextInputEditText mobileEditText;
-    private TextInputEditText address1EditText;
-    private TextInputEditText address2EditText;
-    private TextInputEditText postalCodeEditText;
-    private TextInputEditText ssnEditText;
-    private TextInputEditText dobEditText;
-
+    private CustomTextInputLayout nameEditTextInputLayout, mobileInputLayout, address1InputLayout, address2InputLayout, postalCodeInputLayout, ssnInputLayout, dobInputLayout;
+    private TextInputEditText nameEditText, mobileEditText, address1EditText, address2EditText, postalCodeEditText, ssnEditText, dobEditText;
     private Spinner stateSpinner, citySpinner;
     private List<StateModel> stateList;
     private StateAdapter stateAdapter;
@@ -78,10 +62,7 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     private List<CityModel> cityList;
     private CityAdapter cityAdapter;
     private String stateShortCode = "";
-    //private String cityId="";
     private String cityName = "";
-    private String firstName = "";
-    private String lastName = "";
     private String dob = "";
     private int ageInYear = 0;
     private String stateName;
@@ -89,36 +70,16 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //getWindow().setBackgroundDrawable(CommonMethods.getDrawableWrapper(this, android.R.color.transparent));
-        // supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.edit_profile_dialog);
-        // getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        // getIntentValues();
-        apicodeInit();
+        apiCodeInit();
         init();
         initAction();
-
     }
 
-
-    private void apicodeInit() {
+    private void apiCodeInit() {
         zapayApp = (ZapayApp) getApplicationContext();
         restAPI = APICalling.webServiceInterface();
-        gson = new Gson();
         apiCalling = new APICalling(this);
-    }
-
-    private void getIntentValues() {
-        try {
-            Intent intent = getIntent();
-            if (intent != null) {
-                if (intent.getStringExtra("header") != null) {
-                    header = intent.getStringExtra("header");
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private void init() {
@@ -127,8 +88,10 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         cityList = new ArrayList<>();
 
         saveTV = findViewById(R.id.saveTV);
-        closeTV = findViewById(R.id.closeTV);
-
+        titleTV = findViewById(R.id.titleTV);
+        cancelImageView = findViewById(R.id.cancelImageView);
+        cancelImageView.setVisibility(View.VISIBLE);
+        titleTV.setText(getString(R.string.edit_profile));
 
         nameEditTextInputLayout = findViewById(R.id.nameEditTextInputLayout);
         mobileInputLayout = findViewById(R.id.mobileInputLayout);
@@ -146,16 +109,9 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         ssnEditText = findViewById(R.id.ssnEditText);
         dobEditText = findViewById(R.id.dobEditText);
 
-
         stateSpinner = findViewById(R.id.stateSpinner);
         citySpinner = findViewById(R.id.citySpinner);
         stateName = SharedPref.getPrefsHelper().getPref(Const.Var.STATE).toString();
-
-
-      /*  dobEditText.setOnTouchListener((v, event) -> {
-            datePickerDialog();
-            return false;
-        });*/
 
         dobEditText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,16 +120,14 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
             }
         });
 
-
         setDataOnScreen();
     }
 
     private void initAction() {
         saveTV.setOnClickListener(this);
-        closeTV.setOnClickListener(this);
+        cancelImageView.setOnClickListener(this);
 
         callAPIGetState();
-
 
         stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -195,11 +149,7 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //cityId = cityList.get(position).getId();
                 cityName = cityList.get(position).getCity();
-                Log.e("bankAccountType", "name=======" + cityName);
-
-
             }
 
             @Override
@@ -213,30 +163,24 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
 
     private void setDataOnScreen() {
         if (SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME) != null && SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME).toString().length() > 1) {
-            nameEditText.setText(SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME, "") + " " + SharedPref.getPrefsHelper().getPref(Const.Var.LAST_NAME, ""));
-
+            String name = SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME, "") + " " + SharedPref.getPrefsHelper().getPref(Const.Var.LAST_NAME, "");
+            nameEditText.setText(name);
         }
-
         if (SharedPref.getPrefsHelper().getPref(Const.Var.MOBILE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.MOBILE).toString().length() > 1) {
             mobileEditText.setText(SharedPref.getPrefsHelper().getPref(Const.Var.MOBILE, ""));
         }
-
         if (SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS1) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS1).toString().length() > 1) {
             address1EditText.setText(SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS1, ""));
         }
-
         if (SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS2) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS2).toString().length() > 1) {
             address2EditText.setText(SharedPref.getPrefsHelper().getPref(Const.Var.ADDRESS2, ""));
         }
-
         if (SharedPref.getPrefsHelper().getPref(Const.Var.POSTAL_CODE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.POSTAL_CODE).toString().length() > 1) {
             postalCodeEditText.setText(SharedPref.getPrefsHelper().getPref(Const.Var.POSTAL_CODE, ""));
         }
-
         if (SharedPref.getPrefsHelper().getPref(Const.Var.SSN) != null && SharedPref.getPrefsHelper().getPref(Const.Var.SSN).toString().length() > 1) {
             ssnEditText.setText(SharedPref.getPrefsHelper().getPref(Const.Var.SSN, ""));
         }
-
         if (SharedPref.getPrefsHelper().getPref(Const.Var.DOB) != null && SharedPref.getPrefsHelper().getPref(Const.Var.DOB).toString().length() > 1) {
             if (!SharedPref.getPrefsHelper().getPref(Const.Var.DOB).toString().trim().equalsIgnoreCase("0000-00-00"))
                 dobEditText.setText(SharedPref.getPrefsHelper().getPref(Const.Var.DOB, ""));
@@ -246,88 +190,27 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     @Override
     public void onClick(View v) {
         if (v.equals(saveTV)) {
-            Intent returnIntent = new Intent();
-            setResult(RESULT_OK, returnIntent);
-            //finish();
-
             updateProfileFunc();
-        } else if (v.equals(closeTV)) {
+        } else if (v.equals(cancelImageView)) {
             finish();
         }
     }
 
-
     private void updateProfileFunc() {
-        try {
-            /*if (wValidationLib.isEmpty(nameEditTextInputLayout, nameEditText, getString(R.string.important), true)) {
-                String firstNameLastName = nameEditText.getText().toString().trim();
-                String[] firstNameLastName1 = firstNameLastName.split(" ");
-                if (firstNameLastName1.length > 1) {
-                    firstName = firstNameLastName1[0];
-                    lastName = firstNameLastName1[1];
-                    if (wValidationLib.isEmpty(mobileInputLayout, mobileEditText, getString(R.string.important), true)) {
-                        if (mobileEditText.getText().toString().trim().length() == 10) {
-                            if (wValidationLib.isEmpty(address1InputLayout, address1EditText, getString(R.string.important), true)) {
-                                String address1 = address1EditText.getText().toString().trim();
-                                if (address1.length() <= 51) {
-                                    if (address2EditText.getText().toString().trim().length() == 0 || address2EditText.getText().toString().trim().length() <= 51) {
-                                        if (wValidationLib.isEmpty(postalCodeInputLayout, postalCodeEditText, getString(R.string.important), true)) {
-                                            if (postalCodeEditText.getText().toString().trim().length() >= 5) {
-                                                if (wValidationLib.isEmpty(ssnInputLayout, ssnEditText, getString(R.string.important), true)) {
-                                                    if (ssnEditText.getText().toString().trim().length() >= 4) {
-                                                        if (wValidationLib.isEmpty(dobInputLayout, dobEditText, getString(R.string.important), true)) {
-                                                            callAPIUpdateProfile();
-                                                        }
-                                                    } else {
-                                                        showSimpleAlert(getString(R.string.ssn_code_should_be_5_digit), "");
-                                                    }
-                                                }
-                                            } else {
-                                                showSimpleAlert(getString(R.string.postal_code_should_be_5_digit), "");
-                                            }
-                                        }
-                                    } else {
-                                        showSimpleAlert(getString(R.string.must_be_50_characters_or_less), "");
-                                    }
-                                } else {
-                                    showSimpleAlert(getString(R.string.must_be_50_characters_or_less), "");
+        if (wValidationLib.isFullName(nameEditTextInputLayout, nameEditText, getString(R.string.important), getString(R.string.please_enter_valid_full_name), true)) {
+            if (wValidationLib.isValidNumeric(mobileInputLayout, mobileEditText, getString(R.string.important), getString(R.string.please_enter_valid_mobile), true)) {
+                if (wValidationLib.isValidAddress1(address1InputLayout, address1EditText, getString(R.string.important), getString(R.string.must_be_50_characters_or_less), true)) {
+                    if (wValidationLib.isValidAddress2(address2InputLayout, address2EditText, getString(R.string.important), getString(R.string.must_be_50_characters_or_less), false)) {
+                        if (wValidationLib.isValidPostalCode(postalCodeInputLayout, postalCodeEditText, getString(R.string.important), getString(R.string.postal_code_should_be_5_digit), true)) {
+                            if (wValidationLib.isValidSSNcode(ssnInputLayout, ssnEditText, getString(R.string.important), getString(R.string.ssn_code_should_be_5_digit), true)) {
+                                if (wValidationLib.isEmpty(dobInputLayout, dobEditText, getString(R.string.important), true)) {
+                                    callAPIUpdateProfile();
                                 }
                             }
-                        } else {
-                            showSimpleAlert(getString(R.string.enter_valid_mobile), "");
                         }
                     }
-                } else {
-                    showSimpleAlert(getString(R.string.enter_full_name), "");
                 }
             }
-*/
-
-
-            if (wValidationLib.isFullName(nameEditTextInputLayout, nameEditText, getString(R.string.important), getString(R.string.please_enter_valid_full_name), true)) {
-                if (wValidationLib.isValidNumeric(mobileInputLayout, mobileEditText, getString(R.string.important), getString(R.string.please_enter_valid_mobile), true)) {
-                    if (wValidationLib.isValidAddress1(address1InputLayout, address1EditText, getString(R.string.important), getString(R.string.must_be_50_characters_or_less), true)) {
-                        if (wValidationLib.isValidAddress2(address2InputLayout, address2EditText, getString(R.string.important), getString(R.string.must_be_50_characters_or_less), false)) {
-                            if (wValidationLib.isValidPostalCode(postalCodeInputLayout, postalCodeEditText, getString(R.string.important), getString(R.string.postal_code_should_be_5_digit), true)) {
-                                if (wValidationLib.isValidSSNcode(ssnInputLayout, ssnEditText, getString(R.string.important), getString(R.string.ssn_code_should_be_5_digit), true)) {
-                                    if (wValidationLib.isEmpty(dobInputLayout, dobEditText, getString(R.string.important), true)) {
-                                        callAPIUpdateProfile();
-                                    }
-
-                                }
-
-                            }
-                        }
-
-                    }
-
-                }
-
-            }
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
@@ -360,8 +243,8 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     private void callAPIUpdateProfile() {
         String firstNameLastName = nameEditText.getText().toString().trim();
         String[] firstNameLastName1 = firstNameLastName.split(" ");
-        firstName = firstNameLastName1[0];
-        lastName = firstNameLastName1[1];
+        String firstName = firstNameLastName1[0];
+        String lastName = firstNameLastName1[1];
 
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
@@ -372,7 +255,6 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                     "address1", address1EditText.getText().toString().trim(),
                     "address2", address2EditText.getText().toString().trim(),
                     "state", stateShortCode,
-                    //"city",cityId,AAAA
                     "city", cityName,
                     "postal_code", postalCodeEditText.getText().toString().trim(),
                     "ssn", ssnEditText.getText().toString().trim(),
@@ -400,7 +282,6 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
             if (from.equals(getResources().getString(R.string.api_get_states_list))) {
                 if (status == 200) {
                     if (json.get("data").getAsJsonArray() != null) {
@@ -409,7 +290,6 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                         stateList.clear();
                         stateList.addAll(list);
                         setStateAdapter();
-
                     }
                 } else if (status == 401) {
 
@@ -419,7 +299,6 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
             } else if (from.equals(getResources().getString(R.string.api_get_cities_list))) {
                 if (status == 200) {
                     if (json.get("data").getAsJsonArray() != null) {
-                        //JsonArray jsonArray = json.get("data").getAsJsonArray();
                         List<CityModel> list = apiCalling.getDataList(json, "data", CityModel.class);
                         cityList.clear();
                         cityList.addAll(list);
@@ -429,12 +308,9 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                     cityName = "";
                     cityList.clear();
                     setCityAdapter();
-                    // showSimpleAlert(msg, "");
                 }
-
             } else if (from.equals(getResources().getString(R.string.api_update_profile))) {
                 if (status == 200) {
-
                     showSimpleAlert(msg, getResources().getString(R.string.api_update_profile));
                 } else {
                     showSimpleAlert(msg, "");
@@ -473,8 +349,6 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
             stateAdapter = new StateAdapter(this, stateList);
             stateSpinner.setAdapter(stateAdapter);
         }
-
-
         if (stateName != null && stateName.length() > 0) {
             int pos = 0;
             for (int i = 0; i < stateList.size(); i++) {
@@ -484,22 +358,12 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
             }
             stateSpinner.setSelection(pos);
         }
-
     }
 
 
     private void setCityAdapter() {
-     /*   if (cityAdapter != null) {
-            cityAdapter.notifyDataSetChanged();
-        } else {
-            cityAdapter = new CityAdapter(this, cityList);
-            citySpinner.setAdapter(cityAdapter);
-        }*/
-
         cityAdapter = new CityAdapter(this, cityList);
         citySpinner.setAdapter(cityAdapter);
-
-
     }
 
     private void datePickerDialog() {
@@ -508,7 +372,6 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         int mYear = c.get(Calendar.YEAR);
         int mMonth = c.get(Calendar.MONTH);
         int mDay = c.get(Calendar.DAY_OF_MONTH);
-
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, R.style.MyAlertDialogStyle, new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -521,24 +384,15 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
                 String myFormat = "dd/MM/yyyy"; //In which you need put here
-                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-                //  timeText.setText(sdf.format(myCalendar.getTime()));
-                // dob=sdf.format(myCalendar.getTime());
-
-
                 dob = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
                 ageInYear = getAge(year, monthOfYear + 1, dayOfMonth);
-
                 if (ageInYear >= 18) {
                     dobEditText.setText(dob);
                 } else {
                     showSimpleAlert(getString(R.string.age_must_be_18_years_or_older), "");
                 }
-
-
             }
         }, mYear, mMonth, mDay);
-
         datePickerDialog.show();
 
 
@@ -558,9 +412,6 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     public void datePickerCallback(String selectedDate, int year, int month, int day, String from) throws ParseException {
         dob = selectedDate;
         dobEditText.setText(dob);
-
-        Log.e("ageInYear", "ageInYear===" + ageInYear);
-        Log.e("ageInYear", "dob===" + dob);
     }
 
 

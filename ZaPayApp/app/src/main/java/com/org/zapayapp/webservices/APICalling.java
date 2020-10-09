@@ -299,7 +299,7 @@ public class APICalling extends BaseRequestParser implements ServiceCallback<Jso
                     } else if (statusCode == 401) {
                         // unauthenticated(response, call, this, view);
 
-                        //this code Write by ashok
+                        //this code Write by
                         JsonObject jsonObject=new JsonObject();
                         jsonObject.addProperty("status","401");
                         jsonObject.addProperty("message","Unauthorized Access!");

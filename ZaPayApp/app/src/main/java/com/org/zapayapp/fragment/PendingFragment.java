@@ -1,32 +1,26 @@
 package com.org.zapayapp.fragment;
-import android.content.res.Resources;
+
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.google.gson.Gson;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
-import com.org.zapayapp.ZapayApp;
 import com.org.zapayapp.activity.TransactionActivity;
 import com.org.zapayapp.adapters.TransactionAdapter;
-import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
-import com.org.zapayapp.model.ContactModel;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.EndlessRecyclerViewScrollListener;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
-import com.org.zapayapp.webservices.APICalling;
-import com.org.zapayapp.webservices.RestAPI;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,64 +28,40 @@ import java.util.List;
 
 import retrofit2.Call;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class PendingFragment extends Fragment implements APICallback, SimpleAlertFragment.AlertSimpleCallback {
 
-    /*Code for API calling*/
-    protected ZapayApp zapayApp;
-    protected Gson gson;
-    protected APICalling apiCalling;
-    protected RestAPI restAPI;
+public class PendingFragment extends Fragment implements APICallback {
 
-
-    TransactionActivity activity;
+    private TransactionActivity activity;
     private RecyclerView pendingRecyclerView;
-    private List<TransactionModel> trasactionList;
-
-
-     private EndlessRecyclerViewScrollListener scrollListener;
-     private int pageNo=0;
-     private TextView noDataTv;
-
+    private List<TransactionModel> transactionList;
+    private EndlessRecyclerViewScrollListener scrollListener;
+    private int pageNo = 0;
+    private TextView noDataTv;
 
 
     public PendingFragment() {
-        // Required empty public constructor
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_pending, container, false);
-        apicodeInit();
         inIt(view);
         initAction();
         return view;
     }
 
-    private void apicodeInit() {
-        zapayApp = (ZapayApp) getActivity().getApplicationContext();
-        restAPI = APICalling.webServiceInterface();
-        gson = new Gson();
-        apiCalling = new APICalling(getContext());
-    }
-
     private void inIt(View view) {
-        trasactionList = new ArrayList<>();
+        transactionList = new ArrayList<>();
         activity = (TransactionActivity) getActivity();
         noDataTv = view.findViewById(R.id.noDataTv);
         pendingRecyclerView = view.findViewById(R.id.pendingRecyclerView);
-
     }
 
     private void initAction() {
-       LinearLayoutManager layoutManager= new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         pendingRecyclerView.setLayoutManager(layoutManager);
         pendingRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
 
         scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
@@ -101,8 +71,6 @@ public class PendingFragment extends Fragment implements APICallback, SimpleAler
             }
         };
         pendingRecyclerView.addOnScrollListener(scrollListener);
-       // pageNo = 0;
-       // callAPIGetTransactionRequest(pageNo);
     }
 
     @Override
@@ -120,14 +88,14 @@ public class PendingFragment extends Fragment implements APICallback, SimpleAler
 
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
-            HashMap<String, Object> values = apiCalling.getHashMapObject(
+            HashMap<String, Object> values = activity.apiCalling.getHashMapObject(
                     "status", "0",
                     "page", pageNo);
 
-            zapayApp.setApiCallback(this);
-            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_get_transaction_request), values);
-            if (apiCalling != null) {
-                apiCalling.callAPI(zapayApp, call, getString(R.string.api_get_transaction_request), pendingRecyclerView);
+            activity.zapayApp.setApiCallback(this);
+            Call<JsonElement> call = activity.restAPI.postWithTokenApi(token, getString(R.string.api_get_transaction_request), values);
+            if (activity.apiCalling != null) {
+                activity.apiCalling.callAPI(activity.zapayApp, call, getString(R.string.api_get_transaction_request), pendingRecyclerView);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -149,25 +117,22 @@ public class PendingFragment extends Fragment implements APICallback, SimpleAler
             if (from.equals(getResources().getString(R.string.api_get_transaction_request))) {
                 if (status == 200) {
                     if (pageNo == 0) {
-                        trasactionList.clear();
+                        transactionList.clear();
                     }
-
-                    List<TransactionModel> list = apiCalling.getDataList(json, "data", TransactionModel.class);
+                    List<TransactionModel> list = activity.apiCalling.getDataList(json, "data", TransactionModel.class);
                     if (list.size() > 0) {
                         noDataTv.setVisibility(View.GONE);
                         pendingRecyclerView.setVisibility(View.VISIBLE);
-                        trasactionList.addAll(list);
+                        transactionList.addAll(list);
                         setAdapter();
-
                     } else {
                         if (pageNo == 0) {
                             noDataTv.setVisibility(View.VISIBLE);
                             pendingRecyclerView.setVisibility(View.GONE);
                         }
                     }
-
-                }else {
-                    if (pageNo == 0){
+                } else {
+                    if (pageNo == 0) {
                         noDataTv.setVisibility(View.VISIBLE);
                         pendingRecyclerView.setVisibility(View.GONE);
                     }
@@ -177,31 +142,7 @@ public class PendingFragment extends Fragment implements APICallback, SimpleAler
     }
 
     private void setAdapter() {
-        TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity(), trasactionList, getString(R.string.transaction));
+        TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity(), transactionList, getString(R.string.transaction));
         pendingRecyclerView.setAdapter(transactionAdapter);
-    }
-
-    public void showSimpleAlert(String message, String from) {
-        try {
-            FragmentManager fm = activity.getSupportFragmentManager();
-            Bundle args = new Bundle();
-            args.putString("header", message);
-            args.putString("textOk", getString(R.string.ok));
-            args.putString("textCancel", getString(R.string.cancel));
-            args.putString("from", from);
-            SimpleAlertFragment alert = new SimpleAlertFragment();
-            alert.setArguments(args);
-            alert.show(fm, "");
-        } catch (Resources.NotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onSimpleCallback(String from) {
-        if (from.equals(getResources().getString(R.string.api_get_transaction_request))) {
-            ;
-
-        }
     }
 }

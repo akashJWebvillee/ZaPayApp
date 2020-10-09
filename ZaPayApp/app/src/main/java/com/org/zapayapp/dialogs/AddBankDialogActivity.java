@@ -3,7 +3,6 @@ package com.org.zapayapp.dialogs;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -103,7 +102,6 @@ public class AddBankDialogActivity extends AppCompatActivity implements View.OnC
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //bankAccountType= (String) parent.getItemAtPosition(position);
                 bankAccountType = accountType[position];
-                Log.e("bankAccountType", "bankAccountType=======" + bankAccountType);
             }
 
             @Override

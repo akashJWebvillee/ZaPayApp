@@ -16,132 +16,136 @@
         android:background="@drawable/rectanguler_bottom_corner_bg"
         android:orientation="vertical">
 
-        <androidx.core.widget.NestedScrollView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="70dp"
-            android:scrollbars="none">
+            android:orientation="vertical"
+            android:paddingStart="48dp"
+            android:paddingEnd="48dp">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/profileTxtName"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:paddingStart="48dp"
-                android:paddingEnd="48dp">
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotha_promed"
+                android:gravity="center"
+                android:textColor="@color/textColor"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/profileTxtEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/profileTxtName"
+                android:layout_gravity="center"
+                android:layout_marginTop="0dp"
+                android:fontFamily="@font/gotha_pro_reg"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text=""
+                android:textColor="@color/navTextColor60Alpha"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/profileTxtMB"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="26dp"
+                android:layout_below="@+id/profileTxtEmail"
+                android:fontFamily="@font/gotha_pro_reg"
+                android:includeFontPadding="false"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="@string/mobile_no"
+                android:textColor="@color/navTextColor50Alpha"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/profileTxtMobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotha_promed"
+                android:gravity="center"
+                android:layout_below="@+id/profileTxtMB"
+                android:text=""
+                android:textColor="@color/textColor"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/profileTxtAdd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="26dp"
+                android:gravity="center"
+                android:fontFamily="@font/gotha_pro_reg"
+                android:includeFontPadding="false"
+                android:paddingTop="5dp"
+                android:layout_below="@+id/profileTxtMobile"
+                android:paddingBottom="5dp"
+                android:text="@string/address"
+                android:textColor="@color/navTextColor50Alpha"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/profileTxtAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotha_promed"
+                android:layout_below="@+id/profileTxtAdd"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:lineSpacingExtra="5dp"
+                android:text=""
+                android:textColor="@color/textColor"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/changePasswordTV"
+                android:layout_width="154dp"
+                android:layout_height="36dp"
+                android:layout_above="@+id/profileShadow"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/rectanguler_border"
+                android:fontFamily="@font/gotha_promed"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="@string/change_password"
+                android:textColor="@color/textColor"
+                android:textSize="13sp" />
+
+            <com.dd.ShadowLayout
+                android:id="@+id/profileShadow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="20dp"
+                app:sl_cornerRadius="56dp"
+                app:sl_dx="0dp"
+                app:sl_dy="10dp"
+                app:sl_shadowColor="#2CFC5C04"
+                app:sl_shadowRadius="4dp">
 
                 <TextView
-                    android:id="@+id/profileTxtName"
+                    android:id="@+id/editProfileTV"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gotha_promed"
+                    android:layout_height="53dp"
+                    android:background="@drawable/rectanguler_button_bg"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:fontFamily="@font/gotha_probol"
                     android:gravity="center"
-                    android:text=""
-                    android:textColor="@color/textColor"
-                    android:textSize="24sp" />
-
-                <TextView
-                    android:id="@+id/profileTxtEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="0dp"
-                    android:fontFamily="@font/gotha_pro_reg"
-                    android:gravity="center"
-                    android:includeFontPadding="false"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:text=""
-                    android:textColor="@color/navTextColor60Alpha"
+                    android:text="@string/edit_profile"
+                    android:textColor="@color/colorWhite"
                     android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="26dp"
-                    android:fontFamily="@font/gotha_pro_reg"
-                    android:includeFontPadding="false"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:text="@string/mobile_no"
-                    android:textColor="@color/navTextColor50Alpha"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/profileTxtMobile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gotha_promed"
-                    android:gravity="center"
-                    android:text=""
-                    android:textColor="@color/textColor"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="26dp"
-                    android:fontFamily="@font/gotha_pro_reg"
-                    android:includeFontPadding="false"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:text="@string/address"
-                    android:textColor="@color/navTextColor50Alpha"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/profileTxtAddress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gotha_promed"
-                    android:gravity="center"
-                    android:includeFontPadding="false"
-                    android:lineSpacingExtra="5dp"
-                    android:text=""
-                    android:textColor="@color/textColor"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/changePasswordTV"
-                    android:layout_width="154dp"
-                    android:layout_height="36dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="150dp"
-                    android:background="@drawable/rectanguler_border"
-                    android:fontFamily="@font/gotha_promed"
-                    android:gravity="center"
-                    android:includeFontPadding="false"
-                    android:text="@string/change_password"
-                    android:textColor="@color/textColor"
-                    android:textSize="13sp" />
-
-                <com.dd.ShadowLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="50dp"
-                    android:layout_marginBottom="50dp"
-                    app:sl_cornerRadius="56dp"
-                    app:sl_dx="0dp"
-                    app:sl_dy="10dp"
-                    app:sl_shadowColor="#2CFC5C04"
-                    app:sl_shadowRadius="4dp">
-
-                    <TextView
-                        android:id="@+id/editProfileTV"
-                        android:layout_width="match_parent"
-                        android:layout_height="53dp"
-                        android:background="@drawable/rectanguler_button_bg"
-                        android:backgroundTint="@color/colorPrimary"
-                        android:fontFamily="@font/gotha_probol"
-                        android:gravity="center"
-                        android:text="@string/edit_profile"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="16sp" />
-                </com.dd.ShadowLayout>
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
+            </com.dd.ShadowLayout>
+        </RelativeLayout>
     </LinearLayout>
 
     <RelativeLayout

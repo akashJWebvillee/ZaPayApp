@@ -1,7 +1,6 @@
 package com.org.zapayapp.activity;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,13 +15,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
-import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
 import com.org.zapayapp.uihelpers.CustomTextInputLayout;
 import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
@@ -33,10 +30,8 @@ import java.util.HashMap;
 
 import retrofit2.Call;
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener, APICallback, SimpleAlertFragment.AlertSimpleCallback {
-    private TextView loginTV;
-    private TextView signUpTV;
-    private TextView mTextAgree;
+public class LoginActivity extends BaseActivity implements View.OnClickListener, APICallback {
+    private TextView loginTV, signUpTV, mTextAgree;
     private CustomTextInputLayout etPasswordLayout, etEmailLayout;
     private TextInputEditText etPassword, editTextUsername;
 
@@ -47,20 +42,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private Intent intent;
 
     //signup data......
-    private CustomTextInputLayout userNameSignUpInputLayout;
-    private CustomTextInputLayout emailSignUpInputLayout;
-    private CustomTextInputLayout mobileSignUpInputLayout;
-    private CustomTextInputLayout passwordSignUpInputLayout;
-    private CustomTextInputLayout conformPasswordSignUpInputLayout;
-
-    private TextInputEditText userNameSignUpEditText;
-    private TextInputEditText emailSignUpEditText;
-    private TextInputEditText mobileSignUpEditText;
-    private TextInputEditText passwordSignUpEditText;
-    private TextInputEditText conformPasswordSignUpEditText;
+    private CustomTextInputLayout userNameSignUpInputLayout, emailSignUpInputLayout, mobileSignUpInputLayout, passwordSignUpInputLayout, conformPasswordSignUpInputLayout;
+    private TextInputEditText userNameSignUpEditText, emailSignUpEditText, mobileSignUpEditText, passwordSignUpEditText, conformPasswordSignUpEditText;
     private CheckBox mChkAgree;
     private String firstName = "";
-    private String lastName = "aaaa";
+    private String lastName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,9 +130,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             public void onClick(@NonNull View view) {
                 try {
                     String url = "https://www.google.com/";
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(url));
-                    startActivity(i);
+                    intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(url));
+                    startActivity(intent);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -293,7 +279,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     if (json.get("data").getAsJsonObject() != null) {
                         JsonObject jsonObject = json.get("data").getAsJsonObject();
                         MySession.MakeSession(jsonObject);
-                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        intent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -321,26 +307,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         }
     }
 
-    public void showSimpleAlert(String message, String from) {
-        try {
-            FragmentManager fm = getSupportFragmentManager();
-            Bundle args = new Bundle();
-            args.putString("header", message);
-            args.putString("textOk", getString(R.string.ok));
-            args.putString("textCancel", getString(R.string.cancel));
-            args.putString("from", from);
-            SimpleAlertFragment alert = new SimpleAlertFragment();
-            alert.setArguments(args);
-            alert.show(fm, "");
-        } catch (Resources.NotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
-    public void onSimpleCallback(String from) {
-        if (from.equals(getString(R.string.api_signup))) {
-            setSelectedView(1);
-        }
+    protected void moveToLogin() {
+        super.moveToLogin();
+        setSelectedView(1);
     }
 }

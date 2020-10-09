@@ -14,6 +14,8 @@ import com.org.zapayapp.R;
 import com.org.zapayapp.activity.BorrowSummaryActivity;
 import com.org.zapayapp.activity.LendingSummaryActivity;
 import com.org.zapayapp.model.TransactionModel;
+import com.org.zapayapp.utils.Const;
+import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.TimeStamp;
 
 import java.util.List;
@@ -35,7 +37,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         private TextView amountTV;
         private TextView noOfPaymentTV;
         private TextView termTypeTV;
-        private TextView borroModeTitleTV;
+        private TextView borrowModeTitleTV;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
@@ -44,7 +46,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             amountTV = itemView.findViewById(R.id.amountTV);
             noOfPaymentTV = itemView.findViewById(R.id.noOfPaymentTV);
             termTypeTV = itemView.findViewById(R.id.termTypeTV);
-            borroModeTitleTV = itemView.findViewById(R.id.borroModeTitleTV);
+            borrowModeTitleTV = itemView.findViewById(R.id.borrowModeTitleTV);
         }
     }
 
@@ -74,13 +76,14 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         }
 
         if (transactionModel.getAmount() != null && transactionModel.getAmount().length() > 0) {
-            holder.amountTV.setText("$" + transactionModel.getTotalAmount());
+            String total_amount = SharedPref.getPrefsHelper().getPref(Const.Var.CURRENCY, "") + transactionModel.getTotalAmount();
+            holder.amountTV.setText(total_amount);
         }
 
         if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
-            holder.borroModeTitleTV.setText(context.getString(R.string.lend_mode));
+            holder.borrowModeTitleTV.setText(context.getString(R.string.lend_mode));
         } else if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
-            holder.borroModeTitleTV.setText(context.getString(R.string.borrow_mode));
+            holder.borrowModeTitleTV.setText(context.getString(R.string.borrow_mode));
         }
 
         if (transactionModel.getTermsType().equalsIgnoreCase("1")) {

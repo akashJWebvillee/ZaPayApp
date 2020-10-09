@@ -17,130 +17,130 @@
         android:elevation="10dp"
         android:orientation="vertical">
 
-        <androidx.core.widget.NestedScrollView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none">
+            android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/bankTxtHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="31dp"
+                android:layout_marginTop="70dp"
+                android:fontFamily="@font/gotha_promed"
+                android:gravity="start"
+                android:text="@string/bank_account_setup"
+                android:textColor="@color/navTextColor"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/bankTxtAccount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/bankTxtHeader"
+                android:layout_marginStart="31dp"
+                android:layout_marginTop="49dp"
+                android:fontFamily="@font/gotha_pro_reg"
+                android:includeFontPadding="false"
+                android:text="@string/account_number"
+                android:textColor="@color/navTextColor50Alpha"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/accountNumberTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/bankTxtAccount"
+                android:layout_marginStart="31dp"
+                android:layout_marginTop="7dp"
+                android:fontFamily="@font/gotha_promed"
+                android:gravity="start"
+                android:text=""
+                android:textColor="@color/navTextColor"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/bankTxtRouting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/accountNumberTV"
+                android:layout_marginStart="31dp"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/gotha_pro_reg"
+                android:includeFontPadding="false"
+                android:text="@string/routing_number"
+                android:textColor="@color/navTextColor50Alpha"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/routingNumberTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="31dp"
+                android:layout_below="@+id/bankTxtRouting"
+                android:layout_marginTop="7dp"
+                android:fontFamily="@font/gotha_promed"
+                android:gravity="start"
+                android:text=""
+                android:textColor="@color/navTextColor"
+                android:textSize="22sp" />
+
+            <com.dd.ShadowLayout
+                android:id="@+id/addShadowLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/addShadowChange"
+                android:layout_gravity="center"
+                android:layout_marginStart="48dp"
+                android:layout_marginEnd="48dp"
+                android:layout_marginBottom="10dp"
+                app:sl_cornerRadius="56dp"
+                app:sl_dx="0dp"
+                app:sl_dy="10dp"
+                app:sl_shadowColor="#2CFC5C04"
+                app:sl_shadowRadius="4dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="31dp"
-                    android:layout_marginTop="70dp"
-                    android:fontFamily="@font/gotha_promed"
-                    android:gravity="start"
-                    android:text="@string/bank_account_setup"
-                    android:textColor="@color/navTextColor"
-                    android:textSize="24sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="31dp"
-                    android:layout_marginTop="49dp"
-                    android:fontFamily="@font/gotha_pro_reg"
-                    android:includeFontPadding="false"
-                    android:text="@string/account_number"
-                    android:textColor="@color/navTextColor50Alpha"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/accountNumberTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="31dp"
-                    android:layout_marginTop="7dp"
-                    android:fontFamily="@font/gotha_promed"
-                    android:gravity="start"
-                    android:text=""
-                    android:textColor="@color/navTextColor"
-                    android:textSize="22sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="31dp"
-                    android:layout_marginTop="30dp"
-                    android:fontFamily="@font/gotha_pro_reg"
-                    android:includeFontPadding="false"
-                    android:text="@string/routing_number"
-                    android:textColor="@color/navTextColor50Alpha"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/routingNumberTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="31dp"
-                    android:layout_marginTop="7dp"
-                    android:fontFamily="@font/gotha_promed"
-                    android:gravity="start"
-                    android:text=""
-                    android:textColor="@color/navTextColor"
-                    android:textSize="22sp" />
-
-
-                <com.dd.ShadowLayout
-                    android:id="@+id/addShadowLayout"
+                    android:id="@+id/addTV"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="48dp"
-                    android:layout_marginTop="160dp"
-                    android:layout_marginEnd="48dp"
-                    app:sl_cornerRadius="56dp"
-                    app:sl_dx="0dp"
-                    app:sl_dy="10dp"
-                    app:sl_shadowColor="#2CFC5C04"
-                    app:sl_shadowRadius="4dp">
+                    android:layout_height="53dp"
+                    android:background="@drawable/rectanguler_button_bg"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:fontFamily="@font/gotha_probol"
+                    android:gravity="center"
+                    android:text="@string/add"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16sp" />
+            </com.dd.ShadowLayout>
 
-                    <TextView
-                        android:id="@+id/addTV"
-                        android:layout_width="match_parent"
-                        android:layout_height="53dp"
-                        android:background="@drawable/rectanguler_button_bg"
-                        android:backgroundTint="@color/colorPrimary"
-                        android:fontFamily="@font/gotha_probol"
-                        android:gravity="center"
-                        android:text="@string/add"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="16sp" />
-                </com.dd.ShadowLayout>
+            <com.dd.ShadowLayout
+                android:id="@+id/addShadowChange"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center"
+                android:layout_marginStart="48dp"
+                android:layout_marginEnd="48dp"
+                android:layout_marginBottom="20dp"
+                app:sl_cornerRadius="56dp"
+                app:sl_dx="0dp"
+                app:sl_dy="10dp"
+                app:sl_shadowColor="#2CFC5C04"
+                app:sl_shadowRadius="4dp">
 
-
-                <com.dd.ShadowLayout
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="48dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="48dp"
-                    android:layout_marginBottom="50dp"
-                    app:sl_cornerRadius="56dp"
-                    app:sl_dx="0dp"
-                    app:sl_dy="10dp"
-                    app:sl_shadowColor="#2CFC5C04"
-                    app:sl_shadowRadius="4dp">
+                    android:layout_height="53dp"
+                    android:background="@drawable/rectanguler_button_bg"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:fontFamily="@font/gotha_probol"
+                    android:gravity="center"
+                    android:text="@string/change"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16sp" />
+            </com.dd.ShadowLayout>
 
-                    <TextView
-                        android:id="@+id/changeTV"
-                        android:layout_width="match_parent"
-                        android:layout_height="53dp"
-                        android:background="@drawable/rectanguler_button_bg"
-                        android:backgroundTint="@color/colorPrimary"
-                        android:fontFamily="@font/gotha_probol"
-                        android:gravity="center"
-                        android:text="@string/change"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="16sp" />
-                </com.dd.ShadowLayout>
-
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
+        </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>
