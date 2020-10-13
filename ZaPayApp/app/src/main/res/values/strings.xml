@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">ZaPayApp</string>
     <string name="app_name_folder">ZaPayApp</string>
+    <string name="default_notification_channel_id" translatable="false">ZaPayApp_default_channel</string>
 
     <!-- Network Messages-->
     <string name="network_conn">Please check network connection!</string>

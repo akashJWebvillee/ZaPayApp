@@ -1,0 +1,150 @@
+package com.org.zapayapp.notification;
+
+import android.app.ActivityManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Build;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+
+
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
+import com.org.zapayapp.R;
+import com.org.zapayapp.activity.HomeActivity;
+import com.org.zapayapp.utils.CommonMethods;
+
+import java.util.Map;
+import java.util.Random;
+
+public class MyFirebaseMessagingService extends FirebaseMessagingService {
+
+    private String TAG = "MyFirebaseMsgService";
+
+    @Override
+    public void onNewToken(@NonNull String s) {
+        super.onNewToken(s);
+    }
+
+    @Override
+    public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
+        CommonMethods.showLogs(TAG, "From: " + remoteMessage.getFrom() + " " + remoteMessage + " " + remoteMessage.getData());
+        if (remoteMessage.getData().size() > 0) {
+            CommonMethods.showLogs(TAG, "Message data payload: " + remoteMessage.getData());
+            if (isAppBackground()) {
+                CommonMethods.showLogs(TAG, "isAppForeground : App is background");
+            } else {
+                CommonMethods.showLogs(TAG, "isAppForeground : App is foreground");
+            }
+            sendNotification(remoteMessage.getData());
+        }
+    }
+    // [END receive_message]
+
+
+    private void sendNotification(Map<String, String> data) {
+        Intent intent = null;
+        try {
+            String title = data.get("title");
+            String message = data.get("body");
+            String redirectId = data.get("redirectId");
+            String type = data.get("notificationType");
+            if (type != null) {
+                intent = new Intent(this, HomeActivity.class);
+                intent.putExtra("notificationType", type);
+                intent.putExtra("orderId", redirectId);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis()/* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                boolean flag = false;
+                createImageBuilder(title, message, pendingIntent, flag);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean isAppBackground() {
+        ActivityManager.RunningAppProcessInfo myProcess = new ActivityManager.RunningAppProcessInfo();
+        ActivityManager.getMyMemoryState(myProcess);
+        return (myProcess.importance != ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND);
+    }
+
+    private void createImageBuilder(String title, String message, PendingIntent pendingIntent, boolean flag) {
+        try {
+            Context mContext = this;
+            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Random myRandom = new Random();
+            int value = myRandom.nextInt(100);
+            String channelId = title + " " + value;
+
+            NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+            // Since android Oreo notification channel is needed.
+
+            NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle();
+            bigTextStyle.setBigContentTitle(title);
+            bigTextStyle.bigText(message);
+
+            NotificationCompat.Builder notificationBuilder =
+                    new NotificationCompat.Builder(mContext, channelId)
+                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.ic_launcher))
+                            .setColor(getResources().getColor(R.color.colorPrimaryDark))
+                            .setContentTitle(title)
+                            .setContentText(message)
+                            .setStyle(bigTextStyle)
+                            .setAutoCancel(true)
+                            .setCategory(title)
+                            .setColorized(true)
+                            .setSound(defaultSoundUri)
+                            .setChannelId(channelId)
+                            .setContentIntent(pendingIntent);
+            if (!flag) {
+                notificationBuilder =
+                        new NotificationCompat.Builder(mContext, channelId)
+                                .setSmallIcon(R.mipmap.ic_launcher)
+                                .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.ic_launcher))
+                                .setColor(getResources().getColor(R.color.colorPrimaryDark))
+                                .setContentTitle(title)
+                                .setContentText(message)
+                                .setStyle(bigTextStyle)
+                                .setAutoCancel(true)
+                                .setCategory(title)
+                                .setColorized(true)
+                                .setSound(defaultSoundUri)
+                                .setChannelId(channelId)
+                                .setContentIntent(pendingIntent);
+            }
+
+
+            notificationBuilder.setDefaults(NotificationCompat.DEFAULT_ALL);
+            // Since android Oreo notification channel is needed.
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                notificationBuilder.setPriority(NotificationManager.IMPORTANCE_MAX);
+                NotificationChannel channel = new NotificationChannel(channelId,
+                        title,
+                        NotificationManager.IMPORTANCE_HIGH);
+                channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+                if (notificationManager != null)
+                    notificationManager.createNotificationChannel(channel);
+
+            } else {
+                notificationBuilder.setPriority(Notification.PRIORITY_HIGH);
+            }
+
+            if (notificationManager != null)
+                notificationManager.notify((int) System.currentTimeMillis() + value, notificationBuilder.build());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}

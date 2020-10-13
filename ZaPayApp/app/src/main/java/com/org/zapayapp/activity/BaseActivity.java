@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +26,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.Socket;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -58,6 +63,7 @@ import retrofit2.Call;
  */
 public class BaseActivity extends AppCompatActivity implements SimpleAlertFragment.AlertSimpleCallback, APICallback, AlertLogoutFragment.AlertLogoutCallback, AlertForcePopup.AlertForceCallback {
 
+    private final String TAG = BaseActivity.class.getSimpleName();
     private NavigationView navView;
     private AdvanceDrawerLayout drawerLayout;
     /**
@@ -305,6 +311,23 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
         gson = new Gson();
         apiCalling = new APICalling(this);
         wValidationLib = new WValidationLib(this);
+
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            CommonMethods.showLogs(TAG, "getInstanceId failed " + task.getException());
+                            return;
+                        }
+
+                        if (task.getResult() != null) {
+                            deviceToken = task.getResult().getToken();
+                            SharedPref.getPrefsHelper().savePref(Const.Var.DEVICE_TOKEN, deviceToken);
+                            CommonMethods.showLogs(TAG, deviceToken);
+                        }
+                    }
+                });
     }
 
     private void initialHeaderFooter() {
