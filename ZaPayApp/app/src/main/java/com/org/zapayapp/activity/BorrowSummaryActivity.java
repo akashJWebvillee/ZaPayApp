@@ -2,6 +2,7 @@ package com.org.zapayapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -21,7 +22,7 @@ import retrofit2.Call;
 
 public class BorrowSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener {
 
-    private TextView nameTV, amountTV, termTV, noOfPaymentTV, paymentDateTV, totalPayBackTV, viewAllTV, negotiateTV, acceptTV, declineTV, chatTV;
+    private TextView nameTV, amountTV, termTV, noOfPaymentTV, paymentDateTV, totalReceivedBackTV, viewAllTV, negotiateTV, acceptTV, declineTV, chatTV;
     private String transactionId,moveFrom;
     private TransactionModel transactionModel;
     private String negotiationAcceptDeclineStatus = "";
@@ -42,7 +43,7 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
         termTV = findViewById(R.id.termTV);
         noOfPaymentTV = findViewById(R.id.noOfPaymentTV);
         paymentDateTV = findViewById(R.id.paymentDateTV);
-        totalPayBackTV = findViewById(R.id.totalPayBackTV);
+        totalReceivedBackTV = findViewById(R.id.totalReceivedBackTV);
         viewAllTV = findViewById(R.id.viewAllTV);
 
         negotiateTV = findViewById(R.id.negotiateTV);
@@ -170,6 +171,7 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
 
     @Override
     public void apiCallback(JsonObject json, String from) {
+        Log.e("terms_type","terms_type json===="+json);
         if (from != null) {
             int status = 0;
             String msg = "";
@@ -232,13 +234,17 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
             String created_at = jsonObject.get("created_at").getAsString();
             paymentDateTV.setText(TimeStamp.timeFun(created_at));
         }
-        if (jsonObject.get("total_amount").getAsString() != null && jsonObject.get("total_amount").getAsString().length() > 0) {
-            String total_amount = SharedPref.getPrefsHelper().getPref(Const.Var.CURRENCY, "") + jsonObject.get("total_amount").getAsString();
-            totalPayBackTV.setText(total_amount);
+
+        if (jsonObject.has("total_amount")&&jsonObject.get("total_amount").getAsString() != null && jsonObject.get("total_amount").getAsString().length() > 0) {
+            String total_amount = SharedPref.getPrefsHelper().getPref(Const.Var.CURRENCY, "") +jsonObject.get("total_amount").getAsString();
+            totalReceivedBackTV.setText(total_amount);
         }
-        if (jsonObject.get("terms_type").getAsString() != null && jsonObject.get("terms_type").getAsString().length() > 0 && jsonObject.get("terms_value").getAsString() != null && jsonObject.get("terms_value").getAsString().length() > 0) {
+
+
+        if(jsonObject.get("terms_type").getAsString() != null && jsonObject.get("terms_type").getAsString().length() > 0 && jsonObject.get("terms_value").getAsString() != null && jsonObject.get("terms_value").getAsString().length() > 0) {
             String terms_type = jsonObject.get("terms_type").getAsString();
             String terms_value = jsonObject.get("terms_value").getAsString();
+
             if (terms_type.equalsIgnoreCase("1")) {
                 terms_value = terms_value + " " + getString(R.string.percent);
                 termTV.setText(terms_value);
@@ -249,10 +255,13 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                 terms_value = terms_value + " " + getString(R.string.discount);
                 termTV.setText(terms_value);
             } else if (terms_type.equalsIgnoreCase("4")) {
-                terms_value = terms_value + " " + getString(R.string.none);
-                termTV.setText(terms_value);
+                //terms_value = terms_value + " " + getString(R.string.none);
+                termTV.setText(getString(R.string.none));
             }
         }
+
+
+
     }
 }
 

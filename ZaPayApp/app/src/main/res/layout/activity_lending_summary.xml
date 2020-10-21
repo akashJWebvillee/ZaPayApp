@@ -293,7 +293,7 @@
 
                 <View
                     android:id="@+id/lendViewAllLine"
-                    android:layout_width="80dp"
+                    android:layout_width="72dp"
                     android:layout_height="1dp"
                     android:layout_below="@+id/viewAllTV"
                     android:layout_alignParentEnd="true"

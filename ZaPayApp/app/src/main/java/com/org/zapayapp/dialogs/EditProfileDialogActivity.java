@@ -429,7 +429,6 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
 
         Integer ageInt = new Integer(age);
         // String ageS = ageInt.toString();
-
         return ageInt;
     }
 

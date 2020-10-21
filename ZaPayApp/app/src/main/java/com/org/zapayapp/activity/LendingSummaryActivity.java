@@ -252,8 +252,8 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 terms_value = terms_value + " " + getString(R.string.discount);
                 termTV.setText(terms_value);
             } else if (terms_type.equalsIgnoreCase("4")) {
-                terms_value = terms_value + " " + getString(R.string.none);
-                termTV.setText(terms_value);
+               // terms_value = terms_value + " " + getString(R.string.none);
+                termTV.setText(getString(R.string.none));
             }
         }
     }

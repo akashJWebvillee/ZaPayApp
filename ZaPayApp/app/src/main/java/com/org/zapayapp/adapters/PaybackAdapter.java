@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.org.zapayapp.R;
 import com.org.zapayapp.activity.LendBorrowActivity;
 import com.org.zapayapp.model.PabackModel;
+import com.org.zapayapp.utils.DateFormat;
 
 import java.util.List;
 
@@ -70,7 +71,15 @@ public class PaybackAdapter extends RecyclerView.Adapter<PaybackAdapter.MyHolder
         }
 
         if (model != null && model.getPayDate().length() > 0) {
-            holder.paybackTxtDate.setText(model.getPayDate());
+            if (model.isDateEpockFormate()) {
+                try {
+                    holder.paybackTxtDate.setText(DateFormat.getDateFromEpoch(model.getPayDate()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                holder.paybackTxtDate.setText(model.getPayDate());
+            }
         }
 
         holder.paybackTxtSelect.setOnClickListener(new View.OnClickListener() {

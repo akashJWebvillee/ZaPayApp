@@ -24,7 +24,7 @@ public class Const {
         String PROFILE_IMAGE = "profile_image";
         String EMAIL_VERIFY = "email_verify";
         String ACTIVITY_STATUS = "activity_status";
-String CURRENCY ="currency";
+        String CURRENCY ="currency";
         String CREATE_AT = "created_at";
         String TOKEN = "token";
 

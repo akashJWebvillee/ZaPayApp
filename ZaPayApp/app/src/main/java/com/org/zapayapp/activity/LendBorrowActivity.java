@@ -4,17 +4,21 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -35,6 +39,7 @@ import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.uihelpers.CustomTextInputLayout;
 import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
+import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.DatePickerFragmentDialogue;
 import com.org.zapayapp.utils.EndlessRecyclerViewScrollListener;
 import com.org.zapayapp.utils.SharedPref;
@@ -177,6 +182,9 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     private void initAmountView() {
         lendViewAmount = findViewById(R.id.lendViewAmount);
         lendAmountEdtAmount = findViewById(R.id.lendAmountEdtAmount);
+        lendAmountEdtAmount.setImeOptions(EditorInfo.IME_ACTION_DONE);
+      //lendAmountEdtAmount.setRawInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
         lendAmountEdtAmount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -213,6 +221,10 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     private void initTermsView() {
         lendViewTerms = findViewById(R.id.lendViewTerms);
         lendTermsEdtOption = findViewById(R.id.lendTermsEdtOption);
+        lendTermsEdtOption.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        //lendTermsEdtOption.setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+
+
         lendTermsTxtOption = findViewById(R.id.lendTermsTxtOption);
 
         lendTermsTxtPercent = findViewById(R.id.lendTermsTxtPercent);
@@ -353,6 +365,9 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         contactRecycler.setItemAnimator(new DefaultItemAnimator());
 
 
+
+
+        callAPIGetContactList(pageNo);
         scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
@@ -361,8 +376,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             }
         };
         contactRecycler.addOnScrollListener(scrollListener);
-        pageNo = 0;
-        callAPIGetContactList(pageNo);
+
     }
 
     @Override
@@ -506,17 +520,33 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 for (int i = 0; i < jsonObject.length(); i++) {
                     JSONObject jsonObject1 = jsonObject.getJSONObject(i);
                     String date = jsonObject1.getString("date");
-                    paybackList.add(new PabackModel(date, true));
+                    paybackList.add(new PabackModel(date, true, true));
                 }
 
-                lendTxtAmount.setText(paybackList.get(0).getPayDate());
+                //lendTxtAmount.setText(paybackList.get(0).getPayDate());
+
+
+                try {
+                    if (transactionModel != null && transactionModel.getPayDate() != null && transactionModel.getPayDate().length() > 0) {
+                        try {
+                            lendTxtAmount.setText(DateFormat.getDateFromEpoch(paybackList.get(0).getPayDate()));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        lendTxtAmount.setText(paybackList.get(0).getPayDate());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 // setPaybackAdapter();
 
 
                 if (paybackList.size() != isNoPayment) {
                     paybackList.clear();
                     for (int i = 0; i < isNoPayment; i++) {
-                        paybackList.add(new PabackModel("", false));
+                        paybackList.add(new PabackModel("", false, false));
                     }
                 }
                 setPaybackAdapter();
@@ -527,7 +557,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         } else {
             paybackList.clear();
             for (int i = 0; i < isNoPayment; i++) {
-                paybackList.add(new PabackModel("", false));
+                paybackList.add(new PabackModel("", false, false));
             }
             setPaybackAdapter();
         }
@@ -556,7 +586,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         // String formattedDate = year+"-"+month+"-"+day;
         String formattedDate = day + "/" + month + "/" + year;
         //paybackList.set(paybackPos, selectedDate);
-        paybackList.set(paybackPos, new PabackModel(formattedDate, true));
+        paybackList.set(paybackPos, new PabackModel(formattedDate, true, false));
         setPaybackAdapter();
         if (paybackPos == 0) {
             paymentDate = formattedDate;
@@ -566,11 +596,24 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     }
 
     private void setContactAdapter() {
+
         if (contactAdapter != null) {
             contactAdapter.notifyDataSetChanged();
         } else {
             contactAdapter = new ContactAdapter(this, this, contactNumberList);
             contactRecycler.setAdapter(contactAdapter);
+        }
+
+
+        if (transactionModel!=null&&transactionModel.getId()!=null&&transactionModel.getId().length()>0){
+            int selectPosition=0;
+            for (int i=0;i<contactNumberList.size();i++){
+                if (transactionModel.getFromId().equals(contactNumberList.get(i).getId())){
+                    selectPosition= i;
+                    // break;
+                }
+            }
+            contactAdapter.setSelected(selectPosition,getString(R.string.negotiation));
         }
     }
 
@@ -833,7 +876,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         HashMap<String, Object> values = apiCalling.getHashMapObject(
                 "page", pageNo);
 
-
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
             zapayApp.setApiCallback(this);
@@ -864,12 +906,22 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         for (int i = 0; i < paybackList.size(); i++) {
             try {
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("date", paybackList.get(i).getPayDate());
+                if (paybackList.get(i).isDateEpockFormate()) {
+                    jsonObject.put("date", paybackList.get(i).getPayDate());
+                } else {
+                    jsonObject.put("date", DateFormat.getEpochFromDate(paybackList.get(i).getPayDate()));
+
+                }
+
                 jsonArray.put(i, jsonObject);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+
+        Log.e("date", "date====" + jsonArray.toString());
+
+
         if (isTermsOption == 4) {
             termValue = "0";
         } else {

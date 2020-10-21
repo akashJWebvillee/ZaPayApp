@@ -13,6 +13,7 @@ import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.chat.ChatActivity;
 import com.org.zapayapp.model.TransactionModel;
+import com.org.zapayapp.uihelpers.CustomRatingBar;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.TimeStamp;
@@ -32,6 +33,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
     private ImageView backArrowImageView;
     private TextView chatTV;
     private Intent intent;
+    private CustomRatingBar viewRatingBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         acceptTV = findViewById(R.id.acceptTV);
         declineTV = findViewById(R.id.declineTV);
         chatTV = findViewById(R.id.chatTV);
+        viewRatingBar = findViewById(R.id.viewRatingBar);
     }
 
     private void initAction() {
@@ -236,6 +239,11 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
             String total_amount = SharedPref.getPrefsHelper().getPref(Const.Var.CURRENCY, "") + jsonObject.get("total_amount").getAsString();
             totalPayBackTV.setText(total_amount);
         }
+
+        if (jsonObject.get("average_rating").getAsString() != null && jsonObject.get("average_rating").getAsString().length() > 0) {
+            viewRatingBar.setScore(Float.parseFloat(jsonObject.get("average_rating").getAsString()));
+           }
+
         if (jsonObject.get("terms_type").getAsString() != null && jsonObject.get("terms_type").getAsString().length() > 0 && jsonObject.get("terms_value").getAsString() != null && jsonObject.get("terms_value").getAsString().length() > 0) {
             String terms_type = jsonObject.get("terms_type").getAsString();
             String terms_value = jsonObject.get("terms_value").getAsString();
@@ -249,8 +257,8 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 terms_value = terms_value + " " + getString(R.string.discount);
                 termTV.setText(terms_value);
             } else if (terms_type.equalsIgnoreCase("4")) {
-                terms_value = terms_value + " " + getString(R.string.none);
-                termTV.setText(terms_value);
+               // terms_value = terms_value + " " + getString(R.string.none);
+                termTV.setText(getString(R.string.none));
             }
         }
         if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {

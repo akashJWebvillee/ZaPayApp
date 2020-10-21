@@ -2,6 +2,7 @@ package com.org.zapayapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import com.microsoft.appcenter.analytics.Analytics;
 import com.microsoft.appcenter.crashes.Crashes;
 import com.org.zapayapp.R;
 import com.org.zapayapp.utils.Const;
+import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.MySession;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
@@ -33,6 +35,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         setContentView(R.layout.activity_home);
         init();
         initAction();
+
     }
 
     private void init() {

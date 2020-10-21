@@ -4,10 +4,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import com.google.android.material.tabs.TabLayout;
 import com.org.zapayapp.R;
 import com.org.zapayapp.ZapayApp;
@@ -58,6 +56,7 @@ public class TransactionActivity extends AppCompatActivity implements TabLayout.
         viewPager.setPagingEnabled(false);
         tabLayout.addOnTabSelectedListener(this);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
     }
 
     private void inItAction() {
