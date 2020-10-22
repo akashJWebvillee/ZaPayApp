@@ -170,18 +170,23 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
         } else {
             addTV.setText(getString(R.string.add));
         }
+
         if (SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_STATUS) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_STATUS).toString().length() > 0 &&
                 SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_STATUS).toString().equalsIgnoreCase("verified")) {
             addTV.setVisibility(View.INVISIBLE);
             addShadowLayout.setVisibility(View.INVISIBLE);
+            addShadowChange.setVisibility(View.VISIBLE);
         } else {
             addTV.setVisibility(View.VISIBLE);
             addShadowLayout.setVisibility(View.VISIBLE);
+            addShadowChange.setVisibility(View.INVISIBLE);
         }
-        if (SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_ID) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_ID).toString().length() > 0) {
+
+
+       /* if (SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_ID) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_ID).toString().length() > 0) {
             addShadowChange.setVisibility(View.VISIBLE);
         } else {
             addShadowChange.setVisibility(View.GONE);
-        }
+        }*/
     }
 }

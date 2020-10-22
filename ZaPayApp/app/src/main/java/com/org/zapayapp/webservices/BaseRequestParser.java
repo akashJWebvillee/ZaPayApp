@@ -5,14 +5,11 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.text.TextUtils;
 import android.view.View;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.util.HashMap;
 import java.util.Set;
-
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 

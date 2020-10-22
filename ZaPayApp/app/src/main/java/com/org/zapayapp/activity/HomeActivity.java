@@ -28,6 +28,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     private LinearLayout homeLLLend, homeLLBorrow;
     private Intent intent;
     private TextView titleTV;
+    private boolean isClickable;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,6 +37,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         init();
         initAction();
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        isClickable=true;
     }
 
     private void init() {
@@ -61,15 +68,19 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.homeLLLend:
+
                 //activity_status=0  //signup
                 //activity_status=1  //updated profile
                 //activity_status=2   //added bank account
                 //activity_status=3   //verifyed bank account(ready to send request)
                 if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().length() > 0) {
                     if (!SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("0")) {
-                        intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
-                        intent.putExtra("isBorrow", false);
-                        startActivity(intent);
+                       if (isClickable){
+                           isClickable=false;
+                           intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
+                           intent.putExtra("isBorrow", false);
+                           startActivity(intent);
+                       }
                     } else {
                         showSimpleAlert(getString(R.string.update_your_profile), getString(R.string.update_your_profile));
                     }
@@ -78,9 +89,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
             case R.id.homeLLBorrow:
                 if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().length() > 0) {
                     if (!SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("0")) {
-                        intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
-                        intent.putExtra("isBorrow", true);
-                        startActivity(intent);
+                        if (isClickable){
+                            isClickable=false;
+                            intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
+                            intent.putExtra("isBorrow", true);
+                            startActivity(intent);
+                        }
                     } else {
                         showSimpleAlert(getString(R.string.update_your_profile), getString(R.string.update_your_profile));
                     }
@@ -104,7 +118,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         super.onResume();
         setCurrentScreen(100);
         callAPIGetUserDetail();
-        callAPIGetBankAccountDetail();
+        //callAPIGetBankAccountDetail();
     }
 
     private void callAPIGetUserDetail() {

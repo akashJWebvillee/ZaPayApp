@@ -26,6 +26,8 @@
             android:layout_height="match_parent" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    <include layout="@layout/view_no_data" />
+
     <RelativeLayout
         android:id="@+id/messageRL"
         android:layout_width="match_parent"

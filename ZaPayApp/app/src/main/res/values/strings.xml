@@ -41,6 +41,7 @@
     <string name="home">Home</string>
     <string name="my_profile">My Profile</string>
     <string name="bank_account">Bank Account</string>
+    <string name="account_type">ACCOUNT TYPE</string>
     <string name="transaction">Transaction</string>
     <string name="history">History</string>
     <string name="about_us">About Us</string>
@@ -193,6 +194,7 @@
     <string name="borrow_mode">Borrow Mode:</string>
     <string name="saving">Saving</string>
     <string name="checking">Checking</string>
+    <string name="general_ledger">General-ledger</string>
 
 
     <string name="ok">OK</string>

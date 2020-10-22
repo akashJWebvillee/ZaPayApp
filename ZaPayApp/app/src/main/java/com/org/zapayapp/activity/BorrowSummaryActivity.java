@@ -6,15 +6,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.chat.ChatActivity;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.Const;
+import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.TimeStamp;
 import com.org.zapayapp.webservices.APICallback;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -232,7 +238,20 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
         }
         if (jsonObject.get("created_at").getAsString() != null && jsonObject.get("created_at").getAsString().length() > 0) {
             String created_at = jsonObject.get("created_at").getAsString();
-            paymentDateTV.setText(TimeStamp.timeFun(created_at));
+            //paymentDateTV.setText(TimeStamp.timeFun(created_at));
+        }
+
+        if (jsonObject.get("pay_date").getAsString() != null && jsonObject.get("pay_date").getAsString().length() > 0) {
+            String pay_date=jsonObject.get("pay_date").getAsString();
+            pay_date = pay_date.replaceAll("\\\\", "");
+            try {
+                JSONArray jsonArray = new JSONArray(pay_date);
+                JSONObject jsonObject1=  jsonArray.getJSONObject(0);
+               String date= jsonObject1.getString("date");
+               paymentDateTV.setText(DateFormat.getDateFromEpoch(date));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         if (jsonObject.has("total_amount")&&jsonObject.get("total_amount").getAsString() != null && jsonObject.get("total_amount").getAsString().length() > 0) {
@@ -259,9 +278,6 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                 termTV.setText(getString(R.string.none));
             }
         }
-
-
-
     }
 }
 

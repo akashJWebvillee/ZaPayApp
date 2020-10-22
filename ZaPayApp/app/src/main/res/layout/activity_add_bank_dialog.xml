@@ -199,10 +199,15 @@
             </com.org.zapayapp.uihelpers.CustomTextInputLayout>
 
 
-
-
-
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:fontFamily="@font/gotha_promed"
+                android:text="@string/account_type"
+                android:textAllCaps="true"
+                android:textColor="@color/textColorBold"
+                android:textSize="11sp" />
 
 
             <Spinner

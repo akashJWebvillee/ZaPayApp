@@ -2,6 +2,7 @@ package com.org.zapayapp.chat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,7 +36,6 @@ import java.util.List;
 import retrofit2.Call;
 
 public class ChatActivity extends BaseActivity implements View.OnClickListener, APICallback {
-
     private String TAG = ChatActivity.class.getSimpleName();
     private RecyclerView msgRecyclerView;
     private SwipeRefreshLayout msgSwipeLayout;
@@ -49,6 +49,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     private Intent intent;
     private String senderId = "", receiverId = "", transactionId = "",receiverProfileImg="";
     private int pageNo = 0;
+    private TextView noDataTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
 
     private void inIt() {
         toolbar = findViewById(R.id.customToolbar);
+        noDataTv = findViewById(R.id.noDataTv);
         titleTV = toolbar.findViewById(R.id.titleTV);
         backArrowImageView = toolbar.findViewById(R.id.backArrowImageView);
         backArrowImageView.setVisibility(View.VISIBLE);
@@ -101,11 +103,13 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                     receiverId = transactionModel.getToId();
                     transactionId = transactionModel.getId();
                     receiverProfileImg = transactionModel.getProfileImage();
+                    titleTV.setText(transactionModel.getFirstName());
                 } else if (transactionModel.getToId() != null && transactionModel.getToId().length() > 0 && transactionModel.getToId().equals(SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID))) {
                     senderId = transactionModel.getToId();
                     receiverId = transactionModel.getFromId();
                     transactionId = transactionModel.getId();
                     receiverProfileImg = transactionModel.getProfileImage();
+                    titleTV.setText(transactionModel.getFirstName());
                 }
                 callConversationsMsgListAPI();
             }
@@ -214,6 +218,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void apiCallback(JsonObject json, String from) {
+        Log.e("json","chat json==="+json);
         if (from != null) {
             int status = json.get("status").getAsInt();
             if (from.equals(getString(R.string.api_get_chat_history))) {
@@ -222,7 +227,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                         msgList.clear();
                     List<ChatMessageModel> chattingListModels = apiCalling.getDataList(json, "data", ChatMessageModel.class);
                     if (chattingListModels.size() > 0) {
-                        // layoutNoData.setVisibility(View.GONE);
+                        noDataTv.setVisibility(View.GONE);
                         msgList.addAll(chattingListModels);
                         setMsgAdapter();
                         pageNo = pageNo + 1;
@@ -231,11 +236,14 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                         //showViewsForNoData();
 
                         // if (chatAdapter != null)
-                        //layoutNoData.setVisibility(View.GONE);
+                        noDataTv.setVisibility(View.VISIBLE);
                     }
                 } else if (status == 401) {
                     showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
-                } else {
+                } else if (status==201){
+                    if (msgList.size()>0) noDataTv.setVisibility(View.GONE);
+                    else noDataTv.setVisibility(View.VISIBLE);
+                }else {
                     // showPopup(getString(R.string.something_wrong));
                 }
             }

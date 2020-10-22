@@ -113,10 +113,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
                 notifyDataSetChanged();
             }
         });*/
-
-
     }
-
     @Override
     public int getItemCount() {
         return contactList.size();
