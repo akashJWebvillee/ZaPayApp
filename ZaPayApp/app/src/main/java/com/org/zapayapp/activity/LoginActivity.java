@@ -9,6 +9,7 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
@@ -16,7 +17,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -24,6 +29,7 @@ import com.org.zapayapp.uihelpers.CustomTextInputLayout;
 import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.MySession;
+import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
 
 import java.util.HashMap;
@@ -52,6 +58,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        fireBaseToken();
         inIt();
         inItAction();
     }
@@ -228,7 +235,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     "mobile", mobileSignUpEditText.getText().toString().trim(),
                     "password", passwordSignUpEditText.getText().toString().trim(),
                     "device_type", Const.KEY.DEVICE_TYPE,
-                    "device_token", "firebasetokenkey",
+                    "device_token", SharedPref.getPrefsHelper().getPref(Const.Var.FIREBASE_DEVICE_TOKEN,""),
                     "device_id", Const.getDeviceId(LoginActivity.this));
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postApi(getString(R.string.api_signup), values);
@@ -249,7 +256,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     "email", editTextUsername.getText().toString().trim(),
                     "password", etPassword.getText().toString().trim(),
                     "device_type", Const.KEY.DEVICE_TYPE,
-                    "device_token", "firebasetokenkey",
+                    "device_token", SharedPref.getPrefsHelper().getPref(Const.Var.FIREBASE_DEVICE_TOKEN,""),
                     "device_id", Const.getDeviceId(LoginActivity.this));
 
             zapayApp.setApiCallback(this);
@@ -312,4 +319,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         super.moveToLogin();
         setSelectedView(1);
     }
+
+
+
 }

@@ -35,6 +35,7 @@ public class Const {
         String BANK_ACCOUNT_TYPE = "bank_account_type";
         String ACCOUNT_HOLDER_NAME = "name";
         String BANK_ACCOUNT_STATUS = "dwolla_bank_account_status";
+        String FIREBASE_DEVICE_TOKEN = "fire_base_device_token";
     }
 
     public interface KEY {

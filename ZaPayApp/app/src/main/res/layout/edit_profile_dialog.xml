@@ -323,7 +323,7 @@
                         android:fontFamily="@font/gotha_pro_reg"
                         android:hint="@string/enter_your_ssn_code"
                         android:importantForAutofill="no"
-                        android:inputType="textCapSentences"
+                        android:inputType="number"
                         android:maxLength="4"
                         android:maxLines="1"
                         android:paddingStart="0dp"

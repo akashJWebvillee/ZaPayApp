@@ -1,16 +1,16 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,11 +21,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.Socket;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -44,15 +47,11 @@ import com.org.zapayapp.utils.WValidationLib;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
 import com.org.zapayapp.webservices.RestAPI;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import retrofit2.Call;
-
 /**
  * The type Base activity.
  */
@@ -331,6 +330,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         }
         setUpNavView();
+        fireBaseToken();
     }
 
     private void setUpNavView() {
@@ -645,21 +645,11 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
     public void onForceCallback(String from, boolean isAddress) {
         if (from.equals(getString(R.string.session_expired))) {
             clearLogout();
+        }else if (from.equalsIgnoreCase(getString(R.string.do_you_want_to_close_the_application))){
+            finish();
         }
-
-  /*      else if (from.equals(getString(R.string.profile_incomplete))) {
-            intent = new Intent(BaseActivity.this, UserProfileActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(intent);
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-            finish();
-            //}
-        } else if (from.equals(getString(R.string.version_check))) {
-            openGooglePlayStore();
-        }else if (from.equals(getString(R.string.exit_app))) {  //ye code  ne add kiya h.
-            finish();
-        }*/
     }
+
 
 
     private void setHeaderData() {
@@ -787,5 +777,29 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+
+    public void fireBaseToken(){
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("tag", "getInstanceId failed", task.getException());
+                            return;
+                        }
+
+                        // Get new Instance ID token
+                        if (task.getResult()!=null&&task.getResult().getToken().length()>0) {
+                            String newToken = task.getResult().getToken();
+                            SharedPref.getPrefsHelper().savePref(Const.Var.FIREBASE_DEVICE_TOKEN, newToken);
+                        }
+
+                        Log.e("Firebase token","Firebase token====="+task.getResult().getToken());
+                    }
+                });
+
     }
 }

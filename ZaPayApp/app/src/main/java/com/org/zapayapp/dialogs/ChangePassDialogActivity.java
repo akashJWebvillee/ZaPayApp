@@ -1,5 +1,6 @@
 package com.org.zapayapp.dialogs;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
@@ -18,10 +19,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.ZapayApp;
+import com.org.zapayapp.activity.BaseActivity;
+import com.org.zapayapp.activity.SplashActivity;
 import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
 import com.org.zapayapp.uihelpers.CustomTextInputLayout;
 import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
+import com.org.zapayapp.utils.MySession;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.WValidationLib;
 import com.org.zapayapp.webservices.APICallback;
@@ -144,6 +148,12 @@ public class ChangePassDialogActivity extends AppCompatActivity implements View.
                 } else {
                     showSimpleAlert(msg, "");
                 }
+            }else if (from.equals(getResources().getString(R.string.api_logout))) {
+                if (status == 200) {
+                    clearLogout();
+                } else {
+                    showSimpleAlert(msg, "");
+                }
             }
         }
     }
@@ -167,7 +177,33 @@ public class ChangePassDialogActivity extends AppCompatActivity implements View.
     @Override
     public void onSimpleCallback(String from) {
         if (from.equals(getString(R.string.api_change_password))) {
-            finish();
+           // finish();
+            callAPILogout();
         }
+    }
+
+
+
+    private void callAPILogout() {
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        try {
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.postApiToken(token, getString(R.string.api_logout));
+            if (apiCalling != null) {
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_logout), saveTV);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void clearLogout() {
+        //disconnectSocket();
+        MySession.removeSession();
+        Intent intent = new Intent(ChangePassDialogActivity.this, SplashActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 }

@@ -726,8 +726,6 @@ public class WValidationLib {
     private boolean validPostelCode(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
         String text = inputLayout.getEditText().getText().toString().trim();
 
-        //CommonMethods.showLogs("text length ", "text length " + text.length());
-        // clearing the error, if it was previously set by some other values
         inputLayout.setError(null);
         inputLayout.setErrorEnabled(false);
         editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_selector));

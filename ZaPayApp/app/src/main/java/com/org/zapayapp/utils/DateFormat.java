@@ -1,14 +1,11 @@
 package com.org.zapayapp.utils;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
 public class DateFormat {
-
-
     public static long getEpochFromDate(String date) {
      /*   long epochTime = 0;
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
@@ -23,6 +20,7 @@ public class DateFormat {
         }
         return epochTime;*/
 
+
         long epochTime = 0;
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         try {
@@ -32,7 +30,7 @@ public class DateFormat {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return epochTime;
+        return epochTime/1000;
     }
 
 
@@ -43,7 +41,7 @@ public class DateFormat {
         SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.getDefault());
         sdf.setTimeZone(TimeZone.getDefault());
         //String ss=sdf.format(new Date(time * 1000));
-        //String java_date = sdf.format(new Date(unix_seconds));
+       // String java_date = sdf.format(new Date(unix_seconds));
         String java_date = sdf.format(new Date(unix_seconds * 1000));
 
         return java_date;

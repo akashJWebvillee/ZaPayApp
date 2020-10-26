@@ -21,10 +21,11 @@ import com.org.zapayapp.utils.MySession;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
 
+import java.util.HashMap;
+
 import retrofit2.Call;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener, APICallback {
-
     private LinearLayout homeLLLend, homeLLBorrow;
     private Intent intent;
     private TextView titleTV;
@@ -34,6 +35,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        callAPIUpdateDeviceInfo();
         init();
         initAction();
 
@@ -42,7 +44,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void onStart() {
         super.onStart();
-        isClickable=true;
+        isClickable = true;
     }
 
     private void init() {
@@ -75,12 +77,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                 //activity_status=3   //verifyed bank account(ready to send request)
                 if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().length() > 0) {
                     if (!SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("0")) {
-                       if (isClickable){
-                           isClickable=false;
-                           intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
-                           intent.putExtra("isBorrow", false);
-                           startActivity(intent);
-                       }
+                        if (isClickable) {
+                            isClickable = false;
+                            intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
+                            intent.putExtra("isBorrow", false);
+                            startActivity(intent);
+                        }
                     } else {
                         showSimpleAlert(getString(R.string.update_your_profile), getString(R.string.update_your_profile));
                     }
@@ -89,8 +91,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
             case R.id.homeLLBorrow:
                 if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().length() > 0) {
                     if (!SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("0")) {
-                        if (isClickable){
-                            isClickable=false;
+                        if (isClickable) {
+                            isClickable = false;
                             intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
                             intent.putExtra("isBorrow", true);
                             startActivity(intent);
@@ -117,8 +119,33 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     protected void onResume() {
         super.onResume();
         setCurrentScreen(100);
+
         callAPIGetUserDetail();
         //callAPIGetBankAccountDetail();
+    }
+
+
+    private void callAPIUpdateDeviceInfo() {
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        try {
+            if (SharedPref.getPrefsHelper().getPref(Const.Var.FIREBASE_DEVICE_TOKEN) != null && SharedPref.getPrefsHelper().getPref(Const.Var.FIREBASE_DEVICE_TOKEN).toString().length() > 0) {
+                HashMap<String, Object> values = apiCalling.getHashMapObject(
+                        "device_type", Const.KEY.DEVICE_TYPE,
+                        "device_token", SharedPref.getPrefsHelper().getPref(Const.Var.FIREBASE_DEVICE_TOKEN, ""),
+                        "device_id", Const.getDeviceId(HomeActivity.this));
+                zapayApp.setApiCallback(this);
+                //Call<JsonElement> call = restAPI.postApi(getString(R.string.api_update_device_info), values);
+                Call<JsonElement> call = restAPI.postWithTokenApi(token,getString(R.string.api_update_device_info), values);
+                if (apiCalling != null) {
+                    apiCalling.callAPI(zapayApp, call, getString(R.string.api_update_device_info), homeLLBorrow);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     private void callAPIGetUserDetail() {
@@ -185,6 +212,15 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                 } else {
                     showSimpleAlert(msg, "");
                 }
+            } else if (from.equals(getResources().getString(R.string.api_update_device_info))) {
+                if (status == 200) {
+
+                } else if (status == 401) {
+                    showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
+                } else {
+                    showSimpleAlert(msg, "");
+                }
+
             }
         }
     }
@@ -195,5 +231,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        // super.onBackPressed();
+        showForceUpdate(getString(R.string.do_you_want_to_close_the_application), getString(R.string.do_you_want_to_close_the_application), false, getString(R.string.cancel), false);
+        //showSimpleAlert(getString(R.string.do_you_want_to_close_the_application),getString(R.string.do_you_want_to_close_the_application));
+
     }
 }

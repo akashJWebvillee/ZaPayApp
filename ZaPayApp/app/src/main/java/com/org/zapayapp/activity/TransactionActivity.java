@@ -25,6 +25,7 @@ public class TransactionActivity extends AppCompatActivity implements TabLayout.
     public ZapayApp zapayApp;
     public APICalling apiCalling;
     public RestAPI restAPI;
+    private String transaction_request_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,8 @@ public class TransactionActivity extends AppCompatActivity implements TabLayout.
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
     }
+
+
 
     private void inItAction() {
         zapayApp = (ZapayApp) getApplicationContext();

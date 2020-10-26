@@ -202,7 +202,7 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                 if (wValidationLib.isValidAddress1(address1InputLayout, address1EditText, getString(R.string.important), getString(R.string.must_be_50_characters_or_less), true)) {
                     if (wValidationLib.isValidAddress2(address2InputLayout, address2EditText, getString(R.string.important), getString(R.string.must_be_50_characters_or_less), false)) {
                         if (wValidationLib.isValidPostalCode(postalCodeInputLayout, postalCodeEditText, getString(R.string.important), getString(R.string.postal_code_should_be_5_digit), true)) {
-                            if (wValidationLib.isValidSSNcode(ssnInputLayout, ssnEditText, getString(R.string.important), getString(R.string.ssn_code_should_be_5_digit), true)) {
+                            if (wValidationLib.isValidSSNcode(ssnInputLayout, ssnEditText, getString(R.string.important), getString(R.string.ssn_code_should_be_4_digit), true)) {
                                 if (wValidationLib.isEmpty(dobInputLayout, dobEditText, getString(R.string.important), true)) {
                                     callAPIUpdateProfile();
                                 }

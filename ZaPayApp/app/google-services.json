@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1077031669083",
+    "firebase_url": "https://zapay-292314.firebaseio.com",
+    "project_id": "zapay-292314",
+    "storage_bucket": "zapay-292314.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1077031669083:android:48eeefc873cf0ee27c1e7e",
+        "android_client_info": {
+          "package_name": "com.org.zapayapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1077031669083-gg4dlhc3tc5es4auep5cf8kc0drr49lv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzzW4vG8KU-m62cHIKBJv5w9LNQRq_Hd0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1077031669083-gg4dlhc3tc5es4auep5cf8kc0drr49lv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

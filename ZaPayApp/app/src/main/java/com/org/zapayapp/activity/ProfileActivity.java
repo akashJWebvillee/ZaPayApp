@@ -92,7 +92,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private void setDataOnScreen() {
         if (SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString().length() > 0) {
             Glide.with(ProfileActivity.this)
-                    .load(APICalling.getImageUrl(SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString())).placeholder(R.mipmap.ic_user)
+                    .load(APICalling.getImageUrl(SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString()))
+                    .placeholder(R.mipmap.default_profile)
                     .into(profileImageView);
         }
         if (SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME) != null && SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME).toString().length() > 0) {
@@ -205,8 +206,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                         c.close();
                         try {
                             String path = picturePath;
-                            if (path != null)
+                            if (path != null){
                                 Glide.with(ProfileActivity.this).load(path).placeholder(R.mipmap.ic_user).into(profileImageView);
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -250,13 +252,13 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postWithTokenMultiPartApi(SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString(), getString(R.string.api_update_profile_image), fileToUpload);
             if (apiCalling != null) {
+                apiCalling.setRunInBackground(false);
                 apiCalling.callAPI(zapayApp, call, getString(R.string.api_update_profile_image), profileImageView);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
     private void callAPIGetUserDetail() {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();

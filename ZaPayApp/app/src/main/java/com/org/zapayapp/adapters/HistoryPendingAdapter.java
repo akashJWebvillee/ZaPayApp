@@ -15,8 +15,13 @@ import com.org.zapayapp.activity.BorrowSummaryActivity;
 import com.org.zapayapp.activity.LendingSummaryActivity;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.Const;
+import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.TimeStamp;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -69,7 +74,25 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
         }
 
         if (transactionModel.getCreatedAt() != null && transactionModel.getCreatedAt().length() > 0) {
-            holder.dateTV.setText(TimeStamp.timeFun(transactionModel.getCreatedAt()));
+           // holder.dateTV.setText(TimeStamp.timeFun(transactionModel.getCreatedAt()));
+        }
+
+        if (transactionModel.getPayDate()!=null&&transactionModel.getPayDate().length()>0){
+            String pay_date=transactionModel.getPayDate();
+            pay_date = pay_date.replaceAll("\\\\", "");
+            try {
+                JSONArray jsonArray = new JSONArray(pay_date);
+                JSONObject jsonObject1=  jsonArray.getJSONObject(0);
+                String date= jsonObject1.getString("date");
+                try {
+                    holder.dateTV.setText(DateFormat.getDateFromEpoch(date));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         if (transactionModel.getNoOfPayment() != null && transactionModel.getNoOfPayment().length() > 0) {

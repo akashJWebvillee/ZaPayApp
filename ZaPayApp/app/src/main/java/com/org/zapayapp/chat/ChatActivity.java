@@ -103,13 +103,14 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                     receiverId = transactionModel.getToId();
                     transactionId = transactionModel.getId();
                     receiverProfileImg = transactionModel.getProfileImage();
-                    titleTV.setText(transactionModel.getFirstName());
+                    titleTV.setText(transactionModel.getFirstName()+" "+transactionModel.getLastName());
                 } else if (transactionModel.getToId() != null && transactionModel.getToId().length() > 0 && transactionModel.getToId().equals(SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID))) {
                     senderId = transactionModel.getToId();
                     receiverId = transactionModel.getFromId();
                     transactionId = transactionModel.getId();
                     receiverProfileImg = transactionModel.getProfileImage();
-                    titleTV.setText(transactionModel.getFirstName());
+                    titleTV.setText(transactionModel.getFirstName()+" "+transactionModel.getLastName());
+
                 }
                 callConversationsMsgListAPI();
             }
@@ -184,6 +185,13 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
             chatAdapter = new ChatAdapter(ChatActivity.this, msgList);
             msgRecyclerView.setAdapter(chatAdapter);
         }*/
+
+
+      if (msgList!=null&&msgList.size()>0){
+          noDataTv.setVisibility(View.GONE);
+      }else {
+          noDataTv.setVisibility(View.VISIBLE);
+      }
     }
 
     private void scrollRecyclerViewToBottom(RecyclerView recyclerView) {
@@ -323,6 +331,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 callEventReadAll();
                 CommonMethods.showLogs("ChatActivity", "Message received :- " + jsonObject);
             }
+
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }

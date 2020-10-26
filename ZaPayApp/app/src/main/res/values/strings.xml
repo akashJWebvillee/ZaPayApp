@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">ZaPayApp</string>
     <string name="app_name_folder">ZaPayApp</string>
+    <string name="default_notification_channel_id">zpay_default_channel</string>
 
     <!-- Network Messages-->
     <string name="network_conn">Please check network connection!</string>
@@ -163,6 +164,7 @@
     <string name="enter_discount">Enter Discount</string>
     <string name="Enter_discount">Enter discount</string>
     <string name="no_of_payments">No. of payment</string>
+    <string name="No_Of_Payments">No. Of Payment</string>
     <string name="payback_date">Payback date</string>
     <string name="borrow_summary_">Borrow summary</string>
     <string name="lending_summary_">Lending summary</string>
@@ -192,7 +194,7 @@
     <string name="completed">Completed</string>
     <string name="no_of_installment">No Of Installment:</string>
     <string name="borrow_mode">Borrow Mode:</string>
-    <string name="saving">Saving</string>
+    <string name="saving">Savings</string>
     <string name="checking">Checking</string>
     <string name="general_ledger">General-ledger</string>
 
@@ -227,7 +229,7 @@
     <string name="your_session_expired">Your session has expired.\nPlease login again.</string>
     <string name="amount1ValidationMsg">Please enter less then 0.11.</string>
     <string name="amount2ValidationMsg">Please enter less then 0.04.</string>
-    <string name="enter_message">Enter your message here</string>
+    <string name="enter_message">Type your message here..</string>
     <string name="type_message">Please enter message</string>
     <string name="new_password_and_confirm_password_should_be_same">New password and confirm password should be same</string>
 
@@ -236,7 +238,7 @@
     <string name="age_must_be_18_years_or_older">Age must be 18 years or older</string>
     <string name="must_be_50_characters_or_less">Must be 50 characters or less</string>
     <string name="postal_code_should_be_5_digit">Postal code should be 5 digit</string>
-    <string name="ssn_code_should_be_5_digit">SSN code should be 4 digit</string>
+    <string name="ssn_code_should_be_4_digit">SSN code should be 4 digit</string>
     <string name="password_should_be_same">Password Should be same</string>
     <string name="term_condition">Accept Term and condition</string>
     <string name="please_select_contact">Please select contact</string>
@@ -245,6 +247,8 @@
     <string name="are_you_sure_do_you_want_to_logout">Are you sure? do you want to logout?</string>
     <string name="explore_lending_borrowing">Now lending and borrowing money is just a click away, explore below options</string>
     <string name="verify_account_msg">To verify account you can put value for example amount1&#8211;0.10 ,amount2&#8211; 0.03</string>
+    <string name="do_you_want_to_close_the_application">Do you want to close the application?</string>
+
 
 
 </resources>

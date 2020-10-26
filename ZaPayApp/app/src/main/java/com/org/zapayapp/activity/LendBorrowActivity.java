@@ -46,16 +46,13 @@ import com.org.zapayapp.utils.EndlessRecyclerViewScrollListener;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.WVDateLib;
 import com.org.zapayapp.webservices.APICallback;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import retrofit2.Call;
 
 public class LendBorrowActivity extends BaseActivity implements View.OnClickListener, DatePickerFragmentDialogue.DatePickerCallback, APICallback, ContactListener {
@@ -142,7 +139,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     private void initAction() {
         listIndicator.add(getString(R.string.amount));
         listIndicator.add(getString(R.string.terms));
-        listIndicator.add(getString(R.string.no_of_payments));
+        listIndicator.add(CommonMethods.capitalize(getString(R.string.no_of_payments)));
         listIndicator.add(getString(R.string.payback_date));
         if (isBorrow) {
             request_by = 2;
@@ -225,7 +222,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         lendTermsEdtOption.setImeOptions(EditorInfo.IME_ACTION_DONE);
         //lendTermsEdtOption.setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
-
         lendTermsTxtOption = findViewById(R.id.lendTermsTxtOption);
 
         lendTermsTxtPercent = findViewById(R.id.lendTermsTxtPercent);
@@ -255,7 +251,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             }
         });
 
-
         //Negotiation....
         if (transactionModel != null && transactionModel.getTermsValue() != null && transactionModel.getTermsValue().length() > 0) {
             lendTermsEdtOption.setText(transactionModel.getTermsValue());
@@ -271,6 +266,9 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     private void initPaymentView() {
         lendViewPayment = findViewById(R.id.lendViewPayment);
         lendPaymentEdtNo = findViewById(R.id.lendPaymentEdtNo);
+        lendPaymentEdtNo.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
+
         lendPaymentEdtNo.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -504,28 +502,20 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
     private void generatePaybackData() {
         paymentDate = wvDateLib.getCurrentDate();
-        lendTxtAmount.setText(paymentDate);
-
-      /*  paybackList.clear();
-        for (int i = 0; i < isNoPayment; i++) {
-            paybackList.add(new PabackModel("", false));
-        }
-        setPaybackAdapter();*/
-
         //Negotiation.....
         if (transactionModel != null && transactionModel.getPayDate() != null && transactionModel.getPayDate().length() > 0) {
             try {
-                paybackList.clear();
-                String dataArray = transactionModel.getPayDate().replace("\\", "");
-                JSONArray jsonObject = new JSONArray(dataArray);
-                for (int i = 0; i < jsonObject.length(); i++) {
-                    JSONObject jsonObject1 = jsonObject.getJSONObject(i);
-                    String date = jsonObject1.getString("date");
-                    paybackList.add(new PabackModel(date, true, true));
+                if (transactionModel.getNoOfPayment()!=null&&transactionModel.getNoOfPayment().equalsIgnoreCase(String.valueOf(isNoPayment))){
+                    paybackList.clear();
+                    String dataArray = transactionModel.getPayDate().replace("\\", "");
+                    JSONArray jsonObject = new JSONArray(dataArray);
+                    for (int i = 0; i < jsonObject.length(); i++) {
+                        JSONObject jsonObject1 = jsonObject.getJSONObject(i);
+                        String date = jsonObject1.getString("date");
+                        paybackList.add(new PabackModel(date, true, true));
+                    }
                 }
-
                 //lendTxtAmount.setText(paybackList.get(0).getPayDate());
-
 
                 try {
                     if (transactionModel != null && transactionModel.getPayDate() != null && transactionModel.getPayDate().length() > 0) {
@@ -546,6 +536,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
                 if (paybackList.size() != isNoPayment) {
                     paybackList.clear();
+                    lendTxtAmount.setText(paymentDate);
                     for (int i = 0; i < isNoPayment; i++) {
                         paybackList.add(new PabackModel("", false, false));
                     }
@@ -558,6 +549,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         } else {
             if (paybackList.size() != isNoPayment) {
                 paybackList.clear();
+                lendTxtAmount.setText(paymentDate);
                 for (int i = 0; i < isNoPayment; i++) {
                     paybackList.add(new PabackModel("", false, false));
                 }
@@ -831,7 +823,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             lendTermsTxtNone.setTextColor(CommonMethods.getColorWrapper(this, R.color.colorWhite));
             lendTermsTxtNone.setBackground(CommonMethods.getDrawableWrapper(this, R.drawable.dark_grey_bg_rounded));
 
-            boolean bb = wValidationLib.isValidTerm(lendTermsInputLayout, lendTermsEdtOption, getString(R.string.important), "", false);
+           // boolean bb = wValidationLib.isValidTerm(lendTermsInputLayout, lendTermsEdtOption, getString(R.string.important), "", false);
         }
     }
 
@@ -851,7 +843,12 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         }
 
         noOfPaymentTV.setText(String.valueOf(isNoPayment));
-        paymentDateTV.setText(paymentDate);
+      //  paymentDateTV.setText(paymentDate);
+        if (paybackList.get(0).isDateEpockFormate()) {
+            paymentDateTV.setText(DateFormat.getDateFromEpoch(paybackList.get(0).getPayDate()));
+        } else {
+            paymentDateTV.setText(paybackList.get(0).getPayDate());
+        }
         totalPayBackTV.setText("$"+String.valueOf(finalTotalPayBackAmount));
     }
 
@@ -870,8 +867,14 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             lTermTV.setText(termValue + " "+getString(R.string.none));
         }
 
-        lNoOfPaymentTV.setText(String.valueOf(isNoPayment));
-        lPaymentDateTV.setText(paymentDate);
+         lNoOfPaymentTV.setText(String.valueOf(isNoPayment));
+        //lPaymentDateTV.setText(paymentDate);
+        if (paybackList.get(0).isDateEpockFormate()) {
+            lPaymentDateTV.setText(DateFormat.getDateFromEpoch(paybackList.get(0).getPayDate()));
+        } else {
+            lPaymentDateTV.setText(paybackList.get(0).getPayDate());
+        }
+
         totalReceivedBackTV.setText("$"+String.valueOf(finalTotalPayBackAmount));
     }
 
@@ -925,7 +928,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             request_type = "1";
         }
 
-
         JSONArray jsonArray = new JSONArray();
         for (int i = 0; i < paybackList.size(); i++) {
             try {
@@ -960,6 +962,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 "request_by", String.valueOf(request_by),
                 "request_type", request_type,
                 "transaction_request_id", transactionId);
+        Log.e("post","post data======"+values.toString());
 
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {

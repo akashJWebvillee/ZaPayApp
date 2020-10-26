@@ -23,7 +23,7 @@
     <string-array name="accountTypeArray">
         <item>@string/saving</item>
         <item>@string/checking</item>
-        <item>@string/general_ledger</item>
+       <!-- <item>@string/general_ledger</item>-->
     </string-array>
 
 </resources>

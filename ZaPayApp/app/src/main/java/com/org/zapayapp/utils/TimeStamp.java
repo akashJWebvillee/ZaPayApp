@@ -10,6 +10,7 @@ public class TimeStamp {
     public static String timeFun(String epochTime) {
         long unix_seconds = Long.parseLong(epochTime);
         unix_seconds =unix_seconds*1000;
+        //unix_seconds =unix_seconds;
        // String format = "dd/MM/yyyy HH:mm a";
         String format = "dd/MM/yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.getDefault());
@@ -18,17 +19,14 @@ public class TimeStamp {
          //String java_date=sdf.format(new Date(unix_seconds));
 
 
-
-
-       /* Calendar cal = Calendar.getInstance();
+        /* Calendar cal = Calendar.getInstance();
         cal.setTime(new Date(unix_seconds));
         int hours = cal.get(Calendar.HOUR_OF_DAY);
         int minut = cal.get(Calendar.MINUTE);
        String timeWithAm_Pm=updateTime(hours,minut);*/
 
 
-
-        return java_date;
+       return java_date;
     }
 
     public static String updateTime(int hours, int mins) {
