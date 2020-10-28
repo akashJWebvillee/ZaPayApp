@@ -480,6 +480,44 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     }
 
 
+    private boolean isPreviousDateSelected(int position) {
+        ArrayList<String> dateList=new ArrayList<>();
+        dateList.add(getString(R.string.first_select_date));
+        dateList.add(getString(R.string.second_select_date));
+        dateList.add(getString(R.string.third_select_date));
+        dateList.add(getString(R.string.fourth_select_date));
+        dateList.add(getString(R.string.fifth_select_date));
+        dateList.add(getString(R.string.sixth_select_date));
+        dateList.add(getString(R.string.seventh_select_date));
+        dateList.add(getString(R.string.eighth_select_date));
+        dateList.add(getString(R.string.ninth_select_date));
+
+
+        boolean dateSelect = false;
+        if (position>0){
+            int pos=0;
+            for (int i = 0; i < paybackList.size(); i++) {
+                if (!paybackList.get(i).isAddDate()){
+                    pos=i;
+                    break;
+                }
+            }
+
+            if (paybackList.get(position-1).isAddDate()) {
+                dateSelect = true;
+            } else {
+                dateSelect = false;
+                showSimpleAlert(getString(R.string.select)+" "+dateList.get(pos), "");
+            }
+        }else {
+            dateSelect=true;
+        }
+
+        return dateSelect;
+    }
+
+
+
     private void transactionRequestFunc() {
         //activity_status=0  //signup
         //activity_status=1  //updated profile
@@ -565,12 +603,15 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
     public void selectPaybackDate(int selectedPos) {
         try {
-            paybackPos = selectedPos;
-            DialogFragment newFragment1 = new DatePickerFragmentDialogue();
-            Bundle args1 = new Bundle();
-            args1.putString(getString(R.string.show), getString(R.string.min_current));
-            newFragment1.setArguments(args1);
-            newFragment1.show(getSupportFragmentManager(), getString(R.string.date_picker));
+            if (isPreviousDateSelected(selectedPos)){
+                paybackPos = selectedPos;
+                DialogFragment newFragment1 = new DatePickerFragmentDialogue();
+                Bundle args1 = new Bundle();
+                args1.putString(getString(R.string.show), getString(R.string.min_current));
+                newFragment1.setArguments(args1);
+                newFragment1.show(getSupportFragmentManager(), getString(R.string.date_picker));
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -580,16 +621,16 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     public void datePickerCallback(String selectedDate, int year, int month, int day, String from) throws ParseException {
         // String formattedDate = year+"-"+month+"-"+day;
         String formattedDate = day + "/" + month + "/" + year;
-      //  if (selectDateValidation(formattedDate)){
+        //if (selectDateValidation(formattedDate)){
             paybackList.set(paybackPos, new PabackModel(formattedDate, true, false));
             setPaybackAdapter();
             if (paybackPos == 0) {
                 paymentDate = formattedDate;
                 lendTxtAmount.setText(paymentDate);
             }
-        //}else {
+      //  }else {
        //     Toast.makeText(getApplicationContext(),"select Valid date",Toast.LENGTH_SHORT).show();
-       // }
+      //  }
     }
 
     private boolean selectDateValidation(String formattedDate) {
@@ -959,7 +1000,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 "terms_value", termValue,
                 "no_of_payment", isNoPayment,
                 "pay_date", jsonArray.toString(),
-                "request_by", String.valueOf(request_by),
+                "request_by", String.valueOf(request_by),   //1=lender,2=borrower
                 "request_type", request_type,
                 "transaction_request_id", transactionId);
         Log.e("post","post data======"+values.toString());

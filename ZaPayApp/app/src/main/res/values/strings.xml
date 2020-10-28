@@ -182,6 +182,7 @@
     <string name="seventh_select_date">Seventh Start Date</string>
     <string name="eighth_select_date">Eighth Start Date</string>
     <string name="ninth_select_date">Ninth Start Date</string>
+    <string name="select">Select</string>
 
     <string name="total_to_payback">Total to Pay Back</string>
     <string name="total_to_receive_back">Total to Receive Back</string>

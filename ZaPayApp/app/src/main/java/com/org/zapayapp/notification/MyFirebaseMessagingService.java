@@ -18,10 +18,9 @@ import androidx.core.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.org.zapayapp.R;
-import com.org.zapayapp.activity.HomeActivity;
-import com.org.zapayapp.activity.TransactionActivity;
+import com.org.zapayapp.activity.BorrowSummaryActivity;
+import com.org.zapayapp.activity.LendingSummaryActivity;
 import com.org.zapayapp.utils.CommonMethods;
-
 import java.util.Map;
 import java.util.Random;
 
@@ -35,7 +34,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
-        Log.e("remoteMessage","remoteMessage===="+remoteMessage.getData().toString());
+       // Log.e("remoteMessage", "remoteMessage====" + remoteMessage.getData().toString());
         CommonMethods.showLogs(TAG, "From: " + remoteMessage.getFrom() + " " + remoteMessage + " " + remoteMessage.getData());
         if (remoteMessage.getData().size() > 0) {
             CommonMethods.showLogs(TAG, "Message data payload: " + remoteMessage.getData());
@@ -43,45 +42,41 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 CommonMethods.showLogs(TAG, "isAppForeground : App is background");
             } else {
                 CommonMethods.showLogs(TAG, "isAppForeground : App is foreground");
+
             }
             sendNotification(remoteMessage.getData());
         }
+
     }
     // [END receive_message]
-
 
     private void sendNotification(Map<String, String> data) {
         Intent intent = null;
         try {
-
-           /* notification_type=NEW_TRANSACTION_REQUEST,
-                    status=0,
-                    title=Zapay,
-                    transaction_request_id=118,
-                    message=Newtransactionrequest*/
-
-          /*  String title = data.get("title");
-            String order_number = data.get("order_number");
-            String message = data.get("message");
-            String type = data.get("notification_type");
-            String order_status = data.get("order_status");*/
-
             String notification_type = data.get("notification_type");
             String status = data.get("status");
             String title = data.get("title");
             String transaction_request_id = data.get("transaction_request_id");
             String message = data.get("message");
-
+            String request_by = data.get("request_by");
 
             if (notification_type != null) {
-                intent = new Intent(this, HomeActivity.class);
-                intent.putExtra("notificationType", notification_type);
-                intent.putExtra("order_id", transaction_request_id);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis()/* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                if (notification_type.equalsIgnoreCase("NEW_TRANSACTION_REQUEST")) {
+                    if (request_by != null && request_by.equals("1")) {
+                        intent = new Intent(this, LendingSummaryActivity.class);
 
-                boolean flag = false;
-                createImageBuilder(title, message, pendingIntent, flag);
+                    } else if (request_by != null && request_by.equals("2")) {
+                        intent = new Intent(this, BorrowSummaryActivity.class);
+                    }
+
+                    intent.putExtra("moveFrom", getString(R.string.transaction));
+                    intent.putExtra("transactionId", transaction_request_id);
+
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis()/* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    boolean flag = false;
+                    createImageBuilder(title, message, pendingIntent, flag);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -107,7 +102,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             NotificationCompat.Builder notificationBuilder =
                     new NotificationCompat.Builder(mContext, channelId)
-                            .setSmallIcon(R.mipmap.logo)
+                            .setSmallIcon(R.mipmap.notification_logo)
                             .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.ic_launcher_foreground))
                             //.setColor(getResources().getColor(R.color.colorPrimaryDark))
                             .setContentTitle(title)
@@ -122,9 +117,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             if (!flag) {
                 notificationBuilder =
                         new NotificationCompat.Builder(mContext, channelId)
-                                .setSmallIcon(R.mipmap.logo)
+                                .setSmallIcon(R.mipmap.notification_logo)
                                 .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.ic_launcher_foreground))
-                               // .setColor(getResources().getColor(R.color.colorPrimaryDark))
+                                // .setColor(getResources().getColor(R.color.colorPrimaryDark))
                                 .setContentTitle(title)
                                 .setContentText(message)
                                 .setAutoCancel(true)
