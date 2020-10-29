@@ -49,7 +49,9 @@ public class MyHistoryActivity extends AppCompatActivity implements TabLayout.On
 
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.pending)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.negotiation)));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.accepted)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.completed)));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.decline)));
 
         tabLayout.setTabTextColors(getResources().getColor(R.color.tabTextColor), getResources().getColor(R.color.navTextColor));
         tabLayout.setSelectedTabIndicator(R.drawable.tab_indicator);

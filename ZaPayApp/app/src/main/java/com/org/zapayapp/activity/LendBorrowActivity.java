@@ -139,7 +139,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     private void initAction() {
         listIndicator.add(getString(R.string.amount));
         listIndicator.add(getString(R.string.terms));
-        listIndicator.add(CommonMethods.capitalize(getString(R.string.no_of_payments)));
+        listIndicator.add(getString(R.string.no_of_payments));
         listIndicator.add(getString(R.string.payback_date));
         if (isBorrow) {
             request_by = 2;
@@ -492,7 +492,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         dateList.add(getString(R.string.eighth_select_date));
         dateList.add(getString(R.string.ninth_select_date));
 
-
         boolean dateSelect = false;
         if (position>0){
             int pos=0;
@@ -621,16 +620,16 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     public void datePickerCallback(String selectedDate, int year, int month, int day, String from) throws ParseException {
         // String formattedDate = year+"-"+month+"-"+day;
         String formattedDate = day + "/" + month + "/" + year;
-        //if (selectDateValidation(formattedDate)){
+        if (selectDateValidation(formattedDate)){
             paybackList.set(paybackPos, new PabackModel(formattedDate, true, false));
             setPaybackAdapter();
             if (paybackPos == 0) {
                 paymentDate = formattedDate;
                 lendTxtAmount.setText(paymentDate);
             }
-      //  }else {
-       //     Toast.makeText(getApplicationContext(),"select Valid date",Toast.LENGTH_SHORT).show();
-      //  }
+        }else {
+            showSimpleAlert(getString(R.string.do_not_select_past_date), "");
+        }
     }
 
     private boolean selectDateValidation(String formattedDate) {
@@ -647,7 +646,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                     isSelect=true;
                 }
 
-        //}
         return isSelect;
     }
 
@@ -863,8 +861,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             lendTermsEdtOption.setVisibility(View.GONE);
             lendTermsTxtNone.setTextColor(CommonMethods.getColorWrapper(this, R.color.colorWhite));
             lendTermsTxtNone.setBackground(CommonMethods.getDrawableWrapper(this, R.drawable.dark_grey_bg_rounded));
-
-           // boolean bb = wValidationLib.isValidTerm(lendTermsInputLayout, lendTermsEdtOption, getString(R.string.important), "", false);
+            // boolean bb = wValidationLib.isValidTerm(lendTermsInputLayout, lendTermsEdtOption, getString(R.string.important), "", false);
         }
     }
 
@@ -872,15 +869,14 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         amountTV.setText("$"+String.valueOf(amount));
         String termValue = lendTermsEdtOption.getText().toString().trim();
         if (isTermsOption + 1 == 1) {
-            // termTV.setText("@14% or $7.00");
-            // termTV.setText("@"+termValue+"% or &"+finalTotalAmount);
             termTV.setText(termValue + " "+getString(R.string.percent));
         } else if (isTermsOption + 1 == 2) {
             termTV.setText(termValue + " "+getString(R.string.fee));
         } else if (isTermsOption + 1 == 3) {
             termTV.setText(termValue + " "+getString(R.string.discount));
         } else if (isTermsOption + 1 == 4) {
-            termTV.setText(termValue + " "+getString(R.string.none));
+            //termTV.setText(termValue + " "+getString(R.string.none));
+            termTV.setText(getString(R.string.none));
         }
 
         noOfPaymentTV.setText(String.valueOf(isNoPayment));
@@ -905,7 +901,8 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         } else if (isTermsOption + 1 == 3) {
             lTermTV.setText(termValue + " "+getString(R.string.discount));
         } else if (isTermsOption + 1 == 4) {
-            lTermTV.setText(termValue + " "+getString(R.string.none));
+           // lTermTV.setText(termValue + " "+getString(R.string.none));
+            lTermTV.setText(getString(R.string.none));
         }
 
          lNoOfPaymentTV.setText(String.valueOf(isNoPayment));
@@ -985,7 +982,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 e.printStackTrace();
             }
         }
-
 
         if (isTermsOption == 4) {
             termValue = "0";

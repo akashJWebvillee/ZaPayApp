@@ -183,6 +183,7 @@
     <string name="eighth_select_date">Eighth Start Date</string>
     <string name="ninth_select_date">Ninth Start Date</string>
     <string name="select">Select</string>
+    <string name="do_not_select_past_date">"Don't select past date</string>
 
     <string name="total_to_payback">Total to Pay Back</string>
     <string name="total_to_receive_back">Total to Receive Back</string>
@@ -192,6 +193,7 @@
     <!--Transaction screen-->
     <string name="pending">Pending</string>
     <string name="negotiation">Negotiation</string>
+    <string name="accepted">Accepted</string>
     <string name="completed">Completed</string>
     <string name="no_of_installment">No Of Installment:</string>
     <string name="borrow_mode">Borrow Mode:</string>
@@ -219,6 +221,7 @@
 
 
     <string name="lend_mode">Lend Mode:</string>
+    <string name="review">Review</string>
 
     <!--Validation Messages -->
     <string name="please_enter_valid_email">Please enter valid email.</string>
@@ -249,7 +252,8 @@
     <string name="explore_lending_borrowing">Now lending and borrowing money is just a click away, explore below options</string>
     <string name="verify_account_msg">To verify account you can put value for example amount1&#8211;0.10 ,amount2&#8211; 0.03</string>
     <string name="do_you_want_to_close_the_application">Do you want to close the application?</string>
-
+    <string name="rate_borrower">Rate Borrower</string>
+    <string name="rate_lender">Rate Lender</string>
 
 
 </resources>

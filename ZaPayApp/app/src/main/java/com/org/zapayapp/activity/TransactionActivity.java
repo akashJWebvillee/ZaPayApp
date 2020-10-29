@@ -47,7 +47,9 @@ public class TransactionActivity extends AppCompatActivity implements TabLayout.
 
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.pending)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.negotiation)));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.accepted)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.completed)));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.decline)));
 
         tabLayout.setTabTextColors(getResources().getColor(R.color.tabTextColor), getResources().getColor(R.color.navTextColor));
         tabLayout.setSelectedTabIndicator(R.drawable.tab_indicator);
@@ -59,8 +61,6 @@ public class TransactionActivity extends AppCompatActivity implements TabLayout.
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
     }
-
-
 
     private void inItAction() {
         zapayApp = (ZapayApp) getApplicationContext();

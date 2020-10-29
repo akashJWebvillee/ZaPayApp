@@ -81,6 +81,16 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                     acceptTV.setVisibility(View.GONE);
                     declineTV.setVisibility(View.GONE);
                     callAPIGetHistoryRequestDetail(transactionId);
+                }else if (getString(R.string.accepted).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
+                    negotiateTV.setVisibility(View.GONE);
+                    acceptTV.setVisibility(View.GONE);
+                    declineTV.setVisibility(View.GONE);
+                    callAPIGetHistoryRequestDetail(transactionId);
+                }else if (getString(R.string.decline).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
+                    negotiateTV.setVisibility(View.GONE);
+                    acceptTV.setVisibility(View.GONE);
+                    declineTV.setVisibility(View.GONE);
+                    callAPIGetHistoryRequestDetail(transactionId);
                 }
             }
         }

@@ -81,6 +81,24 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                 acceptTV.setVisibility(View.GONE);
                 declineTV.setVisibility(View.GONE);
                 callAPIGetHistoryRequestDetail(transactionId);
+
+
+
+            }else if (getString(R.string.accepted).equalsIgnoreCase(moveFrom)) {
+                negotiateTV.setVisibility(View.GONE);
+                acceptTV.setVisibility(View.GONE);
+                declineTV.setVisibility(View.GONE);
+                callAPIGetHistoryRequestDetail(transactionId);
+            }else if (getString(R.string.completed).equalsIgnoreCase(moveFrom)) {
+                negotiateTV.setVisibility(View.GONE);
+                acceptTV.setVisibility(View.GONE);
+                declineTV.setVisibility(View.GONE);
+                callAPIGetHistoryRequestDetail(transactionId);
+            } else if (getString(R.string.decline).equalsIgnoreCase(moveFrom)) {
+                negotiateTV.setVisibility(View.GONE);
+                acceptTV.setVisibility(View.GONE);
+                declineTV.setVisibility(View.GONE);
+                callAPIGetHistoryRequestDetail(transactionId);
             }
         }
     }

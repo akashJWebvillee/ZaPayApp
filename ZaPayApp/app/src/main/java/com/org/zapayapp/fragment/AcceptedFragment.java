@@ -1,7 +1,6 @@
 package com.org.zapayapp.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.activity.TransactionActivity;
 import com.org.zapayapp.adapters.TransactionAdapter;
-import com.org.zapayapp.adapters.TransactionCompletedAdapter;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.EndlessRecyclerViewScrollListener;
@@ -30,22 +28,21 @@ import java.util.List;
 
 import retrofit2.Call;
 
-
-public class CompletedFragment extends Fragment implements APICallback {
-
+public class AcceptedFragment extends Fragment implements APICallback {
     private TransactionActivity activity;
+    private RecyclerView pendingRecyclerView;
     private List<TransactionModel> transactionList;
-    private RecyclerView completedRecyclerView;
     private EndlessRecyclerViewScrollListener scrollListener;
     private int pageNo = 0;
     private TextView noDataTv;
 
-    public CompletedFragment() {
+    public AcceptedFragment() {
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_completed, container, false);
+        View view = inflater.inflate(R.layout.fragment_pending, container, false);
         inIt(view);
         initAction();
         return view;
@@ -54,14 +51,15 @@ public class CompletedFragment extends Fragment implements APICallback {
     private void inIt(View view) {
         transactionList = new ArrayList<>();
         activity = (TransactionActivity) getActivity();
-        completedRecyclerView = view.findViewById(R.id.completedRecyclerView);
         noDataTv = view.findViewById(R.id.noDataTv);
+        pendingRecyclerView = view.findViewById(R.id.pendingRecyclerView);
     }
 
     private void initAction() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        completedRecyclerView.setLayoutManager(layoutManager);
-        completedRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        pendingRecyclerView.setLayoutManager(layoutManager);
+        pendingRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
         scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
@@ -69,8 +67,12 @@ public class CompletedFragment extends Fragment implements APICallback {
                 callAPIGetTransactionRequest(pageNo);
             }
         };
+        pendingRecyclerView.addOnScrollListener(scrollListener);
+    }
 
-        completedRecyclerView.addOnScrollListener(scrollListener);
+    @Override
+    public void onResume() {
+        super.onResume();
         pageNo = 0;
         callAPIGetTransactionRequest(pageNo);
     }
@@ -80,16 +82,17 @@ public class CompletedFragment extends Fragment implements APICallback {
         if (pageNo == 0 && scrollListener != null) {
             scrollListener.resetState();
         }
+
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
             HashMap<String, Object> values = activity.apiCalling.getHashMapObject(
-                    "status", "4",
+                    "status", "0",
                     "page", pageNo);
 
             activity.zapayApp.setApiCallback(this);
             Call<JsonElement> call = activity.restAPI.postWithTokenApi(token, getString(R.string.api_get_transaction_request), values);
             if (activity.apiCalling != null) {
-                activity.apiCalling.callAPI(activity.zapayApp, call, getString(R.string.api_get_transaction_request), completedRecyclerView);
+                activity.apiCalling.callAPI(activity.zapayApp, call, getString(R.string.api_get_transaction_request), pendingRecyclerView);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -98,8 +101,6 @@ public class CompletedFragment extends Fragment implements APICallback {
 
     @Override
     public void apiCallback(JsonObject json, String from) {
-        Log.e("json","json complete fragment======="+json);
-
         if (from != null) {
             int status = 0;
             String msg = "";
@@ -118,19 +119,19 @@ public class CompletedFragment extends Fragment implements APICallback {
                     List<TransactionModel> list = activity.apiCalling.getDataList(json, "data", TransactionModel.class);
                     if (list.size() > 0) {
                         noDataTv.setVisibility(View.GONE);
-                        completedRecyclerView.setVisibility(View.VISIBLE);
+                        pendingRecyclerView.setVisibility(View.VISIBLE);
                         transactionList.addAll(list);
                         setAdapter();
                     } else {
                         if (pageNo == 0) {
                             noDataTv.setVisibility(View.VISIBLE);
-                            completedRecyclerView.setVisibility(View.GONE);
+                            pendingRecyclerView.setVisibility(View.GONE);
                         }
                     }
                 } else {
                     if (pageNo == 0) {
                         noDataTv.setVisibility(View.VISIBLE);
-                        completedRecyclerView.setVisibility(View.GONE);
+                        pendingRecyclerView.setVisibility(View.GONE);
                     }
                 }
             }
@@ -138,13 +139,8 @@ public class CompletedFragment extends Fragment implements APICallback {
     }
 
     private void setAdapter() {
-        //TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity(), transactionList, getString(R.string.transaction));
-       // completedRecyclerView.setAdapter(transactionAdapter);
-        TransactionCompletedAdapter transactionAdapter = new TransactionCompletedAdapter(getActivity(), transactionList, getString(R.string.completed));
-        completedRecyclerView.setAdapter(transactionAdapter);
-
-
-
+        TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity(), transactionList, getString(R.string.accepted));
+        pendingRecyclerView.setAdapter(transactionAdapter);
     }
 }
 

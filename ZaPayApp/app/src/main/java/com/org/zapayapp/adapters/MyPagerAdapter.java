@@ -7,7 +7,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.org.zapayapp.fragment.AcceptedFragment;
 import com.org.zapayapp.fragment.CompletedFragment;
+import com.org.zapayapp.fragment.DeclineFragment;
 import com.org.zapayapp.fragment.NegotiationFragment;
 import com.org.zapayapp.fragment.PendingFragment;
 
@@ -36,8 +38,16 @@ public class MyPagerAdapter extends FragmentStatePagerAdapter {
                 NegotiationFragment tab2 = new NegotiationFragment();
                 return tab2;
             case 2:
-                CompletedFragment tab3 = new CompletedFragment();
+                AcceptedFragment tab3 = new AcceptedFragment();
                 return tab3;
+            case 3:
+                CompletedFragment tab4 = new CompletedFragment();
+                return tab4;
+
+            case 4:
+                DeclineFragment tab5 = new DeclineFragment();
+                return tab5;
+
             default:
                 return null;
         }
