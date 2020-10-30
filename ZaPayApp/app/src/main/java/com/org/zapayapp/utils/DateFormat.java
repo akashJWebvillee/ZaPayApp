@@ -22,7 +22,8 @@ public class DateFormat {
 
 
         long epochTime = 0;
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+      //  SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH);
         try {
             Date date1 = formatter.parse(date);
             assert date1 != null;

@@ -552,12 +552,12 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                         paybackList.add(new PabackModel(date, true, true));
                     }
                 }
-                //lendTxtAmount.setText(paybackList.get(0).getPayDate());
 
                 try {
                     if (transactionModel != null && transactionModel.getPayDate() != null && transactionModel.getPayDate().length() > 0) {
                         try {
-                            lendTxtAmount.setText(DateFormat.getDateFromEpoch(paybackList.get(0).getPayDate()));
+                           //lendTxtAmount.setText(DateFormat.getDateFromEpoch(paybackList.get(0).getPayDate()));
+                            lendTxtAmount.setText(paybackList.get(0).getPayDate());
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -567,9 +567,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-                // setPaybackAdapter();
-
 
                 if (paybackList.size() != isNoPayment) {
                     paybackList.clear();
@@ -615,11 +612,10 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             e.printStackTrace();
         }
     }
-
     @Override
     public void datePickerCallback(String selectedDate, int year, int month, int day, String from) throws ParseException {
-        // String formattedDate = year+"-"+month+"-"+day;
-        String formattedDate = day + "/" + month + "/" + year;
+        //String formattedDate = day + "/" + month + "/" + year;
+        String formattedDate = year + "-" + month + "-" + day;
         if (selectDateValidation(formattedDate)){
             paybackList.set(paybackPos, new PabackModel(formattedDate, true, false));
             setPaybackAdapter();
@@ -875,17 +871,16 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         } else if (isTermsOption + 1 == 3) {
             termTV.setText(termValue + " "+getString(R.string.discount));
         } else if (isTermsOption + 1 == 4) {
-            //termTV.setText(termValue + " "+getString(R.string.none));
             termTV.setText(getString(R.string.none));
         }
 
         noOfPaymentTV.setText(String.valueOf(isNoPayment));
-      //  paymentDateTV.setText(paymentDate);
-        if (paybackList.get(0).isDateEpockFormate()) {
+       /* if (paybackList.get(0).isDateEpockFormate()) {
             paymentDateTV.setText(DateFormat.getDateFromEpoch(paybackList.get(0).getPayDate()));
         } else {
             paymentDateTV.setText(paybackList.get(0).getPayDate());
-        }
+        }*/
+        paymentDateTV.setText(paybackList.get(0).getPayDate());
         totalPayBackTV.setText("$"+String.valueOf(finalTotalPayBackAmount));
     }
 
@@ -906,13 +901,13 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         }
 
          lNoOfPaymentTV.setText(String.valueOf(isNoPayment));
-        //lPaymentDateTV.setText(paymentDate);
-        if (paybackList.get(0).isDateEpockFormate()) {
+       /* if (paybackList.get(0).isDateEpockFormate()) {
             lPaymentDateTV.setText(DateFormat.getDateFromEpoch(paybackList.get(0).getPayDate()));
         } else {
             lPaymentDateTV.setText(paybackList.get(0).getPayDate());
-        }
+        }*/
 
+        lPaymentDateTV.setText(paybackList.get(0).getPayDate());
         totalReceivedBackTV.setText("$"+String.valueOf(finalTotalPayBackAmount));
     }
 
@@ -970,13 +965,13 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         for (int i = 0; i < paybackList.size(); i++) {
             try {
                 JSONObject jsonObject = new JSONObject();
-                if (paybackList.get(i).isDateEpockFormate()) {
+              /*  if (paybackList.get(i).isDateEpockFormate()) {
                     jsonObject.put("date", paybackList.get(i).getPayDate());
                 } else {
                     jsonObject.put("date", DateFormat.getEpochFromDate(paybackList.get(i).getPayDate()));
+                }*/
 
-                }
-
+                jsonObject.put("date", paybackList.get(i).getPayDate());
                 jsonArray.put(i, jsonObject);
             } catch (JSONException e) {
                 e.printStackTrace();

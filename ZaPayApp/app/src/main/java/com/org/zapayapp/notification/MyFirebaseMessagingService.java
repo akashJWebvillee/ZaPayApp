@@ -12,13 +12,13 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.org.zapayapp.R;
 import com.org.zapayapp.activity.BorrowSummaryActivity;
+import com.org.zapayapp.activity.HomeActivity;
 import com.org.zapayapp.activity.LendingSummaryActivity;
 import com.org.zapayapp.utils.CommonMethods;
 import java.util.Map;
@@ -34,7 +34,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
-       // Log.e("remoteMessage", "remoteMessage====" + remoteMessage.getData().toString());
+        Log.e("remoteMessage", "remoteMessage====" + remoteMessage.getData().toString());
         CommonMethods.showLogs(TAG, "From: " + remoteMessage.getFrom() + " " + remoteMessage + " " + remoteMessage.getData());
         if (remoteMessage.getData().size() > 0) {
             CommonMethods.showLogs(TAG, "Message data payload: " + remoteMessage.getData());
@@ -61,22 +61,37 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             String request_by = data.get("request_by");
 
             if (notification_type != null) {
-                if (notification_type.equalsIgnoreCase("NEW_TRANSACTION_REQUEST")) {
+                if (isAppBackground()){
+                    intent = new Intent(this, HomeActivity.class);
+                    intent.putExtra("notification_type", notification_type);
+                    intent.putExtra("request_by", request_by);
+                }else {
                     if (request_by != null && request_by.equals("1")) {
                         intent = new Intent(this, LendingSummaryActivity.class);
-
                     } else if (request_by != null && request_by.equals("2")) {
                         intent = new Intent(this, BorrowSummaryActivity.class);
                     }
+                }
 
+                if (notification_type.equalsIgnoreCase("NEW_TRANSACTION_REQUEST")) {
                     intent.putExtra("moveFrom", getString(R.string.transaction));
                     intent.putExtra("transactionId", transaction_request_id);
 
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis()/* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    boolean flag = false;
-                    createImageBuilder(title, message, pendingIntent, flag);
+                } else if (notification_type.equalsIgnoreCase("REQUEST_ACCEPTED")) {
+                    intent.putExtra("moveFrom", getString(R.string.accepted));
+                    intent.putExtra("transactionId", transaction_request_id);
+                } else if (notification_type.equalsIgnoreCase("REQUEST_DECLINED")) {
+                    intent.putExtra("moveFrom", getString(R.string.decline));
+                    intent.putExtra("transactionId", transaction_request_id);
+                } else if (notification_type.equalsIgnoreCase("REQUEST_NEGOTIATE")) {
+                    intent.putExtra("moveFrom", getString(R.string.negotiation));
+                    intent.putExtra("transactionId", transaction_request_id);
                 }
+
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis()/* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                boolean flag = false;
+                createImageBuilder(title, message, pendingIntent, flag);
             }
         } catch (Exception e) {
             e.printStackTrace();

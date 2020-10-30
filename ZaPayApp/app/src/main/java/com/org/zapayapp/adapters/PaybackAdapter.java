@@ -18,7 +18,6 @@ import com.org.zapayapp.utils.DateFormat;
 import java.util.List;
 
 public class PaybackAdapter extends RecyclerView.Adapter<PaybackAdapter.MyHolder> {
-
     private Context context;
     private List<PabackModel> indicatorList;
 
@@ -71,7 +70,7 @@ public class PaybackAdapter extends RecyclerView.Adapter<PaybackAdapter.MyHolder
         }
 
         if (model != null && model.getPayDate().length() > 0) {
-            if (model.isDateEpockFormate()) {
+           /* if (model.isDateEpockFormate()) {
                 try {
                     holder.paybackTxtDate.setText(DateFormat.getDateFromEpoch(model.getPayDate()));
                 } catch (Exception e) {
@@ -79,7 +78,8 @@ public class PaybackAdapter extends RecyclerView.Adapter<PaybackAdapter.MyHolder
                 }
             } else {
                 holder.paybackTxtDate.setText(model.getPayDate());
-            }
+            }*/
+            holder.paybackTxtDate.setText(model.getPayDate());
         }
 
         holder.paybackTxtSelect.setOnClickListener(new View.OnClickListener() {

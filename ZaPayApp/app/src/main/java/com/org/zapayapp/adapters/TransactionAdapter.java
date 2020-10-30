@@ -82,7 +82,8 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                 JSONObject jsonObject1=  jsonArray.getJSONObject(0);
                 String date= jsonObject1.getString("date");
                 try {
-                    holder.dateTV.setText(DateFormat.getDateFromEpoch(date));
+                    //holder.dateTV.setText(DateFormat.getDateFromEpoch(date));
+                    holder.dateTV.setText(date);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -124,7 +125,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!transactionModel.getStatus().equalsIgnoreCase("2")) {
+               // if (!transactionModel.getStatus().equalsIgnoreCase("2")) {
                     if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                         Intent intent = new Intent(context, BorrowSummaryActivity.class);
                         intent.putExtra("moveFrom", data);
@@ -136,7 +137,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                         intent.putExtra("transactionId", transactionModel.getId());
                         context.startActivity(intent);
                     }
-                }
+                //}
             }
         });
     }

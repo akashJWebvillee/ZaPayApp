@@ -203,13 +203,24 @@
                     </LinearLayout>
                 </LinearLayout>
 
+
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/paybackDateRecycler"
+                    android:layout_below="@+id/lendLLPaymentPayback"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"/>
+
                 <TextView
                     android:id="@+id/viewTxtRating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/lendLLPaymentPayback"
+                    android:layout_below="@+id/paybackDateRecycler"
                     android:layout_marginStart="27dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="10dp"
                     android:fontFamily="@font/gotha_prolig"
                     android:gravity="start"
                     android:text="@string/rating"
@@ -238,7 +249,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_below="@+id/viewRatingBar"
-                    android:layout_marginTop="150dp"
+                    android:layout_marginTop="30dp"
                     android:background="@drawable/dotted" />
 
                 <TextView
@@ -265,7 +276,8 @@
                     android:gravity="start"
                     android:text=""
                     android:textColor="@color/navTextColor"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:layout_marginBottom="36dp"/>
 
                 <TextView
                     android:id="@+id/negotiateTV"
@@ -273,7 +285,7 @@
                     android:layout_height="53dp"
                     android:layout_below="@+id/totalPayBackTV"
                     android:layout_marginStart="27dp"
-                    android:layout_marginTop="36dp"
+                    android:layout_marginTop="0dp"
                     android:layout_marginEnd="27dp"
                     android:background="@drawable/rectanguler_button_bg"
                     android:backgroundTint="@color/navTextColor"

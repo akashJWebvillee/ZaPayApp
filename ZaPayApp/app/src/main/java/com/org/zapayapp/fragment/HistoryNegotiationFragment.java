@@ -136,7 +136,7 @@ public class HistoryNegotiationFragment extends Fragment implements APICallback 
     }
 
     private void setAdapter() {
-        HistoryPendingAdapter historyPendingAdapter = new HistoryPendingAdapter(getActivity(), transactionList, getString(R.string.history));
+        HistoryPendingAdapter historyPendingAdapter = new HistoryPendingAdapter(getActivity(), transactionList, getString(R.string.negotiation));
         pendingRecyclerView.setAdapter(historyPendingAdapter);
     }
 }

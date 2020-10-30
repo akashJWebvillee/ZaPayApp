@@ -56,6 +56,13 @@ public class TransactionModel implements Serializable {
     @Expose
     public String profileImage;
 
+    @SerializedName("average_rating")
+    @Expose
+    public String average_rating;
+
+
+
+
     public String getId() {
         return id;
     }
@@ -122,5 +129,9 @@ public class TransactionModel implements Serializable {
 
     public String getProfileImage() {
         return profileImage;
+    }
+
+    public String getAverage_rating() {
+        return average_rating;
     }
 }

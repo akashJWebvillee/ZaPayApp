@@ -20,7 +20,6 @@ import com.org.zapayapp.uihelpers.CustomRatingBar;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.SharedPref;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,6 +77,11 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
             holder.nameTV.setText(name);
         }
 
+        if (transactionModel.getAverage_rating()!=null&&transactionModel.getAverage_rating().length()>0){
+            holder.viewRatingBar.setScore(Float.parseFloat(transactionModel.getAverage_rating()));
+        }
+
+
         if (transactionModel.getCreatedAt() != null && transactionModel.getCreatedAt().length() > 0) {
             //holder.dateTV.setText(TimeStamp.timeFun(transactionModel.getCreatedAt()));
         }
@@ -90,7 +94,8 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
                 JSONObject jsonObject1=  jsonArray.getJSONObject(0);
                 String date= jsonObject1.getString("date");
                 try {
-                    holder.dateTV.setText(DateFormat.getDateFromEpoch(date));
+                   // holder.dateTV.setText(DateFormat.getDateFromEpoch(date));
+                    holder.dateTV.setText(date);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -148,7 +153,8 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
             }
         });
 
-          holder.viewRatingBar.setScore(4);
+
+
 
         holder.rattingLL.setOnClickListener(new View.OnClickListener() {
             @Override

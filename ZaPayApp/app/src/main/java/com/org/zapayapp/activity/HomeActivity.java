@@ -1,5 +1,6 @@
 package com.org.zapayapp.activity;
 
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,10 +36,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        callAPIUpdateDeviceInfo();
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.FIREBASE_DEVICE_TOKEN) != null && SharedPref.getPrefsHelper().getPref(Const.Var.FIREBASE_DEVICE_TOKEN).toString().length() > 0) {
+            callAPIUpdateDeviceInfo();
+        }
+
         init();
         initAction();
-
+        getNotificationIntent();
     }
 
     @Override
@@ -131,11 +135,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
             if (SharedPref.getPrefsHelper().getPref(Const.Var.FIREBASE_DEVICE_TOKEN) != null && SharedPref.getPrefsHelper().getPref(Const.Var.FIREBASE_DEVICE_TOKEN).toString().length() > 0) {
                 HashMap<String, Object> values = apiCalling.getHashMapObject(
                         "device_type", Const.KEY.DEVICE_TYPE,
-                        "device_token", SharedPref.getPrefsHelper().getPref(Const.Var.FIREBASE_DEVICE_TOKEN, ""),
+                        "device_token", SharedPref.getPrefsHelper().getPref(Const.Var.FIREBASE_DEVICE_TOKEN).toString(),
                         "device_id", Const.getDeviceId(HomeActivity.this));
                 zapayApp.setApiCallback(this);
                 //Call<JsonElement> call = restAPI.postApi(getString(R.string.api_update_device_info), values);
-                Call<JsonElement> call = restAPI.postWithTokenApi(token,getString(R.string.api_update_device_info), values);
+                Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_update_device_info), values);
                 if (apiCalling != null) {
                     apiCalling.callAPI(zapayApp, call, getString(R.string.api_update_device_info), homeLLBorrow);
                 }
@@ -239,5 +243,44 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         showForceUpdate(getString(R.string.do_you_want_to_close_the_application), getString(R.string.do_you_want_to_close_the_application), false, getString(R.string.cancel), false);
         //showSimpleAlert(getString(R.string.do_you_want_to_close_the_application),getString(R.string.do_you_want_to_close_the_application));
 
+    }
+
+    private void getNotificationIntent() {
+        if (getIntent() != null) {
+            if (getIntent().getStringExtra("request_by") != null
+                    && getIntent().getStringExtra("moveFrom") != null
+                    && getIntent().getStringExtra("notification_type") != null
+                    && getIntent().getStringExtra("transactionId") != null) {
+
+                String notification_type = getIntent().getStringExtra("notification_type");
+                String request_by = getIntent().getStringExtra("request_by");
+                String moveFrom = getIntent().getStringExtra("moveFrom");
+                String transactionId = getIntent().getStringExtra("transactionId");
+
+                    if (request_by != null && request_by.equals("1")) {
+                            intent = new Intent(this, LendingSummaryActivity.class);
+                        } else if (request_by != null && request_by.equals("2")) {
+                            intent = new Intent(this, BorrowSummaryActivity.class);
+                        }
+
+                    if (notification_type.equalsIgnoreCase("NEW_TRANSACTION_REQUEST")) {
+                        intent.putExtra("moveFrom", getString(R.string.transaction));
+                        intent.putExtra("transactionId", transactionId);
+
+                    } else if (notification_type.equalsIgnoreCase("REQUEST_ACCEPTED")) {
+                        intent.putExtra("moveFrom", getString(R.string.accepted));
+                        intent.putExtra("transactionId", transactionId);
+                    } else if (notification_type.equalsIgnoreCase("REQUEST_DECLINED")) {
+                        intent.putExtra("moveFrom", getString(R.string.decline));
+                        intent.putExtra("transactionId", transactionId);
+                    } else if (notification_type.equalsIgnoreCase("REQUEST_NEGOTIATE")) {
+                        intent.putExtra("moveFrom", getString(R.string.negotiation));
+                        intent.putExtra("transactionId", transactionId);
+                    }
+                    // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+                startActivity(intent);
+            }
+        }
     }
 }

@@ -254,6 +254,7 @@
     <string name="do_you_want_to_close_the_application">Do you want to close the application?</string>
     <string name="rate_borrower">Rate Borrower</string>
     <string name="rate_lender">Rate Lender</string>
+    <string name="date_already_extended">Date already extended</string>
 
 
 </resources>

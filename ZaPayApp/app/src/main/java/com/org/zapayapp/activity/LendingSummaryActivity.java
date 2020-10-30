@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -13,22 +12,17 @@ import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.SharedPref;
-import com.org.zapayapp.utils.TimeStamp;
 import com.org.zapayapp.webservices.APICallback;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashMap;
-
 import retrofit2.Call;
 
 public class LendingSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener {
-
     private TextView nameTV, amountTV, termTV, noOfPaymentTV, paymentDateTV, totalReceivedBackTV, viewAllTV;
     private TextView negotiateTV, acceptTV, declineTV, chatTV;
-    private String transactionId,moveFrom;
+    private String transactionId, moveFrom;
     private TransactionModel transactionModel;
     private String negotiationAcceptDeclineStatus = "";
     private Intent intent;
@@ -67,7 +61,7 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
 
     private void getIntentValues() {
         intent = getIntent();
-        if (intent != null && intent.getStringExtra("transactionId") != null&& intent.getStringExtra("moveFrom") != null) {
+        if (intent != null && intent.getStringExtra("transactionId") != null && intent.getStringExtra("moveFrom") != null) {
             transactionId = intent.getStringExtra("transactionId");
             moveFrom = intent.getStringExtra("moveFrom");
             if (intent.getStringExtra("moveFrom") != null) {
@@ -81,12 +75,24 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                     acceptTV.setVisibility(View.GONE);
                     declineTV.setVisibility(View.GONE);
                     callAPIGetHistoryRequestDetail(transactionId);
-                }else if (getString(R.string.accepted).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
+
+
+                } else if (getString(R.string.negotiation).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
+                    negotiateTV.setVisibility(View.VISIBLE);
+                    acceptTV.setVisibility(View.VISIBLE);
+                    declineTV.setVisibility(View.VISIBLE);
+                    callAPIGetTransactionRequestDetail(transactionId);
+                } else if (getString(R.string.accepted).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
                     negotiateTV.setVisibility(View.GONE);
                     acceptTV.setVisibility(View.GONE);
                     declineTV.setVisibility(View.GONE);
                     callAPIGetHistoryRequestDetail(transactionId);
-                }else if (getString(R.string.decline).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
+                } else if (getString(R.string.completed).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
+                    negotiateTV.setVisibility(View.GONE);
+                    acceptTV.setVisibility(View.GONE);
+                    declineTV.setVisibility(View.GONE);
+                    callAPIGetHistoryRequestDetail(transactionId);
+                } else if (getString(R.string.decline).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
                     negotiateTV.setVisibility(View.GONE);
                     acceptTV.setVisibility(View.GONE);
                     declineTV.setVisibility(View.GONE);
@@ -248,17 +254,18 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
         }
         if (jsonObject.get("created_at").getAsString() != null && jsonObject.get("created_at").getAsString().length() > 0) {
             String created_at = jsonObject.get("created_at").getAsString();
-           // paymentDateTV.setText(TimeStamp.timeFun(created_at));
+            // paymentDateTV.setText(TimeStamp.timeFun(created_at));
         }
 
         if (jsonObject.get("pay_date").getAsString() != null && jsonObject.get("pay_date").getAsString().length() > 0) {
-            String pay_date=jsonObject.get("pay_date").getAsString();
+            String pay_date = jsonObject.get("pay_date").getAsString();
             pay_date = pay_date.replaceAll("\\\\", "");
             try {
                 JSONArray jsonArray = new JSONArray(pay_date);
-                JSONObject jsonObject1=  jsonArray.getJSONObject(0);
-                String date= jsonObject1.getString("date");
-                paymentDateTV.setText(DateFormat.getDateFromEpoch(date));
+                JSONObject jsonObject1 = jsonArray.getJSONObject(0);
+                String date = jsonObject1.getString("date");
+                //paymentDateTV.setText(DateFormat.getDateFromEpoch(date));
+                paymentDateTV.setText(date);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -282,7 +289,7 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 terms_value = terms_value + " " + getString(R.string.discount);
                 termTV.setText(terms_value);
             } else if (terms_type.equalsIgnoreCase("4")) {
-               // terms_value = terms_value + " " + getString(R.string.none);
+                // terms_value = terms_value + " " + getString(R.string.none);
                 termTV.setText(getString(R.string.none));
             }
         }

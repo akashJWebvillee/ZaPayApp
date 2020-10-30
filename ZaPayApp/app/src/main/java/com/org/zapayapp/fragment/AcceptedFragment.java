@@ -86,7 +86,7 @@ public class AcceptedFragment extends Fragment implements APICallback {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
             HashMap<String, Object> values = activity.apiCalling.getHashMapObject(
-                    "status", "0",
+                    "status", "2",
                     "page", pageNo);
 
             activity.zapayApp.setApiCallback(this);

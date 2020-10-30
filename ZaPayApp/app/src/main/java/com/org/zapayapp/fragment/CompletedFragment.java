@@ -98,8 +98,6 @@ public class CompletedFragment extends Fragment implements APICallback {
 
     @Override
     public void apiCallback(JsonObject json, String from) {
-        Log.e("json","json complete fragment======="+json);
-
         if (from != null) {
             int status = 0;
             String msg = "";
