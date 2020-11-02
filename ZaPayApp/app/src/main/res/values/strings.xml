@@ -15,6 +15,7 @@
     <!-- Date picker fragment -->
     <string name="show" translatable="false">Show</string>
     <string name="both" translatable="false">Both</string>
+    <string name="current_month" translatable="false">Current Month</string>
     <string name="min_current" translatable="false">maxCurrent</string>
     <string name="max_current" translatable="false">minCurrent</string>
     <string name="date_picker" translatable="false">Date Picker</string>
@@ -32,6 +33,9 @@
     <string name="login_text">Login</string>
     <string name="signup_text">Sign Up</string>
     <string name="send">SEND</string>
+    <string name="pin">Pin</string>
+    <string name="enter_pin">Enter Pin</string>
+    <string name="confirm_pin">Confirm Pin</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="enter_user_name">Enter user name</string>
     <string name="enter_password">Enter your password</string>
@@ -69,6 +73,7 @@
     <string name="mobile_no">Mobile No.</string>
     <string name="enter_valid_mobile">Enter valid mobile</string>
     <string name="change_password">Change Password</string>
+    <string name="set_pin">Set Pin</string>
 
 
     <!--Home screen-->

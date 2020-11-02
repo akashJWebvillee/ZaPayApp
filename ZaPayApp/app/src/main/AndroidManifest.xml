@@ -17,11 +17,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".dialogs.RattingDialogActivity"
+        <activity android:name=".activity.SetPinActivity"></activity>
+        <activity
+            android:name=".dialogs.RattingDialogActivity"
             android:fitsSystemWindows="true"
-            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert"/>
-
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
         <activity
             android:name=".activity.SplashActivity"
             android:screenOrientation="portrait"

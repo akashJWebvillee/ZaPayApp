@@ -634,7 +634,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                     if (paybackList.get(paybackPos-1).isAddDate()){
                         long oldDate = DateFormat.getEpochFromDate(paybackList.get(paybackPos-1).getPayDate());
                         long selectDate = DateFormat.getEpochFromDate(formattedDate);
-                        if (selectDate>=oldDate){
+                        if (selectDate>oldDate){
                             isSelect=true;
                         }
                     }

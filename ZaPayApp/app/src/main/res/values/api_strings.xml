@@ -33,5 +33,6 @@
     <string name="api_get_chat_history">get_chat_history</string>
     <string name="api_update_device_info">update_device_info</string>
     <string name="api_rating">rating</string>
+    <string name="api_update_pay_date">update_pay_date</string>
 
 </resources>

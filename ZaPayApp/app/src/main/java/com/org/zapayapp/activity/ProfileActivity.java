@@ -38,7 +38,7 @@ import retrofit2.Call;
 
 public class ProfileActivity extends BaseActivity implements View.OnClickListener {
 
-    private TextView editProfileTV, changePasswordTV, profileTxtName, profileTxtEmail, profileTxtMobile, profileTxtAddress;
+    private TextView editProfileTV, changePasswordTV,setPinTV, profileTxtName, profileTxtEmail, profileTxtMobile, profileTxtAddress;
     private Intent intent;
     private ImageView profileImageView;
     private WRuntimePermissions runtimePermissions;
@@ -74,6 +74,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private void init() {
         runtimePermissions = new WRuntimePermissions(this);
         changePasswordTV = findViewById(R.id.changePasswordTV);
+        setPinTV = findViewById(R.id.setPinTV);
         editProfileTV = findViewById(R.id.editProfileTV);
         profileTxtName = findViewById(R.id.profileTxtName);
         profileTxtEmail = findViewById(R.id.profileTxtEmail);
@@ -84,6 +85,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     private void initAction() {
         changePasswordTV.setOnClickListener(this);
+        setPinTV.setOnClickListener(this);
         editProfileTV.setOnClickListener(this);
         profileImageView.setOnClickListener(this);
         setDataOnScreen();
@@ -118,6 +120,11 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 intent = new Intent(ProfileActivity.this, ChangePassDialogActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.setPinTV:
+                intent = new Intent(ProfileActivity.this, SetPinActivity.class);
+                startActivity(intent);
+                break;
+
             case R.id.editProfileTV:
                 intent = new Intent(ProfileActivity.this, EditProfileDialogActivity.class);
                 startActivity(intent);

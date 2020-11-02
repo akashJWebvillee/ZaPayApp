@@ -1,10 +1,12 @@
 package com.org.zapayapp.activity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -27,6 +29,7 @@ import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.DatePickerFragmentDialogue;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,9 +39,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+
 import retrofit2.Call;
 
-public class ViewAllSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener,DatePickerFragmentDialogue.DatePickerCallback {
+public class ViewAllSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener, DatePickerFragmentDialogue.DatePickerCallback {
     private TextView viewAllNameType, nameTV, amountTV, termTV, noOfPaymentTV, paymentDateTV, totalPayBackTV, negotiateTV, acceptTV, declineTV, totalPlayReceiveTV;
     private String transactionId;
     private TransactionModel transactionModel;
@@ -52,6 +56,8 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
     private RecyclerView paybackDateRecycler;
     private ArrayList<DateModel> dateModelArrayList;
     private int dateSelectPos;
+    private DateModel dateModel;
+    private PaybackDateAdapter paybackDateAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,12 +91,12 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
 
 
         paybackDateRecycler = findViewById(R.id.paybackDateRecycler);
-        paybackDateRecycler.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
+        paybackDateRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         paybackDateRecycler.setItemAnimator(new DefaultItemAnimator());
     }
 
     private void initAction() {
-        dateModelArrayList=new ArrayList<>();
+        dateModelArrayList = new ArrayList<>();
         negotiateTV.setOnClickListener(this);
         acceptTV.setOnClickListener(this);
         declineTV.setOnClickListener(this);
@@ -122,17 +128,17 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 declineTV.setVisibility(View.GONE);
                 callAPIGetHistoryRequestDetail(transactionId);
 
-            }else if (getString(R.string.negotiation).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
+            } else if (getString(R.string.negotiation).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
                 negotiateTV.setVisibility(View.VISIBLE);
                 acceptTV.setVisibility(View.VISIBLE);
                 declineTV.setVisibility(View.VISIBLE);
                 callAPIGetTransactionRequestDetail(transactionId);
-            }else if (getString(R.string.accepted).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
+            } else if (getString(R.string.accepted).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
                 negotiateTV.setVisibility(View.GONE);
                 acceptTV.setVisibility(View.GONE);
                 declineTV.setVisibility(View.GONE);
                 callAPIGetHistoryRequestDetail(transactionId);
-            }else if (getString(R.string.completed).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
+            } else if (getString(R.string.completed).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
                 negotiateTV.setVisibility(View.GONE);
                 acceptTV.setVisibility(View.GONE);
                 declineTV.setVisibility(View.GONE);
@@ -218,9 +224,28 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         }
     }
 
+
+    private void callAPIUpdatePayDate(String pay_date) {
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        HashMap<String, Object> values = apiCalling.getHashMapObject(
+                "pay_date_id", dateModel.getId(),
+                "transaction_request_id", dateModel.getTransactionRequestId(),
+                "pay_date", pay_date);
+        try {
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_update_pay_date), values);
+            if (apiCalling != null) {
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_update_pay_date), acceptTV);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     @Override
     public void apiCallback(JsonObject json, String from) {
-        Log.e("json","json view detail==="+json);
+        Log.e("json", "json view detail===" + json);
         if (from != null) {
             int status = 0;
             String msg = "";
@@ -259,15 +284,18 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 } else {
                     showSimpleAlert(msg, getResources().getString(R.string.api_update_transaction_request_status));
                 }
+            } else if (from.equals(getResources().getString(R.string.api_update_pay_date))) {
+                if (status == 200) {
+                    callAPIGetHistoryRequestDetail(transactionId);
+                } else {
+                    showSimpleAlert(msg, getResources().getString(R.string.api_update_transaction_request_status));
+                }
             }
         }
     }
 
 
     private void setData(JsonObject jsonObject) {
-
-
-
         if (jsonObject.get("first_name").getAsString() != null && jsonObject.get("first_name").getAsString().length() > 0 && jsonObject.get("first_name").getAsString() != null && jsonObject.get("first_name").getAsString().length() > 0) {
             String name = jsonObject.get("first_name").getAsString() + " " + jsonObject.get("last_name").getAsString();
             nameTV.setText(name);
@@ -282,17 +310,17 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         }
         if (jsonObject.get("created_at").getAsString() != null && jsonObject.get("created_at").getAsString().length() > 0) {
             String created_at = jsonObject.get("created_at").getAsString();
-           // paymentDateTV.setText(TimeStamp.timeFun(created_at));
+            // paymentDateTV.setText(TimeStamp.timeFun(created_at));
         }
 
         if (jsonObject.get("pay_date").getAsString() != null && jsonObject.get("pay_date").getAsString().length() > 0) {
-            String pay_date=jsonObject.get("pay_date").getAsString();
+            String pay_date = jsonObject.get("pay_date").getAsString();
             pay_date = pay_date.replaceAll("\\\\", "");
             try {
                 JSONArray jsonArray = new JSONArray(pay_date);
-                JSONObject jsonObject1=  jsonArray.getJSONObject(0);
-                String date= jsonObject1.getString("date");
-              //  paymentDateTV.setText(DateFormat.getDateFromEpoch(date));
+                JSONObject jsonObject1 = jsonArray.getJSONObject(0);
+                String date = jsonObject1.getString("date");
+                //  paymentDateTV.setText(DateFormat.getDateFromEpoch(date));
                 paymentDateTV.setText(date);
 
                 /*dateModelArrayList.clear();
@@ -307,7 +335,6 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
             }
         }
 
-
         if (jsonObject.get("total_amount").getAsString() != null && jsonObject.get("total_amount").getAsString().length() > 0) {
             String total_amount = SharedPref.getPrefsHelper().getPref(Const.Var.CURRENCY, "") + jsonObject.get("total_amount").getAsString();
             totalPayBackTV.setText(total_amount);
@@ -315,7 +342,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
 
         if (jsonObject.get("average_rating").getAsString() != null && jsonObject.get("average_rating").getAsString().length() > 0) {
             viewRatingBar.setScore(Float.parseFloat(jsonObject.get("average_rating").getAsString()));
-           }
+        }
 
         if (jsonObject.get("terms_type").getAsString() != null && jsonObject.get("terms_type").getAsString().length() > 0 && jsonObject.get("terms_value").getAsString() != null && jsonObject.get("terms_value").getAsString().length() > 0) {
             String terms_type = jsonObject.get("terms_type").getAsString();
@@ -330,40 +357,37 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 terms_value = terms_value + " " + getString(R.string.discount);
                 termTV.setText(terms_value);
             } else if (terms_type.equalsIgnoreCase("4")) {
-               // terms_value = terms_value + " " + getString(R.string.none);
+                // terms_value = terms_value + " " + getString(R.string.none);
                 termTV.setText(getString(R.string.none));
             }
         }
 
 
-
-
         if (jsonObject.get("pay_dates_list").getAsJsonArray() != null && jsonObject.get("pay_dates_list").getAsJsonArray().size() > 0) {
-           // List<DateModel> list = apiCalling.getDataList(json, "data", DateModel.class);
-              List<DateModel> list = apiCalling.getDataArrayList(jsonObject.get("pay_dates_list").getAsJsonArray(), "pay_dates_list", DateModel.class);
-              dateModelArrayList.addAll(list);
+            // List<DateModel> list = apiCalling.getDataList(json, "data", DateModel.class);
+            List<DateModel> list = apiCalling.getDataArrayList(jsonObject.get("pay_dates_list").getAsJsonArray(), "pay_dates_list", DateModel.class);
+            dateModelArrayList.clear();
+            dateModelArrayList.addAll(list);
         }
 
         if (transactionModel.getStatus() != null && transactionModel.getStatus().length() > 0) {
             String transactionStatus = transactionModel.getStatus();
-            for (int i=0;i<dateModelArrayList.size();i++){
+            for (int i = 0; i < dateModelArrayList.size(); i++) {
 
-                if (transactionStatus.equals("0")){
+                if (transactionStatus.equals("0")) {
                     dateModelArrayList.get(i).setEditable(false);
-                }else if (transactionStatus.equals("1")){
+                } else if (transactionStatus.equals("1")) {
                     dateModelArrayList.get(i).setEditable(false);
-                }else if (transactionStatus.equals("2")){
+                } else if (transactionStatus.equals("2")) {
                     dateModelArrayList.get(i).setEditable(true);
-                }else if (transactionStatus.equals("3")){
+                } else if (transactionStatus.equals("3")) {
                     dateModelArrayList.get(i).setEditable(false);
-                }else if (transactionStatus.equals("4")){
+                } else if (transactionStatus.equals("4")) {
                     dateModelArrayList.get(i).setEditable(false);
                 }
 
             }
         }
-
-
 
         if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
             if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
@@ -375,41 +399,53 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 totalPlayReceiveTV.setText(getString(R.string.total_to_pay_back));
             }
         }
-
-
         setPaybackAdapter();
     }
 
 
-
-    public void selectPaybackDate(int selectedPos) {
+    public void selectPaybackDate(int selectedPos, DateModel dateModel) {
         try {
             //if (isPreviousDateSelected(selectedPos)){
-                dateSelectPos = selectedPos;
-                DialogFragment newFragment1 = new DatePickerFragmentDialogue();
-                Bundle args1 = new Bundle();
-                args1.putString(getString(R.string.show), getString(R.string.min_current));
-                newFragment1.setArguments(args1);
-                newFragment1.show(getSupportFragmentManager(), getString(R.string.date_picker));
-           // }
+            dateSelectPos = selectedPos;
+            this.dateModel = dateModel;
+            DialogFragment newFragment1 = new DatePickerFragmentDialogue();
+            Bundle args1 = new Bundle();
+            args1.putString(getString(R.string.show), getString(R.string.current_month));
+            newFragment1.setArguments(args1);
+            newFragment1.show(getSupportFragmentManager(), getString(R.string.date_picker));
+            // }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     @Override
     public void datePickerCallback(String selectedDate, int year, int month, int day, String from) throws ParseException {
         String formattedDate = year + "-" + month + "-" + day;
-       // if (selectDateValidation(formattedDate)){
-            dateModelArrayList.set(dateSelectPos, new DateModel(formattedDate, true));
-            setPaybackAdapter();
-      //  }else {
+        if (dateModel != null) {
+            callAPIUpdatePayDate(formattedDate);
+        }
+
+        // if (selectDateValidation(formattedDate)){
+        //  dateModelArrayList.set(dateSelectPos, new DateModel(formattedDate, true));
+        //  setPaybackAdapter();
+        //  }else {
         //    showSimpleAlert(getString(R.string.do_not_select_past_date), "");
-       // }
+        // }
     }
+
     private void setPaybackAdapter() {
-        PaybackDateAdapter paybackDateAdapter=new PaybackDateAdapter(this,dateModelArrayList);
-        paybackDateRecycler.setAdapter(paybackDateAdapter);
+        if (getString(R.string.history).equalsIgnoreCase(intent.getStringExtra("moveFrom")))
+
+
+
+        if (paybackDateAdapter == null) {
+            paybackDateAdapter = new PaybackDateAdapter(this, dateModelArrayList);
+            paybackDateRecycler.setAdapter(paybackDateAdapter);
+        } else {
+            paybackDateAdapter.notifyDataSetChanged();
+        }
     }
 }
 

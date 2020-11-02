@@ -73,6 +73,8 @@ public class DatePickerFragmentDialogue extends DialogFragment implements DatePi
                 Date d = sdf.parse(strDate);
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(d);
+
+
                 int y = cal.get(Calendar.YEAR);
                 int m = cal.get(Calendar.MONTH);
                 int dy = cal.get(Calendar.DAY_OF_MONTH);
@@ -92,7 +94,7 @@ public class DatePickerFragmentDialogue extends DialogFragment implements DatePi
             mDatePicker.getDatePicker().setMaxDate(l);
             setDatePickerLocale(mDatePicker);
             return mDatePicker;
-        } else if (show != null && show.equals(context.getResources().getString(R.string.min_current)) && getActivity() != null) {//condition to show dates visible from past date to current date
+        } else if (show != null && show.equals(context.getResources().getString(R.string.min_current)) && getActivity() != null) {//condition to show dates visible from current date to future date
             long l = System.currentTimeMillis();
             DatePickerDialog mDatePicker = new DatePickerDialog(getActivity(), R.style.MyAlertDialogStyle, this, year, Integer.valueOf(mon), Integer.valueOf(date));
             mDatePicker.getDatePicker().setMinDate(l);
@@ -104,9 +106,19 @@ public class DatePickerFragmentDialogue extends DialogFragment implements DatePi
             long now = System.currentTimeMillis() - 1000;
             mDatePicker.getDatePicker().setMinDate(now + (24 * 60 * 60 * 1000));
             mDatePicker.getDatePicker().setMaxDate(now + (1000 * 60 * 60 * 24 * 7));
+
             setDatePickerLocale(mDatePicker);
             return mDatePicker;
-        } else {// no condition to show date
+        } else if (show != null && show.equals(context.getResources().getString(R.string.current_month)) && getActivity() != null) {//condition to show dates visible only current month date
+            DatePickerDialog mDatePicker;
+            mDatePicker = new DatePickerDialog(getActivity(), R.style.MyAlertDialogStyle, this, year, Integer.valueOf(mon), Integer.valueOf(date));
+            long now = System.currentTimeMillis() - 1000;
+            mDatePicker.getDatePicker().setMinDate(now + (24 * 60 * 60 * 1000));
+            mDatePicker.getDatePicker().setMaxDate(now + (1000 * 60 * 60 * 24 * 7));
+
+            setDatePickerLocale(mDatePicker);
+            return mDatePicker;
+        }  else {// no condition to show date
             // if (getActivity() != null)
             return new DatePickerDialog(getActivity(), R.style.MyAlertDialogStyle, this, year, Integer.valueOf(mon), Integer.valueOf(date));
         }
