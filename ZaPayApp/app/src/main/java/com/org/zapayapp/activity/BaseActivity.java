@@ -38,6 +38,7 @@ import com.org.zapayapp.adapters.NavigationAdapter;
 import com.org.zapayapp.alert_dialog.AlertForcePopup;
 import com.org.zapayapp.alert_dialog.AlertLogoutFragment;
 import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
+import com.org.zapayapp.dialogs.DateChangeRequestDialogActivity;
 import com.org.zapayapp.uihelpers.AdvanceDrawerLayout;
 import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
@@ -594,6 +595,14 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             finish();
         } else if (from.equalsIgnoreCase(getString(R.string.api_signup))) {
             moveToLogin();
+        }else if (from.equalsIgnoreCase(getString(R.string.update_pin))){
+            finish();
+        }else if (from.equalsIgnoreCase(getString(R.string.set_new_pin))){
+            Intent intent = new Intent(BaseActivity.this, HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            finish();
         }
     }
 

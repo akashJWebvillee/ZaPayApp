@@ -46,13 +46,16 @@ import com.org.zapayapp.utils.EndlessRecyclerViewScrollListener;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.WVDateLib;
 import com.org.zapayapp.webservices.APICallback;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import retrofit2.Call;
 
 public class LendBorrowActivity extends BaseActivity implements View.OnClickListener, DatePickerFragmentDialogue.DatePickerCallback, APICallback, ContactListener {
@@ -181,7 +184,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         lendViewAmount = findViewById(R.id.lendViewAmount);
         lendAmountEdtAmount = findViewById(R.id.lendAmountEdtAmount);
         lendAmountEdtAmount.setImeOptions(EditorInfo.IME_ACTION_DONE);
-      //lendAmountEdtAmount.setRawInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        //lendAmountEdtAmount.setRawInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
         lendAmountEdtAmount.addTextChangedListener(new TextWatcher() {
             @Override
@@ -364,8 +367,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         contactRecycler.setItemAnimator(new DefaultItemAnimator());
 
 
-
-
         callAPIGetContactList(pageNo);
         scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
@@ -394,11 +395,11 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                             setIndicatorView(selectedPos);
                         }
                     } else if (selectedPos == 1) {
-                        if (isTermsOption == 3){
+                        if (isTermsOption == 3) {
                             selectedPos = indicatorAdapter.getSelectedPos() + 1;
                             indicatorAdapter.setSelected(selectedPos);
                             setIndicatorView(selectedPos);
-                        }else {
+                        } else {
                             if (wValidationLib.isValidTerm(lendTermsInputLayout, lendTermsEdtOption, getString(R.string.important), getString(R.string.enter_term), true)) {
                                 selectedPos = indicatorAdapter.getSelectedPos() + 1;
                                 indicatorAdapter.setSelected(selectedPos);
@@ -481,7 +482,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
 
     private boolean isPreviousDateSelected(int position) {
-        ArrayList<String> dateList=new ArrayList<>();
+        ArrayList<String> dateList = new ArrayList<>();
         dateList.add(getString(R.string.first_select_date));
         dateList.add(getString(R.string.second_select_date));
         dateList.add(getString(R.string.third_select_date));
@@ -493,28 +494,27 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         dateList.add(getString(R.string.ninth_select_date));
 
         boolean dateSelect = false;
-        if (position>0){
-            int pos=0;
+        if (position > 0) {
+            int pos = 0;
             for (int i = 0; i < paybackList.size(); i++) {
-                if (!paybackList.get(i).isAddDate()){
-                    pos=i;
+                if (!paybackList.get(i).isAddDate()) {
+                    pos = i;
                     break;
                 }
             }
 
-            if (paybackList.get(position-1).isAddDate()) {
+            if (paybackList.get(position - 1).isAddDate()) {
                 dateSelect = true;
             } else {
                 dateSelect = false;
-                showSimpleAlert(getString(R.string.select)+" "+dateList.get(pos), "");
+                showSimpleAlert(getString(R.string.select) + " " + dateList.get(pos), "");
             }
-        }else {
-            dateSelect=true;
+        } else {
+            dateSelect = true;
         }
 
         return dateSelect;
     }
-
 
 
     private void transactionRequestFunc() {
@@ -542,7 +542,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         //Negotiation.....
         if (transactionModel != null && transactionModel.getPayDate() != null && transactionModel.getPayDate().length() > 0) {
             try {
-                if (transactionModel.getNoOfPayment()!=null&&transactionModel.getNoOfPayment().equalsIgnoreCase(String.valueOf(isNoPayment))){
+                if (transactionModel.getNoOfPayment() != null && transactionModel.getNoOfPayment().equalsIgnoreCase(String.valueOf(isNoPayment))) {
                     paybackList.clear();
                     String dataArray = transactionModel.getPayDate().replace("\\", "");
                     JSONArray jsonObject = new JSONArray(dataArray);
@@ -556,7 +556,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 try {
                     if (transactionModel != null && transactionModel.getPayDate() != null && transactionModel.getPayDate().length() > 0) {
                         try {
-                           //lendTxtAmount.setText(DateFormat.getDateFromEpoch(paybackList.get(0).getPayDate()));
+                            //lendTxtAmount.setText(DateFormat.getDateFromEpoch(paybackList.get(0).getPayDate()));
                             lendTxtAmount.setText(paybackList.get(0).getPayDate());
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -599,7 +599,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
     public void selectPaybackDate(int selectedPos) {
         try {
-            if (isPreviousDateSelected(selectedPos)){
+            if (isPreviousDateSelected(selectedPos)) {
                 paybackPos = selectedPos;
                 DialogFragment newFragment1 = new DatePickerFragmentDialogue();
                 Bundle args1 = new Bundle();
@@ -612,35 +612,36 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             e.printStackTrace();
         }
     }
+
     @Override
     public void datePickerCallback(String selectedDate, int year, int month, int day, String from) throws ParseException {
         //String formattedDate = day + "/" + month + "/" + year;
         String formattedDate = year + "-" + month + "-" + day;
-        if (selectDateValidation(formattedDate)){
+        if (selectDateValidation(formattedDate)) {
             paybackList.set(paybackPos, new PabackModel(formattedDate, true, false));
             setPaybackAdapter();
             if (paybackPos == 0) {
                 paymentDate = formattedDate;
                 lendTxtAmount.setText(paymentDate);
             }
-        }else {
+        } else {
             showSimpleAlert(getString(R.string.do_not_select_past_date), "");
         }
     }
 
     private boolean selectDateValidation(String formattedDate) {
-        boolean isSelect=false;
-                if (paybackList.size()>0&&paybackList.get(0).isAddDate()){
-                    if (paybackList.get(paybackPos-1).isAddDate()){
-                        long oldDate = DateFormat.getEpochFromDate(paybackList.get(paybackPos-1).getPayDate());
-                        long selectDate = DateFormat.getEpochFromDate(formattedDate);
-                        if (selectDate>oldDate){
-                            isSelect=true;
-                        }
-                    }
-                }else {
-                    isSelect=true;
+        boolean isSelect = false;
+        if (paybackList.size() > 0 && paybackList.get(0).isAddDate() && paybackPos > 0) {
+            if (paybackList.get(paybackPos - 1).isAddDate()) {
+                long oldDate = DateFormat.getEpochFromDate(paybackList.get(paybackPos - 1).getPayDate());
+                long selectDate = DateFormat.getEpochFromDate(formattedDate);
+                if (selectDate > oldDate) {
+                    isSelect = true;
                 }
+            }
+        } else {
+            isSelect = true;
+        }
 
         return isSelect;
     }
@@ -654,16 +655,16 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         }
 
 
-        if (transactionModel!=null&&transactionModel.getId()!=null&&transactionModel.getId().length()>0){
-            toId=transactionModel.getFromId();
-            int selectPosition=0;
-            for (int i=0;i<contactNumberList.size();i++){
-                if (transactionModel.getFromId().equals(contactNumberList.get(i).getId())){
-                    selectPosition= i;
+        if (transactionModel != null && transactionModel.getId() != null && transactionModel.getId().length() > 0) {
+            toId = transactionModel.getFromId();
+            int selectPosition = 0;
+            for (int i = 0; i < contactNumberList.size(); i++) {
+                if (transactionModel.getFromId().equals(contactNumberList.get(i).getId())) {
+                    selectPosition = i;
                     break;
                 }
             }
-            contactAdapter.setSelected(selectPosition,getString(R.string.negotiation));
+            contactAdapter.setSelected(selectPosition, getString(R.string.negotiation));
         }
     }
 
@@ -862,14 +863,14 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     }
 
     private void setBorrowData() {
-        amountTV.setText("$"+String.valueOf(amount));
+        amountTV.setText("$" + String.valueOf(amount));
         String termValue = lendTermsEdtOption.getText().toString().trim();
         if (isTermsOption + 1 == 1) {
-            termTV.setText(termValue + " "+getString(R.string.percent));
+            termTV.setText(termValue + " " + getString(R.string.percent));
         } else if (isTermsOption + 1 == 2) {
-            termTV.setText(termValue + " "+getString(R.string.fee));
+            termTV.setText(termValue + " " + getString(R.string.fee));
         } else if (isTermsOption + 1 == 3) {
-            termTV.setText(termValue + " "+getString(R.string.discount));
+            termTV.setText(termValue + " " + getString(R.string.discount));
         } else if (isTermsOption + 1 == 4) {
             termTV.setText(getString(R.string.none));
         }
@@ -881,26 +882,26 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             paymentDateTV.setText(paybackList.get(0).getPayDate());
         }*/
         paymentDateTV.setText(paybackList.get(0).getPayDate());
-        totalPayBackTV.setText("$"+String.valueOf(finalTotalPayBackAmount));
+        totalPayBackTV.setText("$" + String.valueOf(finalTotalPayBackAmount));
     }
 
     private void setLendData() {
-        l_amountTV.setText("$"+String.valueOf(amount));
+        l_amountTV.setText("$" + String.valueOf(amount));
         String termValue = lendTermsEdtOption.getText().toString().trim();
         if (isTermsOption + 1 == 1) {
             // termTV.setText("@14% or $7.00");
             // termTV.setText("@"+termValue+"% or &"+finalTotalAmount);
-            lTermTV.setText(termValue + " "+getString(R.string.percent));
+            lTermTV.setText(termValue + " " + getString(R.string.percent));
         } else if (isTermsOption + 1 == 2) {
-            lTermTV.setText(termValue + " "+getString(R.string.fee));
+            lTermTV.setText(termValue + " " + getString(R.string.fee));
         } else if (isTermsOption + 1 == 3) {
-            lTermTV.setText(termValue + " "+getString(R.string.discount));
+            lTermTV.setText(termValue + " " + getString(R.string.discount));
         } else if (isTermsOption + 1 == 4) {
-           // lTermTV.setText(termValue + " "+getString(R.string.none));
+            // lTermTV.setText(termValue + " "+getString(R.string.none));
             lTermTV.setText(getString(R.string.none));
         }
 
-         lNoOfPaymentTV.setText(String.valueOf(isNoPayment));
+        lNoOfPaymentTV.setText(String.valueOf(isNoPayment));
        /* if (paybackList.get(0).isDateEpockFormate()) {
             lPaymentDateTV.setText(DateFormat.getDateFromEpoch(paybackList.get(0).getPayDate()));
         } else {
@@ -908,7 +909,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         }*/
 
         lPaymentDateTV.setText(paybackList.get(0).getPayDate());
-        totalReceivedBackTV.setText("$"+String.valueOf(finalTotalPayBackAmount));
+        totalReceivedBackTV.setText("$" + String.valueOf(finalTotalPayBackAmount));
     }
 
     @Override
@@ -994,7 +995,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 "request_by", String.valueOf(request_by),   //1=lender,2=borrower
                 "request_type", request_type,
                 "transaction_request_id", transactionId);
-        Log.e("post","post data======"+values.toString());
+        Log.e("post", "post data======" + values.toString());
 
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
@@ -1055,8 +1056,11 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
             } else if (from.equals(getResources().getString(R.string.api_transaction_request))) {
                 if (status == 200) {
-
-                    showSimpleAlert(msg, getResources().getString(R.string.api_transaction_request));
+                    //showSimpleAlert(msg, getResources().getString(R.string.api_transaction_request));
+                    Intent intent = new Intent(LendBorrowActivity.this, CongratulationActivity.class);
+                    intent.putExtra("message", msg);
+                    startActivity(intent);
+                    finish();
                 } else if (status == 401) {
                     showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
                 } else {

@@ -122,6 +122,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.setPinTV:
                 intent = new Intent(ProfileActivity.this, SetPinActivity.class);
+                intent.putExtra("forWhat",getString(R.string.update_pin));
                 startActivity(intent);
                 break;
 

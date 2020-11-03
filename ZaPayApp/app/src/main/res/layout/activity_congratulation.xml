@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    tools:context=".dialogs.DateChangeRequestDialogActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="375dp"
+            android:background="@mipmap/base_bg" />
+
+        <ImageView
+            android:id="@+id/logoIV"
+            android:layout_width="180dp"
+            android:layout_height="53dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="114dp"
+            android:contentDescription="@null"
+            android:src="@mipmap/logo" />
+
+        <LinearLayout
+            android:id="@+id/LL1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/logoIV"
+            android:layout_marginTop="65dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+        </LinearLayout>
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_below="@+id/LL1"
+            android:layout_marginTop="50dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="66dp"
+                android:background="@drawable/oval_bg" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="33dp"
+                android:background="@drawable/rectanguler_bottom_corner" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/loginRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="330dp"
+            android:layout_below="@+id/LL1">
+
+            <LinearLayout
+                android:id="@+id/LL2"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/rectanguler_bg"
+                android:backgroundTint="@color/colorWhite"
+                android:elevation="3dp"
+                android:orientation="vertical">
+
+               <ImageView
+                   android:layout_width="130dp"
+                   android:layout_height="70dp"
+                   android:layout_gravity="center_horizontal"
+                   android:background="@mipmap/polygon_half" />
+                <TextView
+                    style="@style/textViewMediumStyleRegular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:textSize="24sp"
+                    android:textColor="@color/blackColor"
+                    android:fontFamily="@font/gotha_promed"
+                    android:text="@string/congratulations" />
+
+                <TextView
+                    android:id="@+id/setMsgTV"
+                    style="@style/textViewMediumStyleRegular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="22dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="20dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:textSize="14sp"
+                    android:lineSpacingExtra="5dp"
+                    android:fontFamily="@font/gotha_pro_reg"
+                    android:maxLines="3"
+                    android:text="dfhxhvhxvkxjhvxkjhkxjcvxkjcxkjhvxkjckxjxkjvbkxcbkxjbkxjkjcbxkjbxkjbbxbjlbxlkjbclxkbj" />
+            </LinearLayout>
+
+            <com.dd.ShadowLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="45dp"
+                android:layout_marginTop="54dp"
+                android:layout_marginEnd="45dp"
+                android:elevation="3dp"
+                app:sl_cornerRadius="56dp"
+                app:sl_dx="0dp"
+                app:sl_dy="10dp"
+                app:sl_shadowColor="#2CFC5C04"
+                app:sl_shadowRadius="4dp">
+
+                <TextView
+                    android:id="@+id/closeButtonTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="53dp"
+                    android:background="@drawable/rectanguler_button_bg"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:fontFamily="@font/gotha_probol"
+                    android:gravity="center"
+                    android:text="@string/close"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16sp"
+                    android:textAllCaps="true"/>
+            </com.dd.ShadowLayout>
+        </RelativeLayout>
+
+<RelativeLayout
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:layout_below="@+id/logoIV"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="20dp">
+
+    <ImageView
+        android:layout_centerInParent="true"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@mipmap/polygon"/>
+
+    <ImageView
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:src="@mipmap/ellips"
+        android:layout_centerInParent="true"/>
+
+    <ImageView
+        android:layout_width="14dp"
+        android:layout_height="10dp"
+        android:src="@mipmap/right_check"
+        android:layout_centerInParent="true"/>
+
+</RelativeLayout>
+
+
+
+    </RelativeLayout>
+</androidx.core.widget.NestedScrollView>

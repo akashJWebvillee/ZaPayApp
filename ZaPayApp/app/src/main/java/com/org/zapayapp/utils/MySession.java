@@ -108,6 +108,7 @@ public class MySession {
         SharedPref.getPrefsHelper().savePref(Const.Var.BANK_ACCOUNT_TYPE, null);
         SharedPref.getPrefsHelper().savePref(Const.Var.ACCOUNT_HOLDER_NAME, null);
         SharedPref.getPrefsHelper().savePref(Const.Var.BANK_ACCOUNT_STATUS, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.PIN, null);
     }
 
     public static void saveBankData(JsonObject object) {

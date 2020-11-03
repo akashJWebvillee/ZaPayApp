@@ -91,7 +91,7 @@
                     android:gravity="center"
                     android:textColor="@color/navTextColor60Alpha"
                     android:textSize="20sp"
-                    android:layout_marginTop="60dp"/>
+                    android:layout_marginTop="50dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -162,11 +162,13 @@
                         android:inputType="phone"
                         android:maxLength="1"
                         android:textAlignment="center"
-                        android:imeOptions="actionDone" />
+                        android:imeOptions="actionNext"
+                      android:nextFocusForward="@id/cEt1"/>
                 </LinearLayout>
 
 
                 <TextView
+                    android:id="@+id/confirmPassTitleTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/gotha_pro_reg"
@@ -177,6 +179,7 @@
                     android:layout_marginTop="30dp"/>
 
                 <LinearLayout
+                    android:id="@+id/confirmPassLL"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -244,7 +247,8 @@
                         android:importantForAutofill="no"
                         android:inputType="phone"
                         android:maxLength="1"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:imeOptions="actionDone"/>
                 </LinearLayout>
             </LinearLayout>
 

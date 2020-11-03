@@ -260,6 +260,20 @@
     <string name="rate_borrower">Rate Borrower</string>
     <string name="rate_lender">Rate Lender</string>
     <string name="date_already_extended">Date already extended</string>
+    <string name="pin_and_confirm_pin_not_same">Pin and confirm pin not same</string>
+    <string name="your_pin_has_been_set">Your pin has been set</string>
+    <string name="wrong_pin">Wrong pin</string>
+
+    <string name="set_new_pin">Set new pin</string>
+    <string name="update_pin">Update pin</string>
+    <string name="check_pin">Check pin</string>
+
+
+    <string name="Date_Change_Request">Date Change Request</string>
+    <string name="okay">Okay</string>
+    <string name="your_date_change_Request_has_been_updated">Your date change Request has been updated</string>
+    <string name="congratulations">Congratulations</string>
+    <string name="close">Close</string>
 
 
 </resources>

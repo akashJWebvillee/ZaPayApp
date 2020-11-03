@@ -65,6 +65,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     intent = new Intent(this, HomeActivity.class);
                     intent.putExtra("notification_type", notification_type);
                     intent.putExtra("request_by", request_by);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
                 }else {
                     if (request_by != null && request_by.equals("1")) {
                         intent = new Intent(this, LendingSummaryActivity.class);
@@ -86,10 +88,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 } else if (notification_type.equalsIgnoreCase("REQUEST_NEGOTIATE")) {
                     intent.putExtra("moveFrom", getString(R.string.negotiation));
                     intent.putExtra("transactionId", transaction_request_id);
+                }else if (notification_type.equalsIgnoreCase("PAY_DATE_EXTEND")){
+                    intent.putExtra("moveFrom", getString(R.string.accepted));
+                    intent.putExtra("transactionId", transaction_request_id);
                 }
 
-               // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+               //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis()/* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                 boolean flag = false;
                 createImageBuilder(title, message, pendingIntent, flag);

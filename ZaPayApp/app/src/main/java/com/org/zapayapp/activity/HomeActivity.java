@@ -276,6 +276,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                     } else if (notification_type.equalsIgnoreCase("REQUEST_NEGOTIATE")) {
                         intent.putExtra("moveFrom", getString(R.string.negotiation));
                         intent.putExtra("transactionId", transactionId);
+                    }else if (notification_type.equalsIgnoreCase("PAY_DATE_EXTEND")){
+                        intent.putExtra("moveFrom", getString(R.string.accepted));
+                        intent.putExtra("transactionId", transactionId);
                     }
                     // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 

@@ -1,4 +1,6 @@
 package com.org.zapayapp.activity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -6,24 +8,34 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import com.org.zapayapp.R;
+import com.org.zapayapp.utils.Const;
+import com.org.zapayapp.utils.SharedPref;
 
 public class SetPinActivity extends BaseActivity {
     private EditText et1, et2, et3, et4, et5, et6;
-     private EditText[] editTexts;
-     private String pin = "";
+    private EditText[] editTexts;
+    private String pin = "";
 
     private EditText cEt1, cEt2, cEt3, cEt4, cEt5, cEt6;
     private EditText[] cEditTexts;
     private String cPin = "";
 
+
+    private String forWhat;
+    private TextView confirmPassTitleTV;
+    private LinearLayout confirmPassLL;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_pin);
-
         inIt();
+        getIntentFunc();
         initAction();
     }
 
@@ -51,6 +63,28 @@ public class SetPinActivity extends BaseActivity {
         cEt4 = findViewById(R.id.cEt4);
         cEt5 = findViewById(R.id.cEt5);
         cEt6 = findViewById(R.id.cEt6);
+
+        confirmPassTitleTV = findViewById(R.id.confirmPassTitleTV);
+        confirmPassLL = findViewById(R.id.confirmPassLL);
+    }
+
+    private void getIntentFunc() {
+        if (getIntent().getStringExtra("forWhat") != null && getIntent().getStringExtra("forWhat").length() > 0) {
+            forWhat = getIntent().getStringExtra("forWhat");
+            confirmPassTitleTV.setVisibility(View.VISIBLE);
+            confirmPassLL.setVisibility(View.VISIBLE);
+        }
+
+        if (forWhat.equalsIgnoreCase(getString(R.string.set_new_pin))){
+            confirmPassTitleTV.setVisibility(View.VISIBLE);
+            confirmPassLL.setVisibility(View.VISIBLE);
+        }else if (forWhat.equalsIgnoreCase(getString(R.string.update_pin))){
+            confirmPassTitleTV.setVisibility(View.VISIBLE);
+            confirmPassLL.setVisibility(View.VISIBLE);
+        }else if (forWhat.equalsIgnoreCase(getString(R.string.check_pin))){
+            confirmPassTitleTV.setVisibility(View.GONE);
+            confirmPassLL.setVisibility(View.GONE);
+        }
     }
 
 
@@ -71,7 +105,7 @@ public class SetPinActivity extends BaseActivity {
         et6.setOnKeyListener(new PinOnKeyListener(5));
 
 
-       //for confirm pin
+        //for confirm pin
         cEditTexts = new EditText[]{cEt1, cEt2, cEt3, cEt4, cEt5, cEt6};
         cEt1.addTextChangedListener(new cPinTextWatcher(0));
         cEt2.addTextChangedListener(new cPinTextWatcher(1));
@@ -89,9 +123,7 @@ public class SetPinActivity extends BaseActivity {
     }
 
 
-
-
-/**
+    /**
      * The type Pin on key listener.
      */
 
@@ -99,7 +131,7 @@ public class SetPinActivity extends BaseActivity {
         private int currentIndex;
 
 
-/**
+        /**
          * Instantiates a new Pin on key listener.
          *
          * @param currentIndex the current index
@@ -135,7 +167,7 @@ public class SetPinActivity extends BaseActivity {
         private boolean isPaste;
 
 
-/**
+        /**
          * Instantiates a new Pin text watcher.
          *
          * @param currentIndex the current index
@@ -178,7 +210,7 @@ public class SetPinActivity extends BaseActivity {
             String text = newTypedString;
 
 
-/* Detect paste event and set first char */
+            /* Detect paste event and set first char */
 
             if (text.length() > 1)
                 text = String.valueOf(text.charAt(0));
@@ -246,20 +278,31 @@ public class SetPinActivity extends BaseActivity {
     }
 
 
-
-
     private void showToast(String msg) {
         Log.d("OTPRes-----", msg);
     }
 
     private void moveToNextScreen() {
-        Log.e("pin","pin==="+pin);
-        //Toast.makeText(getApplicationContext(), "move next", Toast.LENGTH_SHORT).show();
+        if (forWhat != null&&forWhat.equalsIgnoreCase(getString(R.string.check_pin))) {
+            if (SharedPref.getPrefsHelper().getPref(Const.Var.PIN) != null && SharedPref.getPrefsHelper().getPref(Const.Var.PIN).toString().length() > 0) {
+                String savePin = SharedPref.getPrefsHelper().getPref(Const.Var.PIN).toString();
+                pin = et1.getText().toString().trim() + et2.getText().toString().trim() + et3.getText().toString().trim() + et4.getText().toString().trim() + et5.getText().toString().trim() + et6.getText().toString().trim();
+                if (savePin.equals(pin)) {
+                    Intent intent = new Intent(SetPinActivity.this, HomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    finish();
+                }else {
+                    showSimpleAlert(getString(R.string.wrong_pin),"");
+                    clearPin();
+                }
+            }
+        }
     }
 
 
-
-//from here use confirm pin code
+    //from here use confirm pin code
     class cPinOnKeyListener implements View.OnKeyListener {
         private int currentIndex;
 
@@ -321,7 +364,6 @@ public class SetPinActivity extends BaseActivity {
                 newTypedString = aterTypedString.charAt(0) + "";
             } else
                 newTypedString = s.subSequence(start, start + count).toString().trim();
-
         }
 
         @Override
@@ -393,25 +435,49 @@ public class SetPinActivity extends BaseActivity {
         return flag;
     }
 
-    private void moveToNextScreenConfirmPin(){
-        pin="";
-        cPin="";
+    private void moveToNextScreenConfirmPin() {
+        pin = "";
+        cPin = "";
         pin = et1.getText().toString().trim() + et2.getText().toString().trim() + et3.getText().toString().trim() + et4.getText().toString().trim() + et5.getText().toString().trim() + et6.getText().toString().trim();
         cPin = cEt1.getText().toString().trim() + cEt2.getText().toString().trim() + cEt3.getText().toString().trim() + cEt4.getText().toString().trim() + cEt5.getText().toString().trim() + cEt6.getText().toString().trim();
-        Log.e("pin","pin==="+pin);
-        Log.e("cPin","cPin==="+cPin);
+        Log.e("pin", "pin===" + pin);
+        Log.e("cPin", "cPin===" + cPin);
 
-        if (!pin.equals("")){
-            if (pin.equals(cPin)){
-                Toast.makeText(getApplicationContext(), "Pin match", Toast.LENGTH_SHORT).show();
-            }else {
-                Toast.makeText(getApplicationContext(), "Pin not match", Toast.LENGTH_SHORT).show();
-                // showSimpleAlert("");
+        if (!pin.equals("")) {
+            if (pin.equals(cPin)) {
+                SharedPref.getPrefsHelper().savePref(Const.Var.PIN, pin);
+                if (forWhat!=null&&forWhat.equalsIgnoreCase(getString(R.string.set_new_pin))){
+                    showSimpleAlert(getString(R.string.your_pin_has_been_set), getString(R.string.set_new_pin));
+                }else {
+                    showSimpleAlert(getString(R.string.your_pin_has_been_set), getString(R.string.update_pin));
+
+                }
+            } else {
+                showSimpleAlert(getString(R.string.pin_and_confirm_pin_not_same), "");
+                 clearConfirmPin();
             }
-        }else {
-
+        } else {
+            showSimpleAlert(getString(R.string.enter_pin), "");
         }
     }
 
+    private void clearPin(){
+        pin = "";
+        et1.setText("");
+        et2.setText("");
+        et3.setText("");
+        et4.setText("");
+        et5.setText("");
+        et6.setText("");
+    }
 
+    private void clearConfirmPin() {
+        cPin = "";
+        cEt1.setText("");
+        cEt2.setText("");
+        cEt3.setText("");
+        cEt4.setText("");
+        cEt5.setText("");
+        cEt6.setText("");
+    }
 }

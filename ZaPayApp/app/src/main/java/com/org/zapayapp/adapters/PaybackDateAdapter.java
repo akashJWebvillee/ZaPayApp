@@ -1,15 +1,12 @@
 package com.org.zapayapp.adapters;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.org.zapayapp.R;
 import com.org.zapayapp.activity.ViewAllSummaryActivity;
 import com.org.zapayapp.model.DateModel;
@@ -19,10 +16,12 @@ import java.util.ArrayList;
 public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.MyHolder> {
     private Context context;
     private ArrayList<DateModel> dateModelArrayList;
+    private String moveFrom;
 
-    public PaybackDateAdapter(Context context, ArrayList<DateModel> dateModelArrayList) {
+    public PaybackDateAdapter(Context context, ArrayList<DateModel> dateModelArrayList,String moveFrom) {
         this.context = context;
         this.dateModelArrayList = dateModelArrayList;
+        this.moveFrom = moveFrom;
     }
 
     class MyHolder extends RecyclerView.ViewHolder {
@@ -51,7 +50,7 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
             holder.dateTV.setText(dateModelArrayList.get(position).getPayDate());
         }
 
-        if (dateModelArrayList.get(position).isEditable()) {
+        if (dateModelArrayList.get(position).isEditable()&&!moveFrom.equalsIgnoreCase(context.getString(R.string.history))){
             holder.editDateRL.setVisibility(View.VISIBLE);
         } else {
             holder.editDateRL.setVisibility(View.GONE);

@@ -286,7 +286,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     if (json.get("data").getAsJsonObject() != null) {
                         JsonObject jsonObject = json.get("data").getAsJsonObject();
                         MySession.MakeSession(jsonObject);
-                        intent = new Intent(LoginActivity.this, HomeActivity.class);
+                       // intent = new Intent(LoginActivity.this, HomeActivity.class);
+                       // startActivity(intent);
+                        Intent intent=new Intent(LoginActivity.this, SetPinActivity.class);
+                        intent.putExtra("forWhat",getString(R.string.set_new_pin));
                         startActivity(intent);
                         finish();
                     }

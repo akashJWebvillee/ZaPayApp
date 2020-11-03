@@ -20,6 +20,7 @@ import com.org.zapayapp.R;
 import com.org.zapayapp.adapters.PaybackAdapter;
 import com.org.zapayapp.adapters.PaybackDateAdapter;
 import com.org.zapayapp.chat.ChatActivity;
+import com.org.zapayapp.dialogs.DateChangeRequestDialogActivity;
 import com.org.zapayapp.model.DateModel;
 import com.org.zapayapp.model.PabackModel;
 import com.org.zapayapp.model.TransactionModel;
@@ -287,6 +288,8 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
             } else if (from.equals(getResources().getString(R.string.api_update_pay_date))) {
                 if (status == 200) {
                     callAPIGetHistoryRequestDetail(transactionId);
+                    Intent intent=new Intent(ViewAllSummaryActivity.this, DateChangeRequestDialogActivity.class);
+                    startActivity(intent);
                 } else {
                     showSimpleAlert(msg, getResources().getString(R.string.api_update_transaction_request_status));
                 }
@@ -436,12 +439,13 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
     }
 
     private void setPaybackAdapter() {
-        if (getString(R.string.history).equalsIgnoreCase(intent.getStringExtra("moveFrom")))
+        if (getString(R.string.history).equalsIgnoreCase(intent.getStringExtra("moveFrom"))){
 
 
+        }
 
         if (paybackDateAdapter == null) {
-            paybackDateAdapter = new PaybackDateAdapter(this, dateModelArrayList);
+            paybackDateAdapter = new PaybackDateAdapter(this, dateModelArrayList,intent.getStringExtra("moveFrom"));
             paybackDateRecycler.setAdapter(paybackDateAdapter);
         } else {
             paybackDateAdapter.notifyDataSetChanged();
