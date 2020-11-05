@@ -86,17 +86,17 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                     negotiateTV.setVisibility(View.GONE);
                     acceptTV.setVisibility(View.GONE);
                     declineTV.setVisibility(View.GONE);
-                    callAPIGetHistoryRequestDetail(transactionId);
+                    callAPIGetTransactionRequestDetail(transactionId);
                 } else if (getString(R.string.completed).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
                     negotiateTV.setVisibility(View.GONE);
                     acceptTV.setVisibility(View.GONE);
                     declineTV.setVisibility(View.GONE);
-                    callAPIGetHistoryRequestDetail(transactionId);
+                    callAPIGetTransactionRequestDetail(transactionId);
                 } else if (getString(R.string.decline).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
                     negotiateTV.setVisibility(View.GONE);
                     acceptTV.setVisibility(View.GONE);
                     declineTV.setVisibility(View.GONE);
-                    callAPIGetHistoryRequestDetail(transactionId);
+                    callAPIGetTransactionRequestDetail(transactionId);
                 }
             }
         }
@@ -195,6 +195,7 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
 
     @Override
     public void apiCallback(JsonObject json, String from) {
+        Const.logMsg(json.toString());
         if (from != null) {
             int status = 0;
             String msg = "";
@@ -270,7 +271,6 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 e.printStackTrace();
             }
         }
-
 
         if (jsonObject.get("total_amount").getAsString() != null && jsonObject.get("total_amount").getAsString().length() > 0) {
             String total_amount = SharedPref.getPrefsHelper().getPref(Const.Var.CURRENCY, "") + jsonObject.get("total_amount").getAsString();

@@ -1,5 +1,5 @@
 package com.org.zapayapp.activity;
-
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -7,10 +7,10 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.org.zapayapp.R;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.SharedPref;
@@ -27,6 +27,7 @@ public class SetPinActivity extends BaseActivity {
 
     private String forWhat;
     private TextView confirmPassTitleTV;
+    private TextView forgetPinTV;
     private LinearLayout confirmPassLL;
 
 
@@ -64,8 +65,10 @@ public class SetPinActivity extends BaseActivity {
         cEt5 = findViewById(R.id.cEt5);
         cEt6 = findViewById(R.id.cEt6);
 
+        forgetPinTV = findViewById(R.id.forgetPinTV);
         confirmPassTitleTV = findViewById(R.id.confirmPassTitleTV);
         confirmPassLL = findViewById(R.id.confirmPassLL);
+
     }
 
     private void getIntentFunc() {
@@ -78,12 +81,15 @@ public class SetPinActivity extends BaseActivity {
         if (forWhat.equalsIgnoreCase(getString(R.string.set_new_pin))){
             confirmPassTitleTV.setVisibility(View.VISIBLE);
             confirmPassLL.setVisibility(View.VISIBLE);
+            forgetPinTV.setVisibility(View.GONE);
         }else if (forWhat.equalsIgnoreCase(getString(R.string.update_pin))){
             confirmPassTitleTV.setVisibility(View.VISIBLE);
             confirmPassLL.setVisibility(View.VISIBLE);
+            forgetPinTV.setVisibility(View.GONE);
         }else if (forWhat.equalsIgnoreCase(getString(R.string.check_pin))){
             confirmPassTitleTV.setVisibility(View.GONE);
             confirmPassLL.setVisibility(View.GONE);
+            forgetPinTV.setVisibility(View.VISIBLE);
         }
     }
 
@@ -120,6 +126,15 @@ public class SetPinActivity extends BaseActivity {
         cEt4.setOnKeyListener(new cPinOnKeyListener(3));
         cEt5.setOnKeyListener(new cPinOnKeyListener(4));
         cEt6.setOnKeyListener(new cPinOnKeyListener(5));
+
+
+
+        forgetPinTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showForceUpdate(getString(R.string.session_expired),getString(R.string.forget_pin_msg), false, getString(R.string.cancel), false);
+            }
+        });
     }
 
 
@@ -129,7 +144,6 @@ public class SetPinActivity extends BaseActivity {
 
     class PinOnKeyListener implements View.OnKeyListener {
         private int currentIndex;
-
 
         /**
          * Instantiates a new Pin on key listener.
@@ -440,8 +454,6 @@ public class SetPinActivity extends BaseActivity {
         cPin = "";
         pin = et1.getText().toString().trim() + et2.getText().toString().trim() + et3.getText().toString().trim() + et4.getText().toString().trim() + et5.getText().toString().trim() + et6.getText().toString().trim();
         cPin = cEt1.getText().toString().trim() + cEt2.getText().toString().trim() + cEt3.getText().toString().trim() + cEt4.getText().toString().trim() + cEt5.getText().toString().trim() + cEt6.getText().toString().trim();
-        Log.e("pin", "pin===" + pin);
-        Log.e("cPin", "cPin===" + cPin);
 
         if (!pin.equals("")) {
             if (pin.equals(cPin)) {

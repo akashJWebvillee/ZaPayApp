@@ -13,14 +13,10 @@ import com.org.zapayapp.activity.BorrowSummaryActivity;
 import com.org.zapayapp.activity.LendingSummaryActivity;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.Const;
-import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.SharedPref;
-import com.org.zapayapp.utils.TimeStamp;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.List;
 
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.MyHolder> {
@@ -57,7 +53,6 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     @Override
     public TransactionAdapter.MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.transaction_row, parent, false);
-
         return new TransactionAdapter.MyHolder(view);
     }
 
@@ -92,10 +87,6 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                 e.printStackTrace();
             }
         }
-
-
-
-
 
         if (transactionModel.getNoOfPayment() != null && transactionModel.getNoOfPayment().length() > 0) {
             holder.noOfPaymentTV.setText(transactionModel.getNoOfPayment());
@@ -141,7 +132,6 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             }
         });
     }
-
     @Override
     public int getItemCount() {
         return transactionModelsList.size();

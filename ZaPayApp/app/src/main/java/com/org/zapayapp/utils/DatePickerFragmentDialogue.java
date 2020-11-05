@@ -114,7 +114,8 @@ public class DatePickerFragmentDialogue extends DialogFragment implements DatePi
             mDatePicker = new DatePickerDialog(getActivity(), R.style.MyAlertDialogStyle, this, year, Integer.valueOf(mon), Integer.valueOf(date));
             long now = System.currentTimeMillis() - 1000;
             mDatePicker.getDatePicker().setMinDate(now + (24 * 60 * 60 * 1000));
-            mDatePicker.getDatePicker().setMaxDate(now + (1000 * 60 * 60 * 24 * 7));
+            mDatePicker.getDatePicker().setMaxDate(now + (1000 * 60 * 60 * 24 * 20));
+
 
             setDatePickerLocale(mDatePicker);
             return mDatePicker;

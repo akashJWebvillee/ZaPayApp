@@ -16,7 +16,6 @@ import com.org.zapayapp.R;
 import com.org.zapayapp.utils.CommonMethods;
 
 public class AlertForcePopup extends DialogFragment {
-
     private AlertForceCallback mListener;
     private Context context;
     private boolean isAddress;
@@ -93,7 +92,7 @@ public class AlertForcePopup extends DialogFragment {
     public void onResume() {
         Dialog dialog = getDialog();
         if (dialog != null && dialog.getWindow() != null) {
-            int w = CommonMethods.getScreenWidth() - 200;
+            int w = CommonMethods.getScreenWidth() - 100;
             dialog.getWindow().setLayout(w, ViewGroup.LayoutParams.WRAP_CONTENT);
         }
         super.onResume();

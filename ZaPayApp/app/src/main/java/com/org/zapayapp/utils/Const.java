@@ -3,6 +3,7 @@ package com.org.zapayapp.utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.provider.Settings;
+import android.util.Log;
 
 public class Const {
     public interface Var {
@@ -46,5 +47,10 @@ public class Const {
     @SuppressLint("HardwareIds")
     public static String getDeviceId(Context context) {
         return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+    }
+
+    public static void logMsg(String msg){
+        Log.e("response:","response==="+msg);
+
     }
 }

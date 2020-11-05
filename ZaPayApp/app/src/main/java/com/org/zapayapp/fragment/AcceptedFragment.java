@@ -101,6 +101,7 @@ public class AcceptedFragment extends Fragment implements APICallback {
 
     @Override
     public void apiCallback(JsonObject json, String from) {
+        Const.logMsg(json.toString());
         if (from != null) {
             int status = 0;
             String msg = "";

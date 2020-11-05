@@ -22,7 +22,8 @@
             android:layout_height="53dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="114dp"
-            android:contentDescription="@null" />
+            android:contentDescription="@null"
+            android:src="@mipmap/logo" />
 
         <LinearLayout
             android:id="@+id/LL1"
@@ -166,6 +167,18 @@
                       android:nextFocusForward="@id/cEt1"/>
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/forgetPinTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotha_pro_reg"
+                    android:text="@string/forgot_pin"
+                    android:gravity="center"
+                    android:layout_gravity="end"
+                    android:textColor="@color/navTextColor60Alpha"
+                    android:textSize="14sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="40dp"/>
 
                 <TextView
                     android:id="@+id/confirmPassTitleTV"

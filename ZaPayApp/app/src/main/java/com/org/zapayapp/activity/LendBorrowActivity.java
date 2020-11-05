@@ -109,6 +109,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     private TransactionModel transactionModel;
 
     private CustomTextInputLayout lendAmountEdtAmountInputLayout, lendTermsInputLayout, lendNoOfPaymentInputLayout;
+    private ArrayList<String> dateListTitle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -137,6 +138,18 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
         listIndicator = new ArrayList<>();
         wvDateLib = new WVDateLib(this);
+
+
+        dateListTitle = new ArrayList<>();
+        dateListTitle.add(getString(R.string.first_select_date));
+        dateListTitle.add(getString(R.string.second_select_date));
+        dateListTitle.add(getString(R.string.third_select_date));
+        dateListTitle.add(getString(R.string.fourth_select_date));
+        dateListTitle.add(getString(R.string.fifth_select_date));
+        dateListTitle.add(getString(R.string.sixth_select_date));
+        dateListTitle.add(getString(R.string.seventh_select_date));
+        dateListTitle.add(getString(R.string.eighth_select_date));
+        dateListTitle.add(getString(R.string.ninth_select_date));
     }
 
     private void initAction() {
@@ -482,17 +495,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
 
     private boolean isPreviousDateSelected(int position) {
-        ArrayList<String> dateList = new ArrayList<>();
-        dateList.add(getString(R.string.first_select_date));
-        dateList.add(getString(R.string.second_select_date));
-        dateList.add(getString(R.string.third_select_date));
-        dateList.add(getString(R.string.fourth_select_date));
-        dateList.add(getString(R.string.fifth_select_date));
-        dateList.add(getString(R.string.sixth_select_date));
-        dateList.add(getString(R.string.seventh_select_date));
-        dateList.add(getString(R.string.eighth_select_date));
-        dateList.add(getString(R.string.ninth_select_date));
-
         boolean dateSelect = false;
         if (position > 0) {
             int pos = 0;
@@ -507,7 +509,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 dateSelect = true;
             } else {
                 dateSelect = false;
-                showSimpleAlert(getString(R.string.select) + " " + dateList.get(pos), "");
+                showSimpleAlert(getString(R.string.select) + " " + dateListTitle.get(pos), "");
             }
         } else {
             dateSelect = true;
@@ -538,7 +540,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     }
 
     private void generatePaybackData() {
-        paymentDate = wvDateLib.getCurrentDate();
+        paymentDate = DateFormat.dateFormatConvert(wvDateLib.getCurrentDate());
         //Negotiation.....
         if (transactionModel != null && transactionModel.getPayDate() != null && transactionModel.getPayDate().length() > 0) {
             try {
@@ -618,14 +620,19 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         //String formattedDate = day + "/" + month + "/" + year;
         String formattedDate = year + "-" + month + "-" + day;
         if (selectDateValidation(formattedDate)) {
-            paybackList.set(paybackPos, new PabackModel(formattedDate, true, false));
-            setPaybackAdapter();
-            if (paybackPos == 0) {
-                paymentDate = formattedDate;
-                lendTxtAmount.setText(paymentDate);
+            if (selectDateBackWordValidation(formattedDate)) {
+                paybackList.set(paybackPos, new PabackModel(formattedDate, true, false));
+                setPaybackAdapter();
+                if (paybackPos == 0) {
+                    paymentDate = formattedDate;
+                    lendTxtAmount.setText(paymentDate);
+                }
+            } else {
+                showSimpleAlert(getString(R.string.Selected_Date_Should_Be_Less_Then) + " " + dateListTitle.get(paybackPos + 1), "");
             }
         } else {
-            showSimpleAlert(getString(R.string.do_not_select_past_date), "");
+            //showSimpleAlert(getString(R.string.do_not_select_past_date), "");
+            showSimpleAlert(getString(R.string.Selected_Date_Should_Be_Greater_Then) + " " + dateListTitle.get(paybackPos - 1), "");
         }
     }
 
@@ -643,6 +650,27 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             isSelect = true;
         }
 
+        return isSelect;
+    }
+
+
+    private boolean selectDateBackWordValidation(String formattedDate) {
+        boolean isSelect = false;
+        if (paybackList.size() > paybackPos + 1) {
+            if (paybackList.get(paybackPos + 1).isAddDate()) {
+                long oldDate = DateFormat.getEpochFromDate(paybackList.get(paybackPos + 1).getPayDate());
+                long selectDate = DateFormat.getEpochFromDate(formattedDate);
+                if (selectDate < oldDate) {
+                    isSelect = true;
+                } else {
+                    isSelect = false;
+                }
+            } else {
+                isSelect = true;
+            }
+        } else {
+            isSelect = true;
+        }
         return isSelect;
     }
 

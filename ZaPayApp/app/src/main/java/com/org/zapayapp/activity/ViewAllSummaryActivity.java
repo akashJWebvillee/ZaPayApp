@@ -12,7 +12,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -138,17 +137,17 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 negotiateTV.setVisibility(View.GONE);
                 acceptTV.setVisibility(View.GONE);
                 declineTV.setVisibility(View.GONE);
-                callAPIGetHistoryRequestDetail(transactionId);
+                callAPIGetTransactionRequestDetail(transactionId);
             } else if (getString(R.string.completed).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
                 negotiateTV.setVisibility(View.GONE);
                 acceptTV.setVisibility(View.GONE);
                 declineTV.setVisibility(View.GONE);
-                callAPIGetHistoryRequestDetail(transactionId);
+                callAPIGetTransactionRequestDetail(transactionId);
             } else if (getString(R.string.decline).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
                 negotiateTV.setVisibility(View.GONE);
                 acceptTV.setVisibility(View.GONE);
                 declineTV.setVisibility(View.GONE);
-                callAPIGetHistoryRequestDetail(transactionId);
+                callAPIGetTransactionRequestDetail(transactionId);
             }
         }
     }
@@ -246,7 +245,6 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
 
     @Override
     public void apiCallback(JsonObject json, String from) {
-        Log.e("json", "json view detail===" + json);
         if (from != null) {
             int status = 0;
             String msg = "";
@@ -371,6 +369,17 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
             List<DateModel> list = apiCalling.getDataArrayList(jsonObject.get("pay_dates_list").getAsJsonArray(), "pay_dates_list", DateModel.class);
             dateModelArrayList.clear();
             dateModelArrayList.addAll(list);
+
+            for (int i=0;i<dateModelArrayList.size();i++){
+                if (dateModelArrayList.get(i).getStatus().equalsIgnoreCase("remaining")){
+                    dateModelArrayList.get(i).setLatestRemaining(true);
+                    break;
+                }
+            }
+
+
+
+
         }
 
         if (transactionModel.getStatus() != null && transactionModel.getStatus().length() > 0) {

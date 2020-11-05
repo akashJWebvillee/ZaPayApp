@@ -57,18 +57,24 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
         }
 
 
+
         //status- remaining, processed, pending, cancelled, failed
         if (dateModelArrayList.get(position).getStatus() != null && dateModelArrayList.get(position).getStatus().length() > 0) {
             if (dateModelArrayList.get(position).getStatus().equals("remaining")) {
+                if (dateModelArrayList.get(position).isLatestRemaining()&&dateModelArrayList.get(position).isEditable()){
+                    holder.editDateRL.setVisibility(View.VISIBLE);
+                }else{
+                    holder.editDateRL.setVisibility(View.GONE);
+                }
 
             } else if (dateModelArrayList.get(position).getStatus().equals("processed")) {
-
+                holder.editDateRL.setVisibility(View.GONE);
             } else if (dateModelArrayList.get(position).getStatus().equals("pending")) {
-
+                holder.editDateRL.setVisibility(View.GONE);
             } else if (dateModelArrayList.get(position).getStatus().equals("cancelled")) {
-
+                holder.editDateRL.setVisibility(View.GONE);
             } else if (dateModelArrayList.get(position).getStatus().equals("failed")) {
-
+                holder.editDateRL.setVisibility(View.VISIBLE);
             }
         }
 
@@ -78,7 +84,6 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
                 if (context instanceof ViewAllSummaryActivity) {
                     if (dateModelArrayList.get(position).getIs_extended() != null && dateModelArrayList.get(position).getIs_extended().equals("0")) {
                         ((ViewAllSummaryActivity) context).selectPaybackDate(position, dateModelArrayList.get(position));
-
                     } else {
                         ((ViewAllSummaryActivity) context).showSimpleAlert(context.getString(R.string.date_already_extended), "");
                     }

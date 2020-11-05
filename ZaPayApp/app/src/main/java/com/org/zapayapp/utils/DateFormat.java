@@ -1,5 +1,6 @@
 package com.org.zapayapp.utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -7,20 +8,6 @@ import java.util.TimeZone;
 
 public class DateFormat {
     public static long getEpochFromDate(String date) {
-     /*   long epochTime = 0;
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(Long.parseLong(today));
-        try {
-            Date date1 = formatter.parse(formatter.format(calendar.getTime()));
-            assert date1 != null;
-            epochTime = date1.getTime();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return epochTime;*/
-
-
         long epochTime = 0;
       //  SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -46,6 +33,26 @@ public class DateFormat {
         String java_date = sdf.format(new Date(unix_seconds * 1000));
 
         return java_date;
+    }
+
+
+
+    public static String dateFormatConvert(String dateData) {
+        String inputPattern = "dd/mm/yyyy";
+        String outputPattern = "yyyy-mm-dd";
+        SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern,Locale.ENGLISH);
+        SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern,Locale.ENGLISH);
+
+        Date date = null;
+        String str = null;
+
+        try {
+            date = inputFormat.parse(dateData);
+            str = outputFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return str;
     }
 
 

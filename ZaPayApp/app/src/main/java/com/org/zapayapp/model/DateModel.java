@@ -33,6 +33,7 @@ public class DateModel {
     private String is_extended;
 
     private boolean isEditable;
+    private boolean isLatestRemaining;
 
 
     public DateModel(String payDate, boolean isEditable) {
@@ -82,5 +83,13 @@ public class DateModel {
 
     public String getIs_extended() {
         return is_extended;
+    }
+
+    public boolean isLatestRemaining() {
+        return isLatestRemaining;
+    }
+
+    public void setLatestRemaining(boolean latestRemaining) {
+        isLatestRemaining = latestRemaining;
     }
 }
