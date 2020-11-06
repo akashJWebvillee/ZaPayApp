@@ -155,7 +155,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     private void callAPIGetUserDetail() {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
-            //"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMzAiLCJmaXJzdF9uYW1lIjoiQXNob2twaXQiLCJsYXN0X25hbWUiOiJLdW1hciIsImVtYWlsIjoiYXNob2twaXRlY2guMTIzQGdtYWlsLmNvbSIsInJvbGUiOiIyIiwidGltZXN0YW1wIjoxNTk3NjQ1MDA2fQ.lkG8uyRzEcDN1gepzbPCASccoGWuVzg2zGeoIDIZvZk"
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.getApiToken(token, getString(R.string.api_get_user_details));
             if (apiCalling != null) {
@@ -192,6 +191,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
             }
 
             if (from.equals(getResources().getString(R.string.api_get_user_details))) {
+                Const.logMsg(json.toString());
                 if (status == 200) {
                     if (json.get("data").getAsJsonObject() != null) {
                         JsonObject jsonObject = json.get("data").getAsJsonObject();
@@ -257,32 +257,36 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                 String moveFrom = getIntent().getStringExtra("moveFrom");
                 String transactionId = getIntent().getStringExtra("transactionId");
 
-                    if (request_by != null && request_by.equals("1")) {
-                            intent = new Intent(this, LendingSummaryActivity.class);
-                        } else if (request_by != null && request_by.equals("2")) {
-                            intent = new Intent(this, BorrowSummaryActivity.class);
-                        }
+                if (request_by != null && request_by.equals("1")) {
+                    intent = new Intent(this, LendingSummaryActivity.class);
+                } else if (request_by != null && request_by.equals("2")) {
+                    intent = new Intent(this, BorrowSummaryActivity.class);
+                }
 
-                    if (notification_type.equalsIgnoreCase("NEW_TRANSACTION_REQUEST")) {
-                        intent.putExtra("moveFrom", getString(R.string.transaction));
-                        intent.putExtra("transactionId", transactionId);
+                if (notification_type.equalsIgnoreCase("NEW_TRANSACTION_REQUEST")) {
+                    intent.putExtra("moveFrom", getString(R.string.transaction));
+                    intent.putExtra("transactionId", transactionId);
 
-                    } else if (notification_type.equalsIgnoreCase("REQUEST_ACCEPTED")) {
-                        intent.putExtra("moveFrom", getString(R.string.accepted));
-                        intent.putExtra("transactionId", transactionId);
-                    } else if (notification_type.equalsIgnoreCase("REQUEST_DECLINED")) {
-                        intent.putExtra("moveFrom", getString(R.string.decline));
-                        intent.putExtra("transactionId", transactionId);
-                    } else if (notification_type.equalsIgnoreCase("REQUEST_NEGOTIATE")) {
-                        intent.putExtra("moveFrom", getString(R.string.negotiation));
-                        intent.putExtra("transactionId", transactionId);
-                    }else if (notification_type.equalsIgnoreCase("PAY_DATE_EXTEND")){
-                        intent.putExtra("moveFrom", getString(R.string.accepted));
-                        intent.putExtra("transactionId", transactionId);
-                    }
-                    // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                } else if (notification_type.equalsIgnoreCase("REQUEST_ACCEPTED")) {
+                    //intent.putExtra("moveFrom", getString(R.string.accepted));
+                    intent.putExtra("moveFrom", getString(R.string.history));
+                    intent.putExtra("transactionId", transactionId);
+                } else if (notification_type.equalsIgnoreCase("REQUEST_DECLINED")) {
+                    // intent.putExtra("moveFrom", getString(R.string.decline));
+                    intent.putExtra("moveFrom", getString(R.string.history));
+                    intent.putExtra("transactionId", transactionId);
+                } else if (notification_type.equalsIgnoreCase("REQUEST_NEGOTIATE")) {
+                    // intent.putExtra("moveFrom", getString(R.string.negotiation));
+                    intent.putExtra("moveFrom", getString(R.string.history));
+                    intent.putExtra("transactionId", transactionId);
+                } else if (notification_type.equalsIgnoreCase("PAY_DATE_EXTEND")) {
+                    // intent.putExtra("moveFrom", getString(R.string.accepted));
+                    intent.putExtra("moveFrom", getString(R.string.history));
+                    intent.putExtra("transactionId", transactionId);
+                }
 
-                startActivity(intent);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                  startActivity(intent);
             }
         }
     }

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.org.zapayapp.R;
 import com.org.zapayapp.activity.ViewAllSummaryActivity;
 import com.org.zapayapp.model.DateModel;
+import com.org.zapayapp.utils.DateFormat;
 
 import java.util.ArrayList;
 
@@ -47,34 +48,30 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
     public void onBindViewHolder(@NonNull PaybackDateAdapter.MyHolder holder, final int position) {
         holder.paymentNoTV.setText(String.valueOf(position + 1));
         if (dateModelArrayList.get(position).getPayDate() != null && dateModelArrayList.get(position).getPayDate().length() > 0) {
-            holder.dateTV.setText(dateModelArrayList.get(position).getPayDate());
+            holder.dateTV.setText(DateFormat.dateFormatConvert(dateModelArrayList.get(position).getPayDate()));
         }
 
-        if (dateModelArrayList.get(position).isEditable()&&!moveFrom.equalsIgnoreCase(context.getString(R.string.history))){
-            holder.editDateRL.setVisibility(View.VISIBLE);
-        } else {
+        if (moveFrom.equalsIgnoreCase(context.getString(R.string.history))){
             holder.editDateRL.setVisibility(View.GONE);
-        }
+        } else {
+            //status- remaining, processed, pending, cancelled, failed
+            if (dateModelArrayList.get(position).getStatus() != null && dateModelArrayList.get(position).getStatus().length() > 0) {
+                if (dateModelArrayList.get(position).getStatus().equals("remaining")) {
+                    if (dateModelArrayList.get(position).isLatestRemaining()&&dateModelArrayList.get(position).isEditable()){
+                        holder.editDateRL.setVisibility(View.VISIBLE);
+                    }else{
+                        holder.editDateRL.setVisibility(View.GONE);
+                    }
 
-
-
-        //status- remaining, processed, pending, cancelled, failed
-        if (dateModelArrayList.get(position).getStatus() != null && dateModelArrayList.get(position).getStatus().length() > 0) {
-            if (dateModelArrayList.get(position).getStatus().equals("remaining")) {
-                if (dateModelArrayList.get(position).isLatestRemaining()&&dateModelArrayList.get(position).isEditable()){
-                    holder.editDateRL.setVisibility(View.VISIBLE);
-                }else{
+                } else if (dateModelArrayList.get(position).getStatus().equals("processed")) {
                     holder.editDateRL.setVisibility(View.GONE);
+                } else if (dateModelArrayList.get(position).getStatus().equals("pending")) {
+                    holder.editDateRL.setVisibility(View.GONE);
+                } else if (dateModelArrayList.get(position).getStatus().equals("cancelled")) {
+                    holder.editDateRL.setVisibility(View.GONE);
+                } else if (dateModelArrayList.get(position).getStatus().equals("failed")) {
+                    holder.editDateRL.setVisibility(View.VISIBLE);
                 }
-
-            } else if (dateModelArrayList.get(position).getStatus().equals("processed")) {
-                holder.editDateRL.setVisibility(View.GONE);
-            } else if (dateModelArrayList.get(position).getStatus().equals("pending")) {
-                holder.editDateRL.setVisibility(View.GONE);
-            } else if (dateModelArrayList.get(position).getStatus().equals("cancelled")) {
-                holder.editDateRL.setVisibility(View.GONE);
-            } else if (dateModelArrayList.get(position).getStatus().equals("failed")) {
-                holder.editDateRL.setVisibility(View.VISIBLE);
             }
         }
 

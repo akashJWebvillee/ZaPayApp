@@ -80,6 +80,26 @@ public class MySession {
             String currency = object.get("currency").getAsString();
             SharedPref.getPrefsHelper().savePref(Const.Var.CURRENCY, currency);
         }
+
+
+
+        if (object.get("age") != null && object.get("age").getAsString() != null && object.get("age").getAsString().length() > 0) {
+            String age = object.get("age").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.AGE, age);
+        }
+        if (object.get("sex") != null && object.get("sex").getAsString() != null && object.get("sex").getAsString().length() > 0) {
+            String sex = object.get("sex").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.SEX, sex);
+        }
+        if (object.get("ethnicity") != null && object.get("ethnicity").getAsString() != null && object.get("ethnicity").getAsString().length() > 0) {
+            String ethnicity = object.get("ethnicity").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.ETHNICITY, ethnicity);
+        }
+        if (object.get("income") != null && object.get("income").getAsString() != null && object.get("income").getAsString().length() > 0) {
+            String income = object.get("income").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.INCOME, income);
+        }
+
     }
 
     public static void removeSession() {

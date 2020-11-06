@@ -14,18 +14,22 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.ZapayApp;
 import com.org.zapayapp.adapters.CityAdapter;
+import com.org.zapayapp.adapters.GenderAdapter;
+import com.org.zapayapp.adapters.IncomeAdapter;
 import com.org.zapayapp.adapters.StateAdapter;
 import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
 import com.org.zapayapp.model.CityModel;
 import com.org.zapayapp.model.StateModel;
 import com.org.zapayapp.uihelpers.CustomTextInputLayout;
 import com.org.zapayapp.utils.Const;
+import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.DatePickerFragmentDialogue;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.WValidationLib;
@@ -33,6 +37,7 @@ import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
 import com.org.zapayapp.webservices.RestAPI;
 
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -52,9 +57,9 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     private APICalling apiCalling;
     private RestAPI restAPI;
 
-    private CustomTextInputLayout nameEditTextInputLayout, mobileInputLayout, address1InputLayout, address2InputLayout, postalCodeInputLayout, ssnInputLayout, dobInputLayout;
-    private TextInputEditText nameEditText, mobileEditText, address1EditText, address2EditText, postalCodeEditText, ssnEditText, dobEditText;
-    private Spinner stateSpinner, citySpinner;
+    private CustomTextInputLayout nameEditTextInputLayout, mobileInputLayout, address1InputLayout, address2InputLayout, postalCodeInputLayout, ssnInputLayout, dobInputLayout, ageInputLayout, ethnicityInputLayout;
+    private TextInputEditText nameEditText, mobileEditText, address1EditText, address2EditText, postalCodeEditText, ssnEditText, dobEditText, ageEditText, ethnicityEditText;
+    private Spinner stateSpinner, citySpinner, genderSpinner, incomeBracketSpinner;
     private List<StateModel> stateList;
     private StateAdapter stateAdapter;
 
@@ -65,6 +70,13 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     private String dob = "";
     private int ageInYear = 0;
     private String stateName;
+    private String selectDOB;
+
+    private List<String> genderList;
+    private String gender;
+    private List<String> incomeList;
+    private String incomeValue;
+    private String ethnicity = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -99,6 +111,7 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         postalCodeInputLayout = findViewById(R.id.postalCodeInputLayout);
         ssnInputLayout = findViewById(R.id.ssnInputLayout);
         dobInputLayout = findViewById(R.id.dobInputLayout);
+        ageInputLayout = findViewById(R.id.ageInputLayout);
 
         nameEditText = findViewById(R.id.nameEditText);
         mobileEditText = findViewById(R.id.mobileEditText);
@@ -107,9 +120,13 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         postalCodeEditText = findViewById(R.id.postalCodeEditText);
         ssnEditText = findViewById(R.id.ssnEditText);
         dobEditText = findViewById(R.id.dobEditText);
+        ageEditText = findViewById(R.id.ageEditText);
+        ethnicityEditText = findViewById(R.id.ethnicityEditText);
 
         stateSpinner = findViewById(R.id.stateSpinner);
         citySpinner = findViewById(R.id.citySpinner);
+        genderSpinner = findViewById(R.id.genderSpinner);
+        incomeBracketSpinner = findViewById(R.id.incomeBracketSpinner);
         stateName = SharedPref.getPrefsHelper().getPref(Const.Var.STATE).toString();
 
         dobEditText.setOnClickListener(new View.OnClickListener() {
@@ -123,11 +140,25 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     }
 
     private void initAction() {
+        String[] genderArray = getResources().getStringArray(R.array.genderArray);
+        String[] incomeArray = getResources().getStringArray(R.array.incomeArray);
+
+        genderList = new ArrayList<>();
+        genderList.add(genderArray[0]);
+        genderList.add(genderArray[1]);
+        setGenderAdapter();
+
+        incomeList = new ArrayList<>();
+        for (String s : incomeArray) {
+            incomeList.add(s);
+        }
+        setIncomeAdapter();
+
+
         saveTV.setOnClickListener(this);
         cancelImageView.setOnClickListener(this);
 
         callAPIGetState();
-
         stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -157,6 +188,33 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
             }
         });
 
+
+        genderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                gender = genderList.get(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        incomeBracketSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                incomeValue = incomeList.get(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
     }
 
 
@@ -182,7 +240,17 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         }
         if (SharedPref.getPrefsHelper().getPref(Const.Var.DOB) != null && SharedPref.getPrefsHelper().getPref(Const.Var.DOB).toString().length() > 1) {
             if (!SharedPref.getPrefsHelper().getPref(Const.Var.DOB).toString().trim().equalsIgnoreCase("0000-00-00"))
-                dobEditText.setText(SharedPref.getPrefsHelper().getPref(Const.Var.DOB, ""));
+                dobEditText.setText(DateFormat.dateFormatConvert(SharedPref.getPrefsHelper().getPref(Const.Var.DOB, "")));
+            selectDOB = SharedPref.getPrefsHelper().getPref(Const.Var.DOB).toString();
+        }
+
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.AGE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.AGE).toString().length() > 1) {
+            ageEditText.setText(SharedPref.getPrefsHelper().getPref(Const.Var.AGE, ""));
+            ageInYear = Integer.parseInt(SharedPref.getPrefsHelper().getPref(Const.Var.AGE).toString());
+        }
+
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.ETHNICITY) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ETHNICITY).toString().length() > 1) {
+            ethnicityEditText.setText(SharedPref.getPrefsHelper().getPref(Const.Var.ETHNICITY, ""));
         }
     }
 
@@ -203,7 +271,10 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                         if (wValidationLib.isValidPostalCode(postalCodeInputLayout, postalCodeEditText, getString(R.string.important), getString(R.string.postal_code_should_be_5_digit), true)) {
                             if (wValidationLib.isValidSSNcode(ssnInputLayout, ssnEditText, getString(R.string.important), getString(R.string.ssn_code_should_be_4_digit), true)) {
                                 if (wValidationLib.isEmpty(dobInputLayout, dobEditText, getString(R.string.important), true)) {
-                                    callAPIUpdateProfile();
+                                    if (wValidationLib.isEmpty(ageInputLayout, ageEditText, getString(R.string.important), true)) {
+                                        callAPIUpdateProfile();
+                                    }
+
                                 }
                             }
                         }
@@ -240,6 +311,7 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     }
 
     private void callAPIUpdateProfile() {
+        ethnicity = ethnicityEditText.getText().toString().trim();
         String firstNameLastName = nameEditText.getText().toString().trim();
         String[] firstNameLastName1 = firstNameLastName.split(" ");
         String firstName = firstNameLastName1[0];
@@ -257,7 +329,12 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                     "city", cityName,
                     "postal_code", postalCodeEditText.getText().toString().trim(),
                     "ssn", ssnEditText.getText().toString().trim(),
-                    "dob", dobEditText.getText().toString().trim()
+                    "dob", selectDOB,
+
+                    "age", ageInYear,
+                    "sex", gender.toLowerCase(),
+                    "ethnicity", ethnicity,
+                    "income", incomeValue.toLowerCase()
             );
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_update_profile), values);
@@ -348,6 +425,7 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
             stateAdapter = new StateAdapter(this, stateList);
             stateSpinner.setAdapter(stateAdapter);
         }
+
         if (stateName != null && stateName.length() > 0) {
             int pos = 0;
             for (int i = 0; i < stateList.size(); i++) {
@@ -363,6 +441,47 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     private void setCityAdapter() {
         cityAdapter = new CityAdapter(this, cityList);
         citySpinner.setAdapter(cityAdapter);
+    }
+
+    private void setGenderAdapter() {
+        String genderName = "";
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.SEX) != null && SharedPref.getPrefsHelper().getPref(Const.Var.SEX).toString().length() > 0) {
+            genderName = SharedPref.getPrefsHelper().getPref(Const.Var.SEX).toString();
+        }
+
+
+        GenderAdapter genderAdapter = new GenderAdapter(this, genderList);
+        genderSpinner.setAdapter(genderAdapter);
+
+        if (genderName.length() > 0) {
+            int pos = 0;
+            for (int i = 0; i < genderList.size(); i++) {
+                if (genderList.get(i).toLowerCase().equals(genderName)) {
+                    pos = i;
+                }
+            }
+            genderSpinner.setSelection(pos);
+        }
+    }
+
+    private void setIncomeAdapter() {
+        String income = "";
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.INCOME) != null && SharedPref.getPrefsHelper().getPref(Const.Var.INCOME).toString().length() > 0) {
+            income = SharedPref.getPrefsHelper().getPref(Const.Var.INCOME).toString();
+        }
+
+        IncomeAdapter incomeAdapter = new IncomeAdapter(this, incomeList);
+        incomeBracketSpinner.setAdapter(incomeAdapter);
+
+        if (income.length() > 0) {
+            int pos = 0;
+            for (int i = 0; i < incomeList.size(); i++) {
+                if (incomeList.get(i).equals(income)) {
+                    pos = i;
+                }
+            }
+            incomeBracketSpinner.setSelection(pos);
+        }
     }
 
     private void datePickerDialog() {
@@ -386,7 +505,9 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                 dob = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
                 ageInYear = getAge(year, monthOfYear + 1, dayOfMonth);
                 if (ageInYear >= 18) {
-                    dobEditText.setText(dob);
+                    selectDOB = dob;
+                    dobEditText.setText(DateFormat.dateFormatConvert(dob));
+                    ageEditText.setText(String.valueOf(ageInYear));
                 } else {
                     showSimpleAlert(getString(R.string.age_must_be_18_years_or_older), "");
                 }
@@ -417,15 +538,11 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     private int getAge(int year, int month, int day) {
         Calendar dob = Calendar.getInstance();
         Calendar today = Calendar.getInstance();
-
         dob.set(year, month, day);
-
         int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
-
         if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)) {
             age--;
         }
-
         Integer ageInt = new Integer(age);
         // String ageS = ageInt.toString();
         return ageInt;

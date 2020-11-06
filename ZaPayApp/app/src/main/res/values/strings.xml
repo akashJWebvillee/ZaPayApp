@@ -41,7 +41,7 @@
     <string name="enter_user_name">Enter user name</string>
     <string name="enter_password">Enter your password</string>
     <string name="forgot_password">Forgot password</string>
-    <string name="term_and_condition_message">By creating an account you are agree to Terms and Conditions</string>
+    <string name="term_and_condition_message">By creating an account, you are agreeing to the Terms and Conditions</string>
 
     <!-- navigation strings-->
     <string name="home">Home</string>
@@ -89,10 +89,14 @@
     <string name="address1">Address 1</string>
     <string name="address2">Address 2</string>
     <string name="state">State</string>
+    <string name="gender">Gender</string>
+    <string name="income_brackets">Income Brackets</string>
     <string name="city">City</string>
     <string name="postal_code">Postal code</string>
     <string name="ssn">SSN</string>
     <string name="dob">Dob</string>
+    <string name="age">Age</string>
+    <string name="ethnicity">Ethnicity</string>
     <string name="enter_your_name">Enter your name</string>
     <string name="enter_your_email">Enter your email</string>
     <string name="enter_your_phone_no">Enter your phone no</string>
@@ -101,6 +105,8 @@
     <string name="enter_your_postal_code">Enter your postal code</string>
     <string name="enter_your_ssn_code">Enter your ssn code</string>
     <string name="select_dob">Select dob</string>
+    <string name="enter_your_age">Enter your age</string>
+    <string name="enter_ethnicity">Enter ethnicity(optional)</string>
     <string name="save">Save</string>
 
 
@@ -257,7 +263,7 @@
     <string name="please_add_bank_account">Please add bank account</string>
     <string name="please_verify_bank_account">Please verify bank account</string>
     <string name="are_you_sure_do_you_want_to_logout">Are you sure? do you want to logout?</string>
-    <string name="explore_lending_borrowing">Now lending and borrowing money is just a click away, explore below options</string>
+    <string name="explore_lending_borrowing">Now borrowing and lending amongst friends is just a click away. Explore the options below.</string>
     <string name="verify_account_msg">To verify account you can put value for example amount1&#8211;0.10 ,amount2&#8211; 0.03</string>
     <string name="do_you_want_to_close_the_application">Do you want to close the application?</string>
     <string name="rate_borrower">Rate Borrower</string>
@@ -271,7 +277,6 @@
     <string name="update_pin">Update pin</string>
     <string name="check_pin">Check pin</string>
 
-
     <string name="Date_Change_Request">Date Change Request</string>
     <string name="okay">Okay</string>
     <string name="your_date_change_Request_has_been_updated">Your date change Request has been updated</string>
@@ -279,5 +284,6 @@
     <string name="close">Close</string>
     <string name="forget_pin_msg">First logout to generate new pin. Do you want to logout?</string>
 
-
+    <string name="male">Male</string>
+    <string name="female">Female</string>
 </resources>

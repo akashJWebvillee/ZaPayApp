@@ -84,9 +84,9 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
 
 
             }else if (getString(R.string.negotiation).equalsIgnoreCase(moveFrom)) {
-                negotiateTV.setVisibility(View.VISIBLE);
-                acceptTV.setVisibility(View.VISIBLE);
-                declineTV.setVisibility(View.VISIBLE);
+                negotiateTV.setVisibility(View.GONE);
+                acceptTV.setVisibility(View.GONE);
+                declineTV.setVisibility(View.GONE);
                 callAPIGetTransactionRequestDetail(transactionId);
             }else if (getString(R.string.accepted).equalsIgnoreCase(moveFrom)) {
                 negotiateTV.setVisibility(View.GONE);
@@ -199,7 +199,6 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
 
     @Override
     public void apiCallback(JsonObject json, String from) {
-        Log.e("terms_type","terms_type json===="+json);
         if (from != null) {
             int status = 0;
             String msg = "";
@@ -271,7 +270,7 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                 JSONObject jsonObject1=  jsonArray.getJSONObject(0);
                String date= jsonObject1.getString("date");
               // paymentDateTV.setText(DateFormat.getDateFromEpoch(date));
-               paymentDateTV.setText(date);
+               paymentDateTV.setText(DateFormat.dateFormatConvert(date));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

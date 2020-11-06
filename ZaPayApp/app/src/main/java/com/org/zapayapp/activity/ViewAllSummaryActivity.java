@@ -12,16 +12,13 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
-import com.org.zapayapp.adapters.PaybackAdapter;
 import com.org.zapayapp.adapters.PaybackDateAdapter;
 import com.org.zapayapp.chat.ChatActivity;
 import com.org.zapayapp.dialogs.DateChangeRequestDialogActivity;
 import com.org.zapayapp.model.DateModel;
-import com.org.zapayapp.model.PabackModel;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.uihelpers.CustomRatingBar;
 import com.org.zapayapp.utils.Const;
@@ -29,17 +26,14 @@ import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.DatePickerFragmentDialogue;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
-
 import retrofit2.Call;
 
 public class ViewAllSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener, DatePickerFragmentDialogue.DatePickerCallback {
@@ -129,9 +123,9 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 callAPIGetHistoryRequestDetail(transactionId);
 
             } else if (getString(R.string.negotiation).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
-                negotiateTV.setVisibility(View.VISIBLE);
-                acceptTV.setVisibility(View.VISIBLE);
-                declineTV.setVisibility(View.VISIBLE);
+                negotiateTV.setVisibility(View.GONE);
+                acceptTV.setVisibility(View.GONE);
+                declineTV.setVisibility(View.GONE);
                 callAPIGetTransactionRequestDetail(transactionId);
             } else if (getString(R.string.accepted).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
                 negotiateTV.setVisibility(View.GONE);
@@ -322,7 +316,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 JSONObject jsonObject1 = jsonArray.getJSONObject(0);
                 String date = jsonObject1.getString("date");
                 //  paymentDateTV.setText(DateFormat.getDateFromEpoch(date));
-                paymentDateTV.setText(date);
+                paymentDateTV.setText(DateFormat.dateFormatConvert(date));
 
                 /*dateModelArrayList.clear();
                 for (int i=0;i<jsonArray.length();i++){
@@ -376,10 +370,6 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                     break;
                 }
             }
-
-
-
-
         }
 
         if (transactionModel.getStatus() != null && transactionModel.getStatus().length() > 0) {

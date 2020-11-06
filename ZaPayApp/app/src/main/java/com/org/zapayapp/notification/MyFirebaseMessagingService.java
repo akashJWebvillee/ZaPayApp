@@ -80,16 +80,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     intent.putExtra("transactionId", transaction_request_id);
 
                 } else if (notification_type.equalsIgnoreCase("REQUEST_ACCEPTED")) {
-                    intent.putExtra("moveFrom", getString(R.string.accepted));
+                   // intent.putExtra("moveFrom", getString(R.string.accepted));
+                    intent.putExtra("moveFrom", getString(R.string.history));
                     intent.putExtra("transactionId", transaction_request_id);
                 } else if (notification_type.equalsIgnoreCase("REQUEST_DECLINED")) {
-                    intent.putExtra("moveFrom", getString(R.string.decline));
+                  //  intent.putExtra("moveFrom", getString(R.string.decline));
+                    intent.putExtra("moveFrom", getString(R.string.history));
                     intent.putExtra("transactionId", transaction_request_id);
                 } else if (notification_type.equalsIgnoreCase("REQUEST_NEGOTIATE")) {
-                    intent.putExtra("moveFrom", getString(R.string.negotiation));
+                  //  intent.putExtra("moveFrom", getString(R.string.negotiation));
+                    intent.putExtra("moveFrom", getString(R.string.history));
                     intent.putExtra("transactionId", transaction_request_id);
                 }else if (notification_type.equalsIgnoreCase("PAY_DATE_EXTEND")){
-                    intent.putExtra("moveFrom", getString(R.string.accepted));
+                  //  intent.putExtra("moveFrom", getString(R.string.accepted));
+                    intent.putExtra("moveFrom", getString(R.string.history));
                     intent.putExtra("transactionId", transaction_request_id);
                 }
 

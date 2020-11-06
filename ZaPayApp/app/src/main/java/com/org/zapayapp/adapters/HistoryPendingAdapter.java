@@ -86,7 +86,7 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
                 String date= jsonObject1.getString("date");
                 try {
                     //holder.dateTV.setText(DateFormat.getDateFromEpoch(date));
-                    holder.dateTV.setText(date);
+                    holder.dateTV.setText(DateFormat.dateFormatConvert(date));
                 }catch (Exception e){
                     e.printStackTrace();
                 }

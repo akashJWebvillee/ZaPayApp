@@ -38,8 +38,27 @@ public class DateFormat {
 
 
     public static String dateFormatConvert(String dateData) {
+        String inputPattern = "yyyy-mm-dd";
+        String outputPattern = "mm/dd/yyyy";
+        SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern,Locale.ENGLISH);
+        SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern,Locale.ENGLISH);
+
+        Date date = null;
+        String str = null;
+
+        try {
+            date = inputFormat.parse(dateData);
+            str = outputFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
+
+
+    public static String dateFormatConvert11(String dateData) {
         String inputPattern = "dd/mm/yyyy";
-        String outputPattern = "yyyy-mm-dd";
+        String outputPattern = "mm/dd/yyyy";
         SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern,Locale.ENGLISH);
         SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern,Locale.ENGLISH);
 

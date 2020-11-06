@@ -13,6 +13,7 @@ import com.org.zapayapp.activity.BorrowSummaryActivity;
 import com.org.zapayapp.activity.LendingSummaryActivity;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.Const;
+import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.SharedPref;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -78,7 +79,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                 String date= jsonObject1.getString("date");
                 try {
                     //holder.dateTV.setText(DateFormat.getDateFromEpoch(date));
-                    holder.dateTV.setText(date);
+                    holder.dateTV.setText(DateFormat.dateFormatConvert(date));
                 }catch (Exception e){
                     e.printStackTrace();
                 }

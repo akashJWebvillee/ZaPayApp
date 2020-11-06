@@ -52,9 +52,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 
@@ -540,7 +542,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     }
 
     private void generatePaybackData() {
-        paymentDate = DateFormat.dateFormatConvert(wvDateLib.getCurrentDate());
+        paymentDate = DateFormat.dateFormatConvert11(wvDateLib.getCurrentDate());
         //Negotiation.....
         if (transactionModel != null && transactionModel.getPayDate() != null && transactionModel.getPayDate().length() > 0) {
             try {
@@ -559,12 +561,12 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                     if (transactionModel != null && transactionModel.getPayDate() != null && transactionModel.getPayDate().length() > 0) {
                         try {
                             //lendTxtAmount.setText(DateFormat.getDateFromEpoch(paybackList.get(0).getPayDate()));
-                            lendTxtAmount.setText(paybackList.get(0).getPayDate());
+                            lendTxtAmount.setText(DateFormat.dateFormatConvert(paybackList.get(0).getPayDate()));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     } else {
-                        lendTxtAmount.setText(paybackList.get(0).getPayDate());
+                        lendTxtAmount.setText(DateFormat.dateFormatConvert(paybackList.get(0).getPayDate()));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -625,7 +627,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 setPaybackAdapter();
                 if (paybackPos == 0) {
                     paymentDate = formattedDate;
-                    lendTxtAmount.setText(paymentDate);
+                    lendTxtAmount.setText(DateFormat.dateFormatConvert(paymentDate));
                 }
             } else {
                 showSimpleAlert(getString(R.string.Selected_Date_Should_Be_Less_Then) + " " + dateListTitle.get(paybackPos + 1), "");
@@ -909,7 +911,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         } else {
             paymentDateTV.setText(paybackList.get(0).getPayDate());
         }*/
-        paymentDateTV.setText(paybackList.get(0).getPayDate());
+        paymentDateTV.setText(DateFormat.dateFormatConvert(paybackList.get(0).getPayDate()));
         totalPayBackTV.setText("$" + String.valueOf(finalTotalPayBackAmount));
     }
 
@@ -936,7 +938,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             lPaymentDateTV.setText(paybackList.get(0).getPayDate());
         }*/
 
-        lPaymentDateTV.setText(paybackList.get(0).getPayDate());
+        lPaymentDateTV.setText(DateFormat.dateFormatConvert(paybackList.get(0).getPayDate()));
         totalReceivedBackTV.setText("$" + String.valueOf(finalTotalPayBackAmount));
     }
 

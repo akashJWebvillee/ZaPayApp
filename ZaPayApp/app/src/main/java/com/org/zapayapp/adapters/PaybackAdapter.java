@@ -79,7 +79,7 @@ public class PaybackAdapter extends RecyclerView.Adapter<PaybackAdapter.MyHolder
             } else {
                 holder.paybackTxtDate.setText(model.getPayDate());
             }*/
-            holder.paybackTxtDate.setText(model.getPayDate());
+            holder.paybackTxtDate.setText(DateFormat.dateFormatConvert(model.getPayDate()));
         }
 
         holder.paybackTxtSelect.setOnClickListener(new View.OnClickListener() {

@@ -240,6 +240,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postApi(getString(R.string.api_signup), values);
             if (apiCalling != null) {
+                apiCalling.setRunInBackground(false);
                 apiCalling.callAPI(zapayApp, call, getString(R.string.api_signup), loginButtonTV);
             }
         } catch (Exception e) {

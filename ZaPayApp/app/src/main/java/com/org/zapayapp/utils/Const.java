@@ -29,6 +29,12 @@ public class Const {
         String CREATE_AT = "created_at";
         String TOKEN = "token";
 
+        String AGE = "age";
+        String SEX = "sex";
+        String ETHNICITY = "ethnicity";
+        String INCOME = "income";
+
+
         //bankAccount detail....
         String BANK_ACCOUNT_ID = "bank_account_id";
         String ACCOUNT_NUMBER = "account_number";

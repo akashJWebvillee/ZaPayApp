@@ -26,4 +26,17 @@
        <!-- <item>@string/general_ledger</item>-->
     </string-array>
 
+
+    <string-array name="genderArray">
+        <item>@string/male</item>
+        <item>@string/female</item>
+    </string-array>
+
+    <string-array name="incomeArray">
+        <item>"$0 - $20,000"</item>
+        <item>"$20,001 - $40,000"</item>
+        <item>"$40,001 - $80,000"</item>
+        <item>"$80,000+"</item>
+    </string-array>
+
 </resources>

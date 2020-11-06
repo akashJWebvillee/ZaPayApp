@@ -36,7 +36,7 @@ public class MyProgressDialog {
             dialog.getWindow().setBackgroundDrawableResource(R.color.loaderpBg60Alpha);
 
         final ImageView loaderImg = dialog.findViewById(R.id.loaderImageView);
-        loaderImg.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
+       // loaderImg.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
         Glide.with(context).load(R.raw.loader_img).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(loaderImg);
         if (!((AppCompatActivity) context).isFinishing())
             dialog.show();
