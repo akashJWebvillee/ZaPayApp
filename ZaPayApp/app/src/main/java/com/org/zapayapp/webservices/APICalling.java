@@ -267,8 +267,7 @@ public class APICalling extends BaseRequestParser implements ServiceCallback<Jso
         mFileCache = new FileCache(from, activity);
         fileName = cacheEnabled ? mFileCache.getFile((from + result).hashCode() + ".req") : null;
 
-        if (!TextUtils.isEmpty(FileCache.readFile(fileName)) && cacheEnabled && (TYPE_NOT_CONNECTED == getConnectivityStatus(
-                activity))) {
+        if (!TextUtils.isEmpty(FileCache.readFile(fileName)) && cacheEnabled && (TYPE_NOT_CONNECTED == getConnectivityStatus(activity))) {
             String lastResponse = FileCache.readFile(fileName);
             if (apiCallback != null) {
                 hideLoader(activity);

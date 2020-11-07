@@ -1,10 +1,11 @@
 package com.org.zapayapp.activity;
-
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -12,19 +13,17 @@ import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.core.view.ViewCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.dd.ShadowLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonElement;
@@ -46,18 +45,13 @@ import com.org.zapayapp.utils.EndlessRecyclerViewScrollListener;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.WVDateLib;
 import com.org.zapayapp.webservices.APICallback;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-
 import retrofit2.Call;
 
 public class LendBorrowActivity extends BaseActivity implements View.OnClickListener, DatePickerFragmentDialogue.DatePickerCallback, APICallback, ContactListener {
@@ -78,7 +72,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     private float amount;   //enter amount
     private float finalTotalPayBackAmount;//after add term amount
     private String paymentDate;
-
 
     private WVDateLib wvDateLib;
     private RecyclerView paybackRecycler, contactRecycler;
@@ -109,7 +102,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
     //this use for negotiation
     private TransactionModel transactionModel;
-
     private CustomTextInputLayout lendAmountEdtAmountInputLayout, lendTermsInputLayout, lendNoOfPaymentInputLayout;
     private ArrayList<String> dateListTitle;
 
@@ -534,7 +526,8 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             } else if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("2")) {
                 showSimpleAlert(getString(R.string.please_verify_bank_account), getString(R.string.please_verify_bank_account));
             } else if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("3")) {
-                callAPITransactionRequest();
+               //callAPITransactionRequest();
+                privacyPolicyDialog();
             }
         } else {
             showSimpleAlert(getString(R.string.please_select_contact), "");
@@ -556,7 +549,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                         paybackList.add(new PabackModel(date, true, true));
                     }
                 }
-
                 try {
                     if (transactionModel != null && transactionModel.getPayDate() != null && transactionModel.getPayDate().length() > 0) {
                         try {
@@ -1104,5 +1096,39 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     public void getContact(ContactModel contactModel) {
         toId = contactModel.getId();
 
+    }
+
+    private void privacyPolicyDialog(){
+        Dialog dialog=new Dialog(LendBorrowActivity.this);
+        dialog.setContentView(R.layout.privacy_policy_dialog);
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        if (dialog.getWindow() != null) {
+            int w = CommonMethods.getScreenWidth() - 100;
+            dialog.getWindow().setLayout(w, ViewGroup.LayoutParams.WRAP_CONTENT);
+            // dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        dialog.show();
+        TextView okTV=dialog.findViewById(R.id.okTV);
+        TextView cancelTV=dialog.findViewById(R.id.cancelTV);
+        CheckBox mChkAgree=dialog.findViewById(R.id.mChkAgree);
+        okTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mChkAgree.isChecked()) {
+                    callAPITransactionRequest();
+                } else {
+                    showSimpleAlert(getString(R.string.term_condition), "");
+                }
+            }
+        });
+
+        cancelTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 }

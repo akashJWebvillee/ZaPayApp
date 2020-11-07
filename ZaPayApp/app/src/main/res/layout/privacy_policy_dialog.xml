@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginStart="1dp"
+    android:layout_marginEnd="1dp"
+    android:background="#00DC4E43"
+    android:elevation="3dp"
+    card_view:cardCornerRadius="8dp">
+
+    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:id="@+id/closeTV"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:contentDescription="@null"
+            android:src="@drawable/clear" />
+
+        <RelativeLayout
+            android:id="@+id/headerRL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp">
+
+            <TextView
+                android:id="@+id/cancelTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotha_promed"
+                android:gravity="center"
+                android:text="@string/disclaimer"
+                android:textColor="@color/textColorBold"
+                android:textSize="20sp" />
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/headerLineView"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/headerRL"
+            android:layout_marginTop="16dp"
+            android:background="@color/colorLineLightGrey" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/ShadowLayout"
+            android:layout_below="@+id/headerLineView"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginEnd="4dp"
+            android:orientation="vertical">
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:fontFamily="@font/gotha_pro_reg"
+                        android:gravity="start"
+                        android:lineSpacingExtra="8dp"
+                        android:text="@string/termConditionData"
+                        android:textColor="@color/textColorBold"
+                        android:textSize="14sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical"
+                        android:padding="10dp">
+
+                        <CheckBox
+                            android:id="@+id/mChkAgree"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:background="@drawable/checkbox_selector"
+                            android:button="@null"
+                            android:checked="false"
+                            android:text="" />
+
+                        <TextView
+                            android:id="@+id/mTextAgree"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="@font/gotha_pro_reg"
+                            android:lineSpacingExtra="5dp"
+                            android:text="@string/i_agree"
+                            android:textColor="@color/textColor"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+
+        </LinearLayout>
+
+
+        <com.dd.ShadowLayout
+            android:id="@+id/ShadowLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:elevation="3dp"
+            app:sl_cornerRadius="56dp"
+            app:sl_dx="0dp"
+            app:sl_dy="10dp"
+            app:sl_shadowColor="#2CFC5C04"
+            app:sl_shadowRadius="4dp">
+
+            <TextView
+                android:id="@+id/okTV"
+                android:layout_width="match_parent"
+                android:layout_height="53dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/rectanguler_button_bg"
+                android:backgroundTint="@color/colorPrimary"
+                android:fontFamily="@font/gotha_probol"
+                android:gravity="center"
+                android:text="@string/submit"
+                android:textAllCaps="true"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp" />
+        </com.dd.ShadowLayout>
+
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
+

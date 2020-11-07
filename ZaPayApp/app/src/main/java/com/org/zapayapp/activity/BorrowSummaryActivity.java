@@ -108,6 +108,11 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
     protected boolean useToolbar() {
         return true;
     }

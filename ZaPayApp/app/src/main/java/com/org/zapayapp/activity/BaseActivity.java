@@ -141,6 +141,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
     private String RECEIVE_MSG_ACK = "receive_message_success_ack";
     private String READ_MSG_ACK = "read_message_ack";
 
+
     private Emitter.Listener onConnect = new Emitter.Listener() {
         @Override
         public void call(Object... args) {

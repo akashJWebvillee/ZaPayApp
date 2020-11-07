@@ -9,12 +9,9 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
-
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -45,9 +42,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EditProfileDialogActivity extends AppCompatActivity implements View.OnClickListener, APICallback, SimpleAlertFragment.AlertSimpleCallback, DatePickerFragmentDialogue.DatePickerCallback {
-
     private TextView saveTV, titleTV;
     private ImageView cancelImageView;
 
@@ -135,9 +133,8 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                 datePickerDialog();
             }
         });
-
         setDataOnScreen();
-    }
+       }
 
     private void initAction() {
         String[] genderArray = getResources().getStringArray(R.array.genderArray);
@@ -152,9 +149,8 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         for (String s : incomeArray) {
             incomeList.add(s);
         }
+
         setIncomeAdapter();
-
-
         saveTV.setOnClickListener(this);
         cancelImageView.setOnClickListener(this);
 
@@ -201,20 +197,16 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
             }
         });
 
-
         incomeBracketSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 incomeValue = incomeList.get(position);
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
-
-
     }
 
 
@@ -344,7 +336,6 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @Override

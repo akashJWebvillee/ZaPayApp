@@ -1,15 +1,10 @@
 package com.org.zapayapp.activity;
-
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.microsoft.appcenter.AppCenter;
@@ -17,13 +12,10 @@ import com.microsoft.appcenter.analytics.Analytics;
 import com.microsoft.appcenter.crashes.Crashes;
 import com.org.zapayapp.R;
 import com.org.zapayapp.utils.Const;
-import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.MySession;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
-
 import java.util.HashMap;
-
 import retrofit2.Call;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener, APICallback {
@@ -39,10 +31,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         if (SharedPref.getPrefsHelper().getPref(Const.Var.FIREBASE_DEVICE_TOKEN) != null && SharedPref.getPrefsHelper().getPref(Const.Var.FIREBASE_DEVICE_TOKEN).toString().length() > 0) {
             callAPIUpdateDeviceInfo();
         }
-
         init();
         initAction();
         getNotificationIntent();
+
     }
 
     @Override
@@ -74,7 +66,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.homeLLLend:
-
                 //activity_status=0  //signup
                 //activity_status=1  //updated profile
                 //activity_status=2   //added bank account
@@ -148,8 +139,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
     private void callAPIGetUserDetail() {

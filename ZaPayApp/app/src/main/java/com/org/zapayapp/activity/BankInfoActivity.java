@@ -20,7 +20,6 @@ import com.org.zapayapp.webservices.APICallback;
 import retrofit2.Call;
 
 public class BankInfoActivity extends BaseActivity implements View.OnClickListener, APICallback {
-
     private TextView changeTV, accountNumberTV, routingNumberTV;
     private TextView addTV;
     private ShadowLayout addShadowLayout,addShadowChange;

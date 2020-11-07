@@ -11,9 +11,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-
 import com.bumptech.glide.Glide;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -37,7 +35,6 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 
 public class ProfileActivity extends BaseActivity implements View.OnClickListener {
-
     private TextView editProfileTV, changePasswordTV,setPinTV, profileTxtName, profileTxtEmail, profileTxtMobile, profileTxtAddress;
     private Intent intent;
     private ImageView profileImageView;

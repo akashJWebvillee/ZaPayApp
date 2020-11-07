@@ -1,8 +1,6 @@
 package com.org.zapayapp.viewModel;
-
 import android.content.Context;
 import android.view.View;
-
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -14,13 +12,10 @@ import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.webservices.APICalling;
 import com.org.zapayapp.webservices.RestAPI;
 import com.org.zapayapp.webservices.ServiceCallback;
-
 import java.io.IOException;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
 
 public class ProjectRepository implements ServiceCallback<JsonElement> {
 
