@@ -37,6 +37,7 @@ public interface RestAPI {
     @POST
     Call<JsonElement> postWithTokenApi(@Header("authorization") String authToken,@Url String remainingURL, @FieldMap Map<String, Object> fields);
 
+
     @Multipart
     @POST
     Call<JsonElement> postWithTokenMultiPartApi(@Header("authorization") String authToken,@Url String remainingURL, @Part MultipartBody.Part image);

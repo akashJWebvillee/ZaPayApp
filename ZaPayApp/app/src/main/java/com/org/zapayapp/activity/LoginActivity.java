@@ -99,9 +99,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         forgotPasswordTV.setOnClickListener(this);
         loginButtonTV.setOnClickListener(this);
         signUpButtonTV.setOnClickListener(this);
+        mTextAgree.setOnClickListener(this);
         setSelectedView(1);
         removeError();
-        termCondition();
+       // termCondition();
     }
 
     private void setSelectedView(int position) {
@@ -217,6 +218,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     e.printStackTrace();
                 }
                 break;
+
+            case R.id.mTextAgree:
+                Intent intent=new Intent(LoginActivity.this,TermConditionActivity.class);
+                startActivity(intent);
+                break;
+
         }
     }
 

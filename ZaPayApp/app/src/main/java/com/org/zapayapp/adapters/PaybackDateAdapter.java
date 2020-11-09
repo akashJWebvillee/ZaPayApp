@@ -18,11 +18,13 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
     private Context context;
     private ArrayList<DateModel> dateModelArrayList;
     private String moveFrom;
+    private String requestBy;
 
-    public PaybackDateAdapter(Context context, ArrayList<DateModel> dateModelArrayList,String moveFrom) {
+    public PaybackDateAdapter(Context context, ArrayList<DateModel> dateModelArrayList,String moveFrom,String requestBy) {
         this.context = context;
         this.dateModelArrayList = dateModelArrayList;
         this.moveFrom = moveFrom;
+        this.requestBy = requestBy;
     }
 
     class MyHolder extends RecyclerView.ViewHolder {
@@ -52,10 +54,75 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
         }
 
         if (moveFrom.equalsIgnoreCase(context.getString(R.string.history))){
-            holder.editDateRL.setVisibility(View.GONE);
+            if (dateModelArrayList.get(position).isEditable()){
+                if (requestBy.equalsIgnoreCase("2")){
+                    //holder.editDateRL.setVisibility(View.VISIBLE);
+                    if (dateModelArrayList.get(position).getStatus() != null && dateModelArrayList.get(position).getStatus().length() > 0) {
+                        if (dateModelArrayList.get(position).getStatus().equals("remaining")) {
+                            if (dateModelArrayList.get(position).isLatestRemaining()&&dateModelArrayList.get(position).isEditable()){
+                                holder.editDateRL.setVisibility(View.VISIBLE);
+                            }else{
+                                holder.editDateRL.setVisibility(View.GONE);
+                            }
+
+                        } else if (dateModelArrayList.get(position).getStatus().equals("processed")) {
+                            holder.editDateRL.setVisibility(View.GONE);
+                        } else if (dateModelArrayList.get(position).getStatus().equals("pending")) {
+                            holder.editDateRL.setVisibility(View.GONE);
+                        } else if (dateModelArrayList.get(position).getStatus().equals("cancelled")) {
+                            holder.editDateRL.setVisibility(View.GONE);
+                        } else if (dateModelArrayList.get(position).getStatus().equals("failed")) {
+                            holder.editDateRL.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+                }else if (requestBy.equalsIgnoreCase("1")){
+                    holder.editDateRL.setVisibility(View.GONE);
+                }
+            }else {
+                holder.editDateRL.setVisibility(View.GONE);
+            }
+
+
         } else {
+            if (dateModelArrayList.get(position).isEditable()){
+                if (requestBy.equalsIgnoreCase("1")){
+                    //holder.editDateRL.setVisibility(View.VISIBLE);
+                    if (dateModelArrayList.get(position).getStatus() != null && dateModelArrayList.get(position).getStatus().length() > 0) {
+                        if (dateModelArrayList.get(position).getStatus().equals("remaining")) {
+                            if (dateModelArrayList.get(position).isLatestRemaining()&&dateModelArrayList.get(position).isEditable()){
+                                holder.editDateRL.setVisibility(View.VISIBLE);
+                            }else{
+                                holder.editDateRL.setVisibility(View.GONE);
+                            }
+
+                        } else if (dateModelArrayList.get(position).getStatus().equals("processed")) {
+                            holder.editDateRL.setVisibility(View.GONE);
+                        } else if (dateModelArrayList.get(position).getStatus().equals("pending")) {
+                            holder.editDateRL.setVisibility(View.GONE);
+                        } else if (dateModelArrayList.get(position).getStatus().equals("cancelled")) {
+                            holder.editDateRL.setVisibility(View.GONE);
+                        } else if (dateModelArrayList.get(position).getStatus().equals("failed")) {
+                            holder.editDateRL.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+
+                }else if (requestBy.equalsIgnoreCase("2")){
+                    holder.editDateRL.setVisibility(View.GONE);
+
+                }
+            }else {
+                holder.editDateRL.setVisibility(View.GONE);
+            }
+
+
+
+
+
+
             //status- remaining, processed, pending, cancelled, failed
-            if (dateModelArrayList.get(position).getStatus() != null && dateModelArrayList.get(position).getStatus().length() > 0) {
+           /* if (dateModelArrayList.get(position).getStatus() != null && dateModelArrayList.get(position).getStatus().length() > 0) {
                 if (dateModelArrayList.get(position).getStatus().equals("remaining")) {
                     if (dateModelArrayList.get(position).isLatestRemaining()&&dateModelArrayList.get(position).isEditable()){
                         holder.editDateRL.setVisibility(View.VISIBLE);
@@ -72,7 +139,7 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
                 } else if (dateModelArrayList.get(position).getStatus().equals("failed")) {
                     holder.editDateRL.setVisibility(View.VISIBLE);
                 }
-            }
+            }*/
         }
 
         holder.editDateRL.setOnClickListener(new View.OnClickListener() {

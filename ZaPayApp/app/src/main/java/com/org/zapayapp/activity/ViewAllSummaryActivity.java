@@ -52,6 +52,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
     private int dateSelectPos;
     private DateModel dateModel;
     private PaybackDateAdapter paybackDateAdapter;
+    private String requestBy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +104,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         if (intent != null && intent.getStringExtra("transactionId") != null) {
             transactionId = intent.getStringExtra("transactionId");
             if (intent.getStringExtra("requestBy") != null) {
+               requestBy=intent.getStringExtra("requestBy");
                 if (Objects.requireNonNull(intent.getStringExtra("requestBy")).equalsIgnoreCase("1")) {
                     titleTV.setText(getString(R.string.lending_summary));
                     viewAllNameType.setText(getString(R.string.lender));
@@ -251,6 +253,9 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
 
             if (from.equals(getResources().getString(R.string.api_update_transaction_request_status))) {
                 if (status == 200) {
+                    Intent intent=new Intent();
+                    intent.putExtra("MESSAGE",getResources().getString(R.string.api_update_transaction_request_status));
+                    setResult(2,intent);
                     showSimpleAlert(msg, getResources().getString(R.string.api_update_transaction_request_status));
                 } else {
                     showSimpleAlert(msg, "");
@@ -444,7 +449,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         }
 
         if (paybackDateAdapter == null) {
-            paybackDateAdapter = new PaybackDateAdapter(this, dateModelArrayList,intent.getStringExtra("moveFrom"));
+            paybackDateAdapter = new PaybackDateAdapter(ViewAllSummaryActivity.this, dateModelArrayList,intent.getStringExtra("moveFrom"),requestBy);
             paybackDateRecycler.setAdapter(paybackDateAdapter);
         } else {
             paybackDateAdapter.notifyDataSetChanged();

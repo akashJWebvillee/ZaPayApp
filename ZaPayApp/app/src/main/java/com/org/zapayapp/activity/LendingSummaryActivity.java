@@ -1,9 +1,9 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import androidx.annotation.Nullable;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -127,6 +127,7 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 intent.putExtra("moveFrom", moveFrom);
                 intent.putExtra("requestBy", transactionModel.getRequestBy());
                 startActivity(intent);
+                startActivityForResult(intent,2);
                 break;
             case R.id.chatTV:
                 intent = new Intent(LendingSummaryActivity.this, ChatActivity.class);
@@ -292,6 +293,18 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 // terms_value = terms_value + " " + getString(R.string.none);
                 termTV.setText(getString(R.string.none));
             }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==2&&data!=null) {
+            String message=data.getStringExtra("MESSAGE");
+            negotiateTV.setVisibility(View.GONE);
+            acceptTV.setVisibility(View.GONE);
+            declineTV.setVisibility(View.GONE);
+            finish();
         }
     }
 }

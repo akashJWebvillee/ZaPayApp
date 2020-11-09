@@ -68,7 +68,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="15dp"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="38dp"
                 android:background="@drawable/rectanguler_bg"
                 android:backgroundTint="@color/colorWhite"
                 android:elevation="3dp"
@@ -112,7 +112,7 @@
                     android:lineSpacingExtra="5dp"
                     android:fontFamily="@font/gotha_pro_reg"
                     android:maxLines="3"
-                    android:text="dfhxhvhxvkxjhvxkjhkxjcvxkjcxkjhvxkjckxjxkjvbkxcbkxjbkxjkjcbxkjbxkjbbxbjlbxlkjbclxkbj" />
+                    android:text="" />
             </LinearLayout>
 
             <com.dd.ShadowLayout
@@ -121,7 +121,6 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="45dp"
-                android:layout_marginTop="54dp"
                 android:layout_marginEnd="45dp"
                 android:elevation="3dp"
                 app:sl_cornerRadius="56dp"

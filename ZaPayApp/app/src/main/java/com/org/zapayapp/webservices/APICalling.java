@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
-
 import androidx.annotation.NonNull;
-
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -15,15 +13,12 @@ import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.ZapayApp;
 import com.org.zapayapp.utils.CommonMethods;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -32,7 +27,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
-
 import static com.org.zapayapp.webservices.WNetworkCheck.TYPE_NOT_CONNECTED;
 import static com.org.zapayapp.webservices.WNetworkCheck.getConnectivityStatus;
 
@@ -78,7 +72,9 @@ public class APICalling extends BaseRequestParser implements ServiceCallback<Jso
                     }
                 })
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager);
-        httpClient.addInterceptor(logging);
+                 httpClient.addInterceptor(logging);
+
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(ScalarsConverterFactory.create())

@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -29,7 +31,7 @@ import retrofit2.Call;
 public class BorrowSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener {
 
     private TextView nameTV, amountTV, termTV, noOfPaymentTV, paymentDateTV, totalReceivedBackTV, viewAllTV, negotiateTV, acceptTV, declineTV, chatTV;
-    private String transactionId,moveFrom;
+    private String transactionId, moveFrom;
     private TransactionModel transactionModel;
     private String negotiationAcceptDeclineStatus = "";
     private Intent intent;
@@ -83,17 +85,17 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                 callAPIGetHistoryRequestDetail(transactionId);
 
 
-            }else if (getString(R.string.negotiation).equalsIgnoreCase(moveFrom)) {
+            } else if (getString(R.string.negotiation).equalsIgnoreCase(moveFrom)) {
                 negotiateTV.setVisibility(View.GONE);
                 acceptTV.setVisibility(View.GONE);
                 declineTV.setVisibility(View.GONE);
                 callAPIGetTransactionRequestDetail(transactionId);
-            }else if (getString(R.string.accepted).equalsIgnoreCase(moveFrom)) {
+            } else if (getString(R.string.accepted).equalsIgnoreCase(moveFrom)) {
                 negotiateTV.setVisibility(View.GONE);
                 acceptTV.setVisibility(View.GONE);
                 declineTV.setVisibility(View.GONE);
                 callAPIGetTransactionRequestDetail(transactionId);
-            }else if (getString(R.string.completed).equalsIgnoreCase(moveFrom)) {
+            } else if (getString(R.string.completed).equalsIgnoreCase(moveFrom)) {
                 negotiateTV.setVisibility(View.GONE);
                 acceptTV.setVisibility(View.GONE);
                 declineTV.setVisibility(View.GONE);
@@ -110,6 +112,7 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
     @Override
     protected void onResume() {
         super.onResume();
+
     }
 
     @Override
@@ -146,7 +149,8 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                 intent.putExtra("transactionId", transactionId);
                 intent.putExtra("moveFrom", moveFrom);
                 intent.putExtra("requestBy", transactionModel.getRequestBy());
-                startActivity(intent);
+                // startActivity(intent);
+                startActivityForResult(intent, 2);// Activity is started with requestCode 2
                 break;
             case R.id.chatTV:
                 intent = new Intent(BorrowSummaryActivity.this, ChatActivity.class);
@@ -173,8 +177,7 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
 
     private void callAPIGetHistoryRequestDetail(String transaction_request_id) {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
-        HashMap<String, Object> values = apiCalling.getHashMapObject(
-                "transaction_request_id", transaction_request_id);
+        HashMap<String, Object> values = apiCalling.getHashMapObject("transaction_request_id", transaction_request_id);
         try {
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_get_transaction_history_details), values);
@@ -268,26 +271,26 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
         }
 
         if (jsonObject.get("pay_date").getAsString() != null && jsonObject.get("pay_date").getAsString().length() > 0) {
-            String pay_date=jsonObject.get("pay_date").getAsString();
+            String pay_date = jsonObject.get("pay_date").getAsString();
             pay_date = pay_date.replaceAll("\\\\", "");
             try {
                 JSONArray jsonArray = new JSONArray(pay_date);
-                JSONObject jsonObject1=  jsonArray.getJSONObject(0);
-               String date= jsonObject1.getString("date");
-              // paymentDateTV.setText(DateFormat.getDateFromEpoch(date));
-               paymentDateTV.setText(DateFormat.dateFormatConvert(date));
+                JSONObject jsonObject1 = jsonArray.getJSONObject(0);
+                String date = jsonObject1.getString("date");
+                // paymentDateTV.setText(DateFormat.getDateFromEpoch(date));
+                paymentDateTV.setText(DateFormat.dateFormatConvert(date));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
 
-        if (jsonObject.has("total_amount")&&jsonObject.get("total_amount").getAsString() != null && jsonObject.get("total_amount").getAsString().length() > 0) {
-            String total_amount = SharedPref.getPrefsHelper().getPref(Const.Var.CURRENCY, "") +jsonObject.get("total_amount").getAsString();
+        if (jsonObject.has("total_amount") && jsonObject.get("total_amount").getAsString() != null && jsonObject.get("total_amount").getAsString().length() > 0) {
+            String total_amount = SharedPref.getPrefsHelper().getPref(Const.Var.CURRENCY, "") + jsonObject.get("total_amount").getAsString();
             totalReceivedBackTV.setText(total_amount);
         }
 
 
-        if(jsonObject.get("terms_type").getAsString() != null && jsonObject.get("terms_type").getAsString().length() > 0 && jsonObject.get("terms_value").getAsString() != null && jsonObject.get("terms_value").getAsString().length() > 0) {
+        if (jsonObject.get("terms_type").getAsString() != null && jsonObject.get("terms_type").getAsString().length() > 0 && jsonObject.get("terms_value").getAsString() != null && jsonObject.get("terms_value").getAsString().length() > 0) {
             String terms_type = jsonObject.get("terms_type").getAsString();
             String terms_value = jsonObject.get("terms_value").getAsString();
 
@@ -304,6 +307,18 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                 //terms_value = terms_value + " " + getString(R.string.none);
                 termTV.setText(getString(R.string.none));
             }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 2 && data != null) {
+            String message = data.getStringExtra("MESSAGE");
+            negotiateTV.setVisibility(View.GONE);
+            acceptTV.setVisibility(View.GONE);
+            declineTV.setVisibility(View.GONE);
+            finish();
         }
     }
 }

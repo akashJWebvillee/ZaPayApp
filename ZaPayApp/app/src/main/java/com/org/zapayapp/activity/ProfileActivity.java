@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,9 +27,7 @@ import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.WFileUtils;
 import com.org.zapayapp.utils.WRuntimePermissions;
 import com.org.zapayapp.webservices.APICalling;
-
 import java.io.File;
-
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -42,6 +41,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private String path = "";
     private static final int GALLERY_REQUEST_OLD = 1890;
     private static final int GALLERY_REQUEST = 200;
+    private boolean isDataUpdate=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,16 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     protected void onResume() {
         super.onResume();
         setCurrentScreen(MY_PROFILE);
-        callAPIGetUserDetail();
+
+        if (isDataUpdate){
+            callAPIGetUserDetail();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        isDataUpdate=true;
     }
 
     @Override
@@ -212,7 +221,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                         try {
                             String path = picturePath;
                             if (path != null){
-                                Glide.with(ProfileActivity.this).load(path).placeholder(R.mipmap.ic_user).into(profileImageView);
+                               // Glide.with(ProfileActivity.this).load(path).placeholder(R.mipmap.ic_user).into(profileImageView);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -223,6 +232,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 e.printStackTrace();
             }
         } else if (requestCode == GALLERY_REQUEST && resultCode == Activity.RESULT_OK) {
+            isDataUpdate=false;
             if (data != null) {
                 try {
                     Uri selectedUri = data.getData();

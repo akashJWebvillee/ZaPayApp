@@ -755,7 +755,6 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
     public void onMsgSentReceived(JSONObject jsonObject, boolean isReceive) {
         CommonMethods.showLogs(BaseActivity.class.getSimpleName(), "onMsgSentReceived :-" + jsonObject);
         CommonMethods.showLogs(BaseActivity.class.getSimpleName(), "isReceive :-" + isReceive);
-
     }
 
     public void onMsgReceivedAck(JSONObject jsonObject) {
@@ -788,7 +787,6 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             e.printStackTrace();
         }
     }
-
 
 
     public void fireBaseToken(){

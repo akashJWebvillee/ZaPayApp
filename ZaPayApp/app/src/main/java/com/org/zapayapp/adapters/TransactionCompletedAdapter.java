@@ -2,6 +2,7 @@ package com.org.zapayapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +57,8 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
             termTypeTV = itemView.findViewById(R.id.termTypeTV);
             borrowModeTitleTV = itemView.findViewById(R.id.borrowModeTitleTV);
             viewRatingBar = itemView.findViewById(R.id.viewRatingBar);
+            viewRatingBar.setFocusableInTouchMode(false);
+
             rattingLL = itemView.findViewById(R.id.rattingLL);
         }
     }
@@ -79,7 +82,9 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
 
         if (transactionModel.getAverage_rating()!=null&&transactionModel.getAverage_rating().length()>0){
             holder.viewRatingBar.setScore(Float.parseFloat(transactionModel.getAverage_rating()));
+
         }
+        Log.e("getAverage_rating","getAverage_rating==="+Float.parseFloat(transactionModel.getAverage_rating()));
 
 
         if (transactionModel.getCreatedAt() != null && transactionModel.getCreatedAt().length() > 0) {

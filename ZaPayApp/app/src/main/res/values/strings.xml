@@ -76,7 +76,7 @@
     <string name="enter_valid_mobile">Enter valid mobile</string>
     <string name="change_password">Change Password</string>
     <string name="disclaimer">Disclaimer</string>
-    <string name="set_pin">Set Pin</string>
+    <string name="set_pin">Update Pin</string>
 
 
     <!--Home screen-->

@@ -106,7 +106,7 @@
                         android:layout_height="50dp"
                         android:layout_marginEnd="3dp"
                         android:importantForAutofill="no"
-                        android:inputType="phone"
+                        android:inputType="textPassword"
                         android:maxLength="1"
                         android:textAlignment="center" />
 
@@ -117,7 +117,7 @@
                         android:layout_marginStart="3dp"
                         android:layout_marginEnd="3dp"
                         android:importantForAutofill="no"
-                        android:inputType="phone"
+                        android:inputType="textPassword"
                         android:maxLength="1"
                         android:textAlignment="center" />
 
@@ -128,7 +128,7 @@
                         android:layout_marginStart="3dp"
                         android:layout_marginEnd="3dp"
                         android:importantForAutofill="no"
-                        android:inputType="phone"
+                        android:inputType="textPassword"
                         android:maxLength="1"
                         android:textAlignment="center" />
 
@@ -138,7 +138,7 @@
                         android:layout_height="50dp"
                         android:layout_marginStart="3dp"
                         android:importantForAutofill="no"
-                        android:inputType="phone"
+                        android:inputType="textPassword"
                         android:maxLength="1"
                         android:textAlignment="center" />
 
@@ -149,7 +149,7 @@
                         android:layout_height="50dp"
                         android:layout_marginStart="3dp"
                         android:importantForAutofill="no"
-                        android:inputType="phone"
+                        android:inputType="textPassword"
                         android:maxLength="1"
                         android:textAlignment="center" />
 
@@ -160,7 +160,7 @@
                         android:layout_height="50dp"
                         android:layout_marginStart="3dp"
                         android:importantForAutofill="no"
-                        android:inputType="phone"
+                        android:inputType="textPassword"
                         android:maxLength="1"
                         android:textAlignment="center"
                         android:imeOptions="actionNext"
@@ -204,7 +204,7 @@
                         android:layout_height="50dp"
                         android:layout_marginEnd="3dp"
                         android:importantForAutofill="no"
-                        android:inputType="phone"
+                        android:inputType="textPassword"
                         android:maxLength="1"
                         android:textAlignment="center" />
 
@@ -215,7 +215,7 @@
                         android:layout_marginStart="3dp"
                         android:layout_marginEnd="3dp"
                         android:importantForAutofill="no"
-                        android:inputType="phone"
+                        android:inputType="textPassword"
                         android:maxLength="1"
                         android:textAlignment="center" />
 
@@ -226,7 +226,7 @@
                         android:layout_marginStart="3dp"
                         android:layout_marginEnd="3dp"
                         android:importantForAutofill="no"
-                        android:inputType="phone"
+                        android:inputType="textPassword"
                         android:maxLength="1"
                         android:textAlignment="center" />
 
@@ -236,7 +236,7 @@
                         android:layout_height="50dp"
                         android:layout_marginStart="3dp"
                         android:importantForAutofill="no"
-                        android:inputType="phone"
+                        android:inputType="textPassword"
                         android:maxLength="1"
                         android:textAlignment="center" />
 
@@ -247,7 +247,7 @@
                         android:layout_height="50dp"
                         android:layout_marginStart="3dp"
                         android:importantForAutofill="no"
-                        android:inputType="phone"
+                        android:inputType="textPassword"
                         android:maxLength="1"
                         android:textAlignment="center" />
 
@@ -258,7 +258,7 @@
                         android:layout_height="50dp"
                         android:layout_marginStart="3dp"
                         android:importantForAutofill="no"
-                        android:inputType="phone"
+                        android:inputType="textPassword"
                         android:maxLength="1"
                         android:textAlignment="center"
                         android:imeOptions="actionDone"/>

@@ -242,7 +242,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                     } else {
                         //  if (pageNo == 0)
                         //showViewsForNoData();
-
                         // if (chatAdapter != null)
                         noDataTv.setVisibility(View.VISIBLE);
                     }
@@ -331,8 +330,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 callEventReadAll();
                 CommonMethods.showLogs("ChatActivity", "Message received :- " + jsonObject);
             }
-
-
 
         } catch (Exception e) {
             e.printStackTrace();

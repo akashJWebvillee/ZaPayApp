@@ -237,7 +237,7 @@
                     android:stepSize="1"
                     app:halfStars="true"
                     app:maxStars="5"
-                    app:onlyForDisplay="false"
+                    app:onlyForDisplay="true"
                     app:starHalf="@mipmap/ic_star_fill"
                     app:starOff="@mipmap/ic_star_hollow"
                     app:starOn="@mipmap/ic_star_fill"
