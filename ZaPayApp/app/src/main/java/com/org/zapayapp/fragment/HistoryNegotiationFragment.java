@@ -1,6 +1,7 @@
 package com.org.zapayapp.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,6 +99,7 @@ public class HistoryNegotiationFragment extends Fragment implements APICallback 
 
     @Override
     public void apiCallback(JsonObject json, String from) {
+        Log.e("json","json====="+json);
         if (from != null) {
             int status = 0;
             String msg = "";

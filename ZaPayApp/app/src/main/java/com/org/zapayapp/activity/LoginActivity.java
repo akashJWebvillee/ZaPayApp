@@ -102,7 +102,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         mTextAgree.setOnClickListener(this);
         setSelectedView(1);
         removeError();
-       // termCondition();
+        termCondition();
     }
 
     private void setSelectedView(int position) {
@@ -137,9 +137,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             @Override
             public void onClick(@NonNull View view) {
                 try {
-                    String url = "https://www.google.com/";
+                   /* String url = "https://www.google.com/";
                     intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse(url));
+                    startActivity(intent);*/
+
+                    Intent intent=new Intent(LoginActivity.this,TermConditionActivity.class);
                     startActivity(intent);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -155,14 +158,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
         ssBuilder.setSpan(
                 new android.text.style.StyleSpan(Typeface.BOLD), // Span to add
-                40, // Start of the span (inclusive)
+                47, // Start of the span (inclusive)
                 textTerms.length(), // End of the span (exclusive)
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE // Do not extend the span when text add later
         );
 
         ssBuilder.setSpan(
                 redClickableSpan, // Span to add
-                40, // Start of the span (inclusive)
+                47, // Start of the span (inclusive)
                 textTerms.length(), // End of the span (exclusive)
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE // Do not extend the span when text add later
         );
@@ -219,10 +222,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 }
                 break;
 
-            case R.id.mTextAgree:
+           /* case R.id.mTextAgree:
                 Intent intent=new Intent(LoginActivity.this,TermConditionActivity.class);
                 startActivity(intent);
-                break;
+                break;*/
 
         }
     }

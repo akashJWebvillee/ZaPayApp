@@ -665,7 +665,8 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
     private void setHeaderData() {
         if (SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString().length() > 0) {
             Glide.with(BaseActivity.this)
-                    .load(apiCalling.getImageUrl(SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString())).placeholder(R.mipmap.ic_user)
+                    .load(apiCalling.getImageUrl(SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString()))
+                    .placeholder(R.mipmap.default_profile)
                     .into(imgLogo);
         }
 
