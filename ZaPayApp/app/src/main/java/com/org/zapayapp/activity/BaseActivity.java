@@ -39,6 +39,7 @@ import com.org.zapayapp.alert_dialog.AlertForcePopup;
 import com.org.zapayapp.alert_dialog.AlertLogoutFragment;
 import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
 import com.org.zapayapp.dialogs.DateChangeRequestDialogActivity;
+import com.org.zapayapp.dialogs.EditProfileDialogActivity;
 import com.org.zapayapp.uihelpers.AdvanceDrawerLayout;
 import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
@@ -583,7 +584,8 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             finish();
         } else if (from.equals(getResources().getString(R.string.update_your_profile))) {
-            intent = new Intent(BaseActivity.this, ProfileActivity.class);
+            //intent = new Intent(BaseActivity.this, ProfileActivity.class);
+            intent = new Intent(BaseActivity.this, EditProfileDialogActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         } else if (from.equals(getResources().getString(R.string.please_add_bank_account))) {

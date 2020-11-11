@@ -245,6 +245,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                 String request_by = getIntent().getStringExtra("request_by");
                 String moveFrom = getIntent().getStringExtra("moveFrom");
                 String transactionId = getIntent().getStringExtra("transactionId");
+                String status = getIntent().getStringExtra("status");
 
                 if (request_by != null && request_by.equals("1")) {
                     intent = new Intent(this, LendingSummaryActivity.class);
@@ -254,23 +255,32 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
                 if (notification_type.equalsIgnoreCase("NEW_TRANSACTION_REQUEST")) {
                     intent.putExtra("moveFrom", getString(R.string.transaction));
+                    intent.putExtra("status", status);
                     intent.putExtra("transactionId", transactionId);
 
                 } else if (notification_type.equalsIgnoreCase("REQUEST_ACCEPTED")) {
                     //intent.putExtra("moveFrom", getString(R.string.accepted));
                     intent.putExtra("moveFrom", getString(R.string.history));
+                    intent.putExtra("status", status);
                     intent.putExtra("transactionId", transactionId);
                 } else if (notification_type.equalsIgnoreCase("REQUEST_DECLINED")) {
                     // intent.putExtra("moveFrom", getString(R.string.decline));
                     intent.putExtra("moveFrom", getString(R.string.history));
+                    intent.putExtra("status", status);
                     intent.putExtra("transactionId", transactionId);
                 } else if (notification_type.equalsIgnoreCase("REQUEST_NEGOTIATE")) {
                     // intent.putExtra("moveFrom", getString(R.string.negotiation));
                     intent.putExtra("moveFrom", getString(R.string.history));
+                    intent.putExtra("status", status);
                     intent.putExtra("transactionId", transactionId);
                 } else if (notification_type.equalsIgnoreCase("PAY_DATE_EXTEND")) {
                     // intent.putExtra("moveFrom", getString(R.string.accepted));
                     intent.putExtra("moveFrom", getString(R.string.history));
+                    intent.putExtra("status", status);
+                    intent.putExtra("transactionId", transactionId);
+                }else if (notification_type.equalsIgnoreCase("TRANSACTION_INITIATED")){
+                    intent.putExtra("moveFrom", getString(R.string.history));
+                    intent.putExtra("status", "2");
                     intent.putExtra("transactionId", transactionId);
                 }
 

@@ -139,7 +139,7 @@ public class DeclineFragment extends Fragment implements APICallback {
     }
 
     private void setAdapter() {
-        TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity(), transactionList, getString(R.string.decline));
+        TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity(), transactionList, getString(R.string.transaction));
         pendingRecyclerView.setAdapter(transactionAdapter);
     }
 }

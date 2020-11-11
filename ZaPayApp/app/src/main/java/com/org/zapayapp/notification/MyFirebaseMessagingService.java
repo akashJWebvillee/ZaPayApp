@@ -52,6 +52,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private void sendNotification(Map<String, String> data) {
         Intent intent = null;
         try {
+
             String notification_type = data.get("notification_type");
             String status = data.get("status");
             String title = data.get("title");
@@ -63,6 +64,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 if (isAppBackground()){
                     intent = new Intent(this, HomeActivity.class);
                     intent.putExtra("notification_type", notification_type);
+                    intent.putExtra("status", status);
                     intent.putExtra("request_by", request_by);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
@@ -76,15 +78,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                 if (notification_type.equalsIgnoreCase("NEW_TRANSACTION_REQUEST")) {
                     intent.putExtra("moveFrom", getString(R.string.transaction));
+                    intent.putExtra("status", status);
                     intent.putExtra("transactionId", transaction_request_id);
 
                 } else if (notification_type.equalsIgnoreCase("REQUEST_ACCEPTED")) {
                    // intent.putExtra("moveFrom", getString(R.string.accepted));
                     intent.putExtra("moveFrom", getString(R.string.history));
+                    intent.putExtra("status", status);
                     intent.putExtra("transactionId", transaction_request_id);
                 } else if (notification_type.equalsIgnoreCase("REQUEST_DECLINED")) {
                   //  intent.putExtra("moveFrom", getString(R.string.decline));
                     intent.putExtra("moveFrom", getString(R.string.history));
+                    intent.putExtra("status", status);
                     intent.putExtra("transactionId", transaction_request_id);
                 } else if (notification_type.equalsIgnoreCase("REQUEST_NEGOTIATE")) {
                   //  intent.putExtra("moveFrom", getString(R.string.negotiation));
@@ -93,6 +98,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 }else if (notification_type.equalsIgnoreCase("PAY_DATE_EXTEND")){
                   //  intent.putExtra("moveFrom", getString(R.string.accepted));
                     intent.putExtra("moveFrom", getString(R.string.history));
+                    intent.putExtra("status", status);
+                    intent.putExtra("transactionId", transaction_request_id);
+                }else if (notification_type.equalsIgnoreCase("TRANSACTION_INITIATED")){
+                    intent.putExtra("moveFrom", getString(R.string.history));
+                    intent.putExtra("status", "2");
                     intent.putExtra("transactionId", transaction_request_id);
                 }
 

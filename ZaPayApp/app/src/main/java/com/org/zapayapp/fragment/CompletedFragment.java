@@ -138,7 +138,7 @@ public class CompletedFragment extends Fragment implements APICallback {
     private void setAdapter() {
         //TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity(), transactionList, getString(R.string.transaction));
        // completedRecyclerView.setAdapter(transactionAdapter);
-        TransactionCompletedAdapter transactionAdapter = new TransactionCompletedAdapter(getActivity(), transactionList, getString(R.string.completed));
+        TransactionCompletedAdapter transactionAdapter = new TransactionCompletedAdapter(getActivity(), transactionList, getString(R.string.transaction));
         completedRecyclerView.setAdapter(transactionAdapter);
 
 

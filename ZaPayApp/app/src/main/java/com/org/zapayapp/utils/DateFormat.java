@@ -2,6 +2,7 @@ package com.org.zapayapp.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -72,6 +73,20 @@ public class DateFormat {
             e.printStackTrace();
         }
         return str;
+    }
+
+
+    public static String getCurrentDate(){
+
+
+
+        Calendar c = Calendar.getInstance();
+        System.out.println("Current time => "+c.getTime());
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd",Locale.ENGLISH);
+        String formattedDate = df.format(c.getTime());
+        // formattedDate have current date/time
+        return formattedDate;
     }
 
 

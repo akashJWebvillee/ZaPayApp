@@ -263,7 +263,8 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
         //Negotiation....
         if (transactionModel != null && transactionModel.getTermsValue() != null && transactionModel.getTermsValue().length() > 0) {
-            lendTermsEdtOption.setText(transactionModel.getTermsValue());
+            if (!transactionModel.getTermsValue().equals("0"))
+               lendTermsEdtOption.setText(transactionModel.getTermsValue());
         }
 
         if (transactionModel != null && transactionModel.getTermsType() != null && transactionModel.getTermsType().length() > 0) {
@@ -527,7 +528,13 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 showSimpleAlert(getString(R.string.please_verify_bank_account), getString(R.string.please_verify_bank_account));
             } else if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("3")) {
                //callAPITransactionRequest();
-                privacyPolicyDialog();
+
+
+                if (transactionModel != null && transactionModel.getId() != null && transactionModel.getId().length() > 0) {
+                    callAPITransactionRequest();
+                }else {
+                    privacyPolicyDialog();
+                }
             }
         } else {
             showSimpleAlert(getString(R.string.please_select_contact), "");
@@ -678,15 +685,48 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
 
         if (transactionModel != null && transactionModel.getId() != null && transactionModel.getId().length() > 0) {
-            toId = transactionModel.getFromId();
+           String userId= SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString();
+
+          if (userId.equals(transactionModel.getToId())){   //negotiation from transaction
+              toId = transactionModel.getFromId();
+              int selectPosition = 0;
+              for (int i = 0; i < contactNumberList.size(); i++) {
+                  //this work for transaction
+                if (transactionModel.getFromId().equals(contactNumberList.get(i).getId())) {
+                    selectPosition = i;
+                    contactAdapter.setSelected(selectPosition, getString(R.string.negotiation));
+                    break;
+                }
+              }
+
+          }else if (userId.equals(transactionModel.getFromId())){ //negotiation from history
+              toId = transactionModel.getToId();
+              int selectPosition = 0;
+              for (int i = 0; i < contactNumberList.size(); i++) {
+                  //this work for history
+                  if (transactionModel.getToId().equals(contactNumberList.get(i).getId())) {
+                      selectPosition = i;
+                      contactAdapter.setSelected(selectPosition, getString(R.string.negotiation));
+                      break;
+                  }
+              }
+
+          }
+
+
+           /* toId = transactionModel.getFromId();
             int selectPosition = 0;
             for (int i = 0; i < contactNumberList.size(); i++) {
+                //this work for transaction
                 if (transactionModel.getFromId().equals(contactNumberList.get(i).getId())) {
                     selectPosition = i;
                     break;
                 }
             }
             contactAdapter.setSelected(selectPosition, getString(R.string.negotiation));
+            */
+
+
         }
     }
 

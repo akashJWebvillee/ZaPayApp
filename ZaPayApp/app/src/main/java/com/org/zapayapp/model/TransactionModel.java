@@ -61,8 +61,6 @@ public class TransactionModel implements Serializable {
     public String average_rating;
 
 
-
-
     public String getId() {
         return id;
     }

@@ -26,6 +26,8 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
     private TransactionModel transactionModel;
     private String negotiationAcceptDeclineStatus = "";
     private Intent intent;
+    private String status;
+    private boolean isClickable=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,12 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
         inIt();
         inItAction();
         getIntentValues();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isClickable=true;
     }
 
     private void inIt() {
@@ -61,44 +69,75 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
 
     private void getIntentValues() {
         intent = getIntent();
-        if (intent != null && intent.getStringExtra("transactionId") != null && intent.getStringExtra("moveFrom") != null) {
+        if (intent != null && intent.getStringExtra("transactionId") != null && intent.getStringExtra("moveFrom") != null&& intent.getStringExtra("status") != null) {
             transactionId = intent.getStringExtra("transactionId");
             moveFrom = intent.getStringExtra("moveFrom");
+             status= intent.getStringExtra("status");
+
             if (intent.getStringExtra("moveFrom") != null) {
                 if (getString(R.string.transaction).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
-                    negotiateTV.setVisibility(View.VISIBLE);
-                    acceptTV.setVisibility(View.VISIBLE);
-                    declineTV.setVisibility(View.VISIBLE);
                     callAPIGetTransactionRequestDetail(transactionId);
+
+
+                    if (status!=null&&status.equalsIgnoreCase("0")){ //PENDING
+                        setTransactionButtonVisibleFunc(status);
+                    }else if (status!=null&&status.equalsIgnoreCase("1")){//negotioation
+                        setTransactionButtonVisibleFunc(status);
+                    }else if (status!=null&&status.equalsIgnoreCase("2")){//accepted
+                        setTransactionButtonVisibleFunc(status);
+                    }else if (status!=null&&status.equalsIgnoreCase("3")){//decline
+                        setTransactionButtonVisibleFunc(status);
+                    }else if (status!=null&&status.equalsIgnoreCase("4")){//completed
+                        setTransactionButtonVisibleFunc(status);
+                    }
+
                 } else if (getString(R.string.history).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
-                    negotiateTV.setVisibility(View.GONE);
-                    acceptTV.setVisibility(View.GONE);
-                    declineTV.setVisibility(View.GONE);
                     callAPIGetHistoryRequestDetail(transactionId);
 
+                    if (status!=null&&status.equalsIgnoreCase("0")){ //PENDING
+                        setHistoryButtonVisibleFunc(status);
+                    }else if (status!=null&&status.equalsIgnoreCase("1")){//negotioation
+                        setHistoryButtonVisibleFunc(status);
+                    }else if (status!=null&&status.equalsIgnoreCase("2")){//accepted
+                        setHistoryButtonVisibleFunc(status);
+                    }else if (status!=null&&status.equalsIgnoreCase("3")){//decline
+                        setHistoryButtonVisibleFunc(status);
+                    }else if (status!=null&&status.equalsIgnoreCase("4")){//completed
+                        setHistoryButtonVisibleFunc(status);
+                    }
 
-                } else if (getString(R.string.negotiation).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
-                    negotiateTV.setVisibility(View.GONE);
-                    acceptTV.setVisibility(View.GONE);
-                    declineTV.setVisibility(View.GONE);
-                    callAPIGetTransactionRequestDetail(transactionId);
-                } else if (getString(R.string.accepted).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
-                    negotiateTV.setVisibility(View.GONE);
-                    acceptTV.setVisibility(View.GONE);
-                    declineTV.setVisibility(View.GONE);
-                    callAPIGetTransactionRequestDetail(transactionId);
-                } else if (getString(R.string.completed).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
-                    negotiateTV.setVisibility(View.GONE);
-                    acceptTV.setVisibility(View.GONE);
-                    declineTV.setVisibility(View.GONE);
-                    callAPIGetTransactionRequestDetail(transactionId);
-                } else if (getString(R.string.decline).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
-                    negotiateTV.setVisibility(View.GONE);
-                    acceptTV.setVisibility(View.GONE);
-                    declineTV.setVisibility(View.GONE);
-                    callAPIGetTransactionRequestDetail(transactionId);
+
+
                 }
             }
+        }
+    }
+
+    private void setHistoryButtonVisibleFunc(String status){
+        if (status.equalsIgnoreCase("1")){
+            negotiateTV.setVisibility(View.VISIBLE);
+            acceptTV.setVisibility(View.VISIBLE);
+            declineTV.setVisibility(View.VISIBLE);
+        }else {
+            negotiateTV.setVisibility(View.GONE);
+            acceptTV.setVisibility(View.GONE);
+            declineTV.setVisibility(View.GONE);
+        }
+    }
+
+    private void setTransactionButtonVisibleFunc(String status){
+        if (status.equalsIgnoreCase("0")){   //0==pending
+            negotiateTV.setVisibility(View.VISIBLE);
+            acceptTV.setVisibility(View.VISIBLE);
+            declineTV.setVisibility(View.VISIBLE);
+        }else if (status.equalsIgnoreCase("1")){
+            negotiateTV.setVisibility(View.VISIBLE);
+            acceptTV.setVisibility(View.VISIBLE);
+            declineTV.setVisibility(View.VISIBLE);
+        }else {
+            negotiateTV.setVisibility(View.GONE);
+            acceptTV.setVisibility(View.GONE);
+            declineTV.setVisibility(View.GONE);
         }
     }
 
@@ -122,12 +161,16 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 callAPIUpdateTransactionRequestStatus("3");
                 break;
             case R.id.viewAllTV:
-                intent = new Intent(LendingSummaryActivity.this, ViewAllSummaryActivity.class);
-                intent.putExtra("transactionId", transactionId);
-                intent.putExtra("moveFrom", moveFrom);
-                intent.putExtra("requestBy", transactionModel.getRequestBy());
-                startActivity(intent);
-                startActivityForResult(intent,2);
+                if (isClickable){
+                    isClickable=false;
+                    intent = new Intent(LendingSummaryActivity.this, ViewAllSummaryActivity.class);
+                    intent.putExtra("transactionId", transactionId);
+                    intent.putExtra("moveFrom", moveFrom);
+                    intent.putExtra("status", status);
+                    intent.putExtra("requestBy", transactionModel.getRequestBy());
+                    //startActivity(intent);
+                    startActivityForResult(intent,2);
+                }
                 break;
             case R.id.chatTV:
                 intent = new Intent(LendingSummaryActivity.this, ChatActivity.class);

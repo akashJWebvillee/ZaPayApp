@@ -140,7 +140,55 @@
 
 
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:fontFamily="@font/gotha_promed"
+                    android:text="@string/ethnicity"
+                    android:textAllCaps="true"
+                    android:textColor="@color/textColorBold"
+                    android:textSize="11sp" />
 
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.org.zapayapp.uihelpers.CustomTextInputLayout
+                        android:id="@+id/ethnicityInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:padding="0dp"
+                        android:theme="@style/TextInputLayoutAppearance"
+                        app:boxBackgroundMode="none"
+                        app:boxStrokeColor="@null"
+                        app:errorIconDrawable="@null"
+                        app:errorTextAppearance="@style/error_appearance"
+                        app:hintEnabled="false">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/ethnicityEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/edt_bg_selector"
+                            android:fontFamily="@font/gotha_pro_reg"
+                            android:hint="@string/enter_ethnicity"
+                            android:importantForAutofill="no"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:paddingStart="0dp"
+                            android:paddingTop="0dp"
+                            android:paddingEnd="10dp"
+                            android:paddingBottom="10dp"
+                            android:textColor="@color/textColorBold"
+                            android:textColorHint="@color/textColorBold20Alpha"
+                            android:textSize="15sp"
+                            android:theme="@style/TextInputLayoutAppearance" />
+                    </com.org.zapayapp.uihelpers.CustomTextInputLayout>
+                </RelativeLayout>
 
 
                 <TextView
@@ -487,7 +535,7 @@
 
 
 
-                <TextView
+               <!-- <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="22dp"
@@ -535,7 +583,7 @@
                             android:textSize="15sp"
                             android:theme="@style/TextInputLayoutAppearance" />
                     </com.org.zapayapp.uihelpers.CustomTextInputLayout>
-                </RelativeLayout>
+                </RelativeLayout>-->
 
             </LinearLayout>
 
