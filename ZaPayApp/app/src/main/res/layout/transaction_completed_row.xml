@@ -42,23 +42,7 @@
             android:layout_marginEnd="16dp"
             android:text="$5000"/>
 
-        <com.org.zapayapp.uihelpers.CustomRatingBar
-            android:id="@+id/viewRatingBar"
-            android:layout_width="wrap_content"
-            android:layout_height="13dp"
-            android:layout_below="@+id/amountTV"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="2dp"
-            android:stepSize="1"
-            app:halfStars="true"
-            app:maxStars="5"
-            app:onlyForDisplay="true"
-            app:starHalf="@mipmap/ic_star_fill"
-            app:starOff="@mipmap/ic_star_hollow"
-            app:starOn="@mipmap/ic_star_fill"
-            app:starPadding="2dp"
-            app:stars="3"
-            android:layout_marginEnd="10dp"/>
+
 
 
 
@@ -142,6 +126,25 @@
             android:layout_height="5dp"
             android:src="@drawable/dotted"
             android:layerType="software" />
+
+
+        <com.org.zapayapp.uihelpers.CustomRatingBar
+            android:id="@+id/viewRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="13dp"
+            android:layout_below="@+id/dotLineIV"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="5dp"
+            android:stepSize="1"
+            app:halfStars="true"
+            app:maxStars="5"
+            app:onlyForDisplay="true"
+            app:starHalf="@mipmap/ic_star_fill"
+            app:starOff="@mipmap/ic_star_hollow"
+            app:starOn="@mipmap/ic_star_fill"
+            app:starPadding="2dp"
+            app:stars="3"
+            android:layout_marginEnd="10dp"/>
 
         <LinearLayout
             android:id="@+id/rattingLL"

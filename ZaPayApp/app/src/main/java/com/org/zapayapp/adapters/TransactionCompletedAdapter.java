@@ -171,12 +171,14 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
                         Intent intent = new Intent(context, RattingDialogActivity.class);
                         intent.putExtra("requestBy", "2");
                         intent.putExtra("toId", transactionModel.getToId());
+                        intent.putExtra("fromId", transactionModel.getFromId());
                         intent.putExtra("transactionRequestID", transactionModel.getId());
                         context.startActivity(intent);
                     } else if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
                         Intent intent = new Intent(context, RattingDialogActivity.class);
                         intent.putExtra("requestBy", "1");
                         intent.putExtra("toId", transactionModel.getToId());
+                        intent.putExtra("fromId", transactionModel.getFromId());
                         intent.putExtra("transactionRequestID", transactionModel.getId());
                         context.startActivity(intent);
                     }

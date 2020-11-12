@@ -38,11 +38,7 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
         getIntentValues();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        isClickable=true;
-    }
+
 
     private void inIt() {
         nameTV = findViewById(R.id.nameTV);
@@ -71,47 +67,58 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
         intent = getIntent();
         if (intent != null && intent.getStringExtra("transactionId") != null && intent.getStringExtra("moveFrom") != null&& intent.getStringExtra("status") != null) {
             transactionId = intent.getStringExtra("transactionId");
-            moveFrom = intent.getStringExtra("moveFrom");
+             moveFrom = intent.getStringExtra("moveFrom");
              status= intent.getStringExtra("status");
 
             if (intent.getStringExtra("moveFrom") != null) {
-                if (getString(R.string.transaction).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
-                    callAPIGetTransactionRequestDetail(transactionId);
+                setDataStatusFunc();
 
-
-                    if (status!=null&&status.equalsIgnoreCase("0")){ //PENDING
-                        setTransactionButtonVisibleFunc(status);
-                    }else if (status!=null&&status.equalsIgnoreCase("1")){//negotioation
-                        setTransactionButtonVisibleFunc(status);
-                    }else if (status!=null&&status.equalsIgnoreCase("2")){//accepted
-                        setTransactionButtonVisibleFunc(status);
-                    }else if (status!=null&&status.equalsIgnoreCase("3")){//decline
-                        setTransactionButtonVisibleFunc(status);
-                    }else if (status!=null&&status.equalsIgnoreCase("4")){//completed
-                        setTransactionButtonVisibleFunc(status);
-                    }
-
-                } else if (getString(R.string.history).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
-                    callAPIGetHistoryRequestDetail(transactionId);
-
-                    if (status!=null&&status.equalsIgnoreCase("0")){ //PENDING
-                        setHistoryButtonVisibleFunc(status);
-                    }else if (status!=null&&status.equalsIgnoreCase("1")){//negotioation
-                        setHistoryButtonVisibleFunc(status);
-                    }else if (status!=null&&status.equalsIgnoreCase("2")){//accepted
-                        setHistoryButtonVisibleFunc(status);
-                    }else if (status!=null&&status.equalsIgnoreCase("3")){//decline
-                        setHistoryButtonVisibleFunc(status);
-                    }else if (status!=null&&status.equalsIgnoreCase("4")){//completed
-                        setHistoryButtonVisibleFunc(status);
-                    }
-
-
-
-                }
             }
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isClickable=true;
+        setDataStatusFunc();
+    }
+
+    private void setDataStatusFunc(){
+        if (getString(R.string.transaction).equalsIgnoreCase(moveFrom)) {
+            callAPIGetTransactionRequestDetail(transactionId);
+
+
+            if (status!=null&&status.equalsIgnoreCase("0")){ //PENDING
+                setTransactionButtonVisibleFunc(status);
+            }else if (status!=null&&status.equalsIgnoreCase("1")){//negotioation
+                setTransactionButtonVisibleFunc(status);
+            }else if (status!=null&&status.equalsIgnoreCase("2")){//accepted
+                setTransactionButtonVisibleFunc(status);
+            }else if (status!=null&&status.equalsIgnoreCase("3")){//decline
+                setTransactionButtonVisibleFunc(status);
+            }else if (status!=null&&status.equalsIgnoreCase("4")){//completed
+                setTransactionButtonVisibleFunc(status);
+            }
+
+        } else if (getString(R.string.history).equalsIgnoreCase(moveFrom)) {
+            callAPIGetHistoryRequestDetail(transactionId);
+
+            if (status!=null&&status.equalsIgnoreCase("0")){ //PENDING
+                setHistoryButtonVisibleFunc(status);
+            }else if (status!=null&&status.equalsIgnoreCase("1")){//negotioation
+                setHistoryButtonVisibleFunc(status);
+            }else if (status!=null&&status.equalsIgnoreCase("2")){//accepted
+                setHistoryButtonVisibleFunc(status);
+            }else if (status!=null&&status.equalsIgnoreCase("3")){//decline
+                setHistoryButtonVisibleFunc(status);
+            }else if (status!=null&&status.equalsIgnoreCase("4")){//completed
+                setHistoryButtonVisibleFunc(status);
+            }
+        }
+    }
+
+
 
     private void setHistoryButtonVisibleFunc(String status){
         if (status.equalsIgnoreCase("1")){

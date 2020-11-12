@@ -29,14 +29,12 @@ import java.util.HashMap;
 import retrofit2.Call;
 
 public class BorrowSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener {
-
     private TextView nameTV, amountTV, termTV, noOfPaymentTV, paymentDateTV, totalReceivedBackTV, viewAllTV, negotiateTV, acceptTV, declineTV, chatTV;
     private String transactionId, moveFrom;
     private TransactionModel transactionModel;
     private String negotiationAcceptDeclineStatus = "";
     private Intent intent;
     private String status;
-
     private boolean isClickable=true;
 
     @Override
@@ -75,42 +73,55 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
         intent = getIntent();
         if (intent != null && intent.getStringExtra("transactionId") != null && intent.getStringExtra("moveFrom") != null) {
             transactionId = intent.getStringExtra("transactionId");
-            moveFrom = intent.getStringExtra("moveFrom");
+             moveFrom = intent.getStringExtra("moveFrom");
              status= intent.getStringExtra("status");
+            //setDataStatusFunc();
 
-            if (getString(R.string.transaction).equalsIgnoreCase(moveFrom)) {
-                callAPIGetTransactionRequestDetail(transactionId);
-
-                if (status!=null&&status.equalsIgnoreCase("0")){ //PENDING
-                    setTransactionButtonVisibleFunc(status);
-                }else if (status!=null&&status.equalsIgnoreCase("1")){//negotioation
-                    setTransactionButtonVisibleFunc(status);
-                }else if (status!=null&&status.equalsIgnoreCase("2")){//accepted
-                    setTransactionButtonVisibleFunc(status);
-                }else if (status!=null&&status.equalsIgnoreCase("3")){//decline
-                    setTransactionButtonVisibleFunc(status);
-                }else if (status!=null&&status.equalsIgnoreCase("4")){//completed
-                    setTransactionButtonVisibleFunc(status);
-                }
+        }
+    }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isClickable=true;
+        setDataStatusFunc();
+    }
 
-            } else if (getString(R.string.history).equalsIgnoreCase(moveFrom)) {
-                callAPIGetHistoryRequestDetail(transactionId);
 
-                if (status!=null&&status.equalsIgnoreCase("0")){ //PENDING
-                    setHistoryButtonVisibleFunc(status);
-                }else if (status!=null&&status.equalsIgnoreCase("1")){//negotioation
-                    setHistoryButtonVisibleFunc(status);
-                }else if (status!=null&&status.equalsIgnoreCase("2")){//accepted
-                    setHistoryButtonVisibleFunc(status);
-                }else if (status!=null&&status.equalsIgnoreCase("3")){//decline
-                    setHistoryButtonVisibleFunc(status);
-                }else if (status!=null&&status.equalsIgnoreCase("4")){//completed
-                    setHistoryButtonVisibleFunc(status);
-                }
+    private void setDataStatusFunc(){
+        if (getString(R.string.transaction).equalsIgnoreCase(moveFrom)) {
+            callAPIGetTransactionRequestDetail(transactionId);
 
+            if (status!=null&&status.equalsIgnoreCase("0")){ //PENDING
+                setTransactionButtonVisibleFunc(status);
+            }else if (status!=null&&status.equalsIgnoreCase("1")){//negotioation
+                setTransactionButtonVisibleFunc(status);
+            }else if (status!=null&&status.equalsIgnoreCase("2")){//accepted
+                setTransactionButtonVisibleFunc(status);
+            }else if (status!=null&&status.equalsIgnoreCase("3")){//decline
+                setTransactionButtonVisibleFunc(status);
+            }else if (status!=null&&status.equalsIgnoreCase("4")){//completed
+                setTransactionButtonVisibleFunc(status);
             }
+
+
+
+        } else if (getString(R.string.history).equalsIgnoreCase(moveFrom)) {
+            callAPIGetHistoryRequestDetail(transactionId);
+
+            if (status!=null&&status.equalsIgnoreCase("0")){ //PENDING
+                setHistoryButtonVisibleFunc(status);
+            }else if (status!=null&&status.equalsIgnoreCase("1")){//negotioation
+                setHistoryButtonVisibleFunc(status);
+            }else if (status!=null&&status.equalsIgnoreCase("2")){//accepted
+                setHistoryButtonVisibleFunc(status);
+            }else if (status!=null&&status.equalsIgnoreCase("3")){//decline
+                setHistoryButtonVisibleFunc(status);
+            }else if (status!=null&&status.equalsIgnoreCase("4")){//completed
+                setHistoryButtonVisibleFunc(status);
+            }
+
         }
     }
 
@@ -143,11 +154,6 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        isClickable=true;
-    }
 
     @Override
     protected boolean useToolbar() {

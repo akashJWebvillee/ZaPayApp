@@ -34,6 +34,7 @@ import retrofit2.Call;
 public class RattingDialogActivity extends AppCompatActivity implements APICallback , SimpleAlertFragment.AlertSimpleCallback {
     private String requestBy;
     private String toId="";
+    private String fromId="";
     private String transactionRequestID="";
 
     private TextView titleTV;
@@ -83,6 +84,7 @@ public class RattingDialogActivity extends AppCompatActivity implements APICallb
         if (getIntent().getStringExtra("requestBy")!=null&&getIntent().getStringExtra("toId")!=null&&getIntent().getStringExtra("transactionRequestID")!=null){
             requestBy= getIntent().getStringExtra("requestBy");
             toId= getIntent().getStringExtra("toId");
+            fromId= getIntent().getStringExtra("fromId");
             transactionRequestID= getIntent().getStringExtra("transactionRequestID");
         }
     }
@@ -117,7 +119,7 @@ public class RattingDialogActivity extends AppCompatActivity implements APICallb
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
             HashMap<String, Object> values = apiCalling.getHashMapObject(
-                    "to_id", toId,
+                    "to_id", fromId,
                     "rating", ratingValue,
                     "transaction_request_id", transactionRequestID);
 

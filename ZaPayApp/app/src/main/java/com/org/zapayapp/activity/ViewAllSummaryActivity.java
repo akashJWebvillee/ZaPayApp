@@ -158,6 +158,18 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setDataStatusFunc();
+    }
+
+    private void setDataStatusFunc(){
+
+    }
+
+
+
     private void setHistoryButtonVisibleFunc(String status) {
         if (status.equalsIgnoreCase("1")) {
             negotiateTV.setVisibility(View.VISIBLE);
@@ -196,6 +208,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 intent.putExtra("isBorrow", true);
                 intent.putExtra("transactionModel", transactionModel);
                 startActivity(intent);
+                finish();
                 break;
             case R.id.acceptTV:
                 callAPIUpdateTransactionRequestStatus("2");
@@ -471,39 +484,11 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
     public void datePickerCallback(String selectedDate, int year, int month, int day, String from) throws ParseException {
         String formattedDate = year + "-" + month + "-" + day;
         if (dateModel != null) {
-            if (dateValidation(formattedDate, dateModel)) {
-                //callAPIUpdatePayDate(formattedDate);
-            }
+            callAPIUpdatePayDate(formattedDate);
         }
 
     }
 
-
-    public static double toMilliSeconds(long millis) {
-        long days = (millis / (60 * 60 * 24 * 1000));
-        return days;
-    }
-
-
-    private boolean dateValidation(String formattedDate, DateModel dateModel) {
-        boolean isSelect = false;
-        long oldDate = DateFormat.getEpochFromDate(dateModel.getPayDate());
-        long selectDate = DateFormat.getEpochFromDate(formattedDate);
-
-        Log.e("hour", "getPayDate====" + dateModel.getPayDate());
-        Log.e("hour", "formattedDate====" + formattedDate);
-        Log.e("hour", "formattedDate day====" + toMilliSeconds(oldDate));
-        Log.e("hour", "formattedDate day====" + toMilliSeconds(selectDate));
-
-
-
-
-        if (selectDate <= 30) {
-            isSelect = true;
-        }
-
-        return isSelect;
-    }
 
     private void setPaybackAdapter() {
         if (getString(R.string.history).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {

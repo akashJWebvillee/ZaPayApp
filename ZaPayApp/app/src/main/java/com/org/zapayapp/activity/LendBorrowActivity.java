@@ -1,4 +1,5 @@
 package com.org.zapayapp.activity;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,12 +19,14 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.dd.ShadowLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonElement;
@@ -45,13 +48,16 @@ import com.org.zapayapp.utils.EndlessRecyclerViewScrollListener;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.WVDateLib;
 import com.org.zapayapp.webservices.APICallback;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import retrofit2.Call;
 
 public class LendBorrowActivity extends BaseActivity implements View.OnClickListener, DatePickerFragmentDialogue.DatePickerCallback, APICallback, ContactListener {
@@ -264,7 +270,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         //Negotiation....
         if (transactionModel != null && transactionModel.getTermsValue() != null && transactionModel.getTermsValue().length() > 0) {
             if (!transactionModel.getTermsValue().equals("0"))
-               lendTermsEdtOption.setText(transactionModel.getTermsValue());
+                lendTermsEdtOption.setText(transactionModel.getTermsValue());
         }
 
         if (transactionModel != null && transactionModel.getTermsType() != null && transactionModel.getTermsType().length() > 0) {
@@ -375,7 +381,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         contactRecycler.setItemAnimator(new DefaultItemAnimator());
 
 
-        callAPIGetContactList(pageNo);
         scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
@@ -384,7 +389,8 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             }
         };
         contactRecycler.addOnScrollListener(scrollListener);
-
+        pageNo = 0;
+        callAPIGetContactList(pageNo);
     }
 
     @Override
@@ -527,12 +533,12 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             } else if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("2")) {
                 showSimpleAlert(getString(R.string.please_verify_bank_account), getString(R.string.please_verify_bank_account));
             } else if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("3")) {
-               //callAPITransactionRequest();
+                //callAPITransactionRequest();
 
 
                 if (transactionModel != null && transactionModel.getId() != null && transactionModel.getId().length() > 0) {
                     callAPITransactionRequest();
-                }else {
+                } else {
                     privacyPolicyDialog();
                 }
             }
@@ -683,50 +689,51 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             contactRecycler.setAdapter(contactAdapter);
         }
 
-
         if (transactionModel != null && transactionModel.getId() != null && transactionModel.getId().length() > 0) {
-           String userId= SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString();
+            String userId = SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString();
 
-          if (userId.equals(transactionModel.getToId())){   //negotiation from transaction
-              toId = transactionModel.getFromId();
-              int selectPosition = 0;
-              for (int i = 0; i < contactNumberList.size(); i++) {
-                  //this work for transaction
-                if (transactionModel.getFromId().equals(contactNumberList.get(i).getId())) {
-                    selectPosition = i;
-                    contactAdapter.setSelected(selectPosition, getString(R.string.negotiation));
-                    break;
+            if (userId.equals(transactionModel.getToId())) {   //negotiation from transaction
+                toId = transactionModel.getFromId();
+                int selectPosition = 0;
+                for (int i = 0; i < contactNumberList.size(); i++) {
+                    //this work for transaction
+                    if (transactionModel.getFromId().equals(contactNumberList.get(i).getId())) {
+                        selectPosition = i;
+                        contactAdapter.setSelected(selectPosition, getString(R.string.negotiation));
+                        break;
+                    }
                 }
-              }
 
-          }else if (userId.equals(transactionModel.getFromId())){ //negotiation from history
-              toId = transactionModel.getToId();
-              int selectPosition = 0;
-              for (int i = 0; i < contactNumberList.size(); i++) {
-                  //this work for history
-                  if (transactionModel.getToId().equals(contactNumberList.get(i).getId())) {
-                      selectPosition = i;
-                      contactAdapter.setSelected(selectPosition, getString(R.string.negotiation));
-                      break;
-                  }
-              }
+            } else if (userId.equals(transactionModel.getFromId())) { //negotiation from history
+                toId = transactionModel.getToId();
+                int selectPosition = 0;
+                for (int i = 0; i < contactNumberList.size(); i++) {
+                    //this work for history
+                    if (transactionModel.getToId().equals(contactNumberList.get(i).getId())) {
+                        selectPosition = i;
+                        contactAdapter.setSelected(selectPosition, getString(R.string.negotiation));
+                        break;
+                    }
+                }
 
-          }
+            }
 
 
-           /* toId = transactionModel.getFromId();
+
+
+          /*  Log.e("getFromId", "getFromId==" + transactionModel.getFromId());
+            Log.e("getFromId", "getToId==" + transactionModel.getToId());
+            Log.e("getFromId", "userId==" + userId);
+            toId = transactionModel.getFromId();
             int selectPosition = 0;
             for (int i = 0; i < contactNumberList.size(); i++) {
                 //this work for transaction
                 if (transactionModel.getFromId().equals(contactNumberList.get(i).getId())) {
                     selectPosition = i;
+                    contactAdapter.setSelected(selectPosition, getString(R.string.negotiation));
                     break;
                 }
-            }
-            contactAdapter.setSelected(selectPosition, getString(R.string.negotiation));
-            */
-
-
+            }*/
         }
     }
 
@@ -1096,6 +1103,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                         noDataTv.setVisibility(View.GONE);
                         contactRecycler.setVisibility(View.VISIBLE);
                         contactNumberList.addAll(list);
+
                         setContactAdapter();
 
                     } else {
@@ -1138,8 +1146,8 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
     }
 
-    private void privacyPolicyDialog(){
-        Dialog dialog=new Dialog(LendBorrowActivity.this);
+    private void privacyPolicyDialog() {
+        Dialog dialog = new Dialog(LendBorrowActivity.this);
         dialog.setContentView(R.layout.privacy_policy_dialog);
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
@@ -1150,14 +1158,15 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
         dialog.show();
-        TextView okTV=dialog.findViewById(R.id.okTV);
-        TextView cancelTV=dialog.findViewById(R.id.cancelTV);
-        CheckBox mChkAgree=dialog.findViewById(R.id.mChkAgree);
+        TextView okTV = dialog.findViewById(R.id.okTV);
+        TextView cancelTV = dialog.findViewById(R.id.cancelTV);
+        CheckBox mChkAgree = dialog.findViewById(R.id.mChkAgree);
         okTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mChkAgree.isChecked()) {
                     callAPITransactionRequest();
+                    dialog.dismiss();
                 } else {
                     showSimpleAlert(getString(R.string.term_condition), "");
                 }

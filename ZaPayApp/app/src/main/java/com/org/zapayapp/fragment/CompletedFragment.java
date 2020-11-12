@@ -32,7 +32,6 @@ import retrofit2.Call;
 
 
 public class CompletedFragment extends Fragment implements APICallback {
-
     private TransactionActivity activity;
     private List<TransactionModel> transactionList;
     private RecyclerView completedRecyclerView;
@@ -71,6 +70,13 @@ public class CompletedFragment extends Fragment implements APICallback {
         };
 
         completedRecyclerView.addOnScrollListener(scrollListener);
+       // pageNo = 0;
+       // callAPIGetTransactionRequest(pageNo);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         pageNo = 0;
         callAPIGetTransactionRequest(pageNo);
     }
