@@ -18,6 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,6 +47,7 @@ import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.MySession;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.WValidationLib;
+import com.org.zapayapp.viewModel.ProjectViewModel;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
 import com.org.zapayapp.webservices.RestAPI;
@@ -772,6 +774,9 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
 
     private void sendReceiveAck(final JSONObject object) {
         try {
+
+            ProjectViewModel projectViewModel= new ViewModelProvider(this).get(ProjectViewModel.class);
+
             //{"status":200,"message":"success","data":{"receiver_id":"52","sender_id":"53","message":"Hello","transaction_request_id":"103","message_id":108,"status":0,"created_at":1598699350222}}
             JSONObject msg_data = null;
             String transaction_request_id = "", msg_sender_id = "", msg_id = "";

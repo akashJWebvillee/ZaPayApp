@@ -132,12 +132,11 @@
                     android:id="@+id/genderSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:overlapAnchor="false"
-                    android:minHeight="20dp"
+                    android:layout_marginTop="3dp"
                     android:background="@drawable/bg_spinner"
                     android:dropDownWidth="match_parent"
-                    android:layout_marginTop="3dp" />
-
+                    android:minHeight="20dp"
+                    android:overlapAnchor="false" />
 
 
                 <TextView
@@ -293,11 +292,11 @@
                     android:id="@+id/stateSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:overlapAnchor="false"
-                    android:minHeight="20dp"
+                    android:layout_marginTop="3dp"
                     android:background="@drawable/bg_spinner"
                     android:dropDownWidth="match_parent"
-                    android:layout_marginTop="3dp" />
+                    android:minHeight="20dp"
+                    android:overlapAnchor="false" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -313,11 +312,11 @@
                     android:id="@+id/citySpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:overlapAnchor="false"
+                    android:layout_marginTop="3dp"
                     android:background="@drawable/bg_spinner"
-                    android:minHeight="20dp"
                     android:dropDownWidth="match_parent"
-                    android:layout_marginTop="3dp" />
+                    android:minHeight="20dp"
+                    android:overlapAnchor="false" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -419,6 +418,7 @@
                     android:textAllCaps="true"
                     android:textColor="@color/textColorBold"
                     android:textSize="11sp" />
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -493,8 +493,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:focusable="false"
                             android:background="@drawable/edt_bg_selector"
+                            android:focusable="false"
                             android:fontFamily="@font/gotha_pro_reg"
                             android:hint="@string/enter_your_age"
                             android:importantForAutofill="no"
@@ -526,21 +526,20 @@
                     android:id="@+id/incomeBracketSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:overlapAnchor="false"
-                    android:minHeight="20dp"
+                    android:layout_marginTop="3dp"
                     android:background="@drawable/bg_spinner"
                     android:dropDownWidth="match_parent"
-                    android:layout_marginTop="3dp" />
+                    android:minHeight="20dp"
+                    android:overlapAnchor="false" />
 
 
-
-
-               <!-- <TextView
+                <TextView
+                    android:id="@+id/signatureTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="22dp"
                     android:fontFamily="@font/gotha_promed"
-                    android:text="@string/ethnicity"
+                    android:text="Signature"
                     android:textAllCaps="true"
                     android:textColor="@color/textColorBold"
                     android:textSize="11sp" />
@@ -548,42 +547,76 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="150dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/bg_spinner">
 
-                    <com.org.zapayapp.uihelpers.CustomTextInputLayout
-                        android:id="@+id/ethnicityInputLayout"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/signatureHintTV"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:padding="0dp"
-                        android:theme="@style/TextInputLayoutAppearance"
-                        app:boxBackgroundMode="none"
-                        app:boxStrokeColor="@null"
-                        app:errorIconDrawable="@null"
-                        app:errorTextAppearance="@style/error_appearance"
-                        app:hintEnabled="false">
+                        android:hint="Click here"
+                        android:layout_centerInParent="true"/>
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/ethnicityEditText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:background="@drawable/edt_bg_selector"
-                            android:fontFamily="@font/gotha_pro_reg"
-                            android:hint="@string/enter_ethnicity"
-                            android:importantForAutofill="no"
-                            android:inputType="text"
-                            android:maxLines="1"
-                            android:paddingStart="0dp"
-                            android:paddingTop="0dp"
-                            android:paddingEnd="10dp"
-                            android:paddingBottom="10dp"
-                            android:textColor="@color/textColorBold"
-                            android:textColorHint="@color/textColorBold20Alpha"
-                            android:textSize="15sp"
-                            android:theme="@style/TextInputLayoutAppearance" />
-                    </com.org.zapayapp.uihelpers.CustomTextInputLayout>
-                </RelativeLayout>-->
+
+                    <ImageView
+                        android:id="@+id/signatureImageView1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:layout_marginBottom="10dp" />
+                </RelativeLayout>
+
+
+                <!-- <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_marginTop="22dp"
+                     android:fontFamily="@font/gotha_promed"
+                     android:text="@string/ethnicity"
+                     android:textAllCaps="true"
+                     android:textColor="@color/textColorBold"
+                     android:textSize="11sp" />
+
+
+                 <RelativeLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content">
+
+                     <com.org.zapayapp.uihelpers.CustomTextInputLayout
+                         android:id="@+id/ethnicityInputLayout"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_marginTop="8dp"
+                         android:padding="0dp"
+                         android:theme="@style/TextInputLayoutAppearance"
+                         app:boxBackgroundMode="none"
+                         app:boxStrokeColor="@null"
+                         app:errorIconDrawable="@null"
+                         app:errorTextAppearance="@style/error_appearance"
+                         app:hintEnabled="false">
+
+                         <com.google.android.material.textfield.TextInputEditText
+                             android:id="@+id/ethnicityEditText"
+                             android:layout_width="match_parent"
+                             android:layout_height="wrap_content"
+                             android:layout_marginTop="8dp"
+                             android:background="@drawable/edt_bg_selector"
+                             android:fontFamily="@font/gotha_pro_reg"
+                             android:hint="@string/enter_ethnicity"
+                             android:importantForAutofill="no"
+                             android:inputType="text"
+                             android:maxLines="1"
+                             android:paddingStart="0dp"
+                             android:paddingTop="0dp"
+                             android:paddingEnd="10dp"
+                             android:paddingBottom="10dp"
+                             android:textColor="@color/textColorBold"
+                             android:textColorHint="@color/textColorBold20Alpha"
+                             android:textSize="15sp"
+                             android:theme="@style/TextInputLayoutAppearance" />
+                     </com.org.zapayapp.uihelpers.CustomTextInputLayout>
+                 </RelativeLayout>-->
 
             </LinearLayout>
 

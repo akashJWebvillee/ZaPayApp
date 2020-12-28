@@ -1,6 +1,10 @@
 package com.org.zapayapp.dialogs;
+
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -8,14 +12,17 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.ZapayApp;
+import com.org.zapayapp.activity.SignatureActivity;
 import com.org.zapayapp.adapters.CityAdapter;
 import com.org.zapayapp.adapters.GenderAdapter;
 import com.org.zapayapp.adapters.IncomeAdapter;
@@ -39,6 +46,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -74,6 +82,8 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     private List<String> incomeList;
     private String incomeValue;
     private String ethnicity = "";
+    private ImageView signatureImageView;
+    private TextView signatureHintTV;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -124,6 +134,9 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         citySpinner = findViewById(R.id.citySpinner);
         genderSpinner = findViewById(R.id.genderSpinner);
         incomeBracketSpinner = findViewById(R.id.incomeBracketSpinner);
+        signatureHintTV = findViewById(R.id.signatureHintTV);
+        signatureImageView = findViewById(R.id.signatureImageView1);
+        signatureImageView.setOnClickListener(this);
         stateName = SharedPref.getPrefsHelper().getPref(Const.Var.STATE).toString();
 
         dobEditText.setOnClickListener(new View.OnClickListener() {
@@ -133,7 +146,7 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
             }
         });
         setDataOnScreen();
-       }
+    }
 
     private void initAction() {
         String[] genderArray = getResources().getStringArray(R.array.genderArray);
@@ -201,6 +214,7 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 incomeValue = incomeList.get(position);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -251,6 +265,9 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
             updateProfileFunc();
         } else if (v.equals(cancelImageView)) {
             finish();
+        } else if (v.getId()==R.id.signatureImageView1) {
+            Intent intent = new Intent(EditProfileDialogActivity.this, SignatureActivity.class);
+            startActivityForResult(intent, 200);
         }
     }
 
@@ -538,4 +555,22 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         return ageInt;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 200 && data != null) {
+           // Bitmap bitmapImage = (Bitmap) data.getParcelableExtra("BitmapImage");
+          //  signatureImageView.setImageBitmap(bitmapImage);
+            signatureHintTV.setVisibility(View.GONE);
+
+            if(data.hasExtra("byteArray")&&data.getByteArrayExtra("byteArray")!=null) {
+                int byteArrayLenth= Objects.requireNonNull(data.getByteArrayExtra("byteArray")).length;
+                Bitmap bitmap = BitmapFactory.decodeByteArray(data.getByteArrayExtra("byteArray"),0,byteArrayLenth);
+                signatureImageView.setImageBitmap(bitmap);
+
+            }
+
+        }
+
+    }
 }

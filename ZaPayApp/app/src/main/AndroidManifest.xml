@@ -10,15 +10,15 @@
     <application
         android:name=".ZapayApp"
         android:allowBackup="false"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"
-        android:hardwareAccelerated="true">
-
+        android:usesCleartextTraffic="true">
+        <activity android:name=".activity.SignatureActivity"></activity>
         <activity
             android:name=".dialogs.DateChangeRequestDialogActivity"
             android:fitsSystemWindows="true"
@@ -30,9 +30,8 @@
         <activity
             android:name=".activity.SetPinActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:windowSoftInputMode="stateAlwaysVisible"/>
-
+            android:windowSoftInputMode="stateAlwaysVisible"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".dialogs.RattingDialogActivity"
             android:fitsSystemWindows="true"

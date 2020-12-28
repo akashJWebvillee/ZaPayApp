@@ -1,5 +1,4 @@
 package com.org.zapayapp.adapters;
-
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -8,10 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.org.zapayapp.R;
 import com.org.zapayapp.activity.BorrowSummaryActivity;
 import com.org.zapayapp.activity.LendingSummaryActivity;
@@ -58,7 +55,6 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
             borrowModeTitleTV = itemView.findViewById(R.id.borrowModeTitleTV);
             viewRatingBar = itemView.findViewById(R.id.viewRatingBar);
             viewRatingBar.setFocusableInTouchMode(false);
-
             rattingLL = itemView.findViewById(R.id.rattingLL);
         }
     }
