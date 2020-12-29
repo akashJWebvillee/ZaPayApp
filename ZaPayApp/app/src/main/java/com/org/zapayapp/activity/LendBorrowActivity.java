@@ -1,5 +1,4 @@
 package com.org.zapayapp.activity;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,14 +18,12 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.dd.ShadowLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonElement;
@@ -48,16 +45,13 @@ import com.org.zapayapp.utils.EndlessRecyclerViewScrollListener;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.WVDateLib;
 import com.org.zapayapp.webservices.APICallback;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import retrofit2.Call;
 
 public class LendBorrowActivity extends BaseActivity implements View.OnClickListener, DatePickerFragmentDialogue.DatePickerCallback, APICallback, ContactListener {
@@ -539,7 +533,8 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 if (transactionModel != null && transactionModel.getId() != null && transactionModel.getId().length() > 0) {
                     callAPITransactionRequest();
                 } else {
-                    privacyPolicyDialog();
+                    callAPIGetContentDisclaimer();
+                   // privacyPolicyDialog();
                 }
             }
         } else {
@@ -1136,6 +1131,12 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 } else {
                     showSimpleAlert(msg, "");
                 }
+            }else if (from.equals(getResources().getString(R.string.api_get_content))){
+                 JsonObject jsonObject= json.get("data").getAsJsonObject();
+               if (jsonObject!=null&&jsonObject.has("page_description")&&jsonObject.get("page_description")!=null&&jsonObject.get("page_description").getAsString().length()>0){
+                   privacyPolicyDialog(jsonObject.get("page_description").getAsString());
+                }
+
             }
         }
     }
@@ -1146,7 +1147,25 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
     }
 
-    private void privacyPolicyDialog() {
+    private void callAPIGetContentDisclaimer(){
+        HashMap<String, Object> values = apiCalling.getHashMapObject(
+                "content_type", "disclaimer");
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        try {
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_get_content), values);
+            if (apiCalling != null) {
+                apiCalling.setRunInBackground(false);
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_get_content), contactRecycler);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void privacyPolicyDialog(String discription) {
+
         Dialog dialog = new Dialog(LendBorrowActivity.this);
         dialog.setContentView(R.layout.privacy_policy_dialog);
         dialog.setCancelable(false);
@@ -1158,6 +1177,8 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
         dialog.show();
+        TextView discriptionTV = dialog.findViewById(R.id.discriptionTV);
+        discriptionTV.setText(discription);
         TextView okTV = dialog.findViewById(R.id.okTV);
         TextView cancelTV = dialog.findViewById(R.id.cancelTV);
         CheckBox mChkAgree = dialog.findViewById(R.id.mChkAgree);
@@ -1168,7 +1189,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                     callAPITransactionRequest();
                     dialog.dismiss();
                 } else {
-                    showSimpleAlert(getString(R.string.term_condition), "");
+                    showSimpleAlert(getString(R.string.accept_disclaimer), "");
                 }
             }
         });

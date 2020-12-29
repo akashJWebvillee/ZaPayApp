@@ -555,7 +555,7 @@
                         android:id="@+id/signatureHintTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:hint="Click here"
+                        android:hint="@string/add_signature"
                         android:layout_centerInParent="true"/>
 
 

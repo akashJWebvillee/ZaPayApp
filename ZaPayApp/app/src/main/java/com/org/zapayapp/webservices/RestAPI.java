@@ -1,8 +1,11 @@
 package com.org.zapayapp.webservices;
 
 import com.google.gson.JsonElement;
+
 import java.util.Map;
+
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -35,10 +38,16 @@ public interface RestAPI {
 
     @FormUrlEncoded
     @POST
-    Call<JsonElement> postWithTokenApi(@Header("authorization") String authToken,@Url String remainingURL, @FieldMap Map<String, Object> fields);
+    Call<JsonElement> postWithTokenApi(@Header("authorization") String authToken, @Url String remainingURL, @FieldMap Map<String, Object> fields);
+
+    @Multipart
+    @POST
+    Call<JsonElement> postWithTokenMultiPartApi(@Header("authorization") String authToken, @Url String remainingURL, @Part MultipartBody.Part image);
 
 
     @Multipart
     @POST
-    Call<JsonElement> postWithTokenMultiPartApi(@Header("authorization") String authToken,@Url String remainingURL, @Part MultipartBody.Part image);
+    Call<JsonElement> postWithTokenMultiPartWithDataApi(@Header("authorization") String authToken, @Url String remainingURL, @PartMap Map<String, RequestBody> fields, @Part MultipartBody.Part image);
+
+
 }

@@ -1,15 +1,12 @@
 package com.org.zapayapp.adapters;
-
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.org.zapayapp.R;
 import com.org.zapayapp.activity.BorrowSummaryActivity;
 import com.org.zapayapp.activity.LendingSummaryActivity;
@@ -17,12 +14,9 @@ import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.SharedPref;
-import com.org.zapayapp.utils.TimeStamp;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.List;
 
 public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAdapter.MyHolder> {
@@ -59,7 +53,6 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
     @Override
     public HistoryPendingAdapter.MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.transaction_row, parent, false);
-
         return new MyHolder(view);
     }
 
@@ -90,11 +83,10 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }
+          }
 
         if (transactionModel.getNoOfPayment() != null && transactionModel.getNoOfPayment().length() > 0) {
             holder.noOfPaymentTV.setText(transactionModel.getNoOfPayment());
@@ -142,7 +134,6 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
             }
         });
     }
-
     @Override
     public int getItemCount() {
         return transactionModelsList.size();

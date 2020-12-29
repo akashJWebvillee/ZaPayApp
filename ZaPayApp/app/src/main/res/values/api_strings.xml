@@ -8,7 +8,7 @@
     <string name="api_update_profile_image">update_profile_image</string>
     <string name="api_get_user_details">get_user_details</string>
 
-    <string name="api_get_content">get_content</string>
+
 
     <string name="api_add_bank_account">add_bank_account</string>
     <string name="api_get_bank_account_details">get_bank_account_details</string>
@@ -34,5 +34,5 @@
     <string name="api_update_device_info">update_device_info</string>
     <string name="api_rating">rating</string>
     <string name="api_update_pay_date">update_pay_date</string>
-
+    <string name="api_get_content">get_content</string>
 </resources>

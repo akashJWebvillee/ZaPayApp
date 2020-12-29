@@ -33,6 +33,7 @@ public class Const {
         String SEX = "sex";
         String ETHNICITY = "ethnicity";
         String INCOME = "income";
+        String SIGNATURE = "signature";
 
 
         //bankAccount detail....

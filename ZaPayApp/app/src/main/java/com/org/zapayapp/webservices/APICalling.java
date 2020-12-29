@@ -1,5 +1,4 @@
 package com.org.zapayapp.webservices;
-
 import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
@@ -31,7 +30,6 @@ import static com.org.zapayapp.webservices.WNetworkCheck.TYPE_NOT_CONNECTED;
 import static com.org.zapayapp.webservices.WNetworkCheck.getConnectivityStatus;
 
 public class APICalling extends BaseRequestParser implements ServiceCallback<JsonElement> {
-
     private static final String BASE_URL = "https://developer.webvilleedemo.xyz/zapay/api/";
     public static final String CHAT_SERVER_URL = "http://mean.webvilleedemo.xyz:3005";
     private static final String IMAGE_URL = "https://developer.webvilleedemo.xyz/zapay/";

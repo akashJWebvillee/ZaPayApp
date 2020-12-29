@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import com.github.gcacace.signaturepad.views.SignaturePad;
 import com.org.zapayapp.R;
-
 import java.io.ByteArrayOutputStream;
 
 public class SignatureActivity extends AppCompatActivity {
@@ -35,7 +34,6 @@ public class SignatureActivity extends AppCompatActivity {
         clear_button = findViewById(R.id.clear_button);
         save_button = findViewById(R.id.save_button);
         closeIV = findViewById(R.id.closeIV);
-
     }
 
     private void inItAction() {
@@ -66,12 +64,12 @@ public class SignatureActivity extends AppCompatActivity {
                 finish();
             }
         });
+
         clear_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 signatureView.clear();
                 save_button.setClickable(false);
-
             }
         });
 
@@ -81,11 +79,10 @@ public class SignatureActivity extends AppCompatActivity {
                 Bitmap signatureBitmap = signatureView.getSignatureBitmap();
                 //Bitmap signatureBitmap = getBitmapFromView(signatureView);
 
-              /*  Intent intent = new Intent();
-                intent.putExtra("BitmapImage", signatureBitmap);
-                setResult(200, intent);
-                finish();*/
-
+                /*Intent intent = new Intent();
+                  intent.putExtra("BitmapImage", signatureBitmap);
+                  setResult(200, intent);
+                  finish();*/
 
                 Intent intent = new Intent();
                 ByteArrayOutputStream bs = new ByteArrayOutputStream();

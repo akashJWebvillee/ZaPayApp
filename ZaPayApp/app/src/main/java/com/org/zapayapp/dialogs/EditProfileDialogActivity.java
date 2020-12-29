@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
@@ -17,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -34,13 +37,16 @@ import com.org.zapayapp.uihelpers.CustomTextInputLayout;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.DatePickerFragmentDialogue;
+import com.org.zapayapp.utils.ImagePathUtil;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.WValidationLib;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
 import com.org.zapayapp.webservices.RestAPI;
 
+import java.io.File;
 import java.lang.reflect.Array;
+import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -48,9 +54,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class EditProfileDialogActivity extends AppCompatActivity implements View.OnClickListener, APICallback, SimpleAlertFragment.AlertSimpleCallback, DatePickerFragmentDialogue.DatePickerCallback {
     private TextView saveTV, titleTV;
@@ -84,6 +91,7 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     private String ethnicity = "";
     private ImageView signatureImageView;
     private TextView signatureHintTV;
+    private String signaturePath = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -257,6 +265,16 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         if (SharedPref.getPrefsHelper().getPref(Const.Var.ETHNICITY) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ETHNICITY).toString().length() > 1) {
             ethnicityEditText.setText(SharedPref.getPrefsHelper().getPref(Const.Var.ETHNICITY, ""));
         }
+
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.SIGNATURE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.SIGNATURE).toString().length() > 1) {
+            signatureHintTV.setVisibility(View.GONE);
+            signatureImageView.setClickable(false);
+
+            Glide.with(EditProfileDialogActivity.this)
+                    .load(APICalling.getImageUrl(SharedPref.getPrefsHelper().getPref(Const.Var.SIGNATURE).toString()))
+                    //.placeholder(R.mipmap.default_profile)
+                    .into(signatureImageView);
+        }
     }
 
     @Override
@@ -265,7 +283,7 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
             updateProfileFunc();
         } else if (v.equals(cancelImageView)) {
             finish();
-        } else if (v.getId()==R.id.signatureImageView1) {
+        } else if (v.getId() == R.id.signatureImageView1) {
             Intent intent = new Intent(EditProfileDialogActivity.this, SignatureActivity.class);
             startActivityForResult(intent, 200);
         }
@@ -280,7 +298,13 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                             if (wValidationLib.isValidSSNcode(ssnInputLayout, ssnEditText, getString(R.string.important), getString(R.string.ssn_code_should_be_4_digit), true)) {
                                 if (wValidationLib.isEmpty(dobInputLayout, dobEditText, getString(R.string.important), true)) {
                                     if (wValidationLib.isEmpty(ageInputLayout, ageEditText, getString(R.string.important), true)) {
-                                        callAPIUpdateProfile();
+                                        if (SharedPref.getPrefsHelper().getPref(Const.Var.SIGNATURE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.SIGNATURE).toString().length() > 0 || signaturePath.length() > 0) {
+                                            callAPIUpdateProfile();
+                                        } else {
+                                            showSimpleAlert(getString(R.string.plz_add_signature), getResources().getString(R.string.plz_add_signature));
+
+                                        }
+
                                     }
 
                                 }
@@ -326,7 +350,7 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         String lastName = firstNameLastName1[1];
 
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
-        try {
+      /*  try {
             HashMap<String, Object> values = apiCalling.getHashMapObject(
                     "first_name", firstName,
                     "last_name", lastName,
@@ -346,6 +370,44 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
             );
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_update_profile), values);
+            if (apiCalling != null) {
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_update_profile), saveTV);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+
+        MultipartBody.Part fileToUpload = null;
+        if (signaturePath != null && signaturePath.length() > 0) {
+            File file = new File(signaturePath);
+            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            fileToUpload = MultipartBody.Part.createFormData("signature", file.getName(), requestFile);
+        } else {
+            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), "");
+            fileToUpload = MultipartBody.Part.createFormData("signature", "", requestFile);
+        }
+
+
+        try {
+            HashMap<String, RequestBody> values = apiCalling.getHashMapObjectPart(
+                    "first_name", firstName,
+                    "last_name", lastName,
+                    "mobile", mobileEditText.getText().toString().trim(),
+                    "address1", address1EditText.getText().toString().trim(),
+                    "address2", address2EditText.getText().toString().trim(),
+                    "state", stateShortCode,
+                    "city", cityName,
+                    "postal_code", postalCodeEditText.getText().toString().trim(),
+                    "ssn", ssnEditText.getText().toString().trim(),
+                    "dob", selectDOB,
+
+                    "age", ageInYear,
+                    "sex", gender.toLowerCase(),
+                    "ethnicity", ethnicity,
+                    "income", incomeValue.toLowerCase()
+            );
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.postWithTokenMultiPartWithDataApi(token, getString(R.string.api_update_profile), values, fileToUpload);
             if (apiCalling != null) {
                 apiCalling.callAPI(zapayApp, call, getString(R.string.api_update_profile), saveTV);
             }
@@ -559,18 +621,23 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 200 && data != null) {
-           // Bitmap bitmapImage = (Bitmap) data.getParcelableExtra("BitmapImage");
-          //  signatureImageView.setImageBitmap(bitmapImage);
+            // Bitmap bitmapImage = (Bitmap) data.getParcelableExtra("BitmapImage");
+            //  signatureImageView.setImageBitmap(bitmapImage);
             signatureHintTV.setVisibility(View.GONE);
 
-            if(data.hasExtra("byteArray")&&data.getByteArrayExtra("byteArray")!=null) {
-                int byteArrayLenth= Objects.requireNonNull(data.getByteArrayExtra("byteArray")).length;
-                Bitmap bitmap = BitmapFactory.decodeByteArray(data.getByteArrayExtra("byteArray"),0,byteArrayLenth);
-                signatureImageView.setImageBitmap(bitmap);
-
+            if (data.hasExtra("byteArray") && data.getByteArrayExtra("byteArray") != null) {
+                int byteArrayLenth = Objects.requireNonNull(data.getByteArrayExtra("byteArray")).length;
+                Bitmap bitmap = BitmapFactory.decodeByteArray(data.getByteArrayExtra("byteArray"), 0, byteArrayLenth);
+                //signatureImageView.setImageBitmap(bitmap);
+                Uri signatureUri = ImagePathUtil.getImageUri(EditProfileDialogActivity.this, bitmap);
+                signatureImageView.setImageURI(signatureUri);
+                try {
+                    signaturePath = ImagePathUtil.getPath(EditProfileDialogActivity.this, signatureUri);
+                    Log.e("signature", "signature path===" + ImagePathUtil.getPath(EditProfileDialogActivity.this, signatureUri));
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
             }
-
         }
-
     }
 }

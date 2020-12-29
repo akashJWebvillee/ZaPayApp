@@ -100,6 +100,11 @@ public class MySession {
             SharedPref.getPrefsHelper().savePref(Const.Var.INCOME, income);
         }
 
+        if (object.get("signature") != null && object.get("signature").getAsString() != null && object.get("signature").getAsString().length() > 0) {
+            String signature = object.get("signature").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.SIGNATURE, signature);
+        }
+
     }
 
     public static void removeSession() {
@@ -134,6 +139,7 @@ public class MySession {
         SharedPref.getPrefsHelper().savePref(Const.Var.SEX, null);
         SharedPref.getPrefsHelper().savePref(Const.Var.ETHNICITY, null);
         SharedPref.getPrefsHelper().savePref(Const.Var.INCOME, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.SIGNATURE, null);
     }
 
     public static void saveBankData(JsonObject object) {

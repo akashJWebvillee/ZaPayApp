@@ -210,4 +210,6 @@ public class ImagePathUtil {
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
     }
+
+
 }
