@@ -42,7 +42,7 @@ public class ChangeBankDialogActivity extends AppCompatActivity implements View.
     private String header = "";
 
     private Spinner bankAccountTypeSpinner;
-    //String[] aacountType = {"savings", "checking"};
+
 
     private String bankAccountType = "";
 
@@ -60,6 +60,7 @@ public class ChangeBankDialogActivity extends AppCompatActivity implements View.
     private TextInputEditText accountNumberEditText;
     private TextInputEditText routNumberEditText;
     private TextInputEditText nameEditText;
+    private String[] accountType;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -108,6 +109,9 @@ public class ChangeBankDialogActivity extends AppCompatActivity implements View.
         accountNumberEditText = findViewById(R.id.accountNumberEditText);
         routNumberEditText = findViewById(R.id.routNumberEditText);
         nameEditText = findViewById(R.id.nameEditText);
+
+        accountType = getResources().getStringArray(R.array.accountTypeArray);
+        bankAccountTypeSpinner = findViewById(R.id.bankAccountTypeSpinner);
         setData();
     }
 
@@ -122,18 +126,33 @@ public class ChangeBankDialogActivity extends AppCompatActivity implements View.
         if (SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_HOLDER_NAME) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_HOLDER_NAME).toString().length() > 0) {
             nameEditText.setText(SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_HOLDER_NAME, ""));
         }
+
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_TYPE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_TYPE).toString().length() > 0) {
+          String accountTypeValue= SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_TYPE, "");
+          int position=0;
+          for (int i=0;i<accountType.length;i++){
+                if (accountTypeValue.equalsIgnoreCase(accountType[i])){
+                    position=i;
+                    break;
+                }
+          }
+
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, accountType);
+            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            bankAccountTypeSpinner.setAdapter(arrayAdapter);
+            bankAccountTypeSpinner.setSelection(position);
+        }
+
+
+
     }
 
     private void initAction() {
         saveTV.setOnClickListener(this);
         closeTV.setOnClickListener(this);
-
-        String[] accountType = getResources().getStringArray(R.array.accountTypeArray);
-
-        bankAccountTypeSpinner = findViewById(R.id.bankAccountTypeSpinner);
-        ArrayAdapter<String> aa = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, accountType);
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        bankAccountTypeSpinner.setAdapter(aa);
+        /* ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, accountType);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        bankAccountTypeSpinner.setAdapter(arrayAdapter);*/
         bankAccountTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -146,6 +165,8 @@ public class ChangeBankDialogActivity extends AppCompatActivity implements View.
             }
         });
     }
+
+
 
     @Override
     public void onClick(View v) {

@@ -17,11 +17,11 @@ import com.org.zapayapp.model.ContactModel;
 import java.util.List;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder> {
-
     private Context context;
     private int selectedPos = -1;
     private List<ContactModel> contactList;
     private ContactListener contactListener;
+    private String forWhat="";
 
     public ContactAdapter(Context context, ContactListener contactListener, List<ContactModel> contactList) {
         this.context = context;
@@ -53,7 +53,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
         final ContactModel model = contactList.get(position);
 
         if (model.getFirstName() != null && model.getFirstName().length() > 0) {
-            holder.contactTxtName.setText(model.getFirstName());
+            holder.contactTxtName.setText(model.getFirstName()+" "+model.getLastName());
         }
         if (selectedPos == holder.getAdapterPosition()) {
             holder.contactImgSelect.setImageResource(R.mipmap.ic_check_select);
@@ -63,16 +63,25 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
             holder.contactTxtName.setSelected(false);
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (selectedPos != holder.getAdapterPosition()) {
-                    selectedPos = holder.getAdapterPosition();
-                    contactListener.getContact(contactList.get(position));
-                    notifyDataSetChanged();
+
+        if (forWhat.equalsIgnoreCase(context.getString(R.string.negotiation))){
+            holder.itemView.setClickable(false);
+        }else {
+            holder.itemView.setClickable(true);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (selectedPos != holder.getAdapterPosition()) {
+                        selectedPos = holder.getAdapterPosition();
+                        contactListener.getContact(contactList.get(position));
+                        notifyDataSetChanged();
+                    }
                 }
-            }
-        });
+            });
+        }
+
+
+
 
 
 
@@ -104,10 +113,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
                 notifyDataSetChanged();
             }
         });*/
-
-
     }
-
     @Override
     public int getItemCount() {
         return contactList.size();
@@ -124,8 +130,9 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
         return selectedPos;
     }
 
-    public void setSelected(int position) {
+    public void setSelected(int position,String forWhat) {
+        this.forWhat=forWhat;
         selectedPos = position;
-        notifyDataSetChanged();
+        notifyItemChanged(position);
     }
 }

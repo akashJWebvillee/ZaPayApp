@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ZaPayApp</string>
     <string name="app_name_folder">ZaPayApp</string>
-    <string name="default_notification_channel_id" translatable="false">ZaPayApp_default_channel</string>
+    <string name="default_notification_channel_id">zpay_default_channel</string>
 
     <!-- Network Messages-->
     <string name="network_conn">Please check network connection!</string>
@@ -15,6 +15,7 @@
     <!-- Date picker fragment -->
     <string name="show" translatable="false">Show</string>
     <string name="both" translatable="false">Both</string>
+    <string name="current_month" translatable="false">Current Month</string>
     <string name="min_current" translatable="false">maxCurrent</string>
     <string name="max_current" translatable="false">minCurrent</string>
     <string name="date_picker" translatable="false">Date Picker</string>
@@ -32,16 +33,22 @@
     <string name="login_text">Login</string>
     <string name="signup_text">Sign Up</string>
     <string name="send">SEND</string>
+    <string name="pin">Pin</string>
+    <string name="enter_pin">Enter Pin</string>
+    <string name="confirm_pin">Confirm Pin</string>
+    <string name="forgot_pin">Forgot Pin</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="enter_user_name">Enter user name</string>
     <string name="enter_password">Enter your password</string>
     <string name="forgot_password">Forgot password</string>
-    <string name="term_and_condition_message">By creating an account you are agree to Terms and Conditions</string>
+    <string name="i_agree">I agree</string>
+    <string name="term_and_condition_message">By creating an account, you are agreeing to the Terms and Conditions</string>
 
     <!-- navigation strings-->
     <string name="home">Home</string>
     <string name="my_profile">My Profile</string>
     <string name="bank_account">Bank Account</string>
+    <string name="account_type">ACCOUNT TYPE</string>
     <string name="transaction">Transaction</string>
     <string name="history">History</string>
     <string name="about_us">About Us</string>
@@ -68,6 +75,8 @@
     <string name="mobile_no">Mobile No.</string>
     <string name="enter_valid_mobile">Enter valid mobile</string>
     <string name="change_password">Change Password</string>
+    <string name="disclaimer">Disclaimer</string>
+    <string name="set_pin">Update Pin</string>
 
 
     <!--Home screen-->
@@ -82,10 +91,14 @@
     <string name="address1">Address 1</string>
     <string name="address2">Address 2</string>
     <string name="state">State</string>
+    <string name="gender">Gender</string>
+    <string name="income_brackets">Income Brackets</string>
     <string name="city">City</string>
     <string name="postal_code">Postal code</string>
     <string name="ssn">SSN</string>
     <string name="dob">Dob</string>
+    <string name="age">Age</string>
+    <string name="ethnicity">Ethnicity</string>
     <string name="enter_your_name">Enter your name</string>
     <string name="enter_your_email">Enter your email</string>
     <string name="enter_your_phone_no">Enter your phone no</string>
@@ -94,6 +107,8 @@
     <string name="enter_your_postal_code">Enter your postal code</string>
     <string name="enter_your_ssn_code">Enter your ssn code</string>
     <string name="select_dob">Select dob</string>
+    <string name="enter_your_age">Enter your age</string>
+    <string name="enter_ethnicity">Enter ethnicity(optional)</string>
     <string name="save">Save</string>
 
 
@@ -163,6 +178,7 @@
     <string name="enter_discount">Enter Discount</string>
     <string name="Enter_discount">Enter discount</string>
     <string name="no_of_payments">No. of payment</string>
+    <string name="No_Of_Payments">No. Of Payment</string>
     <string name="payback_date">Payback date</string>
     <string name="borrow_summary_">Borrow summary</string>
     <string name="lending_summary_">Lending summary</string>
@@ -180,6 +196,10 @@
     <string name="seventh_select_date">Seventh Start Date</string>
     <string name="eighth_select_date">Eighth Start Date</string>
     <string name="ninth_select_date">Ninth Start Date</string>
+    <string name="select">Select</string>
+    <string name="do_not_select_past_date">"Don't select past date</string>
+    <string name="Selected_Date_Should_Be_Less_Then">Selected Date Should Be Less Then</string>
+    <string name="Selected_Date_Should_Be_Greater_Then">Selected Date Should Be Greater Then</string>
 
     <string name="total_to_payback">Total to Pay Back</string>
     <string name="total_to_receive_back">Total to Receive Back</string>
@@ -189,11 +209,13 @@
     <!--Transaction screen-->
     <string name="pending">Pending</string>
     <string name="negotiation">Negotiation</string>
+    <string name="accepted">Accepted</string>
     <string name="completed">Completed</string>
     <string name="no_of_installment">No Of Installment:</string>
     <string name="borrow_mode">Borrow Mode:</string>
-    <string name="saving">Saving</string>
+    <string name="saving">Savings</string>
     <string name="checking">Checking</string>
+    <string name="general_ledger">General-ledger</string>
 
 
     <string name="ok">OK</string>
@@ -215,6 +237,7 @@
 
 
     <string name="lend_mode">Lend Mode:</string>
+    <string name="review">Review</string>
 
     <!--Validation Messages -->
     <string name="please_enter_valid_email">Please enter valid email.</string>
@@ -226,7 +249,7 @@
     <string name="your_session_expired">Your session has expired.\nPlease login again.</string>
     <string name="amount1ValidationMsg">Please enter less then 0.11.</string>
     <string name="amount2ValidationMsg">Please enter less then 0.04.</string>
-    <string name="enter_message">Enter your message here</string>
+    <string name="enter_message">Type your message here..</string>
     <string name="type_message">Please enter message</string>
     <string name="new_password_and_confirm_password_should_be_same">New password and confirm password should be same</string>
 
@@ -235,15 +258,44 @@
     <string name="age_must_be_18_years_or_older">Age must be 18 years or older</string>
     <string name="must_be_50_characters_or_less">Must be 50 characters or less</string>
     <string name="postal_code_should_be_5_digit">Postal code should be 5 digit</string>
-    <string name="ssn_code_should_be_5_digit">SSN code should be 4 digit</string>
+    <string name="ssn_code_should_be_4_digit">SSN code should be 4 digit</string>
     <string name="password_should_be_same">Password Should be same</string>
     <string name="term_condition">Accept Term and condition</string>
     <string name="please_select_contact">Please select contact</string>
     <string name="please_add_bank_account">Please add bank account</string>
     <string name="please_verify_bank_account">Please verify bank account</string>
     <string name="are_you_sure_do_you_want_to_logout">Are you sure? do you want to logout?</string>
-    <string name="explore_lending_borrowing">Now lending and borrowing money is just a click away, explore below options</string>
+    <string name="explore_lending_borrowing">Now borrowing and lending amongst friends is just a click away. Explore the options below.</string>
     <string name="verify_account_msg">To verify account you can put value for example amount1&#8211;0.10 ,amount2&#8211; 0.03</string>
+    <string name="do_you_want_to_close_the_application">Do you want to close the application?</string>
+    <string name="rate_borrower">Rate Borrower</string>
+    <string name="rate_lender">Rate Lender</string>
+    <string name="date_already_extended">Date already extended</string>
+    <string name="pin_and_confirm_pin_not_same">Pin and confirm pin not same</string>
+    <string name="your_pin_has_been_set">Your pin has been set</string>
+    <string name="wrong_pin">Wrong pin</string>
+
+    <string name="set_new_pin">Set new pin</string>
+    <string name="update_pin">Update pin</string>
+    <string name="check_pin">Check pin</string>
+
+    <string name="Date_Change_Request">Date Change Request</string>
+    <string name="okay">Okay</string>
+    <string name="your_date_change_Request_has_been_updated">Your date change Request has been updated</string>
+    <string name="congratulations">Congratulations</string>
+    <string name="close">Close</string>
+    <string name="forget_pin_msg">First logout to generate new pin. Do you want to logout?</string>
+
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+
+    <string name="signature">Signature</string>
+    <string name="clear">Clear</string>
+    <string name="add_signature">Add Signature</string>
+    <string name="plz_add_signature">Please add signature</string>
+    <string name="accept_disclaimer">Accept Disclaimer</string>
 
 
+    <string name="termConditionData">"Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book
+</string>
 </resources>

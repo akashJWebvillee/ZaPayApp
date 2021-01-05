@@ -1,15 +1,14 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,10 +18,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.Socket;
@@ -40,24 +39,23 @@ import com.org.zapayapp.adapters.NavigationAdapter;
 import com.org.zapayapp.alert_dialog.AlertForcePopup;
 import com.org.zapayapp.alert_dialog.AlertLogoutFragment;
 import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
+import com.org.zapayapp.dialogs.DateChangeRequestDialogActivity;
+import com.org.zapayapp.dialogs.EditProfileDialogActivity;
 import com.org.zapayapp.uihelpers.AdvanceDrawerLayout;
 import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.MySession;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.WValidationLib;
+import com.org.zapayapp.viewModel.ProjectViewModel;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
 import com.org.zapayapp.webservices.RestAPI;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import retrofit2.Call;
-
 /**
  * The type Base activity.
  */
@@ -146,6 +144,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
     private String RECEIVE_MSG = "receive_message_ack";
     private String RECEIVE_MSG_ACK = "receive_message_success_ack";
     private String READ_MSG_ACK = "read_message_ack";
+
 
     private Emitter.Listener onConnect = new Emitter.Listener() {
         @Override
@@ -354,6 +353,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         }
         setUpNavView();
+        fireBaseToken();
     }
 
     private void setUpNavView() {
@@ -604,7 +604,8 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             finish();
         } else if (from.equals(getResources().getString(R.string.update_your_profile))) {
-            intent = new Intent(BaseActivity.this, ProfileActivity.class);
+            //intent = new Intent(BaseActivity.this, ProfileActivity.class);
+            intent = new Intent(BaseActivity.this, EditProfileDialogActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         } else if (from.equals(getResources().getString(R.string.please_add_bank_account))) {
@@ -617,6 +618,14 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             finish();
         } else if (from.equalsIgnoreCase(getString(R.string.api_signup))) {
             moveToLogin();
+        }else if (from.equalsIgnoreCase(getString(R.string.update_pin))){
+            finish();
+        }else if (from.equalsIgnoreCase(getString(R.string.set_new_pin))){
+            Intent intent = new Intent(BaseActivity.this, HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            finish();
         }
     }
 
@@ -668,27 +677,18 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
     public void onForceCallback(String from, boolean isAddress) {
         if (from.equals(getString(R.string.session_expired))) {
             clearLogout();
+        }else if (from.equalsIgnoreCase(getString(R.string.do_you_want_to_close_the_application))){
+            finish();
         }
-
-  /*      else if (from.equals(getString(R.string.profile_incomplete))) {
-            intent = new Intent(BaseActivity.this, UserProfileActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(intent);
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-            finish();
-            //}
-        } else if (from.equals(getString(R.string.version_check))) {
-            openGooglePlayStore();
-        }else if (from.equals(getString(R.string.exit_app))) {  //ye code  ne add kiya h.
-            finish();
-        }*/
     }
+
 
 
     private void setHeaderData() {
         if (SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString().length() > 0) {
             Glide.with(BaseActivity.this)
-                    .load(apiCalling.getImageUrl(SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString())).placeholder(R.mipmap.ic_user)
+                    .load(apiCalling.getImageUrl(SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString()))
+                    .placeholder(R.mipmap.default_profile)
                     .into(imgLogo);
         }
 
@@ -778,7 +778,6 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
     public void onMsgSentReceived(JSONObject jsonObject, boolean isReceive) {
         CommonMethods.showLogs(BaseActivity.class.getSimpleName(), "onMsgSentReceived :-" + jsonObject);
         CommonMethods.showLogs(BaseActivity.class.getSimpleName(), "isReceive :-" + isReceive);
-
     }
 
     public void onMsgReceivedAck(JSONObject jsonObject) {
@@ -793,6 +792,9 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
 
     private void sendReceiveAck(final JSONObject object) {
         try {
+
+            ProjectViewModel projectViewModel= new ViewModelProvider(this).get(ProjectViewModel.class);
+
             //{"status":200,"message":"success","data":{"receiver_id":"52","sender_id":"53","message":"Hello","transaction_request_id":"103","message_id":108,"status":0,"created_at":1598699350222}}
             JSONObject msg_data = null;
             String transaction_request_id = "", msg_sender_id = "", msg_id = "";
@@ -810,5 +812,28 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    public void fireBaseToken(){
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("tag", "getInstanceId failed", task.getException());
+                            return;
+                        }
+
+                        // Get new Instance ID token
+                        if (task.getResult()!=null&&task.getResult().getToken().length()>0) {
+                            String newToken = task.getResult().getToken();
+                            SharedPref.getPrefsHelper().savePref(Const.Var.FIREBASE_DEVICE_TOKEN, newToken);
+                        }
+
+                        Log.e("Firebase token","Firebase token====="+task.getResult().getToken());
+                    }
+                });
+
     }
 }

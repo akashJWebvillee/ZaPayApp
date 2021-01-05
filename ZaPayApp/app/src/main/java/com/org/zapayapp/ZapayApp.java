@@ -1,14 +1,11 @@
 package com.org.zapayapp;
 
 import android.app.Application;
-import android.provider.Settings;
-
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
-
 import java.net.URISyntaxException;
 
 public class ZapayApp extends Application {

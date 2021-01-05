@@ -17,7 +17,7 @@
         android:id="@+id/navTextName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="43dp"
+        android:layout_marginStart="33dp"
         android:fontFamily="@font/gotha_pro_reg"
         android:text="@string/my_profile"
         android:textColor="@drawable/drawer_item_color"

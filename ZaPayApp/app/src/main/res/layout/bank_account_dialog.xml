@@ -39,6 +39,9 @@
                 android:fontFamily="@font/gotha_promed"
                 android:gravity="center"
                 android:text="@string/bank_account_change"
+                android:maxLines="1"
+                android:layout_marginEnd="40dp"
+                android:ellipsize="end"
                 android:textColor="@color/textColorBold"
                 android:textSize="20sp"/>
         </RelativeLayout>
@@ -195,12 +198,25 @@
                     android:theme="@style/TextInputLayoutAppearance" />
             </com.org.zapayapp.uihelpers.CustomTextInputLayout>
 
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:fontFamily="@font/gotha_promed"
+                android:text="@string/account_type"
+                android:textAllCaps="true"
+                android:textColor="@color/textColorBold"
+                android:textSize="11sp" />
+
             <Spinner
                 android:id="@+id/bankAccountTypeSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginBottom="10dp"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:overlapAnchor="false"
+                android:dropDownWidth="230dp"/>
 
             <View
                 android:layout_width="match_parent"

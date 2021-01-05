@@ -3,6 +3,7 @@ package com.org.zapayapp.utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.provider.Settings;
+import android.util.Log;
 
 public class Const {
     public interface Var {
@@ -24,11 +25,16 @@ public class Const {
         String PROFILE_IMAGE = "profile_image";
         String EMAIL_VERIFY = "email_verify";
         String ACTIVITY_STATUS = "activity_status";
-        String CURRENCY = "currency";
+        String CURRENCY ="currency";
         String CREATE_AT = "created_at";
         String TOKEN = "token";
 
-        String DEVICE_TOKEN ="device_token";
+        String AGE = "age";
+        String SEX = "sex";
+        String ETHNICITY = "ethnicity";
+        String INCOME = "income";
+        String SIGNATURE = "signature";
+
 
         //bankAccount detail....
         String BANK_ACCOUNT_ID = "bank_account_id";
@@ -37,6 +43,8 @@ public class Const {
         String BANK_ACCOUNT_TYPE = "bank_account_type";
         String ACCOUNT_HOLDER_NAME = "name";
         String BANK_ACCOUNT_STATUS = "dwolla_bank_account_status";
+        String FIREBASE_DEVICE_TOKEN = "fire_base_device_token";
+        String PIN = "pin";
     }
 
     public interface KEY {
@@ -46,5 +54,10 @@ public class Const {
     @SuppressLint("HardwareIds")
     public static String getDeviceId(Context context) {
         return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+    }
+
+    public static void logMsg(String msg){
+        Log.e("response:","response==="+msg);
+
     }
 }

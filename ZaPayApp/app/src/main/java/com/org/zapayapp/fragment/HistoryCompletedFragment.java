@@ -90,7 +90,7 @@ public class HistoryCompletedFragment extends Fragment implements APICallback {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
             HashMap<String, Object> values = activity.apiCalling.getHashMapObject(
-                    "status", "2",
+                    "status", "4",
                     "page", pageNo);
             activity.zapayApp.setApiCallback(this);
             Call<JsonElement> call = activity.restAPI.postWithTokenApi(token, getString(R.string.api_get_transaction_history), values);

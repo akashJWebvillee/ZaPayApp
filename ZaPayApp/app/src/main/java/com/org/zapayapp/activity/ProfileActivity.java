@@ -8,12 +8,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-
 import com.bumptech.glide.Glide;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -28,23 +27,21 @@ import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.WFileUtils;
 import com.org.zapayapp.utils.WRuntimePermissions;
 import com.org.zapayapp.webservices.APICalling;
-
 import java.io.File;
-
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 
 public class ProfileActivity extends BaseActivity implements View.OnClickListener {
-
-    private TextView editProfileTV, changePasswordTV, profileTxtName, profileTxtEmail, profileTxtMobile, profileTxtAddress;
+    private TextView editProfileTV, changePasswordTV,setPinTV, profileTxtName, profileTxtEmail, profileTxtMobile, profileTxtAddress;
     private Intent intent;
     private ImageView profileImageView;
     private WRuntimePermissions runtimePermissions;
     private String path = "";
     private static final int GALLERY_REQUEST_OLD = 1890;
     private static final int GALLERY_REQUEST = 200;
+    private boolean isDataUpdate=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +55,16 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     protected void onResume() {
         super.onResume();
         setCurrentScreen(MY_PROFILE);
-        callAPIGetUserDetail();
+
+        if (isDataUpdate){
+            callAPIGetUserDetail();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        isDataUpdate=true;
     }
 
     @Override
@@ -74,6 +80,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private void init() {
         runtimePermissions = new WRuntimePermissions(this);
         changePasswordTV = findViewById(R.id.changePasswordTV);
+        setPinTV = findViewById(R.id.setPinTV);
         editProfileTV = findViewById(R.id.editProfileTV);
         profileTxtName = findViewById(R.id.profileTxtName);
         profileTxtEmail = findViewById(R.id.profileTxtEmail);
@@ -84,6 +91,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     private void initAction() {
         changePasswordTV.setOnClickListener(this);
+        setPinTV.setOnClickListener(this);
         editProfileTV.setOnClickListener(this);
         profileImageView.setOnClickListener(this);
         setDataOnScreen();
@@ -92,7 +100,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private void setDataOnScreen() {
         if (SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString().length() > 0) {
             Glide.with(ProfileActivity.this)
-                    .load(APICalling.getImageUrl(SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString())).placeholder(R.mipmap.ic_user)
+                    .load(APICalling.getImageUrl(SharedPref.getPrefsHelper().getPref(Const.Var.PROFILE_IMAGE).toString()))
+                    .placeholder(R.mipmap.default_profile)
                     .into(profileImageView);
         }
         if (SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME) != null && SharedPref.getPrefsHelper().getPref(Const.Var.FIRST_NAME).toString().length() > 0) {
@@ -117,6 +126,12 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 intent = new Intent(ProfileActivity.this, ChangePassDialogActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.setPinTV:
+                intent = new Intent(ProfileActivity.this, SetPinActivity.class);
+                intent.putExtra("forWhat",getString(R.string.update_pin));
+                startActivity(intent);
+                break;
+
             case R.id.editProfileTV:
                 intent = new Intent(ProfileActivity.this, EditProfileDialogActivity.class);
                 startActivity(intent);
@@ -205,8 +220,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                         c.close();
                         try {
                             String path = picturePath;
-                            if (path != null)
-                                Glide.with(ProfileActivity.this).load(path).placeholder(R.mipmap.ic_user).into(profileImageView);
+                            if (path != null){
+                               // Glide.with(ProfileActivity.this).load(path).placeholder(R.mipmap.ic_user).into(profileImageView);
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -216,6 +232,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 e.printStackTrace();
             }
         } else if (requestCode == GALLERY_REQUEST && resultCode == Activity.RESULT_OK) {
+            isDataUpdate=false;
             if (data != null) {
                 try {
                     Uri selectedUri = data.getData();
@@ -250,13 +267,13 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postWithTokenMultiPartApi(SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString(), getString(R.string.api_update_profile_image), fileToUpload);
             if (apiCalling != null) {
+                apiCalling.setRunInBackground(false);
                 apiCalling.callAPI(zapayApp, call, getString(R.string.api_update_profile_image), profileImageView);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
     private void callAPIGetUserDetail() {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();

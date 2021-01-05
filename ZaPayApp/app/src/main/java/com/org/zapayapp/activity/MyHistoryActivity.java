@@ -1,13 +1,10 @@
 package com.org.zapayapp.activity;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import com.google.android.material.tabs.TabLayout;
 import com.org.zapayapp.R;
 import com.org.zapayapp.ZapayApp;
@@ -49,7 +46,9 @@ public class MyHistoryActivity extends AppCompatActivity implements TabLayout.On
 
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.pending)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.negotiation)));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.accepted)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.completed)));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.decline)));
 
         tabLayout.setTabTextColors(getResources().getColor(R.color.tabTextColor), getResources().getColor(R.color.navTextColor));
         tabLayout.setSelectedTabIndicator(R.drawable.tab_indicator);

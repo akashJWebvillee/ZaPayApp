@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+          tools:context=".activity.LoginActivity">
+
+    <RelativeLayout
+            android:id="@+id/loginRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="330dp"
+             android:layout_marginTop="65dp">
+
+            <LinearLayout
+                android:id="@+id/LL2"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="38dp"
+                android:background="@drawable/rectanguler_bg"
+                android:backgroundTint="@color/colorWhite"
+                android:elevation="3dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="120dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@mipmap/polygon_half" />
+
+                <TextView
+                    style="@style/textViewMediumStyleRegular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="45dp"
+                    android:layout_marginStart="45dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:textSize="24sp"
+                    android:textColor="@color/blackColor"
+                    android:fontFamily="@font/gotha_promed"
+                    android:text="@string/Date_Change_Request"
+                    android:lineSpacingExtra="5dp"/>
+
+
+                <TextView
+                    style="@style/textViewMediumStyleRegular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="22dp"
+                    android:layout_marginEnd="45dp"
+                    android:layout_marginStart="45dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:textSize="14sp"
+                    android:lineSpacingExtra="5dp"
+                    android:fontFamily="@font/gotha_pro_reg"
+                    android:maxLines="3"
+                    android:text="@string/your_date_change_Request_has_been_updated" />
+            </LinearLayout>
+
+            <com.dd.ShadowLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="45dp"
+                android:layout_marginTop="54dp"
+                android:layout_marginEnd="45dp"
+                android:elevation="3dp"
+                app:sl_cornerRadius="56dp"
+                app:sl_dx="0dp"
+                app:sl_dy="10dp"
+                app:sl_shadowColor="#2CFC5C04"
+                app:sl_shadowRadius="4dp">
+
+                <TextView
+                    android:id="@+id/closeButtonTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="53dp"
+                    android:background="@drawable/rectanguler_button_bg"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:fontFamily="@font/gotha_probol"
+                    android:gravity="center"
+                    android:text="@string/okay"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16sp" />
+            </com.dd.ShadowLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp">
+
+            <ImageView
+                android:layout_centerInParent="true"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@mipmap/polygon"/>
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@mipmap/ellips"
+                android:layout_centerInParent="true"/>
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="10dp"
+                android:src="@mipmap/right_check"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+</RelativeLayout>

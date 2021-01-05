@@ -136,7 +136,7 @@ public class AddBankDialogActivity extends AppCompatActivity implements View.OnC
             HashMap<String, Object> values = apiCalling.getHashMapObject(
                     "account_number", accountNumberEditText.getText().toString().trim(),
                     "routing_number", routNumberEditText.getText().toString().trim(),
-                    "bank_account_type", bankAccountType,
+                    "bank_account_type", bankAccountType.toLowerCase(),
                     "name", nameEditText.getText().toString().trim());
 
             zapayApp.setApiCallback(this);

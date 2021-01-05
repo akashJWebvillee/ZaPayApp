@@ -6,11 +6,7 @@ import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.DELETE;
-import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -27,7 +23,6 @@ import retrofit2.http.QueryMap;
 import retrofit2.http.Url;
 
 public interface RestAPI {
-
     @GET
     Call<JsonElement> getApi(@Url String remainingURL);
 
@@ -43,10 +38,16 @@ public interface RestAPI {
 
     @FormUrlEncoded
     @POST
-    Call<JsonElement> postWithTokenApi(@Header("authorization") String authToken,@Url String remainingURL, @FieldMap Map<String, Object> fields);
+    Call<JsonElement> postWithTokenApi(@Header("authorization") String authToken, @Url String remainingURL, @FieldMap Map<String, Object> fields);
 
     @Multipart
     @POST
-    Call<JsonElement> postWithTokenMultiPartApi(@Header("authorization") String authToken,@Url String remainingURL, @Part MultipartBody.Part image);
+    Call<JsonElement> postWithTokenMultiPartApi(@Header("authorization") String authToken, @Url String remainingURL, @Part MultipartBody.Part image);
+
+
+    @Multipart
+    @POST
+    Call<JsonElement> postWithTokenMultiPartWithDataApi(@Header("authorization") String authToken, @Url String remainingURL, @PartMap Map<String, RequestBody> fields, @Part MultipartBody.Part image);
+
 
 }

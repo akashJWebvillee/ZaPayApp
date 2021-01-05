@@ -1,8 +1,12 @@
 package com.org.zapayapp.activity;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.core.text.HtmlCompat;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -80,7 +84,8 @@ public class AboutUsActivity extends BaseActivity {
                     if (json.get("data").getAsJsonObject() != null) {
                         JsonObject jsonObject = json.get("data").getAsJsonObject();
                         if (jsonObject.get("page_description").getAsString() != null) {
-                            contentTV.setText(jsonObject.get("page_description").getAsString());
+                            //contentTV.setText(jsonObject.get("page_description").getAsString());
+                            setData(jsonObject.get("page_description").getAsString());
                         }
                     }
                 } else if (status == 401) {
@@ -91,5 +96,9 @@ public class AboutUsActivity extends BaseActivity {
                 }
             }
         }
+    }
+
+    private void setData(String data){
+        contentTV.setText(HtmlCompat.fromHtml(data,0));
     }
 }

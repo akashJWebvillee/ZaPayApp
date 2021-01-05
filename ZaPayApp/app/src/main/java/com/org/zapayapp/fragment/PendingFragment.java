@@ -30,14 +30,12 @@ import retrofit2.Call;
 
 
 public class PendingFragment extends Fragment implements APICallback {
-
     private TransactionActivity activity;
     private RecyclerView pendingRecyclerView;
     private List<TransactionModel> transactionList;
     private EndlessRecyclerViewScrollListener scrollListener;
     private int pageNo = 0;
     private TextView noDataTv;
-
 
     public PendingFragment() {
     }

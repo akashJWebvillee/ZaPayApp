@@ -1,8 +1,13 @@
 package com.org.zapayapp.dialogs;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
@@ -12,38 +17,49 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.ZapayApp;
+import com.org.zapayapp.activity.SignatureActivity;
 import com.org.zapayapp.adapters.CityAdapter;
+import com.org.zapayapp.adapters.GenderAdapter;
+import com.org.zapayapp.adapters.IncomeAdapter;
 import com.org.zapayapp.adapters.StateAdapter;
 import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
 import com.org.zapayapp.model.CityModel;
 import com.org.zapayapp.model.StateModel;
 import com.org.zapayapp.uihelpers.CustomTextInputLayout;
 import com.org.zapayapp.utils.Const;
+import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.DatePickerFragmentDialogue;
+import com.org.zapayapp.utils.ImagePathUtil;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.WValidationLib;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
 import com.org.zapayapp.webservices.RestAPI;
 
+import java.io.File;
+import java.lang.reflect.Array;
+import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 
 public class EditProfileDialogActivity extends AppCompatActivity implements View.OnClickListener, APICallback, SimpleAlertFragment.AlertSimpleCallback, DatePickerFragmentDialogue.DatePickerCallback {
-
     private TextView saveTV, titleTV;
     private ImageView cancelImageView;
 
@@ -53,9 +69,9 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     private APICalling apiCalling;
     private RestAPI restAPI;
 
-    private CustomTextInputLayout nameEditTextInputLayout, mobileInputLayout, address1InputLayout, address2InputLayout, postalCodeInputLayout, ssnInputLayout, dobInputLayout;
-    private TextInputEditText nameEditText, mobileEditText, address1EditText, address2EditText, postalCodeEditText, ssnEditText, dobEditText;
-    private Spinner stateSpinner, citySpinner;
+    private CustomTextInputLayout nameEditTextInputLayout, mobileInputLayout, address1InputLayout, address2InputLayout, postalCodeInputLayout, ssnInputLayout, dobInputLayout, ageInputLayout, ethnicityInputLayout;
+    private TextInputEditText nameEditText, mobileEditText, address1EditText, address2EditText, postalCodeEditText, ssnEditText, dobEditText, ageEditText, ethnicityEditText;
+    private Spinner stateSpinner, citySpinner, genderSpinner, incomeBracketSpinner;
     private List<StateModel> stateList;
     private StateAdapter stateAdapter;
 
@@ -66,6 +82,16 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     private String dob = "";
     private int ageInYear = 0;
     private String stateName;
+    private String selectDOB;
+
+    private List<String> genderList;
+    private String gender;
+    private List<String> incomeList;
+    private String incomeValue;
+    private String ethnicity = "";
+    private ImageView signatureImageView;
+    private TextView signatureHintTV;
+    private String signaturePath = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,6 +126,7 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         postalCodeInputLayout = findViewById(R.id.postalCodeInputLayout);
         ssnInputLayout = findViewById(R.id.ssnInputLayout);
         dobInputLayout = findViewById(R.id.dobInputLayout);
+        ageInputLayout = findViewById(R.id.ageInputLayout);
 
         nameEditText = findViewById(R.id.nameEditText);
         mobileEditText = findViewById(R.id.mobileEditText);
@@ -108,9 +135,16 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         postalCodeEditText = findViewById(R.id.postalCodeEditText);
         ssnEditText = findViewById(R.id.ssnEditText);
         dobEditText = findViewById(R.id.dobEditText);
+        ageEditText = findViewById(R.id.ageEditText);
+        ethnicityEditText = findViewById(R.id.ethnicityEditText);
 
         stateSpinner = findViewById(R.id.stateSpinner);
         citySpinner = findViewById(R.id.citySpinner);
+        genderSpinner = findViewById(R.id.genderSpinner);
+        incomeBracketSpinner = findViewById(R.id.incomeBracketSpinner);
+        signatureHintTV = findViewById(R.id.signatureHintTV);
+        signatureImageView = findViewById(R.id.signatureImageView1);
+        signatureImageView.setOnClickListener(this);
         stateName = SharedPref.getPrefsHelper().getPref(Const.Var.STATE).toString();
 
         dobEditText.setOnClickListener(new View.OnClickListener() {
@@ -119,16 +153,28 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                 datePickerDialog();
             }
         });
-
         setDataOnScreen();
     }
 
     private void initAction() {
+        String[] genderArray = getResources().getStringArray(R.array.genderArray);
+        String[] incomeArray = getResources().getStringArray(R.array.incomeArray);
+
+        genderList = new ArrayList<>();
+        genderList.add(genderArray[0]);
+        genderList.add(genderArray[1]);
+        setGenderAdapter();
+
+        incomeList = new ArrayList<>();
+        for (String s : incomeArray) {
+            incomeList.add(s);
+        }
+
+        setIncomeAdapter();
         saveTV.setOnClickListener(this);
         cancelImageView.setOnClickListener(this);
 
         callAPIGetState();
-
         stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -158,6 +204,30 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
             }
         });
 
+
+        genderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                gender = genderList.get(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        incomeBracketSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                incomeValue = incomeList.get(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
 
@@ -183,7 +253,27 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         }
         if (SharedPref.getPrefsHelper().getPref(Const.Var.DOB) != null && SharedPref.getPrefsHelper().getPref(Const.Var.DOB).toString().length() > 1) {
             if (!SharedPref.getPrefsHelper().getPref(Const.Var.DOB).toString().trim().equalsIgnoreCase("0000-00-00"))
-                dobEditText.setText(SharedPref.getPrefsHelper().getPref(Const.Var.DOB, ""));
+                dobEditText.setText(DateFormat.dateFormatConvert(SharedPref.getPrefsHelper().getPref(Const.Var.DOB, "")));
+            selectDOB = SharedPref.getPrefsHelper().getPref(Const.Var.DOB).toString();
+        }
+
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.AGE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.AGE).toString().length() > 1) {
+            ageEditText.setText(SharedPref.getPrefsHelper().getPref(Const.Var.AGE, ""));
+            ageInYear = Integer.parseInt(SharedPref.getPrefsHelper().getPref(Const.Var.AGE).toString());
+        }
+
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.ETHNICITY) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ETHNICITY).toString().length() > 1) {
+            ethnicityEditText.setText(SharedPref.getPrefsHelper().getPref(Const.Var.ETHNICITY, ""));
+        }
+
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.SIGNATURE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.SIGNATURE).toString().length() > 1) {
+            signatureHintTV.setVisibility(View.GONE);
+            signatureImageView.setClickable(false);
+
+            Glide.with(EditProfileDialogActivity.this)
+                    .load(APICalling.getImageUrl(SharedPref.getPrefsHelper().getPref(Const.Var.SIGNATURE).toString()))
+                    //.placeholder(R.mipmap.default_profile)
+                    .into(signatureImageView);
         }
     }
 
@@ -193,6 +283,9 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
             updateProfileFunc();
         } else if (v.equals(cancelImageView)) {
             finish();
+        } else if (v.getId() == R.id.signatureImageView1) {
+            Intent intent = new Intent(EditProfileDialogActivity.this, SignatureActivity.class);
+            startActivityForResult(intent, 200);
         }
     }
 
@@ -202,9 +295,18 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                 if (wValidationLib.isValidAddress1(address1InputLayout, address1EditText, getString(R.string.important), getString(R.string.must_be_50_characters_or_less), true)) {
                     if (wValidationLib.isValidAddress2(address2InputLayout, address2EditText, getString(R.string.important), getString(R.string.must_be_50_characters_or_less), false)) {
                         if (wValidationLib.isValidPostalCode(postalCodeInputLayout, postalCodeEditText, getString(R.string.important), getString(R.string.postal_code_should_be_5_digit), true)) {
-                            if (wValidationLib.isValidSSNcode(ssnInputLayout, ssnEditText, getString(R.string.important), getString(R.string.ssn_code_should_be_5_digit), true)) {
+                            if (wValidationLib.isValidSSNcode(ssnInputLayout, ssnEditText, getString(R.string.important), getString(R.string.ssn_code_should_be_4_digit), true)) {
                                 if (wValidationLib.isEmpty(dobInputLayout, dobEditText, getString(R.string.important), true)) {
-                                    callAPIUpdateProfile();
+                                    if (wValidationLib.isEmpty(ageInputLayout, ageEditText, getString(R.string.important), true)) {
+                                        if (SharedPref.getPrefsHelper().getPref(Const.Var.SIGNATURE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.SIGNATURE).toString().length() > 0 || signaturePath.length() > 0) {
+                                            callAPIUpdateProfile();
+                                        } else {
+                                            showSimpleAlert(getString(R.string.plz_add_signature), getResources().getString(R.string.plz_add_signature));
+
+                                        }
+
+                                    }
+
                                 }
                             }
                         }
@@ -241,13 +343,14 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     }
 
     private void callAPIUpdateProfile() {
+        ethnicity = ethnicityEditText.getText().toString().trim();
         String firstNameLastName = nameEditText.getText().toString().trim();
         String[] firstNameLastName1 = firstNameLastName.split(" ");
         String firstName = firstNameLastName1[0];
         String lastName = firstNameLastName1[1];
 
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
-        try {
+      /*  try {
             HashMap<String, Object> values = apiCalling.getHashMapObject(
                     "first_name", firstName,
                     "last_name", lastName,
@@ -258,7 +361,12 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                     "city", cityName,
                     "postal_code", postalCodeEditText.getText().toString().trim(),
                     "ssn", ssnEditText.getText().toString().trim(),
-                    "dob", dobEditText.getText().toString().trim()
+                    "dob", selectDOB,
+
+                    "age", ageInYear,
+                    "sex", gender.toLowerCase(),
+                    "ethnicity", ethnicity,
+                    "income", incomeValue.toLowerCase()
             );
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_update_profile), values);
@@ -267,8 +375,45 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }*/
+
+        MultipartBody.Part fileToUpload = null;
+        if (signaturePath != null && signaturePath.length() > 0) {
+            File file = new File(signaturePath);
+            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            fileToUpload = MultipartBody.Part.createFormData("signature", file.getName(), requestFile);
+        } else {
+            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), "");
+            fileToUpload = MultipartBody.Part.createFormData("signature", "", requestFile);
         }
 
+
+        try {
+            HashMap<String, RequestBody> values = apiCalling.getHashMapObjectPart(
+                    "first_name", firstName,
+                    "last_name", lastName,
+                    "mobile", mobileEditText.getText().toString().trim(),
+                    "address1", address1EditText.getText().toString().trim(),
+                    "address2", address2EditText.getText().toString().trim(),
+                    "state", stateShortCode,
+                    "city", cityName,
+                    "postal_code", postalCodeEditText.getText().toString().trim(),
+                    "ssn", ssnEditText.getText().toString().trim(),
+                    "dob", selectDOB,
+
+                    "age", ageInYear,
+                    "sex", gender.toLowerCase(),
+                    "ethnicity", ethnicity,
+                    "income", incomeValue.toLowerCase()
+            );
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.postWithTokenMultiPartWithDataApi(token, getString(R.string.api_update_profile), values, fileToUpload);
+            if (apiCalling != null) {
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_update_profile), saveTV);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -349,6 +494,7 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
             stateAdapter = new StateAdapter(this, stateList);
             stateSpinner.setAdapter(stateAdapter);
         }
+
         if (stateName != null && stateName.length() > 0) {
             int pos = 0;
             for (int i = 0; i < stateList.size(); i++) {
@@ -364,6 +510,47 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     private void setCityAdapter() {
         cityAdapter = new CityAdapter(this, cityList);
         citySpinner.setAdapter(cityAdapter);
+    }
+
+    private void setGenderAdapter() {
+        String genderName = "";
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.SEX) != null && SharedPref.getPrefsHelper().getPref(Const.Var.SEX).toString().length() > 0) {
+            genderName = SharedPref.getPrefsHelper().getPref(Const.Var.SEX).toString();
+        }
+
+
+        GenderAdapter genderAdapter = new GenderAdapter(this, genderList);
+        genderSpinner.setAdapter(genderAdapter);
+
+        if (genderName.length() > 0) {
+            int pos = 0;
+            for (int i = 0; i < genderList.size(); i++) {
+                if (genderList.get(i).toLowerCase().equals(genderName)) {
+                    pos = i;
+                }
+            }
+            genderSpinner.setSelection(pos);
+        }
+    }
+
+    private void setIncomeAdapter() {
+        String income = "";
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.INCOME) != null && SharedPref.getPrefsHelper().getPref(Const.Var.INCOME).toString().length() > 0) {
+            income = SharedPref.getPrefsHelper().getPref(Const.Var.INCOME).toString();
+        }
+
+        IncomeAdapter incomeAdapter = new IncomeAdapter(this, incomeList);
+        incomeBracketSpinner.setAdapter(incomeAdapter);
+
+        if (income.length() > 0) {
+            int pos = 0;
+            for (int i = 0; i < incomeList.size(); i++) {
+                if (incomeList.get(i).equals(income)) {
+                    pos = i;
+                }
+            }
+            incomeBracketSpinner.setSelection(pos);
+        }
     }
 
     private void datePickerDialog() {
@@ -387,7 +574,9 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                 dob = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
                 ageInYear = getAge(year, monthOfYear + 1, dayOfMonth);
                 if (ageInYear >= 18) {
-                    dobEditText.setText(dob);
+                    selectDOB = dob;
+                    dobEditText.setText(DateFormat.dateFormatConvert(dob));
+                    ageEditText.setText(String.valueOf(ageInYear));
                 } else {
                     showSimpleAlert(getString(R.string.age_must_be_18_years_or_older), "");
                 }
@@ -418,19 +607,37 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     private int getAge(int year, int month, int day) {
         Calendar dob = Calendar.getInstance();
         Calendar today = Calendar.getInstance();
-
         dob.set(year, month, day);
-
         int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
-
         if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)) {
             age--;
         }
-
         Integer ageInt = new Integer(age);
         // String ageS = ageInt.toString();
-
         return ageInt;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 200 && data != null) {
+            // Bitmap bitmapImage = (Bitmap) data.getParcelableExtra("BitmapImage");
+            //  signatureImageView.setImageBitmap(bitmapImage);
+            signatureHintTV.setVisibility(View.GONE);
+
+            if (data.hasExtra("byteArray") && data.getByteArrayExtra("byteArray") != null) {
+                int byteArrayLenth = Objects.requireNonNull(data.getByteArrayExtra("byteArray")).length;
+                Bitmap bitmap = BitmapFactory.decodeByteArray(data.getByteArrayExtra("byteArray"), 0, byteArrayLenth);
+                //signatureImageView.setImageBitmap(bitmap);
+                Uri signatureUri = ImagePathUtil.getImageUri(EditProfileDialogActivity.this, bitmap);
+                signatureImageView.setImageURI(signatureUri);
+                try {
+                    signaturePath = ImagePathUtil.getPath(EditProfileDialogActivity.this, signatureUri);
+                    Log.e("signature", "signature path===" + ImagePathUtil.getPath(EditProfileDialogActivity.this, signatureUri));
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }

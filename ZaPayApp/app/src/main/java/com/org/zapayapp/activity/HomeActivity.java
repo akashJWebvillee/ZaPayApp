@@ -1,13 +1,10 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.microsoft.appcenter.AppCenter;
@@ -18,21 +15,32 @@ import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.MySession;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
-
+import java.util.HashMap;
 import retrofit2.Call;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener, APICallback {
-
     private LinearLayout homeLLLend, homeLLBorrow;
     private Intent intent;
     private TextView titleTV;
+    private boolean isClickable;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.FIREBASE_DEVICE_TOKEN) != null && SharedPref.getPrefsHelper().getPref(Const.Var.FIREBASE_DEVICE_TOKEN).toString().length() > 0) {
+            callAPIUpdateDeviceInfo();
+        }
         init();
         initAction();
+        getNotificationIntent();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        isClickable = true;
     }
 
     private void init() {
@@ -64,9 +72,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                 //activity_status=3   //verifyed bank account(ready to send request)
                 if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().length() > 0) {
                     if (!SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("0")) {
-                        intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
-                        intent.putExtra("isBorrow", false);
-                        startActivity(intent);
+                        if (isClickable) {
+                            isClickable = false;
+                            intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
+                            intent.putExtra("isBorrow", false);
+                            startActivity(intent);
+                        }
                     } else {
                         showSimpleAlert(getString(R.string.update_your_profile), getString(R.string.update_your_profile));
                     }
@@ -75,9 +86,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
             case R.id.homeLLBorrow:
                 if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().length() > 0) {
                     if (!SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("0")) {
-                        intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
-                        intent.putExtra("isBorrow", true);
-                        startActivity(intent);
+                        if (isClickable) {
+                            isClickable = false;
+                            intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
+                            intent.putExtra("isBorrow", true);
+                            startActivity(intent);
+                        }
                     } else {
                         showSimpleAlert(getString(R.string.update_your_profile), getString(R.string.update_your_profile));
                     }
@@ -100,14 +114,36 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     protected void onResume() {
         super.onResume();
         setCurrentScreen(100);
+
         callAPIGetUserDetail();
-        callAPIGetBankAccountDetail();
+        //callAPIGetBankAccountDetail();
+    }
+
+
+    private void callAPIUpdateDeviceInfo() {
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        try {
+            if (SharedPref.getPrefsHelper().getPref(Const.Var.FIREBASE_DEVICE_TOKEN) != null && SharedPref.getPrefsHelper().getPref(Const.Var.FIREBASE_DEVICE_TOKEN).toString().length() > 0) {
+                HashMap<String, Object> values = apiCalling.getHashMapObject(
+                        "device_type", Const.KEY.DEVICE_TYPE,
+                        "device_token", SharedPref.getPrefsHelper().getPref(Const.Var.FIREBASE_DEVICE_TOKEN).toString(),
+                        "device_id", Const.getDeviceId(HomeActivity.this));
+                zapayApp.setApiCallback(this);
+                //Call<JsonElement> call = restAPI.postApi(getString(R.string.api_update_device_info), values);
+                Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_update_device_info), values);
+                if (apiCalling != null) {
+                    apiCalling.callAPI(zapayApp, call, getString(R.string.api_update_device_info), homeLLBorrow);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void callAPIGetUserDetail() {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
-            //"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMzAiLCJmaXJzdF9uYW1lIjoiQXNob2twaXQiLCJsYXN0X25hbWUiOiJLdW1hciIsImVtYWlsIjoiYXNob2twaXRlY2guMTIzQGdtYWlsLmNvbSIsInJvbGUiOiIyIiwidGltZXN0YW1wIjoxNTk3NjQ1MDA2fQ.lkG8uyRzEcDN1gepzbPCASccoGWuVzg2zGeoIDIZvZk"
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.getApiToken(token, getString(R.string.api_get_user_details));
             if (apiCalling != null) {
@@ -144,6 +180,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
             }
 
             if (from.equals(getResources().getString(R.string.api_get_user_details))) {
+                Const.logMsg(json.toString());
                 if (status == 200) {
                     if (json.get("data").getAsJsonObject() != null) {
                         JsonObject jsonObject = json.get("data").getAsJsonObject();
@@ -168,6 +205,15 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                 } else {
                     showSimpleAlert(msg, "");
                 }
+            } else if (from.equals(getResources().getString(R.string.api_update_device_info))) {
+                if (status == 200) {
+
+                } else if (status == 401) {
+                    showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
+                } else {
+                    showSimpleAlert(msg, "");
+                }
+
             }
         }
     }
@@ -178,5 +224,69 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        // super.onBackPressed();
+        showForceUpdate(getString(R.string.do_you_want_to_close_the_application), getString(R.string.do_you_want_to_close_the_application), false, getString(R.string.cancel), false);
+        //showSimpleAlert(getString(R.string.do_you_want_to_close_the_application),getString(R.string.do_you_want_to_close_the_application));
+
+    }
+
+    private void getNotificationIntent() {
+        if (getIntent() != null) {
+            if (getIntent().getStringExtra("request_by") != null
+                    && getIntent().getStringExtra("moveFrom") != null
+                    && getIntent().getStringExtra("notification_type") != null
+                    && getIntent().getStringExtra("transactionId") != null) {
+
+                String notification_type = getIntent().getStringExtra("notification_type");
+                String request_by = getIntent().getStringExtra("request_by");
+                String moveFrom = getIntent().getStringExtra("moveFrom");
+                String transactionId = getIntent().getStringExtra("transactionId");
+                String status = getIntent().getStringExtra("status");
+
+                if (request_by != null && request_by.equals("1")) {
+                    intent = new Intent(this, LendingSummaryActivity.class);
+                } else if (request_by != null && request_by.equals("2")) {
+                    intent = new Intent(this, BorrowSummaryActivity.class);
+                }
+
+                if (notification_type.equalsIgnoreCase("NEW_TRANSACTION_REQUEST")) {
+                    intent.putExtra("moveFrom", getString(R.string.transaction));
+                    intent.putExtra("status", status);
+                    intent.putExtra("transactionId", transactionId);
+
+                } else if (notification_type.equalsIgnoreCase("REQUEST_ACCEPTED")) {
+                    //intent.putExtra("moveFrom", getString(R.string.accepted));
+                    intent.putExtra("moveFrom", getString(R.string.history));
+                    intent.putExtra("status", status);
+                    intent.putExtra("transactionId", transactionId);
+                } else if (notification_type.equalsIgnoreCase("REQUEST_DECLINED")) {
+                    // intent.putExtra("moveFrom", getString(R.string.decline));
+                    intent.putExtra("moveFrom", getString(R.string.history));
+                    intent.putExtra("status", status);
+                    intent.putExtra("transactionId", transactionId);
+                } else if (notification_type.equalsIgnoreCase("REQUEST_NEGOTIATE")) {
+                    // intent.putExtra("moveFrom", getString(R.string.negotiation));
+                    intent.putExtra("moveFrom", getString(R.string.history));
+                    intent.putExtra("status", status);
+                    intent.putExtra("transactionId", transactionId);
+                } else if (notification_type.equalsIgnoreCase("PAY_DATE_EXTEND")) {
+                    // intent.putExtra("moveFrom", getString(R.string.accepted));
+                    intent.putExtra("moveFrom", getString(R.string.history));
+                    intent.putExtra("status", status);
+                    intent.putExtra("transactionId", transactionId);
+                }else if (notification_type.equalsIgnoreCase("TRANSACTION_INITIATED")){
+                    intent.putExtra("moveFrom", getString(R.string.history));
+                    intent.putExtra("status", "2");
+                    intent.putExtra("transactionId", transactionId);
+                }
+
+                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                  startActivity(intent);
+            }
+        }
     }
 }

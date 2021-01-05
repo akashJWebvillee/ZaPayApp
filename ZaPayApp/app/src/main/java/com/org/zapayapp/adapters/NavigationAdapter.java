@@ -15,7 +15,6 @@ import com.org.zapayapp.activity.BaseActivity;
 import java.util.List;
 
 public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
     private Context context;
     private List<String> navList;
     private int TYPE_VIEW = 1;

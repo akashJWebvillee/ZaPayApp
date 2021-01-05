@@ -11,7 +11,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:contentDescription="@null"
-        android:layerType="software"
-        android:src="@mipmap/ic_launcher" />
+        android:layerType="software"/>
+    <!--android:src="@mipmap/ic_launcher"-->
 
 </LinearLayout>

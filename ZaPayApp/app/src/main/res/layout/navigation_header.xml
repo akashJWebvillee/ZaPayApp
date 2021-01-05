@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_vertical"
     android:paddingTop="44dp"
-    android:paddingStart="55dp"
+    android:paddingStart="40dp"
     android:paddingEnd="10dp"
     android:orientation="vertical">
 
@@ -29,7 +29,8 @@
         android:fontFamily="@font/gotha_promed"
         android:includeFontPadding="false"
         android:textColor="@color/navTextColor"
-        android:textSize="25sp" />
+        android:textSize="25sp"
+        android:text=""/>
 
     <View
         android:layout_width="match_parent"

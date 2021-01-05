@@ -9,6 +9,7 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
@@ -16,7 +17,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -53,6 +58,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        fireBaseToken();
         inIt();
         inItAction();
     }
@@ -93,6 +99,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         forgotPasswordTV.setOnClickListener(this);
         loginButtonTV.setOnClickListener(this);
         signUpButtonTV.setOnClickListener(this);
+        mTextAgree.setOnClickListener(this);
         setSelectedView(1);
         removeError();
         termCondition();
@@ -130,9 +137,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             @Override
             public void onClick(@NonNull View view) {
                 try {
-                    String url = "https://www.google.com/";
+                   /* String url = "https://www.google.com/";
                     intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse(url));
+                    startActivity(intent);*/
+
+                    Intent intent=new Intent(LoginActivity.this,TermConditionActivity.class);
                     startActivity(intent);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -148,14 +158,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
         ssBuilder.setSpan(
                 new android.text.style.StyleSpan(Typeface.BOLD), // Span to add
-                40, // Start of the span (inclusive)
+                47, // Start of the span (inclusive)
                 textTerms.length(), // End of the span (exclusive)
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE // Do not extend the span when text add later
         );
 
         ssBuilder.setSpan(
                 redClickableSpan, // Span to add
-                40, // Start of the span (inclusive)
+                47, // Start of the span (inclusive)
                 textTerms.length(), // End of the span (exclusive)
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE // Do not extend the span when text add later
         );
@@ -211,6 +221,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     e.printStackTrace();
                 }
                 break;
+
+           /* case R.id.mTextAgree:
+                Intent intent=new Intent(LoginActivity.this,TermConditionActivity.class);
+                startActivity(intent);
+                break;*/
+
         }
     }
 
@@ -229,11 +245,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     "mobile", mobileSignUpEditText.getText().toString().trim(),
                     "password", passwordSignUpEditText.getText().toString().trim(),
                     "device_type", Const.KEY.DEVICE_TYPE,
-                    "device_token", SharedPref.getPrefsHelper().getPref(Const.Var.DEVICE_TOKEN, ""),
+                    "device_token", SharedPref.getPrefsHelper().getPref(Const.Var.FIREBASE_DEVICE_TOKEN,""),
                     "device_id", Const.getDeviceId(LoginActivity.this));
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postApi(getString(R.string.api_signup), values);
             if (apiCalling != null) {
+                apiCalling.setRunInBackground(false);
                 apiCalling.callAPI(zapayApp, call, getString(R.string.api_signup), loginButtonTV);
             }
         } catch (Exception e) {
@@ -250,7 +267,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     "email", editTextUsername.getText().toString().trim(),
                     "password", etPassword.getText().toString().trim(),
                     "device_type", Const.KEY.DEVICE_TYPE,
-                    "device_token", SharedPref.getPrefsHelper().getPref(Const.Var.DEVICE_TOKEN, ""),
+                    "device_token", SharedPref.getPrefsHelper().getPref(Const.Var.FIREBASE_DEVICE_TOKEN,""),
                     "device_id", Const.getDeviceId(LoginActivity.this));
 
             zapayApp.setApiCallback(this);
@@ -280,7 +297,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     if (json.get("data").getAsJsonObject() != null) {
                         JsonObject jsonObject = json.get("data").getAsJsonObject();
                         MySession.MakeSession(jsonObject);
-                        intent = new Intent(LoginActivity.this, HomeActivity.class);
+                       // intent = new Intent(LoginActivity.this, HomeActivity.class);
+                       // startActivity(intent);
+                        Intent intent=new Intent(LoginActivity.this, SetPinActivity.class);
+                        intent.putExtra("forWhat",getString(R.string.set_new_pin));
                         startActivity(intent);
                         finish();
                     }
@@ -313,4 +333,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         super.moveToLogin();
         setSelectedView(1);
     }
+
+
+
 }

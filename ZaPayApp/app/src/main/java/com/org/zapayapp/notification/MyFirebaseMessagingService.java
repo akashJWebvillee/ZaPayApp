@@ -1,5 +1,4 @@
 package com.org.zapayapp.notification;
-
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -11,22 +10,20 @@ import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-
+import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
-
-
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.org.zapayapp.R;
+import com.org.zapayapp.activity.BorrowSummaryActivity;
 import com.org.zapayapp.activity.HomeActivity;
+import com.org.zapayapp.activity.LendingSummaryActivity;
 import com.org.zapayapp.utils.CommonMethods;
-
 import java.util.Map;
 import java.util.Random;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
-
     private String TAG = "MyFirebaseMsgService";
 
     @Override
@@ -36,6 +33,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
+        Log.e("remoteMessage", "remoteMessage====" + remoteMessage.getData().toString());
         CommonMethods.showLogs(TAG, "From: " + remoteMessage.getFrom() + " " + remoteMessage + " " + remoteMessage.getData());
         if (remoteMessage.getData().size() > 0) {
             CommonMethods.showLogs(TAG, "Message data payload: " + remoteMessage.getData());
@@ -43,27 +41,73 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 CommonMethods.showLogs(TAG, "isAppForeground : App is background");
             } else {
                 CommonMethods.showLogs(TAG, "isAppForeground : App is foreground");
+
             }
             sendNotification(remoteMessage.getData());
         }
+
     }
     // [END receive_message]
-
 
     private void sendNotification(Map<String, String> data) {
         Intent intent = null;
         try {
-            String title = data.get("title");
-            String message = data.get("body");
-            String redirectId = data.get("redirectId");
-            String type = data.get("notificationType");
-            if (type != null) {
-                intent = new Intent(this, HomeActivity.class);
-                intent.putExtra("notificationType", type);
-                intent.putExtra("orderId", redirectId);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis()/* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+            String notification_type = data.get("notification_type");
+            String status = data.get("status");
+            String title = data.get("title");
+            String transaction_request_id = data.get("transaction_request_id");
+            String message = data.get("message");
+            String request_by = data.get("request_by");
+
+            if (notification_type != null) {
+                if (isAppBackground()){
+                    intent = new Intent(this, HomeActivity.class);
+                    intent.putExtra("notification_type", notification_type);
+                    intent.putExtra("status", status);
+                    intent.putExtra("request_by", request_by);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+                }else {
+                    if (request_by != null && request_by.equals("1")) {
+                        intent = new Intent(this, LendingSummaryActivity.class);
+                    } else if (request_by != null && request_by.equals("2")) {
+                        intent = new Intent(this, BorrowSummaryActivity.class);
+                    }
+                }
+
+                if (notification_type.equalsIgnoreCase("NEW_TRANSACTION_REQUEST")) {
+                    intent.putExtra("moveFrom", getString(R.string.transaction));
+                    intent.putExtra("status", status);
+                    intent.putExtra("transactionId", transaction_request_id);
+
+                } else if (notification_type.equalsIgnoreCase("REQUEST_ACCEPTED")) {
+                   // intent.putExtra("moveFrom", getString(R.string.accepted));
+                    intent.putExtra("moveFrom", getString(R.string.history));
+                    intent.putExtra("status", status);
+                    intent.putExtra("transactionId", transaction_request_id);
+                } else if (notification_type.equalsIgnoreCase("REQUEST_DECLINED")) {
+                  //  intent.putExtra("moveFrom", getString(R.string.decline));
+                    intent.putExtra("moveFrom", getString(R.string.history));
+                    intent.putExtra("status", status);
+                    intent.putExtra("transactionId", transaction_request_id);
+                } else if (notification_type.equalsIgnoreCase("REQUEST_NEGOTIATE")) {
+                  //  intent.putExtra("moveFrom", getString(R.string.negotiation));
+                    intent.putExtra("moveFrom", getString(R.string.history));
+                    intent.putExtra("transactionId", transaction_request_id);
+                }else if (notification_type.equalsIgnoreCase("PAY_DATE_EXTEND")){
+                  //  intent.putExtra("moveFrom", getString(R.string.accepted));
+                    intent.putExtra("moveFrom", getString(R.string.history));
+                    intent.putExtra("status", status);
+                    intent.putExtra("transactionId", transaction_request_id);
+                }else if (notification_type.equalsIgnoreCase("TRANSACTION_INITIATED")){
+                    intent.putExtra("moveFrom", getString(R.string.history));
+                    intent.putExtra("status", "2");
+                    intent.putExtra("transactionId", transaction_request_id);
+                }
+
+               //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis()/* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                 boolean flag = false;
                 createImageBuilder(title, message, pendingIntent, flag);
             }
@@ -89,46 +133,42 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
             // Since android Oreo notification channel is needed.
 
-            NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle();
-            bigTextStyle.setBigContentTitle(title);
-            bigTextStyle.bigText(message);
-
             NotificationCompat.Builder notificationBuilder =
                     new NotificationCompat.Builder(mContext, channelId)
-                            .setSmallIcon(R.mipmap.ic_launcher)
-                            .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.ic_launcher))
-                            .setColor(getResources().getColor(R.color.colorPrimaryDark))
+                            .setSmallIcon(R.mipmap.notification_logo)
+                            .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.ic_launcher_foreground))
+                            //.setColor(getResources().getColor(R.color.colorPrimaryDark))
                             .setContentTitle(title)
                             .setContentText(message)
-                            .setStyle(bigTextStyle)
                             .setAutoCancel(true)
                             .setCategory(title)
                             .setColorized(true)
                             .setSound(defaultSoundUri)
                             .setChannelId(channelId)
-                            .setContentIntent(pendingIntent);
+                            .setContentIntent(pendingIntent)
+                            .setStyle(new NotificationCompat.DecoratedCustomViewStyle());
             if (!flag) {
                 notificationBuilder =
                         new NotificationCompat.Builder(mContext, channelId)
-                                .setSmallIcon(R.mipmap.ic_launcher)
-                                .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.ic_launcher))
-                                .setColor(getResources().getColor(R.color.colorPrimaryDark))
+                                .setSmallIcon(R.mipmap.notification_logo)
+                                .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.ic_launcher_foreground))
+                                // .setColor(getResources().getColor(R.color.colorPrimaryDark))
                                 .setContentTitle(title)
                                 .setContentText(message)
-                                .setStyle(bigTextStyle)
                                 .setAutoCancel(true)
                                 .setCategory(title)
                                 .setColorized(true)
                                 .setSound(defaultSoundUri)
                                 .setChannelId(channelId)
-                                .setContentIntent(pendingIntent);
+                                .setContentIntent(pendingIntent)
+                                .setStyle(new NotificationCompat.DecoratedCustomViewStyle());
             }
 
 
             notificationBuilder.setDefaults(NotificationCompat.DEFAULT_ALL);
             // Since android Oreo notification channel is needed.
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                notificationBuilder.setPriority(NotificationManager.IMPORTANCE_MAX);
+                notificationBuilder.setPriority(NotificationManager.IMPORTANCE_HIGH);
                 NotificationChannel channel = new NotificationChannel(channelId,
                         title,
                         NotificationManager.IMPORTANCE_HIGH);

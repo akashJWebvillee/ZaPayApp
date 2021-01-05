@@ -24,6 +24,7 @@
             android:paddingEnd="24dp">
 
             <TextView
+                android:id="@+id/titleTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="35dp"
@@ -32,22 +33,29 @@
                 android:text="@string/terms_and_conditions"
                 android:textColor="@color/textColor"
                 android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/termCondtitionTV"
-                style="@style/textViewMediumStyleRegular"
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/gotha_pro_reg"
-                android:gravity="start"
-                android:includeFontPadding="false"
-                android:lineSpacingExtra="5dp"
-                android:textColor="@color/textColorTerms"
-                android:textSize="14sp" />
+                android:layout_height="match_parent">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/termCondtitionTV"
+                        style="@style/textViewMediumStyleRegular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/gotha_pro_reg"
+                        android:gravity="start"
+                        android:includeFontPadding="false"
+                        android:lineSpacingExtra="5dp"
+                        android:textColor="@color/textColorTerms"
+                        android:textSize="14sp" />
 
-            <include layout="@layout/view_no_data" />
+                    <include layout="@layout/view_no_data" />
+                </RelativeLayout>
+            </androidx.core.widget.NestedScrollView>
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>

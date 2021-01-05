@@ -1,16 +1,16 @@
 package com.org.zapayapp.activity;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
-
+import androidx.core.text.HtmlCompat;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.webservices.APICallback;
-
 import java.util.HashMap;
-
 import retrofit2.Call;
 
 public class TermConditionActivity extends BaseActivity implements APICallback {
@@ -80,7 +80,8 @@ public class TermConditionActivity extends BaseActivity implements APICallback {
                     if (json.get("data").getAsJsonObject() != null) {
                         JsonObject jsonObject = json.get("data").getAsJsonObject();
                         if (jsonObject.get("page_description").getAsString() != null) {
-                            termConditionTV.setText(jsonObject.get("page_description").getAsString());
+                           // termConditionTV.setText(jsonObject.get("page_description").getAsString());
+                            setData(jsonObject.get("page_description").getAsString());
                         }
                     }
                 } else if (status == 401) {
@@ -90,5 +91,10 @@ public class TermConditionActivity extends BaseActivity implements APICallback {
                 }
             }
         }
+    }
+
+
+    private void setData(String data){
+        termConditionTV.setText(HtmlCompat.fromHtml(data,0));
     }
 }

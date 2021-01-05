@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.core.text.HtmlCompat;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -81,7 +83,8 @@ public class HelpActivity extends BaseActivity implements APICallback {
                     if (json.get("data").getAsJsonObject() != null) {
                         JsonObject jsonObject = json.get("data").getAsJsonObject();
                         if (jsonObject.get("page_description").getAsString() != null) {
-                            contentTV.setText(jsonObject.get("page_description").getAsString());
+                            //contentTV.setText(jsonObject.get("page_description").getAsString());
+                            contentTV.setText(HtmlCompat.fromHtml(jsonObject.get("page_description").getAsString(),0));
                         }
                     }
                 } else if (status == 401) {

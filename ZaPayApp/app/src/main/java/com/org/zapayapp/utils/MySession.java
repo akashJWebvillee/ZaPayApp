@@ -80,6 +80,31 @@ public class MySession {
             String currency = object.get("currency").getAsString();
             SharedPref.getPrefsHelper().savePref(Const.Var.CURRENCY, currency);
         }
+
+
+
+        if (object.get("age") != null && object.get("age").getAsString() != null && object.get("age").getAsString().length() > 0) {
+            String age = object.get("age").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.AGE, age);
+        }
+        if (object.get("sex") != null && object.get("sex").getAsString() != null && object.get("sex").getAsString().length() > 0) {
+            String sex = object.get("sex").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.SEX, sex);
+        }
+        if (object.get("ethnicity") != null && object.get("ethnicity").getAsString() != null && object.get("ethnicity").getAsString().length() > 0) {
+            String ethnicity = object.get("ethnicity").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.ETHNICITY, ethnicity);
+        }
+        if (object.get("income") != null && object.get("income").getAsString() != null && object.get("income").getAsString().length() > 0) {
+            String income = object.get("income").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.INCOME, income);
+        }
+
+        if (object.get("signature") != null && object.get("signature").getAsString() != null && object.get("signature").getAsString().length() > 0) {
+            String signature = object.get("signature").getAsString();
+            SharedPref.getPrefsHelper().savePref(Const.Var.SIGNATURE, signature);
+        }
+
     }
 
     public static void removeSession() {
@@ -108,6 +133,13 @@ public class MySession {
         SharedPref.getPrefsHelper().savePref(Const.Var.BANK_ACCOUNT_TYPE, null);
         SharedPref.getPrefsHelper().savePref(Const.Var.ACCOUNT_HOLDER_NAME, null);
         SharedPref.getPrefsHelper().savePref(Const.Var.BANK_ACCOUNT_STATUS, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.PIN, null);
+
+        SharedPref.getPrefsHelper().savePref(Const.Var.AGE, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.SEX, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.ETHNICITY, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.INCOME, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.SIGNATURE, null);
     }
 
     public static void saveBankData(JsonObject object) {

@@ -1,9 +1,7 @@
 package com.org.zapayapp.webservices;
 
 import android.view.View;
-
 import com.google.gson.JsonElement;
-
 import java.io.IOException;
 
 import retrofit2.Call;

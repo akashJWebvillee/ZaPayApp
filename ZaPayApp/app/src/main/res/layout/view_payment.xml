@@ -12,7 +12,7 @@
         android:layout_marginStart="19dp"
         android:layout_marginTop="50dp"
         android:fontFamily="@font/gotha_promed"
-        android:text="@string/no_of_payments"
+        android:text="@string/No_Of_Payments"
         android:textColor="@color/textColor"
         android:textSize="16sp" />
 

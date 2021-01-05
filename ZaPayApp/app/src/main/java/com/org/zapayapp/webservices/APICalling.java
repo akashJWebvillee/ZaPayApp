@@ -1,12 +1,9 @@
 package com.org.zapayapp.webservices;
-
 import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
-
 import androidx.annotation.NonNull;
-
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -15,15 +12,12 @@ import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.ZapayApp;
 import com.org.zapayapp.utils.CommonMethods;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -32,12 +26,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
-
 import static com.org.zapayapp.webservices.WNetworkCheck.TYPE_NOT_CONNECTED;
 import static com.org.zapayapp.webservices.WNetworkCheck.getConnectivityStatus;
 
 public class APICalling extends BaseRequestParser implements ServiceCallback<JsonElement> {
-
     private static final String BASE_URL = "https://developer.webvilleedemo.xyz/zapay/api/";
     public static final String CHAT_SERVER_URL = "http://mean.webvilleedemo.xyz:3005";
     private static final String IMAGE_URL = "https://developer.webvilleedemo.xyz/zapay/";
@@ -78,7 +70,9 @@ public class APICalling extends BaseRequestParser implements ServiceCallback<Jso
                     }
                 })
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager);
-        httpClient.addInterceptor(logging);
+                 httpClient.addInterceptor(logging);
+
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(ScalarsConverterFactory.create())
@@ -267,8 +261,7 @@ public class APICalling extends BaseRequestParser implements ServiceCallback<Jso
         mFileCache = new FileCache(from, activity);
         fileName = cacheEnabled ? mFileCache.getFile((from + result).hashCode() + ".req") : null;
 
-        if (!TextUtils.isEmpty(FileCache.readFile(fileName)) && cacheEnabled && (TYPE_NOT_CONNECTED == getConnectivityStatus(
-                activity))) {
+        if (!TextUtils.isEmpty(FileCache.readFile(fileName)) && cacheEnabled && (TYPE_NOT_CONNECTED == getConnectivityStatus(activity))) {
             String lastResponse = FileCache.readFile(fileName);
             if (apiCallback != null) {
                 hideLoader(activity);

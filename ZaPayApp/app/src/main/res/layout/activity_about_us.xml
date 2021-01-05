@@ -13,7 +13,7 @@
             android:layout_height="342dp"
             android:background="@mipmap/base_bg" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="148dp"
@@ -24,6 +24,7 @@
             android:paddingEnd="31dp">
 
             <TextView
+                android:id="@+id/titleTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/about_us"
@@ -33,19 +34,33 @@
                 android:textColor="@color/textColor"
                 android:layout_marginTop="35dp"/>
 
-            <TextView
-                android:id="@+id/contentTV"
+            <androidx.core.widget.NestedScrollView
+                android:layout_below="@+id/titleTV"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:lineSpacingExtra="5dp"
-                android:fontFamily="@font/gotha_pro_reg"
-                android:textSize="14sp"
-                android:textColor="@color/textColorTerms"
-                android:includeFontPadding="false"
-                android:gravity="start"/>
-            <include layout="@layout/view_no_data"/>
-        </LinearLayout>
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/contentTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/gotha_pro_reg"
+                        android:gravity="start"
+                        android:includeFontPadding="false"
+                        android:lineSpacingExtra="5dp"
+                        android:text=""
+                        android:textColor="@color/textColorTerms"
+                        android:textSize="14sp" />
+
+                    <include layout="@layout/view_no_data"/>
+                </RelativeLayout>
+            </androidx.core.widget.NestedScrollView>
+
+        </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>
