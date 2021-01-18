@@ -25,7 +25,7 @@ public class Const {
         String PROFILE_IMAGE = "profile_image";
         String EMAIL_VERIFY = "email_verify";
         String ACTIVITY_STATUS = "activity_status";
-        String CURRENCY ="currency";
+        String CURRENCY = "currency";
         String CREATE_AT = "created_at";
         String TOKEN = "token";
 
@@ -45,6 +45,15 @@ public class Const {
         String BANK_ACCOUNT_STATUS = "dwolla_bank_account_status";
         String FIREBASE_DEVICE_TOKEN = "fire_base_device_token";
         String PIN = "pin";
+        String DEVICE_TOKEN = "device_token";
+
+        //charges_detail.....
+        String BORROWER_CHARGE_VALUE = "borrower_charge_value";
+        String BORROWER_CHARGE_TYPE = "borrower_charge_type";
+        String LENDER_CHARGE_VALUE = "lender_charge_value";
+        String LENDER_CHARGE_TYPE = "lender_charge_type";
+        String DEFAULT_FEE_VALUE = "default_fee_value";
+        String DEFAULT_FEE_TYPE = "default_fee_type";
     }
 
     public interface KEY {
@@ -56,8 +65,8 @@ public class Const {
         return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
     }
 
-    public static void logMsg(String msg){
-        Log.e("response:","response==="+msg);
+    public static void logMsg(String msg) {
+        Log.e("response:", "response===" + msg);
 
     }
 }

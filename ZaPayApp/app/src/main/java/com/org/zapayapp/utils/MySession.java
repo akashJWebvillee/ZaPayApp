@@ -1,5 +1,4 @@
 package com.org.zapayapp.utils;
-
 import com.google.gson.JsonObject;
 
 public class MySession {
@@ -82,7 +81,6 @@ public class MySession {
         }
 
 
-
         if (object.get("age") != null && object.get("age").getAsString() != null && object.get("age").getAsString().length() > 0) {
             String age = object.get("age").getAsString();
             SharedPref.getPrefsHelper().savePref(Const.Var.AGE, age);
@@ -103,6 +101,43 @@ public class MySession {
         if (object.get("signature") != null && object.get("signature").getAsString() != null && object.get("signature").getAsString().length() > 0) {
             String signature = object.get("signature").getAsString();
             SharedPref.getPrefsHelper().savePref(Const.Var.SIGNATURE, signature);
+        }
+
+
+        if (object.has("charges_detail")&&object.get("charges_detail")!=null&& object.get("charges_detail").getAsJsonObject()!=null){
+         JsonObject chargeDetailJsonObject= object.get("charges_detail").getAsJsonObject();
+
+            if (chargeDetailJsonObject.get("borrower_charge_value") != null && chargeDetailJsonObject.get("borrower_charge_value").getAsString() != null && chargeDetailJsonObject.get("borrower_charge_value").getAsString().length() > 0) {
+                String borrower_charge_value = object.get("borrower_charge_value").getAsString();
+                SharedPref.getPrefsHelper().savePref(Const.Var.BORROWER_CHARGE_VALUE, borrower_charge_value);
+            }
+
+            if (chargeDetailJsonObject.get("borrower_charge_type") != null && chargeDetailJsonObject.get("borrower_charge_type").getAsString() != null && chargeDetailJsonObject.get("borrower_charge_type").getAsString().length() > 0) {
+                String borrower_charge_type = object.get("borrower_charge_type").getAsString();
+                SharedPref.getPrefsHelper().savePref(Const.Var.BORROWER_CHARGE_TYPE, borrower_charge_type);
+            }
+
+            if (chargeDetailJsonObject.get("lender_charge_value") != null && chargeDetailJsonObject.get("lender_charge_value").getAsString() != null && chargeDetailJsonObject.get("lender_charge_value").getAsString().length() > 0) {
+                String lender_charge_value = object.get("lender_charge_value").getAsString();
+                SharedPref.getPrefsHelper().savePref(Const.Var.LENDER_CHARGE_VALUE, lender_charge_value);
+            }
+
+            if (chargeDetailJsonObject.get("lender_charge_type") != null && chargeDetailJsonObject.get("lender_charge_type").getAsString() != null && chargeDetailJsonObject.get("lender_charge_type").getAsString().length() > 0) {
+                String lender_charge_type = object.get("lender_charge_type").getAsString();
+                SharedPref.getPrefsHelper().savePref(Const.Var.LENDER_CHARGE_TYPE, lender_charge_type);
+            }
+
+
+            if (chargeDetailJsonObject.get("default_fee_value") != null && chargeDetailJsonObject.get("default_fee_value").getAsString() != null && chargeDetailJsonObject.get("default_fee_value").getAsString().length() > 0) {
+                String default_fee_value = object.get("default_fee_value").getAsString();
+                SharedPref.getPrefsHelper().savePref(Const.Var.DEFAULT_FEE_VALUE, default_fee_value);
+            }
+
+            if (chargeDetailJsonObject.get("default_fee_type") != null && chargeDetailJsonObject.get("default_fee_type").getAsString() != null && chargeDetailJsonObject.get("default_fee_type").getAsString().length() > 0) {
+                String default_fee_type = object.get("default_fee_type").getAsString();
+                SharedPref.getPrefsHelper().savePref(Const.Var.DEFAULT_FEE_TYPE, default_fee_type);
+            }
+
         }
 
     }
@@ -140,6 +175,14 @@ public class MySession {
         SharedPref.getPrefsHelper().savePref(Const.Var.ETHNICITY, null);
         SharedPref.getPrefsHelper().savePref(Const.Var.INCOME, null);
         SharedPref.getPrefsHelper().savePref(Const.Var.SIGNATURE, null);
+
+
+        SharedPref.getPrefsHelper().savePref(Const.Var.BORROWER_CHARGE_VALUE, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.BORROWER_CHARGE_TYPE, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.LENDER_CHARGE_VALUE, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.LENDER_CHARGE_TYPE, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.DEFAULT_FEE_VALUE, null);
+        SharedPref.getPrefsHelper().savePref(Const.Var.DEFAULT_FEE_TYPE, null);
     }
 
     public static void saveBankData(JsonObject object) {

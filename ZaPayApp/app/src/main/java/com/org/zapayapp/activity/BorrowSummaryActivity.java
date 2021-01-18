@@ -1,14 +1,9 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
-
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -17,15 +12,11 @@ import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.SharedPref;
-import com.org.zapayapp.utils.TimeStamp;
 import com.org.zapayapp.webservices.APICallback;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashMap;
-
 import retrofit2.Call;
 
 public class BorrowSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener {
@@ -351,6 +342,22 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                 //terms_value = terms_value + " " + getString(R.string.none);
                 termTV.setText(getString(R.string.none));
             }
+        }
+
+
+        if (jsonObject.has("updated_by") && jsonObject.get("updated_by").getAsString() != null && jsonObject.get("updated_by").getAsString().length() > 0
+                &&jsonObject.has("status") && jsonObject.get("status").getAsString() != null && jsonObject.get("status").getAsString().length() > 0) {
+          String updated_by= jsonObject.get("updated_by").getAsString();
+          String status= jsonObject.get("status").getAsString();
+          if (SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString().equalsIgnoreCase(updated_by)&&status.equalsIgnoreCase("1")){
+              negotiateTV.setVisibility(View.GONE);
+              acceptTV.setVisibility(View.GONE);
+              declineTV.setVisibility(View.GONE);
+          }else {
+              negotiateTV.setVisibility(View.VISIBLE);
+              acceptTV.setVisibility(View.VISIBLE);
+              declineTV.setVisibility(View.VISIBLE);
+          }
         }
     }
 

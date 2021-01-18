@@ -2,7 +2,6 @@ package com.org.zapayapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,10 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -164,10 +160,9 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         setDataStatusFunc();
     }
 
-    private void setDataStatusFunc(){
+    private void setDataStatusFunc() {
 
     }
-
 
 
     private void setHistoryButtonVisibleFunc(String status) {
@@ -415,6 +410,21 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
             }
         }
 
+        if (jsonObject.has("updated_by") && jsonObject.get("updated_by").getAsString() != null && jsonObject.get("updated_by").getAsString().length() > 0
+                && jsonObject.has("status") && jsonObject.get("status").getAsString() != null && jsonObject.get("status").getAsString().length() > 0) {
+            String updated_by = jsonObject.get("updated_by").getAsString();
+            String status = jsonObject.get("status").getAsString();
+            if (SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString().equalsIgnoreCase(updated_by) && status.equalsIgnoreCase("1")) {
+                negotiateTV.setVisibility(View.GONE);
+                acceptTV.setVisibility(View.GONE);
+                declineTV.setVisibility(View.GONE);
+            } else {
+                negotiateTV.setVisibility(View.VISIBLE);
+                acceptTV.setVisibility(View.VISIBLE);
+                declineTV.setVisibility(View.VISIBLE);
+            }
+        }
+
 
         if (jsonObject.get("pay_dates_list").getAsJsonArray() != null && jsonObject.get("pay_dates_list").getAsJsonArray().size() > 0) {
             // List<DateModel> list = apiCalling.getDataList(json, "data", DateModel.class);
@@ -448,6 +458,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
 
             }
         }
+
 
         if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
             if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {

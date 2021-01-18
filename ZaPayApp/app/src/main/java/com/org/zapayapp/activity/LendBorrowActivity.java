@@ -1165,7 +1165,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     }
 
     private void privacyPolicyDialog(String discription) {
-
         Dialog dialog = new Dialog(LendBorrowActivity.this);
         dialog.setContentView(R.layout.privacy_policy_dialog);
         dialog.setCancelable(false);

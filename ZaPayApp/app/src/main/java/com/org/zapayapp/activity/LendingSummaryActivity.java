@@ -344,6 +344,23 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 termTV.setText(getString(R.string.none));
             }
         }
+
+
+        if (jsonObject.has("updated_by") && jsonObject.get("updated_by").getAsString() != null && jsonObject.get("updated_by").getAsString().length() > 0
+                &&jsonObject.has("status") && jsonObject.get("status").getAsString() != null && jsonObject.get("status").getAsString().length() > 0) {
+            String updated_by= jsonObject.get("updated_by").getAsString();
+            String status= jsonObject.get("status").getAsString();
+            if (SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString().equalsIgnoreCase(updated_by)&&status.equalsIgnoreCase("1")){
+                negotiateTV.setVisibility(View.GONE);
+                acceptTV.setVisibility(View.GONE);
+                declineTV.setVisibility(View.GONE);
+
+            }else {
+                negotiateTV.setVisibility(View.VISIBLE);
+                acceptTV.setVisibility(View.VISIBLE);
+                declineTV.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     @Override

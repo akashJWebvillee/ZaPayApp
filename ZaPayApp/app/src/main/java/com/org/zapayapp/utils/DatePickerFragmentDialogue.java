@@ -1,18 +1,13 @@
 package com.org.zapayapp.utils;
-
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.widget.DatePicker;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
-
-
 import com.org.zapayapp.R;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
