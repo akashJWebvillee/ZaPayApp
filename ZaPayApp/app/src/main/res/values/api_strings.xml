@@ -35,4 +35,5 @@
     <string name="api_rating">rating</string>
     <string name="api_update_pay_date">update_pay_date</string>
     <string name="api_get_content">get_content</string>
+    <string name="api_generate_agreement_pdf">generate_agreement_pdf</string>
 </resources>

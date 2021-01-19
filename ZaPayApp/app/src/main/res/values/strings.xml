@@ -204,6 +204,8 @@
     <string name="total_to_payback">Total to Pay Back</string>
     <string name="total_to_receive_back">Total to Receive Back</string>
     <string name="submit">Submit</string>
+    <string name="zapay_commission">Zapay Commission</string>
+    <string name="after_zapay_commission">After Zapay Commission</string>
 
 
     <!--Transaction screen-->
@@ -294,6 +296,8 @@
     <string name="add_signature">Add Signature</string>
     <string name="plz_add_signature">Please add signature</string>
     <string name="accept_disclaimer">Accept Disclaimer</string>
+    <string name="please_accept_agreement_form">Please accept agreement form</string>
+    <string name="PDF_url_missing">PDF url missing</string>
 
 
     <string name="termConditionData">"Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book

@@ -123,7 +123,6 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginTop="21dp"
-        android:layout_marginBottom="25dp"
         android:background="@drawable/dotted"/>
 
     <TextView
@@ -133,7 +132,8 @@
         android:layout_marginStart="19dp"
         android:text="@string/total_to_payback"
         android:textColor="@color/navTextColor60Alpha"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:layout_marginTop="25dp"/>
 
     <TextView
         android:id="@+id/totalPayBackTV"
@@ -142,6 +142,51 @@
         android:fontFamily="@font/gotha_promed"
         android:layout_marginStart="19dp"
         android:textColor="@color/textColor"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:text="2510"/>
+
+
+    <TextView
+        android:id="@+id/zapayCommissionTitleTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/gotha_prolig"
+        android:layout_marginStart="19dp"
+        android:text="@string/zapay_commission"
+        android:textColor="@color/navTextColor60Alpha"
+        android:textSize="16sp"
+        android:layout_marginTop="25dp"/>
+
+    <TextView
+        android:id="@+id/zapayCommissionTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/gotha_promed"
+        android:layout_marginStart="19dp"
+        android:textColor="@color/textColor"
+        android:textSize="20sp"
+        android:text="123"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/gotha_prolig"
+        android:layout_marginStart="19dp"
+        android:text="@string/after_zapay_commission"
+        android:textColor="@color/navTextColor60Alpha"
+        android:textSize="16sp"
+        android:layout_marginTop="25dp"/>
+
+    <TextView
+        android:id="@+id/afterCommissionTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/gotha_promed"
+        android:layout_marginStart="19dp"
+        android:textColor="@color/textColor"
+        android:textSize="20sp"
+        android:text="123"/>
+
 
 </LinearLayout>

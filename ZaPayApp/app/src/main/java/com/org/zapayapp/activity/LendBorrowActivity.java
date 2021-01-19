@@ -1,4 +1,5 @@
 package com.org.zapayapp.activity;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,12 +19,14 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.dd.ShadowLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonElement;
@@ -45,13 +48,16 @@ import com.org.zapayapp.utils.EndlessRecyclerViewScrollListener;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.WVDateLib;
 import com.org.zapayapp.webservices.APICallback;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import retrofit2.Call;
 
 public class LendBorrowActivity extends BaseActivity implements View.OnClickListener, DatePickerFragmentDialogue.DatePickerCallback, APICallback, ContactListener {
@@ -91,19 +97,22 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     private String termValue = "";
 
     //borrow....
-    private TextView amountTV, termTV, noOfPaymentTV, paymentDateTV, totalPayBackTV;
+    private TextView amountTV, termTV, noOfPaymentTV, paymentDateTV, totalPayBackTV, zapayCommissionTitleTV, zapayCommissionTV, afterCommissionTV;
 
     //Lending....
     TextView l_amountTV;
     TextView lTermTV;
     TextView lNoOfPaymentTV;
     TextView lPaymentDateTV;
-    TextView totalReceivedBackTV;
+    TextView totalReceivedBackTV, zapayCommissionTitleLenderTV, zapayCommissionLenderTV, afterCommissionLenderTV;
 
     //this use for negotiation
     private TransactionModel transactionModel;
     private CustomTextInputLayout lendAmountEdtAmountInputLayout, lendTermsInputLayout, lendNoOfPaymentInputLayout;
     private ArrayList<String> dateListTitle;
+
+    private float borrowerCommission;
+    private float lenderCommission;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -336,6 +345,10 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         paymentDateTV = findViewById(R.id.paymentDateTV);
         totalPayBackTV = findViewById(R.id.totalPayBackTV);
 
+        zapayCommissionTitleTV = findViewById(R.id.zapayCommissionTitleTV);
+        zapayCommissionTV = findViewById(R.id.zapayCommissionTV);
+        afterCommissionTV = findViewById(R.id.afterCommissionTV);
+
        /* amountTV.setText(String.valueOf(amount));
         String termValue= lendTermsEdtOption.getText().toString().trim();
         if (isTermsOption + 1==1){
@@ -361,6 +374,10 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         lNoOfPaymentTV = findViewById(R.id.lNoOfPaymentTV);
         lPaymentDateTV = findViewById(R.id.lPaymentDateTV);
         totalReceivedBackTV = findViewById(R.id.totalReceivedBackTV);
+
+        zapayCommissionTitleLenderTV = findViewById(R.id.zapayCommissionTitleLenderTV);
+        zapayCommissionLenderTV = findViewById(R.id.zapayCommissionLenderTV);
+        afterCommissionLenderTV = findViewById(R.id.afterCommissionLenderTV);
     }
 
     private void initContactView() {
@@ -534,7 +551,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                     callAPITransactionRequest();
                 } else {
                     callAPIGetContentDisclaimer();
-                   // privacyPolicyDialog();
+                    // privacyPolicyDialog();
                 }
             }
         } else {
@@ -947,6 +964,35 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         }*/
         paymentDateTV.setText(DateFormat.dateFormatConvert(paybackList.get(0).getPayDate()));
         totalPayBackTV.setText("$" + String.valueOf(finalTotalPayBackAmount));
+
+
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE).toString().length() > 0
+                && SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_VALUE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_VALUE).toString().length() > 0) {
+
+            float lenderChargeValue = Float.parseFloat(SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_VALUE).toString());
+            float borrowerChargeValue = Float.parseFloat(SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_VALUE).toString());
+            String borrowerChargeType = SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE).toString();
+
+            if (SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE).toString().equalsIgnoreCase("percent")) {
+                lenderCommission = lenderChargeValue;
+                borrowerCommission = (amount * borrowerChargeValue) / 100;
+                float afterCommission = amount - borrowerCommission;
+                zapayCommissionTV.setText("$" + borrowerCommission);
+                afterCommissionTV.setText("$" + afterCommission);
+                zapayCommissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + borrowerChargeValue + ")" + borrowerChargeType);
+
+            } else if (SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE).toString().equalsIgnoreCase("flat")) {
+                //float commission = amount - borrowerChargeValue;
+                // float afterCommission = amount - commission;
+                lenderCommission = lenderChargeValue;
+                borrowerCommission = borrowerChargeValue;
+                float afterCommission = amount - borrowerCommission;
+                zapayCommissionTV.setText("$" + borrowerCommission);
+                afterCommissionTV.setText("$" + afterCommission);
+                zapayCommissionTitleTV.setText(getString(R.string.zapay_commission));
+
+            }
+        }
     }
 
     private void setLendData() {
@@ -974,6 +1020,34 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
         lPaymentDateTV.setText(DateFormat.dateFormatConvert(paybackList.get(0).getPayDate()));
         totalReceivedBackTV.setText("$" + String.valueOf(finalTotalPayBackAmount));
+
+
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_TYPE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_TYPE).toString().length() > 0
+                && SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_VALUE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_VALUE).toString().length() > 0) {
+
+            float borrowerChargeValue = Float.parseFloat(SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_VALUE).toString());
+            float lenderChargeValue = Float.parseFloat(SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_VALUE).toString());
+            String lenderChargeType = SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_VALUE).toString();
+
+            if (SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_TYPE).toString().equalsIgnoreCase("percent")) {
+                borrowerCommission = borrowerChargeValue;
+                lenderCommission = (amount * lenderChargeValue) / 100;
+                float afterCommission = amount - lenderCommission;
+                zapayCommissionLenderTV.setText("$" + lenderCommission);
+                afterCommissionLenderTV.setText("$" + afterCommission);
+                zapayCommissionTitleLenderTV.setText(getString(R.string.zapay_commission) + "(" + lenderChargeValue + ")" + lenderChargeType);
+
+            } else if (SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_TYPE).toString().equalsIgnoreCase("flat")) {
+                borrowerCommission = borrowerChargeValue;
+                lenderCommission = lenderChargeValue;
+                float afterCommission = amount - lenderCommission;
+                zapayCommissionLenderTV.setText("$" + lenderCommission);
+                afterCommissionLenderTV.setText("$" + afterCommission);
+                zapayCommissionTitleLenderTV.setText(getString(R.string.zapay_commission));
+
+            }
+        }
+
     }
 
     @Override
@@ -1058,8 +1132,12 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 "pay_date", jsonArray.toString(),
                 "request_by", String.valueOf(request_by),   //1=lender,2=borrower
                 "request_type", request_type,
-                "transaction_request_id", transactionId);
+                "transaction_request_id", transactionId,
+                "admin_commission_from_lender", lenderCommission,
+                "admin_commission_from_borrower", borrowerCommission);
+
         Log.e("post", "post data======" + values.toString());
+
 
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
@@ -1131,10 +1209,10 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 } else {
                     showSimpleAlert(msg, "");
                 }
-            }else if (from.equals(getResources().getString(R.string.api_get_content))){
-                 JsonObject jsonObject= json.get("data").getAsJsonObject();
-               if (jsonObject!=null&&jsonObject.has("page_description")&&jsonObject.get("page_description")!=null&&jsonObject.get("page_description").getAsString().length()>0){
-                   privacyPolicyDialog(jsonObject.get("page_description").getAsString());
+            } else if (from.equals(getResources().getString(R.string.api_get_content))) {
+                JsonObject jsonObject = json.get("data").getAsJsonObject();
+                if (jsonObject != null && jsonObject.has("page_description") && jsonObject.get("page_description") != null && jsonObject.get("page_description").getAsString().length() > 0) {
+                    privacyPolicyDialog(jsonObject.get("page_description").getAsString());
                 }
 
             }
@@ -1147,7 +1225,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
     }
 
-    private void callAPIGetContentDisclaimer(){
+    private void callAPIGetContentDisclaimer() {
         HashMap<String, Object> values = apiCalling.getHashMapObject(
                 "content_type", "disclaimer");
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();

@@ -21,7 +21,7 @@ import retrofit2.Call;
 
 public class LendingSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener {
     private TextView nameTV, amountTV, termTV, noOfPaymentTV, paymentDateTV, totalReceivedBackTV, viewAllTV;
-    private TextView negotiateTV, acceptTV, declineTV, chatTV;
+    private TextView negotiateTV, acceptTV, declineTV, chatTV,commissionTitleTV,commissionValueTV;
     private String transactionId, moveFrom;
     private TransactionModel transactionModel;
     private String negotiationAcceptDeclineStatus = "";
@@ -53,6 +53,8 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
         acceptTV = findViewById(R.id.acceptTV);
         declineTV = findViewById(R.id.declineTV);
         chatTV = findViewById(R.id.chatTV);
+        commissionTitleTV = findViewById(R.id.commissionTitleTV);
+        commissionValueTV = findViewById(R.id.commissionValueTV);
     }
 
     private void inItAction() {

@@ -243,11 +243,43 @@
                     </LinearLayout>
                 </LinearLayout>
 
+
+                <LinearLayout
+                    android:id="@+id/commissionLL"
+                    android:layout_below="@+id/lendLLPaymentPayback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="27dp">
+
+                    <TextView
+                        android:id="@+id/commissionTitleTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotha_prolig"
+                        android:gravity="start"
+                        android:text="@string/zapay_commission"
+                        android:textColor="@color/navTextColor60Alpha"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/commissionValueTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/gotha_promed"
+                        android:gravity="start"
+                        android:text="10"
+                        android:textColor="@color/textColor"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
                 <View
                     android:id="@+id/lendViewDot"
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:layout_below="@+id/lendLLPaymentPayback"
+                    android:layout_below="@+id/commissionLL"
                     android:layout_marginTop="21dp"
                     android:background="@drawable/dotted" />
 
