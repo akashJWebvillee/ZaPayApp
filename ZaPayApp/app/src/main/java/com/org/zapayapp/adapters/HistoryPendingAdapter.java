@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,6 +38,7 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
         private TextView noOfPaymentTV;
         private TextView termTypeTV;
         private TextView borroModeTitleTV;
+        private ImageView dateUpdateIconIV;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
@@ -46,6 +48,7 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
             noOfPaymentTV = itemView.findViewById(R.id.noOfPaymentTV);
             termTypeTV = itemView.findViewById(R.id.termTypeTV);
             borroModeTitleTV = itemView.findViewById(R.id.borrowModeTitleTV);
+            dateUpdateIconIV = itemView.findViewById(R.id.dateUpdateIconIV);
         }
     }
 
@@ -97,9 +100,15 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
             holder.amountTV.setText(total_amount);
         }
 
-        if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
+      /*  if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
             holder.borroModeTitleTV.setText(context.getString(R.string.lend_mode));
         } else if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+            holder.borroModeTitleTV.setText(context.getString(R.string.borrow_mode));
+        }*/
+
+        if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+            holder.borroModeTitleTV.setText(context.getString(R.string.lend_mode));
+        } else if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
             holder.borroModeTitleTV.setText(context.getString(R.string.borrow_mode));
         }
 
@@ -147,6 +156,8 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
 
             }
         });
+
+
     }
     @Override
     public int getItemCount() {

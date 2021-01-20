@@ -1,9 +1,11 @@
 package com.org.zapayapp.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
@@ -18,7 +20,9 @@ import com.org.zapayapp.R;
 import com.org.zapayapp.adapters.PaybackDateAdapter;
 import com.org.zapayapp.chat.ChatActivity;
 import com.org.zapayapp.dialogs.DateChangeRequestDialogActivity;
+import com.org.zapayapp.model.CommissionModel;
 import com.org.zapayapp.model.DateModel;
+import com.org.zapayapp.model.PdfDetailModel;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.uihelpers.CustomRatingBar;
 import com.org.zapayapp.utils.Const;
@@ -48,6 +52,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
     private ImageView backArrowImageView;
     private TextView chatTV;
     private Intent intent;
+    private String status;
     private CustomRatingBar viewRatingBar;
 
     private RecyclerView paybackDateRecycler;
@@ -56,6 +61,11 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
     private DateModel dateModel;
     private PaybackDateAdapter paybackDateAdapter;
     private String requestBy;
+
+    private String updated_by;
+    private PdfDetailModel pdfDetailModel;
+    private LinearLayout agreementLL;
+    private TextView commissionTitleTV, commissionValueTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +97,10 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         chatTV = findViewById(R.id.chatTV);
         viewRatingBar = findViewById(R.id.viewRatingBar);
 
+        agreementLL = findViewById(R.id.agreementLL);
+        commissionTitleTV = findViewById(R.id.commissionTitleTV);
+        commissionValueTV = findViewById(R.id.commissionValueTV);
+
 
         paybackDateRecycler = findViewById(R.id.paybackDateRecycler);
         paybackDateRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
@@ -100,54 +114,50 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         declineTV.setOnClickListener(this);
         backArrowImageView.setOnClickListener(this);
         chatTV.setOnClickListener(this);
+        agreementLL.setOnClickListener(this);
     }
 
     private void getIntentValues() {
         intent = getIntent();
         if (intent != null && intent.getStringExtra("transactionId") != null && intent.getStringExtra("status") != null) {
             transactionId = intent.getStringExtra("transactionId");
-            String status = intent.getStringExtra("status");
+            status = intent.getStringExtra("status");
 
             if (intent.getStringExtra("requestBy") != null) {
                 requestBy = intent.getStringExtra("requestBy");
-                if (Objects.requireNonNull(intent.getStringExtra("requestBy")).equalsIgnoreCase("1")) {
+               /* if (Objects.requireNonNull(requestBy).equalsIgnoreCase("1")) {
                     titleTV.setText(getString(R.string.lending_summary));
                     viewAllNameType.setText(getString(R.string.lender));
                 } else {
                     titleTV.setText(getString(R.string.borrow_summary));
                     viewAllNameType.setText(getString(R.string.borrower));
+                }*/
+
+                if (getString(R.string.transaction).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
+                    if (Objects.requireNonNull(requestBy).equalsIgnoreCase("1")) {
+                        titleTV.setText(getString(R.string.lending_summary));
+                        viewAllNameType.setText(getString(R.string.lender));
+                    } else {
+                        titleTV.setText(getString(R.string.borrow_summary));
+                        viewAllNameType.setText(getString(R.string.borrower));
+                    }
+                } else if (getString(R.string.history).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
+                    if (Objects.requireNonNull(requestBy).equalsIgnoreCase("2")) {
+                        titleTV.setText(getString(R.string.lending_summary));
+                        viewAllNameType.setText(getString(R.string.lender));
+                    } else {
+                        titleTV.setText(getString(R.string.borrow_summary));
+                        viewAllNameType.setText(getString(R.string.borrower));
+                    }
                 }
+
+
             }
 
             if (getString(R.string.transaction).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
                 callAPIGetTransactionRequestDetail(transactionId);
-
-                if (status != null && status.equalsIgnoreCase("0")) { //PENDING
-                    setTransactionButtonVisibleFunc(status);
-                } else if (status != null && status.equalsIgnoreCase("1")) {//negotioation
-                    setTransactionButtonVisibleFunc(status);
-                } else if (status != null && status.equalsIgnoreCase("2")) {//accepted
-                    setTransactionButtonVisibleFunc(status);
-                } else if (status != null && status.equalsIgnoreCase("3")) {//decline
-                    setTransactionButtonVisibleFunc(status);
-                } else if (status != null && status.equalsIgnoreCase("4")) {//completed
-                    setTransactionButtonVisibleFunc(status);
-                }
-
             } else if (getString(R.string.history).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
                 callAPIGetHistoryRequestDetail(transactionId);
-
-                if (status != null && status.equalsIgnoreCase("0")) { //PENDING
-                    setHistoryButtonVisibleFunc(status);
-                } else if (status != null && status.equalsIgnoreCase("1")) {//negotioation
-                    setHistoryButtonVisibleFunc(status);
-                } else if (status != null && status.equalsIgnoreCase("2")) {//accepted
-                    setHistoryButtonVisibleFunc(status);
-                } else if (status != null && status.equalsIgnoreCase("3")) {//decline
-                    setHistoryButtonVisibleFunc(status);
-                } else if (status != null && status.equalsIgnoreCase("4")) {//completed
-                    setHistoryButtonVisibleFunc(status);
-                }
 
             }
         }
@@ -157,43 +167,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
     @Override
     protected void onResume() {
         super.onResume();
-        setDataStatusFunc();
     }
-
-    private void setDataStatusFunc() {
-
-    }
-
-
-    private void setHistoryButtonVisibleFunc(String status) {
-        if (status.equalsIgnoreCase("1")) {
-            negotiateTV.setVisibility(View.VISIBLE);
-            acceptTV.setVisibility(View.VISIBLE);
-            declineTV.setVisibility(View.VISIBLE);
-        } else {
-            negotiateTV.setVisibility(View.GONE);
-            acceptTV.setVisibility(View.GONE);
-            declineTV.setVisibility(View.GONE);
-        }
-    }
-
-
-    private void setTransactionButtonVisibleFunc(String status) {
-        if (status.equalsIgnoreCase("0")) {   //0==pending
-            negotiateTV.setVisibility(View.VISIBLE);
-            acceptTV.setVisibility(View.VISIBLE);
-            declineTV.setVisibility(View.VISIBLE);
-        } else if (status.equalsIgnoreCase("1")) {
-            negotiateTV.setVisibility(View.VISIBLE);
-            acceptTV.setVisibility(View.VISIBLE);
-            declineTV.setVisibility(View.VISIBLE);
-        } else {
-            negotiateTV.setVisibility(View.GONE);
-            acceptTV.setVisibility(View.GONE);
-            declineTV.setVisibility(View.GONE);
-        }
-    }
-
 
     @Override
     public void onClick(View v) {
@@ -219,6 +193,17 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 intent.putExtra("transactionModel", transactionModel);
                 startActivity(intent);
                 break;
+
+            case R.id.agreementLL:
+                if (pdfDetailModel != null) {
+                    String url = pdfDetailModel.getPdfUrl();
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+                }
+                break;
+
+
         }
     }
 
@@ -312,7 +297,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 if (status == 200) {
                     if (json.get("data").getAsJsonObject() != null) {
                         transactionModel = (TransactionModel) apiCalling.getDataObject(json.get("data").getAsJsonObject(), TransactionModel.class);
-                        setData(json.get("data").getAsJsonObject());
+                        setData(json.get("data").getAsJsonObject(), getString(R.string.transaction));
                     }
 
                 } else if (status == 401) {
@@ -325,7 +310,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 if (status == 200) {
                     if (json.get("data").getAsJsonObject() != null) {
                         transactionModel = (TransactionModel) apiCalling.getDataObject(json.get("data").getAsJsonObject(), TransactionModel.class);
-                        setData(json.get("data").getAsJsonObject());
+                        setData(json.get("data").getAsJsonObject(), getString(R.string.history));
                     }
                 } else {
                     showSimpleAlert(msg, getResources().getString(R.string.api_update_transaction_request_status));
@@ -343,7 +328,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
     }
 
 
-    private void setData(JsonObject jsonObject) {
+    private void setData(JsonObject jsonObject, String forWhat) {
         if (jsonObject.get("first_name").getAsString() != null && jsonObject.get("first_name").getAsString().length() > 0 && jsonObject.get("first_name").getAsString() != null && jsonObject.get("first_name").getAsString().length() > 0) {
             String name = jsonObject.get("first_name").getAsString() + " " + jsonObject.get("last_name").getAsString();
             nameTV.setText(name);
@@ -410,20 +395,46 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
             }
         }
 
+
         if (jsonObject.has("updated_by") && jsonObject.get("updated_by").getAsString() != null && jsonObject.get("updated_by").getAsString().length() > 0
                 && jsonObject.has("status") && jsonObject.get("status").getAsString() != null && jsonObject.get("status").getAsString().length() > 0) {
-            String updated_by = jsonObject.get("updated_by").getAsString();
-            String status = jsonObject.get("status").getAsString();
-            if (SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString().equalsIgnoreCase(updated_by) && status.equalsIgnoreCase("1")) {
-                negotiateTV.setVisibility(View.GONE);
-                acceptTV.setVisibility(View.GONE);
-                declineTV.setVisibility(View.GONE);
-            } else {
-                negotiateTV.setVisibility(View.VISIBLE);
-                acceptTV.setVisibility(View.VISIBLE);
-                declineTV.setVisibility(View.VISIBLE);
+            updated_by = jsonObject.get("updated_by").getAsString();
+            status = jsonObject.get("status").getAsString();
+            setButtonVisibility(forWhat);
+        }
+
+        if (jsonObject.has("commission_charges_detail") && jsonObject.get("commission_charges_detail").getAsString() != null && jsonObject.get("commission_charges_detail").getAsString().length() > 0) {
+            String commission_charges_detail = jsonObject.get("commission_charges_detail").getAsString();
+            commission_charges_detail.replace("\\", "/");
+            CommissionModel commissionModel = gson.fromJson(commission_charges_detail, CommissionModel.class);
+
+
+            if (requestBy != null && requestBy.length() > 0) {
+                if (requestBy.equalsIgnoreCase("1")) {     //lender
+                    commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getLenderChargeValue() + ")" + commissionModel.getLenderChargeType());
+                    commissionValueTV.setText(commissionModel.getLenderChargeValue());
+                } else if (requestBy.equalsIgnoreCase("2")) {   //borrower
+                    commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
+                    commissionValueTV.setText(commissionModel.getBorrowerChargeValue());
+                }
             }
         }
+
+        if (status.equalsIgnoreCase("2") || status.equalsIgnoreCase("4")) {
+            agreementLL.setVisibility(View.VISIBLE);
+        } else {
+            agreementLL.setVisibility(View.GONE);
+        }
+
+        if (jsonObject.has("pdf_details") && jsonObject.get("pdf_details").getAsJsonArray() != null) {
+            List<PdfDetailModel> pdf_details = apiCalling.getDataList(jsonObject, "pdf_details", PdfDetailModel.class);
+            pdfDetailModel = pdf_details.get(0);
+        }
+
+
+
+
+
 
 
         if (jsonObject.get("pay_dates_list").getAsJsonArray() != null && jsonObject.get("pay_dates_list").getAsJsonArray().size() > 0) {
@@ -511,6 +522,81 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
             paybackDateRecycler.setAdapter(paybackDateAdapter);
         } else {
             paybackDateAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void setButtonVisibility(String forWhat) {
+        if (forWhat.equalsIgnoreCase(getString(R.string.transaction))) {
+
+            if (status != null && status.equalsIgnoreCase("0")) { //PENDING
+                setTransactionButtonVisibleFunc(status);
+            } else if (status != null && status.equalsIgnoreCase("1")) {//negotioation
+                setTransactionButtonVisibleFunc(status);
+            } else if (status != null && status.equalsIgnoreCase("2")) {//accepted
+                setTransactionButtonVisibleFunc(status);
+            } else if (status != null && status.equalsIgnoreCase("3")) {//decline
+                setTransactionButtonVisibleFunc(status);
+            } else if (status != null && status.equalsIgnoreCase("4")) {//completed
+                setTransactionButtonVisibleFunc(status);
+            }
+
+
+        } else if (forWhat.equalsIgnoreCase(getString(R.string.history))) {
+
+            if (status != null && status.equalsIgnoreCase("0")) { //PENDING
+                setHistoryButtonVisibleFunc(status);
+            } else if (status != null && status.equalsIgnoreCase("1")) {//negotioation
+                setHistoryButtonVisibleFunc(status);
+            } else if (status != null && status.equalsIgnoreCase("2")) {//accepted
+                setHistoryButtonVisibleFunc(status);
+            } else if (status != null && status.equalsIgnoreCase("3")) {//decline
+                setHistoryButtonVisibleFunc(status);
+            } else if (status != null && status.equalsIgnoreCase("4")) {//completed
+                setHistoryButtonVisibleFunc(status);
+            }
+        }
+    }
+
+
+    private void setHistoryButtonVisibleFunc(String status) {
+        if (status.equalsIgnoreCase("1")) {
+            if (updated_by != null && SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString().equalsIgnoreCase(updated_by)) {
+                negotiateTV.setVisibility(View.GONE);
+                acceptTV.setVisibility(View.GONE);
+                declineTV.setVisibility(View.GONE);
+            } else {
+                negotiateTV.setVisibility(View.VISIBLE);
+                acceptTV.setVisibility(View.VISIBLE);
+                declineTV.setVisibility(View.VISIBLE);
+            }
+
+        } else {
+            negotiateTV.setVisibility(View.GONE);
+            acceptTV.setVisibility(View.GONE);
+            declineTV.setVisibility(View.GONE);
+        }
+    }
+
+
+    private void setTransactionButtonVisibleFunc(String status) {
+        if (status.equalsIgnoreCase("0")) {   //0==pending
+            negotiateTV.setVisibility(View.VISIBLE);
+            acceptTV.setVisibility(View.VISIBLE);
+            declineTV.setVisibility(View.VISIBLE);
+        } else if (status.equalsIgnoreCase("1")) {
+            if (updated_by != null && SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString().equalsIgnoreCase(updated_by)) {
+                negotiateTV.setVisibility(View.GONE);
+                acceptTV.setVisibility(View.GONE);
+                declineTV.setVisibility(View.GONE);
+            } else {
+                negotiateTV.setVisibility(View.VISIBLE);
+                acceptTV.setVisibility(View.VISIBLE);
+                declineTV.setVisibility(View.VISIBLE);
+            }
+        } else {
+            negotiateTV.setVisibility(View.GONE);
+            acceptTV.setVisibility(View.GONE);
+            declineTV.setVisibility(View.GONE);
         }
     }
 }

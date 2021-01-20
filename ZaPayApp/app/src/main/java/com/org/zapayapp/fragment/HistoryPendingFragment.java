@@ -132,5 +132,7 @@ public class HistoryPendingFragment extends Fragment implements APICallback {
         HistoryPendingAdapter historyPendingAdapter = new HistoryPendingAdapter(getActivity(), transactionList, getString(R.string.history));
         pendingRecyclerView.setAdapter(historyPendingAdapter);
     }
+
+
 }
 

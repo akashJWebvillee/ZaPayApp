@@ -18,7 +18,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.AcceptActivity"></activity>
+
+
+        <activity
+            android:name=".dialogs.ChangeDateRequestDialogActivity"
+            android:fitsSystemWindows="true"
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
+
+        <activity android:name=".activity.AcceptActivity" />
         <activity android:name=".activity.SignatureActivity" />
         <activity
             android:name=".dialogs.DateChangeRequestDialogActivity"

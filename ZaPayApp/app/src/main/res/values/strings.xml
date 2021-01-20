@@ -75,6 +75,7 @@
     <string name="mobile_no">Mobile No.</string>
     <string name="enter_valid_mobile">Enter valid mobile</string>
     <string name="change_password">Change Password</string>
+    <string name="change_date_request">Change date request</string>
     <string name="disclaimer">Disclaimer</string>
     <string name="set_pin">Update Pin</string>
 
@@ -298,6 +299,9 @@
     <string name="accept_disclaimer">Accept Disclaimer</string>
     <string name="please_accept_agreement_form">Please accept agreement form</string>
     <string name="PDF_url_missing">PDF url missing</string>
+    <string name="agreement_form">Agreement form</string>
+    <string name="previous_date">Previous date</string>
+    <string name="requested_date">Requested date</string>
 
 
     <string name="termConditionData">"Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book

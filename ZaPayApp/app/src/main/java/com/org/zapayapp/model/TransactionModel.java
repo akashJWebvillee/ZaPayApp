@@ -60,6 +60,13 @@ public class TransactionModel implements Serializable {
     @Expose
     public String average_rating;
 
+    @SerializedName("pay_date_update_status_is_pending")
+    @Expose
+    public String pay_date_update_status_is_pending;
+
+    public String getPay_date_update_status_is_pending() {
+        return pay_date_update_status_is_pending;
+    }
 
     public String getId() {
         return id;

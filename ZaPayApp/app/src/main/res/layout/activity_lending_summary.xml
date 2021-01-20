@@ -249,30 +249,68 @@
                     android:layout_below="@+id/lendLLPaymentPayback"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:orientation="horizontal"
                     android:layout_marginTop="20dp"
-                    android:layout_marginStart="27dp">
+                    android:layout_marginStart="27dp"
+                    android:weightSum="2">
 
-                    <TextView
-                        android:id="@+id/commissionTitleTV"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/gotha_prolig"
-                        android:gravity="start"
-                        android:text="@string/zapay_commission"
-                        android:textColor="@color/navTextColor60Alpha"
-                        android:textSize="14sp" />
+                        android:orientation="vertical"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="5dp">
+                        <TextView
+                            android:id="@+id/commissionTitleTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/gotha_prolig"
+                            android:gravity="start"
+                            android:text="@string/zapay_commission"
+                            android:textColor="@color/navTextColor60Alpha"
+                            android:textSize="14sp" />
+                        <!--  -->
+                        <TextView
+                            android:id="@+id/commissionValueTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/gotha_promed"
+                            android:gravity="start"
+                            android:text=""
+                            android:textColor="@color/textColor"
+                            android:textSize="16sp" />
+                    </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/commissionValueTV"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/agreementFormLL"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="@font/gotha_promed"
-                        android:gravity="start"
-                        android:text="10"
-                        android:textColor="@color/textColor"
-                        android:textSize="16sp" />
+                        android:orientation="vertical"
+                        android:layout_weight="1"
+                        android:layout_marginStart="5dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/gotha_prolig"
+                            android:gravity="start"
+                            android:text="@string/agreement_form"
+                            android:textColor="@color/navTextColor60Alpha"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:id="@+id/ag"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginTop="5dp"
+                            android:textColor="@color/textColor"
+                            android:textSize="16sp"
+                            android:src="@mipmap/file1"
+                            android:layout_marginStart="50dp"
+                            android:tint="@color/color_blue"/>
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <View

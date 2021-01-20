@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,6 +39,8 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         private TextView noOfPaymentTV;
         private TextView termTypeTV;
         private TextView borrowModeTitleTV;
+        private ImageView dateUpdateIconIV;
+
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
@@ -47,6 +50,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             noOfPaymentTV = itemView.findViewById(R.id.noOfPaymentTV);
             termTypeTV = itemView.findViewById(R.id.termTypeTV);
             borrowModeTitleTV = itemView.findViewById(R.id.borrowModeTitleTV);
+            dateUpdateIconIV = itemView.findViewById(R.id.dateUpdateIconIV);
         }
     }
 
@@ -112,6 +116,15 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             holder.termTypeTV.setText(context.getString(R.string.discount));
         } else if (transactionModel.getTermsType().equalsIgnoreCase("4")) {
             holder.termTypeTV.setText(context.getString(R.string.none));
+        }
+
+
+        if (transactionModel.getStatus()!=null&&transactionModel.getStatus().length()>0&&transactionModel.getStatus().equalsIgnoreCase("2")){ //accepted
+            if (transactionModel.getPay_date_update_status_is_pending()!=null&&(transactionModel.getPay_date_update_status_is_pending().length()>0&&transactionModel.getPay_date_update_status_is_pending().equalsIgnoreCase("1"))){
+                holder.dateUpdateIconIV.setVisibility(View.VISIBLE);
+            }else{
+                holder.dateUpdateIconIV.setVisibility(View.GONE);
+            }
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

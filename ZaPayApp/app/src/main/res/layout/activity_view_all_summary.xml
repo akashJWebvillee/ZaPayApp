@@ -214,41 +214,117 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="10dp"/>
 
-                <TextView
-                    android:id="@+id/viewTxtRating"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/rattingLL"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:layout_below="@+id/paybackDateRecycler"
-                    android:layout_marginStart="27dp"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/gotha_prolig"
-                    android:gravity="start"
-                    android:text="@string/rating"
-                    android:textColor="@color/navTextColor60Alpha"
-                    android:textSize="14sp" />
+                    android:weightSum="2"
+                    android:layout_marginTop="10dp">
 
-                <com.org.zapayapp.uihelpers.CustomRatingBar
-                    android:id="@+id/viewRatingBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="13dp"
-                    android:layout_below="@+id/viewTxtRating"
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/viewTxtRating"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="27dp"
+
+                            android:fontFamily="@font/gotha_prolig"
+                            android:gravity="start"
+                            android:text="@string/rating"
+                            android:textColor="@color/navTextColor60Alpha"
+                            android:textSize="14sp" />
+
+                        <com.org.zapayapp.uihelpers.CustomRatingBar
+                            android:id="@+id/viewRatingBar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="13dp"
+                            android:layout_marginStart="27dp"
+                            android:layout_marginTop="5dp"
+                            android:stepSize="1"
+                            app:halfStars="true"
+                            app:maxStars="5"
+                            app:onlyForDisplay="true"
+                            app:starHalf="@mipmap/ic_star_fill"
+                            app:starOff="@mipmap/ic_star_hollow"
+                            app:starOn="@mipmap/ic_star_fill"
+                            app:starPadding="3dp"
+                            app:stars="3" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/agreementLL"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/gotha_prolig"
+                            android:gravity="start"
+                            android:text="@string/agreement_form"
+                            android:textColor="@color/navTextColor60Alpha"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:id="@+id/file"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginTop="5dp"
+                            android:textColor="@color/textColor"
+                            android:textSize="16sp"
+                            android:src="@mipmap/file1"
+                            android:layout_marginStart="50dp"
+                            android:tint="@color/color_blue"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/commissionLL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_below="@+id/rattingLL"
                     android:layout_marginStart="27dp"
-                    android:layout_marginTop="5dp"
-                    android:stepSize="1"
-                    app:halfStars="true"
-                    app:maxStars="5"
-                    app:onlyForDisplay="true"
-                    app:starHalf="@mipmap/ic_star_fill"
-                    app:starOff="@mipmap/ic_star_hollow"
-                    app:starOn="@mipmap/ic_star_fill"
-                    app:starPadding="3dp"
-                    app:stars="3" />
+                    android:layout_marginTop="25dp">
+
+                    <TextView
+                        android:id="@+id/commissionTitleTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotha_prolig"
+                        android:gravity="start"
+                        android:text="@string/zapay_commission"
+                        android:textColor="@color/navTextColor60Alpha"
+                        android:textSize="14sp" />
+                    <!--  -->
+                    <TextView
+                        android:id="@+id/commissionValueTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/gotha_promed"
+                        android:gravity="start"
+                        android:text="10"
+                        android:textColor="@color/textColor"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+
 
                 <View
                     android:id="@+id/viewDot"
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:layout_below="@+id/viewRatingBar"
+                    android:layout_below="@+id/commissionLL"
                     android:layout_marginTop="30dp"
                     android:background="@drawable/dotted" />
 
