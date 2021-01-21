@@ -22,7 +22,7 @@ import com.org.zapayapp.chat.ChatActivity;
 import com.org.zapayapp.dialogs.DateChangeRequestDialogActivity;
 import com.org.zapayapp.model.CommissionModel;
 import com.org.zapayapp.model.DateModel;
-import com.org.zapayapp.model.PdfDetailModel;
+import com.org.zapayapp.model.AgreementPdfDetailModel;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.uihelpers.CustomRatingBar;
 import com.org.zapayapp.utils.Const;
@@ -30,6 +30,7 @@ import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.DatePickerFragmentDialogue;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
+import com.org.zapayapp.webservices.APICalling;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -63,7 +64,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
     private String requestBy;
 
     private String updated_by;
-    private PdfDetailModel pdfDetailModel;
+    private AgreementPdfDetailModel agreementPdfDetailModel;
     private LinearLayout agreementLL;
     private TextView commissionTitleTV, commissionValueTV;
 
@@ -125,13 +126,15 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
 
             if (intent.getStringExtra("requestBy") != null) {
                 requestBy = intent.getStringExtra("requestBy");
-               /* if (Objects.requireNonNull(requestBy).equalsIgnoreCase("1")) {
+              /*  if (Objects.requireNonNull(requestBy).equalsIgnoreCase("1")) {
                     titleTV.setText(getString(R.string.lending_summary));
                     viewAllNameType.setText(getString(R.string.lender));
                 } else {
                     titleTV.setText(getString(R.string.borrow_summary));
                     viewAllNameType.setText(getString(R.string.borrower));
                 }*/
+
+
 
                 if (getString(R.string.transaction).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
                     if (Objects.requireNonNull(requestBy).equalsIgnoreCase("1")) {
@@ -195,8 +198,8 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 break;
 
             case R.id.agreementLL:
-                if (pdfDetailModel != null) {
-                    String url = pdfDetailModel.getPdfUrl();
+                if (agreementPdfDetailModel != null) {
+                    String url = agreementPdfDetailModel.getPdfUrl();
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     i.setData(Uri.parse(url));
                     startActivity(i);
@@ -327,7 +330,6 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         }
     }
 
-
     private void setData(JsonObject jsonObject, String forWhat) {
         if (jsonObject.get("first_name").getAsString() != null && jsonObject.get("first_name").getAsString().length() > 0 && jsonObject.get("first_name").getAsString() != null && jsonObject.get("first_name").getAsString().length() > 0) {
             String name = jsonObject.get("first_name").getAsString() + " " + jsonObject.get("last_name").getAsString();
@@ -427,8 +429,8 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         }
 
         if (jsonObject.has("pdf_details") && jsonObject.get("pdf_details").getAsJsonArray() != null) {
-            List<PdfDetailModel> pdf_details = apiCalling.getDataList(jsonObject, "pdf_details", PdfDetailModel.class);
-            pdfDetailModel = pdf_details.get(0);
+            List<AgreementPdfDetailModel> pdf_details = apiCalling.getDataList(jsonObject, "pdf_details", AgreementPdfDetailModel.class);
+            agreementPdfDetailModel = pdf_details.get(0);
         }
 
 

@@ -3,7 +3,10 @@ package com.org.zapayapp.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class DateModel {
+import java.io.Serializable;
+import java.util.List;
+
+public class DateModel implements Serializable {
     @SerializedName("id")
     @Expose
     private String id;
@@ -13,9 +16,14 @@ public class DateModel {
     @SerializedName("transaction_id")
     @Expose
     private String transactionId;
+
     @SerializedName("pay_date")
     @Expose
     private String payDate;
+    @SerializedName("new_pay_date")
+    @Expose
+    private String new_pay_date;
+
     @SerializedName("status")
     @Expose
     private String status;
@@ -31,6 +39,14 @@ public class DateModel {
     @SerializedName("is_extended")
     @Expose
     private String is_extended;
+
+    @SerializedName("new_pay_date_status")
+    @Expose
+    private String new_pay_date_status;
+
+    @SerializedName("amendment_pdf_details")
+    @Expose
+    private List<AmendmentPdfDetailModel> amendmentPdfDetails = null;
 
     private boolean isEditable;
     private boolean isLatestRemaining;
@@ -55,6 +71,18 @@ public class DateModel {
 
     public String getPayDate() {
         return payDate;
+    }
+
+    public String getNew_pay_date_status() {
+        return new_pay_date_status;
+    }
+
+    public List<AmendmentPdfDetailModel> getAmendmentPdfDetails() {
+        return amendmentPdfDetails;
+    }
+
+    public String getNew_pay_date() {
+        return new_pay_date;
     }
 
     public String getStatus() {

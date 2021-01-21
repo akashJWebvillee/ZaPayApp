@@ -1,41 +1,52 @@
 package com.org.zapayapp.adapters;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.org.zapayapp.R;
+import com.org.zapayapp.activity.BorrowSummaryActivity;
 import com.org.zapayapp.activity.ViewAllSummaryActivity;
+import com.org.zapayapp.model.AmendmentPdfDetailModel;
 import com.org.zapayapp.model.DateModel;
 import com.org.zapayapp.utils.DateFormat;
+import com.org.zapayapp.utils.MyDateUpdateDialog;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.MyHolder> {
     private Context context;
     private ArrayList<DateModel> dateModelArrayList;
     private String moveFrom;
     private String requestBy;
+    private ViewAllSummaryActivity activity;
 
     public PaybackDateAdapter(Context context, ArrayList<DateModel> dateModelArrayList,String moveFrom,String requestBy) {
         this.context = context;
         this.dateModelArrayList = dateModelArrayList;
         this.moveFrom = moveFrom;
         this.requestBy = requestBy;
+        activity= (ViewAllSummaryActivity) context;
     }
 
     class MyHolder extends RecyclerView.ViewHolder {
         private TextView paymentNoTV, dateTV;
         private RelativeLayout editDateRL;
+        private LinearLayout amendmentLL;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
             paymentNoTV = itemView.findViewById(R.id.paymentNoTV);
             dateTV = itemView.findViewById(R.id.dateTV);
             editDateRL = itemView.findViewById(R.id.editDateRL);
+            amendmentLL = itemView.findViewById(R.id.amendmentLL);
         }
     }
 
@@ -52,6 +63,23 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
         if (dateModelArrayList.get(position).getPayDate() != null && dateModelArrayList.get(position).getPayDate().length() > 0) {
             holder.dateTV.setText(DateFormat.dateFormatConvert(dateModelArrayList.get(position).getPayDate()));
         }
+
+        if (dateModelArrayList.get(position).getAmendmentPdfDetails()!=null&&dateModelArrayList.get(position).getAmendmentPdfDetails().size()>0){
+            holder.amendmentLL.setVisibility(View.VISIBLE);
+            List<AmendmentPdfDetailModel> amendmentPdfDetailModelList= dateModelArrayList.get(position).getAmendmentPdfDetails();
+            AmendmentPdfDetailModel amendmentPdfDetailModel=amendmentPdfDetailModelList.get(0);
+              if (amendmentPdfDetailModel!=null&&amendmentPdfDetailModel.getPdfUrl()!=null&&amendmentPdfDetailModel.getPdfUrl().length()>0){
+                  holder.amendmentLL.setOnClickListener(new View.OnClickListener() {
+                      @Override
+                      public void onClick(View v) {
+                          redirectAmendmentForm(amendmentPdfDetailModel.getPdfUrl());
+                      }
+                  });
+              }
+        }else {
+            holder.amendmentLL.setVisibility(View.GONE);
+        }
+
 
         if (moveFrom.equalsIgnoreCase(context.getString(R.string.history))){
             if (dateModelArrayList.get(position).isEditable()){
@@ -159,6 +187,12 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
     @Override
     public int getItemCount() {
         return dateModelArrayList.size();
+    }
+
+    private void redirectAmendmentForm(String pdfUrl){
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(pdfUrl));
+        context.startActivity(i);
     }
 }
 

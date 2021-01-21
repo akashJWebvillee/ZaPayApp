@@ -16,6 +16,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
+import com.org.zapayapp.model.DateModel;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
@@ -30,6 +31,8 @@ public class AcceptActivity extends BaseActivity implements APICallback,SimpleAl
     private String transactionId, moveFrom, status;
     private String pdfUrl = "";
 
+    private DateModel dateModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,8 +41,6 @@ public class AcceptActivity extends BaseActivity implements APICallback,SimpleAl
         inIt();
         inItAction();
         getIntentValues();
-        generateAgreementPdf();
-
     }
 
     private void inIt() {
@@ -56,8 +57,14 @@ public class AcceptActivity extends BaseActivity implements APICallback,SimpleAl
         if (intent != null && intent.getStringExtra("transactionId") != null && intent.getStringExtra("moveFrom") != null) {
             transactionId = intent.getStringExtra("transactionId");
             moveFrom = intent.getStringExtra("moveFrom");
-            status = intent.getStringExtra("status");
-            //setDataStatusFunc();
+
+            if (moveFrom.equalsIgnoreCase("ChangeDateRequestDialogActivity")){
+                dateModel= gson.fromJson(intent.getStringExtra("status"), DateModel.class);
+                generateAmendmentPdf();
+            }else {
+                status = intent.getStringExtra("status");
+                generateAgreementPdf();
+            }
         }
     }
 
@@ -67,11 +74,20 @@ public class AcceptActivity extends BaseActivity implements APICallback,SimpleAl
             public void onClick(View v) {
                 if (mChkAgree.isChecked()) {
                     if (!pdfUrl.equalsIgnoreCase("")){
-                        callAPIUpdateTransactionRequestStatus("2");
+                        if (moveFrom.equalsIgnoreCase("ChangeDateRequestDialogActivity")){
+                            if (dateModel!=null){
+                                callAPIPayDateRequestStatusUpdate();
+                            }
+                        }else {
+                            callAPIUpdateTransactionRequestStatus("2");
+                        }
                     }else {
                         showSimpleAlert(getString(R.string.PDF_url_missing), "");
                     }
-                } else {
+
+                } else if (moveFrom.equalsIgnoreCase("ChangeDateRequestDialogActivity")){
+                    showSimpleAlert(getString(R.string.please_accept_amendment_form), "");
+                }else {
                     showSimpleAlert(getString(R.string.please_accept_agreement_form), "");
                 }
             }
@@ -83,6 +99,22 @@ public class AcceptActivity extends BaseActivity implements APICallback,SimpleAl
                 finish();
             }
         });
+    }
+
+    private void generateAmendmentPdf() {
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        HashMap<String, Object> values = apiCalling.getHashMapObject(
+                "transaction_request_id", transactionId);
+        try {
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_generate_amendment_pdf), values);
+            if (apiCalling != null) {
+                apiCalling.setRunInBackground(false);
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_generate_amendment_pdf), okTV);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -121,6 +153,27 @@ public class AcceptActivity extends BaseActivity implements APICallback,SimpleAl
         }
     }
 
+    private void callAPIPayDateRequestStatusUpdate() {
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        HashMap<String, Object> values = apiCalling.getHashMapObject(
+                "transaction_request_id", transactionId,
+                "pay_date_id", dateModel.getId(),
+                "new_pay_date_status","2", //date accept
+                "pdf_url", pdfUrl);
+        try {
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_pay_date_request_status_update), values);
+            if (apiCalling != null) {
+                apiCalling.setRunInBackground(false);
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_pay_date_request_status_update), okTV);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
     @Override
     public void apiCallback(JsonObject json, String from) {
         if (from != null) {
@@ -150,7 +203,29 @@ public class AcceptActivity extends BaseActivity implements APICallback,SimpleAl
                     showSimpleAlert(msg, "");
                 }
 
+            }else if (from.equals(getResources().getString(R.string.api_generate_amendment_pdf))){
+                if (status == 200) {
+                    JsonObject jsonObject = json.get("data").getAsJsonObject();
+                    String pdf_url = jsonObject.get("pdf_url").getAsString();
+                    pdfUrl = APICalling.getImageUrl(pdf_url);
+                    loadPdfFile(APICalling.getImageUrl(pdf_url));
+                } else {
+                    showSimpleAlert(msg, "");
+                }
+
+            }else if (from.equals(getResources().getString(R.string.api_pay_date_request_status_update))){
+                if (status == 200) {
+                    showSimpleAlert11(msg, getResources().getString(R.string.api_pay_date_request_status_update));
+
+                } else {
+                    showSimpleAlert(msg, "");
+                }
+
             }
+
+
+
+
         }
     }
 
@@ -209,6 +284,10 @@ public class AcceptActivity extends BaseActivity implements APICallback,SimpleAl
     @Override
     public void onSimpleCallback(String from) {
         if (from.equals(getResources().getString(R.string.api_update_transaction_request_status))) {
+            Intent intent=new Intent();
+            setResult(200,intent);
+            finish();//finishing activity
+        }else if (from.equals(getResources().getString(R.string.api_pay_date_request_status_update))){
             Intent intent=new Intent();
             setResult(200,intent);
             finish();//finishing activity

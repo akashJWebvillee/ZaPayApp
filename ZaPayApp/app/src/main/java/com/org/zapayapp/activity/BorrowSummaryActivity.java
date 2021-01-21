@@ -1,5 +1,4 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,33 +6,28 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
-
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.chat.ChatActivity;
-import com.org.zapayapp.dialogs.ChangeDateRequestDialogActivity;
 import com.org.zapayapp.model.CommissionModel;
-import com.org.zapayapp.model.PdfDetailModel;
+import com.org.zapayapp.model.DateModel;
+import com.org.zapayapp.model.AgreementPdfDetailModel;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.DateFormat;
+import com.org.zapayapp.utils.MyDateUpdateDialog;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.List;
-
 import retrofit2.Call;
 
-public class BorrowSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener {
+public class BorrowSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener, MyDateUpdateDialog.DateStatusUpdateListener {
     private TextView nameTV, amountTV, termTV, noOfPaymentTV, paymentDateTV, totalReceivedBackTV, viewAllTV, negotiateTV, acceptTV, declineTV, chatTV, commissionTitleTV, commissionValueTV;
     private String transactionId, moveFrom;
     private TransactionModel transactionModel;
@@ -44,7 +38,9 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
 
     private String updated_by;
     private LinearLayout agreementFormLL;
-    private PdfDetailModel pdfDetailModel;
+    private AgreementPdfDetailModel agreementPdfDetailModel;
+    private int changeDateRequestDialogActivityCODE = 300;
+    private DateModel dateModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,11 +86,8 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
             moveFrom = intent.getStringExtra("moveFrom");
             status = intent.getStringExtra("status");
             //setDataStatusFunc();
-
         }
     }
-
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -129,7 +122,6 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
         }
     }
 
-
     private void setTransactionButtonVisibleFunc(String status) {
         if (status.equalsIgnoreCase("0")) {   //0==pending
             negotiateTV.setVisibility(View.VISIBLE);
@@ -152,7 +144,6 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
         }
     }
 
-
     @Override
     protected boolean useToolbar() {
         return true;
@@ -167,28 +158,24 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.negotiateTV:
-                //  negotiationAcceptDeclineStatus = "1";
-                // callAPIUpdateTransactionRequestStatus("1");
                 intent = new Intent(BorrowSummaryActivity.this, LendBorrowActivity.class);
                 intent.putExtra("isBorrow", true);
                 intent.putExtra("transactionModel", transactionModel);
                 startActivity(intent);
                 break;
             case R.id.acceptTV:
-                //negotiationAcceptDeclineStatus = "2";
-                //callAPIUpdateTransactionRequestStatus("2");
                 intent = new Intent(BorrowSummaryActivity.this, AcceptActivity.class);
                 intent.putExtra("moveFrom", moveFrom);
                 intent.putExtra("status", "2");
                 intent.putExtra("transactionId", transactionId);
                 startActivityForResult(intent, 200);
-
-
                 break;
+
             case R.id.declineTV:
                 negotiationAcceptDeclineStatus = "3";
                 callAPIUpdateTransactionRequestStatus("3");
                 break;
+
             case R.id.viewAllTV:
                 if (isClickable) {
                     isClickable = false;
@@ -197,7 +184,6 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                     intent.putExtra("moveFrom", moveFrom);
                     intent.putExtra("status", status);
                     intent.putExtra("requestBy", transactionModel.getRequestBy());
-                    // startActivity(intent);
                     startActivityForResult(intent, 2);// Activity is started with requestCode 2
                 }
                 break;
@@ -208,17 +194,15 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                 break;
 
             case R.id.agreementFormLL:
-               if (pdfDetailModel!=null){
-                   Log.e("pdfDetailModel","pdfDetailModel url==="+pdfDetailModel.getPdfUrl());
-                   String url = pdfDetailModel.getPdfUrl();
-                   Intent i = new Intent(Intent.ACTION_VIEW);
-                   i.setData(Uri.parse(url));
-                   startActivity(i);
-               }
-               break;
+                if (agreementPdfDetailModel != null) {
+                    String url = agreementPdfDetailModel.getPdfUrl();
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+                }
+                break;
         }
     }
-
 
     private void callAPIGetTransactionRequestDetail(String transaction_request_id) {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
@@ -308,6 +292,12 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                 } else {
                     showSimpleAlert(msg, getResources().getString(R.string.api_update_transaction_request_status));
                 }
+            } else if (from.equals(getResources().getString(R.string.api_pay_date_request_status_update))) {
+                if (status == 200) {
+                    showSimpleAlert(msg, getString(R.string.api_pay_date_request_status_update));
+                } else {
+                    showSimpleAlert(msg, "");
+                }
             }
         }
     }
@@ -369,8 +359,6 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
             }
         }
 
-
-
         if (jsonObject.has("updated_by") && jsonObject.get("updated_by").getAsString() != null && jsonObject.get("updated_by").getAsString().length() > 0
                 && jsonObject.has("status") && jsonObject.get("status").getAsString() != null && jsonObject.get("status").getAsString().length() > 0) {
             updated_by = jsonObject.get("updated_by").getAsString();
@@ -379,28 +367,34 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
         }
 
         if (jsonObject.has("commission_charges_detail") && jsonObject.get("commission_charges_detail").getAsString() != null && jsonObject.get("commission_charges_detail").getAsString().length() > 0) {
-           String commission_charges_detail= jsonObject.get("commission_charges_detail").getAsString();
-            commission_charges_detail.replace("\\","/");
+            String commission_charges_detail = jsonObject.get("commission_charges_detail").getAsString();
+            commission_charges_detail.replace("\\", "/");
             CommissionModel commissionModel = gson.fromJson(commission_charges_detail, CommissionModel.class);
-
-               commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
-                commissionValueTV.setText(commissionModel.getBorrowerChargeValue());
-
+            commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
+            commissionValueTV.setText(commissionModel.getBorrowerChargeValue());
         }
 
-        if (status.equalsIgnoreCase("2")||status.equalsIgnoreCase("4")){
+        if (status.equalsIgnoreCase("2") || status.equalsIgnoreCase("4")) {
             agreementFormLL.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             agreementFormLL.setVisibility(View.GONE);
         }
 
         if (jsonObject.has("pdf_details") && jsonObject.get("pdf_details").getAsJsonArray() != null) {
-            List<PdfDetailModel> pdf_details = apiCalling.getDataList(jsonObject, "pdf_details", PdfDetailModel.class);
-             pdfDetailModel= pdf_details.get(0);
+            List<AgreementPdfDetailModel> pdf_details = apiCalling.getDataList(jsonObject, "pdf_details", AgreementPdfDetailModel.class);
+            if (pdf_details.size() > 0)
+                agreementPdfDetailModel = pdf_details.get(0);
         }
 
-        Intent intent=new Intent(BorrowSummaryActivity.this, ChangeDateRequestDialogActivity.class);
-        startActivity(intent);
+        if (jsonObject.has("pay_date_pending_request_details") && jsonObject.get("pay_date_pending_request_details").getAsJsonArray() != null) {
+            List<DateModel> pdf_details = apiCalling.getDataList(jsonObject, "pay_date_pending_request_details", DateModel.class);
+            if (pdf_details.size() > 0) {
+                dateModel = pdf_details.get(0);
+                if (dateModel.getNew_pay_date_status().equalsIgnoreCase("1")) { //pending
+                    new MyDateUpdateDialog().changeDateRequestDialogFunc(BorrowSummaryActivity.this, this, dateModel);
+                }
+            }
+        }
     }
 
     private void setButtonVisibility(String forWhat) {
@@ -458,6 +452,34 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
         negotiateTV.setVisibility(View.VISIBLE);
         acceptTV.setVisibility(View.VISIBLE);
         declineTV.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void dateStatusUpdateResponse(String data) {
+        if (data.equalsIgnoreCase("decline")) {
+            if (dateModel != null) {
+                callAPIPayDateRequestStatusUpdate();
+            }
+        }
+    }
+
+    private void callAPIPayDateRequestStatusUpdate() {
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        HashMap<String, Object> values = apiCalling.getHashMapObject(
+                "transaction_request_id", dateModel.getTransactionRequestId(),
+                "pay_date_id", dateModel.getId(),
+                "pdf_url", "",
+                "new_pay_date_status", "3"); //date update decline
+        try {
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_pay_date_request_status_update), values);
+            if (apiCalling != null) {
+                apiCalling.setRunInBackground(false);
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_pay_date_request_status_update), acceptTV);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 

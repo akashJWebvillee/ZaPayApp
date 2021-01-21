@@ -1,6 +1,7 @@
 package com.org.zapayapp.dialogs;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -17,7 +19,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.ZapayApp;
+import com.org.zapayapp.activity.AcceptActivity;
 import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
+import com.org.zapayapp.model.DateModel;
 import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.SharedPref;
@@ -30,13 +34,14 @@ import java.util.HashMap;
 
 import retrofit2.Call;
 
-public class ChangeDateRequestDialogActivity extends AppCompatActivity implements View.OnClickListener , APICallback, SimpleAlertFragment.AlertSimpleCallback{
+public class ChangeDateRequestDialogActivity extends AppCompatActivity implements View.OnClickListener, APICallback, SimpleAlertFragment.AlertSimpleCallback {
     private TextView previousDateTV;
     private TextView requestedDateTV;
     private TextView acceptTV;
     private TextView declineTV;
     private ImageView dateCloseIV;
     public WValidationLib wValidationLib;
+    private DateModel dateModel;
 
     /*Code for API calling*/
     protected ZapayApp zapayApp;
@@ -52,10 +57,10 @@ public class ChangeDateRequestDialogActivity extends AppCompatActivity implement
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_change_date_request_dialog);
         getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
         init();
-        initAction();
         apiCodeInit();
+        getIntentFunc();
+        initAction();
     }
 
     private void apiCodeInit() {
@@ -66,6 +71,14 @@ public class ChangeDateRequestDialogActivity extends AppCompatActivity implement
         wValidationLib = new WValidationLib(ChangeDateRequestDialogActivity.this);
     }
 
+    private void getIntentFunc() {
+        if (getIntent().getStringExtra("DateDetail") != null && getIntent().getStringExtra("DateDetail").length() > 0) {
+            String dateDetail = getIntent().getStringExtra("DateDetail");
+            dateModel = gson.fromJson(dateDetail, DateModel.class);
+        }
+
+    }
+
     private void init() {
         previousDateTV = findViewById(R.id.previousDateTV);
         requestedDateTV = findViewById(R.id.requestedDateTV);
@@ -73,13 +86,17 @@ public class ChangeDateRequestDialogActivity extends AppCompatActivity implement
         declineTV = findViewById(R.id.declineTV);
         dateCloseIV = findViewById(R.id.dateCloseIV);
 
-
     }
 
     private void initAction() {
         acceptTV.setOnClickListener(this);
         declineTV.setOnClickListener(this);
         dateCloseIV.setOnClickListener(this);
+
+        if (dateModel != null) {
+            previousDateTV.setText(dateModel.getPayDate());
+            requestedDateTV.setText(dateModel.getNew_pay_date());
+        }
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -87,7 +104,12 @@ public class ChangeDateRequestDialogActivity extends AppCompatActivity implement
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.acceptTV:
-
+                Intent intent = new Intent(ChangeDateRequestDialogActivity.this, AcceptActivity.class);
+                intent.putExtra("moveFrom", "ChangeDateRequestDialogActivity");
+                intent.putExtra("status", gson.toJson(dateModel));
+                intent.putExtra("transactionId", dateModel.getTransactionRequestId());
+                startActivity(intent);
+                finish();
                 break;
 
             case R.id.declineTV:
@@ -95,7 +117,10 @@ public class ChangeDateRequestDialogActivity extends AppCompatActivity implement
                 break;
 
             case R.id.dateCloseIV:
-                finish();
+                Intent intent1=new Intent();
+                intent1.putExtra("data","closeByButton");
+                setResult(300,intent1);
+                finish();//finishing activity
                 break;
 
         }
@@ -103,27 +128,27 @@ public class ChangeDateRequestDialogActivity extends AppCompatActivity implement
     }
 
 
-    private void callAPIResetPassword() {
-      /*  String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
-
+    private void callAPIPayDateRequestStatusUpdate() {
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        HashMap<String, Object> values = apiCalling.getHashMapObject(
+                "transaction_request_id", dateModel.getTransactionRequestId(),
+                "pay_date_id", dateModel.getId(),
+                "new_pay_date_status", "2"); //date accept
         try {
-            HashMap<String, Object> values = apiCalling.getHashMapObject(
-                    "old_password", oldPasswordUpEditText.getText().toString().trim(),
-                    "new_password", newPasswordUpEditText.getText().toString().trim());
-
             zapayApp.setApiCallback(this);
-            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_change_password), values);
+            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_pay_date_request_status_update), values);
             if (apiCalling != null) {
-                apiCalling.callAPI(zapayApp, call, getString(R.string.api_change_password), saveTV);
+                apiCalling.setRunInBackground(false);
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_pay_date_request_status_update), acceptTV);
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }
     }
 
     @Override
     public void apiCallback(JsonObject json, String from) {
-       /* if (from != null) {
+        if (from != null) {
             int status = 0;
             String msg = "";
             try {
@@ -132,18 +157,14 @@ public class ChangeDateRequestDialogActivity extends AppCompatActivity implement
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if (from.equals(getResources().getString(R.string.api_change_password))) {
+            if (from.equals(getResources().getString(R.string.api_pay_date_request_status_update))) {
                 if (status == 200) {
-                    oldPasswordUpEditText.setText("");
-                    newPasswordUpEditText.setText("");
-                    confirmPasswordUpEditText.setText("");
-
-                    showSimpleAlert(msg, getString(R.string.api_change_password));
+                    showSimpleAlert(msg, getString(R.string.api_pay_date_request_status_update));
                 } else {
                     showSimpleAlert(msg, "");
                 }
             }
-        }*/
+        }
     }
 
     public void showSimpleAlert(String message, String from) {
@@ -170,4 +191,10 @@ public class ChangeDateRequestDialogActivity extends AppCompatActivity implement
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+    }
 }

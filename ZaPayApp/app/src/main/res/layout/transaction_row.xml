@@ -40,7 +40,8 @@
                 android:src="@drawable/circle_shape_green"
                 android:layout_marginTop="25dp"
                 android:layout_marginStart="10dp"
-                android:tint="@color/colorRed"/>
+                android:tint="@color/colorRed"
+                android:visibility="gone"/>
 
 
         <TextView

@@ -142,7 +142,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         listIndicator = new ArrayList<>();
         wvDateLib = new WVDateLib(this);
 
-
         dateListTitle = new ArrayList<>();
         dateListTitle.add(getString(R.string.first_select_date));
         dateListTitle.add(getString(R.string.second_select_date));
@@ -167,6 +166,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             request_by = 1;
             listIndicator.add(getString(R.string.lending_summary_));
         }
+
         listIndicator.add(getString(R.string.select_contact));
 
         indicatorAdapter = new IndicatorAdapter(this, listIndicator, isBorrow);
@@ -1214,7 +1214,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 if (jsonObject != null && jsonObject.has("page_description") && jsonObject.get("page_description") != null && jsonObject.get("page_description").getAsString().length() > 0) {
                     privacyPolicyDialog(jsonObject.get("page_description").getAsString());
                 }
-
             }
         }
     }
@@ -1239,7 +1238,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     private void privacyPolicyDialog(String discription) {

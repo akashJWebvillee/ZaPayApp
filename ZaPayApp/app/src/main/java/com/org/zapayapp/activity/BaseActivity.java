@@ -1,4 +1,5 @@
 package com.org.zapayapp.activity;
+
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +24,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.Socket;
@@ -51,11 +54,15 @@ import com.org.zapayapp.viewModel.ProjectViewModel;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
 import com.org.zapayapp.webservices.RestAPI;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import retrofit2.Call;
+
 /**
  * The type Base activity.
  */
@@ -618,14 +625,16 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             finish();
         } else if (from.equalsIgnoreCase(getString(R.string.api_signup))) {
             moveToLogin();
-        }else if (from.equalsIgnoreCase(getString(R.string.update_pin))){
+        } else if (from.equalsIgnoreCase(getString(R.string.update_pin))) {
             finish();
-        }else if (from.equalsIgnoreCase(getString(R.string.set_new_pin))){
+        } else if (from.equalsIgnoreCase(getString(R.string.set_new_pin))) {
             Intent intent = new Intent(BaseActivity.this, HomeActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             finish();
+        } else if (from.equalsIgnoreCase(getResources().getString(R.string.api_pay_date_request_status_update))) {
+           // finish();
         }
     }
 
@@ -677,11 +686,10 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
     public void onForceCallback(String from, boolean isAddress) {
         if (from.equals(getString(R.string.session_expired))) {
             clearLogout();
-        }else if (from.equalsIgnoreCase(getString(R.string.do_you_want_to_close_the_application))){
+        } else if (from.equalsIgnoreCase(getString(R.string.do_you_want_to_close_the_application))) {
             finish();
         }
     }
-
 
 
     private void setHeaderData() {
@@ -793,7 +801,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
     private void sendReceiveAck(final JSONObject object) {
         try {
 
-            ProjectViewModel projectViewModel= new ViewModelProvider(this).get(ProjectViewModel.class);
+            ProjectViewModel projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
 
             //{"status":200,"message":"success","data":{"receiver_id":"52","sender_id":"53","message":"Hello","transaction_request_id":"103","message_id":108,"status":0,"created_at":1598699350222}}
             JSONObject msg_data = null;
@@ -815,7 +823,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
     }
 
 
-    public void fireBaseToken(){
+    public void fireBaseToken() {
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
@@ -826,12 +834,12 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
                         }
 
                         // Get new Instance ID token
-                        if (task.getResult()!=null&&task.getResult().getToken().length()>0) {
+                        if (task.getResult() != null && task.getResult().getToken().length() > 0) {
                             String newToken = task.getResult().getToken();
                             SharedPref.getPrefsHelper().savePref(Const.Var.FIREBASE_DEVICE_TOKEN, newToken);
                         }
 
-                        Log.e("Firebase token","Firebase token====="+task.getResult().getToken());
+                        Log.e("Firebase token", "Firebase token=====" + task.getResult().getToken());
                     }
                 });
 
