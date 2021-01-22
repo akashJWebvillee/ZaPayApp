@@ -68,6 +68,12 @@ public class HistoryAcceptedFragment extends Fragment implements APICallback {
             }
         };
         pendingRecyclerView.addOnScrollListener(scrollListener);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         pageNo = 0;
         callAPIGetTransactionRequest(pageNo);
     }
@@ -85,7 +91,7 @@ public class HistoryAcceptedFragment extends Fragment implements APICallback {
                     "page", pageNo);
 
             activity.zapayApp.setApiCallback(this);
-            Call<JsonElement> call =activity. restAPI.postWithTokenApi(token, getString(R.string.api_get_transaction_history), values);
+            Call<JsonElement> call = activity.restAPI.postWithTokenApi(token, getString(R.string.api_get_transaction_history), values);
             if (activity.apiCalling != null) {
                 activity.apiCalling.callAPI(activity.zapayApp, call, getString(R.string.api_get_transaction_history), pendingRecyclerView);
             }

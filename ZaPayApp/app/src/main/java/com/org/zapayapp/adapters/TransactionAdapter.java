@@ -7,8 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.org.zapayapp.R;
 import com.org.zapayapp.activity.BorrowSummaryActivity;
 import com.org.zapayapp.activity.LendingSummaryActivity;
@@ -16,9 +18,11 @@ import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.SharedPref;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.List;
 
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.MyHolder> {
@@ -74,17 +78,17 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             //holder.dateTV.setText(TimeStamp.timeFun(transactionModel.getCreatedAt()));
         }
 
-        if (transactionModel.getPayDate()!=null&&transactionModel.getPayDate().length()>0){
-            String pay_date=transactionModel.getPayDate();
+        if (transactionModel.getPayDate() != null && transactionModel.getPayDate().length() > 0) {
+            String pay_date = transactionModel.getPayDate();
             pay_date = pay_date.replaceAll("\\\\", "");
             try {
                 JSONArray jsonArray = new JSONArray(pay_date);
-                JSONObject jsonObject1=  jsonArray.getJSONObject(0);
-                String date= jsonObject1.getString("date");
+                JSONObject jsonObject1 = jsonArray.getJSONObject(0);
+                String date = jsonObject1.getString("date");
                 try {
                     //holder.dateTV.setText(DateFormat.getDateFromEpoch(date));
                     holder.dateTV.setText(DateFormat.dateFormatConvert(date));
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -119,35 +123,38 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         }
 
 
-        if (transactionModel.getStatus()!=null&&transactionModel.getStatus().length()>0&&transactionModel.getStatus().equalsIgnoreCase("2")){ //accepted
-            if (transactionModel.getPay_date_update_status_is_pending()!=null&&(transactionModel.getPay_date_update_status_is_pending().length()>0&&transactionModel.getPay_date_update_status_is_pending().equalsIgnoreCase("1"))){
-                holder.dateUpdateIconIV.setVisibility(View.VISIBLE);
-            }else{
-                holder.dateUpdateIconIV.setVisibility(View.GONE);
+        if (transactionModel.getStatus() != null && transactionModel.getStatus().length() > 0 && transactionModel.getStatus().equalsIgnoreCase("2")) { //accepted
+            if (transactionModel.getPay_date_update_status_is_pending() != null && (transactionModel.getPay_date_update_status_is_pending().length() > 0 && transactionModel.getPay_date_update_status_is_pending().equalsIgnoreCase("1"))) {
+                if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+                    holder.dateUpdateIconIV.setVisibility(View.VISIBLE);
+                } else {
+                    holder.dateUpdateIconIV.setVisibility(View.GONE);
+                }
             }
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // if (!transactionModel.getStatus().equalsIgnoreCase("2")) {
-                    if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
-                        Intent intent = new Intent(context, BorrowSummaryActivity.class);
-                        intent.putExtra("moveFrom", data);
-                        intent.putExtra("status", transactionModel.getStatus());
-                        intent.putExtra("transactionId", transactionModel.getId());
-                        context.startActivity(intent);
-                    } else if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
-                        Intent intent = new Intent(context, LendingSummaryActivity.class);
-                        intent.putExtra("moveFrom", data);
-                        intent.putExtra("status", transactionModel.getStatus());
-                        intent.putExtra("transactionId", transactionModel.getId());
-                        context.startActivity(intent);
-                    }
+                // if (!transactionModel.getStatus().equalsIgnoreCase("2")) {
+                if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+                    Intent intent = new Intent(context, BorrowSummaryActivity.class);
+                    intent.putExtra("moveFrom", data);
+                    intent.putExtra("status", transactionModel.getStatus());
+                    intent.putExtra("transactionId", transactionModel.getId());
+                    context.startActivity(intent);
+                } else if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
+                    Intent intent = new Intent(context, LendingSummaryActivity.class);
+                    intent.putExtra("moveFrom", data);
+                    intent.putExtra("status", transactionModel.getStatus());
+                    intent.putExtra("transactionId", transactionModel.getId());
+                    context.startActivity(intent);
+                }
                 //}
             }
         });
     }
+
     @Override
     public int getItemCount() {
         return transactionModelsList.size();

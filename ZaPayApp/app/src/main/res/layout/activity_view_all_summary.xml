@@ -303,8 +303,8 @@
                         android:gravity="start"
                         android:text="@string/zapay_commission"
                         android:textColor="@color/navTextColor60Alpha"
-                        android:textSize="14sp" />
-                    <!--  -->
+                        android:textSize="14sp"/>
+
                     <TextView
                         android:id="@+id/commissionValueTV"
                         android:layout_width="wrap_content"
@@ -312,12 +312,10 @@
                         android:layout_marginTop="5dp"
                         android:fontFamily="@font/gotha_promed"
                         android:gravity="start"
-                        android:text="10"
+                        android:text=""
                         android:textColor="@color/textColor"
                         android:textSize="16sp" />
-
                 </LinearLayout>
-
 
 
                 <View

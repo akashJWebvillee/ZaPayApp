@@ -93,6 +93,10 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
                                 holder.editDateRL.setVisibility(View.GONE);
                             }
 
+                            if (dateModelArrayList.get(position).getNew_pay_date_status()!=null&&dateModelArrayList.get(position).getNew_pay_date_status().equalsIgnoreCase("2")){ //2=date request accepted
+                                holder.editDateRL.setVisibility(View.GONE);
+                            }
+
                         } else if (dateModelArrayList.get(position).getStatus().equals("processed")) {
                             holder.editDateRL.setVisibility(View.GONE);
                         } else if (dateModelArrayList.get(position).getStatus().equals("pending")) {
@@ -103,6 +107,7 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
                             holder.editDateRL.setVisibility(View.VISIBLE);
                         }
                     }
+
 
                 }else if (requestBy.equalsIgnoreCase("1")){
                     holder.editDateRL.setVisibility(View.GONE);
@@ -121,6 +126,10 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
                             if (dateModelArrayList.get(position).isLatestRemaining()&&dateModelArrayList.get(position).isEditable()){
                                 holder.editDateRL.setVisibility(View.VISIBLE);
                             }else{
+                                holder.editDateRL.setVisibility(View.GONE);
+                            }
+
+                            if (dateModelArrayList.get(position).getNew_pay_date_status()!=null&&dateModelArrayList.get(position).getNew_pay_date_status().equalsIgnoreCase("2")){ //2=date request accepted
                                 holder.editDateRL.setVisibility(View.GONE);
                             }
 
@@ -174,7 +183,13 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
             @Override
             public void onClick(View v) {
                 if (context instanceof ViewAllSummaryActivity) {
-                    if (dateModelArrayList.get(position).getIs_extended() != null && dateModelArrayList.get(position).getIs_extended().equals("0")) {
+                   /* if (dateModelArrayList.get(position).getIs_extended() != null && dateModelArrayList.get(position).getIs_extended().equals("0")) {
+                        ((ViewAllSummaryActivity) context).selectPaybackDate(position, dateModelArrayList.get(position));
+                    } else {
+                        ((ViewAllSummaryActivity) context).showSimpleAlert(context.getString(R.string.date_already_extended), "");
+                    }*/
+
+                    if (dateModelArrayList.get(position).getNew_pay_date_status() != null && dateModelArrayList.get(position).getNew_pay_date_status().equals("0")) {
                         ((ViewAllSummaryActivity) context).selectPaybackDate(position, dateModelArrayList.get(position));
                     } else {
                         ((ViewAllSummaryActivity) context).showSimpleAlert(context.getString(R.string.date_already_extended), "");

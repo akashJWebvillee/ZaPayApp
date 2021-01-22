@@ -1,5 +1,4 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -42,6 +41,8 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
     private LinearLayout agreementFormLL;
     private AgreementPdfDetailModel agreementPdfDetailModel;
     private DateModel dateModel;
+    private String request_by;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -176,6 +177,7 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 negotiationAcceptDeclineStatus = "3";
                 callAPIUpdateTransactionRequestStatus("3");
                 break;
+
             case R.id.viewAllTV:
                 if (isClickable) {
                     isClickable = false;
@@ -333,6 +335,10 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
             // paymentDateTV.setText(TimeStamp.timeFun(created_at));
         }
 
+        if (jsonObject.has("request_by")&&jsonObject.get("request_by").getAsString() != null && jsonObject.get("request_by").getAsString().length() > 0) {
+            request_by = jsonObject.get("request_by").getAsString();
+        }
+
         if (jsonObject.get("pay_date").getAsString() != null && jsonObject.get("pay_date").getAsString().length() > 0) {
             String pay_date = jsonObject.get("pay_date").getAsString();
             pay_date = pay_date.replaceAll("\\\\", "");
@@ -404,8 +410,21 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
             List<DateModel> pdf_details = apiCalling.getDataList(jsonObject, "pay_date_pending_request_details", DateModel.class);
             if (pdf_details.size() > 0) {
                 dateModel = pdf_details.get(0);
-                if (dateModel.getNew_pay_date_status().equalsIgnoreCase("1")) { //pending
-                    new MyDateUpdateDialog().changeDateRequestDialogFunc(LendingSummaryActivity.this, this, dateModel);
+               /* if (dateModel.getNew_pay_date_status().equalsIgnoreCase("1")) { //pending
+                    if (request_by!=null&&!request_by.equalsIgnoreCase("1")){ //1=lender
+                        new MyDateUpdateDialog().changeDateRequestDialogFunc(LendingSummaryActivity.this, this, dateModel);
+                    }
+                }*/
+
+
+                if (moveFrom.equalsIgnoreCase(getString(R.string.transaction))) {
+                    if (request_by.equalsIgnoreCase("2")) {
+                        new MyDateUpdateDialog().changeDateRequestDialogFunc(LendingSummaryActivity.this, this, dateModel);
+                    }
+                } else if (moveFrom.equalsIgnoreCase(getString(R.string.history))) {
+                    if (request_by.equalsIgnoreCase("1")) {
+                        new MyDateUpdateDialog().changeDateRequestDialogFunc(LendingSummaryActivity.this, this, dateModel);
+                    }
                 }
             }
         }

@@ -1,4 +1,5 @@
 package com.org.zapayapp.adapters;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -6,8 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.org.zapayapp.R;
 import com.org.zapayapp.activity.BorrowSummaryActivity;
 import com.org.zapayapp.activity.LendingSummaryActivity;
@@ -15,9 +18,11 @@ import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.SharedPref;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.List;
 
 public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAdapter.MyHolder> {
@@ -70,26 +75,26 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
         }
 
         if (transactionModel.getCreatedAt() != null && transactionModel.getCreatedAt().length() > 0) {
-           // holder.dateTV.setText(TimeStamp.timeFun(transactionModel.getCreatedAt()));
+            // holder.dateTV.setText(TimeStamp.timeFun(transactionModel.getCreatedAt()));
         }
 
-        if (transactionModel.getPayDate()!=null&&transactionModel.getPayDate().length()>0){
-            String pay_date=transactionModel.getPayDate();
+        if (transactionModel.getPayDate() != null && transactionModel.getPayDate().length() > 0) {
+            String pay_date = transactionModel.getPayDate();
             pay_date = pay_date.replaceAll("\\\\", "");
             try {
                 JSONArray jsonArray = new JSONArray(pay_date);
-                JSONObject jsonObject1=  jsonArray.getJSONObject(0);
-                String date= jsonObject1.getString("date");
+                JSONObject jsonObject1 = jsonArray.getJSONObject(0);
+                String date = jsonObject1.getString("date");
                 try {
                     //holder.dateTV.setText(DateFormat.getDateFromEpoch(date));
                     holder.dateTV.setText(DateFormat.dateFormatConvert(date));
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-          }
+        }
 
         if (transactionModel.getNoOfPayment() != null && transactionModel.getNoOfPayment().length() > 0) {
             holder.noOfPaymentTV.setText(transactionModel.getNoOfPayment());
@@ -121,6 +126,31 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
         } else if (transactionModel.getTermsType().equalsIgnoreCase("4")) {
             holder.termTypeTV.setText(context.getString(R.string.none));
         }
+
+
+        /*if (transactionModel.getStatus() != null && transactionModel.getStatus().length() > 0 && transactionModel.getStatus().equalsIgnoreCase("2")) { //accepted
+            if (transactionModel.getPay_date_update_status_is_pending() != null && (transactionModel.getPay_date_update_status_is_pending().length() > 0 && transactionModel.getPay_date_update_status_is_pending().equalsIgnoreCase("1"))) {
+                if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().equalsIgnoreCase("1")) {
+                    holder.dateUpdateIconIV.setVisibility(View.VISIBLE);
+                } else {
+                    holder.dateUpdateIconIV.setVisibility(View.GONE);
+                }
+            }
+        }
+
+*/
+
+
+        if (transactionModel.getStatus() != null && transactionModel.getStatus().length() > 0 && transactionModel.getStatus().equalsIgnoreCase("2")) { //accepted
+            if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().equalsIgnoreCase("1")) {   //lender
+                if (transactionModel.getPay_date_update_status_is_pending() != null && (transactionModel.getPay_date_update_status_is_pending().length() > 0 && transactionModel.getPay_date_update_status_is_pending().equalsIgnoreCase("1"))) {
+                    holder.dateUpdateIconIV.setVisibility(View.VISIBLE);
+                } else {
+                    holder.dateUpdateIconIV.setVisibility(View.GONE);
+                }
+            }
+        }
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,6 +189,7 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
 
 
     }
+
     @Override
     public int getItemCount() {
         return transactionModelsList.size();

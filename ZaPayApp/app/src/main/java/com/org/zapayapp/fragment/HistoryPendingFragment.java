@@ -62,10 +62,16 @@ public class HistoryPendingFragment extends Fragment implements APICallback {
             }
         };
         pendingRecyclerView.addOnScrollListener(scrollListener);
+        //pageNo = 0;
+        //callAPIGetTransactionRequest(pageNo);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         pageNo = 0;
         callAPIGetTransactionRequest(pageNo);
     }
-
 
     private void callAPIGetTransactionRequest(int pageNo) {
         //0=pending 1=negotiate, 2=accept

@@ -3,11 +3,13 @@ package com.org.zapayapp.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -67,6 +69,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
     private AgreementPdfDetailModel agreementPdfDetailModel;
     private LinearLayout agreementLL;
     private TextView commissionTitleTV, commissionValueTV;
+    private String moveFrom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +126,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         if (intent != null && intent.getStringExtra("transactionId") != null && intent.getStringExtra("status") != null) {
             transactionId = intent.getStringExtra("transactionId");
             status = intent.getStringExtra("status");
+            moveFrom = intent.getStringExtra("moveFrom");
 
             if (intent.getStringExtra("requestBy") != null) {
                 requestBy = intent.getStringExtra("requestBy");
@@ -133,7 +137,6 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                     titleTV.setText(getString(R.string.borrow_summary));
                     viewAllNameType.setText(getString(R.string.borrower));
                 }*/
-
 
 
                 if (getString(R.string.transaction).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
@@ -183,7 +186,12 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 finish();
                 break;
             case R.id.acceptTV:
-                callAPIUpdateTransactionRequestStatus("2");
+                // callAPIUpdateTransactionRequestStatus("2");
+                intent = new Intent(ViewAllSummaryActivity.this, AcceptActivity.class);
+                intent.putExtra("moveFrom", moveFrom);
+                intent.putExtra("status", "2");
+                intent.putExtra("transactionId", transactionId);
+                startActivityForResult(intent, 200);
                 break;
             case R.id.declineTV:
                 callAPIUpdateTransactionRequestStatus("3");
@@ -410,14 +418,50 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
             commission_charges_detail.replace("\\", "/");
             CommissionModel commissionModel = gson.fromJson(commission_charges_detail, CommissionModel.class);
 
+           /* if (moveFrom != null && moveFrom.equalsIgnoreCase(getString(R.string.transaction))) {
+                if (requestBy != null && requestBy.length() > 0) {
+                    if (requestBy.equalsIgnoreCase("1")) {     //lender
+                        commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getLenderChargeValue() + ")" + commissionModel.getLenderChargeType());
+                        commissionValueTV.setText(commissionModel.getLenderChargeValue());
+                    } else if (requestBy.equalsIgnoreCase("2")) {   //borrower
+                        commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
+                        commissionValueTV.setText(commissionModel.getBorrowerChargeValue());
+                    }
+                }
+            }else if (moveFrom != null && moveFrom.equalsIgnoreCase(getString(R.string.history))){
+                if (requestBy != null && requestBy.length() > 0) {
+                    if (requestBy.equalsIgnoreCase("2")) {
+                        commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getLenderChargeValue() + ")" + commissionModel.getLenderChargeType());
+                        commissionValueTV.setText(commissionModel.getLenderChargeValue());
+                    } else if (requestBy.equalsIgnoreCase("1")) {
+                        commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
+                        commissionValueTV.setText(commissionModel.getBorrowerChargeValue());
+                    }
+                }
+            */
 
-            if (requestBy != null && requestBy.length() > 0) {
-                if (requestBy.equalsIgnoreCase("1")) {     //lender
-                    commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getLenderChargeValue() + ")" + commissionModel.getLenderChargeType());
-                    commissionValueTV.setText(commissionModel.getLenderChargeValue());
-                } else if (requestBy.equalsIgnoreCase("2")) {   //borrower
-                    commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
-                    commissionValueTV.setText(commissionModel.getBorrowerChargeValue());
+
+            if (getString(R.string.transaction).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
+                if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
+                    if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
+                        commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getLenderChargeValue() + ")" + commissionModel.getLenderChargeType());
+                        commissionValueTV.setText(commissionModel.getLenderChargeValue());
+                    }
+                    if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+                        commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
+                        commissionValueTV.setText(commissionModel.getBorrowerChargeValue());
+                    }
+                }
+            } else if (getString(R.string.history).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
+                if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
+                    if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+                        commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getLenderChargeValue() + ")" + commissionModel.getLenderChargeType());
+                        commissionValueTV.setText(commissionModel.getLenderChargeValue());
+                    }
+                    if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
+                        commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
+                        commissionValueTV.setText(commissionModel.getBorrowerChargeValue());
+                    }
                 }
             }
         }
@@ -428,19 +472,13 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
             agreementLL.setVisibility(View.GONE);
         }
 
-        if (jsonObject.has("pdf_details") && jsonObject.get("pdf_details").getAsJsonArray() != null) {
+        if (jsonObject.has("pdf_details") && jsonObject.get("pdf_details").getAsJsonArray() != null && jsonObject.get("pdf_details").getAsJsonArray().size() > 0) {
             List<AgreementPdfDetailModel> pdf_details = apiCalling.getDataList(jsonObject, "pdf_details", AgreementPdfDetailModel.class);
             agreementPdfDetailModel = pdf_details.get(0);
         }
 
 
-
-
-
-
-
         if (jsonObject.get("pay_dates_list").getAsJsonArray() != null && jsonObject.get("pay_dates_list").getAsJsonArray().size() > 0) {
-            // List<DateModel> list = apiCalling.getDataList(json, "data", DateModel.class);
             List<DateModel> list = apiCalling.getDataArrayList(jsonObject.get("pay_dates_list").getAsJsonArray(), "pay_dates_list", DateModel.class);
             dateModelArrayList.clear();
             dateModelArrayList.addAll(list);
@@ -473,16 +511,31 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         }
 
 
-        if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
-            if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
-                titleTV.setText(getString(R.string.lending_summary));
-                totalPlayReceiveTV.setText(getString(R.string.total_to_receive_back));
+        if (getString(R.string.transaction).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
+            if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
+                if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
+                    titleTV.setText(getString(R.string.lending_summary));
+                    totalPlayReceiveTV.setText(getString(R.string.total_to_receive_back));
+                }
+                if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+                    titleTV.setText(getString(R.string.borrow_summary));
+                    totalPlayReceiveTV.setText(getString(R.string.total_to_pay_back));
+                }
             }
-            if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
-                titleTV.setText(getString(R.string.borrow_summary));
-                totalPlayReceiveTV.setText(getString(R.string.total_to_pay_back));
+        } else if (getString(R.string.history).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
+            if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
+                if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+                    titleTV.setText(getString(R.string.lending_summary));
+                    totalPlayReceiveTV.setText(getString(R.string.total_to_receive_back));
+                }
+                if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
+                    titleTV.setText(getString(R.string.borrow_summary));
+                    totalPlayReceiveTV.setText(getString(R.string.total_to_pay_back));
+                }
             }
         }
+
+
         setPaybackAdapter();
     }
 
@@ -599,6 +652,14 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
             negotiateTV.setVisibility(View.GONE);
             acceptTV.setVisibility(View.GONE);
             declineTV.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 200 && data != null) {
+            finish();
         }
     }
 }

@@ -53,6 +53,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -977,8 +978,8 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 lenderCommission = lenderChargeValue;
                 borrowerCommission = (amount * borrowerChargeValue) / 100;
                 float afterCommission = amount - borrowerCommission;
-                zapayCommissionTV.setText("$" + borrowerCommission);
-                afterCommissionTV.setText("$" + afterCommission);
+                zapayCommissionTV.setText("$" + new DecimalFormat("##.##").format(borrowerCommission));
+                afterCommissionTV.setText("$" + new DecimalFormat("##.##").format(afterCommission));
                 zapayCommissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + borrowerChargeValue + ")" + borrowerChargeType);
 
             } else if (SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE).toString().equalsIgnoreCase("flat")) {
@@ -987,8 +988,8 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 lenderCommission = lenderChargeValue;
                 borrowerCommission = borrowerChargeValue;
                 float afterCommission = amount - borrowerCommission;
-                zapayCommissionTV.setText("$" + borrowerCommission);
-                afterCommissionTV.setText("$" + afterCommission);
+                zapayCommissionTV.setText("$" + new DecimalFormat("##.##").format(borrowerCommission));
+                afterCommissionTV.setText("$" + new DecimalFormat("##.##").format(afterCommission));
                 zapayCommissionTitleTV.setText(getString(R.string.zapay_commission));
 
             }

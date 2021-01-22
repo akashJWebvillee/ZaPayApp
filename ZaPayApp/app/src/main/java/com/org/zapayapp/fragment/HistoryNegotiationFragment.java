@@ -64,6 +64,13 @@ public class HistoryNegotiationFragment extends Fragment implements APICallback 
             }
         };
         pendingRecyclerView.addOnScrollListener(scrollListener);
+       // pageNo = 0;
+       // callAPIGetTransactionRequest(pageNo);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         pageNo = 0;
         callAPIGetTransactionRequest(pageNo);
     }
