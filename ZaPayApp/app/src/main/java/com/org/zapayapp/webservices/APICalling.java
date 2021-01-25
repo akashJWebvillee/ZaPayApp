@@ -2,6 +2,7 @@ package com.org.zapayapp.webservices;
 import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import androidx.annotation.NonNull;
 import com.google.android.material.snackbar.Snackbar;
@@ -277,6 +278,8 @@ public class APICalling extends BaseRequestParser implements ServiceCallback<Jso
             public void onResponse(@NonNull Call<JsonElement> call, @NonNull Response<JsonElement> response) {
                 int statusCode = response.code();
                 hideLoader(activity);
+
+
                 try {
                     if (statusCode >= 200 && statusCode < 300 && response.isSuccessful()) {
                         JsonElement user1 = response.body();
@@ -313,6 +316,7 @@ public class APICalling extends BaseRequestParser implements ServiceCallback<Jso
             @Override
             public void onFailure(@NonNull Call<JsonElement> call, @NonNull Throwable t) {
                 hideLoader(activity);
+                Log.e("statusCode","onFailure statusCode=="+call);
                 if (t instanceof IOException) {
                     networkError((IOException) t, call, this, view);
                 } else {

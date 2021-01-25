@@ -209,7 +209,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                                             if (mChkAgree.isChecked()) {
                                                 callAPISignUp();
                                             } else {
-                                                showSimpleAlert(getString(R.string.term_condition), "");
+                                                showSimpleAlert(getString(R.string.term_and_condition_message), "");
                                             }
                                         }
                                     }

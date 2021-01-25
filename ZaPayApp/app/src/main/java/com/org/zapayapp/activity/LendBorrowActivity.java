@@ -945,8 +945,9 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     }
 
     private void setBorrowData() {
-        amountTV.setText("$" + String.valueOf(amount));
-        String termValue = lendTermsEdtOption.getText().toString().trim();
+       amountTV.setText("$" + String.valueOf(amount));
+
+       String termValue = lendTermsEdtOption.getText().toString().trim();
         if (isTermsOption + 1 == 1) {
             termTV.setText(termValue + " " + getString(R.string.percent));
         } else if (isTermsOption + 1 == 2) {
@@ -964,7 +965,8 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             paymentDateTV.setText(paybackList.get(0).getPayDate());
         }*/
         paymentDateTV.setText(DateFormat.dateFormatConvert(paybackList.get(0).getPayDate()));
-        totalPayBackTV.setText("$" + String.valueOf(finalTotalPayBackAmount));
+       // totalPayBackTV.setText("$" + String.valueOf(finalTotalPayBackAmount));
+        totalPayBackTV.setText("$" + CommonMethods.roundedDoubleWithoutZero(amount));
 
 
         if (SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE).toString().length() > 0
@@ -978,9 +980,16 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 lenderCommission = lenderChargeValue;
                 borrowerCommission = (amount * borrowerChargeValue) / 100;
                 float afterCommission = amount - borrowerCommission;
+
                 zapayCommissionTV.setText("$" + new DecimalFormat("##.##").format(borrowerCommission));
                 afterCommissionTV.setText("$" + new DecimalFormat("##.##").format(afterCommission));
                 zapayCommissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + borrowerChargeValue + ")" + borrowerChargeType);
+
+                /*zapayCommissionTV.setText("$" + CommonMethods.roundedDoubleWithoutZero(borrowerCommission));
+                afterCommissionTV.setText("$" + CommonMethods.roundedDoubleWithoutZero(afterCommission));
+                zapayCommissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + borrowerChargeValue + ")" + borrowerChargeType);
+*/
+
 
             } else if (SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE).toString().equalsIgnoreCase("flat")) {
                 //float commission = amount - borrowerChargeValue;

@@ -10,31 +10,34 @@
     <application
         android:name=".ZapayApp"
         android:allowBackup="false"
-        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true"
+        android:hardwareAccelerated="true">
 
 
-        <activity
-            android:name=".dialogs.ChangeDateRequestDialogActivity"
-            android:fitsSystemWindows="true"
-            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
+        <activity android:name=".activity.AcceptActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
 
-        <activity android:name=".activity.AcceptActivity" />
-        <activity android:name=".activity.SignatureActivity" />
+        <activity android:name=".activity.SignatureActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
         <activity
             android:name=".dialogs.DateChangeRequestDialogActivity"
             android:fitsSystemWindows="true"
-            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert"/>
+
         <activity
             android:name=".activity.CongratulationActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
+
         <activity
             android:name=".activity.SetPinActivity"
             android:screenOrientation="portrait"
@@ -54,6 +57,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".chat.ChatActivity"
             android:screenOrientation="portrait"

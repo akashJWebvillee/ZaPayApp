@@ -1,7 +1,9 @@
 package com.org.zapayapp.activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -96,7 +98,7 @@ public class AcceptActivity extends BaseActivity implements APICallback,SimpleAl
         cancelTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
             }
         });
     }
@@ -230,7 +232,6 @@ public class AcceptActivity extends BaseActivity implements APICallback,SimpleAl
     }
 
     private void loadPdfFile(String myPdfUrl) {
-        //webView.requestFocus();
         WebSettings webSettings = webView.getSettings();
         // webSettings.setBuiltInZoomControls(true);
         webSettings.setJavaScriptEnabled(true);
@@ -249,8 +250,10 @@ public class AcceptActivity extends BaseActivity implements APICallback,SimpleAl
                 return true;
             }
         });
+
         webView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
+                Log.e("progress","progress==="+progress);
                 if (progress < 100) {
                     //  progressDialog.show();
                     apiCalling.setRunInBackground(false);
@@ -261,6 +264,17 @@ public class AcceptActivity extends BaseActivity implements APICallback,SimpleAl
                 }
             }
         });
+    }
+
+    @Override
+    // Detect when the back button is pressed
+    public void onBackPressed() {
+        if(webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            // Let the system handle the back button
+            super.onBackPressed();
+        }
     }
 
 

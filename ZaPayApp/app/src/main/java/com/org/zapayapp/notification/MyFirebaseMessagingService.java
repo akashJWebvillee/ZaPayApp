@@ -1,4 +1,5 @@
 package com.org.zapayapp.notification;
+
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -11,15 +12,22 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
+
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.org.zapayapp.R;
 import com.org.zapayapp.activity.BorrowSummaryActivity;
 import com.org.zapayapp.activity.HomeActivity;
 import com.org.zapayapp.activity.LendingSummaryActivity;
+import com.org.zapayapp.activity.LoginActivity;
+import com.org.zapayapp.activity.SplashActivity;
 import com.org.zapayapp.utils.CommonMethods;
+import com.org.zapayapp.utils.Const;
+import com.org.zapayapp.utils.SharedPref;
+
 import java.util.Map;
 import java.util.Random;
 
@@ -41,9 +49,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 CommonMethods.showLogs(TAG, "isAppForeground : App is background");
             } else {
                 CommonMethods.showLogs(TAG, "isAppForeground : App is foreground");
-
             }
-            sendNotification(remoteMessage.getData());
+
+            if (SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID) != null && SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString().length() > 0) {
+                sendNotification(remoteMessage.getData());
+            } else {
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+            }
         }
 
     }
@@ -61,14 +75,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             String request_by = data.get("request_by");
 
             if (notification_type != null) {
-                if (isAppBackground()){
+                if (isAppBackground()) {
                     intent = new Intent(this, HomeActivity.class);
                     intent.putExtra("notification_type", notification_type);
                     intent.putExtra("status", status);
                     intent.putExtra("request_by", request_by);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-                }else {
+                } else {
                     if (request_by != null && request_by.equals("1")) {
                         intent = new Intent(this, LendingSummaryActivity.class);
                     } else if (request_by != null && request_by.equals("2")) {
@@ -82,31 +96,31 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     intent.putExtra("transactionId", transaction_request_id);
 
                 } else if (notification_type.equalsIgnoreCase("REQUEST_ACCEPTED")) {
-                   // intent.putExtra("moveFrom", getString(R.string.accepted));
-                    intent.putExtra("moveFrom", getString(R.string.history));
+                    // intent.putExtra("moveFrom", getString(R.string.accepted));
+                    intent.putExtra("moveFrom", getString(R.string.transaction));
                     intent.putExtra("status", status);
                     intent.putExtra("transactionId", transaction_request_id);
                 } else if (notification_type.equalsIgnoreCase("REQUEST_DECLINED")) {
-                  //  intent.putExtra("moveFrom", getString(R.string.decline));
-                    intent.putExtra("moveFrom", getString(R.string.history));
+                    //  intent.putExtra("moveFrom", getString(R.string.decline));
+                    intent.putExtra("moveFrom", getString(R.string.transaction));
                     intent.putExtra("status", status);
                     intent.putExtra("transactionId", transaction_request_id);
                 } else if (notification_type.equalsIgnoreCase("REQUEST_NEGOTIATE")) {
-                  //  intent.putExtra("moveFrom", getString(R.string.negotiation));
-                    intent.putExtra("moveFrom", getString(R.string.history));
+                    //  intent.putExtra("moveFrom", getString(R.string.negotiation));
+                    intent.putExtra("moveFrom", getString(R.string.transaction));
                     intent.putExtra("transactionId", transaction_request_id);
-                }else if (notification_type.equalsIgnoreCase("PAY_DATE_EXTEND")){
-                  //  intent.putExtra("moveFrom", getString(R.string.accepted));
-                    intent.putExtra("moveFrom", getString(R.string.history));
+                } else if (notification_type.equalsIgnoreCase("PAY_DATE_EXTEND")) {
+                    //  intent.putExtra("moveFrom", getString(R.string.accepted));
+                    intent.putExtra("moveFrom", getString(R.string.transaction));
                     intent.putExtra("status", status);
                     intent.putExtra("transactionId", transaction_request_id);
-                }else if (notification_type.equalsIgnoreCase("TRANSACTION_INITIATED")){
-                    intent.putExtra("moveFrom", getString(R.string.history));
+                } else if (notification_type.equalsIgnoreCase("TRANSACTION_INITIATED")) {
+                    intent.putExtra("moveFrom", getString(R.string.transaction));
                     intent.putExtra("status", "2");
                     intent.putExtra("transactionId", transaction_request_id);
                 }
 
-               //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis()/* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                 boolean flag = false;
                 createImageBuilder(title, message, pendingIntent, flag);

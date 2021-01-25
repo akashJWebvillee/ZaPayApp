@@ -30,6 +30,7 @@ import com.org.zapayapp.adapters.CityAdapter;
 import com.org.zapayapp.adapters.GenderAdapter;
 import com.org.zapayapp.adapters.IncomeAdapter;
 import com.org.zapayapp.adapters.StateAdapter;
+import com.org.zapayapp.alert_dialog.AlertForcePopup;
 import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
 import com.org.zapayapp.model.CityModel;
 import com.org.zapayapp.model.StateModel;
@@ -59,7 +60,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 
-public class EditProfileDialogActivity extends AppCompatActivity implements View.OnClickListener, APICallback, SimpleAlertFragment.AlertSimpleCallback, DatePickerFragmentDialogue.DatePickerCallback {
+public class EditProfileDialogActivity extends AppCompatActivity implements View.OnClickListener, APICallback, SimpleAlertFragment.AlertSimpleCallback, DatePickerFragmentDialogue.DatePickerCallback,AlertForcePopup.AlertForceCallback {
     private TextView saveTV, titleTV;
     private ImageView cancelImageView;
 
@@ -298,15 +299,16 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                             if (wValidationLib.isValidSSNcode(ssnInputLayout, ssnEditText, getString(R.string.important), getString(R.string.ssn_code_should_be_4_digit), true)) {
                                 if (wValidationLib.isEmpty(dobInputLayout, dobEditText, getString(R.string.important), true)) {
                                     if (wValidationLib.isEmpty(ageInputLayout, ageEditText, getString(R.string.important), true)) {
-                                        if (SharedPref.getPrefsHelper().getPref(Const.Var.SIGNATURE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.SIGNATURE).toString().length() > 0 || signaturePath.length() > 0) {
-                                            callAPIUpdateProfile();
+                                        if (SharedPref.getPrefsHelper().getPref(Const.Var.SIGNATURE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.SIGNATURE).toString().length() > 0||signaturePath.length()>0) {
+                                            if (signaturePath != null && signaturePath.length() > 0) {
+                                                showSimpleAlert11(getString(R.string.signature_conformation_msg), getString(R.string.signature_conformation_msg), false, getString(R.string.cancel), false);
+                                            } else {
+                                                callAPIUpdateProfile();
+                                            }
                                         } else {
                                             showSimpleAlert(getString(R.string.plz_add_signature), getResources().getString(R.string.plz_add_signature));
-
                                         }
-
                                     }
-
                                 }
                             }
                         }
@@ -411,6 +413,8 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
             if (apiCalling != null) {
                 apiCalling.callAPI(zapayApp, call, getString(R.string.api_update_profile), saveTV);
             }
+
+            Log.e("postdata","update profile post data==="+values.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -484,6 +488,33 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     public void onSimpleCallback(String from) {
         if (from.equals(getResources().getString(R.string.api_update_profile))) {
             finish();
+        } else if (from.equals(getResources().getString(R.string.signature_conformation_msg))) {
+            callAPIUpdateProfile();
+        }
+    }
+
+    public void showSimpleAlert11(String from, String headerMsg, boolean isAddress, String btnCancel, boolean isCancel) {
+        try {
+            FragmentManager fm = getSupportFragmentManager();
+            Bundle args = new Bundle();
+            args.putString("header", headerMsg);
+            args.putString("textOk", getString(R.string.ok));
+            args.putString("textCancel", btnCancel);
+            args.putString("from", from);
+            args.putBoolean("isAddress", isAddress);
+            AlertForcePopup alert = new AlertForcePopup();
+            alert.setCancelable(isCancel);
+            alert.setArguments(args);
+            alert.show(fm, "");
+        } catch (Resources.NotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onForceCallback(String from, boolean isAddress) {
+        if (from.equals(getResources().getString(R.string.signature_conformation_msg))) {
+            callAPIUpdateProfile();
         }
     }
 
@@ -621,22 +652,23 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 200 && data != null) {
-            // Bitmap bitmapImage = (Bitmap) data.getParcelableExtra("BitmapImage");
-            //  signatureImageView.setImageBitmap(bitmapImage);
             signatureHintTV.setVisibility(View.GONE);
 
             if (data.hasExtra("byteArray") && data.getByteArrayExtra("byteArray") != null) {
                 int byteArrayLenth = Objects.requireNonNull(data.getByteArrayExtra("byteArray")).length;
                 Bitmap bitmap = BitmapFactory.decodeByteArray(data.getByteArrayExtra("byteArray"), 0, byteArrayLenth);
                 //signatureImageView.setImageBitmap(bitmap);
-                Uri signatureUri = ImagePathUtil.getImageUri(EditProfileDialogActivity.this, bitmap);
-                signatureImageView.setImageURI(signatureUri);
-                try {
-                    signaturePath = ImagePathUtil.getPath(EditProfileDialogActivity.this, signatureUri);
-                    Log.e("signature", "signature path===" + ImagePathUtil.getPath(EditProfileDialogActivity.this, signatureUri));
-                } catch (URISyntaxException e) {
-                    e.printStackTrace();
+                if (bitmap != null) {
+                    Uri signatureUri = ImagePathUtil.getImageUri(EditProfileDialogActivity.this, bitmap);
+                    signatureImageView.setImageURI(signatureUri);
+                    try {
+                        signaturePath = ImagePathUtil.getPath(EditProfileDialogActivity.this, signatureUri);
+                   Log.e("signaturePath","signaturePath==="+signaturePath);
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    }
                 }
+
             }
         }
     }

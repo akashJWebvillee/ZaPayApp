@@ -36,6 +36,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Locale;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 
@@ -574,6 +577,51 @@ public class CommonMethods {
             e.printStackTrace();
         }
         return base64;
+    }
+
+
+    public static String roundedDoubleWithoutZero(double value) {
+        return roundNumber(String.valueOf((roundStringTwoDecimals(value))), 2);
+    }
+    public static double roundStringTwoDecimals(double d) {
+        double dValue = 0;
+        try {
+            String dd = String.valueOf(d);
+            Number value = NumberFormat.getInstance(new Locale("en", "US")).parse(enToAr(dd));
+            assert value != null;
+            dValue = value.doubleValue();
+            dValue = roundTwoDecimals(dValue);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return dValue;
+
+    }
+
+
+    private static String enToAr(String input) {
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
+
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < input.length(); i++) {
+            char ch = input.charAt(i);
+            if (isNonstandardDigit(ch)) {
+                int numericValue = Character.getNumericValue(ch);
+                if (numericValue >= 0) {
+                    builder.append(numericValue);
+                }
+            } else {
+                builder.append(ch);
+            }
+        }
+
+        return builder.toString().replace("٫", ".");
+    }
+
+    private static boolean isNonstandardDigit(char ch) {
+        return Character.isDigit(ch) && !(ch >= '0' && ch <= '9');
     }
 
 }

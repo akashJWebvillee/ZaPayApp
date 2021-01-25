@@ -39,6 +39,7 @@ public class SimpleAlertFragment extends DialogFragment {
         okTV = view.findViewById(R.id.okTV);
         okTV.setOnClickListener(this::onClick);
         cancelTV = view.findViewById(R.id.cancelTV);
+        cancelTV.setOnClickListener(this::onClick);
         cancelTV.setVisibility(View.GONE);
         textHeader = view.findViewById(R.id.textHeader);
 
@@ -58,8 +59,8 @@ public class SimpleAlertFragment extends DialogFragment {
         if (v.equals(okTV)) {
             mListener.onSimpleCallback(from);
             this.dismiss();
-        }else if (v.equals(textCancel)){
-            dismiss();
+        }else if (v.equals(cancelTV)){
+            this.dismiss();
         }
     }
 
