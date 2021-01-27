@@ -268,7 +268,8 @@
                             android:gravity="start"
                             android:text="@string/zapay_commission"
                             android:textColor="@color/navTextColor60Alpha"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:lineSpacingExtra="5dp"/>
 <!--  -->
                         <TextView
                             android:id="@+id/commissionValueTV"

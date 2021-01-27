@@ -93,7 +93,17 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    android:gravity="start"/>
+                    android:gravity="start"
+                    android:visibility="gone"/>
+
+
+                <com.github.barteksc.pdfviewer.PDFView
+                    android:id="@+id/pdfView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -157,6 +167,13 @@
                     android:textColor="@color/colorWhite"
                     android:textSize="16sp" />
             </com.dd.ShadowLayout>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"
+                android:visibility="gone"/>
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

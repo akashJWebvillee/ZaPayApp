@@ -26,6 +26,7 @@ public class SimpleAlertFragment extends DialogFragment {
             if (this.getDialog().getWindow() != null)
                 this.getDialog().getWindow().setBackgroundDrawable(CommonMethods.getDrawableWrapper(getActivity(), android.R.color.transparent));
         }
+
         View view = inflater.inflate(R.layout.alert_dialog, container);
 
         Bundle mArgs = getArguments();

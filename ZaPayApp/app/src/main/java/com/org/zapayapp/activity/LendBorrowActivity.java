@@ -945,7 +945,9 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     }
 
     private void setBorrowData() {
-       amountTV.setText("$" + String.valueOf(amount));
+     // amountTV.setText("$" + String.valueOf(amount));
+       amountTV.setText("$" + CommonMethods.roundedDoubleWithoutZero(amount));
+
 
        String termValue = lendTermsEdtOption.getText().toString().trim();
         if (isTermsOption + 1 == 1) {
@@ -1006,7 +1008,8 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     }
 
     private void setLendData() {
-        l_amountTV.setText("$" + String.valueOf(amount));
+       // l_amountTV.setText("$" + String.valueOf(amount));
+        l_amountTV.setText("$" + CommonMethods.roundedDoubleWithoutZero(amount));
         String termValue = lendTermsEdtOption.getText().toString().trim();
         if (isTermsOption + 1 == 1) {
             // termTV.setText("@14% or $7.00");

@@ -1,19 +1,20 @@
 package com.org.zapayapp.activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.CheckBox;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import androidx.fragment.app.FragmentManager;
-
+import com.github.barteksc.pdfviewer.PDFView;
+import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
+import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
+import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -23,18 +24,24 @@ import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import retrofit2.Call;
 
-public class AcceptActivity extends BaseActivity implements APICallback,SimpleAlertFragment.AlertSimpleCallback {
+public class AcceptActivity extends BaseActivity implements APICallback,SimpleAlertFragment.AlertSimpleCallback , OnPageChangeListener, OnLoadCompleteListener {
     private TextView okTV, cancelTV;
     private CheckBox mChkAgree;
     private WebView webView;
     private String transactionId, moveFrom, status;
     private String pdfUrl = "";
-
     private DateModel dateModel;
-
+    private ProgressBar progressBar;
+private PDFView pdfView;
+private  int pageNumber = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +58,8 @@ public class AcceptActivity extends BaseActivity implements APICallback,SimpleAl
         okTV = findViewById(R.id.okTV);
         cancelTV = findViewById(R.id.cancelTV);
         mChkAgree = findViewById(R.id.mChkAgree);
+        progressBar = findViewById(R.id.progressBar);
+        pdfView = findViewById(R.id.pdfView);
 
     }
 
@@ -232,48 +241,88 @@ public class AcceptActivity extends BaseActivity implements APICallback,SimpleAl
     }
 
     private void loadPdfFile(String myPdfUrl) {
-        WebSettings webSettings = webView.getSettings();
+
+       /* WebSettings webSettings = webView.getSettings();
+        webView.setWebViewClient(new CustomWebViewClient());
         // webSettings.setBuiltInZoomControls(true);
         webSettings.setJavaScriptEnabled(true);
-        // webView.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
-        webView.getSettings().setBuiltInZoomControls(true);
-        webView.getSettings().setUseWideViewPort(true);
-        webView.getSettings().setLoadWithOverviewMode(true);
-
-
+        webSettings.setDomStorageEnabled(true);
+          // webView.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
+        webSettings.setBuiltInZoomControls(true);
+        //webSettings.setUseWideViewPort(true);
+        //webSettings.setLoadWithOverviewMode(true);
+        webView.setWebViewClient(new Callback());
         String url = "https://docs.google.com/viewer?embedded=true&url=" + myPdfUrl;
-        webView.loadUrl(url);
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
-            }
-        });
+        webView.loadUrl(url);*/
 
-        webView.setWebChromeClient(new WebChromeClient() {
-            public void onProgressChanged(WebView view, int progress) {
-                Log.e("progress","progress==="+progress);
-                if (progress < 100) {
-                    //  progressDialog.show();
-                    apiCalling.setRunInBackground(false);
-                }
-                if (progress == 100) {
-                    // progressDialog.dismiss();
-                    apiCalling.setRunInBackground(true);
-                }
-            }
-        });
+        progressBar.setVisibility(View.VISIBLE);
+        new DownloadFile().execute(myPdfUrl);
+    }
+
+    private class DownloadFile extends AsyncTask<String, Void, InputStream>{
+        @Override
+        protected InputStream doInBackground(String... strings) {
+            String fileUrl = strings[0];
+            return downloadFile(fileUrl);
+        }
+
+        @Override
+        protected void onPostExecute(InputStream inputStream) {
+            super.onPostExecute(inputStream);
+            pdfView.fromStream(inputStream)
+                    .onPageChange(AcceptActivity.this)
+                    .enableAnnotationRendering(true)
+                    .onLoad(AcceptActivity.this)
+                    .scrollHandle(new DefaultScrollHandle(AcceptActivity.this))
+
+                    .defaultPage(pageNumber)
+                    .swipeHorizontal(false)
+                    .enableSwipe(true)
+                    .enableDoubletap(true)
+                    .load();
+            // progressBar.setVisibility(View.GONE);
+        }
     }
 
     @Override
-    // Detect when the back button is pressed
+    public void onPageChanged(int page, int pageCount) {
+        pageNumber = page;
+    }
+
+    @Override
+    public void loadComplete(int nbPages) {
+        progressBar.setVisibility(View.GONE);
+    }
+
+
+    private class Callback extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            return (false);
+        }
+    }
+
+    @Override
     public void onBackPressed() {
-        if(webView.canGoBack()) {
-            webView.goBack();
-        } else {
-            // Let the system handle the back button
-            super.onBackPressed();
+        super.onBackPressed();
+
+    }
+
+    private class CustomWebViewClient extends WebViewClient {
+
+        @Override
+        public void onPageStarted(WebView webview, String url, Bitmap favicon) {
+            webview.setVisibility(webview.INVISIBLE);
+
+
+        }
+
+        @Override
+        public void onPageFinished(WebView webview, String url) {
+            webview.setVisibility(webview.VISIBLE);
+            super.onPageFinished(webview, url);
+            //apiCalling.setRunInBackground(true);
+
         }
     }
 
@@ -306,5 +355,24 @@ public class AcceptActivity extends BaseActivity implements APICallback,SimpleAl
             setResult(200,intent);
             finish();//finishing activity
         }
+    }
+
+    public InputStream downloadFile(String fileUrl){
+        InputStream inputStream=null;
+        try {
+            URL url = new URL(fileUrl);
+            HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
+            urlConnection.setRequestMethod("GET");
+            urlConnection.setDoOutput(true);
+            urlConnection.connect();
+            inputStream= urlConnection.getInputStream();
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return inputStream;
+
     }
 }

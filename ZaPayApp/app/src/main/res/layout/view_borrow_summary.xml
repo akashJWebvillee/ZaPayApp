@@ -155,7 +155,8 @@
         android:text="@string/zapay_commission"
         android:textColor="@color/navTextColor60Alpha"
         android:textSize="16sp"
-        android:layout_marginTop="25dp"/>
+        android:layout_marginTop="25dp"
+        android:lineSpacingExtra="5dp"/>
 
     <TextView
         android:id="@+id/zapayCommissionTV"
