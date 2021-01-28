@@ -1,12 +1,9 @@
 package com.org.zapayapp.activity;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-
 import com.org.zapayapp.R;
 
 public class CongratulationActivity extends AppCompatActivity {
@@ -22,7 +19,6 @@ public class CongratulationActivity extends AppCompatActivity {
         getIntentFunc();
         initAction();
     }
-
 
     private void inIt() {
         setMsgTV = findViewById(R.id.setMsgTV);

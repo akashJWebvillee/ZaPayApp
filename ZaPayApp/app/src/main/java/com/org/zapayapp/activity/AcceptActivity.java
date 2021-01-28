@@ -1,4 +1,5 @@
 package com.org.zapayapp.activity;
+
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -10,7 +11,9 @@ import android.webkit.WebViewClient;
 import android.widget.CheckBox;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import androidx.fragment.app.FragmentManager;
+
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
@@ -24,15 +27,17 @@ import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+
 import retrofit2.Call;
 
-public class AcceptActivity extends BaseActivity implements APICallback,SimpleAlertFragment.AlertSimpleCallback , OnPageChangeListener, OnLoadCompleteListener {
+public class AcceptActivity extends BaseActivity implements APICallback, SimpleAlertFragment.AlertSimpleCallback, OnPageChangeListener, OnLoadCompleteListener {
     private TextView okTV, cancelTV;
     private CheckBox mChkAgree;
     private WebView webView;
@@ -40,8 +45,9 @@ public class AcceptActivity extends BaseActivity implements APICallback,SimpleAl
     private String pdfUrl = "";
     private DateModel dateModel;
     private ProgressBar progressBar;
-private PDFView pdfView;
-private  int pageNumber = 0;
+    private PDFView pdfView;
+    private int pageNumber = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,10 +75,10 @@ private  int pageNumber = 0;
             transactionId = intent.getStringExtra("transactionId");
             moveFrom = intent.getStringExtra("moveFrom");
 
-            if (moveFrom.equalsIgnoreCase("ChangeDateRequestDialogActivity")){
-                dateModel= gson.fromJson(intent.getStringExtra("status"), DateModel.class);
+            if (moveFrom.equalsIgnoreCase("ChangeDateRequestDialogActivity")) {
+                dateModel = gson.fromJson(intent.getStringExtra("status"), DateModel.class);
                 generateAmendmentPdf();
-            }else {
+            } else {
                 status = intent.getStringExtra("status");
                 generateAgreementPdf();
             }
@@ -84,21 +90,21 @@ private  int pageNumber = 0;
             @Override
             public void onClick(View v) {
                 if (mChkAgree.isChecked()) {
-                    if (!pdfUrl.equalsIgnoreCase("")){
-                        if (moveFrom.equalsIgnoreCase("ChangeDateRequestDialogActivity")){
-                            if (dateModel!=null){
+                    if (!pdfUrl.equalsIgnoreCase("")) {
+                        if (moveFrom.equalsIgnoreCase("ChangeDateRequestDialogActivity")) {
+                            if (dateModel != null) {
                                 callAPIPayDateRequestStatusUpdate();
                             }
-                        }else {
+                        } else {
                             callAPIUpdateTransactionRequestStatus("2");
                         }
-                    }else {
+                    } else {
                         showSimpleAlert(getString(R.string.PDF_url_missing), "");
                     }
 
-                } else if (moveFrom.equalsIgnoreCase("ChangeDateRequestDialogActivity")){
+                } else if (moveFrom.equalsIgnoreCase("ChangeDateRequestDialogActivity")) {
                     showSimpleAlert(getString(R.string.please_accept_amendment_form), "");
-                }else {
+                } else {
                     showSimpleAlert(getString(R.string.please_accept_agreement_form), "");
                 }
             }
@@ -169,7 +175,7 @@ private  int pageNumber = 0;
         HashMap<String, Object> values = apiCalling.getHashMapObject(
                 "transaction_request_id", transactionId,
                 "pay_date_id", dateModel.getId(),
-                "new_pay_date_status","2", //date accept
+                "new_pay_date_status", "2", //date accept
                 "pdf_url", pdfUrl);
         try {
             zapayApp.setApiCallback(this);
@@ -182,7 +188,6 @@ private  int pageNumber = 0;
             e.printStackTrace();
         }
     }
-
 
 
     @Override
@@ -214,7 +219,7 @@ private  int pageNumber = 0;
                     showSimpleAlert(msg, "");
                 }
 
-            }else if (from.equals(getResources().getString(R.string.api_generate_amendment_pdf))){
+            } else if (from.equals(getResources().getString(R.string.api_generate_amendment_pdf))) {
                 if (status == 200) {
                     JsonObject jsonObject = json.get("data").getAsJsonObject();
                     String pdf_url = jsonObject.get("pdf_url").getAsString();
@@ -224,7 +229,7 @@ private  int pageNumber = 0;
                     showSimpleAlert(msg, "");
                 }
 
-            }else if (from.equals(getResources().getString(R.string.api_pay_date_request_status_update))){
+            } else if (from.equals(getResources().getString(R.string.api_pay_date_request_status_update))) {
                 if (status == 200) {
                     showSimpleAlert11(msg, getResources().getString(R.string.api_pay_date_request_status_update));
 
@@ -233,8 +238,6 @@ private  int pageNumber = 0;
                 }
 
             }
-
-
 
 
         }
@@ -259,7 +262,7 @@ private  int pageNumber = 0;
         new DownloadFile().execute(myPdfUrl);
     }
 
-    private class DownloadFile extends AsyncTask<String, Void, InputStream>{
+    private class DownloadFile extends AsyncTask<String, Void, InputStream> {
         @Override
         protected InputStream doInBackground(String... strings) {
             String fileUrl = strings[0];
@@ -327,7 +330,6 @@ private  int pageNumber = 0;
     }
 
 
-
     public void showSimpleAlert11(String message, String from) {
         try {
             FragmentManager fm = getSupportFragmentManager();
@@ -347,25 +349,25 @@ private  int pageNumber = 0;
     @Override
     public void onSimpleCallback(String from) {
         if (from.equals(getResources().getString(R.string.api_update_transaction_request_status))) {
-            Intent intent=new Intent();
-            setResult(200,intent);
+            Intent intent = new Intent();
+            setResult(200, intent);
             finish();//finishing activity
-        }else if (from.equals(getResources().getString(R.string.api_pay_date_request_status_update))){
-            Intent intent=new Intent();
-            setResult(200,intent);
+        } else if (from.equals(getResources().getString(R.string.api_pay_date_request_status_update))) {
+            Intent intent = new Intent();
+            setResult(200, intent);
             finish();//finishing activity
         }
     }
 
-    public InputStream downloadFile(String fileUrl){
-        InputStream inputStream=null;
+    public InputStream downloadFile(String fileUrl) {
+        InputStream inputStream = null;
         try {
             URL url = new URL(fileUrl);
-            HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
             urlConnection.setDoOutput(true);
             urlConnection.connect();
-            inputStream= urlConnection.getInputStream();
+            inputStream = urlConnection.getInputStream();
 
         } catch (MalformedURLException e) {
             e.printStackTrace();

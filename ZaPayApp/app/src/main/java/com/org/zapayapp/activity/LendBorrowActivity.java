@@ -160,6 +160,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         listIndicator.add(getString(R.string.terms));
         listIndicator.add(getString(R.string.no_of_payments));
         listIndicator.add(getString(R.string.payback_date));
+
         if (isBorrow) {
             request_by = 2;
             listIndicator.add(getString(R.string.borrow_summary_));
@@ -168,8 +169,11 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             listIndicator.add(getString(R.string.lending_summary_));
         }
 
-        listIndicator.add(getString(R.string.select_contact));
+        if (transactionModel != null && transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
+            request_by = Integer.parseInt(transactionModel.getRequestBy());
+        }
 
+        listIndicator.add(getString(R.string.select_contact));
         indicatorAdapter = new IndicatorAdapter(this, listIndicator, isBorrow);
         indicatorRecycler.setAdapter(indicatorAdapter);
         nextButtonTV.setOnClickListener(this);
@@ -945,11 +949,9 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     }
 
     private void setBorrowData() {
-     // amountTV.setText("$" + String.valueOf(amount));
-       amountTV.setText("$" + CommonMethods.roundedDoubleWithoutZero(amount));
+        amountTV.setText("$" + CommonMethods.roundedDoubleWithoutZero(amount));
 
-
-       String termValue = lendTermsEdtOption.getText().toString().trim();
+        String termValue = lendTermsEdtOption.getText().toString().trim();
         if (isTermsOption + 1 == 1) {
             termTV.setText(termValue + " " + getString(R.string.percent));
         } else if (isTermsOption + 1 == 2) {
@@ -960,26 +962,28 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             termTV.setText(getString(R.string.none));
         }
 
+
         noOfPaymentTV.setText(String.valueOf(isNoPayment));
-       /* if (paybackList.get(0).isDateEpockFormate()) {
-            paymentDateTV.setText(DateFormat.getDateFromEpoch(paybackList.get(0).getPayDate()));
-        } else {
-            paymentDateTV.setText(paybackList.get(0).getPayDate());
-        }*/
         paymentDateTV.setText(DateFormat.dateFormatConvert(paybackList.get(0).getPayDate()));
-       // totalPayBackTV.setText("$" + String.valueOf(finalTotalPayBackAmount));
         totalPayBackTV.setText("$" + CommonMethods.roundedDoubleWithoutZero(amount));
 
 
         if (SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE).toString().length() > 0
-                && SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_VALUE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_VALUE).toString().length() > 0) {
+                && SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_VALUE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_VALUE).toString().length() > 0
+                && SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_TYPE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_TYPE).toString().length() > 0
+                && SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_VALUE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_VALUE).toString().length() > 0) {
 
             float lenderChargeValue = Float.parseFloat(SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_VALUE).toString());
             float borrowerChargeValue = Float.parseFloat(SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_VALUE).toString());
             String borrowerChargeType = SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE).toString();
 
             if (SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE).toString().equalsIgnoreCase("percent")) {
-                lenderCommission = lenderChargeValue;
+                if (SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_TYPE).toString().equalsIgnoreCase("flat")) {
+                    lenderCommission = lenderChargeValue;
+                } else if (SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_TYPE).toString().equalsIgnoreCase("percent")) {
+                    lenderCommission = (amount * lenderChargeValue) / 100;
+                }
+
                 borrowerCommission = (amount * borrowerChargeValue) / 100;
                 float afterCommission = amount - borrowerCommission;
 
@@ -994,10 +998,13 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
 
             } else if (SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE).toString().equalsIgnoreCase("flat")) {
-                //float commission = amount - borrowerChargeValue;
-                // float afterCommission = amount - commission;
-                lenderCommission = lenderChargeValue;
-                borrowerCommission = borrowerChargeValue;
+                if (SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_TYPE).toString().equalsIgnoreCase("flat")) {
+                    lenderCommission = lenderChargeValue;
+                } else if (SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_TYPE).toString().equalsIgnoreCase("percent")) {
+                    lenderCommission = (amount * lenderChargeValue) / 100;
+                }
+
+                //  borrowerCommission = borrowerChargeValue;
                 float afterCommission = amount - borrowerCommission;
                 zapayCommissionTV.setText("$" + new DecimalFormat("##.##").format(borrowerCommission));
                 afterCommissionTV.setText("$" + new DecimalFormat("##.##").format(afterCommission));
@@ -1008,42 +1015,38 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     }
 
     private void setLendData() {
-       // l_amountTV.setText("$" + String.valueOf(amount));
         l_amountTV.setText("$" + CommonMethods.roundedDoubleWithoutZero(amount));
         String termValue = lendTermsEdtOption.getText().toString().trim();
         if (isTermsOption + 1 == 1) {
-            // termTV.setText("@14% or $7.00");
-            // termTV.setText("@"+termValue+"% or &"+finalTotalAmount);
             lTermTV.setText(termValue + " " + getString(R.string.percent));
         } else if (isTermsOption + 1 == 2) {
             lTermTV.setText(termValue + " " + getString(R.string.fee));
         } else if (isTermsOption + 1 == 3) {
             lTermTV.setText(termValue + " " + getString(R.string.discount));
         } else if (isTermsOption + 1 == 4) {
-            // lTermTV.setText(termValue + " "+getString(R.string.none));
             lTermTV.setText(getString(R.string.none));
         }
 
         lNoOfPaymentTV.setText(String.valueOf(isNoPayment));
-       /* if (paybackList.get(0).isDateEpockFormate()) {
-            lPaymentDateTV.setText(DateFormat.getDateFromEpoch(paybackList.get(0).getPayDate()));
-        } else {
-            lPaymentDateTV.setText(paybackList.get(0).getPayDate());
-        }*/
-
         lPaymentDateTV.setText(DateFormat.dateFormatConvert(paybackList.get(0).getPayDate()));
         totalReceivedBackTV.setText("$" + String.valueOf(finalTotalPayBackAmount));
 
-
         if (SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_TYPE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_TYPE).toString().length() > 0
-                && SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_VALUE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_VALUE).toString().length() > 0) {
+                && SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_VALUE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_VALUE).toString().length() > 0
+                && SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE).toString().length() > 0
+                && SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_VALUE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_VALUE).toString().length() > 0) {
 
             float borrowerChargeValue = Float.parseFloat(SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_VALUE).toString());
             float lenderChargeValue = Float.parseFloat(SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_VALUE).toString());
             String lenderChargeType = SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_VALUE).toString();
 
             if (SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_TYPE).toString().equalsIgnoreCase("percent")) {
-                borrowerCommission = borrowerChargeValue;
+                if (SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE).toString().equalsIgnoreCase("flat")) {
+                    borrowerCommission = borrowerChargeValue;
+                } else if (SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE).toString().equalsIgnoreCase("percent")) {
+                    borrowerCommission = (amount * borrowerChargeValue) / 100;
+                }
+
                 lenderCommission = (amount * lenderChargeValue) / 100;
                 float afterCommission = amount - lenderCommission;
                 zapayCommissionLenderTV.setText("$" + lenderCommission);
@@ -1051,16 +1054,20 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 zapayCommissionTitleLenderTV.setText(getString(R.string.zapay_commission) + "(" + lenderChargeValue + ")" + lenderChargeType);
 
             } else if (SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_TYPE).toString().equalsIgnoreCase("flat")) {
-                borrowerCommission = borrowerChargeValue;
+
+                if (SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE).toString().equalsIgnoreCase("flat")) {
+                    borrowerCommission = borrowerChargeValue;
+                } else if (SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE).toString().equalsIgnoreCase("percent")) {
+                    borrowerCommission = (amount * borrowerChargeValue) / 100;
+                }
+
                 lenderCommission = lenderChargeValue;
                 float afterCommission = amount - lenderCommission;
                 zapayCommissionLenderTV.setText("$" + lenderCommission);
                 afterCommissionLenderTV.setText("$" + afterCommission);
                 zapayCommissionTitleLenderTV.setText(getString(R.string.zapay_commission));
-
             }
         }
-
     }
 
     @Override
@@ -1146,11 +1153,10 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 "request_by", String.valueOf(request_by),   //1=lender,2=borrower
                 "request_type", request_type,
                 "transaction_request_id", transactionId,
-                "admin_commission_from_lender", lenderCommission,
-                "admin_commission_from_borrower", borrowerCommission);
+                "admin_commission_from_lender", CommonMethods.setDigitAfterDecimalValue(lenderCommission, 2),
+                "admin_commission_from_borrower", CommonMethods.setDigitAfterDecimalValue(borrowerCommission, 2));
 
         Log.e("post", "post data======" + values.toString());
-
 
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
@@ -1164,7 +1170,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             e.printStackTrace();
         }
     }
-
 
     @Override
     public void apiCallback(JsonObject json, String from) {

@@ -33,6 +33,7 @@ import java.util.Random;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private String TAG = "MyFirebaseMsgService";
+    private String forWhat;
 
     @Override
     public void onNewToken(@NonNull String s) {
@@ -69,6 +70,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             String transaction_request_id = data.get("transaction_request_id");
             String message = data.get("message");
             String request_by = data.get("request_by");
+            String from_id = data.get("from_id");
+            String to_id = data.get("to_id");
+
+            Log.e("USER_ID","from_id=="+from_id);
+            Log.e("USER_ID","My_id=="+SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID));
 
             if (SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID) != null && SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString().length() > 0) {
                 if (notification_type != null) {
@@ -80,39 +86,59 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
                     } else {
-                        if (request_by != null && request_by.equals("1")) {
+                      /*  if (request_by != null && request_by.equals("1")) {
                             intent = new Intent(this, LendingSummaryActivity.class);
                         } else if (request_by != null && request_by.equals("2")) {
                             intent = new Intent(this, BorrowSummaryActivity.class);
+                        }*/
+
+
+                        if (from_id != null && from_id.equalsIgnoreCase(SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID))) {  //History
+                            forWhat = getString(R.string.history);
+                            if (request_by != null && request_by.equals("2")) {
+                                intent = new Intent(this, LendingSummaryActivity.class);
+                            } else if (request_by != null && request_by.equals("1")) {
+                                intent = new Intent(this, BorrowSummaryActivity.class);
+                            }
+                        } else { //Transaction
+                            forWhat = getString(R.string.transaction);
+                            if (request_by != null && request_by.equals("1")) {
+                                intent = new Intent(this, LendingSummaryActivity.class);
+                            } else if (request_by != null && request_by.equals("2")) {
+                                intent = new Intent(this, BorrowSummaryActivity.class);
+                            }
                         }
                     }
 
                     if (notification_type.equalsIgnoreCase("NEW_TRANSACTION_REQUEST")) {
-                        intent.putExtra("moveFrom", getString(R.string.transaction));
+                        //intent.putExtra("moveFrom", getString(R.string.transaction));
+                        intent.putExtra("moveFrom", forWhat);
                         intent.putExtra("status", status);
                         intent.putExtra("transactionId", transaction_request_id);
 
                     } else if (notification_type.equalsIgnoreCase("REQUEST_ACCEPTED")) {
-                        // intent.putExtra("moveFrom", getString(R.string.accepted));
-                        intent.putExtra("moveFrom", getString(R.string.history));
+                        // intent.putExtra("moveFrom", getString(R.string.history));
+                        intent.putExtra("moveFrom", forWhat);
                         intent.putExtra("status", status);
                         intent.putExtra("transactionId", transaction_request_id);
                     } else if (notification_type.equalsIgnoreCase("REQUEST_DECLINED")) {
-                        //  intent.putExtra("moveFrom", getString(R.string.decline));
-                        intent.putExtra("moveFrom", getString(R.string.history));
+                        // intent.putExtra("moveFrom", getString(R.string.history));
+                        intent.putExtra("moveFrom", forWhat);
                         intent.putExtra("status", status);
                         intent.putExtra("transactionId", transaction_request_id);
                     } else if (notification_type.equalsIgnoreCase("REQUEST_NEGOTIATE")) {
-                        //  intent.putExtra("moveFrom", getString(R.string.negotiation));
-                        intent.putExtra("moveFrom", getString(R.string.history));
+                        //intent.putExtra("moveFrom", getString(R.string.history));
+                        intent.putExtra("moveFrom", forWhat);
+                        intent.putExtra("status", status);
                         intent.putExtra("transactionId", transaction_request_id);
                     } else if (notification_type.equalsIgnoreCase("PAY_DATE_EXTEND")) {
-                        //  intent.putExtra("moveFrom", getString(R.string.accepted));
-                        intent.putExtra("moveFrom", getString(R.string.history));
+                        //intent.putExtra("moveFrom", getString(R.string.history));
+                        intent.putExtra("moveFrom", forWhat);
                         intent.putExtra("status", status);
                         intent.putExtra("transactionId", transaction_request_id);
                     } else if (notification_type.equalsIgnoreCase("TRANSACTION_INITIATED")) {
-                        intent.putExtra("moveFrom", getString(R.string.history));
+                        // intent.putExtra("moveFrom", getString(R.string.history));
+                        intent.putExtra("moveFrom", forWhat);
                         intent.putExtra("status", "2");
                         intent.putExtra("transactionId", transaction_request_id);
                     }

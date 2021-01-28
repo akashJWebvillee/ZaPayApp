@@ -580,6 +580,22 @@ public class CommonMethods {
     }
 
 
+    public static String setDigitAfterDecimalValue(double value,int count){
+        String value1 = null;
+        if (count==1){
+             value1=  new DecimalFormat("##.#").format(value);
+        }else if (count==2){
+             value1=  new DecimalFormat("##.##").format(value);
+        }else if (count==3){
+             value1=  new DecimalFormat("##.###").format(value);
+        }else {
+            value1=  new DecimalFormat("##.##").format(value);
+        }
+
+      return value1;
+    }
+
+
     public static String roundedDoubleWithoutZero(double value) {
         return roundNumber(String.valueOf((roundStringTwoDecimals(value))), 2);
     }

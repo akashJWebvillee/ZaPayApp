@@ -197,11 +197,14 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
 
             case R.id.agreementFormLL:
                 if (agreementPdfDetailModel != null) {
-                    Log.e("pdfDetailModel", "pdfDetailModel url===" + agreementPdfDetailModel.getPdfUrl());
-                    String url = agreementPdfDetailModel.getPdfUrl();
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(url));
-                    startActivity(i);
+                    try {
+                        String url = agreementPdfDetailModel.getPdfUrl();
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
         }
