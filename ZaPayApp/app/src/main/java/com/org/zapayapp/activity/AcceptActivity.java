@@ -23,6 +23,7 @@ import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
 import com.org.zapayapp.model.DateModel;
+import com.org.zapayapp.pdf_view.PdfFileDownloadAcyncTask;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
@@ -37,7 +38,7 @@ import java.util.HashMap;
 
 import retrofit2.Call;
 
-public class AcceptActivity extends BaseActivity implements APICallback, SimpleAlertFragment.AlertSimpleCallback, OnPageChangeListener, OnLoadCompleteListener {
+public class AcceptActivity extends BaseActivity implements APICallback, SimpleAlertFragment.AlertSimpleCallback,PdfFileDownloadAcyncTask.PdfResponseListener, OnPageChangeListener, OnLoadCompleteListener {
     private TextView okTV, cancelTV;
     private CheckBox mChkAgree;
     private WebView webView;
@@ -149,7 +150,6 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     private void callAPIUpdateTransactionRequestStatus(String status) {
@@ -232,14 +232,10 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
             } else if (from.equals(getResources().getString(R.string.api_pay_date_request_status_update))) {
                 if (status == 200) {
                     showSimpleAlert11(msg, getResources().getString(R.string.api_pay_date_request_status_update));
-
                 } else {
                     showSimpleAlert(msg, "");
                 }
-
             }
-
-
         }
     }
 
@@ -259,44 +255,33 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
         webView.loadUrl(url);*/
 
         progressBar.setVisibility(View.VISIBLE);
-        new DownloadFile().execute(myPdfUrl);
+        new PdfFileDownloadAcyncTask(this,this).execute(myPdfUrl);
     }
 
-    private class DownloadFile extends AsyncTask<String, Void, InputStream> {
-        @Override
-        protected InputStream doInBackground(String... strings) {
-            String fileUrl = strings[0];
-            return downloadFile(fileUrl);
-        }
-
-        @Override
-        protected void onPostExecute(InputStream inputStream) {
-            super.onPostExecute(inputStream);
-            pdfView.fromStream(inputStream)
-                    .onPageChange(AcceptActivity.this)
-                    .enableAnnotationRendering(true)
-                    .onLoad(AcceptActivity.this)
-                    .scrollHandle(new DefaultScrollHandle(AcceptActivity.this))
-
-                    .defaultPage(pageNumber)
-                    .swipeHorizontal(false)
-                    .enableSwipe(true)
-                    .enableDoubletap(true)
-                    .load();
-            // progressBar.setVisibility(View.GONE);
-        }
+    @Override
+    public void pdfResponse(InputStream inputStream) {
+        pdfView.fromStream(inputStream)
+                .onPageChange(this)
+                .enableAnnotationRendering(true)
+                .onLoad(this)
+                .scrollHandle(new DefaultScrollHandle(AcceptActivity.this))
+                .defaultPage(pageNumber)
+                .swipeHorizontal(false)
+                .enableSwipe(true)
+                .enableDoubletap(true)
+                .load();
     }
 
     @Override
     public void onPageChanged(int page, int pageCount) {
         pageNumber = page;
+
     }
 
     @Override
     public void loadComplete(int nbPages) {
         progressBar.setVisibility(View.GONE);
     }
-
 
     private class Callback extends WebViewClient {
         @Override
@@ -316,8 +301,6 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
         @Override
         public void onPageStarted(WebView webview, String url, Bitmap favicon) {
             webview.setVisibility(webview.INVISIBLE);
-
-
         }
 
         @Override
@@ -359,22 +342,4 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
         }
     }
 
-    public InputStream downloadFile(String fileUrl) {
-        InputStream inputStream = null;
-        try {
-            URL url = new URL(fileUrl);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoOutput(true);
-            urlConnection.connect();
-            inputStream = urlConnection.getInputStream();
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return inputStream;
-
-    }
 }

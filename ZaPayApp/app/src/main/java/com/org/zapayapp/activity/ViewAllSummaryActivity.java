@@ -197,14 +197,17 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
 
             case R.id.agreementLL:
                 if (agreementPdfDetailModel != null) {
-                    String url = agreementPdfDetailModel.getPdfUrl();
+                  /*  String url = agreementPdfDetailModel.getPdfUrl();
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     i.setData(Uri.parse(url));
-                    startActivity(i);
-                }
+                    startActivity(i);*/
+
+                    Intent intent=new Intent(ViewAllSummaryActivity.this,PdfViewActivity.class);
+                    intent.putExtra("pdf_url",agreementPdfDetailModel.getPdfUrl());
+                    startActivity(intent);
+                 }
+
                 break;
-
-
         }
     }
 

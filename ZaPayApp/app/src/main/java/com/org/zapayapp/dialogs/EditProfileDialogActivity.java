@@ -591,6 +591,8 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         int mMonth = c.get(Calendar.MONTH);
         int mDay = c.get(Calendar.DAY_OF_MONTH);
 
+        myCalendar.add(Calendar.YEAR,-18);
+
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, R.style.MyAlertDialogStyle, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -613,6 +615,9 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                 }
             }
         }, mYear, mMonth, mDay);
+
+        //datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+        datePickerDialog.getDatePicker().setMaxDate(myCalendar.getTimeInMillis());
         datePickerDialog.show();
 
 
@@ -626,6 +631,8 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         } catch (Exception e) {
             e.printStackTrace();
         }*/
+
+
     }
 
     @Override
@@ -640,11 +647,10 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         Calendar today = Calendar.getInstance();
         dob.set(year, month, day);
         int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
-        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)) {
+       /* if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)) {
             age--;
-        }
+        }*/
         Integer ageInt = new Integer(age);
-        // String ageS = ageInt.toString();
         return ageInt;
     }
 

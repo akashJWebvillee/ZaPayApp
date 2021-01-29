@@ -1,11 +1,14 @@
 package com.org.zapayapp.activity;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -19,11 +22,14 @@ import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.MyDateUpdateDialog;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.List;
+
 import retrofit2.Call;
 
 public class BorrowSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener, MyDateUpdateDialog.DateStatusUpdateListener {
@@ -88,6 +94,7 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
             //setDataStatusFunc();
         }
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -195,10 +202,14 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
 
             case R.id.agreementFormLL:
                 if (agreementPdfDetailModel != null) {
-                    String url = agreementPdfDetailModel.getPdfUrl();
+                 /*   String url = agreementPdfDetailModel.getPdfUrl();
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     i.setData(Uri.parse(url));
-                    startActivity(i);
+                    startActivity(i);*/
+
+                    Intent intent = new Intent(BorrowSummaryActivity.this, PdfViewActivity.class);
+                    intent.putExtra("pdf_url", agreementPdfDetailModel.getPdfUrl());
+                    startActivity(intent);
                 }
                 break;
         }
@@ -320,10 +331,9 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
             //paymentDateTV.setText(TimeStamp.timeFun(created_at));
         }
 
-        if (jsonObject.has("request_by")&&jsonObject.get("request_by").getAsString() != null && jsonObject.get("request_by").getAsString().length() > 0) {
-             request_by = jsonObject.get("request_by").getAsString();
+        if (jsonObject.has("request_by") && jsonObject.get("request_by").getAsString() != null && jsonObject.get("request_by").getAsString().length() > 0) {
+            request_by = jsonObject.get("request_by").getAsString();
         }
-
 
 
         if (jsonObject.get("pay_date").getAsString() != null && jsonObject.get("pay_date").getAsString().length() > 0) {
@@ -403,18 +413,17 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                 }*/
 
 
-                if (moveFrom.equalsIgnoreCase(getString(R.string.transaction))) {
-                    if (request_by.equalsIgnoreCase("2")) {
-                        new MyDateUpdateDialog().changeDateRequestDialogFunc(BorrowSummaryActivity.this, this, dateModel);
-                    }
-                } else if (moveFrom.equalsIgnoreCase(getString(R.string.history))) {
-                    if (request_by.equalsIgnoreCase("1")) {
-                        new MyDateUpdateDialog().changeDateRequestDialogFunc(BorrowSummaryActivity.this, this, dateModel);
+                if (status != null && status.length() > 0 && status.equalsIgnoreCase("2")) { //2=accepted
+                    if (moveFrom.equalsIgnoreCase(getString(R.string.transaction))) {
+                        if (request_by.equalsIgnoreCase("2")) {
+                            new MyDateUpdateDialog().changeDateRequestDialogFunc(BorrowSummaryActivity.this, this, dateModel);
+                        }
+                    } else if (moveFrom.equalsIgnoreCase(getString(R.string.history))) {
+                        if (request_by.equalsIgnoreCase("1")) {
+                            new MyDateUpdateDialog().changeDateRequestDialogFunc(BorrowSummaryActivity.this, this, dateModel);
+                        }
                     }
                 }
-
-
-
             }
         }
     }

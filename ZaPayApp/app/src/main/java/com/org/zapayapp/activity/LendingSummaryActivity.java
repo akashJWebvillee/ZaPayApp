@@ -1,4 +1,5 @@
 package com.org.zapayapp.activity;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -6,7 +7,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -20,14 +23,17 @@ import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.MyDateUpdateDialog;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.List;
+
 import retrofit2.Call;
 
-public class LendingSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener,MyDateUpdateDialog.DateStatusUpdateListener {
+public class LendingSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener, MyDateUpdateDialog.DateStatusUpdateListener {
     private TextView nameTV, amountTV, termTV, noOfPaymentTV, paymentDateTV, totalReceivedBackTV, viewAllTV;
     private TextView negotiateTV, acceptTV, declineTV, chatTV, commissionTitleTV, commissionValueTV;
     private String transactionId, moveFrom;
@@ -197,14 +203,15 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
 
             case R.id.agreementFormLL:
                 if (agreementPdfDetailModel != null) {
-                    try {
-                        String url = agreementPdfDetailModel.getPdfUrl();
+                       /*String url = agreementPdfDetailModel.getPdfUrl();
                         Intent i = new Intent(Intent.ACTION_VIEW);
                         i.setData(Uri.parse(url));
                         startActivity(i);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                  */
+
+                    Intent intent = new Intent(LendingSummaryActivity.this, PdfViewActivity.class);
+                    intent.putExtra("pdf_url", agreementPdfDetailModel.getPdfUrl());
+                    startActivity(intent);
                 }
                 break;
         }
@@ -310,7 +317,7 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 } else {
                     showSimpleAlert(msg, getResources().getString(R.string.api_update_transaction_request_status));
                 }
-            }else if (from.equals(getResources().getString(R.string.api_pay_date_request_status_update))) {
+            } else if (from.equals(getResources().getString(R.string.api_pay_date_request_status_update))) {
                 if (status == 200) {
                     showSimpleAlert(msg, getString(R.string.api_pay_date_request_status_update));
                 } else {
@@ -320,7 +327,7 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
         }
     }
 
-    private void setData(JsonObject jsonObject,String forWhat) {
+    private void setData(JsonObject jsonObject, String forWhat) {
         if (jsonObject.get("first_name").getAsString() != null && jsonObject.get("first_name").getAsString().length() > 0 && jsonObject.get("first_name").getAsString() != null && jsonObject.get("first_name").getAsString().length() > 0) {
             String name = jsonObject.get("first_name").getAsString() + " " + jsonObject.get("last_name").getAsString();
             nameTV.setText(name);
@@ -338,7 +345,7 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
             // paymentDateTV.setText(TimeStamp.timeFun(created_at));
         }
 
-        if (jsonObject.has("request_by")&&jsonObject.get("request_by").getAsString() != null && jsonObject.get("request_by").getAsString().length() > 0) {
+        if (jsonObject.has("request_by") && jsonObject.get("request_by").getAsString() != null && jsonObject.get("request_by").getAsString().length() > 0) {
             request_by = jsonObject.get("request_by").getAsString();
         }
 
@@ -379,7 +386,6 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
         }
 
 
-
         if (jsonObject.has("updated_by") && jsonObject.get("updated_by").getAsString() != null && jsonObject.get("updated_by").getAsString().length() > 0
                 && jsonObject.has("status") && jsonObject.get("status").getAsString() != null && jsonObject.get("status").getAsString().length() > 0) {
             updated_by = jsonObject.get("updated_by").getAsString();
@@ -388,24 +394,24 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
         }
 
         if (jsonObject.has("commission_charges_detail") && jsonObject.get("commission_charges_detail").getAsString() != null && jsonObject.get("commission_charges_detail").getAsString().length() > 0) {
-            String commission_charges_detail= jsonObject.get("commission_charges_detail").getAsString();
-            commission_charges_detail.replace("\\","/");
+            String commission_charges_detail = jsonObject.get("commission_charges_detail").getAsString();
+            commission_charges_detail.replace("\\", "/");
             CommissionModel commissionModel = gson.fromJson(commission_charges_detail, CommissionModel.class);
 
             commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getLenderChargeValue() + ")" + commissionModel.getLenderChargeType());
             commissionValueTV.setText(commissionModel.getLenderChargeValue());
         }
 
-        if (status.equalsIgnoreCase("2")||status.equalsIgnoreCase("4")){
+        if (status.equalsIgnoreCase("2") || status.equalsIgnoreCase("4")) {
             agreementFormLL.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             agreementFormLL.setVisibility(View.GONE);
         }
 
         if (jsonObject.has("pdf_details") && jsonObject.get("pdf_details").getAsJsonArray() != null) {
             List<AgreementPdfDetailModel> pdf_details = apiCalling.getDataList(jsonObject, "pdf_details", AgreementPdfDetailModel.class);
-            if (pdf_details.size()>0)
-            agreementPdfDetailModel = pdf_details.get(0);
+            if (pdf_details.size() > 0)
+                agreementPdfDetailModel = pdf_details.get(0);
         }
 
 
@@ -413,22 +419,22 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
             List<DateModel> pdf_details = apiCalling.getDataList(jsonObject, "pay_date_pending_request_details", DateModel.class);
             if (pdf_details.size() > 0) {
                 dateModel = pdf_details.get(0);
-               /* if (dateModel.getNew_pay_date_status().equalsIgnoreCase("1")) { //pending
-                    if (request_by!=null&&!request_by.equalsIgnoreCase("1")){ //1=lender
-                        new MyDateUpdateDialog().changeDateRequestDialogFunc(LendingSummaryActivity.this, this, dateModel);
-                    }
-                }*/
 
-
-                if (moveFrom.equalsIgnoreCase(getString(R.string.transaction))) {
-                    if (request_by.equalsIgnoreCase("2")) {
-                        new MyDateUpdateDialog().changeDateRequestDialogFunc(LendingSummaryActivity.this, this, dateModel);
-                    }
-                } else if (moveFrom.equalsIgnoreCase(getString(R.string.history))) {
-                    if (request_by.equalsIgnoreCase("1")) {
-                        new MyDateUpdateDialog().changeDateRequestDialogFunc(LendingSummaryActivity.this, this, dateModel);
+                if (status != null && status.length() > 0 && status.equalsIgnoreCase("2")) { //2=accepted
+                    if (moveFrom.equalsIgnoreCase(getString(R.string.transaction))) {
+                        if (request_by.equalsIgnoreCase("2")) {
+                            new MyDateUpdateDialog().changeDateRequestDialogFunc(LendingSummaryActivity.this, this, dateModel);
+                        }
+                    } else if (moveFrom.equalsIgnoreCase(getString(R.string.history))) {
+                        if (request_by.equalsIgnoreCase("1")) {
+                            new MyDateUpdateDialog().changeDateRequestDialogFunc(LendingSummaryActivity.this, this, dateModel);
+                        }
                     }
                 }
+
+
+
+
             }
         }
 

@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.org.zapayapp.R;
 import com.org.zapayapp.activity.BorrowSummaryActivity;
+import com.org.zapayapp.activity.PdfViewActivity;
 import com.org.zapayapp.activity.ViewAllSummaryActivity;
 import com.org.zapayapp.model.AmendmentPdfDetailModel;
 import com.org.zapayapp.model.DateModel;
@@ -205,9 +206,13 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
     }
 
     private void redirectAmendmentForm(String pdfUrl){
-        Intent i = new Intent(Intent.ACTION_VIEW);
+       /* Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(pdfUrl));
-        context.startActivity(i);
+        context.startActivity(i);*/
+
+        Intent intent=new Intent(context, PdfViewActivity.class);
+        intent.putExtra("pdf_url",pdfUrl);
+        context.startActivity(intent);
     }
 }
 
