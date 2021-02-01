@@ -1,16 +1,20 @@
 package com.org.zapayapp.activity;
+
 import androidx.appcompat.widget.Toolbar;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.org.zapayapp.R;
 import com.org.zapayapp.pdf_view.PdfFileDownloadAcyncTask;
+
 import java.io.InputStream;
 
 public class PdfViewActivity extends BaseActivity implements View.OnClickListener, PdfFileDownloadAcyncTask.PdfResponseListener, OnPageChangeListener, OnLoadCompleteListener {
@@ -18,12 +22,13 @@ public class PdfViewActivity extends BaseActivity implements View.OnClickListene
     private TextView titleTV;
     private ImageView backArrowImageView;
     private ProgressBar progressBar;
-
+    private ImageView closeTV;
 
     private PDFView pdfView;
     private String myPdfUrl;
     private int pageNumber = 0;
     private int pageCount = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,27 +44,32 @@ public class PdfViewActivity extends BaseActivity implements View.OnClickListene
         backArrowImageView = toolbar.findViewById(R.id.backArrowImageView);
         backArrowImageView.setVisibility(View.VISIBLE);
         backArrowImageView.setOnClickListener(this);
+        backArrowImageView.setVisibility(View.GONE);
 
-        pdfView=findViewById(R.id.pdfView);
-        progressBar=findViewById(R.id.progressBar);
+
+        pdfView = findViewById(R.id.pdfView);
+        progressBar = findViewById(R.id.progressBar);
+        closeTV = findViewById(R.id.closeTV);
+        closeTV.setOnClickListener(this);
 
         apiCalling.setRunInBackground(true);
         progressBar.setVisibility(View.VISIBLE);
     }
-    private void getIntentFinc(){
-        if (getIntent().getStringExtra("pdf_url")!=null){
-           String pdf_url= getIntent().getStringExtra("pdf_url");
-           if (pdf_url!=null&&pdf_url.length()>0){
-               myPdfUrl=pdf_url;
-           }
+
+    private void getIntentFinc() {
+        if (getIntent().getStringExtra("pdf_url") != null) {
+            String pdf_url = getIntent().getStringExtra("pdf_url");
+            if (pdf_url != null && pdf_url.length() > 0) {
+                myPdfUrl = pdf_url;
+            }
         }
     }
 
-     private void inItAction(){
-        if (myPdfUrl!=null&&myPdfUrl.length()>0){
-          new PdfFileDownloadAcyncTask(this,this).execute(myPdfUrl);
+    private void inItAction() {
+        if (myPdfUrl != null && myPdfUrl.length() > 0) {
+            new PdfFileDownloadAcyncTask(this, this).execute(myPdfUrl);
 
-        }else {
+        } else {
             progressBar.setVisibility(View.GONE);
         }
     }
@@ -80,7 +90,7 @@ public class PdfViewActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onPageChanged(int page, int pageCount) {
-        pageNumber=page;
+        pageNumber = page;
         this.pageCount = pageCount;
     }
 
@@ -92,11 +102,13 @@ public class PdfViewActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.backArrowImageView:
                 finish();
                 break;
+            case R.id.closeTV:
+                finish();
+                break;
         }
-
     }
 }

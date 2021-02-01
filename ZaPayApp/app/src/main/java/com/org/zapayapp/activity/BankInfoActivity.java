@@ -178,14 +178,12 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
         } else {
             addTV.setVisibility(View.VISIBLE);
             addShadowLayout.setVisibility(View.VISIBLE);
-            addShadowChange.setVisibility(View.INVISIBLE);
+            addShadowChange.setVisibility(View.VISIBLE);
         }
 
 
-       /* if (SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_ID) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_ID).toString().length() > 0) {
-            addShadowChange.setVisibility(View.VISIBLE);
-        } else {
-            addShadowChange.setVisibility(View.GONE);
-        }*/
+
+
+
     }
 }

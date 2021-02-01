@@ -107,18 +107,34 @@ public class DatePickerFragmentDialogue extends DialogFragment implements DatePi
         } else if (show != null && show.equals(context.getResources().getString(R.string.current_month)) && getActivity() != null) {//condition to show dates visible only current month date
             DatePickerDialog mDatePicker;
             mDatePicker = new DatePickerDialog(getActivity(), R.style.MyAlertDialogStyle, this, year, Integer.valueOf(mon), Integer.valueOf(date));
-            long now = System.currentTimeMillis() - 1000;
+            /*long now = System.currentTimeMillis() - 1000;
             mDatePicker.getDatePicker().setMinDate(now + (24 * 60 * 60 * 1000));
-           // mDatePicker.getDatePicker().setMaxDate(now + (1000 * 60 * 60 * 24 * 30));
 
             Calendar calendar = Calendar.getInstance();  // this is default system date
             //mDatePicker.getDatePicker().setMinDate(calendar.getTimeInMillis());  //set min date                 // set today's date as min date
             calendar.add(Calendar.DAY_OF_MONTH, 30); // add date to 30 days later
             mDatePicker.getDatePicker().setMaxDate(calendar.getTimeInMillis()); //set max date
+            setDatePickerLocale(mDatePicker);*/
+
+            String payDate = getArguments().getString("DATE");
+
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            try {
+                Date date1 = formatter.parse(payDate);
+                assert date1 != null;
+                calendar.setTime(date1);
+                mDatePicker.getDatePicker().setMinDate(calendar.getTimeInMillis()+(24 * 60 * 60 * 1000));
+
+                calendar.add(Calendar.DAY_OF_MONTH, 30); // add date to 30 days later
+                mDatePicker.getDatePicker().setMaxDate(calendar.getTimeInMillis()); //set max date
+                setDatePickerLocale(mDatePicker);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
 
-
-            setDatePickerLocale(mDatePicker);
             return mDatePicker;
         }  else {// no condition to show date
             // if (getActivity() != null)
@@ -174,5 +190,11 @@ public class DatePickerFragmentDialogue extends DialogFragment implements DatePi
     public interface DatePickerCallback {
         void datePickerCallback(String selectedDate, int year, int month, int day, String from) throws ParseException;
     }
+
+
+
+
+
+
 
 }

@@ -24,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.Objects;
 
 public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAdapter.MyHolder> {
     private Context context;
@@ -127,7 +128,6 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
             holder.termTypeTV.setText(context.getString(R.string.none));
         }
 
-
         /*if (transactionModel.getStatus() != null && transactionModel.getStatus().length() > 0 && transactionModel.getStatus().equalsIgnoreCase("2")) { //accepted
             if (transactionModel.getPay_date_update_status_is_pending() != null && (transactionModel.getPay_date_update_status_is_pending().length() > 0 && transactionModel.getPay_date_update_status_is_pending().equalsIgnoreCase("1"))) {
                 if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().equalsIgnoreCase("1")) {
@@ -137,9 +137,7 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
                 }
             }
         }
-
-*/
-
+      */
 
         if (transactionModel.getStatus() != null && transactionModel.getStatus().length() > 0 && transactionModel.getStatus().equalsIgnoreCase("2")) { //accepted
             if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().equalsIgnoreCase("1")) {   //lender
@@ -150,7 +148,6 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
                 }
             }
         }
-
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,19 +172,18 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
                     intent.putExtra("moveFrom", data);
                     intent.putExtra("status", transactionModel.getStatus());
                     intent.putExtra("transactionId", transactionModel.getId());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     context.startActivity(intent);
                 } else if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
                     Intent intent = new Intent(context, BorrowSummaryActivity.class);
                     intent.putExtra("moveFrom", data);
                     intent.putExtra("status", transactionModel.getStatus());
                     intent.putExtra("transactionId", transactionModel.getId());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     context.startActivity(intent);
                 }
-
             }
         });
-
-
     }
 
     @Override

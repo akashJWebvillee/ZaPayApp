@@ -1,6 +1,5 @@
 package com.org.zapayapp.activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -356,7 +355,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 JSONArray jsonArray = new JSONArray(pay_date);
                 JSONObject jsonObject1 = jsonArray.getJSONObject(0);
                 String date = jsonObject1.getString("date");
-                //  paymentDateTV.setText(DateFormat.getDateFromEpoch(date));
+                //paymentDateTV.setText(DateFormat.getDateFromEpoch(date));
                 paymentDateTV.setText(DateFormat.dateFormatConvert(date));
 
                 /*dateModelArrayList.clear();
@@ -541,6 +540,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
             DialogFragment newFragment1 = new DatePickerFragmentDialogue();
             Bundle args1 = new Bundle();
             args1.putString(getString(R.string.show), getString(R.string.current_month));
+            args1.putString("DATE", dateModel.getPayDate());
             newFragment1.setArguments(args1);
             newFragment1.show(getSupportFragmentManager(), getString(R.string.date_picker));
             // }

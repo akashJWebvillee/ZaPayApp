@@ -65,7 +65,7 @@ public class CompletedFragment extends Fragment implements APICallback {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
                 pageNo = page;
-                callAPIGetTransactionRequest(pageNo);
+                callAPIGetTransactionRequest(page);
             }
         };
 
@@ -81,7 +81,7 @@ public class CompletedFragment extends Fragment implements APICallback {
         callAPIGetTransactionRequest(pageNo);
     }
 
-    private void callAPIGetTransactionRequest(int pageNo) {
+    private void callAPIGetTransactionRequest(int page) {
         //  0=pending 1=negotiate, 2=accept
         if (pageNo == 0 && scrollListener != null) {
             scrollListener.resetState();
@@ -90,7 +90,7 @@ public class CompletedFragment extends Fragment implements APICallback {
         try {
             HashMap<String, Object> values = activity.apiCalling.getHashMapObject(
                     "status", "4",
-                    "page", pageNo);
+                    "page", page);
 
             activity.zapayApp.setApiCallback(this);
             Call<JsonElement> call = activity.restAPI.postWithTokenApi(token, getString(R.string.api_get_transaction_request), values);
@@ -146,9 +146,6 @@ public class CompletedFragment extends Fragment implements APICallback {
        // completedRecyclerView.setAdapter(transactionAdapter);
         TransactionCompletedAdapter transactionAdapter = new TransactionCompletedAdapter(getActivity(), transactionList, getString(R.string.transaction));
         completedRecyclerView.setAdapter(transactionAdapter);
-
-
-
     }
 }
 

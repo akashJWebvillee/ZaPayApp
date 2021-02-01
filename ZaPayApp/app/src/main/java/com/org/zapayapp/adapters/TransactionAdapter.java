@@ -7,10 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.org.zapayapp.R;
 import com.org.zapayapp.activity.BorrowSummaryActivity;
 import com.org.zapayapp.activity.LendingSummaryActivity;
@@ -18,11 +16,9 @@ import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.SharedPref;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.List;
 
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.MyHolder> {
@@ -142,13 +138,17 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                     intent.putExtra("moveFrom", data);
                     intent.putExtra("status", transactionModel.getStatus());
                     intent.putExtra("transactionId", transactionModel.getId());
+                    //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     context.startActivity(intent);
                 } else if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
                     Intent intent = new Intent(context, LendingSummaryActivity.class);
                     intent.putExtra("moveFrom", data);
                     intent.putExtra("status", transactionModel.getStatus());
                     intent.putExtra("transactionId", transactionModel.getId());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     context.startActivity(intent);
+
                 }
                 //}
             }

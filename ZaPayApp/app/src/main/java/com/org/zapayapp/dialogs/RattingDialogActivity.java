@@ -1,5 +1,4 @@
 package com.org.zapayapp.dialogs;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -119,7 +118,8 @@ public class RattingDialogActivity extends AppCompatActivity implements APICallb
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
             HashMap<String, Object> values = apiCalling.getHashMapObject(
-                    "to_id", fromId,
+                    //"to_id", fromId,
+                    "to_id", toId,
                     "rating", ratingValue,
                     "transaction_request_id", transactionRequestID);
 

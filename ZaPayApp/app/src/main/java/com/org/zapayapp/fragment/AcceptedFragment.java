@@ -5,12 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -25,7 +23,6 @@ import com.org.zapayapp.webservices.APICallback;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import retrofit2.Call;
 
 public class AcceptedFragment extends Fragment implements APICallback {
@@ -37,8 +34,8 @@ public class AcceptedFragment extends Fragment implements APICallback {
     private TextView noDataTv;
 
     public AcceptedFragment() {
-    }
 
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,7 +61,7 @@ public class AcceptedFragment extends Fragment implements APICallback {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
                 pageNo = page;
-                callAPIGetTransactionRequest(pageNo);
+                callAPIGetTransactionRequest(page);
             }
         };
         pendingRecyclerView.addOnScrollListener(scrollListener);

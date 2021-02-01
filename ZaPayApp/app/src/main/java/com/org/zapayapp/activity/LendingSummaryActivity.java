@@ -7,9 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -23,14 +21,11 @@ import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.MyDateUpdateDialog;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.List;
-
 import retrofit2.Call;
 
 public class LendingSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener, MyDateUpdateDialog.DateStatusUpdateListener {

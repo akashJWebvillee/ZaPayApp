@@ -781,6 +781,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 s = "";
                 symbol = "";
             }
+
             finalTotalAmount = totalAmount;
             finalTotalPayBackAmount = totalAmount;
 
@@ -965,7 +966,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
         noOfPaymentTV.setText(String.valueOf(isNoPayment));
         paymentDateTV.setText(DateFormat.dateFormatConvert(paybackList.get(0).getPayDate()));
-        totalPayBackTV.setText("$" + CommonMethods.roundedDoubleWithoutZero(amount));
+        totalPayBackTV.setText("$" + CommonMethods.roundedDoubleWithoutZero(finalTotalPayBackAmount));
 
 
         if (SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE).toString().length() > 0

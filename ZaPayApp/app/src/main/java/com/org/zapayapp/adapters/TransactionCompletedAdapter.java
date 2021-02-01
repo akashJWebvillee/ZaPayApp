@@ -108,8 +108,6 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
 
 
 
-
-
         if (transactionModel.getNoOfPayment() != null && transactionModel.getNoOfPayment().length() > 0) {
             holder.noOfPaymentTV.setText(transactionModel.getNoOfPayment());
         }
