@@ -1,5 +1,4 @@
 package com.org.zapayapp.fragment;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +18,6 @@ import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.EndlessRecyclerViewScrollListener;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +27,7 @@ public class AcceptedFragment extends Fragment implements APICallback {
     private TransactionActivity activity;
     private RecyclerView pendingRecyclerView;
     private List<TransactionModel> transactionList;
+    private TransactionAdapter transactionAdapter;
     private EndlessRecyclerViewScrollListener scrollListener;
     private int pageNo = 0;
     private TextView noDataTv;
@@ -137,8 +136,12 @@ public class AcceptedFragment extends Fragment implements APICallback {
     }
 
     private void setAdapter() {
-        TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity(), transactionList, getString(R.string.transaction));
-        pendingRecyclerView.setAdapter(transactionAdapter);
+        if (transactionAdapter == null) {
+            transactionAdapter = new TransactionAdapter(getActivity(), transactionList, getString(R.string.transaction));
+            pendingRecyclerView.setAdapter(transactionAdapter);
+        } else {
+            transactionAdapter.notifyDataSetChanged();
+        }
     }
 }
 

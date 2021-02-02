@@ -1,5 +1,4 @@
 package com.org.zapayapp.fragment;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +32,7 @@ public class HistoryDeclineFragment extends Fragment implements APICallback {
     private MyHistoryActivity activity;
     private RecyclerView pendingRecyclerView;
     private List<TransactionModel> transactionList;
+    private HistoryPendingAdapter historyPendingAdapter;
     private EndlessRecyclerViewScrollListener scrollListener;
     private int pageNo = 0;
     private TextView noDataTv;
@@ -92,7 +92,7 @@ public class HistoryDeclineFragment extends Fragment implements APICallback {
                     "page", pageNo);
 
             activity.zapayApp.setApiCallback(this);
-            Call<JsonElement> call =activity. restAPI.postWithTokenApi(token, getString(R.string.api_get_transaction_history), values);
+            Call<JsonElement> call = activity.restAPI.postWithTokenApi(token, getString(R.string.api_get_transaction_history), values);
             if (activity.apiCalling != null) {
                 activity.apiCalling.callAPI(activity.zapayApp, call, getString(R.string.api_get_transaction_history), pendingRecyclerView);
             }
@@ -142,8 +142,12 @@ public class HistoryDeclineFragment extends Fragment implements APICallback {
     }
 
     private void setAdapter() {
-        HistoryPendingAdapter historyPendingAdapter = new HistoryPendingAdapter(getActivity(), transactionList, getString(R.string.history));
-        pendingRecyclerView.setAdapter(historyPendingAdapter);
+        if (historyPendingAdapter == null) {
+            historyPendingAdapter = new HistoryPendingAdapter(getActivity(), transactionList, getString(R.string.history));
+            pendingRecyclerView.setAdapter(historyPendingAdapter);
+        } else {
+            historyPendingAdapter.notifyDataSetChanged();
+        }
     }
 }
 

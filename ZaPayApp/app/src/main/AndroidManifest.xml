@@ -18,7 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.PdfViewActivity"></activity>
+        <activity android:name=".activity.HistoryDetailsActivity"></activity>
+        <activity android:name=".activity.DefaultTransactionActivity" />
+        <activity android:name=".activity.PdfViewActivity" />
         <activity
             android:name=".activity.AcceptActivity"
             android:screenOrientation="portrait"

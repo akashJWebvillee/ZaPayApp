@@ -35,6 +35,7 @@ public class CompletedFragment extends Fragment implements APICallback {
     private TransactionActivity activity;
     private List<TransactionModel> transactionList;
     private RecyclerView completedRecyclerView;
+    private TransactionCompletedAdapter transactionAdapter;
     private EndlessRecyclerViewScrollListener scrollListener;
     private int pageNo = 0;
     private TextView noDataTv;
@@ -70,8 +71,8 @@ public class CompletedFragment extends Fragment implements APICallback {
         };
 
         completedRecyclerView.addOnScrollListener(scrollListener);
-       // pageNo = 0;
-       // callAPIGetTransactionRequest(pageNo);
+        // pageNo = 0;
+        // callAPIGetTransactionRequest(pageNo);
     }
 
     @Override
@@ -143,9 +144,13 @@ public class CompletedFragment extends Fragment implements APICallback {
 
     private void setAdapter() {
         //TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity(), transactionList, getString(R.string.transaction));
-       // completedRecyclerView.setAdapter(transactionAdapter);
-        TransactionCompletedAdapter transactionAdapter = new TransactionCompletedAdapter(getActivity(), transactionList, getString(R.string.transaction));
-        completedRecyclerView.setAdapter(transactionAdapter);
+        // completedRecyclerView.setAdapter(transactionAdapter);
+        if (transactionAdapter == null) {
+            transactionAdapter = new TransactionCompletedAdapter(getActivity(), transactionList, getString(R.string.transaction));
+            completedRecyclerView.setAdapter(transactionAdapter);
+        } else {
+            transactionAdapter.notifyDataSetChanged();
+        }
     }
 }
 

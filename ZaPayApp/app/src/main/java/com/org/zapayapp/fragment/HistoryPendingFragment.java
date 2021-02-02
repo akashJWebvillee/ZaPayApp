@@ -27,6 +27,7 @@ public class HistoryPendingFragment extends Fragment implements APICallback {
     private MyHistoryActivity activity;
     private RecyclerView pendingRecyclerView;
     private List<TransactionModel> transactionList;
+    private HistoryPendingAdapter historyPendingAdapter;
     private EndlessRecyclerViewScrollListener scrollListener;
     private int pageNo = 0;
     private TextView noDataTv;
@@ -135,10 +136,12 @@ public class HistoryPendingFragment extends Fragment implements APICallback {
     }
 
     private void setAdapter() {
-        HistoryPendingAdapter historyPendingAdapter = new HistoryPendingAdapter(getActivity(), transactionList, getString(R.string.history));
-        pendingRecyclerView.setAdapter(historyPendingAdapter);
+        if (historyPendingAdapter==null){
+             historyPendingAdapter = new HistoryPendingAdapter(getActivity(), transactionList, getString(R.string.history));
+            pendingRecyclerView.setAdapter(historyPendingAdapter);
+        }else {
+            historyPendingAdapter.notifyDataSetChanged();
+        }
     }
-
-
 }
 

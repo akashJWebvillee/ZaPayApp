@@ -15,7 +15,6 @@ import java.util.Date;
 import java.util.Locale;
 
 public class DatePickerFragmentDialogue extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-
     private Context context;
     private String from;
     private WVDateLib wvDateLib;

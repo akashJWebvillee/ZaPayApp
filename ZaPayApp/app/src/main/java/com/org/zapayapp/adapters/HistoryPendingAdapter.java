@@ -106,11 +106,6 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
             holder.amountTV.setText(total_amount);
         }
 
-      /*  if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
-            holder.borroModeTitleTV.setText(context.getString(R.string.lend_mode));
-        } else if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
-            holder.borroModeTitleTV.setText(context.getString(R.string.borrow_mode));
-        }*/
 
         if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
             holder.borroModeTitleTV.setText(context.getString(R.string.lend_mode));
@@ -128,16 +123,7 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
             holder.termTypeTV.setText(context.getString(R.string.none));
         }
 
-        /*if (transactionModel.getStatus() != null && transactionModel.getStatus().length() > 0 && transactionModel.getStatus().equalsIgnoreCase("2")) { //accepted
-            if (transactionModel.getPay_date_update_status_is_pending() != null && (transactionModel.getPay_date_update_status_is_pending().length() > 0 && transactionModel.getPay_date_update_status_is_pending().equalsIgnoreCase("1"))) {
-                if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().equalsIgnoreCase("1")) {
-                    holder.dateUpdateIconIV.setVisibility(View.VISIBLE);
-                } else {
-                    holder.dateUpdateIconIV.setVisibility(View.GONE);
-                }
-            }
-        }
-      */
+
 
         if (transactionModel.getStatus() != null && transactionModel.getStatus().length() > 0 && transactionModel.getStatus().equalsIgnoreCase("2")) { //accepted
             if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().equalsIgnoreCase("1")) {   //lender
@@ -146,8 +132,13 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
                 } else {
                     holder.dateUpdateIconIV.setVisibility(View.GONE);
                 }
+            }else {
+                holder.dateUpdateIconIV.setVisibility(View.GONE);
             }
+        }else {
+            holder.dateUpdateIconIV.setVisibility(View.GONE);
         }
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -38,7 +38,6 @@ import retrofit2.Call;
 public class AddBankDialogActivity extends AppCompatActivity implements View.OnClickListener, APICallback, SimpleAlertFragment.AlertSimpleCallback {
     private TextView saveTV;
     private ImageView closeTV;
-
     private Spinner bankAccountTypeSpinner;
     private String bankAccountType = "";
 

@@ -399,21 +399,19 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
             List<DateModel> pdf_details = apiCalling.getDataList(jsonObject, "pay_date_pending_request_details", DateModel.class);
             if (pdf_details.size() > 0) {
                 dateModel = pdf_details.get(0);
-            /*    if (dateModel.getNew_pay_date_status().equalsIgnoreCase("1")) { //pending
-                    if (request_by!=null&&!request_by.equalsIgnoreCase("2")){ //2=borrow
-                        new MyDateUpdateDialog().changeDateRequestDialogFunc(BorrowSummaryActivity.this, this, dateModel);
-                    }
-                }*/
+
 
 
                 if (status != null && status.length() > 0 && status.equalsIgnoreCase("2")) { //2=accepted
                     if (moveFrom.equalsIgnoreCase(getString(R.string.transaction))) {
                         if (request_by.equalsIgnoreCase("2")) {
-                            new MyDateUpdateDialog().changeDateRequestDialogFunc(BorrowSummaryActivity.this, this, dateModel);
+                            if (dateModel!=null&&dateModel.getStatus().equalsIgnoreCase("remaining"))
+                             new MyDateUpdateDialog().changeDateRequestDialogFunc(BorrowSummaryActivity.this, this, dateModel);
                         }
                     } else if (moveFrom.equalsIgnoreCase(getString(R.string.history))) {
                         if (request_by.equalsIgnoreCase("1")) {
-                            new MyDateUpdateDialog().changeDateRequestDialogFunc(BorrowSummaryActivity.this, this, dateModel);
+                            if (dateModel!=null&&dateModel.getStatus().equalsIgnoreCase("remaining"))
+                                new MyDateUpdateDialog().changeDateRequestDialogFunc(BorrowSummaryActivity.this, this, dateModel);
                         }
                     }
                 }

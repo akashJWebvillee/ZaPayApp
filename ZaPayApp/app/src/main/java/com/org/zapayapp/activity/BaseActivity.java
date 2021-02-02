@@ -101,21 +101,26 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
      */
     protected int HISTORY = 3;
     /**
+     * The Default Transaction.
+     */
+    protected int DEFAULT_TRANSACTION = 4;
+
+    /**
      * The About us.
      */
-    protected int ABOUT_US = 4;
+    protected int ABOUT_US = 5;
     /**
      * The Terms condition.
      */
-    protected int TERMS_CONDITION = 5;
+    protected int TERMS_CONDITION = 6;
     /**
      * The Help.
      */
-    protected int HELP = 6;
+    protected int HELP = 7;
     /**
      * The Logout.
      */
-    protected int LOGOUT = 8;//one value skip for view
+    protected int LOGOUT = 9;//one value skip for view
     private Intent intent;
     private NavigationAdapter adapter;
 
@@ -414,6 +419,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
         navList.add(getString(R.string.bank_account));
         navList.add(getString(R.string.transaction));
         navList.add(getString(R.string.history));
+        navList.add(getString(R.string.default_transaction));
         navList.add(getString(R.string.about_us));
         navList.add(getString(R.string.terms_and_conditions));
         navList.add(getString(R.string.help));
@@ -493,25 +499,32 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
                     startActivity(intent);
                 }
                 break;
+
             case 4:
+                if (currentScreen != DEFAULT_TRANSACTION) {
+                    intent = new Intent(this, DefaultTransactionActivity.class);
+                    startActivity(intent);
+                }
+                break;
+            case 5:
                 if (currentScreen != ABOUT_US) {
                     intent = new Intent(this, AboutUsActivity.class);
                     startActivity(intent);
                 }
                 break;
-            case 5:
+            case 6:
                 if (currentScreen != TERMS_CONDITION) {
                     intent = new Intent(this, TermConditionActivity.class);
                     startActivity(intent);
                 }
                 break;
-            case 6:
+            case 7:
                 if (currentScreen != HELP) {
                     intent = new Intent(this, HelpActivity.class);
                     startActivity(intent);
                 }
                 break;
-            case 8:
+            case 9:
                 if (currentScreen != LOGOUT) {
                     alertLogOut();
 
@@ -634,7 +647,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             finish();
         } else if (from.equalsIgnoreCase(getResources().getString(R.string.api_pay_date_request_status_update))) {
-           // finish();
+            // finish();
         }
     }
 

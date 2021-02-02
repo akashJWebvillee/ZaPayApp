@@ -641,7 +641,11 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 acceptTV.setVisibility(View.VISIBLE);
                 declineTV.setVisibility(View.VISIBLE);
             }
-        } else {
+        } else if (status.equalsIgnoreCase("2")){
+            negotiateTV.setVisibility(View.VISIBLE);
+            acceptTV.setVisibility(View.GONE);
+            declineTV.setVisibility(View.GONE);
+        }else {
             negotiateTV.setVisibility(View.GONE);
             acceptTV.setVisibility(View.GONE);
             declineTV.setVisibility(View.GONE);

@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorWhite">
-
-    <include
-        android:id="@+id/customToolbar"
-        layout="@layout/custom_toolbar" />
+    android:layout_height="wrap_content"
+    android:layout_marginStart="20dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginEnd="20dp"
+    android:layout_marginBottom="10dp"
+    android:background="#00DC4E43"
+    android:elevation="3dp"
+    card_view:cardCornerRadius="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/customToolbar"
         android:background="@drawable/rectanguler_bg"
         android:backgroundTint="@color/colorWhite"
-        android:elevation="0dp"
         android:orientation="vertical">
 
         <androidx.core.widget.NestedScrollView
@@ -24,19 +25,21 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
 
                 <TextView
                     android:id="@+id/viewAllNameType"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="27dp"
-                    android:layout_marginTop="44dp"
+                    android:layout_marginTop="10dp"
                     android:fontFamily="@font/gotha_prolig"
                     android:gravity="start"
                     android:text="@string/borrower"
                     android:textColor="@color/navTextColor60Alpha"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"/>
 
                 <TextView
                     android:id="@+id/nameTV"
@@ -45,28 +48,13 @@
                     android:layout_below="@+id/viewAllNameType"
                     android:layout_marginStart="27dp"
                     android:layout_marginTop="5dp"
-                    android:layout_toStartOf="@+id/chatTV"
                     android:ellipsize="end"
                     android:fontFamily="@font/gotha_promed"
                     android:gravity="start"
                     android:maxLines="1"
                     android:textColor="@color/textColor"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/chatTV"
-                    android:layout_width="80dp"
-                    android:layout_height="26dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="44dp"
-                    android:layout_marginEnd="30dp"
-                    android:background="@drawable/rectanguler_4redius"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:fontFamily="@font/gotha_promed"
-                    android:gravity="center"
-                    android:text="@string/chat"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="11sp" />
+                    android:textSize="16sp"
+                    android:text="Sandeep Singh"/>
 
                 <LinearLayout
                     android:id="@+id/lendLLAmountTerms"
@@ -102,7 +90,7 @@
                             android:layout_marginTop="5dp"
                             android:fontFamily="@font/gotha_promed"
                             android:gravity="start"
-                            android:text=""
+                            android:text="$100"
                             android:textColor="@color/textColor"
                             android:textSize="16sp" />
                     </LinearLayout>
@@ -130,11 +118,10 @@
                             android:layout_marginTop="5dp"
                             android:fontFamily="@font/gotha_promed"
                             android:gravity="start"
-                            android:text=""
+                            android:text="None"
                             android:textColor="@color/textColor"
                             android:textSize="16sp" />
                     </LinearLayout>
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -170,7 +157,7 @@
                             android:layout_marginTop="5dp"
                             android:fontFamily="@font/gotha_promed"
                             android:gravity="start"
-                            android:text=""
+                            android:text="3"
                             android:textColor="@color/textColor"
                             android:textSize="16sp" />
                     </LinearLayout>
@@ -197,68 +184,54 @@
                             android:layout_marginTop="5dp"
                             android:fontFamily="@font/gotha_promed"
                             android:gravity="start"
-                            android:text=""
+                            android:text="2/1/2021"
                             android:textColor="@color/textColor"
                             android:textSize="16sp" />
                     </LinearLayout>
                 </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/paybackDateRecycler"
-                    android:layout_below="@+id/lendLLPaymentPayback"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="10dp"/>
-
                 <LinearLayout
-                    android:id="@+id/rattingLL"
+                    android:id="@+id/negotiateAcceptLL"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/lendLLPaymentPayback"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="30dp"
+                    android:baselineAligned="false"
                     android:orientation="horizontal"
-                    android:layout_below="@+id/paybackDateRecycler"
-                    android:weightSum="2"
-                    android:layout_marginTop="10dp">
+                    android:weightSum="1">
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.5"
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/viewTxtRating"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="27dp"
                             android:fontFamily="@font/gotha_prolig"
                             android:gravity="start"
-                            android:text="@string/rating"
+                            android:text="@string/negotiated_by"
                             android:textColor="@color/navTextColor60Alpha"
                             android:textSize="14sp" />
 
-                        <com.org.zapayapp.uihelpers.CustomRatingBar
-                            android:id="@+id/viewRatingBar"
+                        <TextView
+
                             android:layout_width="wrap_content"
-                            android:layout_height="13dp"
-                            android:layout_marginStart="27dp"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:stepSize="1"
-                            app:halfStars="true"
-                            app:maxStars="5"
-                            app:onlyForDisplay="true"
-                            app:starHalf="@mipmap/ic_star_fill"
-                            app:starOff="@mipmap/ic_star_hollow"
-                            app:starOn="@mipmap/ic_star_fill"
-                            app:starPadding="3dp"
-                            app:stars="3.5" />
+                            android:fontFamily="@font/gotha_promed"
+                            android:gravity="start"
+                            android:text="Sandeep Singh"
+                            android:textColor="@color/textColor"
+                            android:textSize="16sp" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/agreementLL"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.5"
                         android:orientation="vertical">
 
                         <TextView
@@ -266,31 +239,36 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/gotha_prolig"
                             android:gravity="start"
-                            android:text="@string/agreement_form"
+                            android:text="@string/accepted_by"
                             android:textColor="@color/navTextColor60Alpha"
                             android:textSize="14sp" />
 
-                        <ImageView
-                            android:id="@+id/file"
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
+                            android:fontFamily="@font/gotha_promed"
+                            android:gravity="start"
+                            android:text="Sanjay Sir"
                             android:textColor="@color/textColor"
-                            android:textSize="16sp"
-                            android:src="@mipmap/file1"
-                            android:layout_marginStart="50dp"
-                            android:tint="@color/color_blue"/>
+                            android:textSize="16sp" />
                     </LinearLayout>
                 </LinearLayout>
+
+
+
+
+
+
 
                 <LinearLayout
                     android:id="@+id/commissionLL"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_below="@+id/rattingLL"
                     android:layout_marginStart="27dp"
-                    android:layout_marginTop="25dp">
+                    android:layout_marginTop="25dp"
+                    android:layout_below="@+id/negotiateAcceptLL"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/commissionTitleTV"
@@ -300,7 +278,7 @@
                         android:gravity="start"
                         android:text="@string/zapay_commission"
                         android:textColor="@color/navTextColor60Alpha"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/commissionValueTV"
@@ -309,25 +287,16 @@
                         android:layout_marginTop="5dp"
                         android:fontFamily="@font/gotha_promed"
                         android:gravity="start"
-                        android:text=""
+                        android:text="$3.25"
                         android:textColor="@color/textColor"
                         android:textSize="16sp" />
                 </LinearLayout>
-
-
-                <View
-                    android:id="@+id/viewDot"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_below="@+id/commissionLL"
-                    android:layout_marginTop="30dp"
-                    android:background="@drawable/dotted" />
 
                 <TextView
                     android:id="@+id/totalPlayReceiveTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/viewDot"
+                    android:layout_below="@+id/commissionLL"
                     android:layout_marginStart="27dp"
                     android:layout_marginTop="25dp"
                     android:fontFamily="@font/gotha_prolig"
@@ -345,60 +314,53 @@
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/gotha_promed"
                     android:gravity="start"
-                    android:text=""
+                    android:text="$220"
                     android:textColor="@color/navTextColor"
                     android:textSize="20sp"
-                    android:layout_marginBottom="36dp"/>
+                    android:layout_marginBottom="10dp"/>
+
 
                 <TextView
-                    android:id="@+id/negotiateTV"
-                    android:layout_width="match_parent"
-                    android:layout_height="53dp"
+                    android:id="@+id/payBackDateTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotha_prolig"
+                    android:gravity="start"
+                    android:text="@string/payback_dates"
+                    android:textColor="@color/navTextColor60Alpha"
+                    android:textSize="14sp"
                     android:layout_below="@+id/totalPayBackTV"
                     android:layout_marginStart="27dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginEnd="27dp"
-                    android:background="@drawable/rectanguler_button_bg"
-                    android:backgroundTint="@color/navTextColor"
-                    android:fontFamily="@font/gotha_probol"
-                    android:gravity="center"
-                    android:text="@string/negotiate"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="16sp" />
+                    android:layout_marginTop="5dp"/>
 
-                <TextView
-                    android:id="@+id/acceptTV"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/paybackDateRecycler"
                     android:layout_width="match_parent"
-                    android:layout_height="53dp"
-                    android:layout_marginStart="27dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_below="@+id/negotiateTV"
-                    android:layout_marginEnd="27dp"
-                    android:background="@drawable/rectanguler_button_bg"
-                    android:backgroundTint="@color/greenColor"
-                    android:fontFamily="@font/gotha_probol"
-                    android:gravity="center"
-                    android:text="@string/accept"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="16sp" />
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/payBackDateTV"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="10dp" />
 
-                <TextView
-                    android:id="@+id/declineTV"
-                    android:layout_width="match_parent"
-                    android:layout_height="53dp"
-                    android:layout_marginStart="27dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_below="@+id/acceptTV"
-                    android:layout_marginEnd="27dp"
-                    android:layout_marginBottom="48dp"
-                    android:background="@drawable/rectanguler_button_bg"
-                    android:backgroundTint="@color/colorBtnRed"
-                    android:fontFamily="@font/gotha_probol"
-                    android:gravity="center"
-                    android:text="@string/decline"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="16sp" />
             </RelativeLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
-</RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

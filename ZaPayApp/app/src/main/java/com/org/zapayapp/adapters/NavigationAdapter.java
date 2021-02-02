@@ -83,6 +83,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 ((MyHolder) holder).navView.setVisibility(View.INVISIBLE);
                 ((MyHolder) holder).navTextName.setSelected(false);
             }
+
             ((MyHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

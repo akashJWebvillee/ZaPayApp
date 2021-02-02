@@ -1,5 +1,4 @@
 package com.org.zapayapp.utils;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -77,9 +76,6 @@ public class DateFormat {
 
 
     public static String getCurrentDate(){
-
-
-
         Calendar c = Calendar.getInstance();
         System.out.println("Current time => "+c.getTime());
 

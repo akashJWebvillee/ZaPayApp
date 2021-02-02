@@ -51,12 +51,15 @@
     <string name="account_type">ACCOUNT TYPE</string>
     <string name="transaction">Transaction</string>
     <string name="history">History</string>
+    <string name="default_transaction">Default Transaction</string>
     <string name="about_us">About Us</string>
     <string name="terms_and_conditions">Terms &amp; Condition</string>
     <string name="help">Help</string>
     <string name="logout">Logout</string>
     <string name="nav_drawer_opened">Navigation Drawer Open</string>
     <string name="nav_drawer_closed">Navigation Drawer Closed</string>
+
+    <string name="all_details">All Details</string>
 
     <!--Forgot password Activity -->
     <string name="enter_email_address_with_account">Enter your Email Address associated with your account</string>
@@ -156,6 +159,9 @@
     <string name="lending_summary">Lending Summary</string>
     <string name="lender">Lender</string>
     <string name="rating">Rating</string>
+
+    <string name="negotiated_by">Negotiated By</string>
+    <string name="accepted_by">Accepted By</string>
 
     <!-- Chat Screen-->
     <string name="chat_send">Send</string>

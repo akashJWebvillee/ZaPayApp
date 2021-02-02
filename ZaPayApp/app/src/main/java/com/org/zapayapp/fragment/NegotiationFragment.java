@@ -34,6 +34,7 @@ public class NegotiationFragment extends Fragment implements APICallback {
 
     private RecyclerView negotiationRecyclerView;
     private List<TransactionModel> transactionList;
+    private TransactionAdapter transactionAdapter;
 
     private EndlessRecyclerViewScrollListener scrollListener;
     private int pageNo = 0;
@@ -143,8 +144,13 @@ public class NegotiationFragment extends Fragment implements APICallback {
     }
 
     private void setAdapter() {
-        TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity(), transactionList, getString(R.string.transaction));
-        negotiationRecyclerView.setAdapter(transactionAdapter);
+        if (transactionAdapter==null){
+            transactionAdapter = new TransactionAdapter(getActivity(), transactionList, getString(R.string.transaction));
+            negotiationRecyclerView.setAdapter(transactionAdapter);
+        }else {
+            transactionAdapter.notifyDataSetChanged();
+        }
+
     }
 }
 
