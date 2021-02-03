@@ -369,7 +369,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="22dp"
                     android:fontFamily="@font/gotha_promed"
-                    android:text="@string/ssn"
+                    android:text="@string/last_four_ssn"
                     android:textAllCaps="true"
                     android:textColor="@color/textColorBold"
                     android:textSize="11sp" />

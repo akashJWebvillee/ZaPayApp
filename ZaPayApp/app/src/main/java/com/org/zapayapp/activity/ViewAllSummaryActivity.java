@@ -1,16 +1,19 @@
 package com.org.zapayapp.activity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -27,14 +30,17 @@ import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.DatePickerFragmentDialogue;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+
 import retrofit2.Call;
 
 public class ViewAllSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener, DatePickerFragmentDialogue.DatePickerCallback {
@@ -201,10 +207,10 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                     i.setData(Uri.parse(url));
                     startActivity(i);*/
 
-                    Intent intent=new Intent(ViewAllSummaryActivity.this,PdfViewActivity.class);
-                    intent.putExtra("pdf_url",agreementPdfDetailModel.getPdfUrl());
+                    Intent intent = new Intent(ViewAllSummaryActivity.this, PdfViewActivity.class);
+                    intent.putExtra("pdf_url", agreementPdfDetailModel.getPdfUrl());
                     startActivity(intent);
-                 }
+                }
 
                 break;
         }
@@ -387,16 +393,15 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 termTV.setText(terms_value);
             } else if (terms_type.equalsIgnoreCase("2")) {
                 terms_value = terms_value + " " + getString(R.string.fee);
-                termTV.setText(terms_value);
+                termTV.setText("$" + terms_value);
             } else if (terms_type.equalsIgnoreCase("3")) {
                 terms_value = terms_value + " " + getString(R.string.discount);
-                termTV.setText(terms_value);
+                termTV.setText("$" + terms_value);
             } else if (terms_type.equalsIgnoreCase("4")) {
                 // terms_value = terms_value + " " + getString(R.string.none);
                 termTV.setText(getString(R.string.none));
             }
         }
-
 
         if (jsonObject.has("updated_by") && jsonObject.get("updated_by").getAsString() != null && jsonObject.get("updated_by").getAsString().length() > 0
                 && jsonObject.has("status") && jsonObject.get("status").getAsString() != null && jsonObject.get("status").getAsString().length() > 0) {
@@ -437,22 +442,22 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
                     if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
                         commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getLenderChargeValue() + ")" + commissionModel.getLenderChargeType());
-                        commissionValueTV.setText(commissionModel.getLenderChargeValue());
+                        commissionValueTV.setText("$" + commissionModel.getLenderChargeValue());
                     }
                     if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                         commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
-                        commissionValueTV.setText(commissionModel.getBorrowerChargeValue());
+                        commissionValueTV.setText("$" + commissionModel.getBorrowerChargeValue());
                     }
                 }
             } else if (getString(R.string.history).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
                 if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
                     if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                         commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getLenderChargeValue() + ")" + commissionModel.getLenderChargeType());
-                        commissionValueTV.setText(commissionModel.getLenderChargeValue());
+                        commissionValueTV.setText("$" + commissionModel.getLenderChargeValue());
                     }
                     if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
                         commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
-                        commissionValueTV.setText(commissionModel.getBorrowerChargeValue());
+                        commissionValueTV.setText("$" + commissionModel.getBorrowerChargeValue());
                     }
                 }
             }
@@ -617,8 +622,11 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 acceptTV.setVisibility(View.VISIBLE);
                 declineTV.setVisibility(View.VISIBLE);
             }
-
-        } else {
+        } else if (status.equalsIgnoreCase("2")&&requestBy.equalsIgnoreCase("1")){
+            negotiateTV.setVisibility(View.VISIBLE);
+            acceptTV.setVisibility(View.GONE);
+            declineTV.setVisibility(View.GONE);
+        }else {
             negotiateTV.setVisibility(View.GONE);
             acceptTV.setVisibility(View.GONE);
             declineTV.setVisibility(View.GONE);
@@ -641,11 +649,11 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 acceptTV.setVisibility(View.VISIBLE);
                 declineTV.setVisibility(View.VISIBLE);
             }
-        } else if (status.equalsIgnoreCase("2")){
+        } else if (status.equalsIgnoreCase("2") && requestBy.equalsIgnoreCase("1")) {  //status=2 accepted,requestBy=2 Borrower
             negotiateTV.setVisibility(View.VISIBLE);
             acceptTV.setVisibility(View.GONE);
             declineTV.setVisibility(View.GONE);
-        }else {
+        } else {
             negotiateTV.setVisibility(View.GONE);
             acceptTV.setVisibility(View.GONE);
             declineTV.setVisibility(View.GONE);

@@ -100,7 +100,7 @@ public class CommonMethods {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    /**
+    /**t
      * Close keyboard.
      *
      * @param context the context
@@ -583,13 +583,13 @@ public class CommonMethods {
     public static String setDigitAfterDecimalValue(double value,int count){
         String value1 = null;
         if (count==1){
-             value1=  new DecimalFormat("##.#").format(value);
+             value1=  new DecimalFormat("0.0").format(value);
         }else if (count==2){
-             value1=  new DecimalFormat("##.##").format(value);
+             value1=  new DecimalFormat("0.00").format(value);
         }else if (count==3){
-             value1=  new DecimalFormat("##.###").format(value);
+             value1=  new DecimalFormat("0.000").format(value);
         }else {
-            value1=  new DecimalFormat("##.##").format(value);
+            value1=  new DecimalFormat("0.00").format(value);
         }
 
       return value1;

@@ -1,10 +1,13 @@
 package com.org.zapayapp.activity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -18,11 +21,14 @@ import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.MyDateUpdateDialog;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.List;
+
 import retrofit2.Call;
 
 public class BorrowSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener, MyDateUpdateDialog.DateStatusUpdateListener {
@@ -358,10 +364,10 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                 termTV.setText(terms_value);
             } else if (terms_type.equalsIgnoreCase("2")) {
                 terms_value = terms_value + " " + getString(R.string.fee);
-                termTV.setText(terms_value);
+                termTV.setText("$" + terms_value);
             } else if (terms_type.equalsIgnoreCase("3")) {
                 terms_value = terms_value + " " + getString(R.string.discount);
-                termTV.setText(terms_value);
+                termTV.setText("$" + terms_value);
             } else if (terms_type.equalsIgnoreCase("4")) {
                 //terms_value = terms_value + " " + getString(R.string.none);
                 termTV.setText(getString(R.string.none));
@@ -380,7 +386,7 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
             commission_charges_detail.replace("\\", "/");
             CommissionModel commissionModel = gson.fromJson(commission_charges_detail, CommissionModel.class);
             commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
-            commissionValueTV.setText(commissionModel.getBorrowerChargeValue());
+            commissionValueTV.setText("$"+commissionModel.getBorrowerChargeValue());
         }
 
         if (status.equalsIgnoreCase("2") || status.equalsIgnoreCase("4")) {
@@ -401,16 +407,15 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                 dateModel = pdf_details.get(0);
 
 
-
                 if (status != null && status.length() > 0 && status.equalsIgnoreCase("2")) { //2=accepted
                     if (moveFrom.equalsIgnoreCase(getString(R.string.transaction))) {
                         if (request_by.equalsIgnoreCase("2")) {
-                            if (dateModel!=null&&dateModel.getStatus().equalsIgnoreCase("remaining"))
-                             new MyDateUpdateDialog().changeDateRequestDialogFunc(BorrowSummaryActivity.this, this, dateModel);
+                            if (dateModel != null && dateModel.getStatus().equalsIgnoreCase("remaining"))
+                                new MyDateUpdateDialog().changeDateRequestDialogFunc(BorrowSummaryActivity.this, this, dateModel);
                         }
                     } else if (moveFrom.equalsIgnoreCase(getString(R.string.history))) {
                         if (request_by.equalsIgnoreCase("1")) {
-                            if (dateModel!=null&&dateModel.getStatus().equalsIgnoreCase("remaining"))
+                            if (dateModel != null && dateModel.getStatus().equalsIgnoreCase("remaining"))
                                 new MyDateUpdateDialog().changeDateRequestDialogFunc(BorrowSummaryActivity.this, this, dateModel);
                         }
                     }

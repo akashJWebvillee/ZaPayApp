@@ -123,7 +123,12 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 declineTV.setVisibility(View.VISIBLE);
             }
 
-        } else {
+        } else if (status.equalsIgnoreCase("2")){
+            negotiateTV.setVisibility(View.VISIBLE);
+            acceptTV.setVisibility(View.GONE);
+            declineTV.setVisibility(View.GONE);
+
+        }else {
             negotiateTV.setVisibility(View.GONE);
             acceptTV.setVisibility(View.GONE);
             declineTV.setVisibility(View.GONE);
@@ -146,7 +151,11 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 acceptTV.setVisibility(View.VISIBLE);
                 declineTV.setVisibility(View.VISIBLE);
             }
-        } else {
+        } else if (status.equalsIgnoreCase("2")){ //status 2=accepted,requestedBy 1=lender
+            negotiateTV.setVisibility(View.VISIBLE);
+            acceptTV.setVisibility(View.GONE);
+            declineTV.setVisibility(View.GONE);
+        }else {
             negotiateTV.setVisibility(View.GONE);
             acceptTV.setVisibility(View.GONE);
             declineTV.setVisibility(View.GONE);
@@ -370,10 +379,10 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 termTV.setText(terms_value);
             } else if (terms_type.equalsIgnoreCase("2")) {
                 terms_value = terms_value + " " + getString(R.string.fee);
-                termTV.setText(terms_value);
+                termTV.setText("$"+terms_value);
             } else if (terms_type.equalsIgnoreCase("3")) {
                 terms_value = terms_value + " " + getString(R.string.discount);
-                termTV.setText(terms_value);
+                termTV.setText("$"+terms_value);
             } else if (terms_type.equalsIgnoreCase("4")) {
                 // terms_value = terms_value + " " + getString(R.string.none);
                 termTV.setText(getString(R.string.none));
@@ -394,7 +403,7 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
             CommissionModel commissionModel = gson.fromJson(commission_charges_detail, CommissionModel.class);
 
             commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getLenderChargeValue() + ")" + commissionModel.getLenderChargeType());
-            commissionValueTV.setText(commissionModel.getLenderChargeValue());
+            commissionValueTV.setText("$"+commissionModel.getLenderChargeValue());
         }
 
         if (status.equalsIgnoreCase("2") || status.equalsIgnoreCase("4")) {

@@ -16,7 +16,6 @@ import com.org.zapayapp.utils.CommonMethods;
 import java.util.List;
 
 public class IndicatorAdapter extends RecyclerView.Adapter<IndicatorAdapter.MyHolder> {
-
     private Context context;
     private List<String> indicatorList;
     private int selectedPos = 0;

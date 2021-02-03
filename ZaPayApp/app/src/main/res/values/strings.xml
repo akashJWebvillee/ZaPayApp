@@ -100,6 +100,7 @@
     <string name="city">City</string>
     <string name="postal_code">Postal code</string>
     <string name="ssn">SSN</string>
+    <string name="last_four_ssn">Last four of SSN</string>
     <string name="dob">Dob</string>
     <string name="age">Age</string>
     <string name="ethnicity">Ethnicity</string>
