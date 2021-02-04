@@ -173,13 +173,18 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                 intent = new Intent(BorrowSummaryActivity.this, AcceptActivity.class);
                 intent.putExtra("moveFrom", moveFrom);
                 intent.putExtra("status", "2");
-                intent.putExtra("transactionId", transactionId);
+                intent.putExtra("transactionModel", gson.toJson(transactionModel));
                 startActivityForResult(intent, 200);
+
                 break;
 
             case R.id.declineTV:
-                negotiationAcceptDeclineStatus = "3";
-                callAPIUpdateTransactionRequestStatus("3");
+                if (transactionModel != null && transactionModel.getStatus().equals("2")) { //accept
+                    callAPIUpdateRunningTransactionRequestStatus("3");
+                } else {
+                    negotiationAcceptDeclineStatus = "3";
+                    callAPIUpdateTransactionRequestStatus("3");
+                }
                 break;
 
             case R.id.viewAllTV:
@@ -259,6 +264,24 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
         }
     }
 
+    private void callAPIUpdateRunningTransactionRequestStatus(String status) { //1=negotiate,2=accept,3=decline
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        HashMap<String, Object> values = apiCalling.getHashMapObject(
+                "parent_transaction_request_id", transactionModel.getParent_id(),
+                "new_transaction_request_id", transactionModel.getId(),
+                "status", status);
+        try {
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_update_running_transaction_request_status), values);
+            if (apiCalling != null) {
+                apiCalling.setRunInBackground(false);
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_update_running_transaction_request_status), acceptTV);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void apiCallback(JsonObject json, String from) {
         if (from != null) {
@@ -305,6 +328,12 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
             } else if (from.equals(getResources().getString(R.string.api_pay_date_request_status_update))) {
                 if (status == 200) {
                     showSimpleAlert(msg, getString(R.string.api_pay_date_request_status_update));
+                } else {
+                    showSimpleAlert(msg, "");
+                }
+            } else if (from.equals(getResources().getString(R.string.api_update_running_transaction_request_status))) {
+                if (status == 200) {
+                    showSimpleAlert(msg, getString(R.string.api_update_running_transaction_request_status));
                 } else {
                     showSimpleAlert(msg, "");
                 }
@@ -386,7 +415,7 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
             commission_charges_detail.replace("\\", "/");
             CommissionModel commissionModel = gson.fromJson(commission_charges_detail, CommissionModel.class);
             commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
-            commissionValueTV.setText("$"+commissionModel.getBorrowerChargeValue());
+            commissionValueTV.setText("$" + commissionModel.getBorrowerChargeValue());
         }
 
         if (status.equalsIgnoreCase("2") || status.equalsIgnoreCase("4")) {
@@ -411,12 +440,12 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                     if (moveFrom.equalsIgnoreCase(getString(R.string.transaction))) {
                         if (request_by.equalsIgnoreCase("2")) {
                             if (dateModel != null && dateModel.getStatus().equalsIgnoreCase("remaining"))
-                                new MyDateUpdateDialog().changeDateRequestDialogFunc(BorrowSummaryActivity.this, this, dateModel);
+                                new MyDateUpdateDialog().changeDateRequestDialogFunc(BorrowSummaryActivity.this, this, dateModel,transactionModel);
                         }
                     } else if (moveFrom.equalsIgnoreCase(getString(R.string.history))) {
                         if (request_by.equalsIgnoreCase("1")) {
                             if (dateModel != null && dateModel.getStatus().equalsIgnoreCase("remaining"))
-                                new MyDateUpdateDialog().changeDateRequestDialogFunc(BorrowSummaryActivity.this, this, dateModel);
+                                new MyDateUpdateDialog().changeDateRequestDialogFunc(BorrowSummaryActivity.this, this, dateModel,transactionModel);
                         }
                     }
                 }

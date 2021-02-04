@@ -1,9 +1,7 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
@@ -11,9 +9,7 @@ import android.webkit.WebViewClient;
 import android.widget.CheckBox;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import androidx.fragment.app.FragmentManager;
-
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
@@ -23,19 +19,14 @@ import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
 import com.org.zapayapp.model.DateModel;
+import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.pdf_view.PdfFileDownloadAcyncTask;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
-
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
-
 import retrofit2.Call;
 
 public class AcceptActivity extends BaseActivity implements APICallback, SimpleAlertFragment.AlertSimpleCallback,PdfFileDownloadAcyncTask.PdfResponseListener, OnPageChangeListener, OnLoadCompleteListener {
@@ -48,6 +39,8 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
     private ProgressBar progressBar;
     private PDFView pdfView;
     private int pageNumber = 0;
+
+    private TransactionModel transactionModel1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,14 +65,17 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
 
     private void getIntentValues() {
         Intent intent = getIntent();
-        if (intent != null && intent.getStringExtra("transactionId") != null && intent.getStringExtra("moveFrom") != null) {
-            transactionId = intent.getStringExtra("transactionId");
+        if (intent != null && intent.getStringExtra("transactionModel") != null && intent.getStringExtra("moveFrom") != null) {
+            transactionModel1=gson.fromJson(intent.getStringExtra("transactionModel"),TransactionModel.class);
+            transactionId=transactionModel1.getId();
             moveFrom = intent.getStringExtra("moveFrom");
 
             if (moveFrom.equalsIgnoreCase("ChangeDateRequestDialogActivity")) {
                 dateModel = gson.fromJson(intent.getStringExtra("status"), DateModel.class);
-                generateAmendmentPdf();
-            } else {
+                generateAmendmentPdf("2");
+            } else if (transactionModel1.getIs_negotiate_after_accept()!=null&&transactionModel1.getIs_negotiate_after_accept().length()>0&&transactionModel1.getIs_negotiate_after_accept().equals("2")){ //
+                generateAmendmentPdf("3");
+            }else {
                 status = intent.getStringExtra("status");
                 generateAgreementPdf();
             }
@@ -119,10 +115,12 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
         });
     }
 
-    private void generateAmendmentPdf() {
+    private void generateAmendmentPdf(String pdf_type) { // 2=Amendment for paydate, 3=Amendment after accept
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         HashMap<String, Object> values = apiCalling.getHashMapObject(
-                "transaction_request_id", transactionId);
+                "transaction_request_id", transactionId,
+                "pay_date",dateModel.getPayDate(),
+                "pdf_type",pdf_type);
         try {
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_generate_amendment_pdf), values);
@@ -176,6 +174,27 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
                 "transaction_request_id", transactionId,
                 "pay_date_id", dateModel.getId(),
                 "new_pay_date_status", "2", //date accept
+                "pdf_url", pdfUrl);
+        try {
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_pay_date_request_status_update), values);
+            if (apiCalling != null) {
+                apiCalling.setRunInBackground(false);
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_pay_date_request_status_update), okTV);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    private void callAPIUpdateRunningTransactionRequestStatus() {
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        HashMap<String, Object> values = apiCalling.getHashMapObject(
+                "parent_transaction_request_id", transactionModel1.getParent_id(),
+                "new_transaction_request_id", transactionModel1.getId(),
+                "status", "2", //date accept
                 "pdf_url", pdfUrl);
         try {
             zapayApp.setApiCallback(this);

@@ -10,11 +10,12 @@ import com.google.gson.Gson;
 import com.org.zapayapp.R;
 import com.org.zapayapp.activity.AcceptActivity;
 import com.org.zapayapp.model.DateModel;
+import com.org.zapayapp.model.TransactionModel;
 
 public class MyDateUpdateDialog {
      private DateStatusUpdateListener dateStatusUpdateListener;
 
-    public void changeDateRequestDialogFunc(Context context,DateStatusUpdateListener dateStatusUpdateListener1, DateModel dateModel){
+    public void changeDateRequestDialogFunc(Context context, DateStatusUpdateListener dateStatusUpdateListener1, DateModel dateModel, TransactionModel transactionModel){
         dateStatusUpdateListener=dateStatusUpdateListener1;
         Dialog dialog=new Dialog(context);
         dialog.setContentView(R.layout.activity_change_date_request_dialog);
@@ -45,7 +46,8 @@ public class MyDateUpdateDialog {
                 Intent intent = new Intent(context, AcceptActivity.class);
                 intent.putExtra("moveFrom", "ChangeDateRequestDialogActivity");
                 intent.putExtra("status", new Gson().toJson(dateModel));
-                intent.putExtra("transactionId", dateModel.getTransactionRequestId());
+                intent.putExtra("transactionModel", new Gson().toJson(transactionModel));
+                //intent.putExtra("transactionId", dateModel.getTransactionRequestId());
                 context.startActivity(intent);
                 dialog.dismiss();
             }

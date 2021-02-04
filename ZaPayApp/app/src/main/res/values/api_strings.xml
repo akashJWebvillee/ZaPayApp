@@ -23,6 +23,7 @@
     <string name="api_get_contact_list">get_contact_list</string>
 
     <string name="api_transaction_request">transaction_request</string>
+    <string name="api_negotiate_running_transaction_request">negotiate_running_transaction_request</string>
     <string name="api_get_transaction_request">get_transaction_request</string>
     <string name="api_get_transaction_request_details">get_transaction_request_details</string>
     <string name="api_get_transaction_history_details">get_transaction_history_details</string>
@@ -38,4 +39,5 @@
     <string name="api_get_content">get_content</string>
     <string name="api_generate_agreement_pdf">generate_agreement_pdf</string>
     <string name="api_generate_amendment_pdf">generate_amendment_pdf</string>
+    <string name="api_update_running_transaction_request_status">update_running_transaction_request_status</string>
 </resources>

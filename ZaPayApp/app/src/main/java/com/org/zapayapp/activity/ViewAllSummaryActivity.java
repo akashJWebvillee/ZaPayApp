@@ -185,7 +185,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 intent = new Intent(ViewAllSummaryActivity.this, AcceptActivity.class);
                 intent.putExtra("moveFrom", moveFrom);
                 intent.putExtra("status", "2");
-                intent.putExtra("transactionId", transactionId);
+                intent.putExtra("transactionModel", gson.toJson(transactionModel));
                 startActivityForResult(intent, 200);
                 break;
             case R.id.declineTV:

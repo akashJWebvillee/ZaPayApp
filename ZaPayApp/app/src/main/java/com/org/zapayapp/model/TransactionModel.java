@@ -64,6 +64,18 @@ public class TransactionModel implements Serializable {
     @Expose
     public String pay_date_update_status_is_pending;
 
+
+    @SerializedName("parent_id")
+    @Expose
+    public String parent_id;
+
+    @SerializedName("is_negotiate_after_accept")
+    @Expose
+    public String is_negotiate_after_accept;
+
+
+
+
     public String getPay_date_update_status_is_pending() {
         return pay_date_update_status_is_pending;
     }
@@ -138,5 +150,13 @@ public class TransactionModel implements Serializable {
 
     public String getAverage_rating() {
         return average_rating;
+    }
+
+    public String getParent_id() {
+        return parent_id;
+    }
+
+    public String getIs_negotiate_after_accept() {
+        return is_negotiate_after_accept;
     }
 }

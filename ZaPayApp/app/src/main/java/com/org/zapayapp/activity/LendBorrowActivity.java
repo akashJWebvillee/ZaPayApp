@@ -53,7 +53,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -171,7 +170,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
         if (transactionModel != null && transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
             request_by = Integer.parseInt(transactionModel.getRequestBy());
-        }else {
+        } else {
             listIndicator.add(getString(R.string.select_contact));
         }
 
@@ -354,22 +353,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         zapayCommissionTV = findViewById(R.id.zapayCommissionTV);
         afterCommissionTV = findViewById(R.id.afterCommissionTV);
 
-       /* amountTV.setText(String.valueOf(amount));
-        String termValue= lendTermsEdtOption.getText().toString().trim();
-        if (isTermsOption + 1==1){
-           // termTV.setText("@14% or $7.00");
-            termTV.setText("@"+termValue+"% or &"+finalTotalAmount);
-        }else if (isTermsOption + 1==2){
-            termTV.setText("@"+termValue+"Fee or &"+finalTotalAmount);
-        }else if (isTermsOption + 1==3){
-            termTV.setText("@"+termValue+"Discount or &"+finalTotalAmount);
-        }else if (isTermsOption + 1==4){
-            termTV.setText("@"+termValue+"None or &"+finalTotalAmount);
-        }
 
-        noOfPaymentTV.setText(String.valueOf(isNoPayment));
-        paymentDateTV.setText(paymentDate);
-        totalPayBackTV.setText(String.valueOf(finalTotalPayBackAmount));*/
     }
 
     private void initLendingView() {
@@ -412,8 +396,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.nextButtonTV:
-                Log.e("nextButtonTV","selectedPos=="+selectedPos);
-
                 if (indicatorAdapter.getSelectedPos() < listIndicator.size() - 1) {
                     //selectedPos = indicatorAdapter.getSelectedPos() + 1;
                     //indicatorAdapter.setSelected(selectedPos);
@@ -464,9 +446,9 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                     // lendPaymentEdtNo
 
 
-                } else if (selectedPos == 4){
+                } else if (selectedPos == 4) {
                     transactionRequestFunc(); //this is calling negotiation
-                }else if (selectedPos == 5) {
+                } else if (selectedPos == 5) {
                     transactionRequestFunc();
                 }
                 break;
@@ -550,7 +532,12 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 //callAPITransactionRequest();
 
                 if (transactionModel != null && transactionModel.getId() != null && transactionModel.getId().length() > 0) {
-                    callAPITransactionRequest();
+                    if (transactionModel.getStatus() != null && transactionModel.getStatus().equals("2")) {
+                        callAPInegotiateRunningTransactionRequest(); //negotiate after accept request
+                    } else {
+                        callAPITransactionRequest();  //negotiate before accept request
+                    }
+
                 } else {
                     callAPIGetContentDisclaimer();
                     // privacyPolicyDialog();
@@ -1159,6 +1146,72 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         }
     }
 
+
+    private void callAPInegotiateRunningTransactionRequest() {
+        isTermsOption = isTermsOption + 1;
+        //request_type- 0=new, 1=update
+        //  String transactionId = "";
+
+        String request_type = "0";
+        String parentTransactionRequestId = "";
+        String newTransactionRequestId = "";
+
+        if (transactionModel != null && transactionModel.getId() != null && transactionModel.getId().length() > 0) {
+            if (transactionModel.getParent_id() != null && transactionModel.getParent_id().equals("0")) {
+                parentTransactionRequestId = transactionModel.getId();
+                newTransactionRequestId = "";
+                request_type = "0";
+            } else if (!transactionModel.getParent_id().equals("0")) {
+                parentTransactionRequestId = transactionModel.getParent_id();
+                newTransactionRequestId = transactionModel.getId();
+                request_type = "1";
+            }
+        }
+
+        JSONArray jsonArray = new JSONArray();
+        for (int i = 0; i < paybackList.size(); i++) {
+            try {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("date", paybackList.get(i).getPayDate());
+                jsonArray.put(i, jsonObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (isTermsOption == 4) {
+            termValue = "0";
+        } else {
+            termValue = lendTermsEdtOption.getText().toString().trim();
+        }
+        HashMap<String, Object> values = apiCalling.getHashMapObject(
+                "to_id", toId,
+                "amount", amount,
+                "total_amount", finalTotalPayBackAmount,
+                "terms_type", isTermsOption,
+                "terms_value", termValue,
+                "no_of_payment", isNoPayment,
+                "pay_date", jsonArray.toString(),
+                "request_by", String.valueOf(request_by),   //1=lender,2=borrower
+                "request_type", request_type,
+                "parent_transaction_request_id", parentTransactionRequestId,
+                "new_transaction_request_id", newTransactionRequestId);
+
+        Log.e("post", "negotiateRunningTransactionRequest post data======" + values.toString());
+
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        try {
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_negotiate_running_transaction_request), values);
+            if (apiCalling != null) {
+                apiCalling.setRunInBackground(false);
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_negotiate_running_transaction_request), contactRecycler);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void apiCallback(JsonObject json, String from) {
         if (from != null) {
@@ -1219,6 +1272,16 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 JsonObject jsonObject = json.get("data").getAsJsonObject();
                 if (jsonObject != null && jsonObject.has("page_description") && jsonObject.get("page_description") != null && jsonObject.get("page_description").getAsString().length() > 0) {
                     privacyPolicyDialog(jsonObject.get("page_description").getAsString());
+                }
+            } else if (from.equals(getResources().getString(R.string.api_negotiate_running_transaction_request))) {
+                Log.e("response", "api_negotiate_running_transaction_request==" + json);
+                if (status == 200) {
+                    Intent intent = new Intent(LendBorrowActivity.this, CongratulationActivity.class);
+                    intent.putExtra("message", msg);
+                    startActivity(intent);
+                    finish();
+                } else if (status == 402) {
+                    showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
                 }
             }
         }

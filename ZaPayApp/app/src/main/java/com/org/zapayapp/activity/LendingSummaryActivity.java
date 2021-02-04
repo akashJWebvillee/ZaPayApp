@@ -124,10 +124,15 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
             }
 
         } else if (status.equalsIgnoreCase("2")){
-            negotiateTV.setVisibility(View.VISIBLE);
-            acceptTV.setVisibility(View.GONE);
-            declineTV.setVisibility(View.GONE);
-
+            if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length()>0&&transactionModel.getIs_negotiate_after_accept().equals("1")) {
+                negotiateTV.setVisibility(View.GONE);
+                acceptTV.setVisibility(View.GONE);
+                declineTV.setVisibility(View.GONE);
+            } else {
+                negotiateTV.setVisibility(View.VISIBLE);
+                acceptTV.setVisibility(View.GONE);
+                declineTV.setVisibility(View.GONE);
+            }
         }else {
             negotiateTV.setVisibility(View.GONE);
             acceptTV.setVisibility(View.GONE);
@@ -152,9 +157,16 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 declineTV.setVisibility(View.VISIBLE);
             }
         } else if (status.equalsIgnoreCase("2")){ //status 2=accepted,requestedBy 1=lender
-            negotiateTV.setVisibility(View.VISIBLE);
-            acceptTV.setVisibility(View.GONE);
-            declineTV.setVisibility(View.GONE);
+            if (updated_by != null && SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString().equalsIgnoreCase(updated_by)) {
+                negotiateTV.setVisibility(View.GONE);
+                acceptTV.setVisibility(View.GONE);
+                declineTV.setVisibility(View.GONE);
+            } else {
+                negotiateTV.setVisibility(View.VISIBLE);
+                acceptTV.setVisibility(View.GONE);
+                declineTV.setVisibility(View.GONE);
+            }
+
         }else {
             negotiateTV.setVisibility(View.GONE);
             acceptTV.setVisibility(View.GONE);
@@ -179,13 +191,17 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 intent = new Intent(LendingSummaryActivity.this, AcceptActivity.class);
                 intent.putExtra("moveFrom", moveFrom);
                 intent.putExtra("status", "2");
-                intent.putExtra("transactionId", transactionId);
+                intent.putExtra("transactionModel", gson.toJson(transactionModel));
                 startActivityForResult(intent, 200);
                 break;
 
             case R.id.declineTV:
-                negotiationAcceptDeclineStatus = "3";
-                callAPIUpdateTransactionRequestStatus("3");
+                if (transactionModel != null && transactionModel.getStatus().equals("2")) { //accept
+                    callAPIUpdateRunningTransactionRequestStatus("3");
+                }else {
+                    negotiationAcceptDeclineStatus = "3";
+                    callAPIUpdateTransactionRequestStatus("3");
+                }
                 break;
 
             case R.id.viewAllTV:
@@ -278,6 +294,25 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
         }
     }
 
+
+    private void callAPIUpdateRunningTransactionRequestStatus(String status) { //1=negotiate,2=accept,3=decline
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        HashMap<String, Object> values = apiCalling.getHashMapObject(
+                "parent_transaction_request_id", transactionModel.getParent_id(),
+                "new_transaction_request_id", transactionModel.getId(),
+                "status", status);
+        try {
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_update_running_transaction_request_status), values);
+            if (apiCalling != null) {
+                apiCalling.setRunInBackground(false);
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_update_running_transaction_request_status), acceptTV);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void apiCallback(JsonObject json, String from) {
         Const.logMsg(json.toString());
@@ -324,6 +359,12 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
             } else if (from.equals(getResources().getString(R.string.api_pay_date_request_status_update))) {
                 if (status == 200) {
                     showSimpleAlert(msg, getString(R.string.api_pay_date_request_status_update));
+                } else {
+                    showSimpleAlert(msg, "");
+                }
+            }else if (from.equals(getResources().getString(R.string.api_update_running_transaction_request_status))) {
+                if (status == 200) {
+                    showSimpleAlert(msg, getString(R.string.api_update_running_transaction_request_status));
                 } else {
                     showSimpleAlert(msg, "");
                 }
@@ -427,11 +468,11 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 if (status != null && status.length() > 0 && status.equalsIgnoreCase("2")) { //2=accepted
                     if (moveFrom.equalsIgnoreCase(getString(R.string.transaction))) {
                         if (request_by.equalsIgnoreCase("2")) {
-                            new MyDateUpdateDialog().changeDateRequestDialogFunc(LendingSummaryActivity.this, this, dateModel);
+                            new MyDateUpdateDialog().changeDateRequestDialogFunc(LendingSummaryActivity.this, this, dateModel,transactionModel);
                         }
                     } else if (moveFrom.equalsIgnoreCase(getString(R.string.history))) {
                         if (request_by.equalsIgnoreCase("1")) {
-                            new MyDateUpdateDialog().changeDateRequestDialogFunc(LendingSummaryActivity.this, this, dateModel);
+                            new MyDateUpdateDialog().changeDateRequestDialogFunc(LendingSummaryActivity.this, this, dateModel,transactionModel);
                         }
                     }
                 }
