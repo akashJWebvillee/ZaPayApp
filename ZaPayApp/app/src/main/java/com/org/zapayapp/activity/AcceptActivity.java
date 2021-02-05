@@ -1,15 +1,19 @@
 package com.org.zapayapp.activity;
+
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.CheckBox;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import androidx.fragment.app.FragmentManager;
+
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
@@ -22,14 +26,17 @@ import com.org.zapayapp.model.DateModel;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.pdf_view.PdfFileDownloadAcyncTask;
 import com.org.zapayapp.utils.Const;
+import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
+
 import java.io.InputStream;
 import java.util.HashMap;
+
 import retrofit2.Call;
 
-public class AcceptActivity extends BaseActivity implements APICallback, SimpleAlertFragment.AlertSimpleCallback,PdfFileDownloadAcyncTask.PdfResponseListener, OnPageChangeListener, OnLoadCompleteListener {
+public class AcceptActivity extends BaseActivity implements APICallback, SimpleAlertFragment.AlertSimpleCallback, PdfFileDownloadAcyncTask.PdfResponseListener, OnPageChangeListener, OnLoadCompleteListener {
     private TextView okTV, cancelTV;
     private CheckBox mChkAgree;
     private WebView webView;
@@ -66,16 +73,16 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
     private void getIntentValues() {
         Intent intent = getIntent();
         if (intent != null && intent.getStringExtra("transactionModel") != null && intent.getStringExtra("moveFrom") != null) {
-            transactionModel1=gson.fromJson(intent.getStringExtra("transactionModel"),TransactionModel.class);
-            transactionId=transactionModel1.getId();
+            transactionModel1 = gson.fromJson(intent.getStringExtra("transactionModel"), TransactionModel.class);
+            transactionId = transactionModel1.getId();
             moveFrom = intent.getStringExtra("moveFrom");
 
-            if (moveFrom.equalsIgnoreCase("ChangeDateRequestDialogActivity")) {
+            if (moveFrom != null && moveFrom.equalsIgnoreCase("ChangeDateRequestDialogActivity")) {
                 dateModel = gson.fromJson(intent.getStringExtra("status"), DateModel.class);
-                generateAmendmentPdf("2");
-            } else if (transactionModel1.getIs_negotiate_after_accept()!=null&&transactionModel1.getIs_negotiate_after_accept().length()>0&&transactionModel1.getIs_negotiate_after_accept().equals("2")){ //
-                generateAmendmentPdf("3");
-            }else {
+                generateAmendmentPdf("2", dateModel.getNew_pay_date());//before accept request generate amendment
+            } else if (transactionModel1.getIs_negotiate_after_accept() != null && transactionModel1.getIs_negotiate_after_accept().length() > 0 && transactionModel1.getIs_negotiate_after_accept().equals("2")) { //
+                generateAmendmentPdf("3", DateFormat.getCurrentDate());  // after accept request generate amendment
+            } else {
                 status = intent.getStringExtra("status");
                 generateAgreementPdf();
             }
@@ -88,10 +95,12 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
             public void onClick(View v) {
                 if (mChkAgree.isChecked()) {
                     if (!pdfUrl.equalsIgnoreCase("")) {
-                        if (moveFrom.equalsIgnoreCase("ChangeDateRequestDialogActivity")) {
-                            if (dateModel != null) {
+                        if (moveFrom != null && moveFrom.equalsIgnoreCase("ChangeDateRequestDialogActivity")) {
+                            if (dateModel != null && dateModel.getId() != null && dateModel.getId().length() > 0) {
                                 callAPIPayDateRequestStatusUpdate();
                             }
+                        } else if (transactionModel1.getIs_negotiate_after_accept() != null && transactionModel1.getIs_negotiate_after_accept().equals("2")) {
+                            callAPIUpdateRunningTransactionRequestStatus();
                         } else {
                             callAPIUpdateTransactionRequestStatus("2");
                         }
@@ -115,12 +124,12 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
         });
     }
 
-    private void generateAmendmentPdf(String pdf_type) { // 2=Amendment for paydate, 3=Amendment after accept
+    private void generateAmendmentPdf(String pdf_type, String date) { // 2=Amendment for paydate, 3=Amendment after accept
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         HashMap<String, Object> values = apiCalling.getHashMapObject(
                 "transaction_request_id", transactionId,
-                "pay_date",dateModel.getPayDate(),
-                "pdf_type",pdf_type);
+                "pay_date", date,
+                "pdf_type", pdf_type);
         try {
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_generate_amendment_pdf), values);
@@ -188,7 +197,6 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
     }
 
 
-
     private void callAPIUpdateRunningTransactionRequestStatus() {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         HashMap<String, Object> values = apiCalling.getHashMapObject(
@@ -198,10 +206,10 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
                 "pdf_url", pdfUrl);
         try {
             zapayApp.setApiCallback(this);
-            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_pay_date_request_status_update), values);
+            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_update_running_transaction_request_status), values);
             if (apiCalling != null) {
                 apiCalling.setRunInBackground(false);
-                apiCalling.callAPI(zapayApp, call, getString(R.string.api_pay_date_request_status_update), okTV);
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_update_running_transaction_request_status), okTV);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -254,6 +262,12 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
                 } else {
                     showSimpleAlert(msg, "");
                 }
+            } else if (from.equals(getResources().getString(R.string.api_update_running_transaction_request_status))) {
+                if (status == 200) {
+                    showSimpleAlert11(msg, getResources().getString(R.string.api_update_running_transaction_request_status));
+                } else {
+                    showSimpleAlert(msg, "");
+                }
             }
         }
     }
@@ -274,7 +288,7 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
         webView.loadUrl(url);*/
 
         progressBar.setVisibility(View.VISIBLE);
-        new PdfFileDownloadAcyncTask(this,this).execute(myPdfUrl);
+        new PdfFileDownloadAcyncTask(this, this).execute(myPdfUrl);
     }
 
     @Override
@@ -358,6 +372,10 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
             Intent intent = new Intent();
             setResult(200, intent);
             finish();//finishing activity
+        }else if (from.equals(getResources().getString(R.string.api_update_running_transaction_request_status))){
+            Intent intent=new Intent(AcceptActivity.this,HomeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
         }
     }
 

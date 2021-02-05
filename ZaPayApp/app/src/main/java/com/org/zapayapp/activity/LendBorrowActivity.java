@@ -1,5 +1,4 @@
 package com.org.zapayapp.activity;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,14 +18,12 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.dd.ShadowLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonElement;
@@ -48,16 +45,13 @@ import com.org.zapayapp.utils.EndlessRecyclerViewScrollListener;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.WVDateLib;
 import com.org.zapayapp.webservices.APICallback;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import retrofit2.Call;
 
 public class LendBorrowActivity extends BaseActivity implements View.OnClickListener, DatePickerFragmentDialogue.DatePickerCallback, APICallback, ContactListener {
@@ -75,7 +69,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
     private float finalTotalAmount;//instalment amount
     private double installmentAmount;//instalment amount
-    private float amount;   //enter amount
+    private float amount; //enter amount
     private float finalTotalPayBackAmount;//after add term amount
     private String paymentDate;
 
@@ -532,12 +526,11 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 //callAPITransactionRequest();
 
                 if (transactionModel != null && transactionModel.getId() != null && transactionModel.getId().length() > 0) {
-                    if (transactionModel.getStatus() != null && transactionModel.getStatus().equals("2")) {
+                    if (transactionModel.getStatus() != null && transactionModel.getStatus().equals("2")||transactionModel.getIs_negotiate_after_accept()!=null&&transactionModel.getIs_negotiate_after_accept().equals("2")) {  // is_negotiate_after_accept =2 after negotion
                         callAPInegotiateRunningTransactionRequest(); //negotiate after accept request
                     } else {
                         callAPITransactionRequest();  //negotiate before accept request
                     }
-
                 } else {
                     callAPIGetContentDisclaimer();
                     // privacyPolicyDialog();
@@ -751,7 +744,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             finalTotalAmount = totalAmount;
             finalTotalPayBackAmount = totalAmount;
 
-
             Spannable span2 = new SpannableString(s);
             span2.setSpan(new ForegroundColorSpan(CommonMethods.getColorWrapper(this, R.color.textColor)), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
@@ -799,6 +791,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     }
 
     private void setIndicatorView(int value) {
+        CommonMethods.closeKeyboard(LendBorrowActivity.this);
         lendShadowBack.setVisibility(View.VISIBLE);
         lendShadowNext.setVisibility(View.VISIBLE);
 

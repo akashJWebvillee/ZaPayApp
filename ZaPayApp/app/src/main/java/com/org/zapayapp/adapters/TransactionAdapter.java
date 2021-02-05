@@ -39,6 +39,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         private TextView termTypeTV;
         private TextView borrowModeTitleTV;
         private ImageView dateUpdateIconIV;
+        private TextView acceptedReNegotiateTV;
 
 
         public MyHolder(@NonNull View itemView) {
@@ -50,6 +51,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             termTypeTV = itemView.findViewById(R.id.termTypeTV);
             borrowModeTitleTV = itemView.findViewById(R.id.borrowModeTitleTV);
             dateUpdateIconIV = itemView.findViewById(R.id.dateUpdateIconIV);
+            acceptedReNegotiateTV = itemView.findViewById(R.id.acceptedReNegotiateTV);
         }
     }
 
@@ -71,6 +73,12 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
         if (transactionModel.getCreatedAt() != null && transactionModel.getCreatedAt().length() > 0) {
             //holder.dateTV.setText(TimeStamp.timeFun(transactionModel.getCreatedAt()));
+        }
+
+        if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length() > 0&&transactionModel.getIs_negotiate_after_accept().equals("2")) {
+          holder.acceptedReNegotiateTV.setVisibility(View.VISIBLE);
+        }else {
+            holder.acceptedReNegotiateTV.setVisibility(View.GONE);
         }
 
         if (transactionModel.getPayDate() != null && transactionModel.getPayDate().length() > 0) {

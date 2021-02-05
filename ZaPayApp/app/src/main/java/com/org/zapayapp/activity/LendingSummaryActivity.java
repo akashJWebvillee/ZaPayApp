@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -21,11 +23,14 @@ import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.MyDateUpdateDialog;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.List;
+
 import retrofit2.Call;
 
 public class LendingSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener, MyDateUpdateDialog.DateStatusUpdateListener {
@@ -123,8 +128,8 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 declineTV.setVisibility(View.VISIBLE);
             }
 
-        } else if (status.equalsIgnoreCase("2")){
-            if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length()>0&&transactionModel.getIs_negotiate_after_accept().equals("1")) {
+        } else if (status.equalsIgnoreCase("2")) {
+            if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length() > 0 && transactionModel.getIs_negotiate_after_accept().equals("1")) {
                 negotiateTV.setVisibility(View.GONE);
                 acceptTV.setVisibility(View.GONE);
                 declineTV.setVisibility(View.GONE);
@@ -133,13 +138,12 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 acceptTV.setVisibility(View.GONE);
                 declineTV.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             negotiateTV.setVisibility(View.GONE);
             acceptTV.setVisibility(View.GONE);
             declineTV.setVisibility(View.GONE);
         }
     }
-
 
     private void setTransactionButtonVisibleFunc(String status) {
         if (status.equalsIgnoreCase("0")) {   //0==pending
@@ -156,8 +160,8 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 acceptTV.setVisibility(View.VISIBLE);
                 declineTV.setVisibility(View.VISIBLE);
             }
-        } else if (status.equalsIgnoreCase("2")){ //status 2=accepted,requestedBy 1=lender
-            if (updated_by != null && SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString().equalsIgnoreCase(updated_by)) {
+        } else if (status.equalsIgnoreCase("2")) { //status 2=accepted,requestedBy 1=lender
+            if (transactionModel != null && transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().equals("1")) {
                 negotiateTV.setVisibility(View.GONE);
                 acceptTV.setVisibility(View.GONE);
                 declineTV.setVisibility(View.GONE);
@@ -167,7 +171,7 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 declineTV.setVisibility(View.GONE);
             }
 
-        }else {
+        } else {
             negotiateTV.setVisibility(View.GONE);
             acceptTV.setVisibility(View.GONE);
             declineTV.setVisibility(View.GONE);
@@ -188,17 +192,18 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
             case R.id.acceptTV:
                 //negotiationAcceptDeclineStatus = "2";
                 //callAPIUpdateTransactionRequestStatus("2");
-                intent = new Intent(LendingSummaryActivity.this, AcceptActivity.class);
-                intent.putExtra("moveFrom", moveFrom);
-                intent.putExtra("status", "2");
-                intent.putExtra("transactionModel", gson.toJson(transactionModel));
-                startActivityForResult(intent, 200);
+                    intent = new Intent(LendingSummaryActivity.this, AcceptActivity.class);
+                    intent.putExtra("moveFrom", moveFrom);
+                    intent.putExtra("status", "2");
+                    intent.putExtra("transactionModel", gson.toJson(transactionModel));
+                    startActivityForResult(intent, 200);
+
                 break;
 
             case R.id.declineTV:
-                if (transactionModel != null && transactionModel.getStatus().equals("2")) { //accept
+                if (transactionModel != null && transactionModel.getIs_negotiate_after_accept().equals("2")) { //accept
                     callAPIUpdateRunningTransactionRequestStatus("3");
-                }else {
+                } else {
                     negotiationAcceptDeclineStatus = "3";
                     callAPIUpdateTransactionRequestStatus("3");
                 }
@@ -362,7 +367,7 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 } else {
                     showSimpleAlert(msg, "");
                 }
-            }else if (from.equals(getResources().getString(R.string.api_update_running_transaction_request_status))) {
+            } else if (from.equals(getResources().getString(R.string.api_update_running_transaction_request_status))) {
                 if (status == 200) {
                     showSimpleAlert(msg, getString(R.string.api_update_running_transaction_request_status));
                 } else {
@@ -420,10 +425,10 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 termTV.setText(terms_value);
             } else if (terms_type.equalsIgnoreCase("2")) {
                 terms_value = terms_value + " " + getString(R.string.fee);
-                termTV.setText("$"+terms_value);
+                termTV.setText("$" + terms_value);
             } else if (terms_type.equalsIgnoreCase("3")) {
                 terms_value = terms_value + " " + getString(R.string.discount);
-                termTV.setText("$"+terms_value);
+                termTV.setText("$" + terms_value);
             } else if (terms_type.equalsIgnoreCase("4")) {
                 // terms_value = terms_value + " " + getString(R.string.none);
                 termTV.setText(getString(R.string.none));
@@ -444,7 +449,7 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
             CommissionModel commissionModel = gson.fromJson(commission_charges_detail, CommissionModel.class);
 
             commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getLenderChargeValue() + ")" + commissionModel.getLenderChargeType());
-            commissionValueTV.setText("$"+commissionModel.getLenderChargeValue());
+            commissionValueTV.setText("$" + commissionModel.getLenderChargeValue());
         }
 
         if (status.equalsIgnoreCase("2") || status.equalsIgnoreCase("4")) {
@@ -468,16 +473,14 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 if (status != null && status.length() > 0 && status.equalsIgnoreCase("2")) { //2=accepted
                     if (moveFrom.equalsIgnoreCase(getString(R.string.transaction))) {
                         if (request_by.equalsIgnoreCase("2")) {
-                            new MyDateUpdateDialog().changeDateRequestDialogFunc(LendingSummaryActivity.this, this, dateModel,transactionModel);
+                            new MyDateUpdateDialog().changeDateRequestDialogFunc(LendingSummaryActivity.this, this, dateModel, transactionModel);
                         }
                     } else if (moveFrom.equalsIgnoreCase(getString(R.string.history))) {
                         if (request_by.equalsIgnoreCase("1")) {
-                            new MyDateUpdateDialog().changeDateRequestDialogFunc(LendingSummaryActivity.this, this, dateModel,transactionModel);
+                            new MyDateUpdateDialog().changeDateRequestDialogFunc(LendingSummaryActivity.this, this, dateModel, transactionModel);
                         }
                     }
                 }
-
-
 
 
             }

@@ -226,6 +226,7 @@
     <string name="saving">Savings</string>
     <string name="checking">Checking</string>
     <string name="general_ledger">General-ledger</string>
+    <string name="accepted_renegotiate">Accepted Renegotiate</string>
 
 
     <string name="ok">OK</string>

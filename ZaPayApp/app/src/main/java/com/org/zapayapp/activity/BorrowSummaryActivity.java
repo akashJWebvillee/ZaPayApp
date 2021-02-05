@@ -170,13 +170,12 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                 startActivity(intent);
                 break;
             case R.id.acceptTV:
-                intent = new Intent(BorrowSummaryActivity.this, AcceptActivity.class);
-                intent.putExtra("moveFrom", moveFrom);
-                intent.putExtra("status", "2");
-                intent.putExtra("transactionModel", gson.toJson(transactionModel));
-                startActivityForResult(intent, 200);
-
-                break;
+                    intent = new Intent(BorrowSummaryActivity.this, AcceptActivity.class);
+                    intent.putExtra("moveFrom", moveFrom);
+                    intent.putExtra("status", "2");
+                    intent.putExtra("transactionModel", gson.toJson(transactionModel));
+                    startActivityForResult(intent, 200);
+                    break;
 
             case R.id.declineTV:
                 if (transactionModel != null && transactionModel.getStatus().equals("2")) { //accept

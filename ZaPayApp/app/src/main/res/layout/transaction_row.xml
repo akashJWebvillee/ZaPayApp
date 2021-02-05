@@ -15,7 +15,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="89dp">
+        android:layout_height="wrap_content"
+        android:paddingBottom="15dp">
 
       <TextView
           android:id="@+id/nameTV"
@@ -125,6 +126,22 @@
             android:textSize="11sp"
             android:layout_marginTop="60dp"
             android:layout_marginStart="4dp"/>
+
+
+        <TextView
+            android:id="@+id/acceptedReNegotiateTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gotha_pro_reg"
+            android:gravity="start"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="15sp"
+            android:text="@string/accepted_renegotiate"
+            android:layout_below="@+id/termTypeTV"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

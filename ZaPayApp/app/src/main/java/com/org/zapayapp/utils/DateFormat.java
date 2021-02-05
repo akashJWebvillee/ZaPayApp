@@ -79,7 +79,7 @@ public class DateFormat {
         Calendar c = Calendar.getInstance();
         System.out.println("Current time => "+c.getTime());
 
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd",Locale.ENGLISH);
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy",Locale.ENGLISH);
         String formattedDate = df.format(c.getTime());
         // formattedDate have current date/time
         return formattedDate;
