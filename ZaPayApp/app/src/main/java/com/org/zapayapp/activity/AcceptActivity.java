@@ -365,16 +365,20 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
     @Override
     public void onSimpleCallback(String from) {
         if (from.equals(getResources().getString(R.string.api_update_transaction_request_status))) {
-            Intent intent = new Intent();
+            /*Intent intent = new Intent();
             setResult(200, intent);
-            finish();//finishing activity
+            finish();//finishing activity*/
+
+            Intent intent = new Intent(AcceptActivity.this, HomeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
         } else if (from.equals(getResources().getString(R.string.api_pay_date_request_status_update))) {
             Intent intent = new Intent();
             setResult(200, intent);
             finish();//finishing activity
-        }else if (from.equals(getResources().getString(R.string.api_update_running_transaction_request_status))){
-            Intent intent=new Intent(AcceptActivity.this,HomeActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        } else if (from.equals(getResources().getString(R.string.api_update_running_transaction_request_status))) {
+            Intent intent = new Intent(AcceptActivity.this, HomeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
         }
     }

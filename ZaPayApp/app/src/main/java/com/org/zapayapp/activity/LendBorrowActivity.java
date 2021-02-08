@@ -1123,7 +1123,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 "transaction_request_id", transactionId,
                 "admin_commission_from_lender", CommonMethods.setDigitAfterDecimalValue(lenderCommission, 2),
                 "admin_commission_from_borrower", CommonMethods.setDigitAfterDecimalValue(borrowerCommission, 2));
-
         Log.e("post", "post data======" + values.toString());
 
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
@@ -1189,7 +1188,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 "request_type", request_type,
                 "parent_transaction_request_id", parentTransactionRequestId,
                 "new_transaction_request_id", newTransactionRequestId);
-
         Log.e("post", "negotiateRunningTransactionRequest post data======" + values.toString());
 
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
@@ -1199,7 +1197,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             if (apiCalling != null) {
                 apiCalling.setRunInBackground(false);
                 apiCalling.callAPI(zapayApp, call, getString(R.string.api_negotiate_running_transaction_request), contactRecycler);
-            }
+              }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1283,7 +1281,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     @Override
     public void getContact(ContactModel contactModel) {
         toId = contactModel.getId();
-
     }
 
     private void callAPIGetContentDisclaimer() {

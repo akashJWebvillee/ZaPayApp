@@ -30,7 +30,6 @@ public class CongratulationActivity extends AppCompatActivity {
              message = getIntent().getStringExtra("message");
         }
     }
-
     private void initAction() {
         setMsgTV.setText(message);
         closeButtonTV.setOnClickListener(new View.OnClickListener() {

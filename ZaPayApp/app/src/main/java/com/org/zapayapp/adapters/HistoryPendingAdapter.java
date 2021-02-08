@@ -1,5 +1,4 @@
 package com.org.zapayapp.adapters;
-
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -7,10 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.org.zapayapp.R;
 import com.org.zapayapp.activity.BorrowSummaryActivity;
 import com.org.zapayapp.activity.LendingSummaryActivity;
@@ -18,13 +15,10 @@ import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.SharedPref;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.List;
-import java.util.Objects;
 
 public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAdapter.MyHolder> {
     private Context context;

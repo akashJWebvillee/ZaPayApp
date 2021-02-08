@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.HistoryDetailsActivity"></activity>
+
+        <activity android:name=".activity.HistoryDetailsActivity"/>
         <activity android:name=".activity.DefaultTransactionActivity" />
         <activity android:name=".activity.PdfViewActivity" />
         <activity
@@ -168,5 +169,4 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
     </application>
-
 </manifest>
