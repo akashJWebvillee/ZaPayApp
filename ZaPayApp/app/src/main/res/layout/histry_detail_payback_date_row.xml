@@ -109,7 +109,6 @@
         android:layout_width="30dp"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
-
         android:background="@drawable/rectanguler_end_rounded">
 
         <ImageView
@@ -117,7 +116,8 @@
             android:layout_height="10dp"
             android:layout_centerInParent="true"
             android:src="@mipmap/edit_icon"
-            android:tint="@color/colorWhite" />
+            android:tint="@color/colorWhite"
+            android:visibility="gone"/>
     </RelativeLayout>
 </RelativeLayout>
 

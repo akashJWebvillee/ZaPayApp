@@ -2,6 +2,7 @@ package com.org.zapayapp.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
@@ -26,7 +27,8 @@ import java.util.List;
 import retrofit2.Call;
 
 public class BorrowSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener, MyDateUpdateDialog.DateStatusUpdateListener {
-    private TextView nameTV, amountTV, termTV, noOfPaymentTV, paymentDateTV, totalReceivedBackTV, viewAllTV, negotiateTV, acceptTV, declineTV, chatTV, commissionTitleTV, commissionValueTV;
+    private TextView nameTV, amountTV, termTV, noOfPaymentTV, paymentDateTV, totalReceivedBackTV, viewAllTV, negotiateTV, acceptTV, declineTV, commissionTitleTV, commissionValueTV;
+    private ImageView chatTV;
     private String transactionId, moveFrom;
     private TransactionModel transactionModel;
     private String negotiationAcceptDeclineStatus = "";
@@ -40,6 +42,8 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
     private int changeDateRequestDialogActivityCODE = 300;
     private DateModel dateModel;
     private String request_by;
+    private TextView afterCommissionTitleTV;
+    private TextView afterCommissionAmountTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +71,9 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
         commissionTitleTV = findViewById(R.id.commissionTitleTV);
         commissionValueTV = findViewById(R.id.commissionValueTV);
         agreementFormLL = findViewById(R.id.agreementFormLL);
+
+        afterCommissionTitleTV = findViewById(R.id.afterCommissionTitleTV);
+        afterCommissionAmountTV = findViewById(R.id.afterCommissionAmountTV);
     }
 
     private void initAction() {
@@ -374,6 +381,7 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
         if (jsonObject.has("total_amount") && jsonObject.get("total_amount").getAsString() != null && jsonObject.get("total_amount").getAsString().length() > 0) {
             String total_amount = SharedPref.getPrefsHelper().getPref(Const.Var.CURRENCY, "") + jsonObject.get("total_amount").getAsString();
             totalReceivedBackTV.setText(total_amount);
+
         }
 
 
@@ -408,7 +416,8 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
             commission_charges_detail.replace("\\", "/");
             CommissionModel commissionModel = gson.fromJson(commission_charges_detail, CommissionModel.class);
             commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
-            commissionValueTV.setText("$" + commissionModel.getBorrowerChargeValue());
+           // commissionValueTV.setText("$" + commissionModel.getBorrowerChargeValue());
+            commissionValueTV.setText("$" + transactionModel.getAdmin_commission_from_borrower());
         }
 
         if (status.equalsIgnoreCase("2") || status.equalsIgnoreCase("4")) {
@@ -443,6 +452,19 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                     }
                 }
             }
+        }
+
+
+        if (jsonObject.get("admin_commission_from_borrower").getAsString() != null && jsonObject.get("admin_commission_from_borrower").getAsString().length() > 0 && jsonObject.get("first_name").getAsString() != null && jsonObject.get("first_name").getAsString().length() > 0) {
+            String name = jsonObject.get("first_name").getAsString() + " " + jsonObject.get("last_name").getAsString();
+            nameTV.setText(name);
+        }
+
+        if (transactionModel.getAdmin_commission_from_borrower()!=null&&transactionModel.getAdmin_commission_from_borrower().length()>0){
+            float commission=Float.parseFloat(transactionModel.getAdmin_commission_from_borrower());
+            float totalAmount=Float.parseFloat(transactionModel.getTotalAmount());
+            float amount=totalAmount-commission;
+            afterCommissionAmountTV.setText(""+amount);
         }
     }
 

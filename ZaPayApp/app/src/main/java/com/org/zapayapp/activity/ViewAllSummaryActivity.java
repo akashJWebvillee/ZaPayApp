@@ -50,7 +50,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
     private Toolbar toolbar;
     private TextView titleTV;
     private ImageView backArrowImageView;
-    private TextView chatTV;
+    private ImageView chatIV;
     private Intent intent;
     private String status;
     private CustomRatingBar viewRatingBar;
@@ -67,6 +67,8 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
     private LinearLayout agreementLL;
     private TextView commissionTitleTV, commissionValueTV;
     private String moveFrom;
+    private TextView allTransactionDetailTV;
+    private View lendViewAllLine;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,18 +97,18 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         negotiateTV = findViewById(R.id.negotiateTV);
         acceptTV = findViewById(R.id.acceptTV);
         declineTV = findViewById(R.id.declineTV);
-        chatTV = findViewById(R.id.chatTV);
+        chatIV = findViewById(R.id.chatIV);
         viewRatingBar = findViewById(R.id.viewRatingBar);
 
         agreementLL = findViewById(R.id.agreementLL);
         commissionTitleTV = findViewById(R.id.commissionTitleTV);
         commissionValueTV = findViewById(R.id.commissionValueTV);
-
+        allTransactionDetailTV = findViewById(R.id.allTransactionDetailTV);
+        lendViewAllLine = findViewById(R.id.lendViewAllLine);
 
         paybackDateRecycler = findViewById(R.id.paybackDateRecycler);
         paybackDateRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         paybackDateRecycler.setItemAnimator(new DefaultItemAnimator());
-
 
         negotiateTV.setVisibility(View.GONE);
         acceptTV.setVisibility(View.GONE);
@@ -119,8 +121,11 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         acceptTV.setOnClickListener(this);
         declineTV.setOnClickListener(this);
         backArrowImageView.setOnClickListener(this);
-        chatTV.setOnClickListener(this);
+        chatIV.setOnClickListener(this);
         agreementLL.setOnClickListener(this);
+        allTransactionDetailTV.setOnClickListener(this);
+
+
     }
 
     private void getIntentValues() {
@@ -164,7 +169,6 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 callAPIGetTransactionRequestDetail(transactionId);
             } else if (getString(R.string.history).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
                 callAPIGetHistoryRequestDetail(transactionId);
-
             }
         }
     }
@@ -199,7 +203,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
             case R.id.backArrowImageView:
                 finish();
                 break;
-            case R.id.chatTV:
+            case R.id.chatIV:
                 intent = new Intent(ViewAllSummaryActivity.this, ChatActivity.class);
                 intent.putExtra("transactionModel", transactionModel);
                 startActivity(intent);
@@ -217,6 +221,14 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                     startActivity(intent);
                 }
 
+                break;
+
+            case R.id.allTransactionDetailTV:
+
+                Intent intent = new Intent(ViewAllSummaryActivity.this, ViewAllHistoryAndTransactionDetailsActivity.class);
+                intent.putExtra("transactionId", transactionModel.getId());
+                intent.putExtra("moveFrom",moveFrom);
+                startActivity(intent);
                 break;
         }
     }
@@ -532,9 +544,16 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 }
             }
         }
+
+        if (transactionModel.getIs_negotiate_after_accept()!=null&&transactionModel.getIs_negotiate_after_accept().length()>0&&transactionModel.getIs_negotiate_after_accept().equals("2")){
+            allTransactionDetailTV.setVisibility(View.VISIBLE);
+            lendViewAllLine.setVisibility(View.VISIBLE);
+        }else {
+            allTransactionDetailTV.setVisibility(View.GONE);
+            lendViewAllLine.setVisibility(View.GONE);
+        }
         setPaybackAdapter();
     }
-
 
     public void selectPaybackDate(int selectedPos, DateModel dateModel) {
         try {
@@ -560,9 +579,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         if (dateModel != null) {
             callAPIUpdatePayDate(formattedDate);
         }
-
     }
-
 
     private void setPaybackAdapter() {
         if (getString(R.string.history).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
@@ -620,7 +637,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 declineTV.setVisibility(View.VISIBLE);
             }
         } else if (status.equalsIgnoreCase("2")) {
-            if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length() > 0 && transactionModel.getIs_negotiate_after_accept().equals("0")) {
+        /*    if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length() > 0 && transactionModel.getIs_negotiate_after_accept().equals("0")) {
               if (transactionModel.getRequestBy().equalsIgnoreCase("2")){
                   negotiateTV.setVisibility(View.VISIBLE);
                   acceptTV.setVisibility(View.GONE);
@@ -630,7 +647,20 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                   acceptTV.setVisibility(View.GONE);
                   declineTV.setVisibility(View.GONE);
               }
+            }*/
+
+            if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+                if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length() > 0 && transactionModel.getIs_negotiate_after_accept().equals("1")) {
+                    negotiateTV.setVisibility(View.GONE);
+                    acceptTV.setVisibility(View.GONE);
+                    declineTV.setVisibility(View.GONE);
+                } else {
+                    negotiateTV.setVisibility(View.VISIBLE);
+                    acceptTV.setVisibility(View.GONE);
+                    declineTV.setVisibility(View.GONE);
+                }
             }
+
         } else {
             negotiateTV.setVisibility(View.GONE);
             acceptTV.setVisibility(View.GONE);
@@ -655,17 +685,30 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 declineTV.setVisibility(View.VISIBLE);
             }
         } else if (status.equalsIgnoreCase("2")) {  //status=2 accepted,requestBy=2 Borrower
-            if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length() > 0 && transactionModel.getIs_negotiate_after_accept().equals("0")) {
+          /*  if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length() > 0 && transactionModel.getIs_negotiate_after_accept().equals("0")) {
                 if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
                     negotiateTV.setVisibility(View.VISIBLE);
                     acceptTV.setVisibility(View.GONE);
                     declineTV.setVisibility(View.GONE);
-                }else {
+                } else {
                     negotiateTV.setVisibility(View.GONE);
                     acceptTV.setVisibility(View.GONE);
                     declineTV.setVisibility(View.GONE);
                 }
+            }*/
+
+            if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
+                if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length() > 0 && transactionModel.getIs_negotiate_after_accept().equals("1")) {
+                    negotiateTV.setVisibility(View.GONE);
+                    acceptTV.setVisibility(View.GONE);
+                    declineTV.setVisibility(View.GONE);
+                } else {
+                    negotiateTV.setVisibility(View.VISIBLE);
+                    acceptTV.setVisibility(View.GONE);
+                    declineTV.setVisibility(View.GONE);
+                }
             }
+
         } else {
             negotiateTV.setVisibility(View.GONE);
             acceptTV.setVisibility(View.GONE);

@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -35,7 +36,8 @@ import retrofit2.Call;
 
 public class LendingSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener, MyDateUpdateDialog.DateStatusUpdateListener {
     private TextView nameTV, amountTV, termTV, noOfPaymentTV, paymentDateTV, totalReceivedBackTV, viewAllTV;
-    private TextView negotiateTV, acceptTV, declineTV, chatTV, commissionTitleTV, commissionValueTV;
+    private TextView negotiateTV, acceptTV, declineTV, commissionTitleTV, commissionValueTV;
+    private ImageView chatTV;
     private String transactionId, moveFrom;
     private TransactionModel transactionModel;
     private String negotiationAcceptDeclineStatus = "";

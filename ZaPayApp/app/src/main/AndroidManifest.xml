@@ -19,7 +19,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
-        <activity android:name=".activity.HistoryDetailsActivity"/>
+        <activity android:name=".activity.ViewAllHistoryAndTransactionDetailsActivity"/>
         <activity android:name=".activity.DefaultTransactionActivity" />
         <activity android:name=".activity.PdfViewActivity" />
         <activity

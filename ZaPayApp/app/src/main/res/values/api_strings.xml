@@ -13,7 +13,6 @@
     <string name="api_update_bank_account">update_bank_account</string>
     <string name="api_verify_bank_account_by_micro_deposits">verify_bank_account_by_micro_deposits</string>
 
-
     <string name="api_get_states_list">get_states_list</string>
     <string name="api_get_cities_list">get_cities_list</string>
     <string name="api_update_profile">update_profile</string>
@@ -38,4 +37,6 @@
     <string name="api_generate_agreement_pdf">generate_agreement_pdf</string>
     <string name="api_generate_amendment_pdf">generate_amendment_pdf</string>
     <string name="api_update_running_transaction_request_status">update_running_transaction_request_status</string>
+    <string name="api_get_all_transaction_request_details">get_all_transaction_request_details</string>
+    <string name="api_get_all_transaction_history_details">get_all_transaction_history_details</string>
 </resources>

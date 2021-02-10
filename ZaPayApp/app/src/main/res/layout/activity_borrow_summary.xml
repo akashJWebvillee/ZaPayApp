@@ -92,7 +92,7 @@
                     android:textColor="@color/textColor"
                     android:textSize="16sp" />
 
-                <TextView
+                <!--<TextView
                     android:id="@+id/chatTV"
                     android:layout_width="80dp"
                     android:layout_height="26dp"
@@ -106,7 +106,24 @@
                     android:gravity="center"
                     android:text="@string/chat"
                     android:textColor="@color/colorWhite"
-                    android:textSize="11sp" />
+                    android:textSize="11sp" />-->
+
+                <ImageView
+                    android:id="@+id/chatTV"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/lendingView"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="28dp"
+                    android:background="@drawable/circle_blue_bg"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:gravity="center"
+                    android:elevation="3dp"
+                    android:src="@mipmap/chat"
+                    android:padding="10dp"
+                    android:tint="@color/colorWhite"/>
+
 
                 <LinearLayout
                     android:id="@+id/lendLLAmountTerms"
@@ -323,7 +340,7 @@
                     android:background="@drawable/dotted" />
 
                 <TextView
-                    android:id="@+id/lendTxtTotalReceive"
+                    android:id="@+id/afterCommissionTitleTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/lendViewDot"
@@ -331,9 +348,36 @@
                     android:layout_marginTop="25dp"
                     android:fontFamily="@font/gotha_prolig"
                     android:gravity="start"
-                    android:text="@string/total_to_receive_back"
+                    android:text="@string/after_zapay_commission"
                     android:textColor="@color/navTextColor60Alpha"
                     android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/afterCommissionAmountTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/afterCommissionTitleTV"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/gotha_promed"
+                    android:gravity="start"
+                    android:text="sdfsd"
+                    android:textColor="@color/textColor"
+                    android:textSize="20sp" />
+
+
+                <TextView
+                    android:id="@+id/lendTxtTotalReceive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/afterCommissionAmountTV"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/gotha_prolig"
+                    android:gravity="start"
+                    android:text="@string/total_to_receive_back"
+                    android:textColor="@color/navTextColor60Alpha"
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:id="@+id/totalReceivedBackTV"
@@ -344,7 +388,7 @@
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/gotha_promed"
                     android:gravity="start"
-                    android:text=""
+                    android:text="sdfdsasdg"
                     android:textColor="@color/textColor"
                     android:textSize="20sp" />
 
@@ -352,9 +396,9 @@
                     android:id="@+id/viewAllTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/lendViewDot"
+                    android:layout_below="@+id/lendTxtTotalReceive"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginTop="48dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginEnd="28dp"
                     android:fontFamily="@font/gotha_promed"
                     android:gravity="start"
@@ -377,17 +421,18 @@
                     android:id="@+id/negotiateTV"
                     android:layout_width="match_parent"
                     android:layout_height="53dp"
-                    android:layout_below="@+id/lendViewAllLine"
+                    android:layout_below="@+id/totalReceivedBackTV"
                     android:layout_marginStart="27dp"
                     android:layout_marginEnd="27dp"
                     android:layout_marginBottom="20dp"
+                    android:layout_marginTop="20dp"
                     android:background="@drawable/rectanguler_button_bg"
                     android:backgroundTint="@color/navTextColor"
                     android:fontFamily="@font/gotha_probol"
                     android:gravity="center"
                     android:text="@string/negotiate"
                     android:textColor="@color/colorWhite"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:id="@+id/acceptTV"

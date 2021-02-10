@@ -1,5 +1,4 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -10,7 +9,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,7 +22,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.Socket;
@@ -42,7 +39,6 @@ import com.org.zapayapp.adapters.NavigationAdapter;
 import com.org.zapayapp.alert_dialog.AlertForcePopup;
 import com.org.zapayapp.alert_dialog.AlertLogoutFragment;
 import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
-import com.org.zapayapp.dialogs.DateChangeRequestDialogActivity;
 import com.org.zapayapp.dialogs.EditProfileDialogActivity;
 import com.org.zapayapp.uihelpers.AdvanceDrawerLayout;
 import com.org.zapayapp.utils.CommonMethods;
@@ -54,20 +50,16 @@ import com.org.zapayapp.viewModel.ProjectViewModel;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
 import com.org.zapayapp.webservices.RestAPI;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import retrofit2.Call;
 
 /**
  * The type Base activity.
  */
 public class BaseActivity extends AppCompatActivity implements SimpleAlertFragment.AlertSimpleCallback, APICallback, AlertLogoutFragment.AlertLogoutCallback, AlertForcePopup.AlertForceCallback {
-
     private final String TAG = BaseActivity.class.getSimpleName();
     private NavigationView navView;
     private AdvanceDrawerLayout drawerLayout;
@@ -585,7 +577,6 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
                     showSimpleAlert(msg, "");
                 }
             }
-
         }
     }
 
@@ -597,7 +588,6 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
         startActivity(intent);
         finish();
     }
-
 
     public void showSimpleAlert(String message, String from) {
         try {
@@ -855,6 +845,5 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
                         Log.e("Firebase token", "Firebase token=====" + task.getResult().getToken());
                     }
                 });
-
     }
 }

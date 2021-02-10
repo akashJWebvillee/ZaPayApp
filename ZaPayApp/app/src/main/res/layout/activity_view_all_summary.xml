@@ -18,6 +18,7 @@
         android:elevation="0dp"
         android:orientation="vertical">
 
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -53,20 +54,24 @@
                     android:textColor="@color/textColor"
                     android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/chatTV"
-                    android:layout_width="80dp"
-                    android:layout_height="26dp"
+
+                <ImageView
+                    android:id="@+id/chatIV"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="44dp"
                     android:layout_marginEnd="30dp"
-                    android:background="@drawable/rectanguler_4redius"
+                    android:background="@drawable/circle_blue_bg"
                     android:backgroundTint="@color/colorPrimary"
+                    android:elevation="3dp"
                     android:fontFamily="@font/gotha_promed"
                     android:gravity="center"
-                    android:text="@string/chat"
+                    android:padding="10dp"
+                    android:src="@mipmap/chat"
                     android:textColor="@color/colorWhite"
-                    android:textSize="11sp" />
+                    android:tint="@color/colorWhite" />
+
 
                 <LinearLayout
                     android:id="@+id/lendLLAmountTerms"
@@ -205,20 +210,20 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/paybackDateRecycler"
-                    android:layout_below="@+id/lendLLPaymentPayback"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_below="@+id/lendLLPaymentPayback"
                     android:layout_marginTop="20dp"
-                    android:layout_marginBottom="10dp"/>
+                    android:layout_marginBottom="10dp" />
 
                 <LinearLayout
                     android:id="@+id/rattingLL"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_below="@+id/paybackDateRecycler"
-                    android:weightSum="2"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -274,12 +279,12 @@
                             android:id="@+id/file"
                             android:layout_width="15dp"
                             android:layout_height="15dp"
+                            android:layout_marginStart="50dp"
                             android:layout_marginTop="5dp"
+                            android:src="@mipmap/file1"
                             android:textColor="@color/textColor"
                             android:textSize="16sp"
-                            android:src="@mipmap/file1"
-                            android:layout_marginStart="50dp"
-                            android:tint="@color/color_blue"/>
+                            android:tint="@color/color_blue" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -287,10 +292,10 @@
                     android:id="@+id/commissionLL"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_below="@+id/rattingLL"
                     android:layout_marginStart="27dp"
-                    android:layout_marginTop="25dp">
+                    android:layout_marginTop="25dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/commissionTitleTV"
@@ -300,7 +305,7 @@
                         android:gravity="start"
                         android:text="@string/zapay_commission"
                         android:textColor="@color/navTextColor60Alpha"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/commissionValueTV"
@@ -343,12 +348,59 @@
                     android:layout_below="@+id/totalPlayReceiveTV"
                     android:layout_marginStart="27dp"
                     android:layout_marginTop="5dp"
+                    android:layout_marginBottom="36dp"
                     android:fontFamily="@font/gotha_promed"
                     android:gravity="start"
-                    android:text=""
+                    android:text="asdas"
                     android:textColor="@color/navTextColor"
-                    android:textSize="20sp"
-                    android:layout_marginBottom="36dp"/>
+                    android:textSize="20sp" />
+
+               <!-- <TextView
+                    android:id="@+id/allTransactionDetailTV"
+                    android:layout_width="80dp"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/totalPlayReceiveTV"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="30dp"
+                    android:background="@drawable/rectanguler_4redius"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:fontFamily="@font/gotha_promed"
+                    android:gravity="center"
+                    android:text="@string/details"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="11sp" />
+-->
+
+                <TextView
+                    android:id="@+id/allTransactionDetailTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/totalPlayReceiveTV"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="28dp"
+                    android:fontFamily="@font/gotha_promed"
+                    android:gravity="start"
+                    android:text="@string/view_all"
+                    android:textColor="@color/navTextSelectColor"
+                    android:textSize="18sp"
+                    android:visibility="gone"/>
+
+                <View
+                    android:id="@+id/lendViewAllLine"
+                    android:layout_width="72dp"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/allTransactionDetailTV"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginEnd="28dp"
+                    android:layout_marginBottom="42dp"
+                    android:background="@color/navTextSelectColor"
+                    android:visibility="gone"/>
+
+
+
 
                 <TextView
                     android:id="@+id/negotiateTV"
@@ -370,9 +422,9 @@
                     android:id="@+id/acceptTV"
                     android:layout_width="match_parent"
                     android:layout_height="53dp"
+                    android:layout_below="@+id/negotiateTV"
                     android:layout_marginStart="27dp"
                     android:layout_marginTop="20dp"
-                    android:layout_below="@+id/negotiateTV"
                     android:layout_marginEnd="27dp"
                     android:background="@drawable/rectanguler_button_bg"
                     android:backgroundTint="@color/greenColor"
@@ -386,9 +438,9 @@
                     android:id="@+id/declineTV"
                     android:layout_width="match_parent"
                     android:layout_height="53dp"
+                    android:layout_below="@+id/acceptTV"
                     android:layout_marginStart="27dp"
                     android:layout_marginTop="20dp"
-                    android:layout_below="@+id/acceptTV"
                     android:layout_marginEnd="27dp"
                     android:layout_marginBottom="48dp"
                     android:background="@drawable/rectanguler_button_bg"

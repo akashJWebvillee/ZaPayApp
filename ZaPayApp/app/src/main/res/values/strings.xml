@@ -60,6 +60,7 @@
     <string name="nav_drawer_closed">Navigation Drawer Closed</string>
 
     <string name="all_details">All Details</string>
+    <string name="details">Details</string>
 
     <!--Forgot password Activity -->
     <string name="enter_email_address_with_account">Enter your Email Address associated with your account</string>

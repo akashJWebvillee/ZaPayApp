@@ -2,6 +2,7 @@ package com.org.zapayapp.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
+import java.util.List;
 
 public class TransactionModel implements Serializable {
     @SerializedName("id")
@@ -64,7 +65,6 @@ public class TransactionModel implements Serializable {
     @Expose
     public String pay_date_update_status_is_pending;
 
-
     @SerializedName("parent_id")
     @Expose
     public String parent_id;
@@ -73,8 +73,38 @@ public class TransactionModel implements Serializable {
     @Expose
     public String is_negotiate_after_accept;
 
+    @SerializedName("commission_charges_detail")
+    @Expose
+    public String commission_charges_detail;
+
+    @SerializedName("admin_commission_from_lender")
+    @Expose
+    public String admin_commission_from_lender;
+
+    @SerializedName("admin_commission_from_borrower")
+    @Expose
+    public String admin_commission_from_borrower;
+
+    @SerializedName("pay_dates_list")
+    @Expose
+    private List<DateModel> payDatesList = null;
 
 
+    public List<DateModel> getPayDatesList() {
+        return payDatesList;
+    }
+
+    public String getAdmin_commission_from_lender() {
+        return admin_commission_from_lender;
+    }
+
+    public String getAdmin_commission_from_borrower() {
+        return admin_commission_from_borrower;
+    }
+
+    public String getCommission_charges_detail() {
+        return commission_charges_detail;
+    }
 
     public String getPay_date_update_status_is_pending() {
         return pay_date_update_status_is_pending;

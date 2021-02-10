@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.org.zapayapp.R;
-import com.org.zapayapp.activity.HistoryDetailsActivity;
+import com.org.zapayapp.activity.ViewAllHistoryAndTransactionDetailsActivity;
 import com.org.zapayapp.model.TransactionModel;
 import java.util.List;
 
@@ -61,7 +61,7 @@ public class DefaultTransactionAdapter extends RecyclerView.Adapter<DefaultTrans
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context, HistoryDetailsActivity.class);
+                Intent intent=new Intent(context, ViewAllHistoryAndTransactionDetailsActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 context.startActivity(intent);
             }
