@@ -25,6 +25,7 @@ import com.org.zapayapp.model.DateModel;
 import com.org.zapayapp.model.AgreementPdfDetailModel;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.uihelpers.CustomRatingBar;
+import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.DatePickerFragmentDialogue;
@@ -69,6 +70,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
     private String moveFrom;
     private TextView allTransactionDetailTV;
     private View lendViewAllLine;
+    private TextView afterCommissionAmountTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +107,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         commissionValueTV = findViewById(R.id.commissionValueTV);
         allTransactionDetailTV = findViewById(R.id.allTransactionDetailTV);
         lendViewAllLine = findViewById(R.id.lendViewAllLine);
+        afterCommissionAmountTV = findViewById(R.id.afterCommissionAmountTV);
 
         paybackDateRecycler = findViewById(R.id.paybackDateRecycler);
         paybackDateRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
@@ -224,10 +227,9 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 break;
 
             case R.id.allTransactionDetailTV:
-
                 Intent intent = new Intent(ViewAllSummaryActivity.this, ViewAllHistoryAndTransactionDetailsActivity.class);
                 intent.putExtra("transactionId", transactionModel.getId());
-                intent.putExtra("moveFrom",moveFrom);
+                intent.putExtra("moveFrom", moveFrom);
                 startActivity(intent);
                 break;
         }
@@ -458,22 +460,22 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
                     if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
                         commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getLenderChargeValue() + ")" + commissionModel.getLenderChargeType());
-                        commissionValueTV.setText("$" + commissionModel.getLenderChargeValue());
+                        commissionValueTV.setText("$" + transactionModel.getAdmin_commission_from_lender());
                     }
                     if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                         commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
-                        commissionValueTV.setText("$" + commissionModel.getBorrowerChargeValue());
+                        commissionValueTV.setText("$" + transactionModel.getAdmin_commission_from_borrower());
                     }
                 }
             } else if (getString(R.string.history).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
                 if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
                     if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                         commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getLenderChargeValue() + ")" + commissionModel.getLenderChargeType());
-                        commissionValueTV.setText("$" + commissionModel.getLenderChargeValue());
+                        commissionValueTV.setText("$" + transactionModel.getAdmin_commission_from_lender());
                     }
                     if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
                         commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
-                        commissionValueTV.setText("$" + commissionModel.getBorrowerChargeValue());
+                        commissionValueTV.setText("$" + transactionModel.getAdmin_commission_from_borrower());
                     }
                 }
             }
@@ -545,13 +547,54 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
             }
         }
 
-        if (transactionModel.getIs_negotiate_after_accept()!=null&&transactionModel.getIs_negotiate_after_accept().length()>0&&transactionModel.getIs_negotiate_after_accept().equals("2")){
+        if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length() > 0 && transactionModel.getIs_negotiate_after_accept().equals("2")) {
             allTransactionDetailTV.setVisibility(View.VISIBLE);
             lendViewAllLine.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             allTransactionDetailTV.setVisibility(View.GONE);
             lendViewAllLine.setVisibility(View.GONE);
         }
+
+
+        if (getString(R.string.transaction).equalsIgnoreCase(moveFrom)) {
+            if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
+                if (transactionModel.getRequestBy().equals("1")) {
+                    if (transactionModel.getAdmin_commission_from_lender() != null && transactionModel.getAdmin_commission_from_lender().length() > 0) {
+                        float commission = Float.parseFloat(transactionModel.getAdmin_commission_from_lender());
+                        float totalAmount = Float.parseFloat(transactionModel.getTotalAmount());
+                        float amount = totalAmount - commission;
+                        afterCommissionAmountTV.setText("$" + CommonMethods.setDigitAfterDecimalValue(amount, 2));
+                    }
+                } else if (transactionModel.getRequestBy().equals("2")) {
+                    if (transactionModel.getAdmin_commission_from_borrower() != null && transactionModel.getAdmin_commission_from_borrower().length() > 0) {
+                        float commission = Float.parseFloat(transactionModel.getAdmin_commission_from_borrower());
+                        float totalAmount = Float.parseFloat(transactionModel.getTotalAmount());
+                        float amount = totalAmount - commission;
+                        afterCommissionAmountTV.setText("$" + CommonMethods.setDigitAfterDecimalValue(amount, 2));
+                    }
+                }
+            }
+
+        } else if (getString(R.string.history).equalsIgnoreCase(moveFrom)) {
+            if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
+                if (transactionModel.getRequestBy().equals("2")) {
+                    if (transactionModel.getAdmin_commission_from_lender() != null && transactionModel.getAdmin_commission_from_lender().length() > 0) {
+                        float commission = Float.parseFloat(transactionModel.getAdmin_commission_from_lender());
+                        float totalAmount = Float.parseFloat(transactionModel.getTotalAmount());
+                        float amount = totalAmount - commission;
+                        afterCommissionAmountTV.setText("$" + CommonMethods.setDigitAfterDecimalValue(amount, 2));
+                    }
+                } else if (transactionModel.getRequestBy().equals("1")) {
+                    if (transactionModel.getAdmin_commission_from_borrower() != null && transactionModel.getAdmin_commission_from_borrower().length() > 0) {
+                        float commission = Float.parseFloat(transactionModel.getAdmin_commission_from_borrower());
+                        float totalAmount = Float.parseFloat(transactionModel.getTotalAmount());
+                        float amount = totalAmount - commission;
+                        afterCommissionAmountTV.setText("$" + CommonMethods.setDigitAfterDecimalValue(amount, 2));
+                    }
+                }
+            }
+        }
+
         setPaybackAdapter();
     }
 

@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
-public class TransactionModel implements Serializable {
+public class TransactionModel implements Serializable{
     @SerializedName("id")
     @Expose
     public String id;
@@ -89,6 +89,16 @@ public class TransactionModel implements Serializable {
     @Expose
     private List<DateModel> payDatesList = null;
 
+    @SerializedName("pdf_details")
+    @Expose
+    private List<AgreementPdfDetailModel> agreementPdfDetailModelList = null;
+
+
+
+
+    public List<AgreementPdfDetailModel> getAgreementPdfDetailModelList() {
+        return agreementPdfDetailModelList;
+    }
 
     public List<DateModel> getPayDatesList() {
         return payDatesList;

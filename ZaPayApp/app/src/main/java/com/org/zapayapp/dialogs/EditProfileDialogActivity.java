@@ -83,6 +83,7 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     private String dob = "";
     private int ageInYear = 0;
     private String stateName;
+    private String showCityName;
     private String selectDOB;
 
     private List<String> genderList;
@@ -147,6 +148,7 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         signatureImageView = findViewById(R.id.signatureImageView1);
         signatureImageView.setOnClickListener(this);
         stateName = SharedPref.getPrefsHelper().getPref(Const.Var.STATE).toString();
+        showCityName = SharedPref.getPrefsHelper().getPref(Const.Var.CITY).toString();
 
         dobEditText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -536,11 +538,25 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
             stateSpinner.setSelection(pos);
         }
     }
-
-
     private void setCityAdapter() {
-        cityAdapter = new CityAdapter(this, cityList);
-        citySpinner.setAdapter(cityAdapter);
+        //cityAdapter = new CityAdapter(this, cityList);
+        //citySpinner.setAdapter(cityAdapter);
+        if (cityAdapter!=null){
+            cityAdapter.notifyDataSetChanged();
+        }else {
+            cityAdapter = new CityAdapter(this, cityList);
+            citySpinner.setAdapter(cityAdapter);
+        }
+
+        if (showCityName != null && showCityName.length() > 0) {
+            int pos = 0;
+            for (int i = 0; i < cityList.size(); i++) {
+                if (cityList.get(i).getCity().equals(showCityName)) {
+                    pos = i;
+                }
+            }
+            citySpinner.setSelection(pos);
+        }
     }
 
     private void setGenderAdapter() {

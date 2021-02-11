@@ -361,7 +361,7 @@
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/gotha_promed"
                     android:gravity="start"
-                    android:text="sdfsd"
+                    android:text=""
                     android:textColor="@color/textColor"
                     android:textSize="20sp" />
 
@@ -388,7 +388,7 @@
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/gotha_promed"
                     android:gravity="start"
-                    android:text="sdfdsasdg"
+                    android:text=""
                     android:textColor="@color/textColor"
                     android:textSize="20sp" />
 

@@ -11,7 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.org.zapayapp.R;
 import com.org.zapayapp.activity.ViewAllHistoryAndTransactionDetailsActivity;
+import com.org.zapayapp.model.DefaultModel;
 import com.org.zapayapp.model.TransactionModel;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class DefaultTransactionAdapter extends RecyclerView.Adapter<DefaultTransactionAdapter.MyHolder> {
@@ -19,7 +22,7 @@ public class DefaultTransactionAdapter extends RecyclerView.Adapter<DefaultTrans
     private String data;
     private List<TransactionModel> transactionModelsList;
 
-    public DefaultTransactionAdapter(Context context) {
+    public DefaultTransactionAdapter(Context context,ArrayList<TransactionModel>transactionModelsList) {
         this.context = context;
         this.data = data;
         this.transactionModelsList = transactionModelsList;
@@ -56,7 +59,10 @@ public class DefaultTransactionAdapter extends RecyclerView.Adapter<DefaultTrans
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-        //TransactionModel transactionModel = transactionModelsList.get(position);
+        TransactionModel transactionModel = transactionModelsList.get(position);
+        if (transactionModel.getFirstName()!=null&&transactionModel.getFirstName().length()>0&&transactionModel.getLastName()!=null&&transactionModel.getFirstName().length()>0){
+            holder.nameTV.setText(transactionModel.getFirstName()+" "+transactionModel.getLastName());
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +79,6 @@ public class DefaultTransactionAdapter extends RecyclerView.Adapter<DefaultTrans
     @Override
     public int getItemCount() {
        // return transactionModelsList.size();
-        return 20;
+        return transactionModelsList.size();
     }
 }

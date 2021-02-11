@@ -340,11 +340,40 @@
                     android:layout_marginTop="21dp"
                     android:background="@drawable/dotted" />
 
+
+
+
+                <TextView
+                    android:id="@+id/afterCommissionTitleTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lendViewDot"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="25dp"
+                    android:fontFamily="@font/gotha_prolig"
+                    android:gravity="start"
+                    android:text="@string/after_zapay_commission"
+                    android:textColor="@color/navTextColor60Alpha"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/afterCommissionAmountTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/afterCommissionTitleTV"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/gotha_promed"
+                    android:gravity="start"
+                    android:text=""
+                    android:textColor="@color/textColor"
+                    android:textSize="20sp" />
+
                 <TextView
                     android:id="@+id/lendTxtTotalReceive"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/lendViewDot"
+                    android:layout_below="@+id/afterCommissionAmountTV"
                     android:layout_marginStart="27dp"
                     android:layout_marginTop="25dp"
                     android:fontFamily="@font/gotha_prolig"
@@ -370,9 +399,9 @@
                     android:id="@+id/viewAllTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/lendViewDot"
+                    android:layout_below="@+id/lendTxtTotalReceive"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginTop="48dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginEnd="28dp"
                     android:fontFamily="@font/gotha_promed"
                     android:gravity="start"

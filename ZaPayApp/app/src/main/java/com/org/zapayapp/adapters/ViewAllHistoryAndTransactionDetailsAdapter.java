@@ -1,9 +1,11 @@
 package com.org.zapayapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,10 +14,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.org.zapayapp.R;
+import com.org.zapayapp.activity.PdfViewActivity;
 import com.org.zapayapp.activity.ViewAllHistoryAndTransactionDetailsActivity;
+import com.org.zapayapp.activity.ViewAllSummaryActivity;
+import com.org.zapayapp.model.AgreementPdfDetailModel;
 import com.org.zapayapp.model.CommissionModel;
 import com.org.zapayapp.model.DateModel;
 import com.org.zapayapp.model.TransactionModel;
+import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.DateFormat;
 
 import org.json.JSONArray;
@@ -55,6 +61,8 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
         private TextView commissionTitleTV;
         private TextView commissionValueTV;
         private TextView viewAllNameType;
+        private TextView afterCommissionAmountTV;
+        private LinearLayout agreementLL;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
@@ -70,6 +78,8 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
             commissionTitleTV = itemView.findViewById(R.id.commissionTitleTV);
             commissionValueTV = itemView.findViewById(R.id.commissionValueTV);
             viewAllNameType = itemView.findViewById(R.id.viewAllNameType);
+            afterCommissionAmountTV = itemView.findViewById(R.id.afterCommissionAmountTV);
+            agreementLL = itemView.findViewById(R.id.agreementLL);
 
             paybackDateRecycler = itemView.findViewById(R.id.paybackDateRecycler);
             paybackDateRecycler.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
@@ -97,7 +107,7 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
             holder.noOfPaymentTV.setText(transactionModel.getNoOfPayment());
         }
         if (transactionModel.getTotalAmount() != null && transactionModel.getTotalAmount().length() > 0) {
-            holder.totalPayBackTV.setText(transactionModel.getTotalAmount());
+            holder.totalPayBackTV.setText("$"+transactionModel.getTotalAmount());
         }
 
         if (transactionModel.getPayDate() != null && transactionModel.getPayDate().length() > 0) {
@@ -185,6 +195,59 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
                 holder.viewAllNameType.setText(context.getString(R.string.lender));
             } else {
                 holder.viewAllNameType.setText(context.getString(R.string.borrower));
+            }
+        }
+
+        if (transactionModel.getAgreementPdfDetailModelList()!=null&&transactionModel.getAgreementPdfDetailModelList().size()>0){
+            List<AgreementPdfDetailModel> pdf_details=transactionModel.getAgreementPdfDetailModelList();
+            AgreementPdfDetailModel agreementPdfDetailModel=pdf_details.get(0);
+            holder.agreementLL.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, PdfViewActivity.class);
+                    intent.putExtra("pdf_url", agreementPdfDetailModel.getPdfUrl());
+                    context.startActivity(intent);
+                }
+            });
+        }
+
+
+        if (context.getString(R.string.transaction).equalsIgnoreCase(moveFrom)) {
+            if (transactionModel.getRequestBy()!=null&&transactionModel.getRequestBy().length()>0){
+                if (transactionModel.getRequestBy().equals("1")){
+                    if (transactionModel.getAdmin_commission_from_lender()!=null&&transactionModel.getAdmin_commission_from_lender().length()>0){
+                        float commission=Float.parseFloat(transactionModel.getAdmin_commission_from_lender());
+                        float totalAmount=Float.parseFloat(transactionModel.getTotalAmount());
+                        float amount=totalAmount-commission;
+                        holder.afterCommissionAmountTV.setText("$"+ CommonMethods.setDigitAfterDecimalValue(amount,2));
+                    }
+                }else if (transactionModel.getRequestBy().equals("2")){
+                    if (transactionModel.getAdmin_commission_from_borrower()!=null&&transactionModel.getAdmin_commission_from_borrower().length()>0){
+                        float commission=Float.parseFloat(transactionModel.getAdmin_commission_from_borrower());
+                        float totalAmount=Float.parseFloat(transactionModel.getTotalAmount());
+                        float amount=totalAmount-commission;
+                        holder.afterCommissionAmountTV.setText("$"+CommonMethods.setDigitAfterDecimalValue(amount,2));
+                    }
+                }
+            }
+
+        }else if (context.getString(R.string.history).equalsIgnoreCase(moveFrom)){
+            if (transactionModel.getRequestBy()!=null&&transactionModel.getRequestBy().length()>0){
+                if (transactionModel.getRequestBy().equals("2")){
+                    if (transactionModel.getAdmin_commission_from_lender()!=null&&transactionModel.getAdmin_commission_from_lender().length()>0){
+                        float commission=Float.parseFloat(transactionModel.getAdmin_commission_from_lender());
+                        float totalAmount=Float.parseFloat(transactionModel.getTotalAmount());
+                        float amount=totalAmount-commission;
+                        holder.afterCommissionAmountTV.setText("$"+CommonMethods.setDigitAfterDecimalValue(amount,2));
+                    }
+                }else if (transactionModel.getRequestBy().equals("1")){
+                    if (transactionModel.getAdmin_commission_from_borrower()!=null&&transactionModel.getAdmin_commission_from_borrower().length()>0){
+                        float commission=Float.parseFloat(transactionModel.getAdmin_commission_from_borrower());
+                        float totalAmount=Float.parseFloat(transactionModel.getTotalAmount());
+                        float amount=totalAmount-commission;
+                        holder.afterCommissionAmountTV.setText("$"+CommonMethods.setDigitAfterDecimalValue(amount,2));
+                    }
+                }
             }
         }
     }

@@ -257,63 +257,141 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/commissionLL"
+                    android:id="@+id/commissionAndPdfLL"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="27dp"
-                    android:layout_marginTop="25dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
                     android:layout_below="@+id/negotiateAcceptLL"
-                    android:orientation="vertical">
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="25dp">
 
-                    <TextView
-                        android:id="@+id/commissionTitleTV"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/commissionLL"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/gotha_prolig"
-                        android:gravity="start"
-                        android:text="@string/zapay_commission"
-                        android:textColor="@color/navTextColor60Alpha"
-                        android:textSize="14sp" />
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/commissionValueTV"
-                        android:layout_width="wrap_content"
+                        <TextView
+                            android:id="@+id/commissionTitleTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/gotha_prolig"
+                            android:gravity="start"
+                            android:text="@string/zapay_commission"
+                            android:textColor="@color/navTextColor60Alpha"
+                            android:textSize="14sp"
+                            android:layout_marginEnd="10dp"/>
+
+                        <TextView
+                            android:id="@+id/commissionValueTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/gotha_promed"
+                            android:gravity="start"
+                            android:text="$3.25"
+                            android:textColor="@color/textColor"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/agreementLL"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="@font/gotha_promed"
-                        android:gravity="start"
-                        android:text="$3.25"
-                        android:textColor="@color/textColor"
-                        android:textSize="16sp" />
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/gotha_prolig"
+                            android:gravity="start"
+                            android:text="@string/agreement_form"
+                            android:textColor="@color/navTextColor60Alpha"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:id="@+id/file"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginStart="50dp"
+                            android:layout_marginTop="5dp"
+                            android:src="@mipmap/file1"
+                            android:textColor="@color/textColor"
+                            android:textSize="16sp"
+                            android:tint="@color/color_blue" />
+                    </LinearLayout>
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/totalPlayReceiveTV"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/totalPayBackAmountLL"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/commissionLL"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:layout_below="@+id/commissionAndPdfLL"
                     android:layout_marginStart="27dp"
-                    android:layout_marginTop="25dp"
-                    android:fontFamily="@font/gotha_prolig"
-                    android:gravity="start"
-                    android:text="@string/total_to_pay_back"
-                    android:textColor="@color/navTextColor60Alpha"
-                    android:textSize="16sp" />
+                    android:layout_marginTop="25dp">
 
-                <TextView
-                    android:id="@+id/totalPayBackTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/totalPlayReceiveTV"
-                    android:layout_marginStart="27dp"
-                    android:layout_marginTop="5dp"
-                    android:fontFamily="@font/gotha_promed"
-                    android:gravity="start"
-                    android:text="$220"
-                    android:textColor="@color/navTextColor"
-                    android:textSize="20sp"
-                    android:layout_marginBottom="10dp"/>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/totalPlayReceiveTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/gotha_prolig"
+                            android:gravity="start"
+                            android:text="@string/total_to_pay_back"
+                            android:textColor="@color/navTextColor60Alpha"
+                            android:textSize="16sp" />
 
+                        <TextView
+                            android:id="@+id/totalPayBackTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/gotha_promed"
+                            android:gravity="start"
+                            android:text="$220"
+                            android:textColor="@color/navTextColor"
+                            android:textSize="20sp"
+                            android:layout_marginBottom="10dp"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/afterCommissionTitleTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/gotha_prolig"
+                            android:gravity="start"
+                            android:text="@string/after_zapay_commission"
+                            android:textColor="@color/navTextColor60Alpha"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/afterCommissionAmountTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/gotha_promed"
+                            android:gravity="start"
+                            android:text=""
+                            android:textColor="@color/textColor"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/payBackDateTV"
@@ -324,7 +402,7 @@
                     android:text="@string/payback_dates"
                     android:textColor="@color/navTextColor60Alpha"
                     android:textSize="14sp"
-                    android:layout_below="@+id/totalPayBackTV"
+                    android:layout_below="@+id/totalPayBackAmountLL"
                     android:layout_marginStart="27dp"
                     android:layout_marginTop="5dp"/>
 

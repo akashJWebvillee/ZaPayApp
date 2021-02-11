@@ -7,13 +7,13 @@
     tools:context=".activity.ViewAllHistoryAndTransactionDetailsActivity">
 
     <include
-        android:id="@+id/toolbar"
+        android:id="@+id/viewAllDetailToolbar"
         layout="@layout/custom_toolbar" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?actionBarSize">
+        android:layout_below="@+id/viewAllDetailToolbar">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/historyDetailRecView"

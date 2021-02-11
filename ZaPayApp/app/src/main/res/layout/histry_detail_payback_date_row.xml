@@ -98,10 +98,7 @@
                 android:layout_marginTop="5dp"
                 android:src="@mipmap/file1"
                 android:tint="@color/color_blue" />
-
         </LinearLayout>
-
-
     </LinearLayout>
 
     <RelativeLayout
@@ -109,7 +106,8 @@
         android:layout_width="30dp"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
-        android:background="@drawable/rectanguler_end_rounded">
+        android:background="@drawable/rectanguler_end_rounded"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="10dp"

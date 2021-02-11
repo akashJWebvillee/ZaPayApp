@@ -7,13 +7,13 @@
     tools:context=".activity.DefaultTransactionActivity">
 
     <include
-        android:id="@+id/toolbar"
-        layout="@layout/custom_toolbar" />
+        android:id="@+id/defaultScreenToolbar"
+        layout="@layout/custom_toolbar"/>
 
     <RelativeLayout
+        android:layout_below="@+id/defaultScreenToolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?actionBarSize">
+        android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/defaultTransactionRecView"
@@ -25,4 +25,6 @@
 
 
     </RelativeLayout>
+
+
 </RelativeLayout>

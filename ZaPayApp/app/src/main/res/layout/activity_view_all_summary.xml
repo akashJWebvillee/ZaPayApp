@@ -319,7 +319,6 @@
                         android:textSize="16sp" />
                 </LinearLayout>
 
-
                 <View
                     android:id="@+id/viewDot"
                     android:layout_width="match_parent"
@@ -329,12 +328,39 @@
                     android:background="@drawable/dotted" />
 
                 <TextView
-                    android:id="@+id/totalPlayReceiveTV"
+                    android:id="@+id/afterCommissionTitleTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/viewDot"
                     android:layout_marginStart="27dp"
                     android:layout_marginTop="25dp"
+                    android:fontFamily="@font/gotha_prolig"
+                    android:gravity="start"
+                    android:text="@string/after_zapay_commission"
+                    android:textColor="@color/navTextColor60Alpha"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/afterCommissionAmountTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/afterCommissionTitleTV"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/gotha_promed"
+                    android:gravity="start"
+                    android:text=""
+                    android:textColor="@color/textColor"
+                    android:textSize="20sp" />
+
+
+                <TextView
+                    android:id="@+id/totalPlayReceiveTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/afterCommissionAmountTV"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="20dp"
                     android:fontFamily="@font/gotha_prolig"
                     android:gravity="start"
                     android:text="@string/total_to_pay_back"
@@ -351,26 +377,9 @@
                     android:layout_marginBottom="36dp"
                     android:fontFamily="@font/gotha_promed"
                     android:gravity="start"
-                    android:text="asdas"
+                    android:text=""
                     android:textColor="@color/navTextColor"
                     android:textSize="20sp" />
-
-               <!-- <TextView
-                    android:id="@+id/allTransactionDetailTV"
-                    android:layout_width="80dp"
-                    android:layout_height="30dp"
-                    android:layout_below="@+id/totalPlayReceiveTV"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="30dp"
-                    android:background="@drawable/rectanguler_4redius"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:fontFamily="@font/gotha_promed"
-                    android:gravity="center"
-                    android:text="@string/details"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="11sp" />
--->
 
                 <TextView
                     android:id="@+id/allTransactionDetailTV"
@@ -385,7 +394,7 @@
                     android:text="@string/view_all"
                     android:textColor="@color/navTextSelectColor"
                     android:textSize="18sp"
-                    android:visibility="gone"/>
+                   />
 
                 <View
                     android:id="@+id/lendViewAllLine"

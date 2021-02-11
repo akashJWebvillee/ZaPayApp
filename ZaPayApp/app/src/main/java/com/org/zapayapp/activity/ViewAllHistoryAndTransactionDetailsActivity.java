@@ -1,4 +1,5 @@
 package com.org.zapayapp.activity;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
@@ -30,21 +31,14 @@ import java.util.List;
 
 import retrofit2.Call;
 
-public class ViewAllHistoryAndTransactionDetailsActivity extends AppCompatActivity implements View.OnClickListener, APICallback,SimpleAlertFragment.AlertSimpleCallback {
+public class ViewAllHistoryAndTransactionDetailsActivity extends BaseActivity implements View.OnClickListener, APICallback, SimpleAlertFragment.AlertSimpleCallback {
     private Toolbar toolbar;
     private TextView titleTV;
     private ImageView backArrowImageView;
-
     private RecyclerView historyDetailRecView;
     private ViewAllHistoryAndTransactionDetailsAdapter viewAllHistoryAndTransactionDetailsAdapter;
-    private List<TransactionModel>  allTransactionArrayList;
-    private  String moveFrom;
-
-    /*Code for API calling*/
-    public ZapayApp zapayApp;
-    public APICalling apiCalling;
-    public RestAPI restAPI;
-    private Gson gson;
+    private List<TransactionModel> allTransactionArrayList;
+    private String moveFrom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +50,7 @@ public class ViewAllHistoryAndTransactionDetailsActivity extends AppCompatActivi
     }
 
     private void inIt() {
-        zapayApp = (ZapayApp) getApplicationContext();
-        restAPI = APICalling.webServiceInterface();
-        apiCalling = new APICalling(this);
-        gson=new Gson();
-
-        toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.viewAllDetailToolbar);
         titleTV = toolbar.findViewById(R.id.titleTV);
         backArrowImageView = toolbar.findViewById(R.id.backArrowImageView);
         backArrowImageView.setVisibility(View.VISIBLE);
@@ -70,39 +59,42 @@ public class ViewAllHistoryAndTransactionDetailsActivity extends AppCompatActivi
         backArrowImageView.setOnClickListener(this);
     }
 
-    private void getIntentFunc(){
-       if (getIntent().getStringExtra("transactionId")!=null&&getIntent().getStringExtra("moveFrom")!=null){
-           String transactionId=getIntent().getStringExtra("transactionId");
-            moveFrom=getIntent().getStringExtra("moveFrom");
-
-           if (getString(R.string.transaction).equalsIgnoreCase(moveFrom)) {
-               callAPIGetAllTransactionDetail(transactionId);
-           } else if (getString(R.string.history).equalsIgnoreCase(moveFrom)) {
-               callAPIGetAllTransactionHistoryDetail(transactionId);
-           }
-
-
-       }
+    @Override
+    protected boolean useToolbar() {
+        return false;
     }
+
+    private void getIntentFunc() {
+        if (getIntent().getStringExtra("transactionId") != null && getIntent().getStringExtra("moveFrom") != null) {
+            String transactionId = getIntent().getStringExtra("transactionId");
+            moveFrom = getIntent().getStringExtra("moveFrom");
+
+            if (getString(R.string.transaction).equalsIgnoreCase(moveFrom)) {
+                callAPIGetAllTransactionDetail(transactionId);
+            } else if (getString(R.string.history).equalsIgnoreCase(moveFrom)) {
+                callAPIGetAllTransactionHistoryDetail(transactionId);
+            }
+        }
+    }
+
     private void inItAction() {
 
     }
 
     private void setAdapter() {
         historyDetailRecView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        viewAllHistoryAndTransactionDetailsAdapter = new ViewAllHistoryAndTransactionDetailsAdapter(this,allTransactionArrayList,gson,moveFrom);
+        viewAllHistoryAndTransactionDetailsAdapter = new ViewAllHistoryAndTransactionDetailsAdapter(this, allTransactionArrayList, gson, moveFrom);
         historyDetailRecView.setAdapter(viewAllHistoryAndTransactionDetailsAdapter);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.backArrowImageView:
                 finish();
                 break;
         }
     }
-
 
     private void callAPIGetAllTransactionDetail(String transaction_id) {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
@@ -118,7 +110,6 @@ public class ViewAllHistoryAndTransactionDetailsActivity extends AppCompatActivi
             e.printStackTrace();
         }
     }
-
 
     private void callAPIGetAllTransactionHistoryDetail(String transaction_id) {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
@@ -149,53 +140,32 @@ public class ViewAllHistoryAndTransactionDetailsActivity extends AppCompatActivi
 
             if (from.equals(getResources().getString(R.string.api_get_all_transaction_request_details))) {
                 if (status == 200) {
-                    if (json.get("data").getAsJsonArray() != null&&json.get("data").getAsJsonArray().size()>0) {
-                         allTransactionArrayList = apiCalling.getDataList(json,"data", TransactionModel.class);
-                     if (allTransactionArrayList!=null&&allTransactionArrayList.size()>0){
-                         setAdapter();
-                     }
+                    if (json.get("data").getAsJsonArray() != null && json.get("data").getAsJsonArray().size() > 0) {
+                        allTransactionArrayList = apiCalling.getDataList(json, "data", TransactionModel.class);
+                        if (allTransactionArrayList != null && allTransactionArrayList.size() > 0) {
+                            setAdapter();
+                        }
 
                     }
                 } else {
                     showSimpleAlert(msg, "");
                 }
 
-            }else if (from.equals(getResources().getString(R.string.api_get_all_transaction_history_details))){
+            } else if (from.equals(getResources().getString(R.string.api_get_all_transaction_history_details))) {
                 if (status == 200) {
-                    if (json.get("data").getAsJsonArray() != null&&json.get("data").getAsJsonArray().size()>0) {
-                         allTransactionArrayList = apiCalling.getDataList(json,"data", TransactionModel.class);
-                        if (allTransactionArrayList!=null&&allTransactionArrayList.size()>0){
+                    if (json.get("data").getAsJsonArray() != null && json.get("data").getAsJsonArray().size() > 0) {
+                        allTransactionArrayList = apiCalling.getDataList(json, "data", TransactionModel.class);
+                        if (allTransactionArrayList != null && allTransactionArrayList.size() > 0) {
                             setAdapter();
                         }
-
                     }
+                } else if (status == 401) {
+                    showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
+
                 } else {
-                     showSimpleAlert(msg, "");
+                    showSimpleAlert(msg, "");
                 }
             }
         }
     }
-
-
-    public void showSimpleAlert(String message, String from) {
-        try {
-            FragmentManager fm = getSupportFragmentManager();
-            Bundle args = new Bundle();
-            args.putString("header", message);
-            args.putString("textOk", getString(R.string.ok));
-            args.putString("textCancel", getString(R.string.cancel));
-            args.putString("from", from);
-            SimpleAlertFragment alert = new SimpleAlertFragment();
-            alert.setArguments(args);
-            alert.show(fm, "");
-        } catch (Resources.NotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onSimpleCallback(String from) {
-
-    }
-
 }

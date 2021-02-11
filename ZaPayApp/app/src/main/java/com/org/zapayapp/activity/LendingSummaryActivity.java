@@ -19,6 +19,7 @@ import com.org.zapayapp.model.CommissionModel;
 import com.org.zapayapp.model.AgreementPdfDetailModel;
 import com.org.zapayapp.model.DateModel;
 import com.org.zapayapp.model.TransactionModel;
+import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.MyDateUpdateDialog;
@@ -50,6 +51,7 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
     private AgreementPdfDetailModel agreementPdfDetailModel;
     private DateModel dateModel;
     private String request_by;
+    private TextView afterCommissionAmountTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +79,7 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
         commissionTitleTV = findViewById(R.id.commissionTitleTV);
         commissionValueTV = findViewById(R.id.commissionValueTV);
         agreementFormLL = findViewById(R.id.agreementFormLL);
+        afterCommissionAmountTV = findViewById(R.id.afterCommissionAmountTV);
     }
 
     private void inItAction() {
@@ -451,7 +454,9 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
             CommissionModel commissionModel = gson.fromJson(commission_charges_detail, CommissionModel.class);
 
             commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getLenderChargeValue() + ")" + commissionModel.getLenderChargeType());
-            commissionValueTV.setText("$" + commissionModel.getLenderChargeValue());
+          //commissionValueTV.setText("$" + commissionModel.getLenderChargeValue());
+            commissionValueTV.setText("$" + transactionModel.getAdmin_commission_from_lender());
+
         }
 
         if (status.equalsIgnoreCase("2") || status.equalsIgnoreCase("4")) {
@@ -486,6 +491,13 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
 
 
             }
+        }
+
+        if (transactionModel.getAdmin_commission_from_borrower()!=null&&transactionModel.getAdmin_commission_from_borrower().length()>0){
+            float commission=Float.parseFloat(transactionModel.getAdmin_commission_from_lender());
+            float totalAmount=Float.parseFloat(transactionModel.getTotalAmount());
+            float amount=totalAmount-commission;
+            afterCommissionAmountTV.setText("$"+ CommonMethods.setDigitAfterDecimalValue(amount,2));
         }
 
     }
