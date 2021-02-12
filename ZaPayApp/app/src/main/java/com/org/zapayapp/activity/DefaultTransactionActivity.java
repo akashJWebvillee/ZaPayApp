@@ -4,12 +4,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -20,11 +19,9 @@ import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.EndlessRecyclerViewScrollListener;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import retrofit2.Call;
 
 public class DefaultTransactionActivity extends BaseActivity implements View.OnClickListener, APICallback {
@@ -35,7 +32,6 @@ public class DefaultTransactionActivity extends BaseActivity implements View.OnC
     private DefaultTransactionAdapter defaultTransactionAdapter;
     private int pageNo = 0;
     private EndlessRecyclerViewScrollListener scrollListener;
-
     private ArrayList<TransactionModel> defaultArrayList;
     private TextView noDataTv;
 
@@ -71,6 +67,7 @@ public class DefaultTransactionActivity extends BaseActivity implements View.OnC
                 callAPIGetDefaultTransactions(pageNo);
             }
         };
+
         defaultTransactionRecView.addOnScrollListener(scrollListener);
         callAPIGetDefaultTransactions(pageNo);
     }
@@ -105,7 +102,6 @@ public class DefaultTransactionActivity extends BaseActivity implements View.OnC
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         HashMap<String, Object> values = apiCalling.getHashMapObject(
                 "page", page);
-
         try {
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_get_default_transactions), values);
@@ -135,8 +131,7 @@ public class DefaultTransactionActivity extends BaseActivity implements View.OnC
                         defaultArrayList.clear();
                     }
                     List<TransactionModel> defaultList = apiCalling.getDataList(json, "data", TransactionModel.class);
-
-                    if (defaultArrayList.size() > 0) {
+                    if (defaultList.size() > 0) {
                         noDataTv.setVisibility(View.GONE);
                         defaultTransactionRecView.setVisibility(View.VISIBLE);
                         defaultArrayList.addAll(defaultList);
@@ -147,21 +142,16 @@ public class DefaultTransactionActivity extends BaseActivity implements View.OnC
                             defaultTransactionRecView.setVisibility(View.GONE);
                         }
                     }
-
                 } else if (status == 401) {
                     showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
-
                 } else {
                     //showSimpleAlert(msg, "");
                     if (pageNo == 0) {
                         noDataTv.setVisibility(View.VISIBLE);
                         defaultTransactionRecView.setVisibility(View.GONE);
                     }
-
                 }
             }
         }
     }
-
-
 }

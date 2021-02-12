@@ -1,30 +1,23 @@
 package com.org.zapayapp.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
-import com.org.zapayapp.ZapayApp;
 import com.org.zapayapp.adapters.ViewAllHistoryAndTransactionDetailsAdapter;
 import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
-import com.org.zapayapp.webservices.APICalling;
-import com.org.zapayapp.webservices.RestAPI;
 
 import java.util.HashMap;
 import java.util.List;
@@ -73,6 +66,9 @@ public class ViewAllHistoryAndTransactionDetailsActivity extends BaseActivity im
                 callAPIGetAllTransactionDetail(transactionId);
             } else if (getString(R.string.history).equalsIgnoreCase(moveFrom)) {
                 callAPIGetAllTransactionHistoryDetail(transactionId);
+            } else if (getString(R.string.default_transaction).equalsIgnoreCase(moveFrom)) {
+                callAPIGetAllDefaultTransactionDetail(transactionId);
+
             }
         }
     }
@@ -126,6 +122,22 @@ public class ViewAllHistoryAndTransactionDetailsActivity extends BaseActivity im
         }
     }
 
+    private void callAPIGetAllDefaultTransactionDetail(String transaction_id) {
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        HashMap<String, Object> values = apiCalling.getHashMapObject(
+                "transaction_request_id", transaction_id);
+        try {
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_get_default_transaction_details), values);
+            if (apiCalling != null) {
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_get_default_transaction_details), titleTV);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     @Override
     public void apiCallback(JsonObject json, String from) {
         if (from != null) {
@@ -165,6 +177,20 @@ public class ViewAllHistoryAndTransactionDetailsActivity extends BaseActivity im
                 } else {
                     showSimpleAlert(msg, "");
                 }
+            } else if (from.equals(getResources().getString(R.string.api_get_default_transaction_details))) {
+                if (status == 200) {
+                    if (json.get("data").getAsJsonArray() != null && json.get("data").getAsJsonArray().size() > 0) {
+                        allTransactionArrayList = apiCalling.getDataList(json, "data", TransactionModel.class);
+                        if (allTransactionArrayList != null && allTransactionArrayList.size() > 0) {
+                            setAdapter();
+                        }
+                    }
+                } else if (status == 401) {
+                    showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
+                } else {
+                    showSimpleAlert(msg, "");
+                }
+
             }
         }
     }

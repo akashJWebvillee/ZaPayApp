@@ -1,4 +1,5 @@
 package com.org.zapayapp.activity;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,12 +19,15 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.dd.ShadowLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonElement;
@@ -45,13 +49,16 @@ import com.org.zapayapp.utils.EndlessRecyclerViewScrollListener;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.WVDateLib;
 import com.org.zapayapp.webservices.APICallback;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import retrofit2.Call;
 
 public class LendBorrowActivity extends BaseActivity implements View.OnClickListener, DatePickerFragmentDialogue.DatePickerCallback, APICallback, ContactListener {
@@ -526,7 +533,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 //callAPITransactionRequest();
 
                 if (transactionModel != null && transactionModel.getId() != null && transactionModel.getId().length() > 0) {
-                    if (transactionModel.getStatus() != null && transactionModel.getStatus().equals("2")||transactionModel.getIs_negotiate_after_accept()!=null&&transactionModel.getIs_negotiate_after_accept().equals("2")) {  // is_negotiate_after_accept =2 after negotion
+                    if (transactionModel.getStatus() != null && transactionModel.getStatus().equals("2") || transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().equals("2")) {  // is_negotiate_after_accept =2 after negotion
                         callAPInegotiateRunningTransactionRequest(); //negotiate after accept request
                     } else {
                         callAPITransactionRequest();  //negotiate before accept request
@@ -917,22 +924,22 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     }
 
     private void setBorrowData() {
-        amountTV.setText("$" + CommonMethods.setDigitAfterDecimalValue(amount, 2));
+        amountTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(amount, 2));
 
         String termValue = lendTermsEdtOption.getText().toString().trim();
         if (isTermsOption + 1 == 1) {
             termTV.setText(termValue + " " + getString(R.string.percent));
         } else if (isTermsOption + 1 == 2) {
-            termTV.setText("$" + termValue + " " + getString(R.string.fee));
+            termTV.setText(Const.getCurrency() + termValue + " " + getString(R.string.fee));
         } else if (isTermsOption + 1 == 3) {
-            termTV.setText("$" + termValue + " " + getString(R.string.discount));
+            termTV.setText(Const.getCurrency() + termValue + " " + getString(R.string.discount));
         } else if (isTermsOption + 1 == 4) {
             termTV.setText(getString(R.string.none));
         }
 
         noOfPaymentTV.setText(String.valueOf(isNoPayment));
         paymentDateTV.setText(DateFormat.dateFormatConvert(paybackList.get(0).getPayDate()));
-        totalPayBackTV.setText("$" + CommonMethods.setDigitAfterDecimalValue(finalTotalPayBackAmount, 2));
+        totalPayBackTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(finalTotalPayBackAmount, 2));
 
 
         if (SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE).toString().length() > 0
@@ -948,18 +955,30 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 if (SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_TYPE).toString().equalsIgnoreCase("flat")) {
                     lenderCommission = lenderChargeValue;
                 } else if (SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_TYPE).toString().equalsIgnoreCase("percent")) {
-                    //lenderCommission = (amount * lenderChargeValue) / 100;
                     lenderCommission = (finalTotalPayBackAmount * lenderChargeValue) / 100;
                 }
-
-                // borrowerCommission = (amount * borrowerChargeValue) / 100;
-                // float afterCommission = amount - borrowerCommission;
                 borrowerCommission = (finalTotalPayBackAmount * borrowerChargeValue) / 100;
+
+
+                //*****this code use for temprary
+             /*   float newAmount = finalTotalPayBackAmount;
+                float previousAmount = Float.parseFloat(transactionModel.getTotalAmount());
+                float previousCommission=Float.parseFloat(transactionModel.getAdmin_commission_from_borrower());
+                if (newAmount > previousAmount) {
+                    float increaseAmount = newAmount - previousAmount;
+                    float newAmountCommission = (increaseAmount * borrowerChargeValue) / 100;
+                    borrowerCommission = previousCommission + newAmountCommission;
+                    Toast.makeText(LendBorrowActivity.this, "Amount increased" + borrowerCommission, Toast.LENGTH_SHORT).show();
+                }else {
+                    borrowerCommission = (finalTotalPayBackAmount * borrowerChargeValue) / 100;
+                }*/
+
+                //*****this code use for temprary
+
+
                 double afterCommission = finalTotalPayBackAmount - borrowerCommission;
-
-
-                zapayCommissionTV.setText("$" + CommonMethods.setDigitAfterDecimalValue(borrowerCommission, 2));
-                afterCommissionTV.setText("$" + CommonMethods.setDigitAfterDecimalValue(afterCommission, 2));
+                zapayCommissionTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(borrowerCommission, 2));
+                afterCommissionTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(afterCommission, 2));
                 zapayCommissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + borrowerChargeValue + ")" + borrowerChargeType);
 
             } else if (SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE).toString().equalsIgnoreCase("flat")) {
@@ -970,33 +989,32 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                     lenderCommission = (finalTotalPayBackAmount * lenderChargeValue) / 100;
                 }
 
-                // float afterCommission = amount - borrowerCommission;
+                //float afterCommission = amount - borrowerCommission;
                 double afterCommission = finalTotalPayBackAmount - borrowerCommission;
-                zapayCommissionTV.setText("$" + CommonMethods.setDigitAfterDecimalValue(borrowerCommission, 2));
-                afterCommissionTV.setText("$" + CommonMethods.setDigitAfterDecimalValue(afterCommission, 2));
+                zapayCommissionTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(borrowerCommission, 2));
+                afterCommissionTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(afterCommission, 2));
                 zapayCommissionTitleTV.setText(getString(R.string.zapay_commission));
-
             }
         }
     }
 
     private void setLendData() {
         //l_amountTV.setText("$" + CommonMethods.roundedDoubleWithoutZero(amount));
-        l_amountTV.setText("$" + CommonMethods.setDigitAfterDecimalValue(amount, 2));
+        l_amountTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(amount, 2));
         String termValue = lendTermsEdtOption.getText().toString().trim();
         if (isTermsOption + 1 == 1) {
             lTermTV.setText(termValue + " " + getString(R.string.percent));
         } else if (isTermsOption + 1 == 2) {
-            lTermTV.setText("$" + termValue + " " + getString(R.string.fee));
+            lTermTV.setText(Const.getCurrency() + termValue + " " + getString(R.string.fee));
         } else if (isTermsOption + 1 == 3) {
-            lTermTV.setText("$" + termValue + " " + getString(R.string.discount));
+            lTermTV.setText(Const.getCurrency() + termValue + " " + getString(R.string.discount));
         } else if (isTermsOption + 1 == 4) {
             lTermTV.setText(getString(R.string.none));
         }
 
         lNoOfPaymentTV.setText(String.valueOf(isNoPayment));
         lPaymentDateTV.setText(DateFormat.dateFormatConvert(paybackList.get(0).getPayDate()));
-        totalReceivedBackTV.setText("$" + CommonMethods.setDigitAfterDecimalValue(finalTotalPayBackAmount, 2));
+        totalReceivedBackTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(finalTotalPayBackAmount, 2));
 
         if (SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_TYPE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_TYPE).toString().length() > 0
                 && SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_VALUE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_VALUE).toString().length() > 0
@@ -1014,13 +1032,13 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                     borrowerCommission = (finalTotalPayBackAmount * borrowerChargeValue) / 100;
                 }
 
-
                 lenderCommission = (finalTotalPayBackAmount * lenderChargeValue) / 100;
                 double afterCommission = finalTotalPayBackAmount - lenderCommission;
 
-                zapayCommissionLenderTV.setText("$" + CommonMethods.setDigitAfterDecimalValue(lenderCommission, 2));
-                afterCommissionLenderTV.setText("$" + CommonMethods.setDigitAfterDecimalValue(afterCommission, 2));
+                zapayCommissionLenderTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(lenderCommission, 2));
+                afterCommissionLenderTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(afterCommission, 2));
                 zapayCommissionTitleLenderTV.setText(getString(R.string.zapay_commission) + "(" + lenderChargeValue + ")" + lenderChargeType);
+
 
             } else if (SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_TYPE).toString().equalsIgnoreCase("flat")) {
 
@@ -1029,14 +1047,15 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 } else if (SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE).toString().equalsIgnoreCase("percent")) {
                     borrowerCommission = (finalTotalPayBackAmount * borrowerChargeValue) / 100;
                 }
-
                 lenderCommission = lenderChargeValue;
+
                 double afterCommission = finalTotalPayBackAmount - lenderCommission;
-                zapayCommissionLenderTV.setText("$" + CommonMethods.setDigitAfterDecimalValue(lenderCommission, 2));
-                afterCommissionLenderTV.setText("$" + CommonMethods.setDigitAfterDecimalValue(afterCommission, 2));
+                zapayCommissionLenderTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(lenderCommission, 2));
+                afterCommissionLenderTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(afterCommission, 2));
                 zapayCommissionTitleLenderTV.setText(getString(R.string.zapay_commission));
             }
         }
+
     }
 
     @Override
@@ -1176,6 +1195,30 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         } else {
             termValue = lendTermsEdtOption.getText().toString().trim();
         }
+
+
+
+        float childAmount=0;
+        float child_total_amount=0;
+        float childCommissionFromBorrower=0;
+        if (isBorrow) {
+            float newTotalAmount = finalTotalPayBackAmount;
+            float previousTotalAmount = Float.parseFloat(transactionModel.getTotalAmount());
+            float borrowerChargeValue = Float.parseFloat(SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_VALUE).toString());
+
+            if (newTotalAmount > previousTotalAmount) {
+                 child_total_amount = newTotalAmount - previousTotalAmount;
+                 childCommissionFromBorrower = (child_total_amount * borrowerChargeValue) / 100;
+               // Toast.makeText(LendBorrowActivity.this, "Amount increased" + childCommissionFromBorrower, Toast.LENGTH_SHORT).show();
+            }
+
+            float newAmount=amount;
+            float previousAmount = Float.parseFloat(transactionModel.getAmount());
+            if (newAmount > previousAmount) {
+                 childAmount = newAmount - previousAmount;
+            }
+        }
+
         HashMap<String, Object> values = apiCalling.getHashMapObject(
                 "to_id", toId,
                 "amount", amount,
@@ -1187,20 +1230,24 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 "request_by", String.valueOf(request_by),   //1=lender,2=borrower
                 "request_type", request_type,
                 "parent_transaction_request_id", parentTransactionRequestId,
-                "new_transaction_request_id", newTransactionRequestId);
+                "new_transaction_request_id", newTransactionRequestId,
+
+                "child_amount", childAmount,
+                "child_total_amount", child_total_amount,
+                "child_admin_commission_from_borrower", childCommissionFromBorrower);
         Log.e("post", "negotiateRunningTransactionRequest post data======" + values.toString());
 
-        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+   /*     String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_negotiate_running_transaction_request), values);
             if (apiCalling != null) {
                 apiCalling.setRunInBackground(false);
                 apiCalling.callAPI(zapayApp, call, getString(R.string.api_negotiate_running_transaction_request), contactRecycler);
-              }
+            }
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override
