@@ -161,6 +161,7 @@
     <string name="lending_summary">Lending Summary</string>
     <string name="lender">Lender</string>
     <string name="rating">Rating</string>
+    <string name="total_pay">Total Pay</string>
 
     <string name="negotiated_by">Negotiated By</string>
     <string name="accepted_by">Accepted By</string>

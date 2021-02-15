@@ -1,14 +1,11 @@
 package com.org.zapayapp.activity;
-
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -18,10 +15,8 @@ import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
-
 import java.util.HashMap;
 import java.util.List;
-
 import retrofit2.Call;
 
 public class ViewAllHistoryAndTransactionDetailsActivity extends BaseActivity implements View.OnClickListener, APICallback, SimpleAlertFragment.AlertSimpleCallback {
@@ -32,6 +27,7 @@ public class ViewAllHistoryAndTransactionDetailsActivity extends BaseActivity im
     private ViewAllHistoryAndTransactionDetailsAdapter viewAllHistoryAndTransactionDetailsAdapter;
     private List<TransactionModel> allTransactionArrayList;
     private String moveFrom;
+    private TextView totalPayTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +45,8 @@ public class ViewAllHistoryAndTransactionDetailsActivity extends BaseActivity im
         backArrowImageView.setVisibility(View.VISIBLE);
         titleTV.setText(getString(R.string.all_details));
         historyDetailRecView = findViewById(R.id.historyDetailRecView);
+        totalPayTV = findViewById(R.id.totalPayTV);
+        totalPayTV.setOnClickListener(this);
         backArrowImageView.setOnClickListener(this);
     }
 
@@ -64,11 +62,13 @@ public class ViewAllHistoryAndTransactionDetailsActivity extends BaseActivity im
 
             if (getString(R.string.transaction).equalsIgnoreCase(moveFrom)) {
                 callAPIGetAllTransactionDetail(transactionId);
+                totalPayTV.setVisibility(View.GONE);
             } else if (getString(R.string.history).equalsIgnoreCase(moveFrom)) {
                 callAPIGetAllTransactionHistoryDetail(transactionId);
+                totalPayTV.setVisibility(View.GONE);
             } else if (getString(R.string.default_transaction).equalsIgnoreCase(moveFrom)) {
                 callAPIGetAllDefaultTransactionDetail(transactionId);
-
+                totalPayTV.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -88,6 +88,10 @@ public class ViewAllHistoryAndTransactionDetailsActivity extends BaseActivity im
         switch (v.getId()) {
             case R.id.backArrowImageView:
                 finish();
+                break;
+
+            case R.id.totalPayTV:
+
                 break;
         }
     }
@@ -182,6 +186,7 @@ public class ViewAllHistoryAndTransactionDetailsActivity extends BaseActivity im
                     if (json.get("data").getAsJsonArray() != null && json.get("data").getAsJsonArray().size() > 0) {
                         allTransactionArrayList = apiCalling.getDataList(json, "data", TransactionModel.class);
                         if (allTransactionArrayList != null && allTransactionArrayList.size() > 0) {
+                            setTotalPayData();
                             setAdapter();
                         }
                     }
@@ -190,8 +195,13 @@ public class ViewAllHistoryAndTransactionDetailsActivity extends BaseActivity im
                 } else {
                     showSimpleAlert(msg, "");
                 }
-
             }
+        }
+    }
+
+    public void setTotalPayData() {
+        if (allTransactionArrayList.size() > 0) {
+            totalPayTV.setText(getString(R.string.total_pay) + " " + Const.getCurrency() + allTransactionArrayList.get(0).getTotalAmount());
         }
     }
 }

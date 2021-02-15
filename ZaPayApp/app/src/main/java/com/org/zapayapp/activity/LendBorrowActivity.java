@@ -1,5 +1,4 @@
 package com.org.zapayapp.activity;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,15 +18,12 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.dd.ShadowLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonElement;
@@ -49,16 +45,13 @@ import com.org.zapayapp.utils.EndlessRecyclerViewScrollListener;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.WVDateLib;
 import com.org.zapayapp.webservices.APICallback;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import retrofit2.Call;
 
 public class LendBorrowActivity extends BaseActivity implements View.OnClickListener, DatePickerFragmentDialogue.DatePickerCallback, APICallback, ContactListener {
@@ -975,7 +968,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
                 //*****this code use for temprary
 
-
                 double afterCommission = finalTotalPayBackAmount - borrowerCommission;
                 zapayCommissionTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(borrowerCommission, 2));
                 afterCommissionTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(afterCommission, 2));
@@ -1197,12 +1189,17 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         }
 
 
-
         float childAmount=0;
         float child_total_amount=0;
         float childCommissionFromBorrower=0;
-        if (isBorrow) {
-            float newTotalAmount = finalTotalPayBackAmount;
+       // if (isBorrow) {
+        if (transactionModel!=null&&transactionModel.getRequestBy()!=null&&transactionModel.getRequestBy().length()>0&&transactionModel.getRequestBy().equals("2")) {  //borrow mode
+            float newTotalAmount = 0;
+            if (finalTotalPayBackAmount>0){
+                 newTotalAmount = finalTotalPayBackAmount;
+            }else {
+                newTotalAmount = Float.parseFloat(transactionModel.getTotalAmount());
+            }
             float previousTotalAmount = Float.parseFloat(transactionModel.getTotalAmount());
             float borrowerChargeValue = Float.parseFloat(SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_VALUE).toString());
 
@@ -1236,8 +1233,9 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 "child_total_amount", child_total_amount,
                 "child_admin_commission_from_borrower", childCommissionFromBorrower);
         Log.e("post", "negotiateRunningTransactionRequest post data======" + values.toString());
+        Log.e("post", "negotiateRunningTransactionRequest getRequestBy======" + transactionModel.getRequestBy());
 
-   /*     String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_negotiate_running_transaction_request), values);
@@ -1247,7 +1245,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }
     }
 
     @Override
@@ -1273,9 +1271,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                         noDataTv.setVisibility(View.GONE);
                         contactRecycler.setVisibility(View.VISIBLE);
                         contactNumberList.addAll(list);
-
                         setContactAdapter();
-
                     } else {
                         if (pageNo == 0) {
                             noDataTv.setVisibility(View.VISIBLE);

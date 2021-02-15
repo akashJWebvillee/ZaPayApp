@@ -7,28 +7,22 @@
     <string name="api_change_password">change_password</string>
     <string name="api_update_profile_image">update_profile_image</string>
     <string name="api_get_user_details">get_user_details</string>
-
     <string name="api_add_bank_account">add_bank_account</string>
     <string name="api_get_bank_account_details">get_bank_account_details</string>
     <string name="api_update_bank_account">update_bank_account</string>
     <string name="api_verify_bank_account_by_micro_deposits">verify_bank_account_by_micro_deposits</string>
-
     <string name="api_get_states_list">get_states_list</string>
     <string name="api_get_cities_list">get_cities_list</string>
     <string name="api_update_profile">update_profile</string>
-
     <string name="api_get_contact_list">get_contact_list</string>
-
     <string name="api_transaction_request">transaction_request</string>
     <string name="api_negotiate_running_transaction_request">negotiate_running_transaction_request</string>
     <string name="api_get_transaction_request">get_transaction_request</string>
     <string name="api_get_transaction_request_details">get_transaction_request_details</string>
     <string name="api_get_transaction_history_details">get_transaction_history_details</string>
     <string name="api_get_transaction_history">get_transaction_history</string>
-
     <string name="api_update_transaction_request_status">update_transaction_request_status</string>
     <string name="api_pay_date_request_status_update">pay_date_request_status_update</string>
-
     <string name="api_get_chat_history">get_chat_history</string>
     <string name="api_update_device_info">update_device_info</string>
     <string name="api_rating">rating</string>
