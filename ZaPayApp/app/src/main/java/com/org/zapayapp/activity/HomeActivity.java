@@ -35,8 +35,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         init();
         initAction();
         getNotificationIntent();
-
-    }
+      }
 
     @Override
     protected void onStart() {
