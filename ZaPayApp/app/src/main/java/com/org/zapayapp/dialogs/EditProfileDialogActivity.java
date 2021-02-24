@@ -404,12 +404,10 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                     "postal_code", postalCodeEditText.getText().toString().trim(),
                     "ssn", ssnEditText.getText().toString().trim(),
                     "dob", selectDOB,
-
                     "age", ageInYear,
                     "sex", gender.toLowerCase(),
                     "ethnicity", ethnicity,
-                    "income", incomeValue.toLowerCase()
-            );
+                    "income", incomeValue.toLowerCase());
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postWithTokenMultiPartWithDataApi(token, getString(R.string.api_update_profile), values, fileToUpload);
             if (apiCalling != null) {
