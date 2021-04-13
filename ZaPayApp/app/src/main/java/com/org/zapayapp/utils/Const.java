@@ -69,4 +69,12 @@ public class Const {
         Log.e("response:", "response===" + msg);
 
     }
+
+    public static String getCurrency(){
+       String currency=SharedPref.getPrefsHelper().getPref(Var.CURRENCY,"$");
+       if (currency==null&&currency.length()==0){
+           currency="$";
+       }
+      return currency;
+    }
 }

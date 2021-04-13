@@ -1,4 +1,5 @@
 package com.org.zapayapp.notification;
+
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -11,8 +12,10 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
+
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.org.zapayapp.R;
@@ -23,6 +26,7 @@ import com.org.zapayapp.activity.SplashActivity;
 import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.SharedPref;
+
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
@@ -47,15 +51,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             } else {
                 CommonMethods.showLogs(TAG, "isAppForeground : App is foreground");
             }
-
             if (SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID) != null && SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString().length() > 0) {
                 sendNotification(remoteMessage.getData());
             }
         }
-
     }
-    // [END receive_message]
 
+    // [END receive_message]
     private void sendNotification(Map<String, String> data) {
         Intent intent = null;
         try {
@@ -78,8 +80,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         intent.putExtra("notification_type", notification_type);
                         intent.putExtra("status", status);
                         intent.putExtra("request_by", request_by);
-
-                       // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        intent.putExtra("transaction_request_id", transaction_request_id);
+                        intent.putExtra("from_id", from_id);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
                         PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis()/* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                         boolean flag = false;
@@ -138,7 +141,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                             intent.putExtra("moveFrom", forWhat);
                             intent.putExtra("status", "2");
                             intent.putExtra("transactionId", transaction_request_id);
-                        }else if (notification_type.equalsIgnoreCase("PAY_DATE_EXTEND_DECLINE")) {
+                        } else if (notification_type.equalsIgnoreCase("PAY_DATE_EXTEND_DECLINE")) {
                             // intent.putExtra("moveFrom", getString(R.string.history));
                             intent.putExtra("moveFrom", forWhat);
                             intent.putExtra("status", "2");
@@ -146,13 +149,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         }
 
                         //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        Objects.requireNonNull(intent).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        Objects.requireNonNull(intent).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis()/* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                         boolean flag = false;
                         createImageBuilder(title, message, pendingIntent, flag);
                     }
                 }
-
             } else {
                 intent = new Intent(this, SplashActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -213,7 +215,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle());
             }
 
-
             notificationBuilder.setDefaults(NotificationCompat.DEFAULT_ALL);
             // Since android Oreo notification channel is needed.
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -228,10 +229,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             } else {
                 notificationBuilder.setPriority(Notification.PRIORITY_HIGH);
             }
-
             if (notificationManager != null)
                 notificationManager.notify((int) System.currentTimeMillis() + value, notificationBuilder.build());
-
         } catch (Exception e) {
             e.printStackTrace();
         }

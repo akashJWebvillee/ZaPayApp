@@ -411,10 +411,10 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 termTV.setText(terms_value);
             } else if (terms_type.equalsIgnoreCase("2")) {
                 terms_value = terms_value + " " + getString(R.string.fee);
-                termTV.setText("$" + terms_value);
+                termTV.setText(Const.getCurrency() + terms_value);
             } else if (terms_type.equalsIgnoreCase("3")) {
                 terms_value = terms_value + " " + getString(R.string.discount);
-                termTV.setText("$" + terms_value);
+                termTV.setText(Const.getCurrency() + terms_value);
             } else if (terms_type.equalsIgnoreCase("4")) {
                 // terms_value = terms_value + " " + getString(R.string.none);
                 termTV.setText(getString(R.string.none));
@@ -460,22 +460,22 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
                     if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
                         commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getLenderChargeValue() + ")" + commissionModel.getLenderChargeType());
-                        commissionValueTV.setText("$" + transactionModel.getAdmin_commission_from_lender());
+                        commissionValueTV.setText(Const.getCurrency() + transactionModel.getAdmin_commission_from_lender());
                     }
                     if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                         commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
-                        commissionValueTV.setText("$" + transactionModel.getAdmin_commission_from_borrower());
+                        commissionValueTV.setText(Const.getCurrency() + transactionModel.getAdmin_commission_from_borrower());
                     }
                 }
             } else if (getString(R.string.history).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
                 if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
                     if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                         commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getLenderChargeValue() + ")" + commissionModel.getLenderChargeType());
-                        commissionValueTV.setText("$" + transactionModel.getAdmin_commission_from_lender());
+                        commissionValueTV.setText(Const.getCurrency() + transactionModel.getAdmin_commission_from_lender());
                     }
                     if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
                         commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
-                        commissionValueTV.setText("$" + transactionModel.getAdmin_commission_from_borrower());
+                        commissionValueTV.setText(Const.getCurrency() + transactionModel.getAdmin_commission_from_borrower());
                     }
                 }
             }
@@ -563,14 +563,14 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                         float commission = Float.parseFloat(transactionModel.getAdmin_commission_from_lender());
                         float totalAmount = Float.parseFloat(transactionModel.getTotalAmount());
                         float amount = totalAmount - commission;
-                        afterCommissionAmountTV.setText("$" + CommonMethods.setDigitAfterDecimalValue(amount, 2));
+                        afterCommissionAmountTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(amount, 2));
                     }
                 } else if (transactionModel.getRequestBy().equals("2")) {
                     if (transactionModel.getAdmin_commission_from_borrower() != null && transactionModel.getAdmin_commission_from_borrower().length() > 0) {
                         float commission = Float.parseFloat(transactionModel.getAdmin_commission_from_borrower());
                         float totalAmount = Float.parseFloat(transactionModel.getTotalAmount());
                         float amount = totalAmount - commission;
-                        afterCommissionAmountTV.setText("$" + CommonMethods.setDigitAfterDecimalValue(amount, 2));
+                        afterCommissionAmountTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(amount, 2));
                     }
                 }
             }
@@ -582,14 +582,14 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                         float commission = Float.parseFloat(transactionModel.getAdmin_commission_from_lender());
                         float totalAmount = Float.parseFloat(transactionModel.getTotalAmount());
                         float amount = totalAmount - commission;
-                        afterCommissionAmountTV.setText("$" + CommonMethods.setDigitAfterDecimalValue(amount, 2));
+                        afterCommissionAmountTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(amount, 2));
                     }
                 } else if (transactionModel.getRequestBy().equals("1")) {
                     if (transactionModel.getAdmin_commission_from_borrower() != null && transactionModel.getAdmin_commission_from_borrower().length() > 0) {
                         float commission = Float.parseFloat(transactionModel.getAdmin_commission_from_borrower());
                         float totalAmount = Float.parseFloat(transactionModel.getTotalAmount());
                         float amount = totalAmount - commission;
-                        afterCommissionAmountTV.setText("$" + CommonMethods.setDigitAfterDecimalValue(amount, 2));
+                        afterCommissionAmountTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(amount, 2));
                     }
                 }
             }

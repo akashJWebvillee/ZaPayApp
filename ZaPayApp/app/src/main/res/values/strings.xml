@@ -2,7 +2,6 @@
     <string name="app_name">ZaPayApp</string>
     <string name="app_name_folder">ZaPayApp</string>
     <string name="default_notification_channel_id">zpay_default_channel</string>
-
     <!-- Network Messages-->
     <string name="network_conn">Please check network connection!</string>
     <string name="unable_auth">Unable to authenticate.</string>
@@ -11,7 +10,6 @@
     <string name="something_wrong">Something went wrong.</string>
     <string name="retry">Retry</string>
     <string name="something_wrong_check_network">Something went wrong. Please check your network connectivity.</string>
-
     <!-- Date picker fragment -->
     <string name="show" translatable="false">Show</string>
     <string name="both" translatable="false">Both</string>
@@ -22,7 +20,6 @@
     <string name="time_picker" translatable="false">Time Picker</string>
     <string name="date_ok">OK</string>
     <string name="date_cancel">Cancel</string>
-
     <!--login screen -->
     <string name="user_name">User name</string>
     <string name="mobile">Mobile</string>
@@ -43,7 +40,6 @@
     <string name="forgot_password">Forgot password</string>
     <string name="i_agree">I agree</string>
     <string name="term_and_condition_message">By creating an account, you are agreeing to the Terms and Conditions</string>
-
     <!-- navigation strings-->
     <string name="home">Home</string>
     <string name="my_profile">My Profile</string>
@@ -58,13 +54,10 @@
     <string name="logout">Logout</string>
     <string name="nav_drawer_opened">Navigation Drawer Open</string>
     <string name="nav_drawer_closed">Navigation Drawer Closed</string>
-
     <string name="all_details">All Details</string>
     <string name="details">Details</string>
-
     <!--Forgot password Activity -->
     <string name="enter_email_address_with_account">Enter your Email Address associated with your account</string>
-
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -74,7 +67,6 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
-
     <!--profile-->
     <string name="mobile_no">Mobile No.</string>
     <string name="enter_valid_mobile">Enter valid mobile</string>
@@ -82,12 +74,9 @@
     <string name="change_date_request">Change date request</string>
     <string name="disclaimer">Disclaimer</string>
     <string name="set_pin">Update Pin</string>
-
-
     <!--Home screen-->
     <string name="lend_money">Lend Money</string>
     <string name="borrow_money">Borrow Money</string>
-
     <string name="full_name">Full name</string>
     <string name="name">Name</string>
     <string name="email">Email</string>
@@ -116,15 +105,12 @@
     <string name="enter_your_age">Enter your age</string>
     <string name="enter_ethnicity">Enter ethnicity(optional)</string>
     <string name="save">Save</string>
-
-
     <string name="old_password">Old Password</string>
     <string name="new_password">New Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="enter_old_password">Enter old password</string>
     <string name="enter_new_password">Enter new password</string>
     <string name="enter_confirm_password">Enter confirm password</string>
-
     <!--Bank info-->
     <string name="bank_account_setup">Bank Account Setup</string>
     <string name="account_number">Account Number</string>
@@ -137,15 +123,12 @@
     <string name="enter_valid_account_number">Enter valid account number</string>
     <string name="enter_routing_number">Enter routing number</string>
     <string name="enter_valid_routing_number">Enter valid routing number</string>
-
     <string name="enter_name">Enter name</string>
-
     <!--History-->
     <string name="paid">Paid</string>
     <string name="paid_from">Paid from :</string>
-
     <!--accept summary-->
-    <string name="borrow_summary">Borrow Summary</string>
+    <string name="borrow_summary">Summary</string>
     <string name="borrower">Borrower</string>
     <string name="chat">Chat</string>
     <string name="amount">Amount</string>
@@ -158,18 +141,16 @@
     <string name="negotiate">Negotiate</string>
     <string name="accept">Accept</string>
     <string name="decline">Decline</string>
-    <string name="lending_summary">Lending Summary</string>
+    <string name="lending_summary">Summary</string>
     <string name="lender">Lender</string>
     <string name="rating">Rating</string>
-
+    <string name="total_pay">Total Pay</string>
     <string name="negotiated_by">Negotiated By</string>
     <string name="accepted_by">Accepted By</string>
-
     <!-- Chat Screen-->
     <string name="chat_send">Send</string>
     <string name="chat_received">Received</string>
     <string name="chat_seen">Seen</string>
-
     <!--lend borrow screen-->
     <string name="next">Next</string>
     <string name="back">Back</string>
@@ -195,7 +176,6 @@
     <string name="enter_no_of_payment">Enter no of payment</string>
     <string name="start_date">Start Date</string>
     <string name="select_date">Select date</string>
-
     <string name="first_select_date">First Start Date</string>
     <string name="second_select_date">Second Start Date</string>
     <string name="third_select_date">Third Start Date</string>
@@ -209,14 +189,11 @@
     <string name="do_not_select_past_date">"Don't select past date</string>
     <string name="Selected_Date_Should_Be_Less_Then">Selected Date Should Be Less Then</string>
     <string name="Selected_Date_Should_Be_Greater_Then">Selected Date Should Be Greater Then</string>
-
     <string name="total_to_payback">Total to Pay Back</string>
     <string name="total_to_receive_back">Total to Receive Back</string>
     <string name="submit">Submit</string>
     <string name="zapay_commission">Zapay Commission</string>
     <string name="after_zapay_commission">After Zapay Commission</string>
-
-
     <!--Transaction screen-->
     <string name="pending">Pending</string>
     <string name="negotiation">Negotiation</string>
@@ -227,30 +204,21 @@
     <string name="saving">Savings</string>
     <string name="checking">Checking</string>
     <string name="general_ledger">General-ledger</string>
-    <string name="accepted_renegotiate">Accepted Renegotiate</string>
-
-
+    <string name="accepted_renegotiate">Renegotiate</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="hello">Hello</string>
-
-
     <string name="no_data_found">No data found</string>
-
     <string name="verify_account">Verify Account</string>
     <string name="add">Add</string>
     <string name="amount1">Amount 1</string>
     <string name="amount2">Amount 2</string>
     <string name="enter_amount1">Enter Amount 1</string>
     <string name="enter_amount2">Enter Amount 2</string>
-
     <string name="enter_term">Enter term value</string>
     <string name="update_your_profile">Update your profile</string>
-
-
     <string name="lend_mode">Lend Mode:</string>
     <string name="review">Review</string>
-
     <!--Validation Messages -->
     <string name="please_enter_valid_email">Please enter valid email.</string>
     <string name="please_enter_valid_full_name">Please enter valid full name.</string>
@@ -264,7 +232,6 @@
     <string name="enter_message">Type your message here..</string>
     <string name="type_message">Please enter message</string>
     <string name="new_password_and_confirm_password_should_be_same">New password and confirm password should be same</string>
-
     <!--signUp-->
     <string name="enter_full_name">Enter full name</string>
     <string name="age_must_be_18_years_or_older">Age must be 18 years or older</string>
@@ -286,21 +253,17 @@
     <string name="pin_and_confirm_pin_not_same">Pin and confirm pin not same</string>
     <string name="your_pin_has_been_set">Your pin has been set</string>
     <string name="wrong_pin">Wrong pin</string>
-
     <string name="set_new_pin">Set new pin</string>
     <string name="update_pin">Update pin</string>
     <string name="check_pin">Check pin</string>
-
     <string name="Date_Change_Request">Date Change Request</string>
     <string name="okay">Okay</string>
     <string name="your_date_change_Request_has_been_updated">Your date change Request has been updated</string>
     <string name="congratulations">Congratulations</string>
     <string name="close">Close</string>
     <string name="forget_pin_msg">First logout to generate new pin. Do you want to logout?</string>
-
     <string name="male">Male</string>
     <string name="female">Female</string>
-
     <string name="signature">Signature</string>
     <string name="clear">Clear</string>
     <string name="add_signature">Add Signature</string>
@@ -309,13 +272,11 @@
     <string name="please_accept_agreement_form">Please accept agreement form</string>
     <string name="please_accept_amendment_form">Please accept amendment form</string>
     <string name="PDF_url_missing">PDF url missing</string>
-    <string name="agreement_form">Agreement form</string>
+    <string name="agreement_form">Agreement Form</string>
     <string name="previous_date">Previous date</string>
     <string name="requested_date">Requested date</string>
     <string name="amendment">Amendment</string>
     <string name="signature_conformation_msg">"Please make sure signature is valid because once signature uploaded can't be undo</string>
-
-
     <string name="termConditionData">"Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book
 </string>
 </resources>

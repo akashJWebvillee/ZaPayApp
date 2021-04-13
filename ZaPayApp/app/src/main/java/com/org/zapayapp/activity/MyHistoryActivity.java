@@ -14,7 +14,6 @@ import com.org.zapayapp.webservices.APICalling;
 import com.org.zapayapp.webservices.RestAPI;
 
 public class MyHistoryActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
-
     private TabLayout tabLayout;
     private CustomViewPager viewPager;
     private Toolbar toolbar;

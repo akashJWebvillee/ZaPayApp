@@ -401,10 +401,10 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                 termTV.setText(terms_value);
             } else if (terms_type.equalsIgnoreCase("2")) {
                 terms_value = terms_value + " " + getString(R.string.fee);
-                termTV.setText("$" + terms_value);
+                termTV.setText(Const.getCurrency() + terms_value);
             } else if (terms_type.equalsIgnoreCase("3")) {
                 terms_value = terms_value + " " + getString(R.string.discount);
-                termTV.setText("$" + terms_value);
+                termTV.setText(Const.getCurrency() + terms_value);
             } else if (terms_type.equalsIgnoreCase("4")) {
                 //terms_value = terms_value + " " + getString(R.string.none);
                 termTV.setText(getString(R.string.none));
@@ -423,8 +423,7 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
             commission_charges_detail.replace("\\", "/");
             CommissionModel commissionModel = gson.fromJson(commission_charges_detail, CommissionModel.class);
             commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
-            // commissionValueTV.setText("$" + commissionModel.getBorrowerChargeValue());
-            commissionValueTV.setText("$" + transactionModel.getAdmin_commission_from_borrower());
+            commissionValueTV.setText(Const.getCurrency() + transactionModel.getAdmin_commission_from_borrower());
         }
 
         if (status.equalsIgnoreCase("2") || status.equalsIgnoreCase("4")) {
@@ -465,7 +464,7 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
             float commission = Float.parseFloat(transactionModel.getAdmin_commission_from_borrower());
             float totalAmount = Float.parseFloat(transactionModel.getTotalAmount());
             float amount = totalAmount - commission;
-            afterCommissionAmountTV.setText("$" + CommonMethods.setDigitAfterDecimalValue(amount, 2));
+            afterCommissionAmountTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(amount, 2));
         }
     }
 

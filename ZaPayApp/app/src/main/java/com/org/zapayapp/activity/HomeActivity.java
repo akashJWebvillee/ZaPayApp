@@ -16,6 +16,7 @@ import com.org.zapayapp.utils.MySession;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
 import java.util.HashMap;
+import java.util.Objects;
 import retrofit2.Call;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener, APICallback {
@@ -34,8 +35,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         init();
         initAction();
         getNotificationIntent();
-
-    }
+      }
 
     @Override
     protected void onStart() {
@@ -230,62 +230,77 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     public void onBackPressed() {
         // super.onBackPressed();
         showForceUpdate(getString(R.string.do_you_want_to_close_the_application), getString(R.string.do_you_want_to_close_the_application), false, getString(R.string.cancel), false);
-        //showSimpleAlert(getString(R.string.do_you_want_to_close_the_application),getString(R.string.do_you_want_to_close_the_application));
 
     }
 
     private void getNotificationIntent() {
         if (getIntent() != null) {
             if (getIntent().getStringExtra("request_by") != null
-                    && getIntent().getStringExtra("moveFrom") != null
+                    && getIntent().getStringExtra("status") != null
                     && getIntent().getStringExtra("notification_type") != null
-                    && getIntent().getStringExtra("transactionId") != null) {
+                    && getIntent().getStringExtra("transaction_request_id") != null
+                    && getIntent().getStringExtra("from_id") != null) {
 
                 String notification_type = getIntent().getStringExtra("notification_type");
                 String request_by = getIntent().getStringExtra("request_by");
-                String moveFrom = getIntent().getStringExtra("moveFrom");
-                String transactionId = getIntent().getStringExtra("transactionId");
                 String status = getIntent().getStringExtra("status");
+                String transaction_request_id = getIntent().getStringExtra("transaction_request_id");
+                String from_id = getIntent().getStringExtra("from_id");
 
-                if (request_by != null && request_by.equals("1")) {
-                    intent = new Intent(this, LendingSummaryActivity.class);
-                } else if (request_by != null && request_by.equals("2")) {
-                    intent = new Intent(this, BorrowSummaryActivity.class);
+                String forWhat;
+                if (from_id != null && from_id.equalsIgnoreCase(SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID))) {  //History
+                    forWhat = getString(R.string.history);
+                    if (request_by != null && request_by.equals("2")) {
+                        intent = new Intent(this, LendingSummaryActivity.class);
+                    } else if (request_by != null && request_by.equals("1")) {
+                        intent = new Intent(this, BorrowSummaryActivity.class);
+                    }
+                } else { //Transaction
+                    forWhat = getString(R.string.transaction);
+                    if (request_by != null && request_by.equals("1")) {
+                        intent = new Intent(this, LendingSummaryActivity.class);
+                    } else if (request_by != null && request_by.equals("2")) {
+                        intent = new Intent(this, BorrowSummaryActivity.class);
+                    }
                 }
 
                 if (notification_type.equalsIgnoreCase("NEW_TRANSACTION_REQUEST")) {
-                    intent.putExtra("moveFrom", getString(R.string.transaction));
+                    intent.putExtra("moveFrom", forWhat);
                     intent.putExtra("status", status);
-                    intent.putExtra("transactionId", transactionId);
+                    intent.putExtra("transactionId", transaction_request_id);
 
                 } else if (notification_type.equalsIgnoreCase("REQUEST_ACCEPTED")) {
-                    //intent.putExtra("moveFrom", getString(R.string.accepted));
-                    intent.putExtra("moveFrom", getString(R.string.history));
+                    intent.putExtra("moveFrom", forWhat);
                     intent.putExtra("status", status);
-                    intent.putExtra("transactionId", transactionId);
+                    intent.putExtra("transactionId", transaction_request_id);
                 } else if (notification_type.equalsIgnoreCase("REQUEST_DECLINED")) {
-                    // intent.putExtra("moveFrom", getString(R.string.decline));
-                    intent.putExtra("moveFrom", getString(R.string.history));
+                    intent.putExtra("moveFrom", forWhat);
                     intent.putExtra("status", status);
-                    intent.putExtra("transactionId", transactionId);
+                    intent.putExtra("transactionId", transaction_request_id);
                 } else if (notification_type.equalsIgnoreCase("REQUEST_NEGOTIATE")) {
-                    // intent.putExtra("moveFrom", getString(R.string.negotiation));
-                    intent.putExtra("moveFrom", getString(R.string.history));
+                    intent.putExtra("moveFrom", forWhat);
                     intent.putExtra("status", status);
-                    intent.putExtra("transactionId", transactionId);
+                    intent.putExtra("transactionId", transaction_request_id);
                 } else if (notification_type.equalsIgnoreCase("PAY_DATE_EXTEND")) {
-                    // intent.putExtra("moveFrom", getString(R.string.accepted));
-                    intent.putExtra("moveFrom", getString(R.string.history));
+                    intent.putExtra("moveFrom", forWhat);
                     intent.putExtra("status", status);
-                    intent.putExtra("transactionId", transactionId);
-                }else if (notification_type.equalsIgnoreCase("TRANSACTION_INITIATED")){
-                    intent.putExtra("moveFrom", getString(R.string.history));
+                    intent.putExtra("transactionId", transaction_request_id);
+                } else if (notification_type.equalsIgnoreCase("TRANSACTION_INITIATED")) {
+                    intent.putExtra("moveFrom", forWhat);
                     intent.putExtra("status", "2");
-                    intent.putExtra("transactionId", transactionId);
+                    intent.putExtra("transactionId", transaction_request_id);
+                } else if (notification_type.equalsIgnoreCase("PAY_DATE_EXTEND_ACCEPT")) {
+                    intent.putExtra("moveFrom", forWhat);
+                    intent.putExtra("status", "2");
+                    intent.putExtra("transactionId", transaction_request_id);
+                } else if (notification_type.equalsIgnoreCase("PAY_DATE_EXTEND_DECLINE")) {
+                    intent.putExtra("moveFrom", forWhat);
+                    intent.putExtra("status", "2");
+                    intent.putExtra("transactionId", transaction_request_id);
                 }
-
                 //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                  startActivity(intent);
+                Objects.requireNonNull(intent).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
             }
         }
     }
