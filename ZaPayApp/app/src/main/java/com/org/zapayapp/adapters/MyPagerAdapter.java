@@ -1,5 +1,4 @@
 package com.org.zapayapp.adapters;
-
 import android.content.Context;
 
 import androidx.annotation.NonNull;
@@ -14,7 +13,6 @@ import com.org.zapayapp.fragment.NegotiationFragment;
 import com.org.zapayapp.fragment.PendingFragment;
 
 import java.util.ArrayList;
-
 public class MyPagerAdapter extends FragmentStatePagerAdapter {
     private int tabCount;
     private Context context;

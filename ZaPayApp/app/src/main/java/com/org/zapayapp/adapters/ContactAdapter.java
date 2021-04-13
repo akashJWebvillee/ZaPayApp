@@ -81,15 +81,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
         }
 
 
-
-
-
-
-
-
-
-
-      /*if (model.isSelect()){
+        /*if (model.isSelect()){
           holder.contactImgSelect.setImageResource(R.mipmap.ic_check_select);
           holder.contactTxtName.setSelected(true);
       }else {

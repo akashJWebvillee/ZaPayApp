@@ -367,8 +367,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
                     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
             } else if (useDrawerToggle()) { // use the hamburger menu
-                drawerToggle = new ActionBarDrawerToggle(
-                        this, drawerLayout, toolbar, R.string.nav_drawer_opened, R.string.nav_drawer_closed);
+                drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.nav_drawer_opened, R.string.nav_drawer_closed);
                 drawerLayout.addDrawerListener(drawerToggle);
                 drawerToggle.setDrawerIndicatorEnabled(false); //disable "hamburger to arrow" drawable
                 drawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {

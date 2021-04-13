@@ -94,6 +94,48 @@ public class TransactionModel implements Serializable{
     private List<AgreementPdfDetailModel> agreementPdfDetailModelList = null;
 
 
+    @SerializedName("sender_first_name")
+    @Expose
+    public String sender_first_name;
+    @SerializedName("sender_last_name")
+    @Expose
+    public String sender_last_name;
+
+    @SerializedName("receiver_first_name")
+    @Expose
+    public String receiver_first_name;
+    @SerializedName("receiver_last_name")
+    @Expose
+    public String receiver_last_name;
+
+
+    @SerializedName("sender_average_rating")
+    @Expose
+    public String sender_average_rating;
+    @SerializedName("receiver_average_rating")
+    @Expose
+    public String receiver_average_rating;
+
+    @SerializedName("sender_profile_image")
+    @Expose
+    public String sender_profile_image;
+
+    @SerializedName("receiver_profile_image")
+    @Expose
+    public String receiver_profile_image;
+
+    @SerializedName("cancel_by_first_name")
+    @Expose
+    public String cancel_by_first_name;
+    @SerializedName("cancel_by_last_name")
+    @Expose
+    public String cancel_by_last_name;
+
+    @SerializedName("cancel_by_profile_image")
+    @Expose
+    public String cancel_by_profile_image;
+
+
 
 
     public List<AgreementPdfDetailModel> getAgreementPdfDetailModelList() {
@@ -198,5 +240,50 @@ public class TransactionModel implements Serializable{
 
     public String getIs_negotiate_after_accept() {
         return is_negotiate_after_accept;
+    }
+
+    public String getSender_first_name() {
+        return sender_first_name;
+    }
+
+    public String getSender_last_name() {
+        return sender_last_name;
+    }
+
+    public String getReceiver_first_name() {
+        return receiver_first_name;
+    }
+
+    public String getReceiver_last_name() {
+        return receiver_last_name;
+    }
+
+
+    public String getSender_average_rating() {
+        return sender_average_rating;
+    }
+
+    public String getReceiver_average_rating() {
+        return receiver_average_rating;
+    }
+
+    public String getSender_profile_image() {
+        return sender_profile_image;
+    }
+
+    public String getReceiver_profile_image() {
+        return receiver_profile_image;
+    }
+
+    public String getCancel_by_first_name() {
+        return cancel_by_first_name;
+    }
+
+    public String getCancel_by_last_name() {
+        return cancel_by_last_name;
+    }
+
+    public String getCancel_by_profile_image() {
+        return cancel_by_profile_image;
     }
 }

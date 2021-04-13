@@ -1,29 +1,19 @@
 package com.org.zapayapp.activity;
-
+import androidx.annotation.Nullable;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
-import com.org.zapayapp.adapters.ViewAllDateAdapter;
 import com.org.zapayapp.chat.ChatActivity;
+import com.org.zapayapp.model.AgreementPdfDetailModel;
 import com.org.zapayapp.model.CommissionModel;
 import com.org.zapayapp.model.DateModel;
-import com.org.zapayapp.model.AgreementPdfDetailModel;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
@@ -36,47 +26,40 @@ import com.org.zapayapp.webservices.APICallback;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
-
 import retrofit2.Call;
 
-public class BorrowSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener, MyDateUpdateDialog.DateStatusUpdateListener {
-    private TextView nameTV, amountTV, termTV, noOfPaymentTV, paymentDateTV, totalReceivedBackTV, viewAllTV, negotiateTV, acceptTV, declineTV, commissionTitleTV, commissionValueTV;
-    private ImageView chatTV;
-    private String transactionId, moveFrom;
-    private TransactionModel transactionModel;
-    private String negotiationAcceptDeclineStatus = "";
-    private Intent intent;
-    private String status;
-    private boolean isClickable = true;
+public class CommonSummeryActivity extends BaseActivity implements APICallback, View.OnClickListener, MyDateUpdateDialog.DateStatusUpdateListener {
+private TextView nameTV, amountTV, termTV, noOfPaymentTV, paymentDateTV, totalReceivedBackTV, viewAllTV, negotiateTV, acceptTV, declineTV, commissionTitleTV, commissionValueTV;
+private ImageView chatTV;
+private String transactionId, moveFrom;
+private TransactionModel transactionModel;
+private String negotiationAcceptDeclineStatus = "";
+private Intent intent;
+private String status;
+private boolean isClickable = true;
 
-    private String updated_by;
-    private LinearLayout agreementFormLL;
-    private AgreementPdfDetailModel agreementPdfDetailModel;
-    private int changeDateRequestDialogActivityCODE = 300;
-    private DateModel dateModel;
-    private String request_by;
-    private TextView afterCommissionTitleTV;
-    private TextView afterCommissionAmountTV;
-    private TextView vewAllDateTV;
-
-    private ArrayList<String> payDateList;
+private String updated_by;
+private LinearLayout agreementFormLL;
+private AgreementPdfDetailModel agreementPdfDetailModel;
+private int changeDateRequestDialogActivityCODE = 300;
+private DateModel dateModel;
+private String request_by;
+private TextView afterCommissionTitleTV;
+private TextView afterCommissionAmountTV;
+private TextView vewAllDateTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_borrow_summary);
+        setContentView(R.layout.activity_common_summery);
         init();
         initAction();
         getIntentValues();
     }
 
     private void init() {
-        payDateList=new ArrayList<>();
         nameTV = findViewById(R.id.nameTV);
         amountTV = findViewById(R.id.amountTV);
         termTV = findViewById(R.id.termTV);
@@ -189,13 +172,13 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.negotiateTV:
-                intent = new Intent(BorrowSummaryActivity.this, LendBorrowActivity.class);
+                intent = new Intent(CommonSummeryActivity.this, LendBorrowActivity.class);
                 intent.putExtra("isBorrow", true);
                 intent.putExtra("transactionModel", transactionModel);
                 startActivity(intent);
                 break;
             case R.id.acceptTV:
-                intent = new Intent(BorrowSummaryActivity.this, AcceptActivity.class);
+                intent = new Intent(CommonSummeryActivity.this, AcceptActivity.class);
                 intent.putExtra("moveFrom", moveFrom);
                 intent.putExtra("status", "2");
                 intent.putExtra("transactionModel", gson.toJson(transactionModel));
@@ -214,7 +197,7 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
             case R.id.viewAllTV:
                 if (isClickable) {
                     isClickable = false;
-                    intent = new Intent(BorrowSummaryActivity.this, ViewAllSummaryActivity.class);
+                    intent = new Intent(CommonSummeryActivity.this, ViewAllSummaryActivity.class);
                     intent.putExtra("transactionId", transactionId);
                     intent.putExtra("moveFrom", moveFrom);
                     intent.putExtra("status", status);
@@ -223,26 +206,21 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                 }
                 break;
             case R.id.chatTV:
-                intent = new Intent(BorrowSummaryActivity.this, ChatActivity.class);
+                intent = new Intent(CommonSummeryActivity.this, ChatActivity.class);
                 intent.putExtra("transactionModel", transactionModel);
                 startActivity(intent);
                 break;
 
             case R.id.agreementFormLL:
                 if (agreementPdfDetailModel != null) {
-                 /*   String url = agreementPdfDetailModel.getPdfUrl();
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(url));
-                    startActivity(i);*/
-
-                    Intent intent = new Intent(BorrowSummaryActivity.this, PdfViewActivity.class);
+                    Intent intent = new Intent(CommonSummeryActivity.this, PdfViewActivity.class);
                     intent.putExtra("pdf_url", agreementPdfDetailModel.getPdfUrl());
                     startActivity(intent);
                 }
                 break;
 
-            case R.id.vewAllDateTV:
-                MyDialog.viewAllDateFunc(BorrowSummaryActivity.this,payDateList);
+
+                case R.id.vewAllDateTV:
                 break;
         }
     }
@@ -329,7 +307,7 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                     if (!negotiationAcceptDeclineStatus.equalsIgnoreCase("1")) {
                         showSimpleAlert(msg, getResources().getString(R.string.api_update_transaction_request_status));
                     } else {
-                        intent = new Intent(BorrowSummaryActivity.this, LendBorrowActivity.class);
+                        intent = new Intent(CommonSummeryActivity.this, LendBorrowActivity.class);
                         intent.putExtra("isBorrow", true);
                         intent.putExtra("transactionModel", transactionModel);
                         startActivity(intent);
@@ -372,19 +350,10 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
     }
 
     private void setData(JsonObject jsonObject, String forWhat) {
-        if (transactionModel.getFromId() != null && transactionModel.getFromId().length() > 0) {
-            if (Const.isRequestByMe(transactionModel.getFromId())) {
-                if (transactionModel.getReceiver_first_name() != null && transactionModel.getReceiver_first_name().length() > 0 && transactionModel.getReceiver_last_name() != null && transactionModel.getReceiver_last_name().length() > 0) {
-                  nameTV.setText(transactionModel.getReceiver_first_name() + " " + transactionModel.getReceiver_last_name());
-                }
-            } else {
-                if (transactionModel.getSender_first_name() != null && transactionModel.getSender_first_name().length() > 0 && transactionModel.getSender_last_name() != null && transactionModel.getSender_last_name().length() > 0) {
-                   nameTV.setText("" + transactionModel.getSender_first_name() + " " + transactionModel.getSender_last_name());
-                }
-            }
+        if (jsonObject.get("first_name").getAsString() != null && jsonObject.get("first_name").getAsString().length() > 0 && jsonObject.get("first_name").getAsString() != null && jsonObject.get("first_name").getAsString().length() > 0) {
+            String name = jsonObject.get("first_name").getAsString() + " " + jsonObject.get("last_name").getAsString();
+            nameTV.setText(name);
         }
-
-
         if (jsonObject.get("amount").getAsString() != null && jsonObject.get("amount").getAsString().length() > 0) {
             String amount = SharedPref.getPrefsHelper().getPref(Const.Var.CURRENCY, "") + jsonObject.get("amount").getAsString();
             amountTV.setText(amount);
@@ -412,13 +381,6 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                 String date = jsonObject1.getString("date");
                 // paymentDateTV.setText(DateFormat.getDateFromEpoch(date));
                 paymentDateTV.setText(DateFormat.dateFormatConvert(date));
-
-                payDateList.clear();
-                for (int i=0;i<jsonArray.length();i++){
-                    JSONObject jsonOb = jsonArray.getJSONObject(i);
-                    payDateList.add(jsonOb.getString("date"));
-                }
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -487,12 +449,12 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                     if (moveFrom.equalsIgnoreCase(getString(R.string.transaction))) {
                         if (request_by.equalsIgnoreCase("2")) {
                             if (dateModel != null && dateModel.getStatus().equalsIgnoreCase("remaining"))
-                                new MyDateUpdateDialog().changeDateRequestDialogFunc(BorrowSummaryActivity.this, this, dateModel, transactionModel);
+                                new MyDateUpdateDialog().changeDateRequestDialogFunc(CommonSummeryActivity.this, this, dateModel, transactionModel);
                         }
                     } else if (moveFrom.equalsIgnoreCase(getString(R.string.history))) {
                         if (request_by.equalsIgnoreCase("1")) {
                             if (dateModel != null && dateModel.getStatus().equalsIgnoreCase("remaining"))
-                                new MyDateUpdateDialog().changeDateRequestDialogFunc(BorrowSummaryActivity.this, this, dateModel, transactionModel);
+                                new MyDateUpdateDialog().changeDateRequestDialogFunc(CommonSummeryActivity.this, this, dateModel, transactionModel);
                         }
                     }
                 }

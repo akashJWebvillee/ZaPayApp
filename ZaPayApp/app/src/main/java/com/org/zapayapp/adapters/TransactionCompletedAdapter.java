@@ -16,7 +16,6 @@ import com.org.zapayapp.dialogs.RattingDialogActivity;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.uihelpers.CustomRatingBar;
 import com.org.zapayapp.utils.Const;
-import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.SharedPref;
 import org.json.JSONArray;
 import org.json.JSONException;

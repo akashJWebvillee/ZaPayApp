@@ -40,7 +40,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         private TextView borrowModeTitleTV;
         private ImageView dateUpdateIconIV;
         private TextView acceptedReNegotiateTV;
-
+        private TextView requestByTV;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
@@ -52,6 +52,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             borrowModeTitleTV = itemView.findViewById(R.id.borrowModeTitleTV);
             dateUpdateIconIV = itemView.findViewById(R.id.dateUpdateIconIV);
             acceptedReNegotiateTV = itemView.findViewById(R.id.acceptedReNegotiateTV);
+            requestByTV = itemView.findViewById(R.id.requestByTV);
         }
     }
 
@@ -66,18 +67,31 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     public void onBindViewHolder(@NonNull TransactionAdapter.MyHolder holder, int position) {
         TransactionModel transactionModel = transactionModelsList.get(position);
 
-        if (transactionModel.getFirstName() != null && transactionModel.getFirstName().length() > 0 && transactionModel.getFirstName() != null && transactionModel.getFirstName().length() > 0) {
-            String name = transactionModel.getFirstName() + " " + transactionModel.getLastName();
-            holder.nameTV.setText(name);
+        if (transactionModel.getFromId() != null && transactionModel.getFromId().length() > 0) {
+            if (Const.isRequestByMe(transactionModel.getFromId())) {
+                if (transactionModel.getReceiver_first_name() != null && transactionModel.getReceiver_first_name().length() > 0 && transactionModel.getReceiver_last_name() != null && transactionModel.getReceiver_last_name().length() > 0) {
+                    holder.nameTV.setText(transactionModel.getReceiver_first_name() + " " + transactionModel.getReceiver_last_name());
+                    holder.requestByTV.setText(context.getString(R.string.self));
+                }
+            } else {
+                if (transactionModel.getSender_first_name() != null && transactionModel.getSender_first_name().length() > 0 && transactionModel.getSender_last_name() != null && transactionModel.getSender_last_name().length() > 0) {
+                    holder.nameTV.setText("" + transactionModel.getSender_first_name() + " " + transactionModel.getSender_last_name());
+                    holder.requestByTV.setText(transactionModel.getSender_first_name());
+                }
+            }
         }
+
+
+
+
 
         if (transactionModel.getCreatedAt() != null && transactionModel.getCreatedAt().length() > 0) {
             //holder.dateTV.setText(TimeStamp.timeFun(transactionModel.getCreatedAt()));
         }
 
-        if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length() > 0&&transactionModel.getIs_negotiate_after_accept().equals("2")) {
-          holder.acceptedReNegotiateTV.setVisibility(View.VISIBLE);
-        }else {
+        if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length() > 0 && transactionModel.getIs_negotiate_after_accept().equals("2")) {
+            holder.acceptedReNegotiateTV.setVisibility(View.VISIBLE);
+        } else {
             holder.acceptedReNegotiateTV.setVisibility(View.GONE);
         }
 
@@ -132,34 +146,33 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                 } else {
                     holder.dateUpdateIconIV.setVisibility(View.GONE);
                 }
-            }else {
+            } else {
                 holder.dateUpdateIconIV.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             holder.dateUpdateIconIV.setVisibility(View.GONE);
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // if (!transactionModel.getStatus().equalsIgnoreCase("2")) {
                 if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                     Intent intent = new Intent(context, BorrowSummaryActivity.class);
                     intent.putExtra("moveFrom", data);
                     intent.putExtra("status", transactionModel.getStatus());
                     intent.putExtra("transactionId", transactionModel.getId());
                     //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     context.startActivity(intent);
                 } else if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
                     Intent intent = new Intent(context, LendingSummaryActivity.class);
                     intent.putExtra("moveFrom", data);
                     intent.putExtra("status", transactionModel.getStatus());
                     intent.putExtra("transactionId", transactionModel.getId());
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     context.startActivity(intent);
                 }
-                //}
+
             }
         });
     }

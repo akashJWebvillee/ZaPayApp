@@ -305,7 +305,7 @@
                             android:textColor="@color/navTextColor60Alpha"
                             android:textSize="14sp"
                             android:lineSpacingExtra="5dp"/>
-<!--  -->
+                        <!--  -->
                         <TextView
                             android:id="@+id/commissionValueTV"
                             android:layout_width="wrap_content"
@@ -343,7 +343,7 @@
                             android:textColor="@color/textColor"
                             android:textSize="16sp"
                             android:src="@mipmap/file1"
-                           android:layout_marginStart="50dp"
+                            android:layout_marginStart="50dp"
                             android:tint="@color/color_blue"/>
                     </LinearLayout>
 

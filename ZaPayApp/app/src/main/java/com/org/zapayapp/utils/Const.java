@@ -5,6 +5,8 @@ import android.content.Context;
 import android.provider.Settings;
 import android.util.Log;
 
+import com.org.zapayapp.R;
+
 public class Const {
     public interface Var {
         //Login data..
@@ -76,5 +78,19 @@ public class Const {
            currency="$";
        }
       return currency;
+    }
+
+
+    public static boolean isRequestByMe(String fromId){
+        boolean flag = false;
+        if (fromId != null && fromId.length() > 0 && SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID) != null && SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString().length() > 0) {
+            if (fromId.equalsIgnoreCase(SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString())) {
+                flag=true;
+            } else {
+                flag=false;
+            }
+        }
+
+        return flag;
     }
 }
