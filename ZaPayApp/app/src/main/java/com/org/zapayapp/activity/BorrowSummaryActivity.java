@@ -1,25 +1,14 @@
 package com.org.zapayapp.activity;
-
-import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
-import com.org.zapayapp.adapters.ViewAllDateAdapter;
 import com.org.zapayapp.chat.ChatActivity;
 import com.org.zapayapp.model.CommissionModel;
 import com.org.zapayapp.model.DateModel;
@@ -32,16 +21,12 @@ import com.org.zapayapp.utils.MyDateUpdateDialog;
 import com.org.zapayapp.utils.MyDialog;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
-
 import retrofit2.Call;
 
 public class BorrowSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener, MyDateUpdateDialog.DateStatusUpdateListener {
@@ -127,15 +112,21 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
     }
 
     private void setDataStatusFunc() {
-        if (getString(R.string.transaction).equalsIgnoreCase(moveFrom)) {
+      /*  if (getString(R.string.transaction).equalsIgnoreCase(moveFrom)) {
             callAPIGetTransactionRequestDetail(transactionId);
         } else if (getString(R.string.history).equalsIgnoreCase(moveFrom)) {
             callAPIGetHistoryRequestDetail(transactionId);
-        }
+        }*/
+
+        callAPIGetTransactionRequestDetail(transactionId);
     }
 
     private void setHistoryButtonVisibleFunc(String status) {
-        if (status.equalsIgnoreCase("1")) {
+        if (status.equalsIgnoreCase("0")) {
+            negotiateTV.setVisibility(View.GONE);
+            acceptTV.setVisibility(View.GONE);
+            declineTV.setVisibility(View.VISIBLE);
+        } else if (status.equalsIgnoreCase("1")) {
             if (updated_by != null && SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString().equalsIgnoreCase(updated_by)) {
                 negotiateTV.setVisibility(View.GONE);
                 acceptTV.setVisibility(View.GONE);
@@ -385,26 +376,24 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
         }
 
 
-        if (jsonObject.get("amount").getAsString() != null && jsonObject.get("amount").getAsString().length() > 0) {
-            String amount = SharedPref.getPrefsHelper().getPref(Const.Var.CURRENCY, "") + jsonObject.get("amount").getAsString();
+        if (transactionModel.getAmount() != null && transactionModel.getAmount().length() > 0) {
+            String amount = SharedPref.getPrefsHelper().getPref(Const.Var.CURRENCY, "") + transactionModel.getAmount();
             amountTV.setText(amount);
         }
-        if (jsonObject.get("no_of_payment").getAsString() != null && jsonObject.get("no_of_payment").getAsString().length() > 0) {
-            String no_of_payment = jsonObject.get("no_of_payment").getAsString();
-            noOfPaymentTV.setText(no_of_payment);
+        if (transactionModel.getNoOfPayment() != null && transactionModel.getNoOfPayment().length() > 0) {
+            noOfPaymentTV.setText(transactionModel.getNoOfPayment());
         }
-        if (jsonObject.get("created_at").getAsString() != null && jsonObject.get("created_at").getAsString().length() > 0) {
-            String created_at = jsonObject.get("created_at").getAsString();
-            //paymentDateTV.setText(TimeStamp.timeFun(created_at));
+        if (transactionModel.getCreatedAt() != null && transactionModel.getCreatedAt().length() > 0) {
+            //paymentDateTV.setText(TimeStamp.timeFun(transactionModel.getCreatedAt()));
         }
 
-        if (jsonObject.has("request_by") && jsonObject.get("request_by").getAsString() != null && jsonObject.get("request_by").getAsString().length() > 0) {
-            request_by = jsonObject.get("request_by").getAsString();
+        if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
+            request_by = transactionModel.getRequestBy();
         }
 
 
-        if (jsonObject.get("pay_date").getAsString() != null && jsonObject.get("pay_date").getAsString().length() > 0) {
-            String pay_date = jsonObject.get("pay_date").getAsString();
+        if (transactionModel.getPayDate() != null && transactionModel.getPayDate().length() > 0) {
+            String pay_date = transactionModel.getPayDate();
             pay_date = pay_date.replaceAll("\\\\", "");
             try {
                 JSONArray jsonArray = new JSONArray(pay_date);
@@ -424,16 +413,16 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
             }
         }
 
-        if (jsonObject.has("total_amount") && jsonObject.get("total_amount").getAsString() != null && jsonObject.get("total_amount").getAsString().length() > 0) {
-            String total_amount = SharedPref.getPrefsHelper().getPref(Const.Var.CURRENCY, "") + jsonObject.get("total_amount").getAsString();
+        if (transactionModel.getTotalAmount() != null && transactionModel.getTotalAmount().length() > 0) {
+            String total_amount = SharedPref.getPrefsHelper().getPref(Const.Var.CURRENCY, "") + transactionModel.getTotalAmount();
             totalReceivedBackTV.setText(total_amount);
 
         }
 
 
-        if (jsonObject.get("terms_type").getAsString() != null && jsonObject.get("terms_type").getAsString().length() > 0 && jsonObject.get("terms_value").getAsString() != null && jsonObject.get("terms_value").getAsString().length() > 0) {
-            String terms_type = jsonObject.get("terms_type").getAsString();
-            String terms_value = jsonObject.get("terms_value").getAsString();
+        if (transactionModel.getTermsType() != null && transactionModel.getTermsType().length() > 0 && transactionModel.getTermsValue() != null && transactionModel.getTermsValue().length() > 0) {
+            String terms_type = transactionModel.getTermsType();
+            String terms_value = transactionModel.getTermsValue();
 
             if (terms_type.equalsIgnoreCase("1")) {
                 terms_value = terms_value + " " + getString(R.string.percent);
@@ -450,15 +439,15 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
             }
         }
 
-        if (jsonObject.has("updated_by") && jsonObject.get("updated_by").getAsString() != null && jsonObject.get("updated_by").getAsString().length() > 0
-                && jsonObject.has("status") && jsonObject.get("status").getAsString() != null && jsonObject.get("status").getAsString().length() > 0) {
-            updated_by = jsonObject.get("updated_by").getAsString();
-            status = jsonObject.get("status").getAsString();
+        if (transactionModel.getUpdatedBy() != null && transactionModel.getUpdatedBy().length() > 0
+                &&  transactionModel.getStatus() != null && transactionModel.getStatus().length() > 0) {
+            updated_by = transactionModel.getUpdatedBy();
+            status = transactionModel.getStatus();
             setButtonVisibility(forWhat);
         }
 
-        if (jsonObject.has("commission_charges_detail") && jsonObject.get("commission_charges_detail").getAsString() != null && jsonObject.get("commission_charges_detail").getAsString().length() > 0) {
-            String commission_charges_detail = jsonObject.get("commission_charges_detail").getAsString();
+        if (transactionModel.getCommission_charges_detail() != null && transactionModel.getCommission_charges_detail().length() > 0) {
+            String commission_charges_detail = transactionModel.getCommission_charges_detail();
             commission_charges_detail.replace("\\", "/");
             CommissionModel commissionModel = gson.fromJson(commission_charges_detail, CommissionModel.class);
             commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
@@ -508,7 +497,8 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
     }
 
     private void setButtonVisibility(String forWhat) {
-        if (forWhat.equalsIgnoreCase(getString(R.string.transaction))) {
+       // if (forWhat.equalsIgnoreCase(getString(R.string.transaction))) {
+        if (!Const.isRequestByMe(transactionModel.getFromId())) {
 
             if (status != null && status.equalsIgnoreCase("0")) { //PENDING
                 setTransactionButtonVisibleFunc(status);
@@ -523,7 +513,8 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
             }
 
 
-        } else if (forWhat.equalsIgnoreCase(getString(R.string.history))) {
+        //} else if (forWhat.equalsIgnoreCase(getString(R.string.history))) {
+        } else if (Const.isRequestByMe(transactionModel.getFromId())) {
 
             if (status != null && status.equalsIgnoreCase("0")) { //PENDING
                 setHistoryButtonVisibleFunc(status);

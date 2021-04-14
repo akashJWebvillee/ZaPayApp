@@ -135,6 +135,7 @@
     <string name="terms">Terms</string>
     <string name="payments">Payments</string>
     <string name="payment_dates">Payment Dates</string>
+    <string name="dates">Dates</string>
     <string name="payback_dates">Payback Dates</string>
     <string name="total_to_pay_back">Total to Pay Back</string>
     <string name="view_all">View All</string>

@@ -48,6 +48,24 @@ public class DateModel implements Serializable {
     @Expose
     private List<AmendmentPdfDetailModel> amendmentPdfDetails = null;
 
+
+    @SerializedName("cancel_from")
+    @Expose
+    private String cancel_from;
+    @SerializedName("is_default_txn")
+    @Expose
+    private String is_default_txn;
+    @SerializedName("default_payment_pay_done")
+    @Expose
+    private String default_payment_pay_done;
+    @SerializedName("emi_amount")
+    @Expose
+    private String emi_amount;
+    @SerializedName("default_fee_amount")
+    @Expose
+    private String default_fee_amount;
+
+
     private boolean isEditable;
     private boolean isLatestRemaining;
 
@@ -119,5 +137,25 @@ public class DateModel implements Serializable {
 
     public void setLatestRemaining(boolean latestRemaining) {
         isLatestRemaining = latestRemaining;
+    }
+
+    public String getCancel_from() {
+        return cancel_from;
+    }
+
+    public String getIs_default_txn() {
+        return is_default_txn;
+    }
+
+    public String getDefault_payment_pay_done() {
+        return default_payment_pay_done;
+    }
+
+    public String getEmi_amount() {
+        return emi_amount;
+    }
+
+    public String getDefault_fee_amount() {
+        return default_fee_amount;
     }
 }

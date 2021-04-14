@@ -123,11 +123,22 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             holder.amountTV.setText(total_amount);
         }
 
-        if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
-            holder.borrowModeTitleTV.setText(context.getString(R.string.lend_mode));
-        } else if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
-            holder.borrowModeTitleTV.setText(context.getString(R.string.borrow_mode));
+
+        if (!Const.isRequestByMe(transactionModel.getFromId())){
+            if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
+                holder.borrowModeTitleTV.setText(context.getString(R.string.lend_mode));
+            } else if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+                holder.borrowModeTitleTV.setText(context.getString(R.string.borrow_mode));
+            }
+        }else if (Const.isRequestByMe(transactionModel.getFromId())){
+            if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
+                holder.borrowModeTitleTV.setText(context.getString(R.string.borrow_mode));
+            } else if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+                holder.borrowModeTitleTV.setText(context.getString(R.string.lend_mode));
+            }
         }
+
+
 
         if (transactionModel.getTermsType().equalsIgnoreCase("1")) {
             holder.termTypeTV.setText(context.getString(R.string.percent));
@@ -156,22 +167,44 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
-                    Intent intent = new Intent(context, BorrowSummaryActivity.class);
-                    intent.putExtra("moveFrom", data);
-                    intent.putExtra("status", transactionModel.getStatus());
-                    intent.putExtra("transactionId", transactionModel.getId());
-                    //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    context.startActivity(intent);
-                } else if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
-                    Intent intent = new Intent(context, LendingSummaryActivity.class);
-                    intent.putExtra("moveFrom", data);
-                    intent.putExtra("status", transactionModel.getStatus());
-                    intent.putExtra("transactionId", transactionModel.getId());
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    context.startActivity(intent);
+                if (!Const.isRequestByMe(transactionModel.getFromId())){
+                    if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+                        Intent intent = new Intent(context, BorrowSummaryActivity.class);
+                        intent.putExtra("moveFrom", context.getString(R.string.transaction));
+                        intent.putExtra("status", transactionModel.getStatus());
+                        intent.putExtra("transactionId", transactionModel.getId());
+                        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        context.startActivity(intent);
+                    } else if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
+                        Intent intent = new Intent(context, LendingSummaryActivity.class);
+                        intent.putExtra("moveFrom", context.getString(R.string.transaction));
+                        intent.putExtra("status", transactionModel.getStatus());
+                        intent.putExtra("transactionId", transactionModel.getId());
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        context.startActivity(intent);
+                    }
+
+
+                }else if (Const.isRequestByMe(transactionModel.getFromId())){
+
+                    if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+                        Intent intent = new Intent(context, LendingSummaryActivity.class);
+                        intent.putExtra("moveFrom", context.getString(R.string.history));
+                        intent.putExtra("status", transactionModel.getStatus());
+                        intent.putExtra("transactionId", transactionModel.getId());
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        context.startActivity(intent);
+                    } else if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
+                        Intent intent = new Intent(context, BorrowSummaryActivity.class);
+                        intent.putExtra("moveFrom", context.getString(R.string.history));
+                        intent.putExtra("status", transactionModel.getStatus());
+                        intent.putExtra("transactionId", transactionModel.getId());
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        context.startActivity(intent);
+                    }
                 }
+
 
             }
         });

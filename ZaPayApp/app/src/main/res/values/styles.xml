@@ -71,6 +71,13 @@
         <item name="android:windowIsFloating">true</item>
     </style>
 
+    <style name="CustomDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_down</item>
+    </style>
+
+
+
     <style name="CustomTabsTitle" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">11sp</item>
         <item name="android:textAllCaps">false</item>

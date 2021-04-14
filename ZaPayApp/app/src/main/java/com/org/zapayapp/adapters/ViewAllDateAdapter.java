@@ -45,7 +45,8 @@ public class ViewAllDateAdapter extends RecyclerView.Adapter<ViewAllDateAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewAllDateAdapter.MyHolder holder, final int position) {
-        holder.paymentNoTV.setText("" + position + 1);
+       int pos=position+1;
+        holder.paymentNoTV.setText("" +pos);
         holder.dateTV.setText(dateModelArrayList.get(position));
     }
 

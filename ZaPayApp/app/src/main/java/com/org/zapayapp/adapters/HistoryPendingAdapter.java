@@ -143,21 +143,6 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               /* if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
-                        Intent intent = new Intent(context, BorrowSummaryActivity.class);
-                        intent.putExtra("moveFrom", data);
-                        intent.putExtra("status", transactionModel.getStatus());
-                        intent.putExtra("transactionId", transactionModel.getId());
-                        context.startActivity(intent);
-                    } else if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
-                        Intent intent = new Intent(context, LendingSummaryActivity.class);
-                        intent.putExtra("moveFrom", data);
-                        intent.putExtra("status", transactionModel.getStatus());
-                        intent.putExtra("transactionId", transactionModel.getId());
-                        context.startActivity(intent);
-                    }*/
-
-
                 if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                     Intent intent = new Intent(context, LendingSummaryActivity.class);
                     intent.putExtra("moveFrom", data);
