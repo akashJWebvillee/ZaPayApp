@@ -409,7 +409,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
         navList.add(getString(R.string.my_profile));
         navList.add(getString(R.string.bank_account));
         navList.add(getString(R.string.transaction));
-        navList.add(getString(R.string.history));
+      ///  navList.add(getString(R.string.history));
         navList.add(getString(R.string.default_transaction));
         navList.add(getString(R.string.about_us));
         navList.add(getString(R.string.terms_and_conditions));
@@ -478,47 +478,49 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
                 }
                 break;
             case 2:
-                if (currentScreen != TRANSACTION) {
-                    intent = new Intent(this, TransactionActivity.class);
-                    startActivity(intent);
+                if (Const.isUserDefaulter()){
+                    showSimpleAlert(getString(R.string.you_have_defaulter_msg), getString(R.string.you_have_defaulter_msg));
+                }else {
+                    if (currentScreen != TRANSACTION) {
+                        intent = new Intent(this, TransactionActivity.class);
+                        startActivity(intent);
+                    }
                 }
                 break;
-            case 3:
+       /*     case 3:
                 if (currentScreen != HISTORY) {
-                    //intent = new Intent(this, HistoryActivity.class);
                     intent = new Intent(this, MyHistoryActivity.class);
                     startActivity(intent);
                 }
                 break;
-
-            case 4:
+*/
+            case 3:
                 if (currentScreen != DEFAULT_TRANSACTION) {
                     intent = new Intent(this, DefaultTransactionActivity.class);
                     startActivity(intent);
                 }
                 break;
-            case 5:
+            case 4:
                 if (currentScreen != ABOUT_US) {
                     intent = new Intent(this, AboutUsActivity.class);
                     startActivity(intent);
                 }
                 break;
-            case 6:
+            case 5:
                 if (currentScreen != TERMS_CONDITION) {
                     intent = new Intent(this, TermConditionActivity.class);
                     startActivity(intent);
                 }
                 break;
-            case 7:
+            case 6:
                 if (currentScreen != HELP) {
                     intent = new Intent(this, HelpActivity.class);
                     startActivity(intent);
                 }
                 break;
-            case 9:
+            case 8:
                 if (currentScreen != LOGOUT) {
                     alertLogOut();
-
                 }
                 break;
         }

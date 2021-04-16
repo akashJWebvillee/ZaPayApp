@@ -35,4 +35,6 @@
     <string name="api_get_all_transaction_history_details">get_all_transaction_history_details</string>
     <string name="api_get_default_transactions">get_default_transactions</string>
     <string name="api_get_default_transaction_details">get_default_transaction_details</string>
+    <string name="api_pay_default_amount">pay_default_amount</string>
+    <string name="api_check_user_defaulter_status">check_user_defaulter_status</string>
 </resources>

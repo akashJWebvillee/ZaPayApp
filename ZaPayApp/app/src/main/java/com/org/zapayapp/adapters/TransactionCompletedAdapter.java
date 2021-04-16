@@ -1,7 +1,6 @@
 package com.org.zapayapp.adapters;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,6 @@ import com.org.zapayapp.utils.SharedPref;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.List;
 
 public class TransactionCompletedAdapter extends RecyclerView.Adapter<TransactionCompletedAdapter.MyHolder> {
@@ -43,6 +41,7 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
         private TextView borrowModeTitleTV;
         private LinearLayout rattingLL;
         private CustomRatingBar viewRatingBar;
+        private TextView requestByTV;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
@@ -55,6 +54,7 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
             viewRatingBar = itemView.findViewById(R.id.viewRatingBar);
             viewRatingBar.setFocusableInTouchMode(false);
             rattingLL = itemView.findViewById(R.id.rattingLL);
+            requestByTV = itemView.findViewById(R.id.requestByTV);
         }
     }
 
@@ -62,7 +62,6 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
     @Override
     public TransactionCompletedAdapter.MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.transaction_completed_row, parent, false);
-
         return new TransactionCompletedAdapter.MyHolder(view);
     }
 
@@ -70,16 +69,40 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
     public void onBindViewHolder(@NonNull TransactionCompletedAdapter.MyHolder holder, int position) {
         TransactionModel transactionModel = transactionModelsList.get(position);
 
-        if (transactionModel.getFirstName() != null && transactionModel.getFirstName().length() > 0 && transactionModel.getFirstName() != null && transactionModel.getFirstName().length() > 0) {
-            String name = transactionModel.getFirstName() + " " + transactionModel.getLastName();
-            holder.nameTV.setText(name);
+        if (transactionModel.getFromId() != null && transactionModel.getFromId().length() > 0) {
+            if (Const.isRequestByMe(transactionModel.getFromId())) {
+                if (transactionModel.getReceiver_first_name() != null && transactionModel.getReceiver_first_name().length() > 0 && transactionModel.getReceiver_last_name() != null && transactionModel.getReceiver_last_name().length() > 0) {
+                    holder.nameTV.setText(transactionModel.getReceiver_first_name() + " " + transactionModel.getReceiver_last_name());
+                    holder.requestByTV.setText(context.getString(R.string.self));
+
+                }
+            } else {
+                if (transactionModel.getSender_first_name() != null && transactionModel.getSender_first_name().length() > 0 && transactionModel.getSender_last_name() != null && transactionModel.getSender_last_name().length() > 0) {
+                    holder.nameTV.setText("" + transactionModel.getSender_first_name() + " " + transactionModel.getSender_last_name());
+                    holder.requestByTV.setText(transactionModel.getSender_first_name());
+                }
+            }
         }
 
         if (transactionModel.getAverage_rating()!=null&&transactionModel.getAverage_rating().length()>0){
             holder.viewRatingBar.setScore(Float.parseFloat(transactionModel.getAverage_rating()));
-
         }
-        Log.e("getAverage_rating","getAverage_rating==="+Float.parseFloat(transactionModel.getAverage_rating()));
+
+
+        if (transactionModel.getFromId() != null && transactionModel.getFromId().length() > 0) {
+            if (Const.isRequestByMe(transactionModel.getFromId())) {
+                if (transactionModel.getReceiver_average_rating()!=null&&transactionModel.getReceiver_average_rating().length()>0){
+                    holder.viewRatingBar.setScore(Float.parseFloat(transactionModel.getReceiver_average_rating()));
+                }
+            } else {
+                if (transactionModel.getSender_average_rating()!=null&&transactionModel.getSender_average_rating().length()>0){
+                    holder.viewRatingBar.setScore(Float.parseFloat(transactionModel.getSender_average_rating()));
+                }
+            }
+        }
+
+
+
 
 
         if (transactionModel.getCreatedAt() != null && transactionModel.getCreatedAt().length() > 0) {
@@ -104,8 +127,6 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
                 e.printStackTrace();
             }
         }
-
-
 
         if (transactionModel.getNoOfPayment() != null && transactionModel.getNoOfPayment().length() > 0) {
             holder.noOfPaymentTV.setText(transactionModel.getNoOfPayment());

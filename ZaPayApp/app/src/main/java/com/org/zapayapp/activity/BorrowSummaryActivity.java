@@ -570,7 +570,8 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                 "transaction_request_id", dateModel.getTransactionRequestId(),
                 "pay_date_id", dateModel.getId(),
                 "pdf_url", "",
-                "new_pay_date_status", "3"); //date update decline
+                "new_pay_date_status", "3",
+                "cancel_from", transactionModel.getRequestBy()); //date update decline
         try {
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_pay_date_request_status_update), values);

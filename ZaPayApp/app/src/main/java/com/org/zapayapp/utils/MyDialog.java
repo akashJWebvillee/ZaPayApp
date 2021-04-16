@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class MyDialog {
-
     public static void viewAllDateFunc(Context context, ArrayList<String> dateList) {
         Dialog viewAllDateDialog = new Dialog(context);
         viewAllDateDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

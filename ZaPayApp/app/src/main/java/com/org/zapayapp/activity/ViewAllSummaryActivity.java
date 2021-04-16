@@ -1,19 +1,17 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -31,18 +29,15 @@ import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.DatePickerFragmentDialogue;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
-
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
-
 import retrofit2.Call;
 
 public class ViewAllSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener, DatePickerFragmentDialogue.DatePickerCallback {
@@ -54,15 +49,12 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
     private ImageView backArrowImageView;
     private ImageView chatIV;
     private Intent intent;
-
     private CustomRatingBar viewRatingBar;
-
     private RecyclerView paybackDateRecycler;
     private ArrayList<DateModel> dateModelArrayList;
     private int dateSelectPos;
     private DateModel dateModel;
     private PaybackDateAdapter paybackDateAdapter;
-
 
     private String updated_by;
     private AgreementPdfDetailModel agreementPdfDetailModel;
@@ -162,7 +154,6 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         }
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -179,7 +170,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 finish();
                 break;
             case R.id.acceptTV:
-                // callAPIUpdateTransactionRequestStatus("2");
+                //callAPIUpdateTransactionRequestStatus("2");
                 intent = new Intent(ViewAllSummaryActivity.this, AcceptActivity.class);
                 intent.putExtra("moveFrom", moveFrom);
                 intent.putExtra("status", "2");
@@ -267,7 +258,6 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         }
     }
 
-
     private void callAPIUpdatePayDate(String pay_date) {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         HashMap<String, Object> values = apiCalling.getHashMapObject(
@@ -279,6 +269,29 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
             Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_update_pay_date), values);
             if (apiCalling != null) {
                 apiCalling.callAPI(zapayApp, call, getString(R.string.api_update_pay_date), acceptTV);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void callAPIPayDateRequestStatusUpdateForCancel(DateModel dateModel,String requestBy) {
+        //new_pay_date_status- 0=default, 1=pending, 2=accepted, 3=decline
+        //cancel_from-  1=lender, 2=borrower
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        HashMap<String, Object> values = apiCalling.getHashMapObject(
+                "transaction_request_id", transactionId,
+                "pay_date_id", dateModel.getId(),
+                "new_pay_date_status", "1", //date accept
+                "pdf_url", "",
+                "cancel_from", requestBy);
+        try {
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_pay_date_request_status_update), values);
+            if (apiCalling != null) {
+                apiCalling.setRunInBackground(false);
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_pay_date_request_status_update), acceptTV);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -336,6 +349,14 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                     startActivity(intent);
                 } else {
                     showSimpleAlert(msg, getResources().getString(R.string.api_update_transaction_request_status));
+                }
+            }else if (from.equals(getResources().getString(R.string.api_pay_date_request_status_update))){
+                if (status == 200) {
+                    showSimpleAlert(getString(R.string.your_date_request_has_been_canceled), "");
+                    callAPIGetTransactionRequestDetail(transactionId);
+                    //paybackDateAdapter.notifyDataSetChanged();
+                } else {
+                    showSimpleAlert(msg, getResources().getString(R.string.api_pay_date_request_status_update));
                 }
             }
         }
@@ -492,13 +513,11 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                     break;
                 }*/
 
-                if (dateModelArrayList.get(i).getNew_pay_date_status().equalsIgnoreCase("1")) {
+                if (dateModelArrayList.get(i).getNew_pay_date_status().equalsIgnoreCase("0")) {
                     dateModelArrayList.get(i).setLatestRemaining(true);
                     break;
                 }
             }
-
-
         }
 
         if (transactionModel.getStatus() != null && transactionModel.getStatus().length() > 0) {
@@ -641,7 +660,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
             }
 
             if (paybackDateAdapter == null) {
-                paybackDateAdapter = new PaybackDateAdapter(ViewAllSummaryActivity.this, dateModelArrayList, intent.getStringExtra("moveFrom"), requestBy);
+                paybackDateAdapter = new PaybackDateAdapter(ViewAllSummaryActivity.this, dateModelArrayList, intent.getStringExtra("moveFrom"), requestBy,transactionModel);
                 paybackDateRecycler.setAdapter(paybackDateAdapter);
             } else {
                 paybackDateAdapter.notifyDataSetChanged();
@@ -697,25 +716,15 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                     declineTV.setVisibility(View.VISIBLE);
                 }
             } else if (status.equalsIgnoreCase("2")) {
-        /*    if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length() > 0 && transactionModel.getIs_negotiate_after_accept().equals("0")) {
-              if (transactionModel.getRequestBy().equalsIgnoreCase("2")){
-                  negotiateTV.setVisibility(View.VISIBLE);
-                  acceptTV.setVisibility(View.GONE);
-                  declineTV.setVisibility(View.GONE);
-              }else {
-                  negotiateTV.setVisibility(View.GONE);
-                  acceptTV.setVisibility(View.GONE);
-                  declineTV.setVisibility(View.GONE);
-              }
-            }*/
 
-                if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+            if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                     if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length() > 0 && transactionModel.getIs_negotiate_after_accept().equals("1")) {
                         negotiateTV.setVisibility(View.GONE);
                         acceptTV.setVisibility(View.GONE);
                         declineTV.setVisibility(View.GONE);
                     } else {
-                        negotiateTV.setVisibility(View.VISIBLE);
+                       // negotiateTV.setVisibility(View.VISIBLE);
+                        negotiateTV.setVisibility(View.GONE); //this is Gone for Temprery (this manage after accept user can negotiate)
                         acceptTV.setVisibility(View.GONE);
                         declineTV.setVisibility(View.GONE);
                     }
@@ -745,25 +754,14 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                     declineTV.setVisibility(View.VISIBLE);
                 }
             } else if (status.equalsIgnoreCase("2")) {  //status=2 accepted,requestBy=2 Borrower
-          /*  if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length() > 0 && transactionModel.getIs_negotiate_after_accept().equals("0")) {
-                if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
-                    negotiateTV.setVisibility(View.VISIBLE);
-                    acceptTV.setVisibility(View.GONE);
-                    declineTV.setVisibility(View.GONE);
-                } else {
-                    negotiateTV.setVisibility(View.GONE);
-                    acceptTV.setVisibility(View.GONE);
-                    declineTV.setVisibility(View.GONE);
-                }
-            }*/
-
                 if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
                     if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length() > 0 && transactionModel.getIs_negotiate_after_accept().equals("1")) {
                         negotiateTV.setVisibility(View.GONE);
                         acceptTV.setVisibility(View.GONE);
                         declineTV.setVisibility(View.GONE);
                     } else {
-                        negotiateTV.setVisibility(View.VISIBLE);
+                       // negotiateTV.setVisibility(View.VISIBLE);
+                        negotiateTV.setVisibility(View.GONE); //this is Gone for temporary (this manage after accept user can negotiate)
                         acceptTV.setVisibility(View.GONE);
                         declineTV.setVisibility(View.GONE);
                     }

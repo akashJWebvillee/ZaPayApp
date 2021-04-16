@@ -144,7 +144,8 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 acceptTV.setVisibility(View.GONE);
                 declineTV.setVisibility(View.GONE);
             } else {
-                negotiateTV.setVisibility(View.VISIBLE);
+               // negotiateTV.setVisibility(View.VISIBLE);   ////this is Gone for temporary (this manage after accept user can negotiate)
+                negotiateTV.setVisibility(View.GONE);
                 acceptTV.setVisibility(View.GONE);
                 declineTV.setVisibility(View.GONE);
             }
@@ -176,7 +177,8 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 acceptTV.setVisibility(View.GONE);
                 declineTV.setVisibility(View.GONE);
             } else {
-                negotiateTV.setVisibility(View.VISIBLE);
+               // negotiateTV.setVisibility(View.VISIBLE);  //this is Gone for temporary (this manage after accept user can negotiate)
+                negotiateTV.setVisibility(View.GONE);
                 acceptTV.setVisibility(View.GONE);
                 declineTV.setVisibility(View.GONE);
             }
@@ -582,12 +584,15 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
     }
 
     private void callAPIPayDateRequestStatusUpdate() {
+        //new_pay_date_status- 0=default, 1=pending, 2=accepted, 3=decline
+        //cancel_from-  1=lender, 2=borrower
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         HashMap<String, Object> values = apiCalling.getHashMapObject(
                 "transaction_request_id", dateModel.getTransactionRequestId(),
                 "pay_date_id", dateModel.getId(),
                 "pdf_url", "",
-                "new_pay_date_status", "3"); //date update decline
+                "new_pay_date_status", "3",
+                "cancel_from", transactionModel.getRequestBy()); //date update decline
         try {
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_pay_date_request_status_update), values);

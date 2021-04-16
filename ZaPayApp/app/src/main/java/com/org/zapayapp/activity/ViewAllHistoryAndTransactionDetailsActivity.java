@@ -3,6 +3,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.adapters.ViewAllHistoryAndTransactionDetailsAdapter;
 import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
+import com.org.zapayapp.model.DateModel;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.SharedPref;
@@ -28,6 +30,9 @@ public class ViewAllHistoryAndTransactionDetailsActivity extends BaseActivity im
     private List<TransactionModel> allTransactionArrayList;
     private String moveFrom;
     private TextView totalPayTV;
+
+    private String transactionID;
+    private String payDateIds="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +65,7 @@ public class ViewAllHistoryAndTransactionDetailsActivity extends BaseActivity im
             String transactionId = getIntent().getStringExtra("transactionId");
             moveFrom = getIntent().getStringExtra("moveFrom");
 
-            if (getString(R.string.transaction).equalsIgnoreCase(moveFrom)) {
+         /*   if (getString(R.string.transaction).equalsIgnoreCase(moveFrom)) {
                 callAPIGetAllTransactionDetail(transactionId);
                 totalPayTV.setVisibility(View.GONE);
             } else if (getString(R.string.history).equalsIgnoreCase(moveFrom)) {
@@ -69,7 +74,9 @@ public class ViewAllHistoryAndTransactionDetailsActivity extends BaseActivity im
             } else if (getString(R.string.default_transaction).equalsIgnoreCase(moveFrom)) {
                 callAPIGetAllDefaultTransactionDetail(transactionId);
                 totalPayTV.setVisibility(View.VISIBLE);
-            }
+            }*/
+
+            callAPIGetAllDefaultTransactionDetail(transactionId);
         }
     }
 
@@ -91,7 +98,9 @@ public class ViewAllHistoryAndTransactionDetailsActivity extends BaseActivity im
                 break;
 
             case R.id.totalPayTV:
-
+                if (transactionID != null && transactionID.length() > 0 && payDateIds != null && payDateIds.length() > 0) {
+                    callAPIPayDefaultAmount(transactionID, payDateIds);
+                }
                 break;
         }
     }
@@ -142,6 +151,22 @@ public class ViewAllHistoryAndTransactionDetailsActivity extends BaseActivity im
     }
 
 
+    private void callAPIPayDefaultAmount(String transaction_id,String payDateIds) {
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        HashMap<String, Object> values = apiCalling.getHashMapObject(
+                "transaction_request_id", transaction_id,
+                "pay_date_ids", payDateIds);
+        try {
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_pay_default_amount), values);
+            if (apiCalling != null) {
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_pay_default_amount), titleTV);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void apiCallback(JsonObject json, String from) {
         if (from != null) {
@@ -177,7 +202,6 @@ public class ViewAllHistoryAndTransactionDetailsActivity extends BaseActivity im
                     }
                 } else if (status == 401) {
                     showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
-
                 } else {
                     showSimpleAlert(msg, "");
                 }
@@ -188,8 +212,18 @@ public class ViewAllHistoryAndTransactionDetailsActivity extends BaseActivity im
                         if (allTransactionArrayList != null && allTransactionArrayList.size() > 0) {
                             setTotalPayData();
                             setAdapter();
+
                         }
                     }
+                } else if (status == 401) {
+                    showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
+                } else {
+                    showSimpleAlert(msg, "");
+                }
+            }else if (from.equals(getResources().getString(R.string.api_pay_default_amount))){
+                if (status == 200) {
+                    finish();
+
                 } else if (status == 401) {
                     showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
                 } else {
@@ -200,8 +234,53 @@ public class ViewAllHistoryAndTransactionDetailsActivity extends BaseActivity im
     }
 
     public void setTotalPayData() {
-        if (allTransactionArrayList.size() > 0) {
+        /*if (allTransactionArrayList.size() > 0) {
             totalPayTV.setText(getString(R.string.total_pay) + " " + Const.getCurrency() + allTransactionArrayList.get(0).getTotalAmount());
+        }*/
+    }
+
+    public void setTotalPayData11(List<DateModel> payDatesList, TransactionModel transactionModel) {
+       if (!Const.isRequestByMe(transactionModel.getFromId())){
+           if (transactionModel.getRequestBy()!=null&&transactionModel.getRequestBy().equals("1")){
+               totalPayTV.setVisibility(View.GONE);
+           }else if (transactionModel.getRequestBy()!=null&&transactionModel.getRequestBy().equals("2")){
+               totalPayTV.setVisibility(View.VISIBLE);
+           }
+       }else if (Const.isRequestByMe(transactionModel.getFromId())){
+           if (transactionModel.getRequestBy()!=null&&transactionModel.getRequestBy().equals("2")){
+               totalPayTV.setVisibility(View.GONE);
+           }else if (transactionModel.getRequestBy()!=null&&transactionModel.getRequestBy().equals("1")){
+               totalPayTV.setVisibility(View.VISIBLE);
+           }
+        }
+
+
+
+
+        transactionID = transactionModel.getId();
+        float defaultTotalAmount = 0;
+        if (payDatesList.size() > 0) {
+            for (int i = 0; i < payDatesList.size(); i++) {
+                if (payDatesList.get(i).getDefault_payment_pay_done() != null && payDatesList.get(i).getDefault_payment_pay_done().equals("0")) {
+                    // float amount=payDatesList.get(i).getEmi_amount();
+                    float defaultFeeAmount = Float.parseFloat(payDatesList.get(i).getDefault_fee_amount());
+                    float amount = Float.parseFloat(payDatesList.get(i).getEmi_amount());
+                    float defaultPayAmount = amount + defaultFeeAmount;
+
+                    defaultTotalAmount = defaultTotalAmount + defaultPayAmount;
+                    payDateIds = payDateIds + "," + payDatesList.get(i).getId();
+                }
+
+                if (payDatesList.get(i).getTransactionId()!=null&&payDatesList.get(i).getTransactionId().length()>0){
+                    if (payDatesList.get(i).getStatus()!=null&&payDatesList.get(i).getStatus().length()>0&&payDatesList.get(i).getStatus().equals("pending")){
+                        totalPayTV.setVisibility(View.GONE);
+                    }else {
+                        totalPayTV.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+            payDateIds = payDateIds.substring(1);
+            totalPayTV.setText(getString(R.string.total_pay) + " " + Const.getCurrency() + defaultTotalAmount);
         }
     }
 }

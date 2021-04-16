@@ -1,5 +1,4 @@
 package com.org.zapayapp.adapters;
-
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -7,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -57,6 +55,7 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
         private TextView viewAllNameType;
         private TextView afterCommissionAmountTV;
         private LinearLayout agreementLL;
+        private TextView defaultFeeAmountTV;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
@@ -74,6 +73,7 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
             viewAllNameType = itemView.findViewById(R.id.viewAllNameType);
             afterCommissionAmountTV = itemView.findViewById(R.id.afterCommissionAmountTV);
             agreementLL = itemView.findViewById(R.id.agreementLL);
+            defaultFeeAmountTV = itemView.findViewById(R.id.defaultFeeAmountTV);
 
             paybackDateRecycler = itemView.findViewById(R.id.paybackDateRecycler);
             paybackDateRecycler.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
@@ -90,9 +90,25 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
         TransactionModel transactionModel = allTransactionArrayList.get(position);
+
         if (transactionModel.getFirstName() != null && transactionModel.getFirstName().length() > 0) {
             holder.nameTV.setText(transactionModel.getFirstName());
         }
+
+      /*  if (transactionModel.getFromId() != null && transactionModel.getFromId().length() > 0) {
+            if (Const.isRequestByMe(transactionModel.getFromId())) {
+                if (transactionModel.getReceiver_first_name() != null && transactionModel.getReceiver_first_name().length() > 0 && transactionModel.getReceiver_last_name() != null && transactionModel.getReceiver_last_name().length() > 0) {
+                    holder.nameTV.setText(transactionModel.getReceiver_first_name() + " " + transactionModel.getReceiver_last_name());
+                }
+            } else {
+                if (transactionModel.getSender_first_name() != null && transactionModel.getSender_first_name().length() > 0 && transactionModel.getSender_last_name() != null && transactionModel.getSender_last_name().length() > 0) {
+                    holder.nameTV.setText("" + transactionModel.getSender_first_name() + " " + transactionModel.getSender_last_name());
+                }
+            }
+        }
+*/
+
+
 
         if (transactionModel.getAmount() != null && transactionModel.getAmount().length() > 0) {
             holder.amountTV.setText(Const.getCurrency() + transactionModel.getAmount());
@@ -140,6 +156,7 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
             commission_charges_detail.replace("\\", "/");
             CommissionModel commissionModel = gson.fromJson(commission_charges_detail, CommissionModel.class);
 
+
             if (context.getString(R.string.transaction).equalsIgnoreCase(moveFrom)) {
                 if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
                     if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
@@ -167,12 +184,15 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
                     holder.commissionTitleTV.setText(context.getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
                     holder.commissionValueTV.setText(Const.getCurrency() + transactionModel.getAdmin_commission_from_borrower());
                 }
+                holder.defaultFeeAmountTV.setText(Const.getCurrency() + commissionModel.getDefaultFeeValue());
+
             }
         }
 
         if (transactionModel.getPayDatesList() != null && transactionModel.getPayDatesList().size() > 0) {
             List<DateModel> payDatesList = transactionModel.getPayDatesList();
-            setAdapterFunc(holder.paybackDateRecycler, payDatesList);
+            activity.setTotalPayData11(payDatesList,transactionModel);
+            setAdapterFunc(holder.paybackDateRecycler, payDatesList,transactionModel);
         }
 
         if (context.getString(R.string.transaction).equalsIgnoreCase(moveFrom)) {
@@ -255,8 +275,8 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
         return allTransactionArrayList.size();
     }
 
-    private void setAdapterFunc(RecyclerView paybackDateRecycler, List<DateModel> payDatesList) {
-        ViewAllHistoryAndTransactionPaybackDateAdapter paybackDateAdapter = new ViewAllHistoryAndTransactionPaybackDateAdapter(context, payDatesList);
+    private void setAdapterFunc(RecyclerView paybackDateRecycler, List<DateModel> payDatesList,TransactionModel transactionModel) {
+        ViewAllHistoryAndTransactionPaybackDateAdapter paybackDateAdapter = new ViewAllHistoryAndTransactionPaybackDateAdapter(context, payDatesList,transactionModel);
         paybackDateRecycler.setAdapter(paybackDateAdapter);
     }
 }

@@ -56,6 +56,8 @@ public class Const {
         String LENDER_CHARGE_TYPE = "lender_charge_type";
         String DEFAULT_FEE_VALUE = "default_fee_value";
         String DEFAULT_FEE_TYPE = "default_fee_type";
+
+        String IsDEFAULTER = "is_defaulter";
     }
 
     public interface KEY {
@@ -93,4 +95,27 @@ public class Const {
 
         return flag;
     }
+
+
+    public static boolean isUserDefaulter(){
+        //is_defaulter==1 defaulter
+        //is_defaulter==0 not defaulter
+
+    /*    boolean flag = false;
+            if (SharedPref.getPrefsHelper().getPref(Var.IsDEFAULTER)!=null&&SharedPref.getPrefsHelper().getPref(Var.IsDEFAULTER).toString().length()>0) {
+                if (SharedPref.getPrefsHelper().getPref(Var.IsDEFAULTER).toString().equals("1")){
+                    flag=true;
+                }else {
+                    flag=false;
+                }
+            }
+            return flag;*/
+        return false;
+
+            }
+
+
+
 }
+
+

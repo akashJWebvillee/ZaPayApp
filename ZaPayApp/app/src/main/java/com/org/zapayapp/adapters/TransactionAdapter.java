@@ -150,19 +150,38 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             holder.termTypeTV.setText(context.getString(R.string.none));
         }
 
-        if (transactionModel.getStatus() != null && transactionModel.getStatus().length() > 0 && transactionModel.getStatus().equalsIgnoreCase("2")) { //accepted
-            if (transactionModel.getPay_date_update_status_is_pending() != null && transactionModel.getPay_date_update_status_is_pending().length() > 0 && transactionModel.getPay_date_update_status_is_pending().equalsIgnoreCase("1")) {
-                if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().equalsIgnoreCase("2")) {
-                    holder.dateUpdateIconIV.setVisibility(View.VISIBLE);
+
+        if (!Const.isRequestByMe(transactionModel.getFromId())){
+            if (transactionModel.getStatus() != null && transactionModel.getStatus().length() > 0 && transactionModel.getStatus().equalsIgnoreCase("2")) { //accepted
+                if (transactionModel.getPay_date_update_status_is_pending() != null && transactionModel.getPay_date_update_status_is_pending().length() > 0 && transactionModel.getPay_date_update_status_is_pending().equalsIgnoreCase("1")) {
+                    if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+                        holder.dateUpdateIconIV.setVisibility(View.VISIBLE);
+                    } else {
+                        holder.dateUpdateIconIV.setVisibility(View.GONE);
+                    }
                 } else {
                     holder.dateUpdateIconIV.setVisibility(View.GONE);
                 }
             } else {
                 holder.dateUpdateIconIV.setVisibility(View.GONE);
             }
-        } else {
-            holder.dateUpdateIconIV.setVisibility(View.GONE);
+        }else if (Const.isRequestByMe(transactionModel.getFromId())){
+            if (transactionModel.getStatus() != null && transactionModel.getStatus().length() > 0 && transactionModel.getStatus().equalsIgnoreCase("2")) { //accepted
+                if (transactionModel.getPay_date_update_status_is_pending() != null && transactionModel.getPay_date_update_status_is_pending().length() > 0 && transactionModel.getPay_date_update_status_is_pending().equalsIgnoreCase("1")) {
+                    if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().equalsIgnoreCase("1")) {
+                        holder.dateUpdateIconIV.setVisibility(View.VISIBLE);
+                    } else {
+                        holder.dateUpdateIconIV.setVisibility(View.GONE);
+                    }
+                } else {
+                    holder.dateUpdateIconIV.setVisibility(View.GONE);
+                }
+            } else {
+                holder.dateUpdateIconIV.setVisibility(View.GONE);
+            }
         }
+
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
