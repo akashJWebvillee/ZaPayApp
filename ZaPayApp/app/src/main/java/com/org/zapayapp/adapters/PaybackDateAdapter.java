@@ -1,5 +1,4 @@
 package com.org.zapayapp.adapters;
-
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -9,10 +8,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.org.zapayapp.R;
 import com.org.zapayapp.activity.PdfViewActivity;
 import com.org.zapayapp.activity.ViewAllSummaryActivity;
@@ -23,7 +20,6 @@ import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.SharedPref;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,7 +75,6 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
             holder.amountTV.setText(SharedPref.getPrefsHelper().getPref(Const.Var.CURRENCY).toString() + dateModelArrayList.get(position).getEmi_amount());
         }
 
-
         if (dateModelArrayList.get(position).getAmendmentPdfDetails() != null && dateModelArrayList.get(position).getAmendmentPdfDetails().size() > 0) {
             holder.amendmentLL.setVisibility(View.VISIBLE);
             List<AmendmentPdfDetailModel> amendmentPdfDetailModelList = dateModelArrayList.get(position).getAmendmentPdfDetails();
@@ -104,42 +99,48 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
                     if (dateModelArrayList.get(position).getStatus().equals("remaining")) {
                         if (dateModelArrayList.get(position).isLatestRemaining()) {
                             holder.editDateRL.setVisibility(View.VISIBLE);
-                        } else {
-                             holder.editDateRL.setVisibility(View.GONE);
-                        }
-
-                        if (dateModelArrayList.get(position).getNew_pay_date_status().equals("0")) {
-                            holder.editDateIV.setImageResource(R.mipmap.edit_icon);
-                            holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_rounded));
-
-
-                        } else if (dateModelArrayList.get(position).getNew_pay_date_status().equals("1")) {
-                            if (dateModelArrayList.get(position).getIs_extended().equals("0")) {
-                                holder.editDateIV.setImageResource(R.drawable.close);
+                            if (dateModelArrayList.get(position).getNew_pay_date_status().equals("0")) {
+                                holder.editDateIV.setImageResource(R.mipmap.edit_icon);
                                 holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_rounded));
-                            } else if (dateModelArrayList.get(position).getIs_extended().equals("1")) {
-                                holder.editDateIV.setImageResource(R.drawable.close);
-                                holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray));
                             }
 
-                        } else if (dateModelArrayList.get(position).getNew_pay_date_status().equals("2")) {
-                            holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_rounded));
-                            holder.editDateIV.setImageResource(R.drawable.check);
-                        } else if (dateModelArrayList.get(position).getNew_pay_date_status().equals("3")) {
-                            //holder.editDateIV.setImageResource(R.drawable.close);
-                            holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray)); //decline
-                            holder.editDateIV.setImageResource(R.drawable.close);
+                        } else {
+                            // holder.editDateRL.setVisibility(View.GONE);
+                            if (dateModelArrayList.get(position).getNew_pay_date_status().equals("1")) {
+                                if (dateModelArrayList.get(position).getIs_extended().equals("0")) {
+                                    holder.editDateIV.setImageResource(R.drawable.close);
+                                    holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_rounded));
+                                } else if (dateModelArrayList.get(position).getIs_extended().equals("1")) {
+                                    holder.editDateIV.setImageResource(R.drawable.close);
+                                    holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray));
+                                }
+
+                            } else if (dateModelArrayList.get(position).getNew_pay_date_status().equals("2")) {
+                                holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_rounded));
+                                holder.editDateIV.setImageResource(R.drawable.check);
+                            } else if (dateModelArrayList.get(position).getNew_pay_date_status().equals("3")) {
+                                //holder.editDateIV.setImageResource(R.drawable.close);
+                                holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray)); //decline
+                                holder.editDateIV.setImageResource(R.drawable.close);
+                            }else {
+                                holder.editDateRL.setVisibility(View.GONE);
+                            }
+
                         }
 
 
                     } else if (dateModelArrayList.get(position).getStatus().equals("processed")) {
-                        holder.editDateRL.setVisibility(View.GONE);
+                        holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray));
+                        holder.editDateIV.setImageResource(R.drawable.check);
                     } else if (dateModelArrayList.get(position).getStatus().equals("pending")) {
-                        holder.editDateRL.setVisibility(View.GONE);
+                        holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_rounded));
+                        holder.editDateIV.setImageResource(R.drawable.check);
                     } else if (dateModelArrayList.get(position).getStatus().equals("cancelled")) {
-                        holder.editDateRL.setVisibility(View.GONE);
+                        holder.editDateIV.setImageResource(R.drawable.close);
+                        holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray));
                     } else if (dateModelArrayList.get(position).getStatus().equals("failed")) {
-                        holder.editDateRL.setVisibility(View.VISIBLE);
+                        //holder.editDateIV.setImageResource(R.mipmap.edit_icon);
+                        holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray));
                     }
                 }
 
@@ -148,138 +149,65 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
                 holder.editDateRL.setVisibility(View.GONE);
             }
 
-
         } else {
-            // if (dateModelArrayList.get(position).isEditable()) {
+
             if (requestBy.equalsIgnoreCase("1") && transactionModel.getStatus().equals("2")) {
                 if (dateModelArrayList.get(position).getStatus() != null && dateModelArrayList.get(position).getStatus().length() > 0) {
                     if (dateModelArrayList.get(position).getStatus().equals("remaining")) {
 
                         if (dateModelArrayList.get(position).isLatestRemaining()) {
                             holder.editDateRL.setVisibility(View.VISIBLE);
-                        } else if (dateModelArrayList.get(position).getNew_pay_date_status().equals("0")) {
-                            holder.editDateRL.setVisibility(View.GONE);
-                        }
-
-                        if (dateModelArrayList.get(position).getNew_pay_date_status().equals("0")) {
-                            holder.editDateIV.setImageResource(R.mipmap.edit_icon);
-                            holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_rounded));
-
-
-                        } else if (dateModelArrayList.get(position).getNew_pay_date_status().equals("1")) {
-                            if (dateModelArrayList.get(position).getIs_extended().equals("0")) {
-                                holder.editDateIV.setImageResource(R.drawable.close);
+                            if (dateModelArrayList.get(position).getNew_pay_date_status().equals("0")) {
+                                holder.editDateIV.setImageResource(R.mipmap.edit_icon);
                                 holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_rounded));
-                            } else {
-                                holder.editDateIV.setImageResource(R.drawable.close);
-                                holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray));
                             }
 
-                        } else if (dateModelArrayList.get(position).getNew_pay_date_status().equals("2")) {
-                            holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_rounded));
-                            holder.editDateIV.setImageResource(R.drawable.check);
-                        } else if (dateModelArrayList.get(position).getNew_pay_date_status().equals("3")) {
-                            holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray)); //decline
-                            holder.editDateIV.setImageResource(R.drawable.close);
+                        } else {
+                            // holder.editDateRL.setVisibility(View.GONE);
+                            if (dateModelArrayList.get(position).getNew_pay_date_status().equals("1")) {
+                                if (dateModelArrayList.get(position).getIs_extended().equals("0")) {
+                                    holder.editDateIV.setImageResource(R.drawable.close);
+                                    holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_rounded));
+                                } else if (dateModelArrayList.get(position).getIs_extended().equals("1")) {
+                                    holder.editDateIV.setImageResource(R.drawable.close);
+                                    holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray));
+                                }
+
+                            } else if (dateModelArrayList.get(position).getNew_pay_date_status().equals("2")) {
+                                holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_rounded));
+                                holder.editDateIV.setImageResource(R.drawable.check);
+                            } else if (dateModelArrayList.get(position).getNew_pay_date_status().equals("3")) {
+                                //holder.editDateIV.setImageResource(R.drawable.close);
+                                holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray)); //decline
+                                holder.editDateIV.setImageResource(R.drawable.close);
+                            }else {
+                                holder.editDateRL.setVisibility(View.GONE);
+                            }
+
                         }
 
 
                     } else if (dateModelArrayList.get(position).getStatus().equals("processed")) {
-                        holder.editDateRL.setVisibility(View.GONE);
+                        holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray));
+                        holder.editDateIV.setImageResource(R.drawable.check);
                     } else if (dateModelArrayList.get(position).getStatus().equals("pending")) {
-                        holder.editDateRL.setVisibility(View.GONE);
+                        holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_rounded));
+                        holder.editDateIV.setImageResource(R.drawable.check);
                     } else if (dateModelArrayList.get(position).getStatus().equals("cancelled")) {
-                        holder.editDateRL.setVisibility(View.GONE);
+                        holder.editDateIV.setImageResource(R.drawable.close);
+                        holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray));
                     } else if (dateModelArrayList.get(position).getStatus().equals("failed")) {
-                        holder.editDateRL.setVisibility(View.VISIBLE);
+                        //holder.editDateIV.setImageResource(R.mipmap.edit_icon);
+                        holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray));
                     }
                 }
-
 
             } else if (requestBy.equalsIgnoreCase("2")) {
                 holder.editDateRL.setVisibility(View.GONE);
 
             }
-           /* } else {
-                holder.editDateRL.setVisibility(View.GONE);
-            }*/
+
         }
-
-
-       /* if (moveFrom.equalsIgnoreCase(context.getString(R.string.history))){
-            if (dateModelArrayList.get(position).isEditable()){
-                if (requestBy.equalsIgnoreCase("2")){
-                    //holder.editDateRL.setVisibility(View.VISIBLE);
-                    if (dateModelArrayList.get(position).getStatus() != null && dateModelArrayList.get(position).getStatus().length() > 0) {
-                        if (dateModelArrayList.get(position).getStatus().equals("remaining")) {
-                            if (dateModelArrayList.get(position).isLatestRemaining()&&dateModelArrayList.get(position).isEditable()){
-                                holder.editDateRL.setVisibility(View.VISIBLE);
-                            }else{
-                                holder.editDateRL.setVisibility(View.GONE);
-                            }
-
-                            if (dateModelArrayList.get(position).getNew_pay_date_status()!=null&&dateModelArrayList.get(position).getNew_pay_date_status().equalsIgnoreCase("2")){ //2=date request accepted
-                                holder.editDateRL.setVisibility(View.GONE);
-                            }
-
-                        } else if (dateModelArrayList.get(position).getStatus().equals("processed")) {
-                            holder.editDateRL.setVisibility(View.GONE);
-                        } else if (dateModelArrayList.get(position).getStatus().equals("pending")) {
-                            holder.editDateRL.setVisibility(View.GONE);
-                        } else if (dateModelArrayList.get(position).getStatus().equals("cancelled")) {
-                            holder.editDateRL.setVisibility(View.GONE);
-                        } else if (dateModelArrayList.get(position).getStatus().equals("failed")) {
-                            holder.editDateRL.setVisibility(View.VISIBLE);
-                        }
-                    }
-
-
-                }else if (requestBy.equalsIgnoreCase("1")){
-                    holder.editDateRL.setVisibility(View.GONE);
-                }
-            }else {
-                holder.editDateRL.setVisibility(View.GONE);
-            }
-
-
-        } else {
-            if (dateModelArrayList.get(position).isEditable()){
-                if (requestBy.equalsIgnoreCase("1")){
-                    //holder.editDateRL.setVisibility(View.VISIBLE);
-                    if (dateModelArrayList.get(position).getStatus() != null && dateModelArrayList.get(position).getStatus().length() > 0) {
-                        if (dateModelArrayList.get(position).getStatus().equals("remaining")) {
-                            if (dateModelArrayList.get(position).isLatestRemaining()&&dateModelArrayList.get(position).isEditable()){
-                                holder.editDateRL.setVisibility(View.VISIBLE);
-                            }else{
-                                holder.editDateRL.setVisibility(View.GONE);
-                            }
-
-                            if (dateModelArrayList.get(position).getNew_pay_date_status()!=null&&dateModelArrayList.get(position).getNew_pay_date_status().equalsIgnoreCase("2")){ //2=date request accepted
-                                holder.editDateRL.setVisibility(View.GONE);
-                            }
-
-                        } else if (dateModelArrayList.get(position).getStatus().equals("processed")) {
-                            holder.editDateRL.setVisibility(View.GONE);
-                        } else if (dateModelArrayList.get(position).getStatus().equals("pending")) {
-                            holder.editDateRL.setVisibility(View.GONE);
-                        } else if (dateModelArrayList.get(position).getStatus().equals("cancelled")) {
-                            holder.editDateRL.setVisibility(View.GONE);
-                        } else if (dateModelArrayList.get(position).getStatus().equals("failed")) {
-                            holder.editDateRL.setVisibility(View.VISIBLE);
-                        }
-                    }
-
-
-                }else if (requestBy.equalsIgnoreCase("2")){
-                    holder.editDateRL.setVisibility(View.GONE);
-
-                }
-            }else {
-                holder.editDateRL.setVisibility(View.GONE);
-            }
-
-            }
-            */
 
 
         holder.editDateIV.setOnClickListener(new View.OnClickListener() {
@@ -287,21 +215,30 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
             public void onClick(View v) {
                 if (context instanceof ViewAllSummaryActivity) {
                     if (dateModelArrayList.get(position).getNew_pay_date_status() != null && dateModelArrayList.get(position).getNew_pay_date_status().length() > 0) {
+                        if (dateModelArrayList.get(position).getStatus().equals("remaining")){
+                            if (dateModelArrayList.get(position).getNew_pay_date_status().equals("0")) {
+                                ((ViewAllSummaryActivity) context).selectPaybackDate(position, dateModelArrayList.get(position));
 
-                        if (dateModelArrayList.get(position).getNew_pay_date_status().equals("0")) {
-                            ((ViewAllSummaryActivity) context).selectPaybackDate(position, dateModelArrayList.get(position));
+                            } else if (dateModelArrayList.get(position).getNew_pay_date_status().equals("1")) {
+                                if (dateModelArrayList.get(position).getIs_extended().equals("0")) {
+                                    activity.callAPIPayDateRequestStatusUpdateForCancel(dateModelArrayList.get(position), requestBy);
+                                } else {
+                                    ((ViewAllSummaryActivity) context).showSimpleAlert(context.getString(R.string.your_date_request_has_been_canceled), "");
+                                }
 
-                        } else if (dateModelArrayList.get(position).getNew_pay_date_status().equals("1")) {
-                            if (dateModelArrayList.get(position).getIs_extended().equals("0")) {
-                                activity.callAPIPayDateRequestStatusUpdateForCancel(dateModelArrayList.get(position), requestBy);
-                            } else {
+                            } else if (dateModelArrayList.get(position).getNew_pay_date_status().equals("2")) {
+                                ((ViewAllSummaryActivity) context).showSimpleAlert(context.getString(R.string.date_already_extended), "");
+                            } else if (dateModelArrayList.get(position).getNew_pay_date_status().equals("3")) {
                                 ((ViewAllSummaryActivity) context).showSimpleAlert(context.getString(R.string.your_date_request_has_been_canceled), "");
                             }
 
-                        } else if (dateModelArrayList.get(position).getNew_pay_date_status().equals("2")) {
-                            ((ViewAllSummaryActivity) context).showSimpleAlert(context.getString(R.string.date_already_extended), "");
-                        } else if (dateModelArrayList.get(position).getNew_pay_date_status().equals("3")) {
-                            ((ViewAllSummaryActivity) context).showSimpleAlert(context.getString(R.string.your_date_request_has_been_canceled), "");
+                        }else if (dateModelArrayList.get(position).getStatus().equals("processed")){
+
+                        }else if (dateModelArrayList.get(position).getStatus().equals("pending")){
+
+                        }else if (dateModelArrayList.get(position).getStatus().equals("cancelled")){
+
+                        }else if (dateModelArrayList.get(position).getStatus().equals("failed")){
 
                         }
                     }

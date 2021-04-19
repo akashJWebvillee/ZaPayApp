@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import retrofit2.Call;
-
 public class LendingSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener, MyDateUpdateDialog.DateStatusUpdateListener {
     private TextView nameTV, amountTV, termTV, noOfPaymentTV, paymentDateTV, totalReceivedBackTV, viewAllTV;
     private TextView negotiateTV, acceptTV, declineTV, commissionTitleTV, commissionValueTV;
@@ -99,7 +98,6 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
 
             if (intent.getStringExtra("moveFrom") != null) {
                 setDataStatusFunc();
-
             }
         }
     }

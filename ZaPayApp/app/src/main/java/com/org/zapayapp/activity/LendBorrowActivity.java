@@ -1,4 +1,5 @@
 package com.org.zapayapp.activity;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,12 +19,14 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.dd.ShadowLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonElement;
@@ -45,13 +48,16 @@ import com.org.zapayapp.utils.EndlessRecyclerViewScrollListener;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.WVDateLib;
 import com.org.zapayapp.webservices.APICallback;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import retrofit2.Call;
 
 public class LendBorrowActivity extends BaseActivity implements View.OnClickListener, DatePickerFragmentDialogue.DatePickerCallback, APICallback, ContactListener {
@@ -107,6 +113,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
     private double borrowerCommission;
     private double lenderCommission;
+    private double defaultFeeAmount;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -1121,6 +1128,19 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         } else {
             termValue = lendTermsEdtOption.getText().toString().trim();
         }
+
+
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.DEFAULT_FEE_TYPE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.DEFAULT_FEE_TYPE).toString().length() > 0) {
+            if (SharedPref.getPrefsHelper().getPref(Const.Var.DEFAULT_FEE_TYPE).toString().equals("flat")) {
+                defaultFeeAmount = Float.parseFloat(SharedPref.getPrefsHelper().getPref(Const.Var.DEFAULT_FEE_VALUE).toString());
+            } else if (SharedPref.getPrefsHelper().getPref(Const.Var.DEFAULT_FEE_TYPE).toString().equals("percent")) {
+                float defaultFee = Float.parseFloat(SharedPref.getPrefsHelper().getPref(Const.Var.DEFAULT_FEE_VALUE).toString());
+                float percentValue = (finalTotalPayBackAmount * defaultFee) / 100;
+                defaultFeeAmount = finalTotalPayBackAmount + percentValue;
+            }
+        }
+
+
         HashMap<String, Object> values = apiCalling.getHashMapObject(
                 "to_id", toId,
                 "amount", amount,
@@ -1133,8 +1153,9 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 "request_type", request_type,
                 "transaction_request_id", transactionId,
                 "admin_commission_from_lender", CommonMethods.setDigitAfterDecimalValue(lenderCommission, 2),
-                "admin_commission_from_borrower", CommonMethods.setDigitAfterDecimalValue(borrowerCommission, 2));
-        Log.e("post", "post data======" + values.toString());
+                "admin_commission_from_borrower", CommonMethods.setDigitAfterDecimalValue(borrowerCommission, 2),
+                "default_fee_amount", CommonMethods.setDigitAfterDecimalValue(defaultFeeAmount, 2));
+        //Log.e("post", "post data======" + values.toString());
 
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
@@ -1189,30 +1210,30 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         }
 
 
-        float childAmount=0;
-        float child_total_amount=0;
-        float childCommissionFromBorrower=0;
-       // if (isBorrow) {
-        if (transactionModel!=null&&transactionModel.getRequestBy()!=null&&transactionModel.getRequestBy().length()>0&&transactionModel.getRequestBy().equals("2")) {  //borrow mode
+        float childAmount = 0;
+        float child_total_amount = 0;
+        float childCommissionFromBorrower = 0;
+        // if (isBorrow) {
+        if (transactionModel != null && transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0 && transactionModel.getRequestBy().equals("2")) {  //borrow mode
             float newTotalAmount = 0;
-            if (finalTotalPayBackAmount>0){
-                 newTotalAmount = finalTotalPayBackAmount;
-            }else {
+            if (finalTotalPayBackAmount > 0) {
+                newTotalAmount = finalTotalPayBackAmount;
+            } else {
                 newTotalAmount = Float.parseFloat(transactionModel.getTotalAmount());
             }
             float previousTotalAmount = Float.parseFloat(transactionModel.getTotalAmount());
             float borrowerChargeValue = Float.parseFloat(SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_VALUE).toString());
 
             if (newTotalAmount > previousTotalAmount) {
-                 child_total_amount = newTotalAmount - previousTotalAmount;
-                 childCommissionFromBorrower = (child_total_amount * borrowerChargeValue) / 100;
-               // Toast.makeText(LendBorrowActivity.this, "Amount increased" + childCommissionFromBorrower, Toast.LENGTH_SHORT).show();
+                child_total_amount = newTotalAmount - previousTotalAmount;
+                childCommissionFromBorrower = (child_total_amount * borrowerChargeValue) / 100;
+                // Toast.makeText(LendBorrowActivity.this, "Amount increased" + childCommissionFromBorrower, Toast.LENGTH_SHORT).show();
             }
 
-            float newAmount=amount;
+            float newAmount = amount;
             float previousAmount = Float.parseFloat(transactionModel.getAmount());
             if (newAmount > previousAmount) {
-                 childAmount = newAmount - previousAmount;
+                childAmount = newAmount - previousAmount;
             }
         }
 

@@ -139,7 +139,6 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         }
 
 
-
         if (transactionModel.getTermsType().equalsIgnoreCase("1")) {
             holder.termTypeTV.setText(context.getString(R.string.percent));
         } else if (transactionModel.getTermsType().equalsIgnoreCase("2")) {

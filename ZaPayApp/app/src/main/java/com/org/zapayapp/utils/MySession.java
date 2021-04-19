@@ -104,6 +104,8 @@ public class MySession {
         }
 
 
+
+
         if (object.has("charges_detail")&&object.get("charges_detail")!=null&& object.get("charges_detail").getAsJsonObject()!=null){
          JsonObject chargeDetailJsonObject= object.get("charges_detail").getAsJsonObject();
 
@@ -138,8 +140,8 @@ public class MySession {
                 SharedPref.getPrefsHelper().savePref(Const.Var.DEFAULT_FEE_TYPE, default_fee_type);
             }
 
-        }
 
+        }
     }
 
     public static void removeSession() {

@@ -1,17 +1,21 @@
 package com.org.zapayapp.activity;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -29,15 +33,18 @@ import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.DatePickerFragmentDialogue;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
+
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+
 import retrofit2.Call;
 
 public class ViewAllSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener, DatePickerFragmentDialogue.DatePickerCallback {
@@ -55,7 +62,6 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
     private int dateSelectPos;
     private DateModel dateModel;
     private PaybackDateAdapter paybackDateAdapter;
-
     private String updated_by;
     private AgreementPdfDetailModel agreementPdfDetailModel;
     private LinearLayout agreementLL;
@@ -276,7 +282,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
     }
 
 
-    public void callAPIPayDateRequestStatusUpdateForCancel(DateModel dateModel,String requestBy) {
+    public void callAPIPayDateRequestStatusUpdateForCancel(DateModel dateModel, String requestBy) {
         //new_pay_date_status- 0=default, 1=pending, 2=accepted, 3=decline
         //cancel_from-  1=lender, 2=borrower
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
@@ -350,7 +356,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 } else {
                     showSimpleAlert(msg, getResources().getString(R.string.api_update_transaction_request_status));
                 }
-            }else if (from.equals(getResources().getString(R.string.api_pay_date_request_status_update))){
+            } else if (from.equals(getResources().getString(R.string.api_pay_date_request_status_update))) {
                 if (status == 200) {
                     showSimpleAlert(getString(R.string.your_date_request_has_been_canceled), "");
                     callAPIGetTransactionRequestDetail(transactionId);
@@ -513,11 +519,18 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                     break;
                 }*/
 
-                if (dateModelArrayList.get(i).getNew_pay_date_status().equalsIgnoreCase("0")) {
+               /* if (dateModelArrayList.get(i).getNew_pay_date_status().equalsIgnoreCase("0")) {
+                    dateModelArrayList.get(i).setLatestRemaining(true);
+                    break;
+                }*/
+
+                if (dateModelArrayList.get(i).getStatus().equals("remaining")&&dateModelArrayList.get(i).getNew_pay_date_status().equalsIgnoreCase("0")) {
                     dateModelArrayList.get(i).setLatestRemaining(true);
                     break;
                 }
             }
+
+            setPaybackAdapter();
         }
 
         if (transactionModel.getStatus() != null && transactionModel.getStatus().length() > 0) {
@@ -580,9 +593,6 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         }
 
 
-
-
-
         //if (getString(R.string.transaction).equalsIgnoreCase(moveFrom)) {
         if (!Const.isRequestByMe(transactionModel.getFromId())) {
             if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
@@ -605,182 +615,191 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
 
             //} else if (getString(R.string.history).equalsIgnoreCase(moveFrom)) {
         } else if (Const.isRequestByMe(transactionModel.getFromId())) {
-                if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
-                    if (transactionModel.getRequestBy().equals("2")) {
-                        if (transactionModel.getAdmin_commission_from_lender() != null && transactionModel.getAdmin_commission_from_lender().length() > 0) {
-                            float commission = Float.parseFloat(transactionModel.getAdmin_commission_from_lender());
-                            float totalAmount = Float.parseFloat(transactionModel.getTotalAmount());
-                            float amount = totalAmount - commission;
-                            afterCommissionAmountTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(amount, 2));
-                        }
-                    } else if (transactionModel.getRequestBy().equals("1")) {
-                        if (transactionModel.getAdmin_commission_from_borrower() != null && transactionModel.getAdmin_commission_from_borrower().length() > 0) {
-                            float commission = Float.parseFloat(transactionModel.getAdmin_commission_from_borrower());
-                            float totalAmount = Float.parseFloat(transactionModel.getTotalAmount());
-                            float amount = totalAmount - commission;
-                            afterCommissionAmountTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(amount, 2));
-                        }
+            if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
+                if (transactionModel.getRequestBy().equals("2")) {
+                    if (transactionModel.getAdmin_commission_from_lender() != null && transactionModel.getAdmin_commission_from_lender().length() > 0) {
+                        float commission = Float.parseFloat(transactionModel.getAdmin_commission_from_lender());
+                        float totalAmount = Float.parseFloat(transactionModel.getTotalAmount());
+                        float amount = totalAmount - commission;
+                        afterCommissionAmountTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(amount, 2));
+                    }
+                } else if (transactionModel.getRequestBy().equals("1")) {
+                    if (transactionModel.getAdmin_commission_from_borrower() != null && transactionModel.getAdmin_commission_from_borrower().length() > 0) {
+                        float commission = Float.parseFloat(transactionModel.getAdmin_commission_from_borrower());
+                        float totalAmount = Float.parseFloat(transactionModel.getTotalAmount());
+                        float amount = totalAmount - commission;
+                        afterCommissionAmountTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(amount, 2));
                     }
                 }
             }
-
-            setPaybackAdapter();
-        }
-
-        public void selectPaybackDate (int selectedPos, DateModel dateModel){
-            try {
-                //if (isPreviousDateSelected(selectedPos)){
-                dateSelectPos = selectedPos;
-                this.dateModel = dateModel;
-                DialogFragment newFragment1 = new DatePickerFragmentDialogue();
-                Bundle args1 = new Bundle();
-                args1.putString(getString(R.string.show), getString(R.string.current_month));
-                args1.putString("DATE", dateModel.getPayDate());
-                newFragment1.setArguments(args1);
-                newFragment1.show(getSupportFragmentManager(), getString(R.string.date_picker));
-                // }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        public void datePickerCallback (String selectedDate,int year, int month, int day, String
-        from) throws ParseException {
-            String formattedDate = year + "-" + month + "-" + day;
-            if (dateModel != null) {
-                callAPIUpdatePayDate(formattedDate);
-            }
-        }
-
-        private void setPaybackAdapter () {
-            if (getString(R.string.history).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
-
-            }
-
-            if (paybackDateAdapter == null) {
-                paybackDateAdapter = new PaybackDateAdapter(ViewAllSummaryActivity.this, dateModelArrayList, intent.getStringExtra("moveFrom"), requestBy,transactionModel);
-                paybackDateRecycler.setAdapter(paybackDateAdapter);
-            } else {
-                paybackDateAdapter.notifyDataSetChanged();
-            }
-        }
-
-        private void setButtonVisibility (String forWhat){
-            // if (forWhat.equalsIgnoreCase(getString(R.string.transaction))) {
-            if (!Const.isRequestByMe(transactionModel.getFromId())) {
-
-                if (status != null && status.equalsIgnoreCase("0")) { //PENDING
-                    setTransactionButtonVisibleFunc(status);
-                } else if (status != null && status.equalsIgnoreCase("1")) {//negotioation
-                    setTransactionButtonVisibleFunc(status);
-                } else if (status != null && status.equalsIgnoreCase("2")) {//accepted
-                    setTransactionButtonVisibleFunc(status);
-                } else if (status != null && status.equalsIgnoreCase("3")) {//decline
-                    setTransactionButtonVisibleFunc(status);
-                } else if (status != null && status.equalsIgnoreCase("4")) {//completed
-                    setTransactionButtonVisibleFunc(status);
-                }
-
-
-                // } else if (forWhat.equalsIgnoreCase(getString(R.string.history))) {
-            } else if (Const.isRequestByMe(transactionModel.getFromId())) {
-                if (status != null && status.equalsIgnoreCase("0")) { //PENDING
-                    setHistoryButtonVisibleFunc(status);
-                } else if (status != null && status.equalsIgnoreCase("1")) {//negotioation
-                    setHistoryButtonVisibleFunc(status);
-                } else if (status != null && status.equalsIgnoreCase("2")) {//accepted
-                    setHistoryButtonVisibleFunc(status);
-                } else if (status != null && status.equalsIgnoreCase("3")) {//decline
-                    setHistoryButtonVisibleFunc(status);
-                } else if (status != null && status.equalsIgnoreCase("4")) {//completed
-                    setHistoryButtonVisibleFunc(status);
-                }
-            }
-        }
-
-        private void setHistoryButtonVisibleFunc (@NotNull String status){
-        if (status.equalsIgnoreCase("0")){
-            negotiateTV.setVisibility(View.GONE);
-            acceptTV.setVisibility(View.GONE);
-            declineTV.setVisibility(View.VISIBLE);
-        }else if (status.equalsIgnoreCase("1")) {
-                if (updated_by != null && SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString().equalsIgnoreCase(updated_by)) {
-                    negotiateTV.setVisibility(View.GONE);
-                    acceptTV.setVisibility(View.GONE);
-                    declineTV.setVisibility(View.GONE);
-                } else {
-                    negotiateTV.setVisibility(View.VISIBLE);
-                    acceptTV.setVisibility(View.VISIBLE);
-                    declineTV.setVisibility(View.VISIBLE);
-                }
-            } else if (status.equalsIgnoreCase("2")) {
-
-            if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
-                    if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length() > 0 && transactionModel.getIs_negotiate_after_accept().equals("1")) {
-                        negotiateTV.setVisibility(View.GONE);
-                        acceptTV.setVisibility(View.GONE);
-                        declineTV.setVisibility(View.GONE);
-                    } else {
-                       // negotiateTV.setVisibility(View.VISIBLE);
-                        negotiateTV.setVisibility(View.GONE); //this is Gone for Temprery (this manage after accept user can negotiate)
-                        acceptTV.setVisibility(View.GONE);
-                        declineTV.setVisibility(View.GONE);
-                    }
-                }
-
-            } else {
-                negotiateTV.setVisibility(View.GONE);
-                acceptTV.setVisibility(View.GONE);
-                declineTV.setVisibility(View.GONE);
-            }
         }
 
 
-        private void setTransactionButtonVisibleFunc (String status){
-            if (status.equalsIgnoreCase("0")) {   //0==pending
-                negotiateTV.setVisibility(View.VISIBLE);
-                acceptTV.setVisibility(View.VISIBLE);
-                declineTV.setVisibility(View.VISIBLE);
-            } else if (status.equalsIgnoreCase("1")) {
-                if (updated_by != null && SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString().equalsIgnoreCase(updated_by)) {
-                    negotiateTV.setVisibility(View.GONE);
-                    acceptTV.setVisibility(View.GONE);
-                    declineTV.setVisibility(View.GONE);
-                } else {
-                    negotiateTV.setVisibility(View.VISIBLE);
-                    acceptTV.setVisibility(View.VISIBLE);
-                    declineTV.setVisibility(View.VISIBLE);
-                }
-            } else if (status.equalsIgnoreCase("2")) {  //status=2 accepted,requestBy=2 Borrower
-                if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
-                    if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length() > 0 && transactionModel.getIs_negotiate_after_accept().equals("1")) {
-                        negotiateTV.setVisibility(View.GONE);
-                        acceptTV.setVisibility(View.GONE);
-                        declineTV.setVisibility(View.GONE);
-                    } else {
-                       // negotiateTV.setVisibility(View.VISIBLE);
-                        negotiateTV.setVisibility(View.GONE); //this is Gone for temporary (this manage after accept user can negotiate)
-                        acceptTV.setVisibility(View.GONE);
-                        declineTV.setVisibility(View.GONE);
-                    }
-                }
 
-            } else {
-                negotiateTV.setVisibility(View.GONE);
-                acceptTV.setVisibility(View.GONE);
-                declineTV.setVisibility(View.GONE);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
             }
-        }
+        }, 500);
 
-        @Override
-        protected void onActivityResult ( int requestCode, int resultCode, @Nullable Intent data){
-            super.onActivityResult(requestCode, resultCode, data);
-            if (requestCode == 200 && data != null) {
-                finish();
+        //setPaybackAdapter();
+    }
+
+    public void selectPaybackDate(int selectedPos, DateModel dateModel) {
+        try {
+            //if (isPreviousDateSelected(selectedPos)){
+            dateSelectPos = selectedPos;
+            this.dateModel = dateModel;
+            DialogFragment newFragment1 = new DatePickerFragmentDialogue();
+            Bundle args1 = new Bundle();
+            args1.putString(getString(R.string.show), getString(R.string.current_month));
+            args1.putString("DATE", dateModel.getPayDate());
+            newFragment1.setArguments(args1);
+            newFragment1.show(getSupportFragmentManager(), getString(R.string.date_picker));
+            // }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void datePickerCallback(String selectedDate, int year, int month, int day, String
+            from) throws ParseException {
+        String formattedDate = year + "-" + month + "-" + day;
+        if (dateModel != null) {
+            callAPIUpdatePayDate(formattedDate);
+        }
+    }
+
+    private void setPaybackAdapter() {
+      //  if (getString(R.string.history).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) { }
+        paybackDateAdapter = new PaybackDateAdapter(ViewAllSummaryActivity.this, dateModelArrayList, intent.getStringExtra("moveFrom"), requestBy, transactionModel);
+        paybackDateRecycler.setAdapter(paybackDateAdapter);
+
+      /*  if (paybackDateAdapter == null) {
+            paybackDateAdapter = new PaybackDateAdapter(ViewAllSummaryActivity.this, dateModelArrayList, intent.getStringExtra("moveFrom"), requestBy, transactionModel);
+            paybackDateRecycler.setAdapter(paybackDateAdapter);
+        } else {
+            paybackDateAdapter.notifyDataSetChanged();
+        }*/
+    }
+
+    private void setButtonVisibility(String forWhat) {
+        // if (forWhat.equalsIgnoreCase(getString(R.string.transaction))) {
+        if (!Const.isRequestByMe(transactionModel.getFromId())) {
+
+            if (status != null && status.equalsIgnoreCase("0")) { //PENDING
+                setTransactionButtonVisibleFunc(status);
+            } else if (status != null && status.equalsIgnoreCase("1")) {//negotioation
+                setTransactionButtonVisibleFunc(status);
+            } else if (status != null && status.equalsIgnoreCase("2")) {//accepted
+                setTransactionButtonVisibleFunc(status);
+            } else if (status != null && status.equalsIgnoreCase("3")) {//decline
+                setTransactionButtonVisibleFunc(status);
+            } else if (status != null && status.equalsIgnoreCase("4")) {//completed
+                setTransactionButtonVisibleFunc(status);
+            }
+
+
+            // } else if (forWhat.equalsIgnoreCase(getString(R.string.history))) {
+        } else if (Const.isRequestByMe(transactionModel.getFromId())) {
+            if (status != null && status.equalsIgnoreCase("0")) { //PENDING
+                setHistoryButtonVisibleFunc(status);
+            } else if (status != null && status.equalsIgnoreCase("1")) {//negotioation
+                setHistoryButtonVisibleFunc(status);
+            } else if (status != null && status.equalsIgnoreCase("2")) {//accepted
+                setHistoryButtonVisibleFunc(status);
+            } else if (status != null && status.equalsIgnoreCase("3")) {//decline
+                setHistoryButtonVisibleFunc(status);
+            } else if (status != null && status.equalsIgnoreCase("4")) {//completed
+                setHistoryButtonVisibleFunc(status);
             }
         }
     }
+
+    private void setHistoryButtonVisibleFunc(@NotNull String status) {
+        if (status.equalsIgnoreCase("0")) {
+            negotiateTV.setVisibility(View.GONE);
+            acceptTV.setVisibility(View.GONE);
+            declineTV.setVisibility(View.VISIBLE);
+        } else if (status.equalsIgnoreCase("1")) {
+            if (updated_by != null && SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString().equalsIgnoreCase(updated_by)) {
+                negotiateTV.setVisibility(View.GONE);
+                acceptTV.setVisibility(View.GONE);
+                declineTV.setVisibility(View.GONE);
+            } else {
+                negotiateTV.setVisibility(View.VISIBLE);
+                acceptTV.setVisibility(View.VISIBLE);
+                declineTV.setVisibility(View.VISIBLE);
+            }
+        } else if (status.equalsIgnoreCase("2")) {
+
+            if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+                if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length() > 0 && transactionModel.getIs_negotiate_after_accept().equals("1")) {
+                    negotiateTV.setVisibility(View.GONE);
+                    acceptTV.setVisibility(View.GONE);
+                    declineTV.setVisibility(View.GONE);
+                } else {
+                    // negotiateTV.setVisibility(View.VISIBLE);
+                    negotiateTV.setVisibility(View.GONE); //this is Gone for Temprery (this manage after accept user can negotiate)
+                    acceptTV.setVisibility(View.GONE);
+                    declineTV.setVisibility(View.GONE);
+                }
+            }
+
+        } else {
+            negotiateTV.setVisibility(View.GONE);
+            acceptTV.setVisibility(View.GONE);
+            declineTV.setVisibility(View.GONE);
+        }
+    }
+
+
+    private void setTransactionButtonVisibleFunc(String status) {
+        if (status.equalsIgnoreCase("0")) {   //0==pending
+            negotiateTV.setVisibility(View.VISIBLE);
+            acceptTV.setVisibility(View.VISIBLE);
+            declineTV.setVisibility(View.VISIBLE);
+        } else if (status.equalsIgnoreCase("1")) {
+            if (updated_by != null && SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString().equalsIgnoreCase(updated_by)) {
+                negotiateTV.setVisibility(View.GONE);
+                acceptTV.setVisibility(View.GONE);
+                declineTV.setVisibility(View.GONE);
+            } else {
+                negotiateTV.setVisibility(View.VISIBLE);
+                acceptTV.setVisibility(View.VISIBLE);
+                declineTV.setVisibility(View.VISIBLE);
+            }
+        } else if (status.equalsIgnoreCase("2")) {  //status=2 accepted,requestBy=2 Borrower
+            if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
+                if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length() > 0 && transactionModel.getIs_negotiate_after_accept().equals("1")) {
+                    negotiateTV.setVisibility(View.GONE);
+                    acceptTV.setVisibility(View.GONE);
+                    declineTV.setVisibility(View.GONE);
+                } else {
+                    // negotiateTV.setVisibility(View.VISIBLE);
+                    negotiateTV.setVisibility(View.GONE); //this is Gone for temporary (this manage after accept user can negotiate)
+                    acceptTV.setVisibility(View.GONE);
+                    declineTV.setVisibility(View.GONE);
+                }
+            }
+
+        } else {
+            negotiateTV.setVisibility(View.GONE);
+            acceptTV.setVisibility(View.GONE);
+            declineTV.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 200 && data != null) {
+            finish();
+        }
+    }
+}
 
 
