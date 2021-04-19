@@ -81,10 +81,6 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             }
         }
 
-
-
-
-
         if (transactionModel.getCreatedAt() != null && transactionModel.getCreatedAt().length() > 0) {
             //holder.dateTV.setText(TimeStamp.timeFun(transactionModel.getCreatedAt()));
         }
@@ -178,6 +174,15 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             } else {
                 holder.dateUpdateIconIV.setVisibility(View.GONE);
             }
+        }
+
+
+        //this condition for negotiate
+        if (transactionModel.getStatus()!=null&&transactionModel.getStatus().length()>0&&transactionModel.getStatus().equals("1")&&transactionModel.getUpdatedBy()!=null&&transactionModel.getUpdatedBy().length()>0&&!transactionModel.getUpdatedBy().equals("0")){
+            holder.acceptedReNegotiateTV.setVisibility(View.VISIBLE);
+            holder.acceptedReNegotiateTV.setText(context.getString(R.string.negotiate));
+        }else {
+            holder.acceptedReNegotiateTV.setVisibility(View.GONE);
         }
 
 
