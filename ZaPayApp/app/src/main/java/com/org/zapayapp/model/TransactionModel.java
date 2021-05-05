@@ -135,8 +135,22 @@ public class TransactionModel implements Serializable{
     @Expose
     public String cancel_by_profile_image;
 
+    @SerializedName("is_already_rated")
+    @Expose
+    public String is_already_rated;
+
+    @SerializedName("rating_by_user")
+    @Expose
+    public String rating_by_user;
 
 
+    public String getIs_already_rated() {
+        return is_already_rated;
+    }
+
+    public String getRating_by_user() {
+        return rating_by_user;
+    }
 
     public List<AgreementPdfDetailModel> getAgreementPdfDetailModelList() {
         return agreementPdfDetailModelList;

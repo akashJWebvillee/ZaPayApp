@@ -35,6 +35,8 @@ public class RattingDialogActivity extends AppCompatActivity implements APICallb
     private String toId="";
     private String fromId="";
     private String transactionRequestID="";
+    private String averageRating="";
+    private String isAlreadyRated="";
 
     private TextView titleTV;
     private TextView saveTV;
@@ -85,6 +87,8 @@ public class RattingDialogActivity extends AppCompatActivity implements APICallb
             toId= getIntent().getStringExtra("toId");
             fromId= getIntent().getStringExtra("fromId");
             transactionRequestID= getIntent().getStringExtra("transactionRequestID");
+            averageRating= getIntent().getStringExtra("averageRating");
+            isAlreadyRated= getIntent().getStringExtra("isAlreadyRated");
         }
     }
 
@@ -94,6 +98,19 @@ public class RattingDialogActivity extends AppCompatActivity implements APICallb
 
         }else if (requestBy!=null&&requestBy.equals("2")){
             titleTV.setText(getString(R.string.rate_borrower));
+        }
+
+        if (averageRating!=null&&averageRating.length()>0){
+            viewRatingBar.setScore(Float.parseFloat(averageRating));
+        }
+
+        if (isAlreadyRated!=null&&isAlreadyRated.length()>0){
+            if (isAlreadyRated.equals("0")){
+                saveTV.setVisibility(View.VISIBLE);
+            }if (isAlreadyRated.equals("1")){ //already rated
+                viewRatingBar.setScrollToSelect(false);
+                saveTV.setVisibility(View.GONE);
+            }
         }
 
 

@@ -171,7 +171,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-
     /**
      * request permission result to show if runtime permission is accepted
      *
@@ -323,7 +322,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     }
                 } else if (status == 401) {
                     showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
-
                 } else {
                     showSimpleAlert(msg, "");
                 }

@@ -1,11 +1,8 @@
 package com.org.zapayapp.utils;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.provider.Settings;
 import android.util.Log;
-
-import com.org.zapayapp.R;
 
 public class Const {
     public interface Var {
@@ -36,7 +33,6 @@ public class Const {
         String ETHNICITY = "ethnicity";
         String INCOME = "income";
         String SIGNATURE = "signature";
-
 
         //bankAccount detail....
         String BANK_ACCOUNT_ID = "bank_account_id";

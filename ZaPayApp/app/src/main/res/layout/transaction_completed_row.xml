@@ -171,7 +171,7 @@
             app:starOff="@mipmap/ic_star_hollow"
             app:starOn="@mipmap/ic_star_fill"
             app:starPadding="2dp"
-            app:stars="3"
+            app:stars="0"
             android:layout_marginEnd="10dp"/>
 
         <LinearLayout

@@ -107,7 +107,8 @@
                 android:text="@string/submit"
                 android:textAllCaps="false"
                 android:textColor="@color/colorWhite"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                />
         </com.dd.ShadowLayout>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

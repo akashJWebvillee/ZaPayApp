@@ -55,6 +55,7 @@ public class HistoryPendingFragment extends Fragment implements APICallback {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         pendingRecyclerView.setLayoutManager(layoutManager);
         pendingRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
         scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {

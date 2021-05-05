@@ -156,6 +156,9 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+
                 if (!transactionModel.getStatus().equalsIgnoreCase("2")) {
                     if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                         Intent intent = new Intent(context, BorrowSummaryActivity.class);
@@ -175,11 +178,20 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
         });
 
 
-
-
         holder.rattingLL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String averageRating="";
+                String is_already_rated="";
+                if (Const.isRequestByMe(transactionModel.getFromId())) {
+                    averageRating=transactionModel.getReceiver_average_rating();
+                    is_already_rated=transactionModel.getIs_already_rated();
+                } else {
+                    averageRating=transactionModel.getSender_average_rating();
+                    is_already_rated=transactionModel.getIs_already_rated();
+                }
+
+
                 if (transactionModel.getRequestBy()!=null&&transactionModel.getRequestBy().length()>0){
                     if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                         Intent intent = new Intent(context, RattingDialogActivity.class);
@@ -187,6 +199,8 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
                         intent.putExtra("toId", transactionModel.getToId());
                         intent.putExtra("fromId", transactionModel.getFromId());
                         intent.putExtra("transactionRequestID", transactionModel.getId());
+                        intent.putExtra("averageRating", averageRating);
+                        intent.putExtra("isAlreadyRated", is_already_rated);
                         context.startActivity(intent);
                     } else if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
                         Intent intent = new Intent(context, RattingDialogActivity.class);
@@ -194,6 +208,8 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
                         intent.putExtra("toId", transactionModel.getToId());
                         intent.putExtra("fromId", transactionModel.getFromId());
                         intent.putExtra("transactionRequestID", transactionModel.getId());
+                        intent.putExtra("averageRating", averageRating);
+                        intent.putExtra("isAlreadyRated", is_already_rated);
                         context.startActivity(intent);
                     }
                 }

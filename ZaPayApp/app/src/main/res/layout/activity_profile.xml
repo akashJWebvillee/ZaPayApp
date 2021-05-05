@@ -47,7 +47,7 @@
                 android:paddingBottom="5dp"
                 android:text=""
                 android:textColor="@color/navTextColor60Alpha"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/profileTxtMB"
@@ -74,7 +74,7 @@
                 android:layout_below="@+id/profileTxtMB"
                 android:text=""
                 android:textColor="@color/textColor"
-                android:textSize="20sp" />
+                android:textSize="20sp"/>
 
             <TextView
                 android:id="@+id/profileTxtAdd"
@@ -90,7 +90,7 @@
                 android:paddingBottom="5dp"
                 android:text="@string/address"
                 android:textColor="@color/navTextColor50Alpha"
-                android:textSize="15sp" />
+                android:textSize="15sp"/>
 
             <TextView
                 android:id="@+id/profileTxtAddress"
@@ -103,7 +103,7 @@
                 android:lineSpacingExtra="5dp"
                 android:text=""
                 android:textColor="@color/textColor"
-                android:textSize="20sp" />
+                android:textSize="20sp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -223,5 +223,4 @@
                 android:src="@mipmap/edit_icon" />
         </RelativeLayout>
     </RelativeLayout>
-
 </RelativeLayout>
