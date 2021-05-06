@@ -191,26 +191,51 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
                     is_already_rated=transactionModel.getIs_already_rated();
                 }
 
+                if (Const.isRequestByMe(transactionModel.getFromId())) {
+                    if (transactionModel.getRequestBy()!=null&&transactionModel.getRequestBy().length()>0){
+                        if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+                            Intent intent = new Intent(context, RattingDialogActivity.class);
+                            intent.putExtra("requestBy", "2");
+                            intent.putExtra("toId", transactionModel.getToId());
+                            intent.putExtra("fromId", transactionModel.getFromId());
+                            intent.putExtra("transactionRequestID", transactionModel.getId());
+                            intent.putExtra("averageRating", averageRating);
+                            intent.putExtra("isAlreadyRated", is_already_rated);
+                            context.startActivity(intent);
+                        } else if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
+                            Intent intent = new Intent(context, RattingDialogActivity.class);
+                            intent.putExtra("requestBy", "1");
+                            intent.putExtra("toId", transactionModel.getToId());
+                            intent.putExtra("fromId", transactionModel.getFromId());
+                            intent.putExtra("transactionRequestID", transactionModel.getId());
+                            intent.putExtra("averageRating", averageRating);
+                            intent.putExtra("isAlreadyRated", is_already_rated);
+                            context.startActivity(intent);
+                        }
+                    }
 
-                if (transactionModel.getRequestBy()!=null&&transactionModel.getRequestBy().length()>0){
-                    if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
-                        Intent intent = new Intent(context, RattingDialogActivity.class);
-                        intent.putExtra("requestBy", "2");
-                        intent.putExtra("toId", transactionModel.getToId());
-                        intent.putExtra("fromId", transactionModel.getFromId());
-                        intent.putExtra("transactionRequestID", transactionModel.getId());
-                        intent.putExtra("averageRating", averageRating);
-                        intent.putExtra("isAlreadyRated", is_already_rated);
-                        context.startActivity(intent);
-                    } else if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
-                        Intent intent = new Intent(context, RattingDialogActivity.class);
-                        intent.putExtra("requestBy", "1");
-                        intent.putExtra("toId", transactionModel.getToId());
-                        intent.putExtra("fromId", transactionModel.getFromId());
-                        intent.putExtra("transactionRequestID", transactionModel.getId());
-                        intent.putExtra("averageRating", averageRating);
-                        intent.putExtra("isAlreadyRated", is_already_rated);
-                        context.startActivity(intent);
+                }else {
+
+                    if (transactionModel.getRequestBy()!=null&&transactionModel.getRequestBy().length()>0){
+                        if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+                            Intent intent = new Intent(context, RattingDialogActivity.class);
+                            intent.putExtra("requestBy", "2");
+                            intent.putExtra("toId", transactionModel.getFromId());
+                            intent.putExtra("fromId", transactionModel.getToId());
+                            intent.putExtra("transactionRequestID", transactionModel.getId());
+                            intent.putExtra("averageRating", averageRating);
+                            intent.putExtra("isAlreadyRated", is_already_rated);
+                            context.startActivity(intent);
+                        } else if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
+                            Intent intent = new Intent(context, RattingDialogActivity.class);
+                            intent.putExtra("requestBy", "1");
+                            intent.putExtra("toId", transactionModel.getFromId());
+                            intent.putExtra("fromId", transactionModel.getToId());
+                            intent.putExtra("transactionRequestID", transactionModel.getId());
+                            intent.putExtra("averageRating", averageRating);
+                            intent.putExtra("isAlreadyRated", is_already_rated);
+                            context.startActivity(intent);
+                        }
                     }
                 }
             }

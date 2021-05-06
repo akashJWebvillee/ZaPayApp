@@ -256,7 +256,7 @@
                             app:starOff="@mipmap/ic_star_hollow"
                             app:starOn="@mipmap/ic_star_fill"
                             app:starPadding="3dp"
-                            app:stars="3.5" />
+                            app:stars="0" />
                     </LinearLayout>
 
                     <LinearLayout

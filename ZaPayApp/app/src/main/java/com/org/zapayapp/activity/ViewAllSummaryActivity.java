@@ -413,9 +413,17 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
             totalPayBackTV.setText(total_amount);
         }
 
-        if (transactionModel.getAverage_rating() != null && transactionModel.getAverage_rating().length() > 0) {
-            viewRatingBar.setScore(Float.parseFloat(transactionModel.getAverage_rating()));
-        }
+        if (Const.isRequestByMe(transactionModel.getFromId())) {
+                if (transactionModel.getReceiver_average_rating() != null && transactionModel.getReceiver_average_rating().length() > 0) {
+                    viewRatingBar.setScore(Float.parseFloat(transactionModel.getReceiver_average_rating()));
+                }
+            } else {
+                if (transactionModel.getSender_average_rating() != null && transactionModel.getSender_average_rating().length() > 0) {
+                    viewRatingBar.setScore(Float.parseFloat(transactionModel.getSender_average_rating()));
+
+                }
+            }
+
 
         if (transactionModel.getTermsType() != null && transactionModel.getTermsType().length() > 0 && transactionModel.getTermsValue() != null && transactionModel.getTermsValue().length() > 0) {
             String terms_type = transactionModel.getTermsType();

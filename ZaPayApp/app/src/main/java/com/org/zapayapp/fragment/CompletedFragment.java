@@ -22,8 +22,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import retrofit2.Call;
-
-
 public class CompletedFragment extends Fragment implements APICallback {
     private TransactionActivity activity;
     private List<TransactionModel> transactionList;

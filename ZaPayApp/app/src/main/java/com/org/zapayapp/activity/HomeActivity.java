@@ -160,6 +160,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
     private void callAPIGetUserDetail() {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        Log.e("token","token========.....===="+token);
         try {
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.getApiToken(token, getString(R.string.api_get_user_details));

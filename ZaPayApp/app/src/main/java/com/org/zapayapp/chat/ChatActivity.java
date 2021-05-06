@@ -103,13 +103,23 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                     receiverId = transactionModel.getToId();
                     transactionId = transactionModel.getId();
                     receiverProfileImg = transactionModel.getProfileImage();
-                    titleTV.setText(transactionModel.getFirstName()+" "+transactionModel.getLastName());
+
+                    if (Const.isRequestByMe(transactionModel.getFromId())) {
+                        titleTV.setText(transactionModel.getReceiver_first_name() + " " + transactionModel.getReceiver_last_name());
+                    } else {
+                        titleTV.setText("" + transactionModel.getSender_first_name() + " " + transactionModel.getSender_last_name());
+                    }
+
                 } else if (transactionModel.getToId() != null && transactionModel.getToId().length() > 0 && transactionModel.getToId().equals(SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID))) {
                     senderId = transactionModel.getToId();
                     receiverId = transactionModel.getFromId();
                     transactionId = transactionModel.getId();
                     receiverProfileImg = transactionModel.getProfileImage();
-                    titleTV.setText(transactionModel.getFirstName()+" "+transactionModel.getLastName());
+                    if (Const.isRequestByMe(transactionModel.getFromId())) {
+                        titleTV.setText(transactionModel.getReceiver_first_name() + " " + transactionModel.getReceiver_last_name());
+                    } else {
+                        titleTV.setText("" + transactionModel.getSender_first_name() + " " + transactionModel.getSender_last_name());
+                    }
 
                 }
                 callConversationsMsgListAPI();

@@ -549,7 +549,8 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     }
 
     private void generatePaybackData() {
-        paymentDate = DateFormat.dateFormatConvert11(wvDateLib.getCurrentDate());
+        //paymentDate = DateFormat.dateFormatConvert11(wvDateLib.getCurrentDate());
+         paymentDate = DateFormat.dateFormatConvert11(wvDateLib.incrementDateByOne());
         //Negotiation.....
         if (transactionModel != null && transactionModel.getPayDate() != null && transactionModel.getPayDate().length() > 0) {
             try {
