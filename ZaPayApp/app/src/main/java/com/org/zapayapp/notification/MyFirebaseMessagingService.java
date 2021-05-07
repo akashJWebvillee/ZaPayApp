@@ -48,13 +48,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 CommonMethods.showLogs(TAG, "isAppForeground : App is foreground");
             }
             if (SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID) != null && SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString().length() > 0) {
-               // sendNotification(remoteMessage.getData());
+               sendNotification(remoteMessage.getData());
             }
         }
     }
 
     // [END receive_message]
     private void sendNotification(Map<String, String> data) {
+
+
+
+
         Intent intent = null;
         try {
             String notification_type = data.get("notification_type");
@@ -65,6 +69,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             String request_by = data.get("request_by");
             String from_id = data.get("from_id");
             String to_id = data.get("to_id");
+
+
+
+
+                /* if (isAppBackground()) {
+                PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis()*//* Request code *//*, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                boolean flag = false;
+                createImageBuilder(title, message, pendingIntent, flag);
+            }else {
+                PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis()*//* Request code *//*, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                boolean flag = false;
+                createImageBuilder(title, message, pendingIntent, flag);
+            }*/
+
+
 
             if (SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID) != null && SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString().length() > 0) {
                 if (notification_type != null) {

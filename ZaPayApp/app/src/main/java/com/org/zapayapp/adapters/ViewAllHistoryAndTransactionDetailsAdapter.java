@@ -195,7 +195,7 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
             setAdapterFunc(holder.paybackDateRecycler, payDatesList,transactionModel);
         }
 
-        if (context.getString(R.string.transaction).equalsIgnoreCase(moveFrom)) {
+     /*   if (context.getString(R.string.transaction).equalsIgnoreCase(moveFrom)) {
             if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
                 holder.viewAllNameType.setText(context.getString(R.string.lender));
             } else {
@@ -207,7 +207,13 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
             } else {
                 holder.viewAllNameType.setText(context.getString(R.string.borrower));
             }
-        }
+        }*/
+
+
+
+
+
+
 
         if (transactionModel.getAgreementPdfDetailModelList() != null && transactionModel.getAgreementPdfDetailModelList().size() > 0) {
             List<AgreementPdfDetailModel> pdf_details = transactionModel.getAgreementPdfDetailModelList();

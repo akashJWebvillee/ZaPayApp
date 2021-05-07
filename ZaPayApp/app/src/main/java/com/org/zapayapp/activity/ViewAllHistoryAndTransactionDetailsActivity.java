@@ -156,6 +156,8 @@ public class ViewAllHistoryAndTransactionDetailsActivity extends BaseActivity im
         HashMap<String, Object> values = apiCalling.getHashMapObject(
                 "transaction_request_id", transaction_id,
                 "pay_date_ids", payDateIds);
+
+        Log.e("post","aaaaaaaaaaaaaaaaa======"+values.toString());
         try {
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_pay_default_amount), values);
@@ -186,7 +188,6 @@ public class ViewAllHistoryAndTransactionDetailsActivity extends BaseActivity im
                         if (allTransactionArrayList != null && allTransactionArrayList.size() > 0) {
                             setAdapter();
                         }
-
                     }
                 } else {
                     showSimpleAlert(msg, "");
@@ -240,7 +241,7 @@ public class ViewAllHistoryAndTransactionDetailsActivity extends BaseActivity im
     }
 
     public void setTotalPayData11(List<DateModel> payDatesList, TransactionModel transactionModel) {
-       if (!Const.isRequestByMe(transactionModel.getFromId())){
+    /*   if (!Const.isRequestByMe(transactionModel.getFromId())){
            if (transactionModel.getRequestBy()!=null&&transactionModel.getRequestBy().equals("1")){
                totalPayTV.setVisibility(View.GONE);
            }else if (transactionModel.getRequestBy()!=null&&transactionModel.getRequestBy().equals("2")){
@@ -248,20 +249,48 @@ public class ViewAllHistoryAndTransactionDetailsActivity extends BaseActivity im
            }
        }else if (Const.isRequestByMe(transactionModel.getFromId())){
            if (transactionModel.getRequestBy()!=null&&transactionModel.getRequestBy().equals("2")){
-               totalPayTV.setVisibility(View.GONE);
-           }else if (transactionModel.getRequestBy()!=null&&transactionModel.getRequestBy().equals("1")){
                totalPayTV.setVisibility(View.VISIBLE);
+           }else if (transactionModel.getRequestBy()!=null&&transactionModel.getRequestBy().equals("1")){
+               totalPayTV.setVisibility(View.GONE);
            }
         }
+*/
 
 
+
+
+    /*   if (Const.isRequestByMe(transactionModel.getFromId())){
+            if (transactionModel.getRequestBy()!=null&&transactionModel.getRequestBy().equals("2")){
+                totalPayTV.setVisibility(View.VISIBLE);
+            }else if (transactionModel.getRequestBy()!=null&&transactionModel.getRequestBy().equals("1")){
+                totalPayTV.setVisibility(View.GONE);
+            }
+        }else if(!Const.isRequestByMe(transactionModel.getFromId())){
+           if (transactionModel.getRequestBy()!=null&&transactionModel.getRequestBy().equals("1")){
+               totalPayTV.setVisibility(View.VISIBLE);
+           }else if (transactionModel.getRequestBy()!=null&&transactionModel.getRequestBy().equals("2")){
+               totalPayTV.setVisibility(View.GONE);
+           }
+       }*/
+
+
+
+         totalPayTV.setVisibility(View.GONE);
+        if (Const.isRequestByMe(transactionModel.getFromId())&&transactionModel.getRequestBy().equals("2")){
+            totalPayTV.setVisibility(View.VISIBLE);
+        }else if (!Const.isRequestByMe(transactionModel.getFromId())&&transactionModel.getRequestBy().equals("1")){
+            totalPayTV.setVisibility(View.VISIBLE);
+
+        }else {
+            totalPayTV.setVisibility(View.GONE);
+        }
 
 
         transactionID = transactionModel.getId();
         float defaultTotalAmount = 0;
         if (payDatesList.size() > 0) {
             for (int i = 0; i < payDatesList.size(); i++) {
-                if (payDatesList.get(i).getDefault_payment_pay_done() != null && payDatesList.get(i).getDefault_payment_pay_done().equals("0")) {
+                if (payDatesList.get(i).getIs_default_txn() != null && payDatesList.get(i).getIs_default_txn().equals("1")) {
                     // float amount=payDatesList.get(i).getEmi_amount();
                     float defaultFeeAmount = Float.parseFloat(payDatesList.get(i).getDefault_fee_amount());
                     float amount = Float.parseFloat(payDatesList.get(i).getEmi_amount());

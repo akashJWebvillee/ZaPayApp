@@ -139,7 +139,6 @@
                             android:textColor="@color/textColor"
                             android:textSize="16sp" />
                     </LinearLayout>
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -229,7 +228,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/viewTxtRating"
@@ -256,7 +256,7 @@
                             app:starOff="@mipmap/ic_star_hollow"
                             app:starOn="@mipmap/ic_star_fill"
                             app:starPadding="3dp"
-                            app:stars="0" />
+                            app:stars="0"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -264,7 +264,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:layout_marginStart="27dp">
 
                         <TextView
                             android:layout_width="wrap_content"

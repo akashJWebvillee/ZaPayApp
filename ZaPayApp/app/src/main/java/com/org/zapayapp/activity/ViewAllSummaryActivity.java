@@ -33,18 +33,15 @@ import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.DatePickerFragmentDialogue;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
-
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
-
 import retrofit2.Call;
 
 public class ViewAllSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener, DatePickerFragmentDialogue.DatePickerCallback {
@@ -151,8 +148,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
             }
 
             callAPIGetTransactionRequestDetail(transactionId);
-
-           /* if (getString(R.string.transaction).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
+            /* if (getString(R.string.transaction).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
                 callAPIGetTransactionRequestDetail(transactionId);
             } else if (getString(R.string.history).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
                 callAPIGetHistoryRequestDetail(transactionId);

@@ -233,7 +233,8 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
                 if (status == 200) {
                     JsonObject jsonObject = json.get("data").getAsJsonObject();
                     String pdf_url = jsonObject.get("pdf_url").getAsString();
-                    pdfUrl = APICalling.getImageUrl(pdf_url);
+                   // pdfUrl = APICalling.getImageUrl(pdf_url);
+                    pdfUrl = pdf_url;
                     loadPdfFile(APICalling.getImageUrl(pdf_url));
                 } else {
                     showSimpleAlert(msg, "");
@@ -243,7 +244,8 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
                 if (status == 200) {
                     JsonObject jsonObject = json.get("data").getAsJsonObject();
                     String pdf_url = jsonObject.get("pdf_url").getAsString();
-                    pdfUrl = APICalling.getImageUrl(pdf_url);
+                  //  pdfUrl = APICalling.getImageUrl(pdf_url);
+                    pdfUrl = pdf_url;
                     loadPdfFile(APICalling.getImageUrl(pdf_url));
                 } else {
                     showSimpleAlert(msg, "");
