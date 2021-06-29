@@ -35,7 +35,8 @@ public class DatePickerFragmentDialogue extends DialogFragment implements DatePi
             strMin = getArguments().getInt("mindate");
             strMax = getArguments().getInt("maxdate");
         }
-        // Locale.setDefault(Locale.ENGLISH);
+
+        //Locale.setDefault(Locale.ENGLISH);
         wvDateLib = new WVDateLib(context);
         Locale locale = getResources().getConfiguration().locale;
         Locale.setDefault(locale);
@@ -60,7 +61,6 @@ public class DatePickerFragmentDialogue extends DialogFragment implements DatePi
         }
         if (strDate != null && strDate.length() > 0 && getActivity() != null) {
             try {
-
                 //SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
                 SimpleDateFormat sdf = new SimpleDateFormat(" yyyy-mm-dd", Locale.ENGLISH);
 

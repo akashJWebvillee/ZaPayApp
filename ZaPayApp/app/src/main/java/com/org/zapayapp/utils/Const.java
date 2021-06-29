@@ -97,7 +97,7 @@ public class Const {
         //is_defaulter==1 defaulter
         //is_defaulter==0 not defaulter
 
-        boolean flag = false;
+        /*   boolean flag = false;
             if (SharedPref.getPrefsHelper().getPref(Var.IsDEFAULTER)!=null&&SharedPref.getPrefsHelper().getPref(Var.IsDEFAULTER).toString().length()>0) {
                 if (SharedPref.getPrefsHelper().getPref(Var.IsDEFAULTER).toString().equals("1")){
                     flag=true;
@@ -105,8 +105,8 @@ public class Const {
                     flag=false;
                 }
             }
-            return flag;
-       // return false;
+            return flag;*/
+        return false;
 
             }
 

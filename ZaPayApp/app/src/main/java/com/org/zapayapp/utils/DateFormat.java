@@ -84,6 +84,4 @@ public class DateFormat {
         // formattedDate have current date/time
         return formattedDate;
     }
-
-
 }

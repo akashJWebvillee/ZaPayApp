@@ -48,17 +48,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 CommonMethods.showLogs(TAG, "isAppForeground : App is foreground");
             }
             if (SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID) != null && SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString().length() > 0) {
-               sendNotification(remoteMessage.getData());
+                sendNotification(remoteMessage.getData());
             }
         }
     }
 
     // [END receive_message]
     private void sendNotification(Map<String, String> data) {
-
-
-
-
         Intent intent = null;
         try {
             String notification_type = data.get("notification_type");
@@ -70,10 +66,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             String from_id = data.get("from_id");
             String to_id = data.get("to_id");
 
-
-
-
-                /* if (isAppBackground()) {
+            /* if (isAppBackground()) {
                 PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis()*//* Request code *//*, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                 boolean flag = false;
                 createImageBuilder(title, message, pendingIntent, flag);
@@ -82,8 +75,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 boolean flag = false;
                 createImageBuilder(title, message, pendingIntent, flag);
             }*/
-
-
 
             if (SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID) != null && SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString().length() > 0) {
                 if (notification_type != null) {
@@ -103,11 +94,28 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     } else {
                         if (from_id != null && from_id.equalsIgnoreCase(SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID))) {  //History
                             forWhat = getString(R.string.history);
-                            if (request_by != null && request_by.equals("2")) {
+
+                         /*   if (request_by != null && request_by.equals("2")) {
                                 intent = new Intent(this, LendingSummaryActivity.class);
                             } else if (request_by != null && request_by.equals("1")) {
                                 intent = new Intent(this, BorrowSummaryActivity.class);
+                            }*/
+
+                            if (!Const.isRequestByMe(from_id)) {
+                                if (request_by != null && request_by.equals("2")) {
+                                    intent = new Intent(this, BorrowSummaryActivity.class);
+                                } else if (request_by != null && request_by.equals("1")) {
+                                    intent = new Intent(this, LendingSummaryActivity.class);
+                                }
+                            } else {
+                                if (request_by != null && request_by.equals("1")) {
+                                    intent = new Intent(this, BorrowSummaryActivity.class);
+                                } else if (request_by != null && request_by.equals("2")) {
+                                    intent = new Intent(this, LendingSummaryActivity.class);
+                                }
                             }
+
+
                         } else { //Transaction
                             forWhat = getString(R.string.transaction);
                             if (request_by != null && request_by.equals("1")) {

@@ -1,5 +1,4 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -568,7 +567,6 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                     titleTV.setText(getString(R.string.borrow_summary));
                     viewAllNameType.setText(getString(R.string.borrower));
                     totalPlayReceiveTV.setText(getString(R.string.total_to_pay_back));
-
                 }
             }
         }

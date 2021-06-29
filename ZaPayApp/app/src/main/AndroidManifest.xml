@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.org.zapayapp">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".ZapayApp"
@@ -18,10 +18,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.CommonSummeryActivity"></activity>
-        <activity android:name=".activity.ViewAllHistoryAndTransactionDetailsActivity" />
-        <activity android:name=".activity.DefaultTransactionActivity" />
-        <activity android:name=".activity.PdfViewActivity" />
+
+        <activity android:name=".activity.CommonSummeryActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ViewAllHistoryAndTransactionDetailsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.DefaultTransactionActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.PdfViewActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.AcceptActivity"
             android:screenOrientation="portrait"
@@ -47,6 +52,7 @@
             android:name=".dialogs.RattingDialogActivity"
             android:fitsSystemWindows="true"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
+
         <activity
             android:name=".activity.SplashActivity"
             android:screenOrientation="portrait"
@@ -57,6 +63,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".chat.ChatActivity"
             android:screenOrientation="portrait"
@@ -169,5 +176,4 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
     </application>
-
 </manifest>

@@ -1,4 +1,5 @@
 package com.org.zapayapp.activity;
+
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +24,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.Socket;
@@ -50,10 +53,13 @@ import com.org.zapayapp.viewModel.ProjectViewModel;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
 import com.org.zapayapp.webservices.RestAPI;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import retrofit2.Call;
 
 /**
@@ -409,7 +415,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
         navList.add(getString(R.string.my_profile));
         navList.add(getString(R.string.bank_account));
         navList.add(getString(R.string.transaction));
-      ///  navList.add(getString(R.string.history));
+        ///  navList.add(getString(R.string.history));
         navList.add(getString(R.string.default_transaction));
         navList.add(getString(R.string.about_us));
         navList.add(getString(R.string.terms_and_conditions));
@@ -478,9 +484,9 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
                 }
                 break;
             case 2:
-                if (Const.isUserDefaulter()){
+                if (Const.isUserDefaulter()) {
                     showSimpleAlert(getString(R.string.you_have_defaulter_msg), getString(R.string.you_have_defaulter_msg));
-                }else {
+                } else {
                     if (currentScreen != TRANSACTION) {
                         intent = new Intent(this, TransactionActivity.class);
                         startActivity(intent);
@@ -525,7 +531,6 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
                 break;
         }
     }
-
 
     /**
      * Sets current screen.
