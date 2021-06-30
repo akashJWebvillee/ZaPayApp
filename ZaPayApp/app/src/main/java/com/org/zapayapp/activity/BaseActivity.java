@@ -1,5 +1,4 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -10,7 +9,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,7 +22,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.Socket;
@@ -415,7 +412,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
         navList.add(getString(R.string.my_profile));
         navList.add(getString(R.string.bank_account));
         navList.add(getString(R.string.transaction));
-        ///  navList.add(getString(R.string.history));
+        //navList.add(getString(R.string.history));
         navList.add(getString(R.string.default_transaction));
         navList.add(getString(R.string.about_us));
         navList.add(getString(R.string.terms_and_conditions));
@@ -549,7 +546,6 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             drawerLayout.closeDrawer(GravityCompat.START);
         }
     }
-
 
     private void callAPILogout() {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
@@ -831,7 +827,6 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
         }
     }
 
-
     public void fireBaseToken() {
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
@@ -841,13 +836,11 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
                             Log.w("tag", "getInstanceId failed", task.getException());
                             return;
                         }
-
                         // Get new Instance ID token
                         if (task.getResult() != null && task.getResult().getToken().length() > 0) {
                             String newToken = task.getResult().getToken();
                             SharedPref.getPrefsHelper().savePref(Const.Var.FIREBASE_DEVICE_TOKEN, newToken);
                         }
-
                         Log.e("Firebase token", "Firebase token=====" + task.getResult().getToken());
                     }
                 });

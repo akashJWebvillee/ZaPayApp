@@ -207,7 +207,8 @@ private TextView vewAllDateTV;
                 break;
             case R.id.chatTV:
                 intent = new Intent(CommonSummeryActivity.this, ChatActivity.class);
-                intent.putExtra("transactionModel", transactionModel);
+               // intent.putExtra("transactionModel", transactionModel);
+                intent.putExtra("transaction_id", transactionModel.getId());
                 startActivity(intent);
                 break;
 

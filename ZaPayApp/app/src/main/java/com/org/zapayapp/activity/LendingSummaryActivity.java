@@ -119,7 +119,6 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
         callAPIGetTransactionRequestDetail(transactionId);
     }
 
-
     private void setHistoryButtonVisibleFunc(String status) {
         if (status.equalsIgnoreCase("0")){
             negotiateTV.setVisibility(View.GONE);
@@ -231,7 +230,8 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 break;
             case R.id.chatTV:
                 intent = new Intent(LendingSummaryActivity.this, ChatActivity.class);
-                intent.putExtra("transactionModel", transactionModel);
+               // intent.putExtra("transactionModel", transactionModel);
+                intent.putExtra("transaction_id", transactionModel.getId());
                 startActivity(intent);
                 break;
 

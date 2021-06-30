@@ -2,19 +2,16 @@ package com.org.zapayapp.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -186,7 +183,8 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 break;
             case R.id.chatIV:
                 intent = new Intent(ViewAllSummaryActivity.this, ChatActivity.class);
-                intent.putExtra("transactionModel", transactionModel);
+               // intent.putExtra("transactionModel", transactionModel);
+                intent.putExtra("transaction_id", transactionModel.getId());
                 startActivity(intent);
                 break;
 
