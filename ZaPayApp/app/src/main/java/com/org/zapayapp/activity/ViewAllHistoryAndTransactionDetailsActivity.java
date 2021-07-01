@@ -76,6 +76,11 @@ public class ViewAllHistoryAndTransactionDetailsActivity extends BaseActivity im
                 totalPayTV.setVisibility(View.VISIBLE);
             }*/
 
+            if (moveFrom.equalsIgnoreCase(getString(R.string.default_transaction))){
+                totalPayTV.setVisibility(View.VISIBLE);
+            }else {
+                totalPayTV.setVisibility(View.GONE);
+            }
             callAPIGetAllDefaultTransactionDetail(transactionId);
         }
     }

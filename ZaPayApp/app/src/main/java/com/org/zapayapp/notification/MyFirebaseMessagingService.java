@@ -1,5 +1,4 @@
 package com.org.zapayapp.notification;
-
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -12,10 +11,8 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
-
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.org.zapayapp.R;
@@ -72,8 +69,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             String from_id = data.get("from_id");
             String to_id = data.get("to_id");*/
 
-
-
             /* if (isAppBackground()) {
                 PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis()*//* Request code *//*, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                 boolean flag = false;
@@ -111,7 +106,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         boolean flag = false;
                         createImageBuilder(title, message, pendingIntent, flag);
                     }
-
                 } else {
                     String status = data.get("status");
                     title = data.get("title");
@@ -120,6 +114,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     String request_by = data.get("request_by");
                     String from_id = data.get("from_id");
                     String to_id = data.get("to_id");
+
                     if (notification_type != null) {
                         if (isAppBackground()) {
                             intent = new Intent(this, HomeActivity.class);
@@ -157,7 +152,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                         intent = new Intent(this, LendingSummaryActivity.class);
                                     }
                                 }
-
 
                             } else { //Transaction
                                 forWhat = getString(R.string.transaction);

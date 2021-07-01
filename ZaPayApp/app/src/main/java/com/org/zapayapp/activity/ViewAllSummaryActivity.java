@@ -742,8 +742,8 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                     acceptTV.setVisibility(View.GONE);
                     declineTV.setVisibility(View.GONE);
                 } else {
-                    // negotiateTV.setVisibility(View.VISIBLE);
-                    negotiateTV.setVisibility(View.GONE); //this is Gone for Temprery (this manage after accept user can negotiate)
+                     negotiateTV.setVisibility(View.VISIBLE);
+                   // negotiateTV.setVisibility(View.GONE); //this is Gone for Temprery (this manage after accept user can negotiate)
                     acceptTV.setVisibility(View.GONE);
                     declineTV.setVisibility(View.GONE);
                 }
@@ -779,8 +779,8 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                     acceptTV.setVisibility(View.GONE);
                     declineTV.setVisibility(View.GONE);
                 } else {
-                    // negotiateTV.setVisibility(View.VISIBLE);
-                    negotiateTV.setVisibility(View.GONE); //this is Gone for temporary (this manage after accept user can negotiate)
+                     negotiateTV.setVisibility(View.VISIBLE);
+                    //negotiateTV.setVisibility(View.GONE); //this is Gone for temporary (this manage after accept user can negotiate)
                     acceptTV.setVisibility(View.GONE);
                     declineTV.setVisibility(View.GONE);
                 }

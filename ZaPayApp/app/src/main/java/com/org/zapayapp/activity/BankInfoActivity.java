@@ -2,6 +2,7 @@ package com.org.zapayapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -159,7 +160,21 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
 
     private void setData() {
         if (SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER).toString().length() > 0) {
-            accountNumberTV.setText(SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER, ""));
+          //  accountNumberTV.setText(SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER, ""));
+
+            String acNumber= SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER, "");
+            int acLength=SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER).toString().length();
+
+
+          if (acLength>3){
+             String lastFourDigit= acNumber.substring(acNumber.length() - 4);
+             String acNumberStr="";
+              for (int i=0;i<acNumber.length()-4;i++){
+                  acNumberStr=acNumberStr+"*";
+              }
+              accountNumberTV.setText(acNumberStr+lastFourDigit);
+
+          }
         }
         if (SharedPref.getPrefsHelper().getPref(Const.Var.ROUTING_NUMBER) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ROUTING_NUMBER).toString().length() > 0) {
             routingNumberTV.setText(SharedPref.getPrefsHelper().getPref(Const.Var.ROUTING_NUMBER, ""));

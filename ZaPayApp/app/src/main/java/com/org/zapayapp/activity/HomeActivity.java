@@ -1,14 +1,11 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.microsoft.appcenter.AppCenter;
@@ -20,10 +17,8 @@ import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.MySession;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
-
 import java.util.HashMap;
 import java.util.Objects;
-
 import retrofit2.Call;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener, APICallback {
@@ -153,7 +148,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                     apiCalling.callAPI(zapayApp, call, getString(R.string.api_update_device_info), homeLLBorrow);
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }

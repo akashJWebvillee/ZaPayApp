@@ -21,15 +21,12 @@ import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-
 import retrofit2.Call;
 
 public class ChatActivity extends BaseActivity implements View.OnClickListener, APICallback {
@@ -121,7 +118,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 callConversationsMsgListAPI();
             }
         }*/
-
 
         if (getIntent().getStringExtra("transaction_id")!=null&&getIntent().getStringExtra("transaction_id").length()>0){
             transactionId=getIntent().getStringExtra("transaction_id");
@@ -279,7 +275,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                     if (msgList.size()>0) noDataTv.setVisibility(View.GONE);
                     else noDataTv.setVisibility(View.VISIBLE);
                 }else {
-                    // showPopup(getString(R.string.something_wrong));
+                    //showPopup(getString(R.string.something_wrong));
                 }
             } else if (from.equals(getResources().getString(R.string.api_get_transaction_request_details))) {
                 if (status == 200) {
@@ -396,7 +392,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 callEventReadAll();
                 CommonMethods.showLogs("ChatActivity", "Message received :- " + jsonObject);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -422,6 +417,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
             if (transactionId.equals(transaction_request_id)) {
                 for (int i = 0; i < msgList.size(); i++) {
                     ChatMessageModel model = msgList.get(i);

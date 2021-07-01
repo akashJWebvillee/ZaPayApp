@@ -141,7 +141,9 @@
             app:sl_dy="10dp"
             android:visibility="visible"
             app:sl_shadowColor="#3319151B"
-            app:sl_shadowRadius="4dp">
+            app:sl_shadowRadius="4dp"
+
+            >
 
             <TextView
                 android:id="@+id/backButtonTV"
@@ -154,7 +156,8 @@
                 android:text="@string/back"
                 android:fontFamily="@font/gotha_probol"
                 android:textColor="@color/colorWhite"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+               />
         </com.dd.ShadowLayout>
 
         <com.dd.ShadowLayout

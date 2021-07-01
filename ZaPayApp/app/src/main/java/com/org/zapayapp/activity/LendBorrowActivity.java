@@ -122,6 +122,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         init();
         getIntentValues();
         initAction();
+
     }
 
     private void init() {
@@ -188,6 +189,10 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         initLendingView();
         initContactView();
         setIndicatorView(0);
+
+        if (transactionModel != null && transactionModel.getStatus() != null && transactionModel.getStatus().equals("2")) {
+            afterAcceptNegotiateFunc();
+        }
     }
 
     private void getIntentValues() {
@@ -200,6 +205,13 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         if (getIntent().getSerializableExtra("transactionModel") != null) {
             transactionModel = (TransactionModel) getIntent().getSerializableExtra("transactionModel");
         }
+    }
+
+    private void afterAcceptNegotiateFunc() {
+        selectedPos = indicatorAdapter.getSelectedPos() + 1;
+        indicatorAdapter.setSelected(selectedPos);
+        setIndicatorView(selectedPos);
+
     }
 
     private void initAmountView() {
@@ -398,9 +410,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         switch (v.getId()) {
             case R.id.nextButtonTV:
                 if (indicatorAdapter.getSelectedPos() < listIndicator.size() - 1) {
-                    //selectedPos = indicatorAdapter.getSelectedPos() + 1;
-                    //indicatorAdapter.setSelected(selectedPos);
-                    //setIndicatorView(selectedPos);
 
                     if (selectedPos == 0) {
                         if (wValidationLib.isValidAmount(lendAmountEdtAmountInputLayout, lendAmountEdtAmount, getString(R.string.important), getString(R.string.enter_amount), true)) {
@@ -550,7 +559,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
     private void generatePaybackData() {
         //paymentDate = DateFormat.dateFormatConvert11(wvDateLib.getCurrentDate());
-         paymentDate = DateFormat.dateFormatConvert11(wvDateLib.incrementDateByOne());
+        paymentDate = DateFormat.dateFormatConvert11(wvDateLib.incrementDateByOne());
         //Negotiation.....
         if (transactionModel != null && transactionModel.getPayDate() != null && transactionModel.getPayDate().length() > 0) {
             try {
@@ -833,17 +842,20 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             lendTxtHeader.setText(CommonMethods.capitalize(getString(R.string.terms)));
             lendTxtAmount.setTextColor(CommonMethods.getColorWrapper(this, R.color.navTextColor50Alpha));
             selectedTermsOption(isTermsOption);
+            afterAceptRequestNegitiateBackButtonManageFunc(value);
 
         } else if (value == 2) {
             lendViewPayment.setVisibility(View.VISIBLE);
             lendTxtHeader.setText(CommonMethods.capitalize(getString(R.string.no_of_payments)));
             lendTxtAmount.setTextColor(CommonMethods.getColorWrapper(this, R.color.navTextColor50Alpha));
             setPaymentAmount();
+            afterAceptRequestNegitiateBackButtonManageFunc(value);
         } else if (value == 3) {
             lendViewPayback.setVisibility(View.VISIBLE);
             lendTxtHeader.setText(getString(R.string.start_date));
             lendTxtAmount.setTextColor(CommonMethods.getColorWrapper(this, R.color.textColor));
             generatePaybackData();
+            afterAceptRequestNegitiateBackButtonManageFunc(value);
         } else if (value == 4) {
             if (isBorrow) {
                 lendTxtAmount.setVisibility(View.GONE);
@@ -864,15 +876,31 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                     nextButtonTV.setText(getString(R.string.submit));
                 }
             }
+            afterAceptRequestNegitiateBackButtonManageFunc(value);
         } else if (value == 5) {
             lendTxtAmount.setVisibility(View.GONE);
             lendViewContact.setVisibility(View.VISIBLE);
             lendTxtHeader.setText(CommonMethods.capitalize(getString(R.string.select_contact)));
             //setContactAdapter();
             nextButtonTV.setText(getString(R.string.submit));
+            afterAceptRequestNegitiateBackButtonManageFunc(value);
         }
     }
 
+    private void afterAceptRequestNegitiateBackButtonManageFunc(int value) {
+        if (value == 1) {
+            if (transactionModel != null && transactionModel.getStatus() != null && transactionModel.getStatus().equals("2")) {
+                backButtonTV.setVisibility(View.GONE);
+                lendShadowBack.setVisibility(View.INVISIBLE);
+            }else {
+                backButtonTV.setVisibility(View.VISIBLE);
+                lendShadowBack.setVisibility(View.VISIBLE);
+            }
+        } else {
+            backButtonTV.setVisibility(View.VISIBLE);
+            lendShadowBack.setVisibility(View.VISIBLE);
+        }
+    }
 
     private void selectedTermsOption(int isOption) {
         isTermsOption = isOption;

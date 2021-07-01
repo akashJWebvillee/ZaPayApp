@@ -192,7 +192,9 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
 
         if (transactionModel.getPayDatesList() != null && transactionModel.getPayDatesList().size() > 0) {
             List<DateModel> payDatesList = transactionModel.getPayDatesList();
-            activity.setTotalPayData11(payDatesList,transactionModel);
+            if (moveFrom!=null&&moveFrom.length()>0&&moveFrom.equalsIgnoreCase(context.getString(R.string.default_transaction))){
+                activity.setTotalPayData11(payDatesList,transactionModel);
+            }
             setAdapterFunc(holder.paybackDateRecycler, payDatesList,transactionModel);
         }
 

@@ -117,7 +117,6 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
         } else if (getString(R.string.history).equalsIgnoreCase(moveFrom)) {
             callAPIGetHistoryRequestDetail(transactionId);
         }*/
-
         callAPIGetTransactionRequestDetail(transactionId);
     }
 
@@ -238,8 +237,6 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                 break;
         }
     }
-
-
 
     private void callAPIGetTransactionRequestDetail(String transaction_request_id) {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
