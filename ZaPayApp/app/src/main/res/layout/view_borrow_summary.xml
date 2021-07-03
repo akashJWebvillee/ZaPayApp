@@ -128,12 +128,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/gotha_prolig"
         android:layout_marginStart="19dp"
+        android:layout_marginTop="25dp"
+        android:fontFamily="@font/gotha_prolig"
         android:text="@string/total_to_payback"
         android:textColor="@color/navTextColor60Alpha"
-        android:textSize="16sp"
-        android:layout_marginTop="25dp"/>
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/totalPayBackTV"
@@ -143,7 +143,7 @@
         android:layout_marginStart="19dp"
         android:textColor="@color/textColor"
         android:textSize="20sp"
-        android:text="2510"/>
+        android:text=""/>
 
 
     <TextView
@@ -166,9 +166,10 @@
         android:layout_marginStart="19dp"
         android:textColor="@color/textColor"
         android:textSize="20sp"
-        android:text="123"/>
+        android:text=""/>
 
     <TextView
+        android:id="@+id/afterCommissionTitleTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/gotha_prolig"
@@ -186,5 +187,5 @@
         android:layout_marginStart="19dp"
         android:textColor="@color/textColor"
         android:textSize="20sp"
-        android:text="123"/>
+        android:text=""/>
 </LinearLayout>

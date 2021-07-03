@@ -1,4 +1,5 @@
 package com.org.zapayapp.adapters;
+
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -7,9 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.Gson;
 import com.org.zapayapp.R;
 import com.org.zapayapp.activity.PdfViewActivity;
@@ -21,9 +24,11 @@ import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.DateFormat;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.List;
 
 public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Adapter<ViewAllHistoryAndTransactionDetailsAdapter.MyHolder> {
@@ -57,6 +62,7 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
         private TextView afterCommissionAmountTV;
         private LinearLayout agreementLL;
         private TextView defaultFeeAmountTV;
+        private LinearLayout defaultFeeLL;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
@@ -75,6 +81,7 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
             afterCommissionAmountTV = itemView.findViewById(R.id.afterCommissionAmountTV);
             agreementLL = itemView.findViewById(R.id.agreementLL);
             defaultFeeAmountTV = itemView.findViewById(R.id.defaultFeeAmountTV);
+            defaultFeeLL = itemView.findViewById(R.id.defaultFeeLL);
 
             paybackDateRecycler = itemView.findViewById(R.id.paybackDateRecycler);
             paybackDateRecycler.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
@@ -108,7 +115,6 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
             }
         }
 */
-
 
 
         if (transactionModel.getAmount() != null && transactionModel.getAmount().length() > 0) {
@@ -192,10 +198,13 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
 
         if (transactionModel.getPayDatesList() != null && transactionModel.getPayDatesList().size() > 0) {
             List<DateModel> payDatesList = transactionModel.getPayDatesList();
-            if (moveFrom!=null&&moveFrom.length()>0&&moveFrom.equalsIgnoreCase(context.getString(R.string.default_transaction))){
-                activity.setTotalPayData11(payDatesList,transactionModel);
+            if (moveFrom != null && moveFrom.length() > 0 && moveFrom.equalsIgnoreCase(context.getString(R.string.default_transaction))) {
+                activity.setTotalPayData11(payDatesList, transactionModel);
+                holder.defaultFeeLL.setVisibility(View.VISIBLE);
+            } else {
+                holder.defaultFeeLL.setVisibility(View.INVISIBLE);
             }
-            setAdapterFunc(holder.paybackDateRecycler, payDatesList,transactionModel);
+            setAdapterFunc(holder.paybackDateRecycler, payDatesList, transactionModel);
         }
 
      /*   if (context.getString(R.string.transaction).equalsIgnoreCase(moveFrom)) {
@@ -211,11 +220,6 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
                 holder.viewAllNameType.setText(context.getString(R.string.borrower));
             }
         }*/
-
-
-
-
-
 
 
         if (transactionModel.getAgreementPdfDetailModelList() != null && transactionModel.getAgreementPdfDetailModelList().size() > 0) {
@@ -284,8 +288,8 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
         return allTransactionArrayList.size();
     }
 
-    private void setAdapterFunc(RecyclerView paybackDateRecycler, List<DateModel> payDatesList,TransactionModel transactionModel) {
-        ViewAllHistoryAndTransactionPaybackDateAdapter paybackDateAdapter = new ViewAllHistoryAndTransactionPaybackDateAdapter(context, payDatesList,transactionModel);
+    private void setAdapterFunc(RecyclerView paybackDateRecycler, List<DateModel> payDatesList, TransactionModel transactionModel) {
+        ViewAllHistoryAndTransactionPaybackDateAdapter paybackDateAdapter = new ViewAllHistoryAndTransactionPaybackDateAdapter(context, payDatesList, transactionModel);
         paybackDateRecycler.setAdapter(paybackDateAdapter);
     }
 }

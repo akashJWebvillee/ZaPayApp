@@ -11,15 +11,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.org.zapayapp.R;
 import com.org.zapayapp.model.DateModel;
+import com.org.zapayapp.utils.DateFormat;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ViewAllDateAdapter extends RecyclerView.Adapter<ViewAllDateAdapter.MyHolder> {
     private Context context;
-    private ArrayList<String> dateModelArrayList;
+    private List<DateModel> dateModelArrayList;
 
 
-    public ViewAllDateAdapter(Context context, ArrayList<String> dateModelArrayList) {
+    public ViewAllDateAdapter(Context context, List<DateModel> dateModelArrayList) {
         this.context = context;
         this.dateModelArrayList = dateModelArrayList;
 
@@ -45,9 +47,15 @@ public class ViewAllDateAdapter extends RecyclerView.Adapter<ViewAllDateAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewAllDateAdapter.MyHolder holder, final int position) {
-       int pos=position+1;
-        holder.paymentNoTV.setText("" +pos);
-        holder.dateTV.setText(dateModelArrayList.get(position));
+        int pos = position + 1;
+        holder.paymentNoTV.setText("" + pos);
+        DateModel dateModel = dateModelArrayList.get(position);
+        if (dateModel.getPayDate() != null && dateModel.getPayDate().length() > 0) {
+            holder.dateTV.setText(DateFormat.dateFormatConvert(dateModelArrayList.get(position).getPayDate()));
+
+          //  holder.dateTV.setText(dateModel.getPayDate());
+        }
+
     }
 
     @Override

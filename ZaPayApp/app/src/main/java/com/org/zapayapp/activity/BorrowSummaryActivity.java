@@ -233,7 +233,11 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                 break;
 
             case R.id.vewAllDateTV:
-                MyDialog.viewAllDateFunc(BorrowSummaryActivity.this,payDateList);
+               // MyDialog.viewAllDateFunc(BorrowSummaryActivity.this,payDateList);
+                if (transactionModel.getPayDatesList()!=null&&transactionModel.getPayDatesList().size()>0){
+                    MyDialog.viewAllDateFunc(BorrowSummaryActivity.this,transactionModel.getPayDatesList());
+                }
+
                 break;
         }
     }

@@ -11,11 +11,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.org.zapayapp.R;
 import com.org.zapayapp.adapters.ViewAllDateAdapter;
+import com.org.zapayapp.model.DateModel;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class MyDialog {
-    public static void viewAllDateFunc(Context context, ArrayList<String> dateList) {
+    public static void viewAllDateFunc(Context context, List<DateModel> dateList) {
         Dialog viewAllDateDialog = new Dialog(context);
         viewAllDateDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         viewAllDateDialog.setCancelable(true);

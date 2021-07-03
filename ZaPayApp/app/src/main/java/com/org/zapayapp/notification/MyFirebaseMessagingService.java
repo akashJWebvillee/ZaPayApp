@@ -60,7 +60,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Intent intent = null;
         try {
 
-         /*   String notification_type = data.get("notification_type");
+         /* String notification_type = data.get("notification_type");
             String status = data.get("status");
             String title = data.get("title");
             String transaction_request_id = data.get("transaction_request_id");
@@ -133,10 +133,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                             if (from_id != null && from_id.equalsIgnoreCase(SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID))) {  //History
                                 forWhat = getString(R.string.history);
 
-                         /*   if (request_by != null && request_by.equals("2")) {
-                                intent = new Intent(this, LendingSummaryActivity.class);
+                           /* if (request_by != null && request_by.equals("2")) {
+                                 intent = new Intent(this, LendingSummaryActivity.class);
                             } else if (request_by != null && request_by.equals("1")) {
-                                intent = new Intent(this, BorrowSummaryActivity.class);
+                                 intent = new Intent(this, BorrowSummaryActivity.class);
                             }*/
 
                                 if (!Const.isRequestByMe(from_id)) {
@@ -166,7 +166,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                 intent.putExtra("moveFrom", forWhat);
                                 intent.putExtra("status", status);
                                 intent.putExtra("transactionId", transaction_request_id);
-
                             } else if (notification_type.equalsIgnoreCase("REQUEST_ACCEPTED")) {
                                 intent.putExtra("moveFrom", forWhat);
                                 intent.putExtra("status", status);
@@ -216,7 +215,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     private boolean isAppBackground() {

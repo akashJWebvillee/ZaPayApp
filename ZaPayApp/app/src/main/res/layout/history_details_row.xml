@@ -280,10 +280,10 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/gotha_prolig"
                             android:gravity="start"
-
                             android:text="@string/zapay_commission"
                             android:textColor="@color/navTextColor60Alpha"
                             android:textSize="14sp"
+                            android:lineSpacingExtra="5dp"
                             android:layout_marginEnd="20dp"/>
 
                         <TextView
