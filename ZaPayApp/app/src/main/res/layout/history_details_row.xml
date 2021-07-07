@@ -367,10 +367,12 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/afterZapayCommissionLL"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        >
 
                         <TextView
                             android:id="@+id/afterCommissionTitleTV"

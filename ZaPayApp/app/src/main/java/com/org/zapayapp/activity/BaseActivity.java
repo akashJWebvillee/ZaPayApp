@@ -628,6 +628,8 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             startActivity(intent);
         } else if (from.equals(getResources().getString(R.string.api_update_transaction_request_status))) {
             finish();
+        }else if (from.equals(getResources().getString(R.string.api_update_running_transaction_request_status))){
+            finish();
         } else if (from.equalsIgnoreCase(getString(R.string.api_signup))) {
             moveToLogin();
         } else if (from.equalsIgnoreCase(getString(R.string.update_pin))) {

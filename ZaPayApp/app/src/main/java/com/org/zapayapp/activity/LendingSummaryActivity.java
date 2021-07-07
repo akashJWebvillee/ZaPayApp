@@ -1,14 +1,11 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -24,15 +21,12 @@ import com.org.zapayapp.utils.MyDateUpdateDialog;
 import com.org.zapayapp.utils.MyDialog;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import retrofit2.Call;
 
 public class LendingSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener, MyDateUpdateDialog.DateStatusUpdateListener {
@@ -54,6 +48,8 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
     private TextView afterCommissionAmountTV;
     private TextView vewAllDateTV;
     private ArrayList<String> payDateList;
+    private LinearLayout commissionLinearLayout;
+    private TextView afterCommissionTitleTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +79,8 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
         agreementFormLL = findViewById(R.id.agreementFormLL);
         afterCommissionAmountTV = findViewById(R.id.afterCommissionAmountTV);
         vewAllDateTV = findViewById(R.id.vewAllDateTV);
+        commissionLinearLayout = findViewById(R.id.commissionLinearLayout);
+        afterCommissionTitleTV = findViewById(R.id.afterCommissionTitleTV);
     }
 
     private void inItAction() {
@@ -141,6 +139,8 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 declineTV.setVisibility(View.VISIBLE);
             }
 
+            declineTV.setVisibility(View.VISIBLE);
+
         } else if (status.equalsIgnoreCase("2")) {
             if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length() > 0 && transactionModel.getIs_negotiate_after_accept().equals("1")) {
                 negotiateTV.setVisibility(View.GONE);
@@ -151,6 +151,7 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                     negotiateTV.setVisibility(View.GONE);
                 } else {
                     negotiateTV.setVisibility(View.VISIBLE);
+                    negotiateTV.setText(R.string.accepted_renegotiate);
                 }
                 //negotiateTV.setVisibility(View.GONE); //this is Gone for temporary (this manage after accept user can negotiate)
                 acceptTV.setVisibility(View.GONE);
@@ -178,6 +179,8 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 acceptTV.setVisibility(View.VISIBLE);
                 declineTV.setVisibility(View.VISIBLE);
             }
+            declineTV.setVisibility(View.VISIBLE);
+
         } else if (status.equalsIgnoreCase("2")) { //status 2=accepted,requestedBy 1=lender
             if (transactionModel != null && transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().equals("1")) {
                 negotiateTV.setVisibility(View.GONE);
@@ -188,6 +191,7 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                     negotiateTV.setVisibility(View.GONE);
                 } else {
                     negotiateTV.setVisibility(View.VISIBLE);
+                    negotiateTV.setText(R.string.accepted_renegotiate);
                 }
                 // negotiateTV.setVisibility(View.GONE);  //this is Gone for temporary (this manage after accept user can negotiate)
                 acceptTV.setVisibility(View.GONE);
@@ -268,7 +272,6 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 if (transactionModel.getPayDatesList() != null && transactionModel.getPayDatesList().size() > 0) {
                     MyDialog.viewAllDateFunc(LendingSummaryActivity.this, transactionModel.getPayDatesList());
                 }
-
                 break;
         }
     }
@@ -532,6 +535,15 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
             float totalAmount = Float.parseFloat(transactionModel.getTotalAmount());
             float amount = totalAmount - commission;
             afterCommissionAmountTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(amount, 2));
+        }
+
+        //this will be invisible when after accept negotiate
+        if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length() > 0) {
+            if (transactionModel.getIs_negotiate_after_accept().equals("2")) {
+                commissionLinearLayout.setVisibility(View.GONE);
+                afterCommissionTitleTV.setVisibility(View.GONE);
+                afterCommissionAmountTV.setVisibility(View.GONE);
+            }
         }
     }
 

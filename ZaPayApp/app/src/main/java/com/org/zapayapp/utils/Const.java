@@ -70,22 +70,22 @@ public class Const {
 
     }
 
-    public static String getCurrency(){
-       String currency=SharedPref.getPrefsHelper().getPref(Var.CURRENCY,"$");
-       if (currency==null&&currency.length()==0){
-           currency="$";
-       }
-      return currency;
+    public static String getCurrency() {
+        String currency = SharedPref.getPrefsHelper().getPref(Var.CURRENCY, "$");
+        if (currency == null && currency.length() == 0) {
+            currency = "$";
+        }
+        return currency;
     }
 
 
-    public static boolean isRequestByMe(String fromId){
+    public static boolean isRequestByMe(String fromId) {
         boolean flag = false;
         if (fromId != null && fromId.length() > 0 && SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID) != null && SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString().length() > 0) {
             if (fromId.equalsIgnoreCase(SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString())) {
-                flag=true;
+                flag = true;
             } else {
-                flag=false;
+                flag = false;
             }
         }
 
@@ -93,25 +93,21 @@ public class Const {
     }
 
 
-    public static boolean isUserDefaulter(){
+    public static boolean isUserDefaulter() {
         //is_defaulter==1 defaulter
         //is_defaulter==0 not defaulter
 
-        /*   boolean flag = false;
-            if (SharedPref.getPrefsHelper().getPref(Var.IsDEFAULTER)!=null&&SharedPref.getPrefsHelper().getPref(Var.IsDEFAULTER).toString().length()>0) {
-                if (SharedPref.getPrefsHelper().getPref(Var.IsDEFAULTER).toString().equals("1")){
-                    flag=true;
-                }else {
-                    flag=false;
-                }
+      /*  boolean flag = false;
+        if (SharedPref.getPrefsHelper().getPref(Var.IsDEFAULTER) != null && SharedPref.getPrefsHelper().getPref(Var.IsDEFAULTER).toString().length() > 0) {
+            if (SharedPref.getPrefsHelper().getPref(Var.IsDEFAULTER).toString().equals("1")) {
+                flag = true;
+            } else {
+                flag = false;
             }
-            return flag;*/
+        }
+        return flag;*/
         return false;
-
-            }
-
-
-
+    }
 }
 
 

@@ -1,11 +1,14 @@
 package com.org.zapayapp.activity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -21,12 +24,15 @@ import com.org.zapayapp.utils.MyDateUpdateDialog;
 import com.org.zapayapp.utils.MyDialog;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import retrofit2.Call;
 
 public class BorrowSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener, MyDateUpdateDialog.DateStatusUpdateListener {
@@ -38,7 +44,6 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
     private Intent intent;
     private String status;
     private boolean isClickable = true;
-
     private String updated_by;
     private LinearLayout agreementFormLL;
     private AgreementPdfDetailModel agreementPdfDetailModel;
@@ -50,6 +55,7 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
     private TextView vewAllDateTV;
 
     private ArrayList<String> payDateList;
+    private LinearLayout commissionLinearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +67,7 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
     }
 
     private void init() {
-        payDateList=new ArrayList<>();
+        payDateList = new ArrayList<>();
         nameTV = findViewById(R.id.nameTV);
         amountTV = findViewById(R.id.amountTV);
         termTV = findViewById(R.id.termTV);
@@ -82,6 +88,7 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
         afterCommissionTitleTV = findViewById(R.id.afterCommissionTitleTV);
         afterCommissionAmountTV = findViewById(R.id.afterCommissionAmountTV);
         vewAllDateTV = findViewById(R.id.vewAllDateTV);
+        commissionLinearLayout = findViewById(R.id.commissionLinearLayout);
     }
 
     private void initAction() {
@@ -136,6 +143,8 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                 declineTV.setVisibility(View.VISIBLE);
             }
 
+            declineTV.setVisibility(View.VISIBLE);
+
         } else {
             negotiateTV.setVisibility(View.GONE);
             acceptTV.setVisibility(View.GONE);
@@ -158,6 +167,8 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                 acceptTV.setVisibility(View.VISIBLE);
                 declineTV.setVisibility(View.VISIBLE);
             }
+            declineTV.setVisibility(View.VISIBLE);
+
         } else {
             negotiateTV.setVisibility(View.GONE);
             acceptTV.setVisibility(View.GONE);
@@ -233,9 +244,9 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                 break;
 
             case R.id.vewAllDateTV:
-               // MyDialog.viewAllDateFunc(BorrowSummaryActivity.this,payDateList);
-                if (transactionModel.getPayDatesList()!=null&&transactionModel.getPayDatesList().size()>0){
-                    MyDialog.viewAllDateFunc(BorrowSummaryActivity.this,transactionModel.getPayDatesList());
+                // MyDialog.viewAllDateFunc(BorrowSummaryActivity.this,payDateList);
+                if (transactionModel.getPayDatesList() != null && transactionModel.getPayDatesList().size() > 0) {
+                    MyDialog.viewAllDateFunc(BorrowSummaryActivity.this, transactionModel.getPayDatesList());
                 }
 
                 break;
@@ -368,11 +379,11 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
         if (transactionModel.getFromId() != null && transactionModel.getFromId().length() > 0) {
             if (Const.isRequestByMe(transactionModel.getFromId())) {
                 if (transactionModel.getReceiver_first_name() != null && transactionModel.getReceiver_first_name().length() > 0 && transactionModel.getReceiver_last_name() != null && transactionModel.getReceiver_last_name().length() > 0) {
-                  nameTV.setText(transactionModel.getReceiver_first_name() + " " + transactionModel.getReceiver_last_name());
+                    nameTV.setText(transactionModel.getReceiver_first_name() + " " + transactionModel.getReceiver_last_name());
                 }
             } else {
                 if (transactionModel.getSender_first_name() != null && transactionModel.getSender_first_name().length() > 0 && transactionModel.getSender_last_name() != null && transactionModel.getSender_last_name().length() > 0) {
-                   nameTV.setText("" + transactionModel.getSender_first_name() + " " + transactionModel.getSender_last_name());
+                    nameTV.setText("" + transactionModel.getSender_first_name() + " " + transactionModel.getSender_last_name());
                 }
             }
         }
@@ -405,7 +416,7 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
                 paymentDateTV.setText(DateFormat.dateFormatConvert(date));
 
                 payDateList.clear();
-                for (int i=0;i<jsonArray.length();i++){
+                for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonOb = jsonArray.getJSONObject(i);
                     payDateList.add(jsonOb.getString("date"));
                 }
@@ -442,7 +453,7 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
         }
 
         if (transactionModel.getUpdatedBy() != null && transactionModel.getUpdatedBy().length() > 0
-                &&  transactionModel.getStatus() != null && transactionModel.getStatus().length() > 0) {
+                && transactionModel.getStatus() != null && transactionModel.getStatus().length() > 0) {
             updated_by = transactionModel.getUpdatedBy();
             status = transactionModel.getStatus();
             setButtonVisibility(forWhat);
@@ -496,10 +507,20 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
             float amount = totalAmount - commission;
             afterCommissionAmountTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(amount, 2));
         }
+
+
+        //this will be invisible when after accept negotiate
+        if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length() > 0) {
+            if (transactionModel.getIs_negotiate_after_accept().equals("2")) {
+                commissionLinearLayout.setVisibility(View.GONE);
+                afterCommissionTitleTV.setVisibility(View.GONE);
+                afterCommissionAmountTV.setVisibility(View.GONE);
+            }
+        }
     }
 
     private void setButtonVisibility(String forWhat) {
-       // if (forWhat.equalsIgnoreCase(getString(R.string.transaction))) {
+        // if (forWhat.equalsIgnoreCase(getString(R.string.transaction))) {
         if (!Const.isRequestByMe(transactionModel.getFromId())) {
 
             if (status != null && status.equalsIgnoreCase("0")) { //PENDING
@@ -515,7 +536,7 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
             }
 
 
-        //} else if (forWhat.equalsIgnoreCase(getString(R.string.history))) {
+            //} else if (forWhat.equalsIgnoreCase(getString(R.string.history))) {
         } else if (Const.isRequestByMe(transactionModel.getFromId())) {
 
             if (status != null && status.equalsIgnoreCase("0")) { //PENDING

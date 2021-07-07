@@ -138,7 +138,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         intent = getIntent();
         if (intent != null && intent.getStringExtra("transactionId") != null && intent.getStringExtra("status") != null) {
             transactionId = intent.getStringExtra("transactionId");
-            // status = intent.getStringExtra("status");
+            //status = intent.getStringExtra("status");
             moveFrom = intent.getStringExtra("moveFrom");
 
             if (intent.getStringExtra("requestBy") != null) {
@@ -652,12 +652,12 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         }, 500);*/
         //setPaybackAdapter();
 
-        //this will be continue from monday............
+        //this will be invisible when after accept negotiate
         if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length() > 0) {
-            if (transactionModel.getIs_negotiate_after_accept().equals("2")){
-                commissionLL.setVisibility(View.INVISIBLE);
-                afterCommissionTitleTV.setVisibility(View.INVISIBLE);
-                afterCommissionAmountTV.setVisibility(View.INVISIBLE);
+            if (transactionModel.getIs_negotiate_after_accept().equals("2")) {
+                commissionLL.setVisibility(View.GONE);
+                afterCommissionTitleTV.setVisibility(View.GONE);
+                afterCommissionAmountTV.setVisibility(View.GONE);
             }
         }
     }
@@ -750,6 +750,9 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 acceptTV.setVisibility(View.VISIBLE);
                 declineTV.setVisibility(View.VISIBLE);
             }
+
+            declineTV.setVisibility(View.VISIBLE);
+
         } else if (status.equalsIgnoreCase("2")) {
 
             if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
@@ -762,6 +765,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                         negotiateTV.setVisibility(View.GONE);//re-negotiation apply only once
                     } else {
                         negotiateTV.setVisibility(View.VISIBLE);
+                        negotiateTV.setText(R.string.accepted_renegotiate);
                     }
 
                     //negotiateTV.setVisibility(View.GONE); //this is Gone for Temprery (this manage after accept user can negotiate)
@@ -775,7 +779,6 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
             declineTV.setVisibility(View.GONE);
         }
     }
-
 
     private void setTransactionButtonVisibleFunc(String status) {
         if (status.equalsIgnoreCase("0")) {   //0==pending
@@ -792,6 +795,8 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 acceptTV.setVisibility(View.VISIBLE);
                 declineTV.setVisibility(View.VISIBLE);
             }
+            declineTV.setVisibility(View.VISIBLE);
+
         } else if (status.equalsIgnoreCase("2")) {  //status=2 accepted,requestBy=2 Borrower
             if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
                 if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length() > 0 && transactionModel.getIs_negotiate_after_accept().equals("1")) {
@@ -803,6 +808,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                         negotiateTV.setVisibility(View.GONE);
                     } else {
                         negotiateTV.setVisibility(View.VISIBLE);
+                        negotiateTV.setText(R.string.accepted_renegotiate);
                     }
                     //negotiateTV.setVisibility(View.GONE); //this is Gone for temporary (this manage after accept user can negotiate)
                     acceptTV.setVisibility(View.GONE);

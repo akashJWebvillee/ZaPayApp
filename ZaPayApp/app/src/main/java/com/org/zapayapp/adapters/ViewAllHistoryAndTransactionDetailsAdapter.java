@@ -1,5 +1,4 @@
 package com.org.zapayapp.adapters;
-
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -63,6 +62,8 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
         private LinearLayout agreementLL;
         private TextView defaultFeeAmountTV;
         private LinearLayout defaultFeeLL;
+        private LinearLayout commissionLL;
+        private LinearLayout afterZapayCommissionLL;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
@@ -82,6 +83,8 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
             agreementLL = itemView.findViewById(R.id.agreementLL);
             defaultFeeAmountTV = itemView.findViewById(R.id.defaultFeeAmountTV);
             defaultFeeLL = itemView.findViewById(R.id.defaultFeeLL);
+            commissionLL = itemView.findViewById(R.id.commissionLL);
+            afterZapayCommissionLL = itemView.findViewById(R.id.afterZapayCommissionLL);
 
             paybackDateRecycler = itemView.findViewById(R.id.paybackDateRecycler);
             paybackDateRecycler.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
@@ -279,6 +282,16 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
                 float totalAmount = Float.parseFloat(transactionModel.getTotalAmount());
                 float amount = totalAmount - commission;
                 holder.afterCommissionAmountTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(amount, 2));
+            }
+        }
+
+        if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length() > 0) {
+            if (transactionModel.getIs_negotiate_after_accept().equals("2")) {
+                holder.commissionLL.setVisibility(View.INVISIBLE);
+                holder.afterZapayCommissionLL.setVisibility(View.GONE);
+            } else {
+                holder.commissionLL.setVisibility(View.VISIBLE);
+                holder.afterZapayCommissionLL.setVisibility(View.VISIBLE);
             }
         }
     }

@@ -270,13 +270,13 @@
                             android:text="@string/view_all_date"
                             android:textColor="@color/colorPrimary"
                             android:textSize="16sp"
-                            android:layout_marginStart="0dp"
+                            android:layout_marginStart="20dp"
                             android:padding="2dp"/>
                         <View
                             android:layout_width="110dp"
                             android:layout_height="1dp"
                             android:background="@color/colorPrimary"
-                            android:layout_marginStart="0dp"/>
+                            android:layout_marginStart="20dp"/>
 
                     </LinearLayout>
                 </LinearLayout>
@@ -293,11 +293,13 @@
                     android:weightSum="2">
 
                     <LinearLayout
+                        android:id="@+id/commissionLinearLayout"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_weight="1"
                         android:layout_marginEnd="5dp">
+
                         <TextView
                             android:id="@+id/commissionTitleTV"
                             android:layout_width="match_parent"

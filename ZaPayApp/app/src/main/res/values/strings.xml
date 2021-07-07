@@ -205,7 +205,7 @@
     <string name="saving">Savings</string>
     <string name="checking">Checking</string>
     <string name="general_ledger">General-ledger</string>
-    <string name="accepted_renegotiate">Renegotiate</string>
+    <string name="accepted_renegotiate">Re-negotiate</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="hello">Hello</string>

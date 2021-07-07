@@ -1,21 +1,17 @@
 package com.org.zapayapp.utils;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
 import com.org.zapayapp.R;
 
 public class WRuntimePermissions {
-
     public static final int REQUEST_CODE_SMS = 10;
     public static final int REQUEST_CODE_CAMERA = 20;
     public static final int REQUEST_CODE_STORAGE = 30;

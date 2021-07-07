@@ -24,7 +24,6 @@ import com.org.zapayapp.chat.ChatActivity;
 import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.SharedPref;
-
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
@@ -59,8 +58,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private void sendNotification(Map<String, String> data) {
         Intent intent = null;
         try {
-
-         /* String notification_type = data.get("notification_type");
+            /* String notification_type = data.get("notification_type");
             String status = data.get("status");
             String title = data.get("title");
             String transaction_request_id = data.get("transaction_request_id");

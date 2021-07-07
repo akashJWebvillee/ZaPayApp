@@ -85,11 +85,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             //holder.dateTV.setText(TimeStamp.timeFun(transactionModel.getCreatedAt()));
         }
 
-        if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length() > 0 && transactionModel.getIs_negotiate_after_accept().equals("2")) {
-            holder.acceptedReNegotiateTV.setVisibility(View.VISIBLE);
-        } else {
-            holder.acceptedReNegotiateTV.setVisibility(View.GONE);
-        }
+
 
         if (transactionModel.getPayDate() != null && transactionModel.getPayDate().length() > 0) {
             String pay_date = transactionModel.getPayDate();
@@ -177,6 +173,13 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         }
 
 
+      /*  if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length() > 0 && transactionModel.getIs_negotiate_after_accept().equals("2")) {
+            holder.acceptedReNegotiateTV.setVisibility(View.VISIBLE);
+        } else {
+            holder.acceptedReNegotiateTV.setVisibility(View.GONE);
+        }
+
+
         //this condition for negotiate
         if (transactionModel.getStatus()!=null&&transactionModel.getStatus().length()>0&&transactionModel.getStatus().equals("1")&&transactionModel.getUpdatedBy()!=null&&transactionModel.getUpdatedBy().length()>0&&!transactionModel.getUpdatedBy().equals("0")){
             holder.acceptedReNegotiateTV.setVisibility(View.VISIBLE);
@@ -184,8 +187,20 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         }else {
             holder.acceptedReNegotiateTV.setVisibility(View.GONE);
         }
+*/
 
 
+        if (transactionModel.getStatus()!=null&&transactionModel.getStatus().length()>0&&transactionModel.getUpdatedBy()!=null&&transactionModel.getUpdatedBy().length()>0){
+            if (transactionModel.getStatus().equals("1")&&transactionModel.getIs_negotiate_after_accept().equals("0")){
+                holder.acceptedReNegotiateTV.setVisibility(View.VISIBLE);
+                holder.acceptedReNegotiateTV.setText(context.getString(R.string.negotiate));
+            }else if (transactionModel.getStatus().equals("1")&&transactionModel.getIs_negotiate_after_accept().equals("2")){
+                holder.acceptedReNegotiateTV.setVisibility(View.VISIBLE);
+                holder.acceptedReNegotiateTV.setText(context.getString(R.string.accepted_renegotiate));
+            }else {
+                holder.acceptedReNegotiateTV.setVisibility(View.GONE);
+            }
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,7 +222,6 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         context.startActivity(intent);
                     }
-
 
                 }else if (Const.isRequestByMe(transactionModel.getFromId())){
 
