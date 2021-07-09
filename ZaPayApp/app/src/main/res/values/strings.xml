@@ -205,7 +205,7 @@
     <string name="saving">Savings</string>
     <string name="checking">Checking</string>
     <string name="general_ledger">General-ledger</string>
-    <string name="accepted_renegotiate">Re-negotiate</string>
+    <string name="accepted_renegotiate">Re-Negotiate</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="hello">Hello</string>
@@ -283,6 +283,8 @@
     <string name="view_all_date">View All Date</string>
     <string name="default_fee_per_emi">Default fee per EMI</string>
     <string name="you_have_defaulter_msg">You have defaulter first complete all payment</string>
+    <string name="payment_initiated_it_takes_time_to_confirm_the_payment">Default EMI payment initiated, It takes time to confirm the payment</string>
+
     <string name="signature_conformation_msg">"Please make sure signature is valid because once signature uploaded can't be undo</string>
     <string name="termConditionData">"Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book
 </string>

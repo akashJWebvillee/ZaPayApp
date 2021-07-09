@@ -126,7 +126,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                             PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis()/* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                             boolean flag = false;
                             createImageBuilder(title, message, pendingIntent, flag);
-
                         } else {
                             if (from_id != null && from_id.equalsIgnoreCase(SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID))) {  //History
                                 forWhat = getString(R.string.history);

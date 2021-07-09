@@ -73,8 +73,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                 //activity_status=2   //added bank account
                 //activity_status=3   //verifyed bank account(ready to send request)
 
-                if (Const.isUserDefaulter()) {
+                if (Const.isUserDefaulter().equals("1")) {
                     showSimpleAlert(getString(R.string.you_have_defaulter_msg), getString(R.string.you_have_defaulter_msg));
+                }else if(Const.isUserDefaulter().equals("2")){
+                    showSimpleAlert(getString(R.string.payment_initiated_it_takes_time_to_confirm_the_payment), getString(R.string.payment_initiated_it_takes_time_to_confirm_the_payment));
                 } else {
                     if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().length() > 0) {
                         if (!SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("0")) {
@@ -92,9 +94,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
                 break;
             case R.id.homeLLBorrow:
-                if (Const.isUserDefaulter()) {
+                if (Const.isUserDefaulter().equals("1")) {
                     showSimpleAlert(getString(R.string.you_have_defaulter_msg), getString(R.string.you_have_defaulter_msg));
-                } else {
+                }else if (Const.isUserDefaulter().equals("2")){
+                    showSimpleAlert(getString(R.string.payment_initiated_it_takes_time_to_confirm_the_payment), getString(R.string.payment_initiated_it_takes_time_to_confirm_the_payment));
+
+                }else {
                     if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().length() > 0) {
                         if (!SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("0")) {
                             if (isClickable) {
@@ -250,6 +255,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                             SharedPref.getPrefsHelper().savePref(Const.Var.IsDEFAULTER, is_defaulter);
                             //is_defaulter==1 defaulter
                             Log.e("is_defaulter", "is_defaulter===============" + is_defaulter);
+                            Log.e("is_defaulter", "is_defaulter===============" + json);
                         }
                     }
                 } else if (status == 401) {

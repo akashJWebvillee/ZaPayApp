@@ -1,15 +1,12 @@
 package com.org.zapayapp.activity;
-
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -19,11 +16,9 @@ import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.EndlessRecyclerViewScrollListener;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import retrofit2.Call;
 
 public class DefaultTransactionActivity extends BaseActivity implements View.OnClickListener, APICallback {

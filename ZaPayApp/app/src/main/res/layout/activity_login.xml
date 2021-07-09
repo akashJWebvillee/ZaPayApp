@@ -171,7 +171,8 @@
                         android:inputType="textPassword"
                         android:paddingStart="0dp"
                         android:paddingTop="10dp"
-                        android:paddingEnd="0dp" />
+                        android:paddingEnd="0dp"
+                        android:ellipsize="end"/>
                 </com.org.zapayapp.uihelpers.CustomTextInputLayout>
 
                 <TextView

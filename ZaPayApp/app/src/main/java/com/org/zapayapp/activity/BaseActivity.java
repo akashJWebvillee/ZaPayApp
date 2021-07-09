@@ -481,9 +481,11 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
                 }
                 break;
             case 2:
-                if (Const.isUserDefaulter()) {
+                if (Const.isUserDefaulter().equals("1")) {
                     showSimpleAlert(getString(R.string.you_have_defaulter_msg), getString(R.string.you_have_defaulter_msg));
-                } else {
+                }else if (Const.isUserDefaulter().equals("2")){
+                    showSimpleAlert(getString(R.string.payment_initiated_it_takes_time_to_confirm_the_payment), getString(R.string.payment_initiated_it_takes_time_to_confirm_the_payment));
+                }else {
                     if (currentScreen != TRANSACTION) {
                         intent = new Intent(this, TransactionActivity.class);
                         startActivity(intent);
@@ -642,6 +644,11 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             finish();
         } else if (from.equalsIgnoreCase(getResources().getString(R.string.api_pay_date_request_status_update))) {
             // finish();
+        }else if (from.equalsIgnoreCase(getString(R.string.you_have_defaulter_msg))){
+            Intent intent=new Intent(BaseActivity.this,DefaultTransactionActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+
         }
     }
 
