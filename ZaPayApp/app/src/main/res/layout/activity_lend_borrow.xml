@@ -88,7 +88,7 @@
                         android:paddingEnd="15dp"
                         android:layout_marginEnd="19dp"
                         android:background="@drawable/rectanguler_border_light"
-                        android:text="50"
+                        android:text="0"
                         android:textColor="@color/navTextColor50Alpha"
                         android:textSize="30sp"/>
 

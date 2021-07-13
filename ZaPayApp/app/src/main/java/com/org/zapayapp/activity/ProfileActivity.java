@@ -53,7 +53,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     protected void onResume() {
         super.onResume();
         setCurrentScreen(MY_PROFILE);
-
         if (isDataUpdate){
             callAPIGetUserDetail();
         }
@@ -198,7 +197,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -309,7 +307,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     showSimpleAlert(msg, "");
                 } else if (status == 401) {
                     showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
-
                 } else {
                     showSimpleAlert(msg, "");
                 }
