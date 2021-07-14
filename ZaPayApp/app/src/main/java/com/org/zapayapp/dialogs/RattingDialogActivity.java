@@ -64,7 +64,6 @@ public class RattingDialogActivity extends AppCompatActivity implements APICallb
         inIt();
         inItAction();
     }
-
     private void apiCodeInit() {
         zapayApp = (ZapayApp) getApplicationContext();
         restAPI = APICalling.webServiceInterface();
@@ -72,13 +71,11 @@ public class RattingDialogActivity extends AppCompatActivity implements APICallb
         apiCalling = new APICalling(this);
         //wValidationLib = new WValidationLib(ChangePassDialogActivity.this);
     }
-
     private void inIt(){
         titleTV=findViewById(R.id.titleTV);
         viewRatingBar=findViewById(R.id.viewRatingBar);
         saveTV=findViewById(R.id.saveTV);
         closeTV=findViewById(R.id.closeTV);
-
     }
 
     private void getIntentFunc(){
@@ -100,19 +97,20 @@ public class RattingDialogActivity extends AppCompatActivity implements APICallb
             titleTV.setText(getString(R.string.rate_borrower));
         }
 
-        if (averageRating!=null&&averageRating.length()>0){
+     /*   if (averageRating!=null&&averageRating.length()>0){
             viewRatingBar.setScore(Float.parseFloat(averageRating));
-        }
+        }*/
 
         if (isAlreadyRated!=null&&isAlreadyRated.length()>0){
             if (isAlreadyRated.equals("0")){
                 saveTV.setVisibility(View.VISIBLE);
-            }if (isAlreadyRated.equals("1")){ //already rated
+                viewRatingBar.setScore(0);
+            }if (isAlreadyRated.equals("1")){    //already rated
                 viewRatingBar.setScrollToSelect(false);
                 saveTV.setVisibility(View.GONE);
+                viewRatingBar.setScore(Float.parseFloat(averageRating));
             }
         }
-
 
         saveTV.setOnClickListener(new View.OnClickListener() {
             @Override

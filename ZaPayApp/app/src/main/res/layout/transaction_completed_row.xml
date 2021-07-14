@@ -171,7 +171,8 @@
             app:starOn="@mipmap/ic_star_fill"
             app:starPadding="2dp"
             app:stars="0"
-            android:layout_marginEnd="10dp"/>
+            android:layout_marginEnd="10dp"
+            android:focusable="false"/>
 
         <LinearLayout
             android:id="@+id/rattingLL"

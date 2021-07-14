@@ -84,7 +84,7 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
             }
         }
 
-        if (transactionModel.getAverage_rating()!=null&&transactionModel.getAverage_rating().length()>0){
+        /*if (transactionModel.getAverage_rating()!=null&&transactionModel.getAverage_rating().length()>0){
             holder.viewRatingBar.setScore(Float.parseFloat(transactionModel.getAverage_rating()));
         }
 
@@ -99,10 +99,12 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
                     holder.viewRatingBar.setScore(Float.parseFloat(transactionModel.getSender_average_rating()));
                 }
             }
+        }*/
+
+        if (transactionModel.getRating_by_user()!=null&&transactionModel.getRating_by_user().length()>0){
+            holder.viewRatingBar.setScore(Float.parseFloat(transactionModel.getRating_by_user()));
         }
-
-
-
+        holder.viewRatingBar.setScrollToSelect(false);
 
 
         if (transactionModel.getCreatedAt() != null && transactionModel.getCreatedAt().length() > 0) {
@@ -177,7 +179,6 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
             }
         });
 
-
         holder.rattingLL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -199,7 +200,8 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
                             intent.putExtra("toId", transactionModel.getToId());
                             intent.putExtra("fromId", transactionModel.getFromId());
                             intent.putExtra("transactionRequestID", transactionModel.getId());
-                            intent.putExtra("averageRating", averageRating);
+                            //intent.putExtra("averageRating", averageRating);
+                            intent.putExtra("averageRating", transactionModel.getRating_by_user());
                             intent.putExtra("isAlreadyRated", is_already_rated);
                             context.startActivity(intent);
                         } else if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
@@ -208,7 +210,8 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
                             intent.putExtra("toId", transactionModel.getToId());
                             intent.putExtra("fromId", transactionModel.getFromId());
                             intent.putExtra("transactionRequestID", transactionModel.getId());
-                            intent.putExtra("averageRating", averageRating);
+                           // intent.putExtra("averageRating", averageRating);
+                            intent.putExtra("averageRating", transactionModel.getRating_by_user());
                             intent.putExtra("isAlreadyRated", is_already_rated);
                             context.startActivity(intent);
                         }

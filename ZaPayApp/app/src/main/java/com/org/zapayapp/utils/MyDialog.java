@@ -12,8 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.org.zapayapp.R;
 import com.org.zapayapp.adapters.ViewAllDateAdapter;
 import com.org.zapayapp.model.DateModel;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 

@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import java.util.HashMap;
 import retrofit2.Call;
+
 public class AboutUsActivity extends BaseActivity {
     private TextView contentTV;
     private TextView noDataTv;
