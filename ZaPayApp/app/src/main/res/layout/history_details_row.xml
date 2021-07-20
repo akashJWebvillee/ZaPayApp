@@ -54,7 +54,7 @@
                     android:maxLines="1"
                     android:textColor="@color/textColor"
                     android:textSize="16sp"
-                    android:text="Sandeep Singh"/>
+                    android:text=""/>
 
                 <LinearLayout
                     android:id="@+id/lendLLAmountTerms"
@@ -90,7 +90,7 @@
                             android:layout_marginTop="5dp"
                             android:fontFamily="@font/gotha_promed"
                             android:gravity="start"
-                            android:text="$100"
+                            android:text=""
                             android:textColor="@color/textColor"
                             android:textSize="16sp" />
                     </LinearLayout>
@@ -118,7 +118,7 @@
                             android:layout_marginTop="5dp"
                             android:fontFamily="@font/gotha_promed"
                             android:gravity="start"
-                            android:text="None"
+                            android:text=""
                             android:textColor="@color/textColor"
                             android:textSize="16sp" />
                     </LinearLayout>
@@ -157,7 +157,7 @@
                             android:layout_marginTop="5dp"
                             android:fontFamily="@font/gotha_promed"
                             android:gravity="start"
-                            android:text="3"
+                            android:text=""
                             android:textColor="@color/textColor"
                             android:textSize="16sp" />
                     </LinearLayout>
@@ -184,7 +184,7 @@
                             android:layout_marginTop="5dp"
                             android:fontFamily="@font/gotha_promed"
                             android:gravity="start"
-                            android:text="2/1/2021"
+                            android:text=""
                             android:textColor="@color/textColor"
                             android:textSize="16sp" />
                     </LinearLayout>
@@ -276,14 +276,15 @@
 
                         <TextView
                             android:id="@+id/commissionTitleTV"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/gotha_prolig"
                             android:gravity="start"
                             android:text="@string/zapay_commission"
                             android:textColor="@color/navTextColor60Alpha"
                             android:textSize="14sp"
-                            android:layout_marginEnd="10dp"/>
+                            android:lineSpacingExtra="5dp"
+                            android:layout_marginEnd="20dp"/>
 
                         <TextView
                             android:id="@+id/commissionValueTV"
@@ -292,7 +293,7 @@
                             android:layout_marginTop="5dp"
                             android:fontFamily="@font/gotha_promed"
                             android:gravity="start"
-                            android:text="$3.25"
+                            android:text=""
                             android:textColor="@color/textColor"
                             android:textSize="16sp" />
                     </LinearLayout>
@@ -358,7 +359,7 @@
                             android:layout_marginTop="5dp"
                             android:fontFamily="@font/gotha_promed"
                             android:gravity="start"
-                            android:text="$220"
+                            android:text=""
                             android:textColor="@color/navTextColor"
                             android:textSize="20sp"
                             android:layout_marginBottom="10dp"/>
@@ -366,10 +367,12 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/afterZapayCommissionLL"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        >
 
                         <TextView
                             android:id="@+id/afterCommissionTitleTV"
@@ -392,6 +395,41 @@
                             android:textColor="@color/textColor"
                             android:textSize="20sp" />
                     </LinearLayout>
+
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:id="@+id/defaultFeeLL"
+                    android:layout_below="@+id/totalPayBackAmountLL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="27dp"
+                    android:layout_marginTop="25dp">
+                    <TextView
+                        android:id="@+id/defaultFeeTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotha_prolig"
+                        android:gravity="start"
+                        android:text="@string/default_fee_per_emi"
+                        android:textColor="@color/navTextColor60Alpha"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/defaultFeeAmountTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/gotha_promed"
+                        android:gravity="start"
+                        android:text=""
+                        android:textColor="@color/navTextColor"
+                        android:textSize="20sp"
+                        android:layout_marginBottom="10dp"/>
+
                 </LinearLayout>
 
                 <TextView
@@ -403,7 +441,7 @@
                     android:text="@string/payback_dates"
                     android:textColor="@color/navTextColor60Alpha"
                     android:textSize="14sp"
-                    android:layout_below="@+id/totalPayBackAmountLL"
+                    android:layout_below="@+id/defaultFeeLL"
                     android:layout_marginStart="27dp"
                     android:layout_marginTop="5dp"/>
 

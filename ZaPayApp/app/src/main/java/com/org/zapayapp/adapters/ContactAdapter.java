@@ -1,19 +1,15 @@
 package com.org.zapayapp.adapters;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.org.zapayapp.R;
 import com.org.zapayapp.listener.ContactListener;
 import com.org.zapayapp.model.ContactModel;
-
 import java.util.List;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder> {
@@ -30,7 +26,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
     }
 
     class MyHolder extends RecyclerView.ViewHolder {
-
         private TextView contactTxtName;
         private ImageView contactImgSelect;
 
@@ -55,6 +50,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
         if (model.getFirstName() != null && model.getFirstName().length() > 0) {
             holder.contactTxtName.setText(model.getFirstName()+" "+model.getLastName());
         }
+
         if (selectedPos == holder.getAdapterPosition()) {
             holder.contactImgSelect.setImageResource(R.mipmap.ic_check_select);
             holder.contactTxtName.setSelected(true);
@@ -62,7 +58,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
             holder.contactImgSelect.setImageResource(R.drawable.checkbox_unselect);
             holder.contactTxtName.setSelected(false);
         }
-
 
         if (forWhat.equalsIgnoreCase(context.getString(R.string.negotiation))){
             holder.itemView.setClickable(false);
@@ -81,15 +76,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
         }
 
 
-
-
-
-
-
-
-
-
-      /*if (model.isSelect()){
+        /*if (model.isSelect()){
           holder.contactImgSelect.setImageResource(R.mipmap.ic_check_select);
           holder.contactTxtName.setSelected(true);
       }else {

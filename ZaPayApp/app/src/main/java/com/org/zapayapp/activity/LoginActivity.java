@@ -1,27 +1,18 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -31,9 +22,7 @@ import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.MySession;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
-
 import java.util.HashMap;
-
 import retrofit2.Call;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener, APICallback {
@@ -122,7 +111,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private void removeError() {
         wValidationLib.removeError(etEmailLayout, editTextUsername);
         wValidationLib.removeError(etPasswordLayout, etPassword);
-
         wValidationLib.removeError(userNameSignUpInputLayout, userNameSignUpEditText);
         wValidationLib.removeError(emailSignUpInputLayout, emailSignUpEditText);
         wValidationLib.removeError(mobileSignUpInputLayout, mobileSignUpEditText);
@@ -333,7 +321,4 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         super.moveToLogin();
         setSelectedView(1);
     }
-
-
-
 }

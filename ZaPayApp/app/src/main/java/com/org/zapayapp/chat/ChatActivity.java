@@ -1,5 +1,4 @@
 package com.org.zapayapp.chat;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,13 +7,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -24,15 +21,12 @@ import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-
 import retrofit2.Call;
 
 public class ChatActivity extends BaseActivity implements View.OnClickListener, APICallback {
@@ -94,7 +88,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private void getIntentValues() {
-        intent = getIntent();
+       /* intent = getIntent();
         if (intent.getSerializableExtra("transactionModel") != null) {
             TransactionModel transactionModel = (TransactionModel) intent.getSerializableExtra("transactionModel");
             if (transactionModel != null) {
@@ -103,17 +97,31 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                     receiverId = transactionModel.getToId();
                     transactionId = transactionModel.getId();
                     receiverProfileImg = transactionModel.getProfileImage();
-                    titleTV.setText(transactionModel.getFirstName()+" "+transactionModel.getLastName());
+
+                    if (Const.isRequestByMe(transactionModel.getFromId())) {
+                        titleTV.setText(transactionModel.getReceiver_first_name() + " " + transactionModel.getReceiver_last_name());
+                    } else {
+                        titleTV.setText("" + transactionModel.getSender_first_name() + " " + transactionModel.getSender_last_name());
+                    }
+
                 } else if (transactionModel.getToId() != null && transactionModel.getToId().length() > 0 && transactionModel.getToId().equals(SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID))) {
                     senderId = transactionModel.getToId();
                     receiverId = transactionModel.getFromId();
                     transactionId = transactionModel.getId();
                     receiverProfileImg = transactionModel.getProfileImage();
-                    titleTV.setText(transactionModel.getFirstName()+" "+transactionModel.getLastName());
-
+                    if (Const.isRequestByMe(transactionModel.getFromId())) {
+                        titleTV.setText(transactionModel.getReceiver_first_name() + " " + transactionModel.getReceiver_last_name());
+                    } else {
+                        titleTV.setText("" + transactionModel.getSender_first_name() + " " + transactionModel.getSender_last_name());
+                    }
                 }
                 callConversationsMsgListAPI();
             }
+        }*/
+
+        if (getIntent().getStringExtra("transaction_id")!=null&&getIntent().getStringExtra("transaction_id").length()>0){
+            transactionId=getIntent().getStringExtra("transaction_id");
+            callAPIGetTransactionRequestDetail(transactionId);
         }
     }
 
@@ -206,6 +214,21 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         callEventReadAll();
     }
 
+    private void callAPIGetTransactionRequestDetail(String transaction_request_id) {
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        HashMap<String, Object> values = apiCalling.getHashMapObject(
+                "transaction_request_id", transaction_request_id);
+        try {
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_get_transaction_request_details), values);
+            if (apiCalling != null) {
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_get_transaction_request_details), titleTV);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void callConversationsMsgListAPI() {
         try {
             HashMap<String, Object> values = apiCalling.getHashMapObject(
@@ -229,6 +252,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         Log.e("json","chat json==="+json);
         if (from != null) {
             int status = json.get("status").getAsInt();
+            String msg = json.get("message").getAsString();
             if (from.equals(getString(R.string.api_get_chat_history))) {
                 if (status == 200) {
                     if (msgList != null && pageNo == 0)
@@ -251,10 +275,48 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                     if (msgList.size()>0) noDataTv.setVisibility(View.GONE);
                     else noDataTv.setVisibility(View.VISIBLE);
                 }else {
-                    // showPopup(getString(R.string.something_wrong));
+                    //showPopup(getString(R.string.something_wrong));
+                }
+            } else if (from.equals(getResources().getString(R.string.api_get_transaction_request_details))) {
+                if (status == 200) {
+                    if (json.get("data").getAsJsonObject() != null) {
+                        TransactionModel transactionModel = (TransactionModel) apiCalling.getDataObject(json.get("data").getAsJsonObject(), TransactionModel.class);
+                        setUserDetail(transactionModel);
+                    }
+                } else {
+                    showSimpleAlert(msg, getResources().getString(R.string.api_update_transaction_request_status));
                 }
             }
         }
+    }
+
+    private void setUserDetail(TransactionModel transactionModel){
+        if (transactionModel != null) {
+                if (transactionModel.getFromId() != null && transactionModel.getFromId().length() > 0 && transactionModel.getFromId().equals(SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID))) {
+                    senderId = transactionModel.getFromId();
+                    receiverId = transactionModel.getToId();
+                    transactionId = transactionModel.getId();
+                    receiverProfileImg = transactionModel.getProfileImage();
+
+                    if (Const.isRequestByMe(transactionModel.getFromId())) {
+                        titleTV.setText(transactionModel.getReceiver_first_name() + " " + transactionModel.getReceiver_last_name());
+                    } else {
+                        titleTV.setText("" + transactionModel.getSender_first_name() + " " + transactionModel.getSender_last_name());
+                    }
+
+                } else if (transactionModel.getToId() != null && transactionModel.getToId().length() > 0 && transactionModel.getToId().equals(SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID))) {
+                    senderId = transactionModel.getToId();
+                    receiverId = transactionModel.getFromId();
+                    transactionId = transactionModel.getId();
+                    receiverProfileImg = transactionModel.getProfileImage();
+                    if (Const.isRequestByMe(transactionModel.getFromId())) {
+                        titleTV.setText(transactionModel.getReceiver_first_name() + " " + transactionModel.getReceiver_last_name());
+                    } else {
+                        titleTV.setText("" + transactionModel.getSender_first_name() + " " + transactionModel.getSender_last_name());
+                    }
+                }
+                callConversationsMsgListAPI();
+            }
     }
 
     //----------------------------------------------------------------------------//
@@ -330,7 +392,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 callEventReadAll();
                 CommonMethods.showLogs("ChatActivity", "Message received :- " + jsonObject);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -356,6 +417,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
             if (transactionId.equals(transaction_request_id)) {
                 for (int i = 0; i < msgList.size(); i++) {
                     ChatMessageModel model = msgList.get(i);

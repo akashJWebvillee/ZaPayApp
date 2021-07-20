@@ -35,7 +35,8 @@ public class DatePickerFragmentDialogue extends DialogFragment implements DatePi
             strMin = getArguments().getInt("mindate");
             strMax = getArguments().getInt("maxdate");
         }
-        // Locale.setDefault(Locale.ENGLISH);
+
+        //Locale.setDefault(Locale.ENGLISH);
         wvDateLib = new WVDateLib(context);
         Locale locale = getResources().getConfiguration().locale;
         Locale.setDefault(locale);
@@ -60,7 +61,6 @@ public class DatePickerFragmentDialogue extends DialogFragment implements DatePi
         }
         if (strDate != null && strDate.length() > 0 && getActivity() != null) {
             try {
-
                 //SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
                 SimpleDateFormat sdf = new SimpleDateFormat(" yyyy-mm-dd", Locale.ENGLISH);
 
@@ -89,9 +89,11 @@ public class DatePickerFragmentDialogue extends DialogFragment implements DatePi
             setDatePickerLocale(mDatePicker);
             return mDatePicker;
         } else if (show != null && show.equals(context.getResources().getString(R.string.min_current)) && getActivity() != null) {//condition to show dates visible from current date to future date
-            long l = System.currentTimeMillis();
             DatePickerDialog mDatePicker = new DatePickerDialog(getActivity(), R.style.MyAlertDialogStyle, this, year, Integer.valueOf(mon), Integer.valueOf(date));
-            mDatePicker.getDatePicker().setMinDate(l);
+            //long l = System.currentTimeMillis();
+            //mDatePicker.getDatePicker().setMinDate(l);   //this is use for current date
+            long l = System.currentTimeMillis() - 1000;
+            mDatePicker.getDatePicker().setMinDate(l + (24 * 60 * 60 * 1000));//this is use for next one day date
             setDatePickerLocale(mDatePicker);
             return mDatePicker;
         } else if (show != null && show.equals(context.getResources().getString(R.string.both)) && getActivity() != null) {//condition to show dates visible from past date to current date

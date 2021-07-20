@@ -113,6 +113,15 @@ public class WVDateLib {
         return currentDateFormat.format(today);
     }
 
+    public String incrementDateByOne() {
+        Date today = Calendar.getInstance().getTime();
+        Calendar c = Calendar.getInstance();
+        c.setTime(today);
+        c.add(Calendar.DATE, 1);
+        Date nextDate = c.getTime();
+        return currentDateFormat.format(nextDate);
+    }
+
     /**
      * Gets current date.
      *

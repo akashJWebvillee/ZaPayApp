@@ -50,10 +50,13 @@ import com.org.zapayapp.viewModel.ProjectViewModel;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
 import com.org.zapayapp.webservices.RestAPI;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import retrofit2.Call;
 
 /**
@@ -367,8 +370,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
                     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
             } else if (useDrawerToggle()) { // use the hamburger menu
-                drawerToggle = new ActionBarDrawerToggle(
-                        this, drawerLayout, toolbar, R.string.nav_drawer_opened, R.string.nav_drawer_closed);
+                drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.nav_drawer_opened, R.string.nav_drawer_closed);
                 drawerLayout.addDrawerListener(drawerToggle);
                 drawerToggle.setDrawerIndicatorEnabled(false); //disable "hamburger to arrow" drawable
                 drawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
@@ -410,7 +412,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
         navList.add(getString(R.string.my_profile));
         navList.add(getString(R.string.bank_account));
         navList.add(getString(R.string.transaction));
-        navList.add(getString(R.string.history));
+        //navList.add(getString(R.string.history));
         navList.add(getString(R.string.default_transaction));
         navList.add(getString(R.string.about_us));
         navList.add(getString(R.string.terms_and_conditions));
@@ -479,52 +481,55 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
                 }
                 break;
             case 2:
-                if (currentScreen != TRANSACTION) {
-                    intent = new Intent(this, TransactionActivity.class);
-                    startActivity(intent);
+                if (Const.isUserDefaulter().equals("1")) {
+                    showSimpleAlert(getString(R.string.you_have_defaulter_msg), getString(R.string.you_have_defaulter_msg));
+                }else if (Const.isUserDefaulter().equals("2")){
+                    showSimpleAlert(getString(R.string.payment_initiated_it_takes_time_to_confirm_the_payment), getString(R.string.payment_initiated_it_takes_time_to_confirm_the_payment));
+                }else {
+                    if (currentScreen != TRANSACTION) {
+                        intent = new Intent(this, TransactionActivity.class);
+                        startActivity(intent);
+                    }
                 }
                 break;
-            case 3:
+       /*     case 3:
                 if (currentScreen != HISTORY) {
-                    //intent = new Intent(this, HistoryActivity.class);
                     intent = new Intent(this, MyHistoryActivity.class);
                     startActivity(intent);
                 }
                 break;
-
-            case 4:
+*/
+            case 3:
                 if (currentScreen != DEFAULT_TRANSACTION) {
                     intent = new Intent(this, DefaultTransactionActivity.class);
                     startActivity(intent);
                 }
                 break;
-            case 5:
+            case 4:
                 if (currentScreen != ABOUT_US) {
                     intent = new Intent(this, AboutUsActivity.class);
                     startActivity(intent);
                 }
                 break;
-            case 6:
+            case 5:
                 if (currentScreen != TERMS_CONDITION) {
                     intent = new Intent(this, TermConditionActivity.class);
                     startActivity(intent);
                 }
                 break;
-            case 7:
+            case 6:
                 if (currentScreen != HELP) {
                     intent = new Intent(this, HelpActivity.class);
                     startActivity(intent);
                 }
                 break;
-            case 9:
+            case 8:
                 if (currentScreen != LOGOUT) {
                     alertLogOut();
-
                 }
                 break;
         }
     }
-
 
     /**
      * Sets current screen.
@@ -543,7 +548,6 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             drawerLayout.closeDrawer(GravityCompat.START);
         }
     }
-
 
     private void callAPILogout() {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
@@ -626,6 +630,8 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             startActivity(intent);
         } else if (from.equals(getResources().getString(R.string.api_update_transaction_request_status))) {
             finish();
+        }else if (from.equals(getResources().getString(R.string.api_update_running_transaction_request_status))){
+            finish();
         } else if (from.equalsIgnoreCase(getString(R.string.api_signup))) {
             moveToLogin();
         } else if (from.equalsIgnoreCase(getString(R.string.update_pin))) {
@@ -638,6 +644,11 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             finish();
         } else if (from.equalsIgnoreCase(getResources().getString(R.string.api_pay_date_request_status_update))) {
             // finish();
+        }else if (from.equalsIgnoreCase(getString(R.string.you_have_defaulter_msg))){
+            Intent intent=new Intent(BaseActivity.this,DefaultTransactionActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+
         }
     }
 
@@ -825,7 +836,6 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
         }
     }
 
-
     public void fireBaseToken() {
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
@@ -835,13 +845,11 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
                             Log.w("tag", "getInstanceId failed", task.getException());
                             return;
                         }
-
                         // Get new Instance ID token
                         if (task.getResult() != null && task.getResult().getToken().length() > 0) {
                             String newToken = task.getResult().getToken();
                             SharedPref.getPrefsHelper().savePref(Const.Var.FIREBASE_DEVICE_TOKEN, newToken);
                         }
-
                         Log.e("Firebase token", "Firebase token=====" + task.getResult().getToken());
                     }
                 });

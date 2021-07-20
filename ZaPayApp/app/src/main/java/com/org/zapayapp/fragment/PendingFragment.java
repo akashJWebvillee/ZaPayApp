@@ -1,16 +1,14 @@
 package com.org.zapayapp.fragment;
-
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -21,13 +19,10 @@ import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.EndlessRecyclerViewScrollListener;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import retrofit2.Call;
-
 
 public class PendingFragment extends Fragment implements APICallback {
     private TransactionActivity activity;
@@ -39,8 +34,8 @@ public class PendingFragment extends Fragment implements APICallback {
     private TextView noDataTv;
 
     public PendingFragment() {
-    }
 
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,7 +65,7 @@ public class PendingFragment extends Fragment implements APICallback {
             }
         };
         pendingRecyclerView.addOnScrollListener(scrollListener);
-    }
+     }
 
     @Override
     public void onResume() {
@@ -84,7 +79,6 @@ public class PendingFragment extends Fragment implements APICallback {
         if (pageNo == 0 && scrollListener != null) {
             scrollListener.resetState();
         }
-
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
             HashMap<String, Object> values = activity.apiCalling.getHashMapObject(
@@ -103,6 +97,9 @@ public class PendingFragment extends Fragment implements APICallback {
 
     @Override
     public void apiCallback(JsonObject json, String from) {
+        Log.e("json","json==="+json);
+        Log.e("json","idddd==="+SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString());
+
         if (from != null) {
             int status = 0;
             String msg = "";
@@ -147,6 +144,5 @@ public class PendingFragment extends Fragment implements APICallback {
         }else {
             transactionAdapter.notifyDataSetChanged();
         }
-
     }
 }

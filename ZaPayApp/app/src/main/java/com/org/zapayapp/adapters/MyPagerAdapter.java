@@ -1,19 +1,13 @@
 package com.org.zapayapp.adapters;
-
 import android.content.Context;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-
 import com.org.zapayapp.fragment.AcceptedFragment;
 import com.org.zapayapp.fragment.CompletedFragment;
 import com.org.zapayapp.fragment.DeclineFragment;
-import com.org.zapayapp.fragment.NegotiationFragment;
 import com.org.zapayapp.fragment.PendingFragment;
-
-import java.util.ArrayList;
 
 public class MyPagerAdapter extends FragmentStatePagerAdapter {
     private int tabCount;
@@ -34,6 +28,25 @@ public class MyPagerAdapter extends FragmentStatePagerAdapter {
             case 0:
                 PendingFragment tab1 = new PendingFragment();
                 return tab1;
+          /*  case 1:
+                NegotiationFragment tab2 = new NegotiationFragment();
+                return tab2;*/
+            case 1:
+                AcceptedFragment tab2 = new AcceptedFragment();
+                return tab2;
+            case 2:
+                DeclineFragment tab3 = new DeclineFragment();
+                return tab3;
+            case 3:
+                CompletedFragment tab4 = new CompletedFragment();
+                return tab4;
+
+            default:
+                return null;
+
+                /*case 0:
+                PendingFragment tab1 = new PendingFragment();
+                return tab1;
             case 1:
                 NegotiationFragment tab2 = new NegotiationFragment();
                 return tab2;
@@ -49,10 +62,9 @@ public class MyPagerAdapter extends FragmentStatePagerAdapter {
                 return tab5;
 
             default:
-                return null;
+                return null;*/
         }
     }
-
     @Override
     public int getCount() {
         return tabCount;

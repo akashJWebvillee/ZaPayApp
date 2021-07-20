@@ -94,7 +94,6 @@ public class AcceptedFragment extends Fragment implements APICallback {
             e.printStackTrace();
         }
     }
-
     @Override
     public void apiCallback(JsonObject json, String from) {
         Const.logMsg(json.toString());

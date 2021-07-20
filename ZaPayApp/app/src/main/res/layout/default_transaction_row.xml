@@ -25,7 +25,7 @@
             android:gravity="start"
             android:textColor="@color/textColor"
             android:textSize="16sp"
-            android:text="Zpay "
+            android:text=" "
             android:layout_marginTop="20dp"
             android:layout_marginStart="14dp"
             android:maxLines="1"
@@ -52,7 +52,7 @@
             android:gravity="start"
             android:textColor="@color/textColor"
             android:textSize="16sp"
-            android:text="$100"
+            android:text=""
             android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="16dp"/>
@@ -65,7 +65,7 @@
             android:gravity="start"
             android:textColor="@color/navTextColor70Alpha"
             android:textSize="11sp"
-            android:text="02/02/2021"
+            android:text=""
             android:layout_marginTop="39dp"
             android:layout_marginStart="14dp"/>
 
@@ -90,7 +90,7 @@
             android:gravity="start"
             android:textColor="@color/textColor"
             android:textSize="11sp"
-            android:text="3"
+            android:text=""
             android:layout_marginTop="60dp"
             android:layout_marginStart="4dp"/>
 
@@ -123,9 +123,9 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/gotha_promed"
             android:gravity="start"
-            android:textColor="@color/textColor"
+            android:textColor="@color/colorPrimary"
             android:textSize="11sp"
-            android:text="Discount"
+            android:text=""
             android:layout_marginTop="60dp"
             android:layout_marginStart="4dp"/>
 

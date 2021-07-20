@@ -53,7 +53,7 @@
             android:gravity="start"
             android:textColor="@color/textColor"
             android:textSize="16sp"
-            android:text="100"
+            android:text="00"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="16dp"/>
@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/gotha_promed"
             android:gravity="start"
-            android:textColor="@color/textColor"
+            android:textColor="@color/colorPrimary"
             android:textSize="11sp"
             android:layout_marginTop="60dp"
             android:layout_marginStart="4dp"/>
@@ -122,7 +122,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/gotha_promed"
             android:gravity="start"
-            android:textColor="@color/textColor"
+            android:textColor="@color/colorPrimary"
             android:textSize="11sp"
             android:layout_marginTop="60dp"
             android:layout_marginStart="4dp"/>
@@ -140,8 +140,37 @@
             android:layout_below="@+id/termTypeTV"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="16dp"
-            android:layout_marginTop="10dp"
-            android:visibility="gone"/>
+            android:layout_marginTop="10dp"/>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/acceptedReNegotiateTV"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/requestedByTitleTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotha_promed"
+                android:gravity="start"
+                android:text="@string/requested_by"
+                android:textColor="@color/textColorBold"
+                android:textSize="15sp"
+                android:layout_marginStart="14dp" />
+
+            <TextView
+                android:id="@+id/requestByTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotha_promed"
+                android:gravity="start"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp"
+                android:layout_marginStart="4dp"/>
+        </LinearLayout>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

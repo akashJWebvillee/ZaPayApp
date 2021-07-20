@@ -1,7 +1,7 @@
 package com.org.zapayapp.adapters;
-
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.Gson;
 import com.org.zapayapp.R;
 import com.org.zapayapp.activity.PdfViewActivity;
@@ -22,9 +23,11 @@ import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.DateFormat;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.List;
 
 public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Adapter<ViewAllHistoryAndTransactionDetailsAdapter.MyHolder> {
@@ -57,6 +60,10 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
         private TextView viewAllNameType;
         private TextView afterCommissionAmountTV;
         private LinearLayout agreementLL;
+        private TextView defaultFeeAmountTV;
+        private LinearLayout defaultFeeLL;
+        private LinearLayout commissionLL;
+        private LinearLayout afterZapayCommissionLL;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
@@ -74,6 +81,10 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
             viewAllNameType = itemView.findViewById(R.id.viewAllNameType);
             afterCommissionAmountTV = itemView.findViewById(R.id.afterCommissionAmountTV);
             agreementLL = itemView.findViewById(R.id.agreementLL);
+            defaultFeeAmountTV = itemView.findViewById(R.id.defaultFeeAmountTV);
+            defaultFeeLL = itemView.findViewById(R.id.defaultFeeLL);
+            commissionLL = itemView.findViewById(R.id.commissionLL);
+            afterZapayCommissionLL = itemView.findViewById(R.id.afterZapayCommissionLL);
 
             paybackDateRecycler = itemView.findViewById(R.id.paybackDateRecycler);
             paybackDateRecycler.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
@@ -90,9 +101,24 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
         TransactionModel transactionModel = allTransactionArrayList.get(position);
+
         if (transactionModel.getFirstName() != null && transactionModel.getFirstName().length() > 0) {
             holder.nameTV.setText(transactionModel.getFirstName());
         }
+
+      /*  if (transactionModel.getFromId() != null && transactionModel.getFromId().length() > 0) {
+            if (Const.isRequestByMe(transactionModel.getFromId())) {
+                if (transactionModel.getReceiver_first_name() != null && transactionModel.getReceiver_first_name().length() > 0 && transactionModel.getReceiver_last_name() != null && transactionModel.getReceiver_last_name().length() > 0) {
+                    holder.nameTV.setText(transactionModel.getReceiver_first_name() + " " + transactionModel.getReceiver_last_name());
+                }
+            } else {
+                if (transactionModel.getSender_first_name() != null && transactionModel.getSender_first_name().length() > 0 && transactionModel.getSender_last_name() != null && transactionModel.getSender_last_name().length() > 0) {
+                    holder.nameTV.setText("" + transactionModel.getSender_first_name() + " " + transactionModel.getSender_last_name());
+                }
+            }
+        }
+*/
+
 
         if (transactionModel.getAmount() != null && transactionModel.getAmount().length() > 0) {
             holder.amountTV.setText(Const.getCurrency() + transactionModel.getAmount());
@@ -140,6 +166,7 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
             commission_charges_detail.replace("\\", "/");
             CommissionModel commissionModel = gson.fromJson(commission_charges_detail, CommissionModel.class);
 
+
             if (context.getString(R.string.transaction).equalsIgnoreCase(moveFrom)) {
                 if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
                     if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
@@ -167,15 +194,23 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
                     holder.commissionTitleTV.setText(context.getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
                     holder.commissionValueTV.setText(Const.getCurrency() + transactionModel.getAdmin_commission_from_borrower());
                 }
+                holder.defaultFeeAmountTV.setText(Const.getCurrency() + commissionModel.getDefaultFeeValue());
+
             }
         }
 
         if (transactionModel.getPayDatesList() != null && transactionModel.getPayDatesList().size() > 0) {
             List<DateModel> payDatesList = transactionModel.getPayDatesList();
-            setAdapterFunc(holder.paybackDateRecycler, payDatesList);
+            if (moveFrom != null && moveFrom.length() > 0 && moveFrom.equalsIgnoreCase(context.getString(R.string.default_transaction))) {
+                activity.setTotalPayData11(payDatesList, transactionModel);
+                holder.defaultFeeLL.setVisibility(View.VISIBLE);
+            } else {
+                holder.defaultFeeLL.setVisibility(View.INVISIBLE);
+            }
+            setAdapterFunc(holder.paybackDateRecycler, payDatesList, transactionModel);
         }
 
-        if (context.getString(R.string.transaction).equalsIgnoreCase(moveFrom)) {
+     /*   if (context.getString(R.string.transaction).equalsIgnoreCase(moveFrom)) {
             if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
                 holder.viewAllNameType.setText(context.getString(R.string.lender));
             } else {
@@ -187,7 +222,8 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
             } else {
                 holder.viewAllNameType.setText(context.getString(R.string.borrower));
             }
-        }
+        }*/
+
 
         if (transactionModel.getAgreementPdfDetailModelList() != null && transactionModel.getAgreementPdfDetailModelList().size() > 0) {
             List<AgreementPdfDetailModel> pdf_details = transactionModel.getAgreementPdfDetailModelList();
@@ -248,6 +284,16 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
                 holder.afterCommissionAmountTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(amount, 2));
             }
         }
+
+        if (transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().length() > 0) {
+            if (transactionModel.getIs_negotiate_after_accept().equals("2")) {
+                holder.commissionLL.setVisibility(View.INVISIBLE);
+                holder.afterZapayCommissionLL.setVisibility(View.GONE);
+            } else {
+                holder.commissionLL.setVisibility(View.VISIBLE);
+                holder.afterZapayCommissionLL.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     @Override
@@ -255,8 +301,8 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
         return allTransactionArrayList.size();
     }
 
-    private void setAdapterFunc(RecyclerView paybackDateRecycler, List<DateModel> payDatesList) {
-        ViewAllHistoryAndTransactionPaybackDateAdapter paybackDateAdapter = new ViewAllHistoryAndTransactionPaybackDateAdapter(context, payDatesList);
+    private void setAdapterFunc(RecyclerView paybackDateRecycler, List<DateModel> payDatesList, TransactionModel transactionModel) {
+        ViewAllHistoryAndTransactionPaybackDateAdapter paybackDateAdapter = new ViewAllHistoryAndTransactionPaybackDateAdapter(context, payDatesList, transactionModel);
         paybackDateRecycler.setAdapter(paybackDateAdapter);
     }
 }

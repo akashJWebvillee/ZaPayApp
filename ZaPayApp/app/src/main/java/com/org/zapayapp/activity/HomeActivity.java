@@ -1,6 +1,7 @@
 package com.org.zapayapp.activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
 import com.microsoft.appcenter.crashes.Crashes;
 import com.org.zapayapp.R;
+import com.org.zapayapp.chat.ChatActivity;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.MySession;
 import com.org.zapayapp.utils.SharedPref;
@@ -35,7 +37,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         init();
         initAction();
         getNotificationIntent();
-      }
+    }
 
     @Override
     protected void onStart() {
@@ -70,30 +72,45 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                 //activity_status=1  //updated profile
                 //activity_status=2   //added bank account
                 //activity_status=3   //verifyed bank account(ready to send request)
-                if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().length() > 0) {
-                    if (!SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("0")) {
-                        if (isClickable) {
-                            isClickable = false;
-                            intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
-                            intent.putExtra("isBorrow", false);
-                            startActivity(intent);
+
+                if (Const.isUserDefaulter().equals("1")) {
+                    showSimpleAlert(getString(R.string.you_have_defaulter_msg), getString(R.string.you_have_defaulter_msg));
+                }else if(Const.isUserDefaulter().equals("2")){
+                    showSimpleAlert(getString(R.string.payment_initiated_it_takes_time_to_confirm_the_payment), getString(R.string.payment_initiated_it_takes_time_to_confirm_the_payment));
+                } else {
+                    if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().length() > 0) {
+                        if (!SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("0")) {
+                            if (isClickable) {
+                                isClickable = false;
+                                intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
+                                intent.putExtra("isBorrow", false);
+                                startActivity(intent);
+                            }
+                        } else {
+                            showSimpleAlert(getString(R.string.update_your_profile), getString(R.string.update_your_profile));
                         }
-                    } else {
-                        showSimpleAlert(getString(R.string.update_your_profile), getString(R.string.update_your_profile));
                     }
                 }
+
                 break;
             case R.id.homeLLBorrow:
-                if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().length() > 0) {
-                    if (!SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("0")) {
-                        if (isClickable) {
-                            isClickable = false;
-                            intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
-                            intent.putExtra("isBorrow", true);
-                            startActivity(intent);
+                if (Const.isUserDefaulter().equals("1")) {
+                    showSimpleAlert(getString(R.string.you_have_defaulter_msg), getString(R.string.you_have_defaulter_msg));
+                }else if (Const.isUserDefaulter().equals("2")){
+                    showSimpleAlert(getString(R.string.payment_initiated_it_takes_time_to_confirm_the_payment), getString(R.string.payment_initiated_it_takes_time_to_confirm_the_payment));
+
+                }else {
+                    if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().length() > 0) {
+                        if (!SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("0")) {
+                            if (isClickable) {
+                                isClickable = false;
+                                intent = new Intent(HomeActivity.this, LendBorrowActivity.class);
+                                intent.putExtra("isBorrow", true);
+                                startActivity(intent);
+                            }
+                        } else {
+                            showSimpleAlert(getString(R.string.update_your_profile), getString(R.string.update_your_profile));
                         }
-                    } else {
-                        showSimpleAlert(getString(R.string.update_your_profile), getString(R.string.update_your_profile));
                     }
                 }
                 break;
@@ -117,6 +134,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
         callAPIGetUserDetail();
         //callAPIGetBankAccountDetail();
+        callAPICheckUserDefaulterStatus();
     }
 
 
@@ -135,7 +153,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                     apiCalling.callAPI(zapayApp, call, getString(R.string.api_update_device_info), homeLLBorrow);
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -143,6 +160,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
     private void callAPIGetUserDetail() {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        Log.e("token", "token========.....====" + token);
         try {
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.getApiToken(token, getString(R.string.api_get_user_details));
@@ -161,6 +179,19 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
             Call<JsonElement> call = restAPI.getApiToken(token, getString(R.string.api_get_bank_account_details));
             if (apiCalling != null) {
                 apiCalling.callAPI(zapayApp, call, getString(R.string.api_get_bank_account_details), homeLLBorrow);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void callAPICheckUserDefaulterStatus() {
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        try {
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.getApiToken(token, getString(R.string.api_check_user_defaulter_status));
+            if (apiCalling != null) {
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_check_user_defaulter_status), homeLLBorrow);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -214,6 +245,24 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                     showSimpleAlert(msg, "");
                 }
 
+            } else if (from.equals(getResources().getString(R.string.api_check_user_defaulter_status))) {
+                if (status == 200) {
+
+                    if (json.get("data").getAsJsonObject() != null) {
+                        JsonObject jsonObject = json.get("data").getAsJsonObject();
+                        if (jsonObject.get("is_defaulter").getAsString() != null && jsonObject.get("is_defaulter").getAsString().length() > 0) {
+                            String is_defaulter = jsonObject.get("is_defaulter").getAsString();
+                            SharedPref.getPrefsHelper().savePref(Const.Var.IsDEFAULTER, is_defaulter);
+                            //is_defaulter==1 defaulter
+                            Log.e("is_defaulter", "is_defaulter===============" + is_defaulter);
+                            Log.e("is_defaulter", "is_defaulter===============" + json);
+                        }
+                    }
+                } else if (status == 401) {
+                    showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
+                } else {
+                    showSimpleAlert(msg, "");
+                }
             }
         }
     }
@@ -235,73 +284,80 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
     private void getNotificationIntent() {
         if (getIntent() != null) {
-            if (getIntent().getStringExtra("request_by") != null
-                    && getIntent().getStringExtra("status") != null
-                    && getIntent().getStringExtra("notification_type") != null
-                    && getIntent().getStringExtra("transaction_request_id") != null
-                    && getIntent().getStringExtra("from_id") != null) {
+            if (getIntent().getStringExtra("notification_type") != null) {
+                if (getIntent().getStringExtra("notification_type").equalsIgnoreCase("CHAT_MESSAGE_RECEIVE")) {
+                    String transaction_request_id = getIntent().getStringExtra("transaction_request_id");
+                    intent = new Intent(this, ChatActivity.class);
+                    intent.putExtra("transaction_id", transaction_request_id);
+                    Objects.requireNonNull(intent).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
+                } else {
+                    String notification_type = getIntent().getStringExtra("notification_type");
+                    String request_by = getIntent().getStringExtra("request_by");
+                    String status = getIntent().getStringExtra("status");
+                    String transaction_request_id = getIntent().getStringExtra("transaction_request_id");
+                    String from_id = getIntent().getStringExtra("from_id");
 
-                String notification_type = getIntent().getStringExtra("notification_type");
-                String request_by = getIntent().getStringExtra("request_by");
-                String status = getIntent().getStringExtra("status");
-                String transaction_request_id = getIntent().getStringExtra("transaction_request_id");
-                String from_id = getIntent().getStringExtra("from_id");
-
-                String forWhat;
-                if (from_id != null && from_id.equalsIgnoreCase(SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID))) {  //History
-                    forWhat = getString(R.string.history);
-                    if (request_by != null && request_by.equals("2")) {
-                        intent = new Intent(this, LendingSummaryActivity.class);
-                    } else if (request_by != null && request_by.equals("1")) {
-                        intent = new Intent(this, BorrowSummaryActivity.class);
+                    String forWhat;
+                    if (from_id != null && from_id.equalsIgnoreCase(SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID))) {  //History
+                        forWhat = getString(R.string.history);
+                        if (request_by != null && request_by.equals("2")) {
+                            intent = new Intent(this, LendingSummaryActivity.class);
+                        } else if (request_by != null && request_by.equals("1")) {
+                            intent = new Intent(this, BorrowSummaryActivity.class);
+                        }
+                    } else { //Transaction
+                        forWhat = getString(R.string.transaction);
+                        if (request_by != null && request_by.equals("1")) {
+                            intent = new Intent(this, LendingSummaryActivity.class);
+                        } else if (request_by != null && request_by.equals("2")) {
+                            intent = new Intent(this, BorrowSummaryActivity.class);
+                        }
                     }
-                } else { //Transaction
-                    forWhat = getString(R.string.transaction);
-                    if (request_by != null && request_by.equals("1")) {
-                        intent = new Intent(this, LendingSummaryActivity.class);
-                    } else if (request_by != null && request_by.equals("2")) {
-                        intent = new Intent(this, BorrowSummaryActivity.class);
+
+                    if (notification_type.equalsIgnoreCase("NEW_TRANSACTION_REQUEST")) {
+                        intent.putExtra("moveFrom", forWhat);
+                        intent.putExtra("status", status);
+                        intent.putExtra("transactionId", transaction_request_id);
+
+                    } else if (notification_type.equalsIgnoreCase("REQUEST_ACCEPTED")) {
+                        intent.putExtra("moveFrom", forWhat);
+                        intent.putExtra("status", status);
+                        intent.putExtra("transactionId", transaction_request_id);
+                    } else if (notification_type.equalsIgnoreCase("REQUEST_DECLINED")) {
+                        intent.putExtra("moveFrom", forWhat);
+                        intent.putExtra("status", status);
+                        intent.putExtra("transactionId", transaction_request_id);
+                    } else if (notification_type.equalsIgnoreCase("REQUEST_NEGOTIATE")) {
+                        intent.putExtra("moveFrom", forWhat);
+                        intent.putExtra("status", status);
+                        intent.putExtra("transactionId", transaction_request_id);
+                    } else if (notification_type.equalsIgnoreCase("PAY_DATE_EXTEND")) {
+                        intent.putExtra("moveFrom", forWhat);
+                        intent.putExtra("status", status);
+                        intent.putExtra("transactionId", transaction_request_id);
+                    } else if (notification_type.equalsIgnoreCase("TRANSACTION_INITIATED")) {
+                        intent.putExtra("moveFrom", forWhat);
+                        intent.putExtra("status", "2");
+                        intent.putExtra("transactionId", transaction_request_id);
+                    } else if (notification_type.equalsIgnoreCase("PAY_DATE_EXTEND_ACCEPT")) {
+                        intent.putExtra("moveFrom", forWhat);
+                        intent.putExtra("status", "2");
+                        intent.putExtra("transactionId", transaction_request_id);
+                    } else if (notification_type.equalsIgnoreCase("PAY_DATE_EXTEND_DECLINE")) {
+                        intent.putExtra("moveFrom", forWhat);
+                        intent.putExtra("status", "2");
+                        intent.putExtra("transactionId", transaction_request_id);
                     }
+                    //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    Objects.requireNonNull(intent).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
                 }
-
-                if (notification_type.equalsIgnoreCase("NEW_TRANSACTION_REQUEST")) {
-                    intent.putExtra("moveFrom", forWhat);
-                    intent.putExtra("status", status);
-                    intent.putExtra("transactionId", transaction_request_id);
-
-                } else if (notification_type.equalsIgnoreCase("REQUEST_ACCEPTED")) {
-                    intent.putExtra("moveFrom", forWhat);
-                    intent.putExtra("status", status);
-                    intent.putExtra("transactionId", transaction_request_id);
-                } else if (notification_type.equalsIgnoreCase("REQUEST_DECLINED")) {
-                    intent.putExtra("moveFrom", forWhat);
-                    intent.putExtra("status", status);
-                    intent.putExtra("transactionId", transaction_request_id);
-                } else if (notification_type.equalsIgnoreCase("REQUEST_NEGOTIATE")) {
-                    intent.putExtra("moveFrom", forWhat);
-                    intent.putExtra("status", status);
-                    intent.putExtra("transactionId", transaction_request_id);
-                } else if (notification_type.equalsIgnoreCase("PAY_DATE_EXTEND")) {
-                    intent.putExtra("moveFrom", forWhat);
-                    intent.putExtra("status", status);
-                    intent.putExtra("transactionId", transaction_request_id);
-                } else if (notification_type.equalsIgnoreCase("TRANSACTION_INITIATED")) {
-                    intent.putExtra("moveFrom", forWhat);
-                    intent.putExtra("status", "2");
-                    intent.putExtra("transactionId", transaction_request_id);
-                } else if (notification_type.equalsIgnoreCase("PAY_DATE_EXTEND_ACCEPT")) {
-                    intent.putExtra("moveFrom", forWhat);
-                    intent.putExtra("status", "2");
-                    intent.putExtra("transactionId", transaction_request_id);
-                } else if (notification_type.equalsIgnoreCase("PAY_DATE_EXTEND_DECLINE")) {
-                    intent.putExtra("moveFrom", forWhat);
-                    intent.putExtra("status", "2");
-                    intent.putExtra("transactionId", transaction_request_id);
-                }
-                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                Objects.requireNonNull(intent).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
             }
+
         }
     }
 }
+
+
+

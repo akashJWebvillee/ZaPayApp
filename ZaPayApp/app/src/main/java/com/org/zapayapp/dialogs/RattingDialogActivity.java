@@ -1,16 +1,13 @@
 package com.org.zapayapp.dialogs;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
-
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -21,13 +18,10 @@ import com.org.zapayapp.uihelpers.CustomRatingBar;
 import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.SharedPref;
-import com.org.zapayapp.utils.WValidationLib;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
 import com.org.zapayapp.webservices.RestAPI;
-
 import java.util.HashMap;
-
 import retrofit2.Call;
 
 public class RattingDialogActivity extends AppCompatActivity implements APICallback , SimpleAlertFragment.AlertSimpleCallback {
@@ -35,6 +29,8 @@ public class RattingDialogActivity extends AppCompatActivity implements APICallb
     private String toId="";
     private String fromId="";
     private String transactionRequestID="";
+    private String averageRating="";
+    private String isAlreadyRated="";
 
     private TextView titleTV;
     private TextView saveTV;
@@ -62,7 +58,6 @@ public class RattingDialogActivity extends AppCompatActivity implements APICallb
         inIt();
         inItAction();
     }
-
     private void apiCodeInit() {
         zapayApp = (ZapayApp) getApplicationContext();
         restAPI = APICalling.webServiceInterface();
@@ -70,13 +65,11 @@ public class RattingDialogActivity extends AppCompatActivity implements APICallb
         apiCalling = new APICalling(this);
         //wValidationLib = new WValidationLib(ChangePassDialogActivity.this);
     }
-
     private void inIt(){
         titleTV=findViewById(R.id.titleTV);
         viewRatingBar=findViewById(R.id.viewRatingBar);
         saveTV=findViewById(R.id.saveTV);
         closeTV=findViewById(R.id.closeTV);
-
     }
 
     private void getIntentFunc(){
@@ -85,6 +78,8 @@ public class RattingDialogActivity extends AppCompatActivity implements APICallb
             toId= getIntent().getStringExtra("toId");
             fromId= getIntent().getStringExtra("fromId");
             transactionRequestID= getIntent().getStringExtra("transactionRequestID");
+            averageRating= getIntent().getStringExtra("averageRating");
+            isAlreadyRated= getIntent().getStringExtra("isAlreadyRated");
         }
     }
 
@@ -96,6 +91,20 @@ public class RattingDialogActivity extends AppCompatActivity implements APICallb
             titleTV.setText(getString(R.string.rate_borrower));
         }
 
+     /*   if (averageRating!=null&&averageRating.length()>0){
+            viewRatingBar.setScore(Float.parseFloat(averageRating));
+        }*/
+
+        if (isAlreadyRated!=null&&isAlreadyRated.length()>0){
+            if (isAlreadyRated.equals("0")){
+                saveTV.setVisibility(View.VISIBLE);
+                viewRatingBar.setScore(0);
+            }if (isAlreadyRated.equals("1")){    //already rated
+                viewRatingBar.setScrollToSelect(false);
+                saveTV.setVisibility(View.GONE);
+                viewRatingBar.setScore(Float.parseFloat(averageRating));
+            }
+        }
 
         saveTV.setOnClickListener(new View.OnClickListener() {
             @Override

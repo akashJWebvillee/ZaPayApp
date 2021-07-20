@@ -1,11 +1,9 @@
 package com.org.zapayapp.activity;
-
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,7 +11,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.adapters.DefaultTransactionAdapter;
-import com.org.zapayapp.model.DefaultModel;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.EndlessRecyclerViewScrollListener;
@@ -79,7 +76,7 @@ public class DefaultTransactionActivity extends BaseActivity implements View.OnC
 
     private void setAdapter() {
         if (defaultTransactionAdapter == null) {
-            defaultTransactionAdapter = new DefaultTransactionAdapter(this,defaultArrayList);
+            defaultTransactionAdapter = new DefaultTransactionAdapter(this, defaultArrayList);
             defaultTransactionRecView.setAdapter(defaultTransactionAdapter);
         } else {
             defaultTransactionAdapter.notifyDataSetChanged();
@@ -94,6 +91,7 @@ public class DefaultTransactionActivity extends BaseActivity implements View.OnC
                 break;
         }
     }
+
     private void callAPIGetDefaultTransactions(int page) {
         if (page == 0 && scrollListener != null) {
             scrollListener.resetState();

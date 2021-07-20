@@ -1,23 +1,15 @@
 package com.org.zapayapp.activity;
-
-import android.os.Build;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
-
 import androidx.core.text.HtmlCompat;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
-
 import java.util.HashMap;
-
 import retrofit2.Call;
 
 public class AboutUsActivity extends BaseActivity {
-
     private TextView contentTV;
     private TextView noDataTv;
 

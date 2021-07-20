@@ -1,5 +1,4 @@
 package com.org.zapayapp.activity;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -45,11 +44,17 @@ public class TransactionActivity extends AppCompatActivity implements TabLayout.
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
 
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.pending)));
+       /* tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.pending)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.negotiation)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.accepted)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.completed)));
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.decline)));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.decline)));*/
+
+          tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.pending)));
+        //tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.negotiation)));
+         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.accepted)));
+         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.decline)));
+         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.history)));
 
         tabLayout.setTabTextColors(getResources().getColor(R.color.tabTextColor), getResources().getColor(R.color.navTextColor));
         tabLayout.setSelectedTabIndicator(R.drawable.tab_indicator);

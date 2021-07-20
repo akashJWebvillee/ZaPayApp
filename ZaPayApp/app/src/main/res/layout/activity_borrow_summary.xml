@@ -258,6 +258,25 @@
                             android:text=""
                             android:textColor="@color/textColor"
                             android:textSize="16sp"/>
+
+                        <TextView
+                            android:id="@+id/vewAllDateTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/gotha_promed"
+                            android:gravity="start"
+                            android:text="@string/view_all_date"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="16sp"
+                            android:layout_marginStart="0dp"
+                            android:padding="2dp"/>
+
+                        <View
+                            android:layout_width="110dp"
+                            android:layout_height="1dp"
+                            android:background="@color/colorPrimary"
+                            android:layout_marginStart="0dp"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -272,6 +291,7 @@
                     android:weightSum="2">
 
                     <LinearLayout
+                        android:id="@+id/commissionLinearLayout"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -279,13 +299,14 @@
                         android:layout_marginEnd="5dp">
                         <TextView
                             android:id="@+id/commissionTitleTV"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/gotha_prolig"
                             android:gravity="start"
                             android:text="@string/zapay_commission"
                             android:textColor="@color/navTextColor60Alpha"
                             android:textSize="14sp"
+                            android:layout_marginEnd="10dp"
                             android:lineSpacingExtra="5dp"/>
 <!--  -->
                         <TextView
@@ -421,7 +442,7 @@
                     android:id="@+id/negotiateTV"
                     android:layout_width="match_parent"
                     android:layout_height="53dp"
-                    android:layout_below="@+id/totalReceivedBackTV"
+                    android:layout_below="@+id/lendViewAllLine"
                     android:layout_marginStart="27dp"
                     android:layout_marginEnd="27dp"
                     android:layout_marginBottom="20dp"
@@ -441,7 +462,7 @@
                     android:layout_below="@+id/negotiateTV"
                     android:layout_marginStart="27dp"
                     android:layout_marginEnd="27dp"
-                    android:layout_marginBottom="20dp"
+
                     android:background="@drawable/rectanguler_button_bg"
                     android:backgroundTint="@color/greenColor"
                     android:fontFamily="@font/gotha_probol"
@@ -457,6 +478,7 @@
                     android:layout_below="@+id/acceptTV"
                     android:layout_marginStart="27dp"
                     android:layout_marginEnd="27dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginBottom="48dp"
                     android:background="@drawable/rectanguler_button_bg"
                     android:backgroundTint="@color/colorBtnRed"

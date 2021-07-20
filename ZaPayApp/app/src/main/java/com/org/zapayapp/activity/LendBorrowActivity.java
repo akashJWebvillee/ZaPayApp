@@ -18,12 +18,15 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.dd.ShadowLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonElement;
@@ -45,13 +48,16 @@ import com.org.zapayapp.utils.EndlessRecyclerViewScrollListener;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.utils.WVDateLib;
 import com.org.zapayapp.webservices.APICallback;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import retrofit2.Call;
 
 public class LendBorrowActivity extends BaseActivity implements View.OnClickListener, DatePickerFragmentDialogue.DatePickerCallback, APICallback, ContactListener {
@@ -92,14 +98,15 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
     //borrow....
     private TextView amountTV, termTV, noOfPaymentTV, paymentDateTV, totalPayBackTV, zapayCommissionTitleTV, zapayCommissionTV, afterCommissionTV;
+    private TextView afterCommissionTitleTV;
 
     //Lending....
-    TextView l_amountTV;
-    TextView lTermTV;
-    TextView lNoOfPaymentTV;
-    TextView lPaymentDateTV;
-    TextView totalReceivedBackTV, zapayCommissionTitleLenderTV, zapayCommissionLenderTV, afterCommissionLenderTV;
-
+    private TextView l_amountTV;
+    private TextView lTermTV;
+    private TextView lNoOfPaymentTV;
+    private TextView lPaymentDateTV;
+    private TextView totalReceivedBackTV, zapayCommissionTitleLenderTV, zapayCommissionLenderTV, afterCommissionLenderTV;
+    private TextView afterCommissionLenderTitleTV;
     //this use for negotiation
     private TransactionModel transactionModel;
     private CustomTextInputLayout lendAmountEdtAmountInputLayout, lendTermsInputLayout, lendNoOfPaymentInputLayout;
@@ -107,6 +114,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
     private double borrowerCommission;
     private double lenderCommission;
+    private double defaultFeeAmount;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -181,6 +189,12 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         initLendingView();
         initContactView();
         setIndicatorView(0);
+
+        if (transactionModel != null && transactionModel.getStatus() != null) {
+            if (transactionModel.getStatus().equals("2") || transactionModel.getIs_negotiate_after_accept().equals("2")) {
+                afterAcceptNegotiateFunc();
+            }
+        }
     }
 
     private void getIntentValues() {
@@ -193,6 +207,12 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         if (getIntent().getSerializableExtra("transactionModel") != null) {
             transactionModel = (TransactionModel) getIntent().getSerializableExtra("transactionModel");
         }
+    }
+
+    private void afterAcceptNegotiateFunc() {
+        selectedPos = indicatorAdapter.getSelectedPos() + 1;
+        indicatorAdapter.setSelected(selectedPos);
+        setIndicatorView(selectedPos);
     }
 
     private void initAmountView() {
@@ -210,8 +230,8 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 /*
-                    amount = Float.parseFloat(s.toString());
-                    lendTxtAmount.setText(s);
+                  amount = Float.parseFloat(s.toString());
+                  lendTxtAmount.setText(s);
                 */
             }
 
@@ -278,14 +298,12 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             int termType = Integer.parseInt(transactionModel.getTermsType()) - 1; //term 1 jyada aa rhi h
             selectedTermsOption(termType);
         }
-
     }
 
     private void initPaymentView() {
         lendViewPayment = findViewById(R.id.lendViewPayment);
         lendPaymentEdtNo = findViewById(R.id.lendPaymentEdtNo);
         lendPaymentEdtNo.setImeOptions(EditorInfo.IME_ACTION_DONE);
-
 
         lendPaymentEdtNo.addTextChangedListener(new TextWatcher() {
             @Override
@@ -304,10 +322,8 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             }
         });
 
-
         if (transactionModel != null && transactionModel.getNoOfPayment() != null && transactionModel.getNoOfPayment().length() > 0) {
             lendPaymentEdtNo.setText(transactionModel.getNoOfPayment());
-
         }
     }
 
@@ -334,7 +350,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         }*/
     }
 
-
     private void initBorrowView() {
         lendViewBorrow = findViewById(R.id.lendViewBorrow);
         amountTV = findViewById(R.id.amountTV);
@@ -347,7 +362,8 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         zapayCommissionTV = findViewById(R.id.zapayCommissionTV);
         afterCommissionTV = findViewById(R.id.afterCommissionTV);
 
-
+        afterCommissionTitleTV = findViewById(R.id.afterCommissionTitleTV);
+        afterCommissionLenderTitleTV = findViewById(R.id.afterCommissionLenderTitleTV);
     }
 
     private void initLendingView() {
@@ -381,6 +397,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 callAPIGetContactList(pageNo);
             }
         };
+
         contactRecycler.addOnScrollListener(scrollListener);
         pageNo = 0;
         callAPIGetContactList(pageNo);
@@ -391,9 +408,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         switch (v.getId()) {
             case R.id.nextButtonTV:
                 if (indicatorAdapter.getSelectedPos() < listIndicator.size() - 1) {
-                    //selectedPos = indicatorAdapter.getSelectedPos() + 1;
-                    //indicatorAdapter.setSelected(selectedPos);
-                    //setIndicatorView(selectedPos);
 
                     if (selectedPos == 0) {
                         if (wValidationLib.isValidAmount(lendAmountEdtAmountInputLayout, lendAmountEdtAmount, getString(R.string.important), getString(R.string.enter_amount), true)) {
@@ -505,10 +519,8 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         } else {
             dateSelect = true;
         }
-
         return dateSelect;
     }
-
 
     private void transactionRequestFunc() {
         //activity_status=0  //signup
@@ -542,7 +554,8 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     }
 
     private void generatePaybackData() {
-        paymentDate = DateFormat.dateFormatConvert11(wvDateLib.getCurrentDate());
+        //paymentDate = DateFormat.dateFormatConvert11(wvDateLib.getCurrentDate());
+        paymentDate = DateFormat.dateFormatConvert11(wvDateLib.incrementDateByOne());
         //Negotiation.....
         if (transactionModel != null && transactionModel.getPayDate() != null && transactionModel.getPayDate().length() > 0) {
             try {
@@ -787,7 +800,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
     private void setSelectedAmount() {
         lendTxtAmount.setText(String.valueOf(amount));
-
     }
 
     private void setIndicatorView(int value) {
@@ -825,17 +837,20 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             lendTxtHeader.setText(CommonMethods.capitalize(getString(R.string.terms)));
             lendTxtAmount.setTextColor(CommonMethods.getColorWrapper(this, R.color.navTextColor50Alpha));
             selectedTermsOption(isTermsOption);
+            afterAceptRequestNegitiateBackButtonManageFunc(value);
 
         } else if (value == 2) {
             lendViewPayment.setVisibility(View.VISIBLE);
             lendTxtHeader.setText(CommonMethods.capitalize(getString(R.string.no_of_payments)));
             lendTxtAmount.setTextColor(CommonMethods.getColorWrapper(this, R.color.navTextColor50Alpha));
             setPaymentAmount();
+            afterAceptRequestNegitiateBackButtonManageFunc(value);
         } else if (value == 3) {
             lendViewPayback.setVisibility(View.VISIBLE);
             lendTxtHeader.setText(getString(R.string.start_date));
             lendTxtAmount.setTextColor(CommonMethods.getColorWrapper(this, R.color.textColor));
             generatePaybackData();
+            afterAceptRequestNegitiateBackButtonManageFunc(value);
         } else if (value == 4) {
             if (isBorrow) {
                 lendTxtAmount.setVisibility(View.GONE);
@@ -856,15 +871,59 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                     nextButtonTV.setText(getString(R.string.submit));
                 }
             }
+            afterAceptRequestNegitiateBackButtonManageFunc(value);
         } else if (value == 5) {
             lendTxtAmount.setVisibility(View.GONE);
             lendViewContact.setVisibility(View.VISIBLE);
             lendTxtHeader.setText(CommonMethods.capitalize(getString(R.string.select_contact)));
             //setContactAdapter();
             nextButtonTV.setText(getString(R.string.submit));
+            afterAceptRequestNegitiateBackButtonManageFunc(value);
         }
     }
 
+    private void afterAceptRequestNegitiateBackButtonManageFunc(int value) {
+        if (value == 1) {
+            if (transactionModel != null && transactionModel.getStatus() != null) {
+                if (transactionModel.getStatus().equals("2") || transactionModel.getIs_negotiate_after_accept().equals("2")) {
+                    backButtonTV.setVisibility(View.GONE);
+                    lendShadowBack.setVisibility(View.INVISIBLE);
+                }
+            } else {
+                backButtonTV.setVisibility(View.VISIBLE);
+                lendShadowBack.setVisibility(View.VISIBLE);
+            }
+        } else if (value == 4) {
+            if (transactionModel != null && transactionModel.getStatus() != null) {
+                if (transactionModel.getStatus().equals("2") || transactionModel.getIs_negotiate_after_accept().equals("2")) {
+                    zapayCommissionTitleTV.setVisibility(View.INVISIBLE);
+                    zapayCommissionTV.setVisibility(View.INVISIBLE);
+                    afterCommissionTitleTV.setVisibility(View.INVISIBLE);
+                    afterCommissionTV.setVisibility(View.INVISIBLE);
+
+                    zapayCommissionTitleLenderTV.setVisibility(View.INVISIBLE);
+                    zapayCommissionLenderTV.setVisibility(View.INVISIBLE);
+                    afterCommissionLenderTitleTV.setVisibility(View.INVISIBLE);
+                    afterCommissionLenderTV.setVisibility(View.INVISIBLE);
+                }
+            } else {
+                zapayCommissionTitleTV.setVisibility(View.VISIBLE);
+                zapayCommissionTV.setVisibility(View.VISIBLE);
+                afterCommissionTitleTV.setVisibility(View.VISIBLE);
+                afterCommissionTV.setVisibility(View.VISIBLE);
+
+                zapayCommissionTitleLenderTV.setVisibility(View.VISIBLE);
+                zapayCommissionLenderTV.setVisibility(View.VISIBLE);
+                afterCommissionLenderTitleTV.setVisibility(View.VISIBLE);
+                afterCommissionLenderTV.setVisibility(View.VISIBLE);
+
+            }
+
+        } else {
+            backButtonTV.setVisibility(View.VISIBLE);
+            lendShadowBack.setVisibility(View.VISIBLE);
+        }
+    }
 
     private void selectedTermsOption(int isOption) {
         isTermsOption = isOption;
@@ -906,6 +965,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             lendTermsTxtOption.setText(getString(R.string.enter_discount));
             lendTermsTxtDiscount.setTextColor(CommonMethods.getColorWrapper(this, R.color.colorWhite));
             lendTermsTxtDiscount.setBackground(CommonMethods.getDrawableWrapper(this, R.drawable.dark_grey_bg_rounded));
+
         } else if (isOption == 3) {
             lendTermsTxtNone.setTypeface(typefaceMed);
             lendTermsTxtOption.setVisibility(View.GONE);
@@ -1121,6 +1181,17 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         } else {
             termValue = lendTermsEdtOption.getText().toString().trim();
         }
+
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.DEFAULT_FEE_TYPE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.DEFAULT_FEE_TYPE).toString().length() > 0) {
+            if (SharedPref.getPrefsHelper().getPref(Const.Var.DEFAULT_FEE_TYPE).toString().equals("flat")) {
+                defaultFeeAmount = Float.parseFloat(SharedPref.getPrefsHelper().getPref(Const.Var.DEFAULT_FEE_VALUE).toString());
+            } else if (SharedPref.getPrefsHelper().getPref(Const.Var.DEFAULT_FEE_TYPE).toString().equals("percent")) {
+                float defaultFee = Float.parseFloat(SharedPref.getPrefsHelper().getPref(Const.Var.DEFAULT_FEE_VALUE).toString());
+                float percentValue = (finalTotalPayBackAmount * defaultFee) / 100;
+                defaultFeeAmount = finalTotalPayBackAmount + percentValue;
+            }
+        }
+
         HashMap<String, Object> values = apiCalling.getHashMapObject(
                 "to_id", toId,
                 "amount", amount,
@@ -1133,8 +1204,9 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 "request_type", request_type,
                 "transaction_request_id", transactionId,
                 "admin_commission_from_lender", CommonMethods.setDigitAfterDecimalValue(lenderCommission, 2),
-                "admin_commission_from_borrower", CommonMethods.setDigitAfterDecimalValue(borrowerCommission, 2));
-        Log.e("post", "post data======" + values.toString());
+                "admin_commission_from_borrower", CommonMethods.setDigitAfterDecimalValue(borrowerCommission, 2),
+                "default_fee_amount", CommonMethods.setDigitAfterDecimalValue(defaultFeeAmount, 2));
+        //Log.e("post", "post data======" + values.toString());
 
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
@@ -1148,7 +1220,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             e.printStackTrace();
         }
     }
-
 
     private void callAPInegotiateRunningTransactionRequest() {
         isTermsOption = isTermsOption + 1;
@@ -1189,30 +1260,30 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         }
 
 
-        float childAmount=0;
-        float child_total_amount=0;
-        float childCommissionFromBorrower=0;
-       // if (isBorrow) {
-        if (transactionModel!=null&&transactionModel.getRequestBy()!=null&&transactionModel.getRequestBy().length()>0&&transactionModel.getRequestBy().equals("2")) {  //borrow mode
+        float childAmount = 0;
+        float child_total_amount = 0;
+        float childCommissionFromBorrower = 0;
+        // if (isBorrow) {
+        if (transactionModel != null && transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0 && transactionModel.getRequestBy().equals("2")) {  //borrow mode
             float newTotalAmount = 0;
-            if (finalTotalPayBackAmount>0){
-                 newTotalAmount = finalTotalPayBackAmount;
-            }else {
+            if (finalTotalPayBackAmount > 0) {
+                newTotalAmount = finalTotalPayBackAmount;
+            } else {
                 newTotalAmount = Float.parseFloat(transactionModel.getTotalAmount());
             }
             float previousTotalAmount = Float.parseFloat(transactionModel.getTotalAmount());
             float borrowerChargeValue = Float.parseFloat(SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_VALUE).toString());
 
             if (newTotalAmount > previousTotalAmount) {
-                 child_total_amount = newTotalAmount - previousTotalAmount;
-                 childCommissionFromBorrower = (child_total_amount * borrowerChargeValue) / 100;
-               // Toast.makeText(LendBorrowActivity.this, "Amount increased" + childCommissionFromBorrower, Toast.LENGTH_SHORT).show();
+                child_total_amount = newTotalAmount - previousTotalAmount;
+                childCommissionFromBorrower = (child_total_amount * borrowerChargeValue) / 100;
+                // Toast.makeText(LendBorrowActivity.this, "Amount increased" + childCommissionFromBorrower, Toast.LENGTH_SHORT).show();
             }
 
-            float newAmount=amount;
+            float newAmount = amount;
             float previousAmount = Float.parseFloat(transactionModel.getAmount());
             if (newAmount > previousAmount) {
-                 childAmount = newAmount - previousAmount;
+                childAmount = newAmount - previousAmount;
             }
         }
 
@@ -1231,7 +1302,9 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
                 "child_amount", childAmount,
                 "child_total_amount", child_total_amount,
-                "child_admin_commission_from_borrower", childCommissionFromBorrower);
+                "default_fee_amount", CommonMethods.setDigitAfterDecimalValue(defaultFeeAmount, 2));
+        //"child_admin_commission_from_borrower", childCommissionFromBorrower
+
         Log.e("post", "negotiateRunningTransactionRequest post data======" + values.toString());
         Log.e("post", "negotiateRunningTransactionRequest getRequestBy======" + transactionModel.getRequestBy());
 
@@ -1288,7 +1361,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                         showSimpleAlert(msg, "");
                     }
                 }
-
 
             } else if (from.equals(getResources().getString(R.string.api_transaction_request))) {
                 if (status == 200) {

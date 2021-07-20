@@ -3,6 +3,7 @@ package com.org.zapayapp.activity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -14,6 +15,7 @@ import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.org.zapayapp.R;
 import com.org.zapayapp.pdf_view.PdfFileDownloadAcyncTask;
+import com.org.zapayapp.webservices.APICalling;
 
 import java.io.InputStream;
 
@@ -46,7 +48,6 @@ public class PdfViewActivity extends BaseActivity implements View.OnClickListene
         backArrowImageView.setOnClickListener(this);
         backArrowImageView.setVisibility(View.GONE);
 
-
         pdfView = findViewById(R.id.pdfView);
         progressBar = findViewById(R.id.progressBar);
         closeTV = findViewById(R.id.closeTV);
@@ -67,8 +68,9 @@ public class PdfViewActivity extends BaseActivity implements View.OnClickListene
 
     private void inItAction() {
         if (myPdfUrl != null && myPdfUrl.length() > 0) {
-            new PdfFileDownloadAcyncTask(this, this).execute(myPdfUrl);
-
+             // new PdfFileDownloadAcyncTask(this, this).execute(myPdfUrl);
+            new PdfFileDownloadAcyncTask(this, this).execute(APICalling.getImageUrl(myPdfUrl));
+          //  Log.e("myPdfUrl","myPdfUrl,,,,,,aaaa...."+myPdfUrl);
         } else {
             progressBar.setVisibility(View.GONE);
         }

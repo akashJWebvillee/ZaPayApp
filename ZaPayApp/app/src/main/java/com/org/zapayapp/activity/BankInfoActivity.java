@@ -1,10 +1,8 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-
 import com.dd.ShadowLayout;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -16,7 +14,6 @@ import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.MySession;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
-
 import retrofit2.Call;
 
 public class BankInfoActivity extends BaseActivity implements View.OnClickListener, APICallback {
@@ -92,7 +89,6 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
         return false;
     }
 
-
     private void callAPIGetBankAccountDetail() {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
@@ -159,7 +155,20 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
 
     private void setData() {
         if (SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER).toString().length() > 0) {
-            accountNumberTV.setText(SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER, ""));
+          //  accountNumberTV.setText(SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER, ""));
+
+            String acNumber= SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER, "");
+            int acLength=SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER).toString().length();
+
+            if (acLength>3){
+             String lastFourDigit= acNumber.substring(acNumber.length() - 4);
+             String acNumberStr="";
+              for (int i=0;i<acNumber.length()-4;i++){
+                  acNumberStr=acNumberStr+"*";
+              }
+              accountNumberTV.setText(acNumberStr+lastFourDigit);
+
+          }
         }
         if (SharedPref.getPrefsHelper().getPref(Const.Var.ROUTING_NUMBER) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ROUTING_NUMBER).toString().length() > 0) {
             routingNumberTV.setText(SharedPref.getPrefsHelper().getPref(Const.Var.ROUTING_NUMBER, ""));
@@ -178,12 +187,8 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
         } else {
             addTV.setVisibility(View.VISIBLE);
             addShadowLayout.setVisibility(View.VISIBLE);
-            addShadowChange.setVisibility(View.VISIBLE);
+            addShadowChange.setVisibility(View.INVISIBLE);
         }
-
-
-
-
 
     }
 }

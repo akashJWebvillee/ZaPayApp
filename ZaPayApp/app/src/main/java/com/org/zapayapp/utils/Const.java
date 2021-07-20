@@ -1,5 +1,4 @@
 package com.org.zapayapp.utils;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.provider.Settings;
@@ -35,7 +34,6 @@ public class Const {
         String INCOME = "income";
         String SIGNATURE = "signature";
 
-
         //bankAccount detail....
         String BANK_ACCOUNT_ID = "bank_account_id";
         String ACCOUNT_NUMBER = "account_number";
@@ -54,6 +52,8 @@ public class Const {
         String LENDER_CHARGE_TYPE = "lender_charge_type";
         String DEFAULT_FEE_VALUE = "default_fee_value";
         String DEFAULT_FEE_TYPE = "default_fee_type";
+
+        String IsDEFAULTER = "is_defaulter";
     }
 
     public interface KEY {
@@ -70,11 +70,50 @@ public class Const {
 
     }
 
-    public static String getCurrency(){
-       String currency=SharedPref.getPrefsHelper().getPref(Var.CURRENCY,"$");
-       if (currency==null&&currency.length()==0){
-           currency="$";
-       }
-      return currency;
+    public static String getCurrency() {
+        String currency = SharedPref.getPrefsHelper().getPref(Var.CURRENCY, "$");
+        if (currency == null && currency.length() == 0) {
+            currency = "$";
+        }
+        return currency;
+    }
+
+
+    public static boolean isRequestByMe(String fromId) {
+        boolean flag = false;
+        if (fromId != null && fromId.length() > 0 && SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID) != null && SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString().length() > 0) {
+            if (fromId.equalsIgnoreCase(SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString())) {
+                flag = true;
+            } else {
+                flag = false;
+            }
+        }
+
+        return flag;
+    }
+
+
+    public static String isUserDefaulter() {
+        //is_defaulter==1 defaulter
+        //is_defaulter==0 not defaulter
+        //is_defaulter==2 Payment Initiated,
+
+     /*   boolean flag = false;
+        if (SharedPref.getPrefsHelper().getPref(Var.IsDEFAULTER) != null && SharedPref.getPrefsHelper().getPref(Var.IsDEFAULTER).toString().length() > 0) {
+            if (SharedPref.getPrefsHelper().getPref(Var.IsDEFAULTER).toString().equals("1")) {
+                flag = true;
+            } else {
+                flag = false;
+            }
+        }
+        return flag;*/
+
+        String IsDEFAULTER = "0";
+        if (SharedPref.getPrefsHelper().getPref(Var.IsDEFAULTER) != null && SharedPref.getPrefsHelper().getPref(Var.IsDEFAULTER).toString().length() > 0) {
+            IsDEFAULTER=SharedPref.getPrefsHelper().getPref(Var.IsDEFAULTER).toString();
+        }
+        return IsDEFAULTER;
     }
 }
+
+

@@ -1,19 +1,15 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.CheckBox;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import androidx.fragment.app.FragmentManager;
-
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
@@ -30,10 +26,8 @@ import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
-
 import java.io.InputStream;
 import java.util.HashMap;
-
 import retrofit2.Call;
 
 public class AcceptActivity extends BaseActivity implements APICallback, SimpleAlertFragment.AlertSimpleCallback, PdfFileDownloadAcyncTask.PdfResponseListener, OnPageChangeListener, OnLoadCompleteListener {
@@ -80,7 +74,7 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
             if (moveFrom != null && moveFrom.equalsIgnoreCase("ChangeDateRequestDialogActivity")) {
                 dateModel = gson.fromJson(intent.getStringExtra("status"), DateModel.class);
                 generateAmendmentPdf("2", dateModel.getNew_pay_date());//before accept request generate amendment
-            } else if (transactionModel1.getIs_negotiate_after_accept() != null && transactionModel1.getIs_negotiate_after_accept().length() > 0 && transactionModel1.getIs_negotiate_after_accept().equals("2")) { //
+            } else if (transactionModel1.getIs_negotiate_after_accept() != null && transactionModel1.getIs_negotiate_after_accept().length() > 0 && transactionModel1.getIs_negotiate_after_accept().equals("2")) {
                 generateAmendmentPdf("3", DateFormat.getCurrentDate());  // after accept request generate amendment
             } else {
                 status = intent.getStringExtra("status");
@@ -140,7 +134,6 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     private void generateAgreementPdf() {
@@ -240,7 +233,8 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
                 if (status == 200) {
                     JsonObject jsonObject = json.get("data").getAsJsonObject();
                     String pdf_url = jsonObject.get("pdf_url").getAsString();
-                    pdfUrl = APICalling.getImageUrl(pdf_url);
+                   // pdfUrl = APICalling.getImageUrl(pdf_url);
+                    pdfUrl = pdf_url;
                     loadPdfFile(APICalling.getImageUrl(pdf_url));
                 } else {
                     showSimpleAlert(msg, "");
@@ -250,7 +244,8 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
                 if (status == 200) {
                     JsonObject jsonObject = json.get("data").getAsJsonObject();
                     String pdf_url = jsonObject.get("pdf_url").getAsString();
-                    pdfUrl = APICalling.getImageUrl(pdf_url);
+                  //  pdfUrl = APICalling.getImageUrl(pdf_url);
+                    pdfUrl = pdf_url;
                     loadPdfFile(APICalling.getImageUrl(pdf_url));
                 } else {
                     showSimpleAlert(msg, "");

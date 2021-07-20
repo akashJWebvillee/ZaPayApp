@@ -1,5 +1,4 @@
 package com.org.zapayapp.activity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -54,7 +53,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     protected void onResume() {
         super.onResume();
         setCurrentScreen(MY_PROFILE);
-
         if (isDataUpdate){
             callAPIGetUserDetail();
         }
@@ -172,7 +170,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-
     /**
      * request permission result to show if runtime permission is accepted
      *
@@ -199,7 +196,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -311,7 +307,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     showSimpleAlert(msg, "");
                 } else if (status == 401) {
                     showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
-
                 } else {
                     showSimpleAlert(msg, "");
                 }
@@ -324,7 +319,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     }
                 } else if (status == 401) {
                     showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
-
                 } else {
                     showSimpleAlert(msg, "");
                 }

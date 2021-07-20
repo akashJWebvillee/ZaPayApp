@@ -31,13 +31,14 @@
             android:layout_marginEnd="27dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/rectanguler_button_bg"
-            android:backgroundTint="@color/colorPrimaryDark"
+            android:backgroundTint="@color/greenColor"
             android:fontFamily="@font/gotha_probol"
             android:gravity="center"
             android:text="@string/total_pay"
             android:textColor="@color/colorWhite"
             android:textSize="16sp"
-            android:layout_alignParentBottom="true"/>
+            android:layout_alignParentBottom="true"
+            />
 
     </RelativeLayout>
 </RelativeLayout>
