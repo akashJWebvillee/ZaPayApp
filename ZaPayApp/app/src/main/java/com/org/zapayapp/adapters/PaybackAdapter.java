@@ -1,5 +1,4 @@
 package com.org.zapayapp.adapters;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

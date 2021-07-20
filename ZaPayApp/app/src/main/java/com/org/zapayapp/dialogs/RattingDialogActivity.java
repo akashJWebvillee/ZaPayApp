@@ -1,16 +1,13 @@
 package com.org.zapayapp.dialogs;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
-
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -21,13 +18,10 @@ import com.org.zapayapp.uihelpers.CustomRatingBar;
 import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.SharedPref;
-import com.org.zapayapp.utils.WValidationLib;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
 import com.org.zapayapp.webservices.RestAPI;
-
 import java.util.HashMap;
-
 import retrofit2.Call;
 
 public class RattingDialogActivity extends AppCompatActivity implements APICallback , SimpleAlertFragment.AlertSimpleCallback {

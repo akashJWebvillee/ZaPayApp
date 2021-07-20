@@ -1,5 +1,4 @@
 package com.org.zapayapp.activity;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,6 +18,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
@@ -397,6 +397,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 callAPIGetContactList(pageNo);
             }
         };
+
         contactRecycler.addOnScrollListener(scrollListener);
         pageNo = 0;
         callAPIGetContactList(pageNo);
@@ -964,6 +965,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             lendTermsTxtOption.setText(getString(R.string.enter_discount));
             lendTermsTxtDiscount.setTextColor(CommonMethods.getColorWrapper(this, R.color.colorWhite));
             lendTermsTxtDiscount.setBackground(CommonMethods.getDrawableWrapper(this, R.drawable.dark_grey_bg_rounded));
+
         } else if (isOption == 3) {
             lendTermsTxtNone.setTypeface(typefaceMed);
             lendTermsTxtOption.setVisibility(View.GONE);

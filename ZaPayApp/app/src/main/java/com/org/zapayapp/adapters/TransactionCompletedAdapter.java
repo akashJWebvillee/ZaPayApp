@@ -129,7 +129,6 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
                 e.printStackTrace();
             }
         }
-
         if (transactionModel.getNoOfPayment() != null && transactionModel.getNoOfPayment().length() > 0) {
             holder.noOfPaymentTV.setText(transactionModel.getNoOfPayment());
         }
@@ -158,8 +157,6 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
 
                 if (!transactionModel.getStatus().equalsIgnoreCase("2")) {
                     if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {

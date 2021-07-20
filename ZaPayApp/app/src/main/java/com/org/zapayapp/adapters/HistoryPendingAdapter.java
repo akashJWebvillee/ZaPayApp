@@ -41,7 +41,6 @@ public class HistoryPendingAdapter extends RecyclerView.Adapter<HistoryPendingAd
         private ImageView dateUpdateIconIV;
         private TextView acceptedReNegotiateTV;
 
-
         public MyHolder(@NonNull View itemView) {
             super(itemView);
             nameTV = itemView.findViewById(R.id.nameTV);
