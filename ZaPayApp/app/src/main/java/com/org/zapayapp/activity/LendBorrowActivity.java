@@ -1,4 +1,5 @@
 package com.org.zapayapp.activity;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -37,6 +38,7 @@ import com.org.zapayapp.adapters.IndicatorAdapter;
 import com.org.zapayapp.adapters.PaybackAdapter;
 import com.org.zapayapp.listener.ContactListener;
 import com.org.zapayapp.model.ContactModel;
+import com.org.zapayapp.model.DateModel;
 import com.org.zapayapp.model.PabackModel;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.uihelpers.CustomTextInputLayout;
@@ -249,7 +251,8 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
         //nigotiation
         if (transactionModel != null && transactionModel.getAmount() != null && transactionModel.getAmount().length() > 0) {
-            lendAmountEdtAmount.setText(transactionModel.getAmount());
+            //lendAmountEdtAmount.setText(transactionModel.getAmount());
+            lendAmountEdtAmount.setText(transactionModel.getDue_amount());
         }
     }
 
@@ -323,8 +326,27 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         });
 
         if (transactionModel != null && transactionModel.getNoOfPayment() != null && transactionModel.getNoOfPayment().length() > 0) {
-            lendPaymentEdtNo.setText(transactionModel.getNoOfPayment());
+            // lendPaymentEdtNo.setText(transactionModel.getNoOfPayment());
+            if (transactionModel.getStatus().equals("2")) {
+                int remainingEmiCount = getRemainingEmiCount(transactionModel.getPayDatesList());
+                isNoPayment=remainingEmiCount;
+                lendPaymentEdtNo.setText("" + remainingEmiCount);
+            } else {
+                lendPaymentEdtNo.setText(transactionModel.getNoOfPayment());
+            }
         }
+    }
+
+    private int getRemainingEmiCount(List<DateModel> dateModelList) {
+        int count = 0;
+        for (int i = 0; i < dateModelList.size(); i++) {
+            if (dateModelList.get(i).getDefault_payment_pay_done() != null && dateModelList.get(i).getDefault_payment_pay_done().length() > 0) {
+                if (dateModelList.get(i).getDefault_payment_pay_done().equals("0")) {
+                    count = count + 1;
+                }
+            }
+        }
+        return count;
     }
 
     private void initPaybackView() {
@@ -556,8 +578,9 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     private void generatePaybackData() {
         //paymentDate = DateFormat.dateFormatConvert11(wvDateLib.getCurrentDate());
         paymentDate = DateFormat.dateFormatConvert11(wvDateLib.incrementDateByOne());
+
         //Negotiation.....
-        if (transactionModel != null && transactionModel.getPayDate() != null && transactionModel.getPayDate().length() > 0) {
+       /* if (transactionModel != null && transactionModel.getPayDate() != null && transactionModel.getPayDate().length() > 0) {
             try {
                 if (transactionModel.getNoOfPayment() != null && transactionModel.getNoOfPayment().equalsIgnoreCase(String.valueOf(isNoPayment))) {
                     paybackList.clear();
@@ -605,6 +628,54 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 }
             }
             setPaybackAdapter();
+        }*/
+
+        //Negotiation.....
+        if (transactionModel != null && transactionModel.getPayDatesList() != null && transactionModel.getPayDatesList().size() > 0) {
+            try {
+                paybackList.clear();
+                List<DateModel> payDateList = transactionModel.getPayDatesList();
+                for (int i = 0; i < payDateList.size(); i++) {
+                    if (payDateList.get(i).getDefault_payment_pay_done().equals("0")) {
+                        paybackList.add(new PabackModel(payDateList.get(i).getPayDate(), true, true));
+                    }
+                }
+                try {
+                    if (transactionModel != null && transactionModel.getPayDate() != null && transactionModel.getPayDate().length() > 0) {
+                        try {
+                            //lendTxtAmount.setText(DateFormat.getDateFromEpoch(paybackList.get(0).getPayDate()));
+                            lendTxtAmount.setText(DateFormat.dateFormatConvert(paybackList.get(0).getPayDate()));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        lendTxtAmount.setText(DateFormat.dateFormatConvert(paybackList.get(0).getPayDate()));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if (paybackList.size() != isNoPayment) {
+                    paybackList.clear();
+                    lendTxtAmount.setText(paymentDate);
+                    for (int i = 0; i < isNoPayment; i++) {
+                        paybackList.add(new PabackModel("", false, false));
+                    }
+                }
+                setPaybackAdapter();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            if (paybackList.size() != isNoPayment) {
+                paybackList.clear();
+                lendTxtAmount.setText(paymentDate);
+                for (int i = 0; i < isNoPayment; i++) {
+                    paybackList.add(new PabackModel("", false, false));
+                }
+            }
+            setPaybackAdapter();
         }
     }
 
@@ -623,7 +694,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 newFragment1.setArguments(args1);
                 newFragment1.show(getSupportFragmentManager(), getString(R.string.date_picker));
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }

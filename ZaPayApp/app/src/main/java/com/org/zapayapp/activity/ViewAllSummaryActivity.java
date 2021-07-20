@@ -761,7 +761,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                     acceptTV.setVisibility(View.GONE);
                     declineTV.setVisibility(View.GONE);
                 } else {
-                    if (transactionModel.getIs_negotiate_after_accept().equals("2")) {
+                    if (transactionModel.getIs_negotiate_after_accept().equals("1")) {
                         negotiateTV.setVisibility(View.GONE);//re-negotiation apply only once
                     } else {
                         negotiateTV.setVisibility(View.VISIBLE);
@@ -804,7 +804,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                     acceptTV.setVisibility(View.GONE);
                     declineTV.setVisibility(View.GONE);
                 } else {
-                    if (transactionModel.getIs_negotiate_after_accept().equals("2")) {
+                    if (transactionModel.getIs_negotiate_after_accept().equals("1")) {
                         negotiateTV.setVisibility(View.GONE);
                     } else {
                         negotiateTV.setVisibility(View.VISIBLE);
@@ -815,7 +815,6 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                     declineTV.setVisibility(View.GONE);
                 }
             }
-
         } else {
             negotiateTV.setVisibility(View.GONE);
             acceptTV.setVisibility(View.GONE);

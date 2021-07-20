@@ -337,6 +337,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
 
     public void onMsgSentReceived(JSONObject jsonObject, boolean isReceive) {
         super.onMsgSentReceived(jsonObject,isReceive);
+        Log.e("jsonObject","jsonObject chat==="+jsonObject);
         try {
         if (!isReceive) {
             messageEditText.setText("");

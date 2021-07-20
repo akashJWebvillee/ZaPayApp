@@ -143,6 +143,10 @@ public class TransactionModel implements Serializable{
     @Expose
     public String rating_by_user;
 
+    @SerializedName("due_amount")
+    @Expose
+    public String due_amount;
+
 
     public String getIs_already_rated() {
         return is_already_rated;
@@ -299,5 +303,9 @@ public class TransactionModel implements Serializable{
 
     public String getCancel_by_profile_image() {
         return cancel_by_profile_image;
+    }
+
+    public String getDue_amount() {
+        return due_amount;
     }
 }
