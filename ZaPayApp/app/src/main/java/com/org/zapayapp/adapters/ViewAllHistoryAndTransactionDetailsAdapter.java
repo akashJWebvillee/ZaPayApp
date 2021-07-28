@@ -1,17 +1,14 @@
 package com.org.zapayapp.adapters;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.gson.Gson;
 import com.org.zapayapp.R;
 import com.org.zapayapp.activity.PdfViewActivity;
@@ -166,7 +163,6 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
             commission_charges_detail.replace("\\", "/");
             CommissionModel commissionModel = gson.fromJson(commission_charges_detail, CommissionModel.class);
 
-
             if (context.getString(R.string.transaction).equalsIgnoreCase(moveFrom)) {
                 if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
                     if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
@@ -178,6 +174,8 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
                         holder.commissionValueTV.setText(Const.getCurrency() + transactionModel.getAdmin_commission_from_borrower());
                     }
                 }
+                holder.defaultFeeAmountTV.setText(Const.getCurrency() + commissionModel.getDefaultFeeValue());
+
             } else if (context.getString(R.string.history).equalsIgnoreCase(moveFrom)) {
                 if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
                     if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
@@ -189,13 +187,14 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
                         holder.commissionValueTV.setText(Const.getCurrency() + transactionModel.getAdmin_commission_from_borrower());
                     }
                 }
+                holder.defaultFeeAmountTV.setText(Const.getCurrency() + commissionModel.getDefaultFeeValue());
+
             } else if (context.getString(R.string.default_transaction).equalsIgnoreCase(moveFrom)) {
                 if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
                     holder.commissionTitleTV.setText(context.getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
                     holder.commissionValueTV.setText(Const.getCurrency() + transactionModel.getAdmin_commission_from_borrower());
                 }
                 holder.defaultFeeAmountTV.setText(Const.getCurrency() + commissionModel.getDefaultFeeValue());
-
             }
         }
 
@@ -205,7 +204,7 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
                 activity.setTotalPayData11(payDatesList, transactionModel);
                 holder.defaultFeeLL.setVisibility(View.VISIBLE);
             } else {
-                holder.defaultFeeLL.setVisibility(View.INVISIBLE);
+                holder.defaultFeeLL.setVisibility(View.VISIBLE);
             }
             setAdapterFunc(holder.paybackDateRecycler, payDatesList, transactionModel);
         }
@@ -220,7 +219,7 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
             if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                 holder.viewAllNameType.setText(context.getString(R.string.lender));
             } else {
-                holder.viewAllNameType.setText(context.getString(R.string.borrower));
+                holdger.viewAllNameType.setText(context.getString(R.string.borrower));
             }
         }*/
 

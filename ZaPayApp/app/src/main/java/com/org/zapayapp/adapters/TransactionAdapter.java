@@ -86,7 +86,6 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         }
 
 
-
         if (transactionModel.getPayDate() != null && transactionModel.getPayDate().length() > 0) {
             String pay_date = transactionModel.getPayDate();
             pay_date = pay_date.replaceAll("\\\\", "");
@@ -131,6 +130,23 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         }
 
 
+        //this manage after accept negotiate()
+       /* if (!transactionModel.getIs_negotiate_after_accept().equals("0")){
+            if (!Const.isRequestByMe(transactionModel.getFromId())) {
+                if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
+                    holder.borrowModeTitleTV.setText(context.getString(R.string.borrow_mode));
+                } else if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+                    holder.borrowModeTitleTV.setText(context.getString(R.string.lend_mode));
+                }
+            } else if (Const.isRequestByMe(transactionModel.getFromId())) {
+                if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
+                    holder.borrowModeTitleTV.setText(context.getString(R.string.lend_mode));
+                } else if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+                    holder.borrowModeTitleTV.setText(context.getString(R.string.borrow_mode));
+                }
+            }
+        }*/
+
         if (transactionModel.getTermsType().equalsIgnoreCase("1")) {
             holder.termTypeTV.setText(context.getString(R.string.percent));
         } else if (transactionModel.getTermsType().equalsIgnoreCase("2")) {
@@ -141,8 +157,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             holder.termTypeTV.setText(context.getString(R.string.none));
         }
 
-
-        if (!Const.isRequestByMe(transactionModel.getFromId())){
+        if (!Const.isRequestByMe(transactionModel.getFromId())) {
             if (transactionModel.getStatus() != null && transactionModel.getStatus().length() > 0 && transactionModel.getStatus().equalsIgnoreCase("2")) { //accepted
                 if (transactionModel.getPay_date_update_status_is_pending() != null && transactionModel.getPay_date_update_status_is_pending().length() > 0 && transactionModel.getPay_date_update_status_is_pending().equalsIgnoreCase("1")) {
                     if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().equalsIgnoreCase("2")) {
@@ -156,7 +171,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             } else {
                 holder.dateUpdateIconIV.setVisibility(View.GONE);
             }
-        }else if (Const.isRequestByMe(transactionModel.getFromId())){
+        } else if (Const.isRequestByMe(transactionModel.getFromId())) {
             if (transactionModel.getStatus() != null && transactionModel.getStatus().length() > 0 && transactionModel.getStatus().equalsIgnoreCase("2")) { //accepted
                 if (transactionModel.getPay_date_update_status_is_pending() != null && transactionModel.getPay_date_update_status_is_pending().length() > 0 && transactionModel.getPay_date_update_status_is_pending().equalsIgnoreCase("1")) {
                     if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().equalsIgnoreCase("1")) {
@@ -190,14 +205,14 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 */
 
 
-        if (transactionModel.getStatus()!=null&&transactionModel.getStatus().length()>0&&transactionModel.getUpdatedBy()!=null&&transactionModel.getUpdatedBy().length()>0){
-            if (transactionModel.getStatus().equals("1")&&transactionModel.getIs_negotiate_after_accept().equals("0")){
+        if (transactionModel.getStatus() != null && transactionModel.getStatus().length() > 0 && transactionModel.getUpdatedBy() != null && transactionModel.getUpdatedBy().length() > 0) {
+            if (transactionModel.getStatus().equals("1") && transactionModel.getIs_negotiate_after_accept().equals("0")) {
                 holder.acceptedReNegotiateTV.setVisibility(View.VISIBLE);
                 holder.acceptedReNegotiateTV.setText(context.getString(R.string.negotiate));
-            }else if (transactionModel.getStatus().equals("1")&&transactionModel.getIs_negotiate_after_accept().equals("2")){
+            } else if (transactionModel.getStatus().equals("1") && transactionModel.getIs_negotiate_after_accept().equals("2")) {
                 holder.acceptedReNegotiateTV.setVisibility(View.VISIBLE);
                 holder.acceptedReNegotiateTV.setText(context.getString(R.string.accepted_renegotiate));
-            }else {
+            } else {
                 holder.acceptedReNegotiateTV.setVisibility(View.GONE);
             }
         }
@@ -205,7 +220,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!Const.isRequestByMe(transactionModel.getFromId())){
+                if (!Const.isRequestByMe(transactionModel.getFromId())) {
                     if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                         Intent intent = new Intent(context, BorrowSummaryActivity.class);
                         intent.putExtra("moveFrom", context.getString(R.string.transaction));
@@ -223,7 +238,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                         context.startActivity(intent);
                     }
 
-                }else if (Const.isRequestByMe(transactionModel.getFromId())){
+                } else if (Const.isRequestByMe(transactionModel.getFromId())) {
 
                     if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                         Intent intent = new Intent(context, LendingSummaryActivity.class);
@@ -241,8 +256,6 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                         context.startActivity(intent);
                     }
                 }
-
-
             }
         });
     }

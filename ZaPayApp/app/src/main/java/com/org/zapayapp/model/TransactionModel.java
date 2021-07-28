@@ -147,6 +147,19 @@ public class TransactionModel implements Serializable{
     @Expose
     public String due_amount;
 
+    @SerializedName("child_request_is_accepted")
+    @Expose
+    public String child_request_is_accepted;
+    @SerializedName("child_amount")
+    @Expose
+    public String child_amount;
+    @SerializedName("child_total_amount")
+    @Expose
+    public String child_total_amount;
+    @SerializedName("child_admin_commission_from_borrower")
+    @Expose
+    public String child_admin_commission_from_borrower;
+
 
     public String getIs_already_rated() {
         return is_already_rated;
@@ -307,5 +320,21 @@ public class TransactionModel implements Serializable{
 
     public String getDue_amount() {
         return due_amount;
+    }
+
+    public String getChild_request_is_accepted() {
+        return child_request_is_accepted;
+    }
+
+    public String getChild_amount() {
+        return child_amount;
+    }
+
+    public String getChild_total_amount() {
+        return child_total_amount;
+    }
+
+    public String getChild_admin_commission_from_borrower() {
+        return child_admin_commission_from_borrower;
     }
 }

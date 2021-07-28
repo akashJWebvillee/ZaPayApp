@@ -147,8 +147,8 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 acceptTV.setVisibility(View.GONE);
                 declineTV.setVisibility(View.GONE);
             } else {
-                if (transactionModel.getIs_negotiate_after_accept().equals("2")) {
-                    negotiateTV.setVisibility(View.GONE);
+                if (transactionModel.getIs_negotiate_after_accept().equals("1")) {
+                    negotiateTV.setVisibility(View.GONE);//re-negotiation apply only once
                 } else {
                     negotiateTV.setVisibility(View.VISIBLE);
                     negotiateTV.setText(R.string.accepted_renegotiate);
@@ -165,7 +165,7 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
     }
 
     private void setTransactionButtonVisibleFunc(String status) {
-        if (status.equalsIgnoreCase("0")) {   //0==pending
+        if (status.equalsIgnoreCase("0")) { //0==pending
             negotiateTV.setVisibility(View.VISIBLE);
             acceptTV.setVisibility(View.VISIBLE);
             declineTV.setVisibility(View.VISIBLE);
@@ -187,12 +187,13 @@ public class LendingSummaryActivity extends BaseActivity implements APICallback,
                 acceptTV.setVisibility(View.GONE);
                 declineTV.setVisibility(View.GONE);
             } else {
-                if (transactionModel.getIs_negotiate_after_accept().equals("2")) {
-                    negotiateTV.setVisibility(View.GONE);
+                if (transactionModel.getIs_negotiate_after_accept().equals("1")) {
+                    negotiateTV.setVisibility(View.GONE);//re-negotiation apply only once
                 } else {
                     negotiateTV.setVisibility(View.VISIBLE);
                     negotiateTV.setText(R.string.accepted_renegotiate);
                 }
+
                 // negotiateTV.setVisibility(View.GONE);  //this is Gone for temporary (this manage after accept user can negotiate)
                 acceptTV.setVisibility(View.GONE);
                 declineTV.setVisibility(View.GONE);

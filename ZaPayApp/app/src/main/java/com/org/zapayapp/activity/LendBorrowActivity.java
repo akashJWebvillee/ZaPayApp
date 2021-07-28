@@ -1,5 +1,4 @@
 package com.org.zapayapp.activity;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,15 +18,12 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.dd.ShadowLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonElement;
@@ -329,7 +325,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             // lendPaymentEdtNo.setText(transactionModel.getNoOfPayment());
             if (transactionModel.getStatus().equals("2")) {
                 int remainingEmiCount = getRemainingEmiCount(transactionModel.getPayDatesList());
-                isNoPayment=remainingEmiCount;
+                isNoPayment = remainingEmiCount;
                 lendPaymentEdtNo.setText("" + remainingEmiCount);
             } else {
                 lendPaymentEdtNo.setText(transactionModel.getNoOfPayment());
@@ -562,7 +558,9 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 if (transactionModel != null && transactionModel.getId() != null && transactionModel.getId().length() > 0) {
                     if (transactionModel.getStatus() != null && transactionModel.getStatus().equals("2") || transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().equals("2")) {  // is_negotiate_after_accept =2 after negotion
                         callAPInegotiateRunningTransactionRequest(); //negotiate after accept request
-                    } else {
+                    } else if (transactionModel.getStatus() != null && transactionModel.getStatus().equals("1") && transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().equals("2")){
+                        callAPInegotiateRunningTransactionRequest(); //negotiate after accept request
+                    }else {
                         callAPITransactionRequest();  //negotiate before accept request
                     }
                 } else {
@@ -1177,7 +1175,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 zapayCommissionTitleLenderTV.setText(getString(R.string.zapay_commission));
             }
         }
-
     }
 
     @Override
@@ -1306,6 +1303,17 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 newTransactionRequestId = "";
                 request_type = "0";
             } else if (!transactionModel.getParent_id().equals("0")) {
+                parentTransactionRequestId = transactionModel.getParent_id();
+                newTransactionRequestId = transactionModel.getId();
+                request_type = "1";
+            }
+           //this is not confirm condition
+           // if (!transactionModel.getParent_id().equals("0") && transactionModel.getChild_request_is_accepted().equals("2")) {
+            if (!transactionModel.getParent_id().equals("0")&&transactionModel.getStatus().equals("2") && transactionModel.getIs_negotiate_after_accept().equals("2")) {
+                parentTransactionRequestId = transactionModel.getParent_id();
+                newTransactionRequestId = transactionModel.getId();
+                request_type = "0";
+            }else if (!transactionModel.getParent_id().equals("0")&&transactionModel.getStatus().equals("1") && transactionModel.getIs_negotiate_after_accept().equals("2")){
                 parentTransactionRequestId = transactionModel.getParent_id();
                 newTransactionRequestId = transactionModel.getId();
                 request_type = "1";

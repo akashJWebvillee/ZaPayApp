@@ -1,20 +1,16 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -32,18 +28,15 @@ import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.DatePickerFragmentDialogue;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
-
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
-
 import retrofit2.Call;
 
 public class ViewAllSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener, DatePickerFragmentDialogue.DatePickerCallback {
@@ -131,7 +124,6 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         chatIV.setOnClickListener(this);
         agreementLL.setOnClickListener(this);
         allTransactionDetailTV.setOnClickListener(this);
-
     }
 
     private void getIntentValues() {
@@ -423,10 +415,8 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         } else {
             if (transactionModel.getSender_average_rating() != null && transactionModel.getSender_average_rating().length() > 0) {
                 viewRatingBar.setScore(Float.parseFloat(transactionModel.getSender_average_rating()));
-
             }
         }
-
 
         if (transactionModel.getTermsType() != null && transactionModel.getTermsType().length() > 0 && transactionModel.getTermsValue() != null && transactionModel.getTermsValue().length() > 0) {
             String terms_type = transactionModel.getTermsType();
@@ -442,14 +432,13 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 terms_value = terms_value + " " + getString(R.string.discount);
                 termTV.setText(Const.getCurrency() + terms_value);
             } else if (terms_type.equalsIgnoreCase("4")) {
-                // terms_value = terms_value + " " + getString(R.string.none);
+                //terms_value = terms_value + " " + getString(R.string.none);
                 termTV.setText(getString(R.string.none));
             }
         }
 
         if (transactionModel.getUpdatedBy() != null && transactionModel.getUpdatedBy().length() > 0
                 && transactionModel.getStatus() != null && transactionModel.getStatus().length() > 0) {
-
             updated_by = transactionModel.getUpdatedBy();
             status = transactionModel.getStatus();
             setButtonVisibility(forWhat);
@@ -481,7 +470,6 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                     }
                 }
             */
-
 
             if (getString(R.string.transaction).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
                 if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
@@ -540,7 +528,6 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                     break;
                 }
             }
-
             setPaybackAdapter();
         }
 
@@ -569,7 +556,6 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                     titleTV.setText(getString(R.string.lending_summary));
                     viewAllNameType.setText(getString(R.string.lender));
                     totalPlayReceiveTV.setText(getString(R.string.total_to_receive_back));
-
                 }
                 if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                     titleTV.setText(getString(R.string.borrow_summary));
@@ -673,7 +659,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
             args1.putString("DATE", dateModel.getPayDate());
             newFragment1.setArguments(args1);
             newFragment1.show(getSupportFragmentManager(), getString(R.string.date_picker));
-            // }
+            //}
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -683,7 +669,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
     @Override
     public void datePickerCallback(String selectedDate, int year, int month, int day, String
             from) throws ParseException {
-        String formattedDate = year + "-" + month + "-" + day;
+         String formattedDate = year + "-" + month + "-" + day;
         if (dateModel != null) {
             callAPIUpdatePayDate(formattedDate);
         }
@@ -718,7 +704,6 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 setTransactionButtonVisibleFunc(status);
             }
 
-
             // } else if (forWhat.equalsIgnoreCase(getString(R.string.history))) {
         } else if (Const.isRequestByMe(transactionModel.getFromId())) {
             if (status != null && status.equalsIgnoreCase("0")) { //PENDING
@@ -750,7 +735,6 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 acceptTV.setVisibility(View.VISIBLE);
                 declineTV.setVisibility(View.VISIBLE);
             }
-
             declineTV.setVisibility(View.VISIBLE);
 
         } else if (status.equalsIgnoreCase("2")) {
