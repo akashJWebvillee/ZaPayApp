@@ -192,10 +192,4 @@ public class DatePickerFragmentDialogue extends DialogFragment implements DatePi
         void datePickerCallback(String selectedDate, int year, int month, int day, String from) throws ParseException;
     }
 
-
-
-
-
-
-
 }

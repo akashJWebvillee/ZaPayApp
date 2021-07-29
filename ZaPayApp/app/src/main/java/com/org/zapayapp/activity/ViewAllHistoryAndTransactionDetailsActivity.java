@@ -163,7 +163,6 @@ public class ViewAllHistoryAndTransactionDetailsActivity extends BaseActivity im
         HashMap<String, Object> values = apiCalling.getHashMapObject(
                 "transaction_request_id", transaction_id,
                 "pay_date_ids", payDateIds);
-
         try {
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_pay_default_amount), values);
@@ -229,7 +228,6 @@ public class ViewAllHistoryAndTransactionDetailsActivity extends BaseActivity im
             }else if (from.equals(getResources().getString(R.string.api_pay_default_amount))){
                 if (status == 200) {
                     finish();
-
                 } else if (status == 401) {
                     showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
                 } else {

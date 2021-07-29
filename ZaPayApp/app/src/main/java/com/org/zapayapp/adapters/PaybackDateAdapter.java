@@ -91,7 +91,6 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
             holder.amendmentLL.setVisibility(View.GONE);
         }
 
-
         if (moveFrom.equalsIgnoreCase(context.getString(R.string.history))) {
             if (requestBy.equalsIgnoreCase("2") && transactionModel.getStatus().equals("2")) {
 
@@ -125,10 +124,7 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
                             }else {
                                 holder.editDateRL.setVisibility(View.GONE);
                             }
-
                         }
-
-
                     } else if (dateModelArrayList.get(position).getStatus().equals("processed")) {
                         holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray));
                         holder.editDateIV.setImageResource(R.drawable.check);
@@ -143,8 +139,6 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
                         holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray));
                     }
                 }
-
-
             } else if (requestBy.equalsIgnoreCase("1")) {
                 holder.editDateRL.setVisibility(View.GONE);
             }
@@ -183,9 +177,7 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
                             }else {
                                 holder.editDateRL.setVisibility(View.GONE);
                             }
-
                         }
-
 
                     } else if (dateModelArrayList.get(position).getStatus().equals("processed")) {
                         holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray));
@@ -201,14 +193,10 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
                         holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray));
                     }
                 }
-
             } else if (requestBy.equalsIgnoreCase("2")) {
                 holder.editDateRL.setVisibility(View.GONE);
-
             }
-
         }
-
 
         holder.editDateIV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -217,7 +205,7 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
                     if (dateModelArrayList.get(position).getNew_pay_date_status() != null && dateModelArrayList.get(position).getNew_pay_date_status().length() > 0) {
                         if (dateModelArrayList.get(position).getStatus().equals("remaining")){
                             if (dateModelArrayList.get(position).getNew_pay_date_status().equals("0")) {
-                                ((ViewAllSummaryActivity) context).selectPaybackDate(position, dateModelArrayList.get(position));
+                                ((ViewAllSummaryActivity)context).selectPaybackDate(position, dateModelArrayList.get(position));
 
                             } else if (dateModelArrayList.get(position).getNew_pay_date_status().equals("1")) {
                                 if (dateModelArrayList.get(position).getIs_extended().equals("0")) {

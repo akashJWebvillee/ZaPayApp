@@ -20,11 +20,9 @@ import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.DateFormat;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.List;
 
 public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Adapter<ViewAllHistoryAndTransactionDetailsAdapter.MyHolder> {
@@ -115,7 +113,6 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
             }
         }
 */
-
 
         if (transactionModel.getAmount() != null && transactionModel.getAmount().length() > 0) {
             holder.amountTV.setText(Const.getCurrency() + transactionModel.getAmount());

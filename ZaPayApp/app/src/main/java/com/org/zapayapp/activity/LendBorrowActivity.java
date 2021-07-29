@@ -245,7 +245,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             }
         });
 
-        //nigotiation
+        //negotiation
         if (transactionModel != null && transactionModel.getAmount() != null && transactionModel.getAmount().length() > 0) {
             //lendAmountEdtAmount.setText(transactionModel.getAmount());
             lendAmountEdtAmount.setText(transactionModel.getDue_amount());
@@ -511,11 +511,9 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 showSimpleAlert(getString(R.string.select_date), "");
                 break;
             }
-
         }
         return dateSelect;
     }
-
 
     private boolean isPreviousDateSelected(int position) {
         boolean dateSelect = false;
@@ -545,7 +543,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         //activity_status=1  //updated profile
         //activity_status=2   //added bank account
         //activity_status=3   //verifyed bank account(ready to send request)
-
 
         if (!toId.equalsIgnoreCase("")) {
             if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("1")) {

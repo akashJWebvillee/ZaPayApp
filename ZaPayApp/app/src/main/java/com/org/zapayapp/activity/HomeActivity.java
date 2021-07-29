@@ -279,7 +279,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     public void onBackPressed() {
         // super.onBackPressed();
         showForceUpdate(getString(R.string.do_you_want_to_close_the_application), getString(R.string.do_you_want_to_close_the_application), false, getString(R.string.cancel), false);
-
     }
 
     private void getNotificationIntent() {
@@ -348,13 +347,17 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                         intent.putExtra("moveFrom", forWhat);
                         intent.putExtra("status", "2");
                         intent.putExtra("transactionId", transaction_request_id);
+                    }else if (notification_type.equalsIgnoreCase("TRANSACTION_INITIATED_STATUS_UPDATE")) { //this change abhi kia h
+                        intent.putExtra("moveFrom", forWhat);
+                        intent.putExtra("status", "2");
+                        intent.putExtra("transactionId", transaction_request_id);
                     }
+
                     //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     Objects.requireNonNull(intent).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
                 }
             }
-
         }
     }
 }
