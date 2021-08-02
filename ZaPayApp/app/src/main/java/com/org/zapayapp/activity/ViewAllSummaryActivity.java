@@ -276,7 +276,6 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         }
     }
 
-
     public void callAPIPayDateRequestStatusUpdateForCancel(DateModel dateModel, String requestBy) {
         //new_pay_date_status- 0=default, 1=pending, 2=accepted, 3=decline
         //cancel_from-  1=lender, 2=borrower

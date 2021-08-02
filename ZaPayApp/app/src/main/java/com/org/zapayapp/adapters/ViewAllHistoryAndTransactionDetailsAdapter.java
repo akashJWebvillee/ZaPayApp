@@ -113,7 +113,6 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
             }
         }
 */
-
         if (transactionModel.getAmount() != null && transactionModel.getAmount().length() > 0) {
             holder.amountTV.setText(Const.getCurrency() + transactionModel.getAmount());
         }
@@ -220,7 +219,6 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
             }
         }*/
 
-
         if (transactionModel.getAgreementPdfDetailModelList() != null && transactionModel.getAgreementPdfDetailModelList().size() > 0) {
             List<AgreementPdfDetailModel> pdf_details = transactionModel.getAgreementPdfDetailModelList();
             AgreementPdfDetailModel agreementPdfDetailModel = pdf_details.get(0);
@@ -233,7 +231,6 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
                 }
             });
         }
-
 
         if (context.getString(R.string.transaction).equalsIgnoreCase(moveFrom)) {
             if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
@@ -296,7 +293,6 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
     public int getItemCount() {
         return allTransactionArrayList.size();
     }
-
     private void setAdapterFunc(RecyclerView paybackDateRecycler, List<DateModel> payDatesList, TransactionModel transactionModel) {
         ViewAllHistoryAndTransactionPaybackDateAdapter paybackDateAdapter = new ViewAllHistoryAndTransactionPaybackDateAdapter(context, payDatesList, transactionModel);
         paybackDateRecycler.setAdapter(paybackDateAdapter);

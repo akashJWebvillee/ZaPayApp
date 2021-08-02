@@ -18,12 +18,14 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.dd.ShadowLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonElement;
@@ -113,6 +115,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     private double borrowerCommission;
     private double lenderCommission;
     private double defaultFeeAmount;
+    private float discountValue;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -259,7 +262,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         //lendTermsEdtOption.setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
         lendTermsTxtOption = findViewById(R.id.lendTermsTxtOption);
-
         lendTermsTxtPercent = findViewById(R.id.lendTermsTxtPercent);
         lendTermsTxtFee = findViewById(R.id.lendTermsTxtFee);
         lendTermsTxtDiscount = findViewById(R.id.lendTermsTxtDiscount);
@@ -398,7 +400,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     }
 
     private void initContactView() {
-        // contactList = new ArrayList<>();
+        //contactList = new ArrayList<>();
         contactNumberList = new ArrayList<>();
         noDataTv = findViewById(R.id.noDataTv);
 
@@ -434,15 +436,31 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                             setIndicatorView(selectedPos);
                         }
                     } else if (selectedPos == 1) {
+                        Log.e("discountValue", "isTermsOption discountValue===" + isTermsOption);
+
                         if (isTermsOption == 3) {
                             selectedPos = indicatorAdapter.getSelectedPos() + 1;
                             indicatorAdapter.setSelected(selectedPos);
                             setIndicatorView(selectedPos);
+
                         } else {
                             if (wValidationLib.isValidTerm(lendTermsInputLayout, lendTermsEdtOption, getString(R.string.important), getString(R.string.enter_term), true)) {
-                                selectedPos = indicatorAdapter.getSelectedPos() + 1;
+                                /*selectedPos = indicatorAdapter.getSelectedPos() + 1;
                                 indicatorAdapter.setSelected(selectedPos);
-                                setIndicatorView(selectedPos);
+                                setIndicatorView(selectedPos);*/
+                                if (isTermsOption == 2) {
+                                    if (amount > discountValue) {
+                                        selectedPos = indicatorAdapter.getSelectedPos() + 1;
+                                        indicatorAdapter.setSelected(selectedPos);
+                                        setIndicatorView(selectedPos);
+                                    } else {
+                                        showSimpleAlert(getString(R.string.discount_should_be_less_than_amount), "");
+                                    }
+                                } else {
+                                    selectedPos = indicatorAdapter.getSelectedPos() + 1;
+                                    indicatorAdapter.setSelected(selectedPos);
+                                    setIndicatorView(selectedPos);
+                                }
                             }
                         }
 
@@ -480,9 +498,23 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.backButtonTV:
                 if (indicatorAdapter.getSelectedPos() <= listIndicator.size() - 1) {
+                   /* selectedPos = indicatorAdapter.getSelectedPos() - 1;
+                    indicatorAdapter.setSelected(selectedPos);
+                    setIndicatorView(selectedPos);*/
+
                     selectedPos = indicatorAdapter.getSelectedPos() - 1;
                     indicatorAdapter.setSelected(selectedPos);
-                    setIndicatorView(selectedPos);
+
+                    if (transactionModel!=null){
+                        if (selectedPos == 0 && transactionModel.getStatus().equals("2") || transactionModel.getIs_negotiate_after_accept().equals("2")) {
+                            finish();
+                        } else {
+                            setIndicatorView(selectedPos);
+                        }
+                    }else {
+                        setIndicatorView(selectedPos);
+                    }
+
                 }
                 break;
             case R.id.lendTermsTxtPercent:
@@ -499,7 +531,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 break;
         }
     }
-
 
     private boolean isSelectedAllDate() {
         boolean dateSelect = false;
@@ -555,9 +586,9 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 if (transactionModel != null && transactionModel.getId() != null && transactionModel.getId().length() > 0) {
                     if (transactionModel.getStatus() != null && transactionModel.getStatus().equals("2") || transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().equals("2")) {  // is_negotiate_after_accept =2 after negotion
                         callAPInegotiateRunningTransactionRequest(); //negotiate after accept request
-                    } else if (transactionModel.getStatus() != null && transactionModel.getStatus().equals("1") && transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().equals("2")){
+                    } else if (transactionModel.getStatus() != null && transactionModel.getStatus().equals("1") && transactionModel.getIs_negotiate_after_accept() != null && transactionModel.getIs_negotiate_after_accept().equals("2")) {
                         callAPInegotiateRunningTransactionRequest(); //negotiate after accept request
-                    }else {
+                    } else {
                         callAPITransactionRequest();  //negotiate before accept request
                     }
                 } else {
@@ -813,6 +844,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             } else if (isTermsOption == 2) {
                 totalAmount = amount - Float.parseFloat(s);
                 symbol = " - ";
+                discountValue = Float.parseFloat(s);
             } else if (isTermsOption == 3) {
                 totalAmount = amount;
                 s = "";
@@ -950,10 +982,10 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     private void afterAceptRequestNegitiateBackButtonManageFunc(int value) {
         if (value == 1) {
             if (transactionModel != null && transactionModel.getStatus() != null) {
-                if (transactionModel.getStatus().equals("2") || transactionModel.getIs_negotiate_after_accept().equals("2")) {
+               /* if (transactionModel.getStatus().equals("2") || transactionModel.getIs_negotiate_after_accept().equals("2")) {
                     backButtonTV.setVisibility(View.GONE);
                     lendShadowBack.setVisibility(View.INVISIBLE);
-                }
+                }*/
             } else {
                 backButtonTV.setVisibility(View.VISIBLE);
                 lendShadowBack.setVisibility(View.VISIBLE);
@@ -1304,13 +1336,13 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 newTransactionRequestId = transactionModel.getId();
                 request_type = "1";
             }
-           //this is not confirm condition
-           // if (!transactionModel.getParent_id().equals("0") && transactionModel.getChild_request_is_accepted().equals("2")) {
-            if (!transactionModel.getParent_id().equals("0")&&transactionModel.getStatus().equals("2") && transactionModel.getIs_negotiate_after_accept().equals("2")) {
+            //this is not confirm condition
+            // if (!transactionModel.getParent_id().equals("0") && transactionModel.getChild_request_is_accepted().equals("2")) {
+            if (!transactionModel.getParent_id().equals("0") && transactionModel.getStatus().equals("2") && transactionModel.getIs_negotiate_after_accept().equals("2")) {
                 parentTransactionRequestId = transactionModel.getParent_id();
                 newTransactionRequestId = transactionModel.getId();
                 request_type = "0";
-            }else if (!transactionModel.getParent_id().equals("0")&&transactionModel.getStatus().equals("1") && transactionModel.getIs_negotiate_after_accept().equals("2")){
+            } else if (!transactionModel.getParent_id().equals("0") && transactionModel.getStatus().equals("1") && transactionModel.getIs_negotiate_after_accept().equals("2")) {
                 parentTransactionRequestId = transactionModel.getParent_id();
                 newTransactionRequestId = transactionModel.getId();
                 request_type = "1";
@@ -1333,7 +1365,6 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         } else {
             termValue = lendTermsEdtOption.getText().toString().trim();
         }
-
 
         float childAmount = 0;
         float child_total_amount = 0;

@@ -5,15 +5,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.org.zapayapp.R;
 import com.org.zapayapp.activity.LendBorrowActivity;
 import com.org.zapayapp.model.PabackModel;
 import com.org.zapayapp.utils.DateFormat;
-
 import java.util.List;
 
 public class PaybackAdapter extends RecyclerView.Adapter<PaybackAdapter.MyHolder> {
