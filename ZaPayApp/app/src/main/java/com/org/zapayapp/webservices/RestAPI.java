@@ -31,23 +31,23 @@ public interface RestAPI {
     Call<JsonElement> postApi(@Url String remainingURL, @FieldMap Map<String, Object> fields);
 
     @POST
-    Call<JsonElement> postApiToken(@Header("authorization") String authToken, @Url String remainingURL);
+    Call<JsonElement> postApiToken(@Header("Authorization") String authToken, @Url String remainingURL);
 
     @GET
-    Call<JsonElement> getApiToken(@Header("authorization") String authToken, @Url String remainingURL);
+    Call<JsonElement> getApiToken(@Header("Authorization") String authToken, @Url String remainingURL);
 
     @FormUrlEncoded
     @POST
-    Call<JsonElement> postWithTokenApi(@Header("authorization") String authToken, @Url String remainingURL, @FieldMap Map<String, Object> fields);
+    Call<JsonElement> postWithTokenApi(@Header("Authorization") String authToken, @Url String remainingURL, @FieldMap Map<String, Object> fields);
 
     @Multipart
     @POST
-    Call<JsonElement> postWithTokenMultiPartApi(@Header("authorization") String authToken, @Url String remainingURL, @Part MultipartBody.Part image);
+    Call<JsonElement> postWithTokenMultiPartApi(@Header("Authorization") String authToken, @Url String remainingURL, @Part MultipartBody.Part image);
 
 
     @Multipart
     @POST
-    Call<JsonElement> postWithTokenMultiPartWithDataApi(@Header("authorization") String authToken, @Url String remainingURL, @PartMap Map<String, RequestBody> fields, @Part MultipartBody.Part image);
+    Call<JsonElement> postWithTokenMultiPartWithDataApi(@Header("Authorization") String authToken, @Url String remainingURL, @PartMap Map<String, RequestBody> fields, @Part MultipartBody.Part image);
 
 
 }
