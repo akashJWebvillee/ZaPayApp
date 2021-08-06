@@ -31,9 +31,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
         if (SharedPref.getPrefsHelper().getPref(Const.Var.FIREBASE_DEVICE_TOKEN) != null && SharedPref.getPrefsHelper().getPref(Const.Var.FIREBASE_DEVICE_TOKEN).toString().length() > 0) {
             callAPIUpdateDeviceInfo();
         }
+
         init();
         initAction();
         getNotificationIntent();
@@ -51,7 +53,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         titleTV = findViewById(R.id.titleTV);
 
         AppCenter.start(getApplication(), "7c7f48b8-92b9-419a-842c-536b68581c02",
-                Analytics.class, Crashes.class);// add this to trace the crashlytics
+                Analytics.class, Crashes.class);// add this to trace the crashlaytics
 
     }
 

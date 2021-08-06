@@ -22,7 +22,6 @@ import com.org.zapayapp.model.DateModel;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.pdf_view.PdfFileDownloadAcyncTask;
 import com.org.zapayapp.utils.Const;
-import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
@@ -319,11 +318,9 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
     }
 
     private class CustomWebViewClient extends WebViewClient {
-
         @Override
         public void onPageStarted(WebView webview, String url, Bitmap favicon) {
             webview.setVisibility(webview.INVISIBLE);
@@ -334,11 +331,8 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
             webview.setVisibility(webview.VISIBLE);
             super.onPageFinished(webview, url);
             //apiCalling.setRunInBackground(true);
-
         }
     }
-
-
     public void showSimpleAlert11(String message, String from) {
         try {
             FragmentManager fm = getSupportFragmentManager();
