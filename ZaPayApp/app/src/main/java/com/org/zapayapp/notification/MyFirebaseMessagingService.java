@@ -150,7 +150,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                         intent = new Intent(this, LendingSummaryActivity.class);
                                     }
                                 }
-
                             } else { //Transaction
                                 forWhat = getString(R.string.transaction);
                                 if (request_by != null && request_by.equals("1")) {

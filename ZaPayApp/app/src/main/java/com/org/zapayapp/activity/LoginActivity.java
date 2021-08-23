@@ -119,7 +119,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void termCondition() {
-        String textTerms = this.getString(R.string.term_and_condition_message);
+       // String textTerms = this.getString(R.string.term_and_condition_message);
+        String textTerms = this.getString(R.string.term_and_condition_message1);
         SpannableStringBuilder ssBuilder = new SpannableStringBuilder(textTerms);
         ClickableSpan redClickableSpan = new ClickableSpan() {
             @Override
@@ -146,14 +147,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
         ssBuilder.setSpan(
                 new android.text.style.StyleSpan(Typeface.BOLD), // Span to add
-                47, // Start of the span (inclusive)
+                //47, // Start of the span (inclusive)
+                112, // Start of the span (inclusive)
                 textTerms.length(), // End of the span (exclusive)
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE // Do not extend the span when text add later
         );
 
         ssBuilder.setSpan(
                 redClickableSpan, // Span to add
-                47, // Start of the span (inclusive)
+               // 47, // Start of the span (inclusive)
+                112, // Start of the span (inclusive)
                 textTerms.length(), // End of the span (exclusive)
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE // Do not extend the span when text add later
         );
@@ -214,7 +217,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 Intent intent=new Intent(LoginActivity.this,TermConditionActivity.class);
                 startActivity(intent);
                 break;*/
-
         }
     }
 

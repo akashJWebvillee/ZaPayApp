@@ -23,7 +23,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="114dp"
             android:contentDescription="@null"
-            android:src="@mipmap/logo" />
+            android:src="@mipmap/logo"/>
 
         <LinearLayout
             android:id="@+id/LL1"
@@ -48,7 +48,7 @@
                     android:fontFamily="@font/gotha_promed"
                     android:text="@string/login_text"
                     android:textColor="@color/colorWhite"
-                    android:textSize="28sp" />
+                    android:textSize="28sp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -218,7 +218,6 @@
                     android:textSize="16sp" />
             </com.dd.ShadowLayout>
         </RelativeLayout>
-
 
         <RelativeLayout
             android:id="@+id/signUpRelativeLayout"
@@ -405,7 +404,24 @@
                         android:paddingEnd="0dp" />
                 </com.org.zapayapp.uihelpers.CustomTextInputLayout>
 
-                <LinearLayout
+
+                <!--<CheckBox
+                    android:id="@+id/mChkAgree"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:layout_marginTop="15dp"
+                    android:button="@drawable/check_selector"
+                    android:checked="false"
+                    android:fontFamily="@font/gotha_pro_reg"
+                    android:gravity="top"
+                    android:includeFontPadding="false"
+                    android:paddingHorizontal="10dp"
+                    android:text="@string/term_and_condition_message"
+                    android:textColor="@color/textColor"
+                    android:textSize="13sp" />-->
+
+               <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -421,7 +437,7 @@
                         android:background="@drawable/checkbox_selector"
                         android:button="@null"
                         android:checked="false"
-                        android:text="" />
+                        android:text=""/>
 
                     <TextView
                         android:id="@+id/mTextAgree"

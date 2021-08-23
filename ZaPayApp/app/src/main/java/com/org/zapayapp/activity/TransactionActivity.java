@@ -44,13 +44,7 @@ public class TransactionActivity extends AppCompatActivity implements TabLayout.
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
 
-       /* tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.pending)));
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.negotiation)));
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.accepted)));
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.completed)));
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.decline)));*/
-
-          tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.pending)));
+         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.pending)));
         //tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.negotiation)));
          tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.accepted)));
          tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.decline)));
@@ -64,7 +58,6 @@ public class TransactionActivity extends AppCompatActivity implements TabLayout.
         viewPager.setPagingEnabled(false);
         tabLayout.addOnTabSelectedListener(this);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
     }
 
     private void inItAction() {

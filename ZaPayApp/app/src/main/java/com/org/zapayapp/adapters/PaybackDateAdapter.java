@@ -102,7 +102,6 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
                                 holder.editDateIV.setImageResource(R.mipmap.edit_icon);
                                 holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_rounded));
                             }
-
                         } else {
                             if (dateModelArrayList.get(position).getNew_pay_date_status().equals("1")) {
                                 if (dateModelArrayList.get(position).getIs_extended().equals("0")) {

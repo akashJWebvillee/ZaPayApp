@@ -300,7 +300,6 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
     @Override
     public void onPageChanged(int page, int pageCount) {
         pageNumber = page;
-
     }
 
     @Override
