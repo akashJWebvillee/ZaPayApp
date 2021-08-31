@@ -463,8 +463,12 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
             String commission_charges_detail = transactionModel.getCommission_charges_detail();
             commission_charges_detail.replace("\\", "/");
             CommissionModel commissionModel = gson.fromJson(commission_charges_detail, CommissionModel.class);
-            commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
-            commissionValueTV.setText(Const.getCurrency() + transactionModel.getAdmin_commission_from_borrower());
+            //commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
+            //commissionValueTV.setText(Const.getCurrency() + transactionModel.getAdmin_commission_from_borrower());
+
+            commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getLenderChargeValue() + ")" + commissionModel.getLenderChargeType());
+            commissionValueTV.setText(Const.getCurrency() + transactionModel.getAdmin_commission_from_lender());
+
         }
 
         if (status.equalsIgnoreCase("2") || status.equalsIgnoreCase("4")) {
@@ -501,8 +505,15 @@ public class BorrowSummaryActivity extends BaseActivity implements APICallback, 
             }
         }
 
-        if (transactionModel.getAdmin_commission_from_borrower() != null && transactionModel.getAdmin_commission_from_borrower().length() > 0) {
+       /* if (transactionModel.getAdmin_commission_from_borrower() != null && transactionModel.getAdmin_commission_from_borrower().length() > 0) {
             float commission = Float.parseFloat(transactionModel.getAdmin_commission_from_borrower());
+            float totalAmount = Float.parseFloat(transactionModel.getTotalAmount());
+            float amount = totalAmount - commission;
+            afterCommissionAmountTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(amount, 2));
+        }*/
+
+        if (transactionModel.getAdmin_commission_from_lender() != null && transactionModel.getAdmin_commission_from_lender().length() > 0) {
+            float commission = Float.parseFloat(transactionModel.getAdmin_commission_from_lender());
             float totalAmount = Float.parseFloat(transactionModel.getTotalAmount());
             float amount = totalAmount - commission;
             afterCommissionAmountTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(amount, 2));

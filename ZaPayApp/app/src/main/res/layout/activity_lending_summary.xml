@@ -124,8 +124,6 @@
                     android:padding="10dp"
                     android:tint="@color/colorWhite"/>
 
-
-
                 <LinearLayout
                     android:id="@+id/lendLLAmountTerms"
                     android:layout_width="match_parent"
@@ -192,7 +190,6 @@
                             android:textColor="@color/textColor"
                             android:textSize="16sp" />
                     </LinearLayout>
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -277,10 +274,8 @@
                             android:layout_height="1dp"
                             android:background="@color/colorPrimary"
                             android:layout_marginStart="20dp"/>
-
                     </LinearLayout>
                 </LinearLayout>
-
 
                 <LinearLayout
                     android:id="@+id/commissionLL"
@@ -352,7 +347,6 @@
                             android:layout_marginStart="50dp"
                             android:tint="@color/color_blue"/>
                     </LinearLayout>
-
                 </LinearLayout>
 
                 <View
@@ -362,9 +356,6 @@
                     android:layout_below="@+id/commissionLL"
                     android:layout_marginTop="21dp"
                     android:background="@drawable/dotted" />
-
-
-
 
                 <TextView
                     android:id="@+id/afterCommissionTitleTV"

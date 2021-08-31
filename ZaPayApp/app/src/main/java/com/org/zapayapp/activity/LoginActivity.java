@@ -148,7 +148,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         ssBuilder.setSpan(
                 new android.text.style.StyleSpan(Typeface.BOLD), // Span to add
                 //47, // Start of the span (inclusive)
-                112, // Start of the span (inclusive)
+                147, // Start of the span (inclusive)
                 textTerms.length(), // End of the span (exclusive)
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE // Do not extend the span when text add later
         );
@@ -156,7 +156,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         ssBuilder.setSpan(
                 redClickableSpan, // Span to add
                // 47, // Start of the span (inclusive)
-                112, // Start of the span (inclusive)
+                147, // Start of the span (inclusive)
                 textTerms.length(), // End of the span (exclusive)
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE // Do not extend the span when text add later
         );

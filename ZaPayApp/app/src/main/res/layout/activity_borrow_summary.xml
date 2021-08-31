@@ -411,7 +411,7 @@
                     android:gravity="start"
                     android:text=""
                     android:textColor="@color/textColor"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"/>
 
                 <TextView
                     android:id="@+id/viewAllTV"
