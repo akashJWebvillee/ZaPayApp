@@ -23,7 +23,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="114dp"
             android:contentDescription="@null"
-            android:src="@mipmap/logo"/>
+            android:src="@mipmap/logo" />
 
         <LinearLayout
             android:id="@+id/LL1"
@@ -34,6 +34,7 @@
             android:baselineAligned="false"
             android:orientation="horizontal"
             android:weightSum="2">
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -47,8 +48,9 @@
                     android:fontFamily="@font/gotha_promed"
                     android:text="@string/login_text"
                     android:textColor="@color/colorWhite"
-                    android:textSize="28sp"/>
+                    android:textSize="28sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -89,7 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="310dp"
             android:layout_below="@+id/LL1"
-            android:visibility="gone">
+            android:visibility="invisible">
 
             <LinearLayout
                 android:id="@+id/LL2"
@@ -135,7 +137,6 @@
                         android:paddingStart="0dp"
                         android:paddingTop="10dp"
                         android:paddingEnd="0dp" />
-
                 </com.org.zapayapp.uihelpers.CustomTextInputLayout>
 
                 <com.org.zapayapp.uihelpers.CustomTextInputLayout
@@ -163,14 +164,14 @@
                         android:background="@drawable/edt_bg_selector"
                         android:drawableStart="@mipmap/ic_password"
                         android:drawablePadding="8dp"
+                        android:ellipsize="end"
                         android:gravity="center_vertical"
                         android:hint="@string/enter_password"
                         android:imeOptions="actionDone"
                         android:inputType="textPassword"
                         android:paddingStart="0dp"
                         android:paddingTop="10dp"
-                        android:paddingEnd="0dp"
-                        android:ellipsize="end"/>
+                        android:paddingEnd="0dp" />
                 </com.org.zapayapp.uihelpers.CustomTextInputLayout>
 
                 <TextView
@@ -222,8 +223,8 @@
             android:layout_width="match_parent"
             android:layout_height="560dp"
             android:layout_below="@+id/LL1"
-            android:visibility="visible"
-            android:layout_marginBottom="30dp">
+            android:layout_marginBottom="30dp"
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -268,7 +269,6 @@
                         android:paddingTop="10dp"
                         android:paddingEnd="0dp" />
                 </com.org.zapayapp.uihelpers.CustomTextInputLayout>
-
 
                 <com.org.zapayapp.uihelpers.CustomTextInputLayout
                     android:id="@+id/emailSignUpInputLayout"
@@ -403,7 +403,6 @@
                         android:paddingEnd="0dp" />
                 </com.org.zapayapp.uihelpers.CustomTextInputLayout>
 
-
                 <!--<CheckBox
                     android:id="@+id/mChkAgree"
                     android:layout_width="match_parent"
@@ -420,35 +419,35 @@
                     android:textColor="@color/textColor"
                     android:textSize="13sp" />-->
 
-               <LinearLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="10dp"
                     android:gravity="top"
+                    android:orientation="horizontal"
                     android:padding="10dp">
 
                     <CheckBox
                         android:id="@+id/mChkAgree"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
+                        android:layout_marginTop="7dp"
                         android:background="@drawable/checkbox_selector"
                         android:button="@null"
                         android:checked="false"
-                        android:text=""
-                        android:layout_marginTop="7dp"/>
+                        android:text=""/>
 
                     <TextView
                         android:id="@+id/mTextAgree"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:fontFamily="@font/gotha_pro_reg"
                         android:lineSpacingExtra="5dp"
-                        android:text="@string/term_and_condition_message"
+                        android:text="@string/term_and_condition_message1"
                         android:textColor="@color/textColor"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -476,10 +475,12 @@
                     android:fontFamily="@font/gotha_probol"
                     android:gravity="center"
                     android:lineSpacingExtra="5dp"
-                    android:text="@string/signup"
+                    android:text="@string/agree_and_sign_up"
                     android:textColor="@color/colorWhite"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
             </com.dd.ShadowLayout>
         </RelativeLayout>
+
+
     </RelativeLayout>
 </androidx.core.widget.NestedScrollView>

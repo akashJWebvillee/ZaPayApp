@@ -27,6 +27,7 @@
     <string name="confirm_your_password">Confirm your password</string>
     <string name="login">LOGIN</string>
     <string name="signup">SIGNUP</string>
+    <string name="agree_and_sign_up">Agree and Sign Up</string>
     <string name="login_text">Login</string>
     <string name="signup_text">Sign Up</string>
     <string name="send">SEND</string>
@@ -44,6 +45,7 @@
     <!-- navigation strings-->
     <string name="home">Home</string>
     <string name="my_profile">My Profile</string>
+    <string name="wallet">Wallet</string>
     <string name="bank_account">Bank Account</string>
     <string name="account_type">ACCOUNT TYPE</string>
     <string name="transaction">Transaction</string>
@@ -118,6 +120,8 @@
     <string name="routing_number">Routing Number</string>
     <string name="Arbitrary_nickname">Arbitrary nickname</string>
     <string name="change">Change</string>
+    <string name="add_amount">Add amount</string>
+    <string name="withdrawal_amount">Withdrawal amount</string>
     <string name="bank_account_add">Bank Account Add</string>
     <string name="bank_account_change">Bank Account Change</string>
     <string name="enter_account_number">Enter account number</string>
@@ -269,6 +273,7 @@
     <string name="female">Female</string>
     <string name="signature">Signature</string>
     <string name="clear">Clear</string>
+    <string name="withdrawal">Withdrawal</string>
     <string name="add_signature">Add Signature</string>
     <string name="plz_add_signature">Please add signature</string>
     <string name="accept_disclaimer">Accept Disclaimer</string>

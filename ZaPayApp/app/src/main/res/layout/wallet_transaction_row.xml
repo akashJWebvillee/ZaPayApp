@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rectanguler_4redius"
+    android:layout_marginStart="20dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginEnd="20dp"
+    android:padding="12dp"
+    android:elevation="1dp">
+
+    <TextView
+        android:id="@+id/userNameTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/gotha_promed"
+        android:includeFontPadding="false"
+        android:text="1236456652"
+        android:textColor="@color/blackColor"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userNameTv"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/gotha_pro_reg"
+        android:includeFontPadding="false"
+        android:text="12 aug 2021 11:50 AM"
+        android:textColor="@color/textColor"
+        android:textSize="11sp" />
+
+
+    <TextView
+        android:id="@+id/amountTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:fontFamily="@font/gotha_promed"
+        android:includeFontPadding="false"
+        android:textColor="@color/greenColor"
+        android:textSize="15sp"
+        android:text="+$1400"
+        android:layout_centerVertical="true"/>
+</RelativeLayout>

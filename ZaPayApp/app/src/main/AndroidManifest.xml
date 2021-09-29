@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.org.zapayapp">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".ZapayApp"
@@ -19,14 +19,28 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
-        <activity android:name=".activity.CommonSummeryActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.ViewAllHistoryAndTransactionDetailsActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.DefaultTransactionActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.PdfViewActivity"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.WithdraMoneyWalletActivity"
+            android:fitsSystemWindows="true"
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert"/>
+
+        <activity android:name=".activity.AddMoneyWalletActivity"
+            android:fitsSystemWindows="true"
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert"/>
+
+        <activity android:name=".activity.WalletActivity" />
+
+        <activity
+            android:name=".activity.CommonSummeryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ViewAllHistoryAndTransactionDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.DefaultTransactionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PdfViewActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.AcceptActivity"
             android:screenOrientation="portrait"
@@ -52,7 +66,6 @@
             android:name=".dialogs.RattingDialogActivity"
             android:fitsSystemWindows="true"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
-
         <activity
             android:name=".activity.SplashActivity"
             android:screenOrientation="portrait"
@@ -63,7 +76,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".chat.ChatActivity"
             android:screenOrientation="portrait"
@@ -130,16 +142,15 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize"
             tools:ignore="LockedOrientationActivity" />
-
         <activity
             android:name=".activity.HomeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize"
             tools:ignore="LockedOrientationActivity">
-
             <intent-filter>
-                <action android:name="CHAT_MESSAGE_RECEIVE"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="CHAT_MESSAGE_RECEIVE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
@@ -182,6 +193,6 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
-
     </application>
+
 </manifest>

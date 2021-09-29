@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.WalletActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="245dp"
+            android:background="@mipmap/ic_login_background" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_marginTop="150dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="66dp"
+                android:background="@drawable/oval_bg" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="33dp"
+                android:background="@drawable/rectanguler_bottom_corner" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/loginRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            android:layout_marginTop="50dp"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/LL2"
+                android:layout_width="match_parent"
+                android:layout_height="215dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/rectanguler_bg"
+                android:backgroundTint="@color/colorWhite"
+                android:elevation="3dp"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/forgotPasswordTV"
+                    style="@style/textViewMediumStyleRegular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="18dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:paddingTop="8dp"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/gotha_promed"
+                    android:text="@string/wallet"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/color_lightGray"
+                    android:layout_marginTop="15dp"/>
+
+                <TextView
+                    android:id="@+id/amountTitleTV"
+                    style="@style/textViewMediumStyleRegular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="18dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:paddingTop="8dp"
+                    android:textSize="17sp"
+                    android:textColor="@color/color_lightGray"
+                    android:fontFamily="@font/gotha_pro_reg"
+                    android:text="@string/amount"/>
+
+                <TextView
+                    android:id="@+id/amountTV"
+                    style="@style/textViewMediumStyleRegular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/gotha_promed"
+                    android:text="$100.00"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@mipmap/dot_line"
+                    android:layout_marginTop="20dp"/>
+            </LinearLayout>
+
+            <com.dd.ShadowLayout
+                android:id="@+id/addSL"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="54dp"
+                android:elevation="3dp"
+                app:sl_cornerRadius="56dp"
+                app:sl_dx="0dp"
+                app:sl_dy="10dp"
+                app:sl_shadowColor="#2C131313"
+                app:sl_shadowRadius="4dp">
+
+                <TextView
+                    android:id="@+id/addButtonTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="43dp"
+                    android:background="@drawable/rectanguler_button_bg"
+                    android:backgroundTint="@color/blackColor"
+                    android:fontFamily="@font/gotha_promed"
+                    android:gravity="center"
+                    android:text="@string/add"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="14sp" />
+            </com.dd.ShadowLayout>
+
+            <com.dd.ShadowLayout
+                android:id="@+id/withdrawalSL"
+               android:layout_alignParentEnd="true"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="54dp"
+                android:layout_marginEnd="30dp"
+                android:elevation="3dp"
+                app:sl_cornerRadius="56dp"
+                app:sl_dx="0dp"
+                app:sl_dy="10dp"
+                app:sl_shadowColor="#2CFC5C04"
+                app:sl_shadowRadius="4dp">
+
+                <TextView
+                    android:id="@+id/withdrawalButtonTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="43dp"
+                    android:background="@drawable/rectanguler_button_bg"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:fontFamily="@font/gotha_promed"
+                    android:gravity="center"
+                    android:text="@string/withdrawal"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="14sp" />
+            </com.dd.ShadowLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_below="@+id/loginRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/filterIV"
+                android:layout_width="30dp"
+                android:padding="5dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="15dp"
+                android:layout_gravity="end"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_filter_icon" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/transactionsRecView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -83,27 +83,29 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
      * The My profile.
      */
     protected int MY_PROFILE = 0;
+
+    protected int MY_WALLET=1;
     /**
      * The Bank account.
      */
-    protected int BANK_ACCOUNT = 1;
+    protected int BANK_ACCOUNT = 2;
     /**
      * The Transaction.
      */
-    protected int TRANSACTION = 2;
+    protected int TRANSACTION = 3;
     /**
      * The History.
      */
-    protected int HISTORY = 3;
+    protected int HISTORY = 4;
     /**
      * The Default Transaction.
      */
-    protected int DEFAULT_TRANSACTION = 4;
+    protected int DEFAULT_TRANSACTION = 5;
 
     /**
      * The About us.
      */
-    protected int ABOUT_US = 5;
+    protected int ABOUT_US = 6;
     /**
      * The Terms condition.
      */
@@ -186,7 +188,6 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
         @Override
         public void call(Object... args) {
             CommonMethods.showLogs("NETWORK_CONNECTION", "Emitter.Listener onConnectError :- " + " Network Connect Error !!!");
-
             CommonMethods.showLogs("exception", isConnected + " ");
         }
     };
@@ -410,6 +411,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
         navRecycler.setItemAnimator(new DefaultItemAnimator());
         List<String> navList = new ArrayList<>();
         navList.add(getString(R.string.my_profile));
+        navList.add(getString(R.string.wallet));
         navList.add(getString(R.string.bank_account));
         navList.add(getString(R.string.transaction));
         //navList.add(getString(R.string.history));
@@ -474,13 +476,20 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
                     startActivity(intent);
                 }
                 break;
+
             case 1:
+                if (currentScreen != MY_WALLET) {
+                    intent = new Intent(this, WalletActivity.class);
+                    startActivity(intent);
+                }
+                break;
+            case 2:
                 if (currentScreen != BANK_ACCOUNT) {
                     intent = new Intent(this, BankInfoActivity.class);
                     startActivity(intent);
                 }
                 break;
-            case 2:
+            case 3:
                 if (Const.isUserDefaulter().equals("1")) {
                     showSimpleAlert(getString(R.string.you_have_defaulter_msg), getString(R.string.you_have_defaulter_msg));
                 }else if (Const.isUserDefaulter().equals("2")){
@@ -499,31 +508,31 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
                 }
                 break;
 */
-            case 3:
+            case 4:
                 if (currentScreen != DEFAULT_TRANSACTION) {
                     intent = new Intent(this, DefaultTransactionActivity.class);
                     startActivity(intent);
                 }
                 break;
-            case 4:
+            case 5:
                 if (currentScreen != ABOUT_US) {
                     intent = new Intent(this, AboutUsActivity.class);
                     startActivity(intent);
                 }
                 break;
-            case 5:
+            case 6:
                 if (currentScreen != TERMS_CONDITION) {
                     intent = new Intent(this, TermConditionActivity.class);
                     startActivity(intent);
                 }
                 break;
-            case 6:
+            case 7:
                 if (currentScreen != HELP) {
                     intent = new Intent(this, HelpActivity.class);
                     startActivity(intent);
                 }
                 break;
-            case 8:
+            case 9:
                 if (currentScreen != LOGOUT) {
                     alertLogOut();
                 }

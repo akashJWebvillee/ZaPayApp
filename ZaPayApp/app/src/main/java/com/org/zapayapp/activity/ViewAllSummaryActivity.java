@@ -74,6 +74,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         init();
         initAction();
         getIntentValues();
+
     }
 
     private void init() {
