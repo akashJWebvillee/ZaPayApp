@@ -44,4 +44,6 @@
     <color name="color_userNameText">#3E3F42</color>
     <color name="color_lightGray">#9ea0a5</color>
     <color name="color_blue">#1854EA</color>
+
+    <color name="grayColor_opacity_5">#33797F85</color>
 </resources>

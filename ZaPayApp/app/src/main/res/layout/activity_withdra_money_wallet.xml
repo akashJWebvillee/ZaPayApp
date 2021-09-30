@@ -65,7 +65,7 @@ tools:context=".activity.WithdraMoneyWalletActivity">
         android:orientation="vertical">
 
         <com.org.zapayapp.uihelpers.CustomTextInputLayout
-            android:id="@+id/accountNumberInputLayout"
+            android:id="@+id/amountInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -78,7 +78,7 @@ tools:context=".activity.WithdraMoneyWalletActivity">
             app:boxBackgroundMode="none">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/accountNumberEditText"
+                android:id="@+id/amountEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -116,7 +116,6 @@ tools:context=".activity.WithdraMoneyWalletActivity">
         app:sl_shadowColor="#2CFC5C04"
         app:sl_shadowRadius="4dp">
 
-
         <TextView
             android:id="@+id/withdrawalButtonTV"
             android:layout_width="match_parent"
@@ -129,7 +128,7 @@ tools:context=".activity.WithdraMoneyWalletActivity">
             android:text="@string/withdrawal"
             android:textAllCaps="true"
             android:textColor="@color/colorWhite"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
     </com.dd.ShadowLayout>
 </RelativeLayout>
 </androidx.cardview.widget.CardView>

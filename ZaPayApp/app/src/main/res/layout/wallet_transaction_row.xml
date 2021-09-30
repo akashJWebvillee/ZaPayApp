@@ -10,7 +10,7 @@
     android:elevation="1dp">
 
     <TextView
-        android:id="@+id/userNameTv"
+        android:id="@+id/idTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/gotha_promed"
@@ -23,7 +23,7 @@
         android:id="@+id/tvDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/userNameTv"
+        android:layout_below="@+id/idTv"
         android:layout_marginTop="5dp"
         android:fontFamily="@font/gotha_pro_reg"
         android:includeFontPadding="false"

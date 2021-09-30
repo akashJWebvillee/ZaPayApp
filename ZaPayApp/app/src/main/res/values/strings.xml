@@ -164,6 +164,8 @@
     <string name="enter_your_amount">Enter your amount</string>
     <string name="select_terms">Select Terms</string>
     <string name="fee">Fee</string>
+    <string name="apply">Apply</string>
+    <string name="filter">Filter By Type</string>
     <string name="percent">%</string>
     <string name="discount">Discount</string>
     <string name="none">None</string>
@@ -292,8 +294,12 @@
     <string name="payment_initiated_it_takes_time_to_confirm_the_payment">Default EMI payment initiated, It takes time to confirm the payment</string>
 
     <string name="signature_conformation_msg">"Please make sure signature is valid because once signature uploaded can't be undo</string>
-    <string name="termConditionData">"Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book
-    </string>
+    <string name="termConditionData">"Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book</string>
 
     <string name="discount_should_be_less_than_amount">Discount should be less than the amount</string>
+
+    <string name="by_add_money">By Add Money</string>
+    <string name="by_money_withdraw">By Money Withdraw</string>
+    <string name="by_money_sent">By Money Sent</string>
+    <string name="short_by_date">Short By Date</string>
 </resources>

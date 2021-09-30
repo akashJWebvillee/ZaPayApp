@@ -67,7 +67,7 @@
 
 
         <com.org.zapayapp.uihelpers.CustomTextInputLayout
-            android:id="@+id/accountNumberInputLayout"
+            android:id="@+id/amountInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -80,7 +80,7 @@
             app:boxBackgroundMode="none">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/accountNumberEditText"
+                android:id="@+id/amountEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -93,7 +93,7 @@
                 android:gravity="center|start"
                 android:paddingStart="10dp"
                 android:paddingTop="10dp"
-                android:maxLength="17"
+                android:maxLength="10"
                 android:paddingEnd="10dp"
                 android:paddingBottom="10dp"
                 android:textColor="@color/textColorBold"
