@@ -29,55 +29,9 @@ public class MyBottomSheet {
         void onSheetClick(String forwhat, String response);
     }
 
-
-
     public MyBottomSheet() {
 
     }
-
-
-   /* public void rattingReviewBottomSheet(Context context, BottomSheetListener bottomSheetListener, String forwhat) {
-        this.bottomSheetListener = bottomSheetListener;
-        this.forwhat = forwhat;
-        bottomSheetDialog = new BottomSheetDialog(context, R.style.BottomSheetDialog);
-        View bottomSheetView = LayoutInflater.from(context).inflate(R.layout.rating_sheet_dialog, null);
-        bottomSheetDialog.setCancelable(true);
-        bottomSheetDialog.setCanceledOnTouchOutside(true);
-        Objects.requireNonNull(bottomSheetDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        bottomSheetDialog.getWindow().getAttributes().windowAnimations = R.style.BottomSheetDialogAnimation;
-
-        ImageView closeIV = bottomSheetView.findViewById(R.id.closeIV);
-        TextView okayTV = bottomSheetView.findViewById(R.id.okayTV);
-        CustomRatingBar delivery = bottomSheetView.findViewById(R.id.deliveryRatingBar);
-        CustomRatingBar restaurant = bottomSheetView.findViewById(R.id.restaurantRatingBar);
-        EditText editText = bottomSheetView.findViewById(R.id.writeReviewET);
-
-
-        closeIV.setOnClickListener(view -> {
-            CommonMethods.preventTwoClick(view);
-            bottomSheetDialog.dismiss();
-        });
-
-        okayTV.setOnClickListener(view -> {
-            CommonMethods.preventTwoClick(view);
-            JSONObject object = new JSONObject();
-            try {
-                object.put("ratting", restaurant.getScore());
-                object.put("review", editText.getText().toString().trim());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            bottomSheetListener.onSheetClick(forwhat, object.toString());
-            bottomSheetDialog.dismiss();
-        });
-
-        bottomSheetDialog.setContentView(bottomSheetView);
-        bottomSheetDialog.show();
-    }*/
-
-
-
-
 
     public void walletFilterBottomSheet(Context context, BottomSheetListener bottomSheetListener, String forwhat) {
         this.bottomSheetListener = bottomSheetListener;
@@ -99,6 +53,10 @@ public class MyBottomSheet {
         binding.clearAllTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                JsonObject jsonObject = new JsonObject();
+                //jsonObject.addProperty("FILTER_TYPE", filterType);
+
+                bottomSheetListener.onSheetClick(context.getString(R.string.clear_all), jsonObject.toString());
                 bottomSheetDialog.dismiss();
             }
         });

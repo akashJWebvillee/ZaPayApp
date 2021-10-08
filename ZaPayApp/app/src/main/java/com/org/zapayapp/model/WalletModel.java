@@ -9,13 +9,13 @@ public class WalletModel {
     private BalanceDetailsModel balanceDetailsModel;
     @SerializedName("transaction_history")
     @Expose
-    private List<WalletTransactionModel> walletTransactionModelList = null;
+    private List<WalletTransactionModel1> walletTransactionModelList = null;
 
     public BalanceDetailsModel getBalanceDetailsModel() {
         return balanceDetailsModel;
     }
 
-    public List<WalletTransactionModel> getWalletTransactionModelList() {
+    public List<WalletTransactionModel1> getWalletTransactionModelList() {
         return walletTransactionModelList;
     }
 }

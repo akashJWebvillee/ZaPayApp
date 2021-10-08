@@ -20,7 +20,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/clearAllTV"
+            android:id="@+id/closeTV"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginTop="25dp"
@@ -51,7 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="27dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="30dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingTop="3dp"
@@ -86,7 +86,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="27dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingTop="3dp"
@@ -114,15 +114,13 @@
                     android:ellipsize="end"/>
             </LinearLayout>
 
-
-
             <LinearLayout
                 android:id="@+id/LL3"
                 android:layout_below="@+id/LL2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="27dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingTop="3dp"
@@ -159,14 +157,14 @@
             app:layout_constraintTop_toBottomOf="@+id/rightRL">
 
             <TextView
-                android:id="@+id/closeTV"
+                android:id="@+id/clearAllTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="70dp"
                 android:fontFamily="@font/gotha_promed"
                 android:gravity="center"
-                android:text="@string/close"
+                android:text="@string/clear_all"
                 android:textColor="@color/textColor"
                 android:textSize="17sp"/>
 
@@ -186,7 +184,7 @@
                 android:layout_marginEnd="70dp"
                 android:fontFamily="@font/gotha_promed"
                 android:gravity="center"
-                android:text="@string/apply"
+                android:text="@string/done"
                 android:textColor="@color/colorPrimary"
                 android:textSize="17sp" />
         </RelativeLayout>

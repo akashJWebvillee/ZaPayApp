@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/gotha_promed"
         android:includeFontPadding="false"
-        android:text="1236456652"
+        android:text=""
         android:textColor="@color/blackColor"
         android:textSize="15sp" />
 
@@ -27,7 +27,7 @@
         android:layout_marginTop="5dp"
         android:fontFamily="@font/gotha_pro_reg"
         android:includeFontPadding="false"
-        android:text="12 aug 2021 11:50 AM"
+        android:text=""
         android:textColor="@color/textColor"
         android:textSize="11sp" />
 
@@ -41,6 +41,20 @@
         android:includeFontPadding="false"
         android:textColor="@color/greenColor"
         android:textSize="15sp"
-        android:text="+$1400"
-        android:layout_centerVertical="true"/>
+        android:text="123"
+        />
+
+    <TextView
+        android:id="@+id/titleTV"
+        android:layout_below="@+id/amountTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:fontFamily="@font/gotha_pro_reg"
+        android:includeFontPadding="false"
+        android:text=""
+        android:layout_marginTop="5dp"
+        android:textColor="@color/textColor"
+        android:textSize="11sp"
+       />
 </RelativeLayout>

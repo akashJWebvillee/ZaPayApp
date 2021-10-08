@@ -86,7 +86,8 @@ public class TimeStamp {
 
     public static String epochToDateTimeAppFormat(long time) {
         //String format = "dd/MM/yyyy HH:mm a";
-        String format = "MMM dd, yyyy 'at' hh:mm a";
+       // String format = "MMM dd, yyyy 'at' hh:mm a";
+        String format = "dd MMM, yyyy 'at' hh:mm a";
         //String format = "yyyy-MM-dd HH:mm:ss";
         SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.getDefault());
         sdf.setTimeZone(TimeZone.getDefault());

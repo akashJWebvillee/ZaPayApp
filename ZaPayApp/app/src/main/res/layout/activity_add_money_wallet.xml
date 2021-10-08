@@ -88,7 +88,7 @@
                 android:fontFamily="@font/gotha_pro_reg"
                 android:hint="@string/enter_your_amount"
                 android:importantForAutofill="no"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:maxLines="1"
                 android:gravity="center|start"
                 android:paddingStart="10dp"

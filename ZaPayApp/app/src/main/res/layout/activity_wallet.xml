@@ -12,14 +12,13 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="245dp"
-            android:background="@mipmap/ic_login_background" />
-
+            android:layout_height="350dp"
+            android:background="@mipmap/base_bg" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            android:layout_marginTop="150dp">
+            android:layout_marginTop="220dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -36,14 +35,14 @@
         <RelativeLayout
             android:id="@+id/loginRelativeLayout"
             android:layout_width="match_parent"
-            android:layout_height="260dp"
-            android:layout_marginTop="50dp"
+            android:layout_height="245dp"
+            android:layout_marginTop="100dp"
             android:visibility="visible">
 
             <LinearLayout
                 android:id="@+id/LL2"
                 android:layout_width="match_parent"
-                android:layout_height="215dp"
+                android:layout_height="200dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="15dp"
@@ -52,7 +51,6 @@
                 android:backgroundTint="@color/colorWhite"
                 android:elevation="3dp"
                 android:orientation="vertical">
-
 
                 <TextView
                     android:id="@+id/forgotPasswordTV"
@@ -80,10 +78,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:layout_marginTop="18dp"
+                    android:layout_marginTop="20dp"
                     android:gravity="center"
                     android:includeFontPadding="false"
-                    android:paddingTop="8dp"
                     android:textSize="17sp"
                     android:textColor="@color/color_lightGray"
                     android:fontFamily="@font/gotha_pro_reg"
@@ -100,21 +97,21 @@
                     android:includeFontPadding="false"
                     android:textSize="18sp"
                     android:fontFamily="@font/gotha_promed"
-                    android:text="$100.00"/>
+                    android:text="$00.00"/>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:background="@mipmap/dot_line"
-                    android:layout_marginTop="20dp"/>
+                    android:layout_marginTop="25dp"/>
             </LinearLayout>
 
             <com.dd.ShadowLayout
                 android:id="@+id/addSL"
-                android:layout_width="130dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="30dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="54dp"
                 android:elevation="3dp"
                 app:sl_cornerRadius="56dp"
@@ -131,7 +128,7 @@
                     android:backgroundTint="@color/blackColor"
                     android:fontFamily="@font/gotha_promed"
                     android:gravity="center"
-                    android:text="@string/add"
+                    android:text="@string/add_money"
                     android:textColor="@color/colorWhite"
                     android:textSize="14sp" />
             </com.dd.ShadowLayout>
@@ -139,12 +136,12 @@
             <com.dd.ShadowLayout
                 android:id="@+id/withdrawalSL"
                android:layout_alignParentEnd="true"
-                android:layout_width="130dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="54dp"
-                android:layout_marginEnd="30dp"
+                android:layout_marginEnd="20dp"
                 android:elevation="3dp"
                 app:sl_cornerRadius="56dp"
                 app:sl_dx="0dp"
@@ -160,11 +157,14 @@
                     android:backgroundTint="@color/colorPrimary"
                     android:fontFamily="@font/gotha_promed"
                     android:gravity="center"
-                    android:text="@string/withdrawal"
+                    android:lineSpacingExtra="5dp"
+                    android:text="@string/withdrawal_money"
                     android:textColor="@color/colorWhite"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"/>
             </com.dd.ShadowLayout>
         </RelativeLayout>
+
+
 
         <LinearLayout
             android:layout_below="@+id/loginRelativeLayout"
@@ -186,12 +186,27 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/transactionsRecView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:scrollbars="none">
-
             </androidx.recyclerview.widget.RecyclerView>
 
+            <include
+                layout="@layout/view_no_data"/>
         </LinearLayout>
-    </RelativeLayout>
 
+
+        <TextView
+            android:layout_below="@+id/loginRelativeLayout"
+            style="@style/textViewMediumStyleRegular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="25dp"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:textSize="18sp"
+            android:fontFamily="@font/gotha_promed"
+            android:text="@string/transaction_history"/>
+    </RelativeLayout>
 </RelativeLayout>
