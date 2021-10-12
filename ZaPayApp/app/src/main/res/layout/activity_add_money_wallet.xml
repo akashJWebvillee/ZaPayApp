@@ -128,7 +128,7 @@
             android:backgroundTint="@color/colorPrimary"
             android:fontFamily="@font/gotha_probol"
             android:gravity="center"
-            android:text="@string/add"
+            android:text="@string/add_money"
             android:textAllCaps="true"
             android:textColor="@color/colorWhite"
             android:textSize="16sp" />

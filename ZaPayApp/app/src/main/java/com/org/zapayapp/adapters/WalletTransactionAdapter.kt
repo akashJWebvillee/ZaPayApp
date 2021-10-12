@@ -22,12 +22,14 @@ class WalletTransactionAdapter(val context: Context, val transactionList: ArrayL
         var tvDate: TextView
         var amountTV: TextView
         var titleTV: TextView
+        var statusTV: TextView
 
         init {
             idTv = itemView.findViewById(R.id.idTv)
             tvDate = itemView.findViewById(R.id.tvDate)
             amountTV = itemView.findViewById(R.id.amountTV)
             titleTV = itemView.findViewById(R.id.titleTV)
+            statusTV = itemView.findViewById(R.id.statusTV)
         }
     }
 
@@ -41,8 +43,17 @@ class WalletTransactionAdapter(val context: Context, val transactionList: ArrayL
         val model: WalletTransactionModel1 = transactionList[position]
 
         if (model.id.isNotEmpty()) {
-            holder.idTv.text = model.id
+            holder.idTv.text = model.transactionId
         }
+
+
+        if (model.status.isNotEmpty()) {
+            holder.statusTV.text = model.status
+        }
+
+
+
+
         if (model.createdAt.isNotEmpty()) {
             val date: Long = model.createdAt.toLong()
             holder.tvDate.text = TimeStamp.epochToDateTimeAppFormat(date)

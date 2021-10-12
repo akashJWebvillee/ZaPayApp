@@ -40,8 +40,8 @@
     <string name="enter_password">Enter your password</string>
     <string name="forgot_password">Forgot password</string>
     <string name="i_agree">I agree</string>
-    <string name="term_and_condition_message">By creating an account, you are agreeing to the Terms and Conditions</string>
-    <string name="term_and_condition_message1">"By checking this box you agree to our Terms and Conditions and Privacy Policy, as well as our partner Dwolla’s Terms of Service and Privacy Policy Agree and Sign Up</string>
+    <string name="term_and_condition_message">"By creating an account, you are agreeing to Zapay's Terms and Conditions</string>
+    <string name="term_and_condition_message1">"By checking this box you agree to Zapay's Terms &amp; Conditions and Privacy Policy, as well as our partner Dwolla’s Terms of Service and Privacy Policy</string>
     <!-- navigation strings-->
     <string name="home">Home</string>
     <string name="my_profile">My Profile</string>

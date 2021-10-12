@@ -20,8 +20,6 @@ import com.org.zapayapp.webservices.APICallback
 import org.json.JSONObject
 
 class WalletActivity : BaseActivity(), View.OnClickListener, MyBottomSheet.BottomSheetListener, APICallback {
-    // private var addButtonTV:TextView?=null
-    // private var withdrawalButtonTV:TextView?=null
     private lateinit var noDataTv: TextView
     private lateinit var amountTV: TextView
     private lateinit var addButtonTV: TextView
@@ -44,7 +42,6 @@ class WalletActivity : BaseActivity(), View.OnClickListener, MyBottomSheet.Botto
 
     override fun onStart() {
         super.onStart()
-
     }
 
     override fun onResume() {
