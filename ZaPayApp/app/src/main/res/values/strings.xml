@@ -234,7 +234,11 @@
     <string name="please_enter_valid_email">Please enter valid email.</string>
     <string name="please_enter_valid_full_name">Please enter valid full name.</string>
     <string name="please_enter_valid_mobile">Please enter 10 digit valid mobile.</string>
-    <string name="please_enter_valid_password">Please enter 8 character valid password.</string>
+<!--
+   <string name="please_enter_valid_password">Please enter 8 character valid password.</string>
+-->
+    <string name="please_enter_valid_password">Please enter alpha numeric and special character.</string>
+
     <string name="please_enter_valid_password_same">Password &amp; confirm password should be same.</string>
     <string name="session_expired">Session expired</string>
     <string name="your_session_expired">Your session has expired.\nPlease login again.</string>

@@ -346,11 +346,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             case R.id.loginButtonTV:
                 try {
                     removeError();
-                    if (wValidationLib.isEmailAddress(etEmailLayout, editTextUsername, getString(R.string.important), getString(R.string.please_enter_valid_email), true)) {
+
+                    callAPILogin();
+                  /*  if (wValidationLib.isEmailAddress(etEmailLayout, editTextUsername, getString(R.string.important), getString(R.string.please_enter_valid_email), true)) {
                         if (wValidationLib.isPassword(etPasswordLayout, etPassword, getString(R.string.important), getString(R.string.please_enter_valid_password), true)) {
                             callAPILogin();
                         }
-                    }
+                    }*/
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

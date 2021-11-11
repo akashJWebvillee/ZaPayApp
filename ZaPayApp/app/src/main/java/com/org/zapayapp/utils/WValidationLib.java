@@ -1,18 +1,14 @@
 package com.org.zapayapp.utils;
-
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.org.zapayapp.R;
 import com.org.zapayapp.uihelpers.CustomTextInputLayout;
-
 import java.util.regex.Pattern;
 
 public class WValidationLib {
@@ -20,7 +16,10 @@ public class WValidationLib {
      * Regular Expression
      */
     private static final String EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-    private static final String PASSWORD_REGEX = "^.{8,15}$";
+   // private static final String PASSWORD_REGEX = "^.{8,15}$";
+   // private static final String PASSWORD_REGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[d$@$!%*?&#])[A-Za-z\\dd$@$!%*?&#]{12,}";
+    private static final String PASSWORD_REGEX = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{12,}";
+
     private static final String USERNAME_REGEX = "^([-_A-Za-z0-9])*$";
     private static final String FULL_NAME = "^[\\p{L} .'-]+$";
     private static final String VALID_URL_REGEX = "(((f|ht){1}tp|tps:[//])[-a-zA-Z0-9@:%_\\+.~#?&//=]+)";
@@ -44,6 +43,7 @@ public class WValidationLib {
                 }
             }
         });
+
         editText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -259,7 +259,19 @@ public class WValidationLib {
         if (required && !hasText(inputLayout, editText, requireMsg)) {
             return false;
         }
-        // pattern doesn't match so returning false
+
+             if(text.length()<= 11){
+            inputLayout.requestFocus();
+            //inputLayout.setError(errMsg);
+            inputLayout.setErrorEnabled(true);
+            inputLayout.setError(CustomTextInputLayout.setErrorMessage(wContext, "Please enter 12 character."));
+            editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_error));
+            return false;
+        }
+
+
+
+             // pattern doesn't match so returning false
         if (required && !Pattern.matches(regex, text)) {
             inputLayout.requestFocus();
             //inputLayout.setError(errMsg);

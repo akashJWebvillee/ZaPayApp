@@ -91,7 +91,7 @@ public class ChangePassDialogActivity extends AppCompatActivity implements View.
     public void onClick(View v) {
         if (v.equals(saveTV)) {
             try {
-                if (wValidationLib.isPassword(oldPasswordInputLayout, oldPasswordUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_password), true)) {
+                //if (wValidationLib.isPassword(oldPasswordInputLayout, oldPasswordUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_password), true)) {
                     if (wValidationLib.isPassword(newPasswordInputLayout, newPasswordUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_password), true)) {
                         if (wValidationLib.isPassword(confirmPasswordInputLayout, confirmPasswordUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_password), true)) {
                             if (wValidationLib.isConfirmPasswordValidation(newPasswordInputLayout, newPasswordUpEditText, confirmPasswordInputLayout, confirmPasswordUpEditText, getString(R.string.important), getString(R.string.important), getString(R.string.please_enter_valid_password), getString(R.string.please_enter_valid_password_same), true)) {
@@ -99,7 +99,7 @@ public class ChangePassDialogActivity extends AppCompatActivity implements View.
                             }
                         }
                     }
-                }
+                //}
             } catch (Exception e) {
                 e.printStackTrace();
             }
