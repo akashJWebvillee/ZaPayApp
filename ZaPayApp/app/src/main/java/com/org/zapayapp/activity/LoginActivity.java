@@ -28,10 +28,8 @@ import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.MySession;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
-
 import java.util.HashMap;
 import java.util.regex.Pattern;
-
 import retrofit2.Call;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener, APICallback {
@@ -327,7 +325,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
         mTextAgree.setText(ssBuilder);
         mTextAgree.setMovementMethod(LinkMovementMethod.getInstance());
-
     }
 
     @Override
@@ -363,19 +360,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         if (wValidationLib.isEmailAddress(emailSignUpInputLayout, emailSignUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_email), true)) {
                             if (wValidationLib.isValidNumeric(mobileSignUpInputLayout, mobileSignUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_mobile), true)) {
                                 if (wValidationLib.isPassword(passwordSignUpInputLayout, passwordSignUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_password), true)) {
-                                    if (wValidationLib.isPassword(conformPasswordSignUpInputLayout, conformPasswordSignUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_password), true)) {
-                                        if (wValidationLib.isConfirmPasswordValidation(passwordSignUpInputLayout, passwordSignUpEditText, conformPasswordSignUpInputLayout, conformPasswordSignUpEditText, getString(R.string.important), getString(R.string.important), getString(R.string.please_enter_valid_password), getString(R.string.please_enter_valid_password_same), true)) {
+                                    //if (wValidationLib.isPassword(conformPasswordSignUpInputLayout, conformPasswordSignUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_password), true)) {
+                                        if (wValidationLib.isConfirmPasswordValidation(passwordSignUpInputLayout, passwordSignUpEditText, conformPasswordSignUpInputLayout, conformPasswordSignUpEditText, getString(R.string.important), getString(R.string.important), getString(R.string.please_enter_valid_password_same), getString(R.string.please_enter_valid_password_same), true)) {
                                             if (mChkAgree.isChecked()) {
                                                 callAPISignUp();
                                             } else {
                                                 showSimpleAlert(getString(R.string.term_and_condition_message), "");
                                             }
                                         }
-                                    }
+                                   // }
                                 }
                             }
                         }
                     }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

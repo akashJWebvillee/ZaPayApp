@@ -82,6 +82,7 @@
             android:name=".chat.ChatActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
+
         <activity
             android:name=".activity.ViewAllSummaryActivity"
             android:screenOrientation="portrait"
@@ -176,6 +177,7 @@
             android:name=".dialogs.AddBankDialogActivity"
             android:fitsSystemWindows="true"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
+
         <activity
             android:name=".dialogs.VerifyBankDialogActivity"
             android:fitsSystemWindows="true"

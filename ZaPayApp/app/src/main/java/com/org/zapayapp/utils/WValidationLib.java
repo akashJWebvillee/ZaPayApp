@@ -83,8 +83,8 @@ public class WValidationLib {
      */
     public boolean isConfirmPasswordValidation(CustomTextInputLayout editTextPasswordLay, TextInputEditText editTextPassword, CustomTextInputLayout editTextConfirmPasswordLay, TextInputEditText editTextConfirmPassword,
                                                String requireMsg, String requireConfMsg, String errorMsg, String notMatchMsg, boolean required) {
-        if (isPassword(editTextPasswordLay, editTextPassword, requireMsg, errorMsg, required)) {
-            if (isPassword(editTextConfirmPasswordLay, editTextConfirmPassword, requireConfMsg, errorMsg, required)) {
+        if (isPassword22(editTextPasswordLay, editTextPassword, requireMsg, errorMsg, required)) {
+            if (isPassword22(editTextConfirmPasswordLay, editTextConfirmPassword, requireConfMsg, errorMsg, required)) {
                 if (isPasswordEqual(editTextPasswordLay, editTextConfirmPasswordLay, requireMsg, notMatchMsg)) {
                     return true;
                 }
@@ -139,6 +139,11 @@ public class WValidationLib {
     public boolean isPassword(CustomTextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
         WValidationLib v_lib = new WValidationLib(wContext);
         return v_lib.isValid(inputLayout, editText, PASSWORD_REGEX, requireMsg, errorMsg, required);
+    }
+
+    public boolean isPassword22(CustomTextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
+        WValidationLib v_lib = new WValidationLib(wContext);
+        return v_lib.isValid22(inputLayout, editText, PASSWORD_REGEX, requireMsg, errorMsg, required);
     }
 
     /**
@@ -272,6 +277,30 @@ public class WValidationLib {
 
 
              // pattern doesn't match so returning false
+        if (required && !Pattern.matches(regex, text)) {
+            inputLayout.requestFocus();
+            //inputLayout.setError(errMsg);
+            inputLayout.setErrorEnabled(true);
+            inputLayout.setError(CustomTextInputLayout.setErrorMessage(wContext, errMsg));
+            editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_error));
+            return false;
+        }
+        return true;
+    }
+
+
+    public boolean isValid22(CustomTextInputLayout inputLayout, TextInputEditText editText, String regex, String requireMsg, String errMsg, boolean required) {
+
+        String text = editText.getText().toString().trim();
+        //clearing the error, if it was previously set by some other values
+        inputLayout.setError(null);
+        inputLayout.setErrorEnabled(false);
+        editText.setBackgroundDrawable(CommonMethods.getDrawableWrapper(wContext, R.drawable.edt_bg_selector));
+        // text required and editText is blank, so return false
+        if (required && !hasText(inputLayout, editText, requireMsg)) {
+            return false;
+        }
+        // pattern doesn't match so returning false
         if (required && !Pattern.matches(regex, text)) {
             inputLayout.requestFocus();
             //inputLayout.setError(errMsg);

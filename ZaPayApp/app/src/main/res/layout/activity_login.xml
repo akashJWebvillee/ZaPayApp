@@ -448,9 +448,6 @@
                         android:text="@string/term_and_condition_message1"
                         android:textColor="@color/textColor"
                         android:textSize="13sp" />
-
-
-
                 </LinearLayout>
             </LinearLayout>
 
