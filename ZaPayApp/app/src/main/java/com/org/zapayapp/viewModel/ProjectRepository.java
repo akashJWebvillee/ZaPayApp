@@ -39,7 +39,7 @@ public class ProjectRepository implements ServiceCallback<JsonElement> {
                     if (statusCode >= 200 && statusCode < 300 && response.isSuccessful()) {
                         JsonElement user1 = response.body();
                         String result = gson.toJson(user1);
-                        JsonElement element = gson.fromJson(result, JsonElement.class);
+                        JsonElement elebment = gson.fromJson(result, JsonElement.class);
                         JsonObject jsonObj = element.getAsJsonObject();
                         liveDataObj.setValue(jsonObj);
                     } else if (statusCode == 401) {
