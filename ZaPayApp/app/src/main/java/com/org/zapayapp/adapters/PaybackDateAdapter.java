@@ -66,7 +66,13 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull PaybackDateAdapter.MyHolder holder, final int position) {
-        holder.paymentNoTV.setText(String.valueOf(position + 1));
+
+        if (moveFrom.equals(context.getString(R.string.transaction))) {
+            if (dateModelArrayList.get(position).getAgreementIdSrNumber() != null && dateModelArrayList.get(position).getAgreementIdSrNumber().length() > 0)
+                holder.paymentNoTV.setText(dateModelArrayList.get(position).getAgreementIdSrNumber());
+        } else {
+            holder.paymentNoTV.setText(String.valueOf(position + 1));
+        }
         if (dateModelArrayList.get(position).getPayDate() != null && dateModelArrayList.get(position).getPayDate().length() > 0) {
             holder.dateTV.setText(DateFormat.dateFormatConvert(dateModelArrayList.get(position).getPayDate()));
         }

@@ -160,6 +160,13 @@ public class TransactionModel implements Serializable{
     @Expose
     public String child_admin_commission_from_borrower;
 
+    @SerializedName("agreement_id")
+    @Expose
+    public String agreementId;
+
+    public String getAgreementId() {
+        return agreementId;
+    }
 
     public String getIs_already_rated() {
         return is_already_rated;

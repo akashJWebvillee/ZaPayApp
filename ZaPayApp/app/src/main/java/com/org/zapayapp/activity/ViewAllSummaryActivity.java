@@ -64,7 +64,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
     private TextView allTransactionDetailTV;
     private View lendViewAllLine;
     private TextView afterCommissionAmountTV;
-    private LinearLayout commissionLL;
+    private LinearLayout commissionLL, layoutRating;
     private TextView afterCommissionTitleTV;
 
     @Override
@@ -74,7 +74,6 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         init();
         initAction();
         getIntentValues();
-
     }
 
     private void init() {
@@ -99,6 +98,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         viewRatingBar = findViewById(R.id.viewRatingBar);
 
         agreementLL = findViewById(R.id.agreementLL);
+        layoutRating = findViewById(R.id.layoutRating);
         commissionTitleTV = findViewById(R.id.commissionTitleTV);
         commissionValueTV = findViewById(R.id.commissionValueTV);
         allTransactionDetailTV = findViewById(R.id.allTransactionDetailTV);
@@ -114,6 +114,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         negotiateTV.setVisibility(View.GONE);
         acceptTV.setVisibility(View.GONE);
         declineTV.setVisibility(View.GONE);
+
     }
 
     private void initAction() {
@@ -125,6 +126,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         chatIV.setOnClickListener(this);
         agreementLL.setOnClickListener(this);
         allTransactionDetailTV.setOnClickListener(this);
+
     }
 
     private void getIntentValues() {
@@ -152,6 +154,12 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
             } else if (getString(R.string.history).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
                 callAPIGetHistoryRequestDetail(transactionId);
             }*/
+        }
+
+        if (moveFrom.equals(getString(R.string.transaction))) {
+            layoutRating.setVisibility(View.VISIBLE);
+        } else {
+            layoutRating.setVisibility(View.GONE);
         }
     }
 

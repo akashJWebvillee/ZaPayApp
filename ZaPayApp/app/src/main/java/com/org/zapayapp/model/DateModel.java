@@ -65,10 +65,16 @@ public class DateModel implements Serializable {
     @Expose
     private String default_fee_amount;
 
+    @SerializedName("agreement_id_sr_number")
+    @Expose
+    private String agreementIdSrNumber;
 
     private boolean isEditable;
     private boolean isLatestRemaining;
 
+    public String getAgreementIdSrNumber() {
+        return agreementIdSrNumber;
+    }
 
     public DateModel(String payDate, boolean isEditable) {
         this.payDate = payDate;
