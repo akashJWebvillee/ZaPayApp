@@ -33,6 +33,7 @@ import com.google.firebase.iid.InstanceIdResult;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.org.zapayapp.BuildConfig;
 import com.org.zapayapp.R;
 import com.org.zapayapp.ZapayApp;
 import com.org.zapayapp.adapters.NavigationAdapter;
@@ -571,6 +572,18 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
         }
     }
 
+    private void callGetVersionAPI() {
+        try {
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.getApi(getString(R.string.api_get_app_version));
+            if (apiCalling != null) {
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_get_app_version), activityContainer);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void apiCallback(JsonObject json, String from) {
         if (from != null) {
@@ -586,6 +599,20 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             if (from.equals(getResources().getString(R.string.api_logout))) {
                 if (status == 200) {
                     clearLogout();
+                } else {
+                    showSimpleAlert(msg, "");
+                }
+            }
+
+            if (from.equals(getResources().getString(R.string.api_get_app_version))) {
+                if (status == 200) {
+                    String android_version = json.get("data").getAsJsonObject().get("android_version").getAsString();
+                    CommonMethods.showLogs(BaseActivity.class.getSimpleName(), " versionName :- " + android_version);
+                    String versionName = BuildConfig.VERSION_NAME;
+                    if (Double.parseDouble(versionName) != Double.parseDouble(android_version)) {
+//                        alertDialogCallback(this);
+                        showForceUpdate(getString(R.string.app_version_change), getString(R.string.app_version_change), false, "", false);
+                    }
                 } else {
                     showSimpleAlert(msg, "");
                 }
@@ -711,6 +738,8 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             clearLogout();
         } else if (from.equalsIgnoreCase(getString(R.string.do_you_want_to_close_the_application))) {
             finish();
+        } else if (from.equalsIgnoreCase(getString(R.string.app_version_change))) {
+            finish();
         }
     }
 
@@ -744,6 +773,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             disconnectSocket(); // 2
             connectSocket();
         }
+        callGetVersionAPI();
     }
 
     public void connectSocket() {

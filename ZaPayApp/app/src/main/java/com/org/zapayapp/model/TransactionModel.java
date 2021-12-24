@@ -164,6 +164,22 @@ public class TransactionModel implements Serializable{
     @Expose
     public String agreementId;
 
+    @SerializedName("subject_agreement")
+    @Expose
+    public String subjectAgreement;
+
+    @SerializedName("last_subject_agreement")
+    @Expose
+    public String lastSubjectAgreement;
+
+    public String getSubjectAgreement() {
+        return subjectAgreement;
+    }
+
+    public String getLastSubjectAgreement() {
+        return lastSubjectAgreement;
+    }
+
     public String getAgreementId() {
         return agreementId;
     }

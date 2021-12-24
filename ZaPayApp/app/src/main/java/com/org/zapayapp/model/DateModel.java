@@ -69,8 +69,16 @@ public class DateModel implements Serializable {
     @Expose
     private String agreementIdSrNumber;
 
+    @SerializedName("agreement_sr")
+    @Expose
+    private String agreementSrNo;
+
     private boolean isEditable;
     private boolean isLatestRemaining;
+
+    public String getAgreementSrNo() {
+        return agreementSrNo;
+    }
 
     public String getAgreementIdSrNumber() {
         return agreementIdSrNumber;

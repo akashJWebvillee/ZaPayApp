@@ -316,4 +316,7 @@
     <string name="transaction_id">Transaction ID: </string>
     <string name="agreement_id">Agreement ID: </string>
     <string name="view_more">View More</string>
+
+    <string name="app_version_change">You are running outdated version of this app. Please update to get new features</string>
+
 </resources>

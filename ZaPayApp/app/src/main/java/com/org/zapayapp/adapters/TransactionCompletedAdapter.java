@@ -168,7 +168,7 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
             List<AgreementPdfDetailModel> AgreementPdfList = transactionModel.getAgreementPdfDetailModelList();
             AgreementPdfDetailModel pdfDetailModel = AgreementPdfList.get(0);
             holder.transactionIdTV.setText(pdfDetailModel.getTransactionRequestId());
-            holder.agreementIdTV.setText(pdfDetailModel.getId());
+            holder.agreementIdTV.setText(transactionModel.getAgreementId());
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
