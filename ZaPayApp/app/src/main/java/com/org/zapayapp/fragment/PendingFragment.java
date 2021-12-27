@@ -139,7 +139,7 @@ public class PendingFragment extends Fragment implements APICallback {
 
     private void setAdapter() {
         if (transactionAdapter==null){
-            transactionAdapter = new TransactionAdapter(getActivity(), transactionList, getString(R.string.transaction));
+            transactionAdapter = new TransactionAdapter(getActivity(), transactionList, getString(R.string.transaction), PendingFragment.this);
             pendingRecyclerView.setAdapter(transactionAdapter);
         }else {
             transactionAdapter.notifyDataSetChanged();

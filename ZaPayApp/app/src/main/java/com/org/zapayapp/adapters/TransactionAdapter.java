@@ -1,38 +1,49 @@
 package com.org.zapayapp.adapters;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.org.zapayapp.R;
 import com.org.zapayapp.activity.BorrowSummaryActivity;
 import com.org.zapayapp.activity.LendingSummaryActivity;
+import com.org.zapayapp.fragment.AcceptedFragment;
+import com.org.zapayapp.model.AgreementPdfDetailModel;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.SharedPref;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.List;
 
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.MyHolder> {
     private Context context;
     private String data;
     private List<TransactionModel> transactionModelsList;
+    Fragment fragment;
 
-    public TransactionAdapter(Context context, List<TransactionModel> transactionModelsList, String data) {
+    public TransactionAdapter(Context context, List<TransactionModel> transactionModelsList, String data, Fragment fragment) {
         this.context = context;
+        this.fragment = fragment;
         this.data = data;
         this.transactionModelsList = transactionModelsList;
     }
 
     class MyHolder extends RecyclerView.ViewHolder {
-        private TextView nameTV;
+        private TextView nameTV, transactionIdTV, agreementIdTV;
         private TextView dateTV;
         private TextView amountTV;
         private TextView noOfPaymentTV;
@@ -41,10 +52,13 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         private ImageView dateUpdateIconIV;
         private TextView acceptedReNegotiateTV;
         private TextView requestByTV;
+        private LinearLayout layoutIds;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
             nameTV = itemView.findViewById(R.id.nameTV);
+            transactionIdTV = itemView.findViewById(R.id.transactionIdTV);
+            agreementIdTV = itemView.findViewById(R.id.agreementIdTV);
             dateTV = itemView.findViewById(R.id.dateTV);
             amountTV = itemView.findViewById(R.id.amountTV);
             noOfPaymentTV = itemView.findViewById(R.id.noOfPaymentTV);
@@ -53,6 +67,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             dateUpdateIconIV = itemView.findViewById(R.id.dateUpdateIconIV);
             acceptedReNegotiateTV = itemView.findViewById(R.id.acceptedReNegotiateTV);
             requestByTV = itemView.findViewById(R.id.requestByTV);
+            layoutIds = itemView.findViewById(R.id.layoutIds);
         }
     }
 
@@ -67,6 +82,10 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     public void onBindViewHolder(@NonNull TransactionAdapter.MyHolder holder, int position) {
         TransactionModel transactionModel = transactionModelsList.get(position);
 
+        AgreementPdfDetailModel pdfDetailModel = null;
+        if (transactionModel.getAgreementPdfDetailModelList().size() > 0) {
+            pdfDetailModel = transactionModel.getAgreementPdfDetailModelList().get(0);
+        }
         if (transactionModel.getFromId() != null && transactionModel.getFromId().length() > 0) {
             if (Const.isRequestByMe(transactionModel.getFromId())) {
                 if (transactionModel.getReceiver_first_name() != null && transactionModel.getReceiver_first_name().length() > 0 && transactionModel.getReceiver_last_name() != null && transactionModel.getReceiver_last_name().length() > 0) {
@@ -85,7 +104,13 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             //holder.dateTV.setText(TimeStamp.timeFun(transactionModel.getCreatedAt()));
         }
 
+        if (pdfDetailModel != null && pdfDetailModel.getTransactionRequestId() != null) {
+            holder.transactionIdTV.setText(pdfDetailModel.getTransactionRequestId());
+        }
 
+        if (transactionModel.getAgreementId() != null) {
+            holder.agreementIdTV.setText(transactionModel.getAgreementId());
+        }
 
         if (transactionModel.getPayDate() != null && transactionModel.getPayDate().length() > 0) {
             String pay_date = transactionModel.getPayDate();
@@ -116,13 +141,13 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         }
 
 
-        if (!Const.isRequestByMe(transactionModel.getFromId())){
+        if (!Const.isRequestByMe(transactionModel.getFromId())) {
             if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
                 holder.borrowModeTitleTV.setText(context.getString(R.string.lend_mode));
             } else if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                 holder.borrowModeTitleTV.setText(context.getString(R.string.borrow_mode));
             }
-        }else if (Const.isRequestByMe(transactionModel.getFromId())){
+        } else if (Const.isRequestByMe(transactionModel.getFromId())) {
             if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
                 holder.borrowModeTitleTV.setText(context.getString(R.string.borrow_mode));
             } else if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
@@ -130,6 +155,23 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             }
         }
 
+
+        //this manage after accept negotiate()
+       /* if (!transactionModel.getIs_negotiate_after_accept().equals("0")){
+            if (!Const.isRequestByMe(transactionModel.getFromId())) {
+                if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
+                    holder.borrowModeTitleTV.setText(context.getString(R.string.borrow_mode));
+                } else if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+                    holder.borrowModeTitleTV.setText(context.getString(R.string.lend_mode));
+                }
+            } else if (Const.isRequestByMe(transactionModel.getFromId())) {
+                if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
+                    holder.borrowModeTitleTV.setText(context.getString(R.string.lend_mode));
+                } else if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+                    holder.borrowModeTitleTV.setText(context.getString(R.string.borrow_mode));
+                }
+            }
+        }*/
 
         if (transactionModel.getTermsType().equalsIgnoreCase("1")) {
             holder.termTypeTV.setText(context.getString(R.string.percent));
@@ -141,8 +183,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             holder.termTypeTV.setText(context.getString(R.string.none));
         }
 
-
-        if (!Const.isRequestByMe(transactionModel.getFromId())){
+        if (!Const.isRequestByMe(transactionModel.getFromId())) {
             if (transactionModel.getStatus() != null && transactionModel.getStatus().length() > 0 && transactionModel.getStatus().equalsIgnoreCase("2")) { //accepted
                 if (transactionModel.getPay_date_update_status_is_pending() != null && transactionModel.getPay_date_update_status_is_pending().length() > 0 && transactionModel.getPay_date_update_status_is_pending().equalsIgnoreCase("1")) {
                     if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().equalsIgnoreCase("2")) {
@@ -156,7 +197,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             } else {
                 holder.dateUpdateIconIV.setVisibility(View.GONE);
             }
-        }else if (Const.isRequestByMe(transactionModel.getFromId())){
+        } else if (Const.isRequestByMe(transactionModel.getFromId())) {
             if (transactionModel.getStatus() != null && transactionModel.getStatus().length() > 0 && transactionModel.getStatus().equalsIgnoreCase("2")) { //accepted
                 if (transactionModel.getPay_date_update_status_is_pending() != null && transactionModel.getPay_date_update_status_is_pending().length() > 0 && transactionModel.getPay_date_update_status_is_pending().equalsIgnoreCase("1")) {
                     if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().equalsIgnoreCase("1")) {
@@ -190,14 +231,14 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 */
 
 
-        if (transactionModel.getStatus()!=null&&transactionModel.getStatus().length()>0&&transactionModel.getUpdatedBy()!=null&&transactionModel.getUpdatedBy().length()>0){
-            if (transactionModel.getStatus().equals("1")&&transactionModel.getIs_negotiate_after_accept().equals("0")){
+        if (transactionModel.getStatus() != null && transactionModel.getStatus().length() > 0 && transactionModel.getUpdatedBy() != null && transactionModel.getUpdatedBy().length() > 0) {
+            if (transactionModel.getStatus().equals("1") && transactionModel.getIs_negotiate_after_accept().equals("0")) {
                 holder.acceptedReNegotiateTV.setVisibility(View.VISIBLE);
                 holder.acceptedReNegotiateTV.setText(context.getString(R.string.negotiate));
-            }else if (transactionModel.getStatus().equals("1")&&transactionModel.getIs_negotiate_after_accept().equals("2")){
+            } else if (transactionModel.getStatus().equals("1") && transactionModel.getIs_negotiate_after_accept().equals("2")) {
                 holder.acceptedReNegotiateTV.setVisibility(View.VISIBLE);
                 holder.acceptedReNegotiateTV.setText(context.getString(R.string.accepted_renegotiate));
-            }else {
+            } else {
                 holder.acceptedReNegotiateTV.setVisibility(View.GONE);
             }
         }
@@ -205,7 +246,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!Const.isRequestByMe(transactionModel.getFromId())){
+                if (!Const.isRequestByMe(transactionModel.getFromId())) {
                     if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                         Intent intent = new Intent(context, BorrowSummaryActivity.class);
                         intent.putExtra("moveFrom", context.getString(R.string.transaction));
@@ -223,7 +264,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                         context.startActivity(intent);
                     }
 
-                }else if (Const.isRequestByMe(transactionModel.getFromId())){
+                } else if (Const.isRequestByMe(transactionModel.getFromId())) {
 
                     if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                         Intent intent = new Intent(context, LendingSummaryActivity.class);
@@ -241,10 +282,14 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                         context.startActivity(intent);
                     }
                 }
-
-
             }
         });
+
+        if (fragment instanceof AcceptedFragment) {
+            holder.layoutIds.setVisibility(View.VISIBLE);
+        } else {
+            holder.layoutIds.setVisibility(View.GONE);
+        }
     }
 
     @Override

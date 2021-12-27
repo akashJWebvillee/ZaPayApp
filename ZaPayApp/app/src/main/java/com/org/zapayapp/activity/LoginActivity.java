@@ -1,12 +1,18 @@
 package com.org.zapayapp.activity;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.text.style.StyleSpan;
+import android.text.style.UnderlineSpan;
+import android.text.util.Linkify;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
@@ -23,6 +29,7 @@ import com.org.zapayapp.utils.MySession;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
 import java.util.HashMap;
+import java.util.regex.Pattern;
 import retrofit2.Call;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener, APICallback {
@@ -78,7 +85,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         mobileSignUpEditText = findViewById(R.id.mobileSignUpEditText);
         passwordSignUpEditText = findViewById(R.id.passwordSignUpEditText);
         conformPasswordSignUpEditText = findViewById(R.id.conformPasswordSignUpEditText);
-
         mChkAgree = findViewById(R.id.mChkAgree);
     }
 
@@ -119,16 +125,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void termCondition() {
-        String textTerms = this.getString(R.string.term_and_condition_message);
+       /* String textTerms = this.getString(R.string.term_and_condition_message1);
         SpannableStringBuilder ssBuilder = new SpannableStringBuilder(textTerms);
         ClickableSpan redClickableSpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
                 try {
-                   /* String url = "https://www.google.com/";
+                    String url = "https://zapay.io/landing/terms";
                     intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse(url));
-                    startActivity(intent);*/
+                    startActivity(intent);
 
                     Intent intent=new Intent(LoginActivity.this,TermConditionActivity.class);
                     startActivity(intent);
@@ -146,17 +152,177 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
         ssBuilder.setSpan(
                 new android.text.style.StyleSpan(Typeface.BOLD), // Span to add
-                47, // Start of the span (inclusive)
+                //47, // Start of the span (inclusive)
+                147, // Start of the span (inclusive)
                 textTerms.length(), // End of the span (exclusive)
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE // Do not extend the span when text add later
         );
 
         ssBuilder.setSpan(
                 redClickableSpan, // Span to add
-                47, // Start of the span (inclusive)
+               // 47, // Start of the span (inclusive)
+                147, // Start of the span (inclusive)
                 textTerms.length(), // End of the span (exclusive)
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE // Do not extend the span when text add later
         );
+
+
+        mTextAgree.setText(ssBuilder);
+        mTextAgree.setMovementMethod(LinkMovementMethod.getInstance());*/
+
+
+
+
+
+        String textTerms = this.getString(R.string.term_and_condition_message1);
+        SpannableStringBuilder ssBuilder = new SpannableStringBuilder(textTerms);
+
+        ClickableSpan redClickableSpan1 = new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View view) {
+                try {
+                    String url = "https://zapay.io/landing/terms";
+                    intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(url));
+                    startActivity(intent);
+                    //Intent intent=new Intent(LoginActivity.this,TermConditionActivity.class);
+                   // startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void updateDrawState(@NonNull TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(CommonMethods.getColorWrapper(LoginActivity.this, R.color.textColor));
+            }
+        };
+
+        ClickableSpan redClickableSpan2 = new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View view) {
+                try {
+                    String url = "https://zapay.io/landing/privacy";
+                    intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(url));
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void updateDrawState(@NonNull TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(CommonMethods.getColorWrapper(LoginActivity.this, R.color.textColor));
+            }
+        };
+
+
+        ClickableSpan redClickableSpan3 = new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View view) {
+                try {
+                    String url = "https://www.dwolla.com/legal/tos/";
+                    intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(url));
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void updateDrawState(@NonNull TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(CommonMethods.getColorWrapper(LoginActivity.this, R.color.textColor));
+            }
+        };
+
+        ClickableSpan redClickableSpan4 = new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View view) {
+                try {
+                    String url = "https://www.dwolla.com/legal/privacy/";
+                    intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(url));
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void updateDrawState(@NonNull TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(CommonMethods.getColorWrapper(LoginActivity.this, R.color.textColor));
+            }
+        };
+
+
+
+//...............1..........//
+        ssBuilder.setSpan(
+                new android.text.style.StyleSpan(Typeface.BOLD), // Span to add
+                41, // Start of the span (inclusive)
+                60, // End of the span (exclusive)
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE // Do not extend the span when text add later
+        );
+
+        ssBuilder.setSpan(
+                redClickableSpan1, // Span to add
+                41, // Start of the span (inclusive)
+                60, // End of the span (exclusive)
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE // Do not extend the span when text add later
+        );
+
+       //...............2..........//
+        ssBuilder.setSpan(
+                new android.text.style.StyleSpan(Typeface.BOLD), // Span to add
+                65, // Start of the span (inclusive)
+                80, // End of the span (exclusive)
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE // Do not extend the span when text add later
+        );
+
+        ssBuilder.setSpan(
+                redClickableSpan2, // Span to add
+                65, // Start of the span (inclusive)
+                80, // End of the span (exclusive)
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE // Do not extend the span when text add later
+        );
+
+        //...............3..........//
+        ssBuilder.setSpan(
+                new android.text.style.StyleSpan(Typeface.BOLD), // Span to add
+                112, // Start of the span (inclusive)
+                129, // End of the span (exclusive)
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE // Do not extend the span when text add later
+        );
+
+        ssBuilder.setSpan(
+                redClickableSpan3, // Span to add
+                112, // Start of the span (inclusive)
+                129, // End of the span (exclusive)
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE // Do not extend the span when text add later
+        );
+
+        //...............4..........//
+
+        ssBuilder.setSpan(
+                new android.text.style.StyleSpan(Typeface.BOLD), // Span to add
+                133, // Start of the span (inclusive)
+                textTerms.length(), // End of the span (exclusive)
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE // Do not extend the span when text add later
+        );
+
+        ssBuilder.setSpan(
+                redClickableSpan4, // Span to add
+                133, // Start of the span (inclusive)
+                textTerms.length(), // End of the span (exclusive)
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE // Do not extend the span when text add later
+        );
+
         mTextAgree.setText(ssBuilder);
         mTextAgree.setMovementMethod(LinkMovementMethod.getInstance());
     }
@@ -177,11 +343,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             case R.id.loginButtonTV:
                 try {
                     removeError();
-                    if (wValidationLib.isEmailAddress(etEmailLayout, editTextUsername, getString(R.string.important), getString(R.string.please_enter_valid_email), true)) {
+
+                    callAPILogin();
+                  /*  if (wValidationLib.isEmailAddress(etEmailLayout, editTextUsername, getString(R.string.important), getString(R.string.please_enter_valid_email), true)) {
                         if (wValidationLib.isPassword(etPasswordLayout, etPassword, getString(R.string.important), getString(R.string.please_enter_valid_password), true)) {
                             callAPILogin();
                         }
-                    }
+                    }*/
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -192,19 +360,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         if (wValidationLib.isEmailAddress(emailSignUpInputLayout, emailSignUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_email), true)) {
                             if (wValidationLib.isValidNumeric(mobileSignUpInputLayout, mobileSignUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_mobile), true)) {
                                 if (wValidationLib.isPassword(passwordSignUpInputLayout, passwordSignUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_password), true)) {
-                                    if (wValidationLib.isPassword(conformPasswordSignUpInputLayout, conformPasswordSignUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_password), true)) {
-                                        if (wValidationLib.isConfirmPasswordValidation(passwordSignUpInputLayout, passwordSignUpEditText, conformPasswordSignUpInputLayout, conformPasswordSignUpEditText, getString(R.string.important), getString(R.string.important), getString(R.string.please_enter_valid_password), getString(R.string.please_enter_valid_password_same), true)) {
+                                    //if (wValidationLib.isPassword(conformPasswordSignUpInputLayout, conformPasswordSignUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_password), true)) {
+                                        if (wValidationLib.isConfirmPasswordValidation(passwordSignUpInputLayout, passwordSignUpEditText, conformPasswordSignUpInputLayout, conformPasswordSignUpEditText, getString(R.string.important), getString(R.string.important), getString(R.string.please_enter_valid_password_same), getString(R.string.please_enter_valid_password_same), true)) {
                                             if (mChkAgree.isChecked()) {
                                                 callAPISignUp();
                                             } else {
                                                 showSimpleAlert(getString(R.string.term_and_condition_message), "");
                                             }
                                         }
-                                    }
+                                   // }
                                 }
                             }
                         }
                     }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -214,7 +383,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 Intent intent=new Intent(LoginActivity.this,TermConditionActivity.class);
                 startActivity(intent);
                 break;*/
-
         }
     }
 
@@ -233,7 +401,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     "mobile", mobileSignUpEditText.getText().toString().trim(),
                     "password", passwordSignUpEditText.getText().toString().trim(),
                     "device_type", Const.KEY.DEVICE_TYPE,
-                    "device_token", SharedPref.getPrefsHelper().getPref(Const.Var.FIREBASE_DEVICE_TOKEN,""),
+                    "device_token", SharedPref.getPrefsHelper().getPref(Const.Var.FIREBASE_DEVICE_TOKEN, ""),
                     "device_id", Const.getDeviceId(LoginActivity.this));
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postApi(getString(R.string.api_signup), values);
@@ -255,7 +423,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     "email", editTextUsername.getText().toString().trim(),
                     "password", etPassword.getText().toString().trim(),
                     "device_type", Const.KEY.DEVICE_TYPE,
-                    "device_token", SharedPref.getPrefsHelper().getPref(Const.Var.FIREBASE_DEVICE_TOKEN,""),
+                    "device_token", SharedPref.getPrefsHelper().getPref(Const.Var.FIREBASE_DEVICE_TOKEN, ""),
                     "device_id", Const.getDeviceId(LoginActivity.this));
 
             zapayApp.setApiCallback(this);
@@ -285,10 +453,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     if (json.get("data").getAsJsonObject() != null) {
                         JsonObject jsonObject = json.get("data").getAsJsonObject();
                         MySession.MakeSession(jsonObject);
-                       // intent = new Intent(LoginActivity.this, HomeActivity.class);
-                       // startActivity(intent);
-                        Intent intent=new Intent(LoginActivity.this, SetPinActivity.class);
-                        intent.putExtra("forWhat",getString(R.string.set_new_pin));
+                        // intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        // startActivity(intent);
+                        Intent intent = new Intent(LoginActivity.this, SetPinActivity.class);
+                        intent.putExtra("forWhat", getString(R.string.set_new_pin));
                         startActivity(intent);
                         finish();
                     }

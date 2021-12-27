@@ -1,4 +1,5 @@
 package com.org.zapayapp.adapters;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -6,19 +7,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.org.zapayapp.R;
 import com.org.zapayapp.activity.BorrowSummaryActivity;
 import com.org.zapayapp.activity.LendingSummaryActivity;
 import com.org.zapayapp.dialogs.RattingDialogActivity;
+import com.org.zapayapp.model.AgreementPdfDetailModel;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.uihelpers.CustomRatingBar;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.SharedPref;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.List;
 
 public class TransactionCompletedAdapter extends RecyclerView.Adapter<TransactionCompletedAdapter.MyHolder> {
@@ -42,6 +48,8 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
         private LinearLayout rattingLL;
         private CustomRatingBar viewRatingBar;
         private TextView requestByTV;
+        private TextView transactionIdTV;
+        private TextView agreementIdTV;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
@@ -55,6 +63,8 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
             viewRatingBar.setFocusableInTouchMode(false);
             rattingLL = itemView.findViewById(R.id.rattingLL);
             requestByTV = itemView.findViewById(R.id.requestByTV);
+            transactionIdTV = itemView.findViewById(R.id.transactionIdTV);
+            agreementIdTV = itemView.findViewById(R.id.agreementIdTV);
         }
     }
 
@@ -101,7 +111,7 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
             }
         }*/
 
-        if (transactionModel.getRating_by_user()!=null&&transactionModel.getRating_by_user().length()>0){
+        if (transactionModel.getRating_by_user() != null && transactionModel.getRating_by_user().length() > 0) {
             holder.viewRatingBar.setScore(Float.parseFloat(transactionModel.getRating_by_user()));
         }
         holder.viewRatingBar.setScrollToSelect(false);
@@ -111,17 +121,17 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
             //holder.dateTV.setText(TimeStamp.timeFun(transactionModel.getCreatedAt()));
         }
 
-        if (transactionModel.getPayDate()!=null&&transactionModel.getPayDate().length()>0){
-            String pay_date=transactionModel.getPayDate();
+        if (transactionModel.getPayDate() != null && transactionModel.getPayDate().length() > 0) {
+            String pay_date = transactionModel.getPayDate();
             pay_date = pay_date.replaceAll("\\\\", "");
             try {
                 JSONArray jsonArray = new JSONArray(pay_date);
-                JSONObject jsonObject1=  jsonArray.getJSONObject(0);
-                String date= jsonObject1.getString("date");
+                JSONObject jsonObject1 = jsonArray.getJSONObject(0);
+                String date = jsonObject1.getString("date");
                 try {
-                   // holder.dateTV.setText(DateFormat.getDateFromEpoch(date));
+                    // holder.dateTV.setText(DateFormat.getDateFromEpoch(date));
                     holder.dateTV.setText(date);
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -154,10 +164,16 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
             holder.termTypeTV.setText(context.getString(R.string.none));
         }
 
+        if (transactionModel.getAgreementPdfDetailModelList() != null && transactionModel.getAgreementPdfDetailModelList().size() > 0) {
+            List<AgreementPdfDetailModel> AgreementPdfList = transactionModel.getAgreementPdfDetailModelList();
+            AgreementPdfDetailModel pdfDetailModel = AgreementPdfList.get(0);
+            holder.transactionIdTV.setText(pdfDetailModel.getTransactionRequestId());
+            holder.agreementIdTV.setText(transactionModel.getAgreementId());
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (!transactionModel.getStatus().equalsIgnoreCase("2")) {
                     if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                         Intent intent = new Intent(context, BorrowSummaryActivity.class);
@@ -179,18 +195,18 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
         holder.rattingLL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String averageRating="";
-                String is_already_rated="";
+                String averageRating = "";
+                String is_already_rated = "";
                 if (Const.isRequestByMe(transactionModel.getFromId())) {
-                    averageRating=transactionModel.getReceiver_average_rating();
-                    is_already_rated=transactionModel.getIs_already_rated();
+                    averageRating = transactionModel.getReceiver_average_rating();
+                    is_already_rated = transactionModel.getIs_already_rated();
                 } else {
-                    averageRating=transactionModel.getSender_average_rating();
-                    is_already_rated=transactionModel.getIs_already_rated();
+                    averageRating = transactionModel.getSender_average_rating();
+                    is_already_rated = transactionModel.getIs_already_rated();
                 }
 
                 if (Const.isRequestByMe(transactionModel.getFromId())) {
-                    if (transactionModel.getRequestBy()!=null&&transactionModel.getRequestBy().length()>0){
+                    if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
                         if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                             Intent intent = new Intent(context, RattingDialogActivity.class);
                             intent.putExtra("requestBy", "2");
@@ -207,16 +223,15 @@ public class TransactionCompletedAdapter extends RecyclerView.Adapter<Transactio
                             intent.putExtra("toId", transactionModel.getToId());
                             intent.putExtra("fromId", transactionModel.getFromId());
                             intent.putExtra("transactionRequestID", transactionModel.getId());
-                           // intent.putExtra("averageRating", averageRating);
+                            // intent.putExtra("averageRating", averageRating);
                             intent.putExtra("averageRating", transactionModel.getRating_by_user());
                             intent.putExtra("isAlreadyRated", is_already_rated);
                             context.startActivity(intent);
                         }
                     }
 
-                }else {
-
-                    if (transactionModel.getRequestBy()!=null&&transactionModel.getRequestBy().length()>0){
+                } else {
+                    if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
                         if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                             Intent intent = new Intent(context, RattingDialogActivity.class);
                             intent.putExtra("requestBy", "2");

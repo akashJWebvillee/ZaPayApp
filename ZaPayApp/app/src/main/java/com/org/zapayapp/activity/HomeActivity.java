@@ -31,9 +31,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
         if (SharedPref.getPrefsHelper().getPref(Const.Var.FIREBASE_DEVICE_TOKEN) != null && SharedPref.getPrefsHelper().getPref(Const.Var.FIREBASE_DEVICE_TOKEN).toString().length() > 0) {
             callAPIUpdateDeviceInfo();
         }
+
         init();
         initAction();
         getNotificationIntent();
@@ -51,7 +53,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         titleTV = findViewById(R.id.titleTV);
 
         AppCenter.start(getApplication(), "7c7f48b8-92b9-419a-842c-536b68581c02",
-                Analytics.class, Crashes.class);// add this to trace the crashlytics
+                Analytics.class, Crashes.class);// add this to trace the crashlaytics
 
     }
 
@@ -91,15 +93,14 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                         }
                     }
                 }
-
                 break;
+
             case R.id.homeLLBorrow:
                 if (Const.isUserDefaulter().equals("1")) {
                     showSimpleAlert(getString(R.string.you_have_defaulter_msg), getString(R.string.you_have_defaulter_msg));
                 }else if (Const.isUserDefaulter().equals("2")){
                     showSimpleAlert(getString(R.string.payment_initiated_it_takes_time_to_confirm_the_payment), getString(R.string.payment_initiated_it_takes_time_to_confirm_the_payment));
-
-                }else {
+                } else {
                     if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().length() > 0) {
                         if (!SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("0")) {
                             if (isClickable) {
@@ -137,7 +138,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         callAPICheckUserDefaulterStatus();
     }
 
-
     private void callAPIUpdateDeviceInfo() {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
@@ -160,6 +160,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
     private void callAPIGetUserDetail() {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+       // String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMyIsImZpcnN0X25hbWUiOiJBc2hvayIsImxhc3RfbmFtZSI6Ikt1bWFyIiwiZW1haWwiOiJhc2hvay53ZWJ2aWxsZWVAZ21haWwuY29tIiwicm9sZSI6IjIiLCJ0aW1lc3RhbXAiOjE2MjgwNzA4NDd9.V7d9_Lv3QJRZ88JRG6Ghx-UctL-IV5MZOyeWpX31_ao";
         Log.e("token", "token========.....====" + token);
         try {
             zapayApp.setApiCallback(this);
@@ -247,7 +248,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
             } else if (from.equals(getResources().getString(R.string.api_check_user_defaulter_status))) {
                 if (status == 200) {
-
                     if (json.get("data").getAsJsonObject() != null) {
                         JsonObject jsonObject = json.get("data").getAsJsonObject();
                         if (jsonObject.get("is_defaulter").getAsString() != null && jsonObject.get("is_defaulter").getAsString().length() > 0) {
@@ -279,20 +279,20 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     public void onBackPressed() {
         // super.onBackPressed();
         showForceUpdate(getString(R.string.do_you_want_to_close_the_application), getString(R.string.do_you_want_to_close_the_application), false, getString(R.string.cancel), false);
-
     }
 
     private void getNotificationIntent() {
         if (getIntent() != null) {
             if (getIntent().getStringExtra("notification_type") != null) {
-                if (getIntent().getStringExtra("notification_type").equalsIgnoreCase("CHAT_MESSAGE_RECEIVE")) {
+                String notification_type = getIntent().getStringExtra("notification_type");
+                if (notification_type!=null&&notification_type.equalsIgnoreCase("CHAT_MESSAGE_RECEIVE")) {
                     String transaction_request_id = getIntent().getStringExtra("transaction_request_id");
                     intent = new Intent(this, ChatActivity.class);
                     intent.putExtra("transaction_id", transaction_request_id);
                     Objects.requireNonNull(intent).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
                 } else {
-                    String notification_type = getIntent().getStringExtra("notification_type");
+                   // String notification_type = getIntent().getStringExtra("notification_type");
                     String request_by = getIntent().getStringExtra("request_by");
                     String status = getIntent().getStringExtra("status");
                     String transaction_request_id = getIntent().getStringExtra("transaction_request_id");
@@ -319,7 +319,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                         intent.putExtra("moveFrom", forWhat);
                         intent.putExtra("status", status);
                         intent.putExtra("transactionId", transaction_request_id);
-
                     } else if (notification_type.equalsIgnoreCase("REQUEST_ACCEPTED")) {
                         intent.putExtra("moveFrom", forWhat);
                         intent.putExtra("status", status);
@@ -348,13 +347,17 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                         intent.putExtra("moveFrom", forWhat);
                         intent.putExtra("status", "2");
                         intent.putExtra("transactionId", transaction_request_id);
+                    }else if (notification_type.equalsIgnoreCase("TRANSACTION_INITIATED_STATUS_UPDATE")) {
+                        intent.putExtra("moveFrom", forWhat);
+                        intent.putExtra("status", "2");
+                        intent.putExtra("transactionId", transaction_request_id);
                     }
+
                     //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     Objects.requireNonNull(intent).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
                 }
             }
-
         }
     }
 }

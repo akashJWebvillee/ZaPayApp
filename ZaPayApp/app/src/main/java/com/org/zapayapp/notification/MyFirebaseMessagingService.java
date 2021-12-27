@@ -113,6 +113,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     String from_id = data.get("from_id");
                     String to_id = data.get("to_id");
 
+
                     if (notification_type != null) {
                         if (isAppBackground()) {
                             intent = new Intent(this, HomeActivity.class);
@@ -149,7 +150,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                         intent = new Intent(this, LendingSummaryActivity.class);
                                     }
                                 }
-
                             } else { //Transaction
                                 forWhat = getString(R.string.transaction);
                                 if (request_by != null && request_by.equals("1")) {
@@ -188,6 +188,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                 intent.putExtra("status", "2");
                                 intent.putExtra("transactionId", transaction_request_id);
                             } else if (notification_type.equalsIgnoreCase("PAY_DATE_EXTEND_DECLINE")) {
+                                intent.putExtra("moveFrom", forWhat);
+                                intent.putExtra("status", "2");
+                                intent.putExtra("transactionId", transaction_request_id);
+                            }else if (notification_type.equalsIgnoreCase("TRANSACTION_INITIATED_STATUS_UPDATE")) {
                                 intent.putExtra("moveFrom", forWhat);
                                 intent.putExtra("status", "2");
                                 intent.putExtra("transactionId", transaction_request_id);

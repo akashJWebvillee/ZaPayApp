@@ -33,6 +33,7 @@ import com.google.firebase.iid.InstanceIdResult;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.org.zapayapp.BuildConfig;
 import com.org.zapayapp.R;
 import com.org.zapayapp.ZapayApp;
 import com.org.zapayapp.adapters.NavigationAdapter;
@@ -83,27 +84,29 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
      * The My profile.
      */
     protected int MY_PROFILE = 0;
+
+    protected int MY_WALLET=1;
     /**
      * The Bank account.
      */
-    protected int BANK_ACCOUNT = 1;
+    protected int BANK_ACCOUNT = 2;
     /**
      * The Transaction.
      */
-    protected int TRANSACTION = 2;
+    protected int TRANSACTION = 3;
     /**
      * The History.
      */
-    protected int HISTORY = 3;
+    protected int HISTORY = 4;
     /**
      * The Default Transaction.
      */
-    protected int DEFAULT_TRANSACTION = 4;
+    protected int DEFAULT_TRANSACTION = 5;
 
     /**
      * The About us.
      */
-    protected int ABOUT_US = 5;
+    protected int ABOUT_US = 6;
     /**
      * The Terms condition.
      */
@@ -186,7 +189,6 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
         @Override
         public void call(Object... args) {
             CommonMethods.showLogs("NETWORK_CONNECTION", "Emitter.Listener onConnectError :- " + " Network Connect Error !!!");
-
             CommonMethods.showLogs("exception", isConnected + " ");
         }
     };
@@ -410,6 +412,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
         navRecycler.setItemAnimator(new DefaultItemAnimator());
         List<String> navList = new ArrayList<>();
         navList.add(getString(R.string.my_profile));
+        navList.add(getString(R.string.wallet));
         navList.add(getString(R.string.bank_account));
         navList.add(getString(R.string.transaction));
         //navList.add(getString(R.string.history));
@@ -474,13 +477,20 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
                     startActivity(intent);
                 }
                 break;
+
             case 1:
+                if (currentScreen != MY_WALLET) {
+                    intent = new Intent(this, WalletActivity.class);
+                    startActivity(intent);
+                }
+                break;
+            case 2:
                 if (currentScreen != BANK_ACCOUNT) {
                     intent = new Intent(this, BankInfoActivity.class);
                     startActivity(intent);
                 }
                 break;
-            case 2:
+            case 3:
                 if (Const.isUserDefaulter().equals("1")) {
                     showSimpleAlert(getString(R.string.you_have_defaulter_msg), getString(R.string.you_have_defaulter_msg));
                 }else if (Const.isUserDefaulter().equals("2")){
@@ -499,31 +509,31 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
                 }
                 break;
 */
-            case 3:
+            case 4:
                 if (currentScreen != DEFAULT_TRANSACTION) {
                     intent = new Intent(this, DefaultTransactionActivity.class);
                     startActivity(intent);
                 }
                 break;
-            case 4:
+            case 5:
                 if (currentScreen != ABOUT_US) {
                     intent = new Intent(this, AboutUsActivity.class);
                     startActivity(intent);
                 }
                 break;
-            case 5:
+            case 6:
                 if (currentScreen != TERMS_CONDITION) {
                     intent = new Intent(this, TermConditionActivity.class);
                     startActivity(intent);
                 }
                 break;
-            case 6:
+            case 7:
                 if (currentScreen != HELP) {
                     intent = new Intent(this, HelpActivity.class);
                     startActivity(intent);
                 }
                 break;
-            case 8:
+            case 9:
                 if (currentScreen != LOGOUT) {
                     alertLogOut();
                 }
@@ -562,6 +572,18 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
         }
     }
 
+    private void callGetVersionAPI() {
+        try {
+            zapayApp.setApiCallback(this);
+            Call<JsonElement> call = restAPI.getApi(getString(R.string.api_get_app_version));
+            if (apiCalling != null) {
+                apiCalling.callAPI(zapayApp, call, getString(R.string.api_get_app_version), activityContainer);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void apiCallback(JsonObject json, String from) {
         if (from != null) {
@@ -577,6 +599,20 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             if (from.equals(getResources().getString(R.string.api_logout))) {
                 if (status == 200) {
                     clearLogout();
+                } else {
+                    showSimpleAlert(msg, "");
+                }
+            }
+
+            if (from.equals(getResources().getString(R.string.api_get_app_version))) {
+                if (status == 200) {
+                    String android_version = json.get("data").getAsJsonObject().get("android_version").getAsString();
+                    CommonMethods.showLogs(BaseActivity.class.getSimpleName(), " versionName :- " + android_version);
+                    String versionName = BuildConfig.VERSION_NAME;
+                    if (Double.parseDouble(versionName) != Double.parseDouble(android_version)) {
+//                        alertDialogCallback(this);
+                        showForceUpdate(getString(R.string.app_version_change), getString(R.string.app_version_change), false, "", false);
+                    }
                 } else {
                     showSimpleAlert(msg, "");
                 }
@@ -702,6 +738,8 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             clearLogout();
         } else if (from.equalsIgnoreCase(getString(R.string.do_you_want_to_close_the_application))) {
             finish();
+        } else if (from.equalsIgnoreCase(getString(R.string.app_version_change))) {
+            finish();
         }
     }
 
@@ -735,6 +773,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             disconnectSocket(); // 2
             connectSocket();
         }
+        callGetVersionAPI();
     }
 
     public void connectSocket() {

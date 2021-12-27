@@ -1,5 +1,4 @@
 package com.org.zapayapp.dialogs;
-
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -8,18 +7,15 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
-
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.ZapayApp;
-import com.org.zapayapp.activity.BaseActivity;
 import com.org.zapayapp.activity.SplashActivity;
 import com.org.zapayapp.alert_dialog.SimpleAlertFragment;
 import com.org.zapayapp.uihelpers.CustomTextInputLayout;
@@ -31,9 +27,7 @@ import com.org.zapayapp.utils.WValidationLib;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
 import com.org.zapayapp.webservices.RestAPI;
-
 import java.util.HashMap;
-
 import retrofit2.Call;
 
 public class ChangePassDialogActivity extends AppCompatActivity implements View.OnClickListener, APICallback, SimpleAlertFragment.AlertSimpleCallback {
@@ -91,15 +85,15 @@ public class ChangePassDialogActivity extends AppCompatActivity implements View.
     public void onClick(View v) {
         if (v.equals(saveTV)) {
             try {
-                if (wValidationLib.isPassword(oldPasswordInputLayout, oldPasswordUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_password), true)) {
+                //if (wValidationLib.isPassword(oldPasswordInputLayout, oldPasswordUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_password), true)) {
                     if (wValidationLib.isPassword(newPasswordInputLayout, newPasswordUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_password), true)) {
-                        if (wValidationLib.isPassword(confirmPasswordInputLayout, confirmPasswordUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_password), true)) {
-                            if (wValidationLib.isConfirmPasswordValidation(newPasswordInputLayout, newPasswordUpEditText, confirmPasswordInputLayout, confirmPasswordUpEditText, getString(R.string.important), getString(R.string.important), getString(R.string.please_enter_valid_password), getString(R.string.please_enter_valid_password_same), true)) {
+                        //if (wValidationLib.isPassword(confirmPasswordInputLayout, confirmPasswordUpEditText, getString(R.string.important), getString(R.string.please_enter_valid_password), true)) {
+                            if (wValidationLib.isConfirmPasswordValidation(newPasswordInputLayout, newPasswordUpEditText, confirmPasswordInputLayout, confirmPasswordUpEditText, getString(R.string.important), getString(R.string.important), getString(R.string.please_enter_valid_password_same), getString(R.string.please_enter_valid_password_same), true)) {
                                 callAPIResetPassword();
                             }
-                        }
+                       // }
                     }
-                }
+                //}
             } catch (Exception e) {
                 e.printStackTrace();
             }

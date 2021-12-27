@@ -136,7 +136,7 @@ public class AcceptedFragment extends Fragment implements APICallback {
 
     private void setAdapter() {
         if (transactionAdapter == null) {
-            transactionAdapter = new TransactionAdapter(getActivity(), transactionList, getString(R.string.transaction));
+            transactionAdapter = new TransactionAdapter(getActivity(), transactionList, getString(R.string.transaction), AcceptedFragment.this);
             pendingRecyclerView.setAdapter(transactionAdapter);
         } else {
             transactionAdapter.notifyDataSetChanged();

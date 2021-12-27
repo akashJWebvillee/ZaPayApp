@@ -1,20 +1,16 @@
 package com.org.zapayapp.activity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
@@ -32,18 +28,15 @@ import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.DatePickerFragmentDialogue;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
-
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
-
 import retrofit2.Call;
 
 public class ViewAllSummaryActivity extends BaseActivity implements APICallback, View.OnClickListener, DatePickerFragmentDialogue.DatePickerCallback {
@@ -71,7 +64,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
     private TextView allTransactionDetailTV;
     private View lendViewAllLine;
     private TextView afterCommissionAmountTV;
-    private LinearLayout commissionLL;
+    private LinearLayout commissionLL, layoutRating;
     private TextView afterCommissionTitleTV;
 
     @Override
@@ -105,6 +98,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         viewRatingBar = findViewById(R.id.viewRatingBar);
 
         agreementLL = findViewById(R.id.agreementLL);
+        layoutRating = findViewById(R.id.layoutRating);
         commissionTitleTV = findViewById(R.id.commissionTitleTV);
         commissionValueTV = findViewById(R.id.commissionValueTV);
         allTransactionDetailTV = findViewById(R.id.allTransactionDetailTV);
@@ -120,6 +114,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         negotiateTV.setVisibility(View.GONE);
         acceptTV.setVisibility(View.GONE);
         declineTV.setVisibility(View.GONE);
+
     }
 
     private void initAction() {
@@ -159,6 +154,12 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
             } else if (getString(R.string.history).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
                 callAPIGetHistoryRequestDetail(transactionId);
             }*/
+        }
+
+        if (moveFrom.equals(getString(R.string.transaction))) {
+            layoutRating.setVisibility(View.VISIBLE);
+        } else {
+            layoutRating.setVisibility(View.GONE);
         }
     }
 
@@ -283,7 +284,6 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
             e.printStackTrace();
         }
     }
-
 
     public void callAPIPayDateRequestStatusUpdateForCancel(DateModel dateModel, String requestBy) {
         //new_pay_date_status- 0=default, 1=pending, 2=accepted, 3=decline
@@ -423,10 +423,8 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         } else {
             if (transactionModel.getSender_average_rating() != null && transactionModel.getSender_average_rating().length() > 0) {
                 viewRatingBar.setScore(Float.parseFloat(transactionModel.getSender_average_rating()));
-
             }
         }
-
 
         if (transactionModel.getTermsType() != null && transactionModel.getTermsType().length() > 0 && transactionModel.getTermsValue() != null && transactionModel.getTermsValue().length() > 0) {
             String terms_type = transactionModel.getTermsType();
@@ -442,14 +440,13 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 terms_value = terms_value + " " + getString(R.string.discount);
                 termTV.setText(Const.getCurrency() + terms_value);
             } else if (terms_type.equalsIgnoreCase("4")) {
-                // terms_value = terms_value + " " + getString(R.string.none);
+                //terms_value = terms_value + " " + getString(R.string.none);
                 termTV.setText(getString(R.string.none));
             }
         }
 
         if (transactionModel.getUpdatedBy() != null && transactionModel.getUpdatedBy().length() > 0
                 && transactionModel.getStatus() != null && transactionModel.getStatus().length() > 0) {
-
             updated_by = transactionModel.getUpdatedBy();
             status = transactionModel.getStatus();
             setButtonVisibility(forWhat);
@@ -460,30 +457,8 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
             commission_charges_detail.replace("\\", "/");
             CommissionModel commissionModel = gson.fromJson(commission_charges_detail, CommissionModel.class);
 
-           /* if (moveFrom != null && moveFrom.equalsIgnoreCase(getString(R.string.transaction))) {
-                if (requestBy != null && requestBy.length() > 0) {
-                    if (requestBy.equalsIgnoreCase("1")) {     //lender
-                        commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getLenderChargeValue() + ")" + commissionModel.getLenderChargeType());
-                        commissionValueTV.setText(commissionModel.getLenderChargeValue());
-                    } else if (requestBy.equalsIgnoreCase("2")) {   //borrower
-                        commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
-                        commissionValueTV.setText(commissionModel.getBorrowerChargeValue());
-                    }
-                }
-            }else if (moveFrom != null && moveFrom.equalsIgnoreCase(getString(R.string.history))){
-                if (requestBy != null && requestBy.length() > 0) {
-                    if (requestBy.equalsIgnoreCase("2")) {
-                        commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getLenderChargeValue() + ")" + commissionModel.getLenderChargeType());
-                        commissionValueTV.setText(commissionModel.getLenderChargeValue());
-                    } else if (requestBy.equalsIgnoreCase("1")) {
-                        commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
-                        commissionValueTV.setText(commissionModel.getBorrowerChargeValue());
-                    }
-                }
-            */
 
-
-            if (getString(R.string.transaction).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
+          /*  if (getString(R.string.transaction).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
                 if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
                     if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
                         commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getLenderChargeValue() + ")" + commissionModel.getLenderChargeType());
@@ -503,6 +478,31 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                     if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
                         commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
                         commissionValueTV.setText(Const.getCurrency() + transactionModel.getAdmin_commission_from_borrower());
+                    }
+                }
+            }*/
+
+
+            if (getString(R.string.transaction).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
+                if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
+                    if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
+                        commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
+                        commissionValueTV.setText(Const.getCurrency() + transactionModel.getAdmin_commission_from_borrower());
+                    }
+                    if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+                        commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getLenderChargeValue() + ")" + commissionModel.getLenderChargeType());
+                        commissionValueTV.setText(Const.getCurrency() + transactionModel.getAdmin_commission_from_lender());
+                    }
+                }
+            } else if (getString(R.string.history).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
+                if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
+                    if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+                        commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
+                        commissionValueTV.setText(Const.getCurrency() + transactionModel.getAdmin_commission_from_borrower());
+                    }
+                    if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
+                        commissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + commissionModel.getLenderChargeValue() + ")" + commissionModel.getLenderChargeType());
+                        commissionValueTV.setText(Const.getCurrency() + transactionModel.getAdmin_commission_from_lender());
                     }
                 }
             }
@@ -540,7 +540,6 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                     break;
                 }
             }
-
             setPaybackAdapter();
         }
 
@@ -569,7 +568,6 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                     titleTV.setText(getString(R.string.lending_summary));
                     viewAllNameType.setText(getString(R.string.lender));
                     totalPlayReceiveTV.setText(getString(R.string.total_to_receive_back));
-
                 }
                 if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                     titleTV.setText(getString(R.string.borrow_summary));
@@ -603,8 +601,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
         }
 
 
-        //if (getString(R.string.transaction).equalsIgnoreCase(moveFrom)) {
-        if (!Const.isRequestByMe(transactionModel.getFromId())) {
+       /* if (!Const.isRequestByMe(transactionModel.getFromId())) {
             if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
                 if (transactionModel.getRequestBy().equals("1")) {
                     if (transactionModel.getAdmin_commission_from_lender() != null && transactionModel.getAdmin_commission_from_lender().length() > 0) {
@@ -623,7 +620,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 }
             }
 
-            //} else if (getString(R.string.history).equalsIgnoreCase(moveFrom)) {
+
         } else if (Const.isRequestByMe(transactionModel.getFromId())) {
             if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
                 if (transactionModel.getRequestBy().equals("2")) {
@@ -643,13 +640,52 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 }
             }
         }
+        */
 
-      /*  new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
 
+        if (!Const.isRequestByMe(transactionModel.getFromId())) {
+            if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
+                if (transactionModel.getRequestBy().equals("1")) {
+                    if (transactionModel.getAdmin_commission_from_borrower() != null && transactionModel.getAdmin_commission_from_borrower().length() > 0) {
+                        float commission = Float.parseFloat(transactionModel.getAdmin_commission_from_borrower());
+                        float totalAmount = Float.parseFloat(transactionModel.getTotalAmount());
+                        float amount = totalAmount - commission;
+                        afterCommissionAmountTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(amount, 2));
+                    }
+                } else if (transactionModel.getRequestBy().equals("2")) {
+                    if (transactionModel.getAdmin_commission_from_lender() != null && transactionModel.getAdmin_commission_from_lender().length() > 0) {
+                        float commission = Float.parseFloat(transactionModel.getAdmin_commission_from_lender());
+                        float totalAmount = Float.parseFloat(transactionModel.getTotalAmount());
+                        float amount = totalAmount - commission;
+                        afterCommissionAmountTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(amount, 2));
+                    }
+                }
             }
-        }, 500);*/
+
+
+        } else if (Const.isRequestByMe(transactionModel.getFromId())) {
+            if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
+                if (transactionModel.getRequestBy().equals("2")) {
+                    if (transactionModel.getAdmin_commission_from_borrower() != null && transactionModel.getAdmin_commission_from_borrower().length() > 0) {
+                        float commission = Float.parseFloat(transactionModel.getAdmin_commission_from_borrower());
+                        float totalAmount = Float.parseFloat(transactionModel.getTotalAmount());
+                        float amount = totalAmount - commission;
+                        afterCommissionAmountTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(amount, 2));
+                    }
+                } else if (transactionModel.getRequestBy().equals("1")) {
+                    if (transactionModel.getAdmin_commission_from_lender() != null && transactionModel.getAdmin_commission_from_lender().length() > 0) {
+                        float commission = Float.parseFloat(transactionModel.getAdmin_commission_from_lender());
+                        float totalAmount = Float.parseFloat(transactionModel.getTotalAmount());
+                        float amount = totalAmount - commission;
+                        afterCommissionAmountTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(amount, 2));
+                    }
+                }
+            }
+        }
+
+
+
+
         //setPaybackAdapter();
 
         //this will be invisible when after accept negotiate
@@ -673,7 +709,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
             args1.putString("DATE", dateModel.getPayDate());
             newFragment1.setArguments(args1);
             newFragment1.show(getSupportFragmentManager(), getString(R.string.date_picker));
-            // }
+            //}
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -683,7 +719,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
     @Override
     public void datePickerCallback(String selectedDate, int year, int month, int day, String
             from) throws ParseException {
-        String formattedDate = year + "-" + month + "-" + day;
+         String formattedDate = year + "-" + month + "-" + day;
         if (dateModel != null) {
             callAPIUpdatePayDate(formattedDate);
         }
@@ -718,7 +754,6 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 setTransactionButtonVisibleFunc(status);
             }
 
-
             // } else if (forWhat.equalsIgnoreCase(getString(R.string.history))) {
         } else if (Const.isRequestByMe(transactionModel.getFromId())) {
             if (status != null && status.equalsIgnoreCase("0")) { //PENDING
@@ -750,7 +785,6 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 acceptTV.setVisibility(View.VISIBLE);
                 declineTV.setVisibility(View.VISIBLE);
             }
-
             declineTV.setVisibility(View.VISIBLE);
 
         } else if (status.equalsIgnoreCase("2")) {
@@ -761,7 +795,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                     acceptTV.setVisibility(View.GONE);
                     declineTV.setVisibility(View.GONE);
                 } else {
-                    if (transactionModel.getIs_negotiate_after_accept().equals("2")) {
+                    if (transactionModel.getIs_negotiate_after_accept().equals("1")) {
                         negotiateTV.setVisibility(View.GONE);//re-negotiation apply only once
                     } else {
                         negotiateTV.setVisibility(View.VISIBLE);
@@ -804,7 +838,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                     acceptTV.setVisibility(View.GONE);
                     declineTV.setVisibility(View.GONE);
                 } else {
-                    if (transactionModel.getIs_negotiate_after_accept().equals("2")) {
+                    if (transactionModel.getIs_negotiate_after_accept().equals("1")) {
                         negotiateTV.setVisibility(View.GONE);
                     } else {
                         negotiateTV.setVisibility(View.VISIBLE);
@@ -815,7 +849,6 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                     declineTV.setVisibility(View.GONE);
                 }
             }
-
         } else {
             negotiateTV.setVisibility(View.GONE);
             acceptTV.setVisibility(View.GONE);

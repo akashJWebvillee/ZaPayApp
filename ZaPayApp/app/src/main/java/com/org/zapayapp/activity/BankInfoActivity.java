@@ -142,6 +142,7 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
                     if (json.get("data").getAsJsonObject() != null) {
                         JsonObject jsonObject = json.get("data").getAsJsonObject();
                         MySession.MakeSession(jsonObject);
+                        setData();
                     }
                 } else if (status == 401) {
                     showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
@@ -155,7 +156,7 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
 
     private void setData() {
         if (SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER).toString().length() > 0) {
-          //  accountNumberTV.setText(SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER, ""));
+          //accountNumberTV.setText(SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER, ""));
 
             String acNumber= SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER, "");
             int acLength=SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER).toString().length();
@@ -167,8 +168,7 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
                   acNumberStr=acNumberStr+"*";
               }
               accountNumberTV.setText(acNumberStr+lastFourDigit);
-
-          }
+            }
         }
         if (SharedPref.getPrefsHelper().getPref(Const.Var.ROUTING_NUMBER) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ROUTING_NUMBER).toString().length() > 0) {
             routingNumberTV.setText(SharedPref.getPrefsHelper().getPref(Const.Var.ROUTING_NUMBER, ""));
@@ -183,12 +183,21 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
                 SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_STATUS).toString().equalsIgnoreCase("verified")) {
             addTV.setVisibility(View.INVISIBLE);
             addShadowLayout.setVisibility(View.INVISIBLE);
-            addShadowChange.setVisibility(View.VISIBLE);
+           // addShadowChange.setVisibility(View.VISIBLE);
         } else {
             addTV.setVisibility(View.VISIBLE);
             addShadowLayout.setVisibility(View.VISIBLE);
-            addShadowChange.setVisibility(View.INVISIBLE);
+           // addShadowChange.setVisibility(View.INVISIBLE);
         }
 
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS)!=null&&SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().length()>0){
+            if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("1")){ // 1=bank account add pending
+                addShadowChange.setVisibility(View.INVISIBLE);
+            }else if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("2")){ //bank verify pending
+                addShadowChange.setVisibility(View.VISIBLE);
+            }else if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("3")){//bank verify complete
+                addShadowChange.setVisibility(View.INVISIBLE);
+            }
+        }
     }
 }

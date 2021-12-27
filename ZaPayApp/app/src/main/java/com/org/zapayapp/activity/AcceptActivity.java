@@ -22,7 +22,6 @@ import com.org.zapayapp.model.DateModel;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.pdf_view.PdfFileDownloadAcyncTask;
 import com.org.zapayapp.utils.Const;
-import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
@@ -40,7 +39,6 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
     private ProgressBar progressBar;
     private PDFView pdfView;
     private int pageNumber = 0;
-
     private TransactionModel transactionModel1;
 
     @Override
@@ -54,14 +52,13 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
     }
 
     private void inIt() {
-        // discriptionTV = findViewById(R.id.discriptionTV);
+        //discriptionTV = findViewById(R.id.discriptionTV);
         webView = findViewById(R.id.webView);
         okTV = findViewById(R.id.okTV);
         cancelTV = findViewById(R.id.cancelTV);
         mChkAgree = findViewById(R.id.mChkAgree);
         progressBar = findViewById(R.id.progressBar);
         pdfView = findViewById(R.id.pdfView);
-
     }
 
     private void getIntentValues() {
@@ -75,7 +72,9 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
                 dateModel = gson.fromJson(intent.getStringExtra("status"), DateModel.class);
                 generateAmendmentPdf("2", dateModel.getNew_pay_date());//before accept request generate amendment
             } else if (transactionModel1.getIs_negotiate_after_accept() != null && transactionModel1.getIs_negotiate_after_accept().length() > 0 && transactionModel1.getIs_negotiate_after_accept().equals("2")) {
-                generateAmendmentPdf("3", DateFormat.getCurrentDate());  // after accept request generate amendment
+               //generateAmendmentPdf("3", DateFormat.getCurrentDate());  // after accept request generate amendment
+                status = intent.getStringExtra("status");
+                generateAgreementPdf();
             } else {
                 status = intent.getStringExtra("status");
                 generateAgreementPdf();
@@ -101,8 +100,7 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
                     } else {
                         showSimpleAlert(getString(R.string.PDF_url_missing), "");
                     }
-
-                } else if (moveFrom.equalsIgnoreCase("ChangeDateRequestDialogActivity")) {
+                 } else if (moveFrom.equalsIgnoreCase("ChangeDateRequestDialogActivity")) {
                     showSimpleAlert(getString(R.string.please_accept_amendment_form), "");
                 } else {
                     showSimpleAlert(getString(R.string.please_accept_agreement_form), "");
@@ -188,7 +186,6 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
             e.printStackTrace();
         }
     }
-
 
     private void callAPIUpdateRunningTransactionRequestStatus() {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
@@ -303,7 +300,6 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
     @Override
     public void onPageChanged(int page, int pageCount) {
         pageNumber = page;
-
     }
 
     @Override
@@ -321,11 +317,9 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
     }
 
     private class CustomWebViewClient extends WebViewClient {
-
         @Override
         public void onPageStarted(WebView webview, String url, Bitmap favicon) {
             webview.setVisibility(webview.INVISIBLE);
@@ -336,11 +330,8 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
             webview.setVisibility(webview.VISIBLE);
             super.onPageFinished(webview, url);
             //apiCalling.setRunInBackground(true);
-
         }
     }
-
-
     public void showSimpleAlert11(String message, String from) {
         try {
             FragmentManager fm = getSupportFragmentManager();
@@ -377,5 +368,4 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
             startActivity(intent);
         }
     }
-
 }

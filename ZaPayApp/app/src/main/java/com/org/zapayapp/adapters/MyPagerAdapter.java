@@ -44,25 +44,6 @@ public class MyPagerAdapter extends FragmentStatePagerAdapter {
             default:
                 return null;
 
-                /*case 0:
-                PendingFragment tab1 = new PendingFragment();
-                return tab1;
-            case 1:
-                NegotiationFragment tab2 = new NegotiationFragment();
-                return tab2;
-            case 2:
-                AcceptedFragment tab3 = new AcceptedFragment();
-                return tab3;
-            case 3:
-                CompletedFragment tab4 = new CompletedFragment();
-                return tab4;
-
-            case 4:
-                DeclineFragment tab5 = new DeclineFragment();
-                return tab5;
-
-            default:
-                return null;*/
         }
     }
     @Override

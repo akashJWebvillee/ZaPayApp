@@ -28,7 +28,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 7) {
+        if (position == 8) {
             return TYPE_VIEW;
         } else {
             return TYPE_OPTION;

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/rectanguler_4redius"
@@ -11,47 +12,46 @@
 
     <LinearLayout
         android:id="@+id/paymentLL"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="8dp"
-        android:paddingStart="10dp"
-        android:layout_marginBottom="10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/payments"
-            android:textSize="14sp"
-            android:fontFamily="@font/gotha_pro_reg"/>
-
-        <TextView
-            android:id="@+id/paymentNoTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1"
-            android:textSize="14sp"
-            android:fontFamily="@font/gotha_probol"
-            android:textColor="@color/blackColor"
-            android:layout_marginTop="5dp"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_toEndOf="@+id/paymentLL"
         android:layout_toStartOf="@+id/editDateRL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingTop="8dp"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="10dp"
         android:layout_marginBottom="10dp"
-        android:weightSum="2">
+        android:weightSum="3">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/payments"
+                android:textSize="14sp"
+                android:fontFamily="@font/gotha_pro_reg"/>
+
+            <TextView
+                android:id="@+id/paymentNoTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textSize="14sp"
+                android:fontFamily="@font/gotha_probol"
+                android:textColor="@color/blackColor"
+                android:layout_marginTop="5dp"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:orientation="vertical">
             <TextView
                 android:id="@+id/paymentDateTitleTV"
@@ -76,7 +76,7 @@
 
         <LinearLayout
             android:id="@+id/amountLL"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
@@ -110,14 +110,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center|start"
-        android:paddingBottom="10dp"
-        android:paddingStart="10dp"
-        android:visibility="gone">
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:visibility="visible">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/amendment"
+            android:text="@string/amended"
             android:textSize="14sp"
             android:maxLines="1"
             android:ellipsize="end"
@@ -128,8 +128,8 @@
             android:layout_height="10dp"
             android:src="@mipmap/file1"
             android:layout_marginTop="0dp"
-            android:layout_marginStart="30dp"
-            android:tint="@color/color_blue"/>
+            android:layout_marginStart="40dp"
+            app:tint="@color/color_blue" />
     </LinearLayout>
 
     <RelativeLayout
@@ -149,7 +149,7 @@
             android:layout_centerInParent="true"
             android:src="@mipmap/edit_icon"
             android:padding="2dp"
-            android:tint="@color/colorWhite"/>
+            app:tint="@color/colorWhite"/>
     </RelativeLayout>
 </RelativeLayout>
 

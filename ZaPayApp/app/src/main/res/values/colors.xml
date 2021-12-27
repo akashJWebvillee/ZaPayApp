@@ -8,26 +8,19 @@
     <color name="navTextSelectColor">#FE5E00</color>
     <color name="navViewColor">#E9E5F3</color>
     <color name="tabTextColor">#6C676F</color>
-
     <color name="editTextViewColor">#1A19151B</color>
     <color name="colorWhite70Alpha">#B3FFFFFF</color>
     <color name="textColor">#19151B</color>
     <color name="textColorBold">#232323</color>
     <color name="navTextColorAlpha">#801E2931</color>
-
-
     <color name="navTextColor70Alpha">#B319151B</color>
     <color name="navTextColor60Alpha">#9919151B</color>
     <color name="navTextColor50Alpha">#8019151B</color>
     <color name="textColorBold20Alpha">#33232323</color>
-
-
     <color name="blackColor">#FC131313</color>
-
     <color name="colorLineLightGrey">#ECECEC</color>
     <color name="summaryLineColor">#FAF1EB</color>
     <color name="historyVerticalLineColor">#E4E4E4</color>
-
     <color name="colorLineLightOrange">#FAF1EB</color>
 <!--
     <color name="colorRed">#EF0606</color>
@@ -37,11 +30,10 @@
     <color name="greenColor">#00AD15</color>
     <color name="textColorTerms">#6C676F</color>
     <color name="colorBtnRed">#EF0606</color>
-
     <color name="loaderpBg60Alpha">#99FFFFFF</color>
-
-<!--chat-->
+    <!--chat-->
     <color name="color_userNameText">#3E3F42</color>
     <color name="color_lightGray">#9ea0a5</color>
     <color name="color_blue">#1854EA</color>
+    <color name="grayColor_opacity_5">#33797F85</color>
 </resources>

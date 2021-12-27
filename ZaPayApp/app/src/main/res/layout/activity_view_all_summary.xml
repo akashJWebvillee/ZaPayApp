@@ -228,6 +228,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:id="@+id/layoutRating"
                         android:orientation="vertical"
                         android:visibility="gone">
 
@@ -256,16 +257,16 @@
                             app:starOff="@mipmap/ic_star_hollow"
                             app:starOn="@mipmap/ic_star_fill"
                             app:starPadding="3dp"
-                            app:stars="0"/>
+                            app:stars="0" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/agreementLL"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="27dp"
                         android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:layout_marginStart="27dp">
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -394,7 +395,7 @@
                     android:gravity="start"
                     android:text="@string/view_all"
                     android:textColor="@color/navTextSelectColor"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp" />
 
                 <View
                     android:id="@+id/lendViewAllLine"
@@ -406,7 +407,7 @@
                     android:layout_marginEnd="28dp"
                     android:layout_marginBottom="42dp"
                     android:background="@color/navTextSelectColor"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/negotiateTV"

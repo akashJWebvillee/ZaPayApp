@@ -4,155 +4,226 @@
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginStart="30dp"
+    android:layout_marginTop="7.5dp"
+    android:layout_marginEnd="30dp"
+    android:layout_marginBottom="7.5dp"
     android:background="#00DC4E43"
     android:elevation="3dp"
-    card_view:cardCornerRadius="10dp"
-    android:layout_marginStart="30dp"
-    android:layout_marginEnd="30dp"
-    android:layout_marginTop="7.5dp"
-    android:layout_marginBottom="7.5dp">
+    card_view:cardCornerRadius="10dp">
 
-    <RelativeLayout
+    <RelativeLayout xmlns:app="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        xmlns:app="http://schemas.android.com/tools">
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center|start"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:fontFamily="@font/gotha_pro_reg"
+                        android:gravity="start"
+                        android:text="@string/transaction_id"
+                        android:textColor="@color/navTextColor50Alpha"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/transactionIdTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="3dp"
+                        android:fontFamily="@font/gotha_promed"
+                        android:gravity="start"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center|end"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="0dp"
+                        android:fontFamily="@font/gotha_pro_reg"
+                        android:gravity="end"
+                        android:text="@string/agreement_id"
+                        android:textColor="@color/navTextColor50Alpha"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/agreementIdTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="14dp"
+                        android:fontFamily="@font/gotha_promed"
+                        android:gravity="end"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/nameTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="40dp"
             android:fontFamily="@font/gotha_promed"
             android:gravity="start"
+            android:text="ahsdfjhsdfd"
             android:textColor="@color/textColor"
-            android:textSize="16sp"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="14dp"
-            android:text="ahsdfjhsdfd"/>
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/amountTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="16dp"
             android:fontFamily="@font/gotha_promed"
             android:gravity="start"
+            android:text="$5000"
             android:textColor="@color/textColor"
-            android:textSize="16sp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="16dp"
-            android:text="$5000"/>
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/dateTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="59dp"
             android:fontFamily="@font/gotha_pro_reg"
             android:gravity="start"
+            android:text="12/2/2020"
             android:textColor="@color/navTextColor70Alpha"
-            android:textSize="11sp"
-            android:layout_marginTop="39dp"
-            android:layout_marginStart="14dp"
-            android:text="12/2/2020"/>
+            android:textSize="11sp" />
 
         <TextView
             android:id="@+id/installmentTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="80dp"
             android:fontFamily="@font/gotha_pro_reg"
             android:gravity="start"
             android:text="@string/no_of_installment"
             android:textColor="@color/navTextColor50Alpha"
-            android:textSize="11sp"
-            android:layout_marginTop="60dp"
-            android:layout_marginStart="14dp" />
+            android:textSize="11sp" />
 
         <TextView
             android:id="@+id/noOfPaymentTV"
-            android:layout_toEndOf="@+id/installmentTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="80dp"
+            android:layout_toEndOf="@+id/installmentTV"
             android:fontFamily="@font/gotha_promed"
             android:gravity="start"
             android:textColor="@color/textColor"
-            android:textSize="11sp"
-            android:layout_marginTop="60dp"
-            android:layout_marginStart="4dp"/>
+            android:textSize="11sp" />
 
         <View
             android:id="@+id/verticalView"
-            android:layout_toEndOf="@+id/noOfPaymentTV"
             android:layout_width="1dp"
             android:layout_height="18dp"
-            android:layout_marginTop="56dp"
-            android:background="@color/historyVerticalLineColor"
-            android:layout_marginStart="13dp"/>
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="76dp"
+            android:layout_toEndOf="@+id/noOfPaymentTV"
+            android:background="@color/historyVerticalLineColor" />
 
         <TextView
             android:id="@+id/borrowModeTitleTV"
-            android:layout_toEndOf="@+id/verticalView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="80dp"
+            android:layout_toEndOf="@+id/verticalView"
             android:fontFamily="@font/gotha_pro_reg"
             android:gravity="start"
             android:text="@string/borrow_mode"
             android:textColor="@color/navTextColor50Alpha"
-            android:textSize="11sp"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="60dp" />
+            android:textSize="11sp" />
 
         <TextView
             android:id="@+id/termTypeTV"
-            android:layout_toEndOf="@+id/borrowModeTitleTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="80dp"
+            android:layout_toEndOf="@+id/borrowModeTitleTV"
             android:fontFamily="@font/gotha_promed"
             android:gravity="start"
-            android:textColor="@color/textColor"
-            android:textSize="11sp"
-            android:layout_marginTop="60dp"
-            android:layout_marginStart="4dp"/>
+            android:textColor="@color/colorPrimary"
+            android:textSize="11sp" />
 
 
         <LinearLayout
             android:id="@+id/requestedByLL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_below="@+id/termTypeTV"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginTop="10dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/requestedByTitleTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
                 android:fontFamily="@font/gotha_promed"
                 android:gravity="start"
                 android:text="@string/requested_by"
                 android:textColor="@color/textColorBold"
-                android:textSize="15sp"
-                android:layout_marginStart="14dp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/requestByTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
                 android:fontFamily="@font/gotha_promed"
                 android:gravity="start"
                 android:textColor="@color/colorPrimary"
-                android:textSize="15sp"
-                android:layout_marginStart="4dp"/>
+                android:textSize="15sp" />
         </LinearLayout>
 
         <ImageView
             android:id="@+id/dotLineIV"
-            android:layout_below="@+id/requestedByLL"
             android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
             android:layout_height="5dp"
-            android:src="@drawable/dotted"
-            android:layerType="software" />
+            android:layout_below="@+id/requestedByLL"
+            android:layout_marginTop="10dp"
+            android:layerType="software"
+            android:src="@drawable/dotted" />
 
 
         <com.org.zapayapp.uihelpers.CustomRatingBar
@@ -160,8 +231,10 @@
             android:layout_width="wrap_content"
             android:layout_height="13dp"
             android:layout_below="@+id/dotLineIV"
-            android:layout_marginTop="8dp"
             android:layout_marginStart="5dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="10dp"
+            android:focusable="false"
             android:stepSize="1"
             app:halfStars="true"
             app:maxStars="5"
@@ -170,21 +243,19 @@
             app:starOff="@mipmap/ic_star_hollow"
             app:starOn="@mipmap/ic_star_fill"
             app:starPadding="2dp"
-            app:stars="0"
-            android:layout_marginEnd="10dp"
-            android:focusable="false"/>
+            app:stars="0" />
 
         <LinearLayout
             android:id="@+id/rattingLL"
-            android:layout_below="@+id/dotLineIV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_below="@+id/dotLineIV"
+            android:layout_alignParentEnd="true"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:gravity="center"
-            android:layout_alignParentEnd="true">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -200,3 +271,209 @@
         </LinearLayout>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
+
+
+    <!--
+    <?xml version="1.0" encoding="utf-8"?>
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#00DC4E43"
+        android:elevation="3dp"
+        card_view:cardCornerRadius="10dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="7.5dp"
+        android:layout_marginBottom="7.5dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            xmlns:app="http://schemas.android.com/tools">
+
+            <TextView
+                android:id="@+id/nameTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotha_promed"
+                android:gravity="start"
+                android:textColor="@color/textColor"
+                android:textSize="16sp"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="14dp"
+                android:text="ahsdfjhsdfd"/>
+
+            <TextView
+                android:id="@+id/amountTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotha_promed"
+                android:gravity="start"
+                android:textColor="@color/textColor"
+                android:textSize="16sp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
+                android:text="$5000"/>
+
+            <TextView
+                android:id="@+id/dateTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotha_pro_reg"
+                android:gravity="start"
+                android:textColor="@color/navTextColor70Alpha"
+                android:textSize="11sp"
+                android:layout_marginTop="39dp"
+                android:layout_marginStart="14dp"
+                android:text="12/2/2020"/>
+
+            <TextView
+                android:id="@+id/installmentTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotha_pro_reg"
+                android:gravity="start"
+                android:text="@string/no_of_installment"
+                android:textColor="@color/navTextColor50Alpha"
+                android:textSize="11sp"
+                android:layout_marginTop="60dp"
+                android:layout_marginStart="14dp" />
+
+            <TextView
+                android:id="@+id/noOfPaymentTV"
+                android:layout_toEndOf="@+id/installmentTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotha_promed"
+                android:gravity="start"
+                android:textColor="@color/textColor"
+                android:textSize="11sp"
+                android:layout_marginTop="60dp"
+                android:layout_marginStart="4dp"/>
+
+            <View
+                android:id="@+id/verticalView"
+                android:layout_toEndOf="@+id/noOfPaymentTV"
+                android:layout_width="1dp"
+                android:layout_height="18dp"
+                android:layout_marginTop="56dp"
+                android:background="@color/historyVerticalLineColor"
+                android:layout_marginStart="13dp"/>
+
+            <TextView
+                android:id="@+id/borrowModeTitleTV"
+                android:layout_toEndOf="@+id/verticalView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotha_pro_reg"
+                android:gravity="start"
+                android:text="@string/borrow_mode"
+                android:textColor="@color/navTextColor50Alpha"
+                android:textSize="11sp"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="60dp" />
+
+            <TextView
+                android:id="@+id/termTypeTV"
+                android:layout_toEndOf="@+id/borrowModeTitleTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotha_promed"
+                android:gravity="start"
+                android:textColor="@color/textColor"
+                android:textSize="11sp"
+                android:layout_marginTop="60dp"
+                android:layout_marginStart="4dp"/>
+
+
+            <LinearLayout
+                android:id="@+id/requestedByLL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/termTypeTV"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/requestedByTitleTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotha_promed"
+                    android:gravity="start"
+                    android:text="@string/requested_by"
+                    android:textColor="@color/textColorBold"
+                    android:textSize="15sp"
+                    android:layout_marginStart="14dp" />
+
+                <TextView
+                    android:id="@+id/requestByTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotha_promed"
+                    android:gravity="start"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15sp"
+                    android:layout_marginStart="4dp"/>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/dotLineIV"
+                android:layout_below="@+id/requestedByLL"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_height="5dp"
+                android:src="@drawable/dotted"
+                android:layerType="software" />
+
+
+            <com.org.zapayapp.uihelpers.CustomRatingBar
+                android:id="@+id/viewRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="13dp"
+                android:layout_below="@+id/dotLineIV"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="5dp"
+                android:stepSize="1"
+                app:halfStars="true"
+                app:maxStars="5"
+                app:onlyForDisplay="true"
+                app:starHalf="@mipmap/ic_star_fill"
+                app:starOff="@mipmap/ic_star_hollow"
+                app:starOn="@mipmap/ic_star_fill"
+                app:starPadding="2dp"
+                app:stars="0"
+                android:layout_marginEnd="10dp"
+                android:focusable="false"/>
+
+            <LinearLayout
+                android:id="@+id/rattingLL"
+                android:layout_below="@+id/dotLineIV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+                android:gravity="center"
+                android:layout_alignParentEnd="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/review"
+                    android:textColor="@color/colorPrimary" />
+
+                <ImageView
+                    android:id="@+id/trangleIV"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/ic_play_arrow_black_24dp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+    -->

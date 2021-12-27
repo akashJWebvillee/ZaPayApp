@@ -27,6 +27,7 @@
     <string name="confirm_your_password">Confirm your password</string>
     <string name="login">LOGIN</string>
     <string name="signup">SIGNUP</string>
+    <string name="agree_and_sign_up">Agree and Sign Up</string>
     <string name="login_text">Login</string>
     <string name="signup_text">Sign Up</string>
     <string name="send">SEND</string>
@@ -39,10 +40,12 @@
     <string name="enter_password">Enter your password</string>
     <string name="forgot_password">Forgot password</string>
     <string name="i_agree">I agree</string>
-    <string name="term_and_condition_message">By creating an account, you are agreeing to the Terms and Conditions</string>
+    <string name="term_and_condition_message">"By creating an account, you are agreeing to Zapay's Terms and Conditions</string>
+    <string name="term_and_condition_message1">"By checking this box you agree to Zapay's Terms &amp; Conditions and Privacy Policy, as well as our partner Dwolla’s Terms of Service and Privacy Policy</string>
     <!-- navigation strings-->
     <string name="home">Home</string>
     <string name="my_profile">My Profile</string>
+    <string name="wallet">Wallet</string>
     <string name="bank_account">Bank Account</string>
     <string name="account_type">ACCOUNT TYPE</string>
     <string name="transaction">Transaction</string>
@@ -117,6 +120,10 @@
     <string name="routing_number">Routing Number</string>
     <string name="Arbitrary_nickname">Arbitrary nickname</string>
     <string name="change">Change</string>
+    <string name="add_amount">Add Amount</string>
+    <string name="added_in_wallet">Added In Wallet</string>
+    <string name="withdrawal">Withdrawal</string>
+    <string name="withdrawal_amount">Withdrawal Amount</string>
     <string name="bank_account_add">Bank Account Add</string>
     <string name="bank_account_change">Bank Account Change</string>
     <string name="enter_account_number">Enter account number</string>
@@ -159,6 +166,8 @@
     <string name="enter_your_amount">Enter your amount</string>
     <string name="select_terms">Select Terms</string>
     <string name="fee">Fee</string>
+    <string name="done">Done</string>
+    <string name="filter">Filter By Type</string>
     <string name="percent">%</string>
     <string name="discount">Discount</string>
     <string name="none">None</string>
@@ -212,6 +221,7 @@
     <string name="no_data_found">No data found</string>
     <string name="verify_account">Verify Account</string>
     <string name="add">Add</string>
+    <string name="add_money">Add Money</string>
     <string name="amount1">Amount 1</string>
     <string name="amount2">Amount 2</string>
     <string name="enter_amount1">Enter Amount 1</string>
@@ -224,7 +234,11 @@
     <string name="please_enter_valid_email">Please enter valid email.</string>
     <string name="please_enter_valid_full_name">Please enter valid full name.</string>
     <string name="please_enter_valid_mobile">Please enter 10 digit valid mobile.</string>
-    <string name="please_enter_valid_password">Please enter 8 character valid password.</string>
+<!--
+   <string name="please_enter_valid_password">Please enter 8 character valid password.</string>
+-->
+    <string name="please_enter_valid_password">Please enter alpha numeric and special character.</string>
+
     <string name="please_enter_valid_password_same">Password &amp; confirm password should be same.</string>
     <string name="session_expired">Session expired</string>
     <string name="your_session_expired">Your session has expired.\nPlease login again.</string>
@@ -263,11 +277,14 @@
     <string name="your_date_change_Request_has_been_updated">Your date change Request has been updated</string>
     <string name="congratulations">Congratulations</string>
     <string name="close">Close</string>
+    <string name="clear_all">Clear All</string>
     <string name="forget_pin_msg">First logout to generate new pin. Do you want to logout?</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="signature">Signature</string>
     <string name="clear">Clear</string>
+    <string name="withdrawal_money">Withdrawal Money</string>
+    <string name="transaction_history">Transaction History</string>
     <string name="add_signature">Add Signature</string>
     <string name="plz_add_signature">Please add signature</string>
     <string name="accept_disclaimer">Accept Disclaimer</string>
@@ -278,6 +295,7 @@
     <string name="previous_date">Previous date</string>
     <string name="requested_date">Requested date</string>
     <string name="amendment">Amendment</string>
+    <string name="amended">Amended : </string>
     <string name="requested_by">Requested By:</string>
     <string name="self">Self</string>
     <string name="view_all_date">View All Date</string>
@@ -286,6 +304,19 @@
     <string name="payment_initiated_it_takes_time_to_confirm_the_payment">Default EMI payment initiated, It takes time to confirm the payment</string>
 
     <string name="signature_conformation_msg">"Please make sure signature is valid because once signature uploaded can't be undo</string>
-    <string name="termConditionData">"Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book
-</string>
+    <string name="termConditionData">"Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book</string>
+
+    <string name="discount_should_be_less_than_amount">Discount should be less than the amount</string>
+
+    <string name="by_add_money">By Add Money</string>
+    <string name="by_money_withdraw">By Money Withdraw</string>
+    <string name="by_money_sent">By Money Sent</string>
+    <string name="short_by_date">Short By Date</string>
+
+    <string name="transaction_id">Transaction ID: </string>
+    <string name="agreement_id">Agreement ID: </string>
+    <string name="view_more">View More</string>
+
+    <string name="app_version_change">You are running outdated version of this app. Please update to get new features</string>
+
 </resources>

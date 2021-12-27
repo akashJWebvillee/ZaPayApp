@@ -1,4 +1,5 @@
 package com.org.zapayapp.adapters;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -8,8 +9,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.org.zapayapp.R;
 import com.org.zapayapp.activity.PdfViewActivity;
 import com.org.zapayapp.activity.ViewAllSummaryActivity;
@@ -20,6 +23,7 @@ import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.DateFormat;
 import com.org.zapayapp.utils.SharedPref;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,7 +70,13 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull PaybackDateAdapter.MyHolder holder, final int position) {
-        holder.paymentNoTV.setText(String.valueOf(position + 1));
+
+        if (moveFrom.equals(context.getString(R.string.transaction))) {
+            if (dateModelArrayList.get(position).getAgreementIdSrNumber() != null && dateModelArrayList.get(position).getAgreementIdSrNumber().length() > 0)
+                holder.paymentNoTV.setText(dateModelArrayList.get(position).getAgreementIdSrNumber());
+        } else {
+            holder.paymentNoTV.setText(String.valueOf(position + 1));
+        }
         if (dateModelArrayList.get(position).getPayDate() != null && dateModelArrayList.get(position).getPayDate().length() > 0) {
             holder.dateTV.setText(DateFormat.dateFormatConvert(dateModelArrayList.get(position).getPayDate()));
         }
@@ -91,7 +101,6 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
             holder.amendmentLL.setVisibility(View.GONE);
         }
 
-
         if (moveFrom.equalsIgnoreCase(context.getString(R.string.history))) {
             if (requestBy.equalsIgnoreCase("2") && transactionModel.getStatus().equals("2")) {
 
@@ -103,9 +112,7 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
                                 holder.editDateIV.setImageResource(R.mipmap.edit_icon);
                                 holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_rounded));
                             }
-
                         } else {
-                            // holder.editDateRL.setVisibility(View.GONE);
                             if (dateModelArrayList.get(position).getNew_pay_date_status().equals("1")) {
                                 if (dateModelArrayList.get(position).getIs_extended().equals("0")) {
                                     holder.editDateIV.setImageResource(R.drawable.close);
@@ -122,35 +129,28 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
                                 //holder.editDateIV.setImageResource(R.drawable.close);
                                 holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray)); //decline
                                 holder.editDateIV.setImageResource(R.drawable.close);
-                            }else {
+                            } else {
                                 holder.editDateRL.setVisibility(View.GONE);
                             }
-
                         }
-
-
                     } else if (dateModelArrayList.get(position).getStatus().equals("processed")) {
-                        holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray));
-                        holder.editDateIV.setImageResource(R.drawable.check);
+                        //  holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray));
+                        // holder.editDateIV.setImageResource(R.drawable.check);
                     } else if (dateModelArrayList.get(position).getStatus().equals("pending")) {
-                        holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_rounded));
-                        holder.editDateIV.setImageResource(R.drawable.check);
+                        // holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_rounded));
+                        //  holder.editDateIV.setImageResource(R.drawable.check);
                     } else if (dateModelArrayList.get(position).getStatus().equals("cancelled")) {
-                        holder.editDateIV.setImageResource(R.drawable.close);
-                        holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray));
+                        //  holder.editDateIV.setImageResource(R.drawable.close);
+                        //  holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray));
                     } else if (dateModelArrayList.get(position).getStatus().equals("failed")) {
-                        //holder.editDateIV.setImageResource(R.mipmap.edit_icon);
-                        holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray));
+                        // holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray));
                     }
                 }
-
-
             } else if (requestBy.equalsIgnoreCase("1")) {
                 holder.editDateRL.setVisibility(View.GONE);
             }
 
         } else {
-
             if (requestBy.equalsIgnoreCase("1") && transactionModel.getStatus().equals("2")) {
                 if (dateModelArrayList.get(position).getStatus() != null && dateModelArrayList.get(position).getStatus().length() > 0) {
                     if (dateModelArrayList.get(position).getStatus().equals("remaining")) {
@@ -163,7 +163,6 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
                             }
 
                         } else {
-                            // holder.editDateRL.setVisibility(View.GONE);
                             if (dateModelArrayList.get(position).getNew_pay_date_status().equals("1")) {
                                 if (dateModelArrayList.get(position).getIs_extended().equals("0")) {
                                     holder.editDateIV.setImageResource(R.drawable.close);
@@ -180,42 +179,35 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
                                 //holder.editDateIV.setImageResource(R.drawable.close);
                                 holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray)); //decline
                                 holder.editDateIV.setImageResource(R.drawable.close);
-                            }else {
+                            } else {
                                 holder.editDateRL.setVisibility(View.GONE);
                             }
-
                         }
 
-
                     } else if (dateModelArrayList.get(position).getStatus().equals("processed")) {
-                        holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray));
-                        holder.editDateIV.setImageResource(R.drawable.check);
+                        // holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray));
+                        // holder.editDateIV.setImageResource(R.drawable.check);
                     } else if (dateModelArrayList.get(position).getStatus().equals("pending")) {
-                        holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_rounded));
-                        holder.editDateIV.setImageResource(R.drawable.check);
+                        //  holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_rounded));
+                        //  holder.editDateIV.setImageResource(R.drawable.check);
                     } else if (dateModelArrayList.get(position).getStatus().equals("cancelled")) {
-                        holder.editDateIV.setImageResource(R.drawable.close);
-                        holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray));
+                        // holder.editDateIV.setImageResource(R.drawable.close);
+                        // holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray));
                     } else if (dateModelArrayList.get(position).getStatus().equals("failed")) {
-                        //holder.editDateIV.setImageResource(R.mipmap.edit_icon);
-                        holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray));
+                        // holder.editDateRL.setBackground(CommonMethods.getDrawableWrapper(context, R.drawable.rectanguler_end_round_gray));
                     }
                 }
-
             } else if (requestBy.equalsIgnoreCase("2")) {
                 holder.editDateRL.setVisibility(View.GONE);
-
             }
-
         }
-
 
         holder.editDateIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (context instanceof ViewAllSummaryActivity) {
                     if (dateModelArrayList.get(position).getNew_pay_date_status() != null && dateModelArrayList.get(position).getNew_pay_date_status().length() > 0) {
-                        if (dateModelArrayList.get(position).getStatus().equals("remaining")){
+                        if (dateModelArrayList.get(position).getStatus().equals("remaining")) {
                             if (dateModelArrayList.get(position).getNew_pay_date_status().equals("0")) {
                                 ((ViewAllSummaryActivity) context).selectPaybackDate(position, dateModelArrayList.get(position));
 
@@ -232,13 +224,13 @@ public class PaybackDateAdapter extends RecyclerView.Adapter<PaybackDateAdapter.
                                 ((ViewAllSummaryActivity) context).showSimpleAlert(context.getString(R.string.your_date_request_has_been_canceled), "");
                             }
 
-                        }else if (dateModelArrayList.get(position).getStatus().equals("processed")){
+                        } else if (dateModelArrayList.get(position).getStatus().equals("processed")) {
 
-                        }else if (dateModelArrayList.get(position).getStatus().equals("pending")){
+                        } else if (dateModelArrayList.get(position).getStatus().equals("pending")) {
 
-                        }else if (dateModelArrayList.get(position).getStatus().equals("cancelled")){
+                        } else if (dateModelArrayList.get(position).getStatus().equals("cancelled")) {
 
-                        }else if (dateModelArrayList.get(position).getStatus().equals("failed")){
+                        } else if (dateModelArrayList.get(position).getStatus().equals("failed")) {
 
                         }
                     }
