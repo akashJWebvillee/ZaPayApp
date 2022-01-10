@@ -96,8 +96,7 @@
                     android:gravity="center"
                     android:includeFontPadding="false"
                     android:textSize="18sp"
-                    android:fontFamily="@font/gotha_promed"
-                    android:text="$00.00"/>
+                    android:fontFamily="@font/gotha_promed"/>
 
                 <View
                     android:layout_width="match_parent"

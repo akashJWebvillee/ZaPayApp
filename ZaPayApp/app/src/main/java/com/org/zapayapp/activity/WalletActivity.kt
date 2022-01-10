@@ -143,6 +143,12 @@ class WalletActivity : BaseActivity(), View.OnClickListener, MyBottomSheet.Botto
                     transactionList.clear()
                     val walletModel: WalletModel = gson.fromJson(json?.get("data")?.asJsonObject.toString(), WalletModel::class.java)
                     val balanceDetailsModel: BalanceDetailsModel = walletModel.balanceDetailsModel
+
+                    if (balanceDetailsModel.currency != null && balanceDetailsModel.currency.length > 0 && balanceDetailsModel.value != null && balanceDetailsModel.value.length > 0) {
+                        amountTV.text = SharedPref.getPrefsHelper().getPref(Const.Var.CURRENCY, "") + "" + balanceDetailsModel.value
+                    } else {
+                        amountTV.text = "$00.00"
+                    }
                     //val walletTransactionModelList: List<WalletTransactionModel> = walletModel.walletTransactionModelList
                     val walletTransactionModelList: List<WalletTransactionModel1> = walletModel.walletTransactionModelList
 
@@ -154,9 +160,7 @@ class WalletActivity : BaseActivity(), View.OnClickListener, MyBottomSheet.Botto
                     }
 
                     setAdapterFun()
-                    if (balanceDetailsModel.currency != null && balanceDetailsModel.currency.length > 0 && balanceDetailsModel.value != null && balanceDetailsModel.value.length > 0) {
-                        amountTV.text = SharedPref.getPrefsHelper().getPref(Const.Var.CURRENCY, "") + "" + balanceDetailsModel.value
-                    }
+
                     //showSimpleAlert(msg, resources.getString(R.string.api_get_user_wallet_balance))
                 } else {
                     showSimpleAlert(msg, "")
