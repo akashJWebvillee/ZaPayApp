@@ -1105,9 +1105,9 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 if (SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_TYPE).toString().equalsIgnoreCase("flat")) {
                     lenderCommission = lenderChargeValue;
                 } else if (SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_TYPE).toString().equalsIgnoreCase("percent")) {
-                    lenderCommission = (finalTotalPayBackAmount * lenderChargeValue) / 100;
+                    lenderCommission = (amount * lenderChargeValue) / 100;
                 }
-                borrowerCommission = (finalTotalPayBackAmount * borrowerChargeValue) / 100;
+                borrowerCommission = (amount * borrowerChargeValue) / 100;
 
 
                 //*****this code use for temprary
@@ -1125,7 +1125,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
                 //*****this code use for temprary
 
-                double afterCommission = finalTotalPayBackAmount - borrowerCommission;
+                double afterCommission = amount - borrowerCommission;
                 zapayCommissionTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(borrowerCommission, 2));
                 afterCommissionTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(afterCommission, 2));
                 zapayCommissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + borrowerChargeValue + ")" + borrowerChargeType);
@@ -1135,11 +1135,11 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                     lenderCommission = lenderChargeValue;
                 } else if (SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_TYPE).toString().equalsIgnoreCase("percent")) {
                     //lenderCommission = (amount * lenderChargeValue) / 100;
-                    lenderCommission = (finalTotalPayBackAmount * lenderChargeValue) / 100;
+                    lenderCommission = (amount * lenderChargeValue) / 100;
                 }
 
                 //float afterCommission = amount - borrowerCommission;
-                double afterCommission = finalTotalPayBackAmount - borrowerCommission;
+                double afterCommission = amount - borrowerCommission;
                 zapayCommissionTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(borrowerCommission, 2));
                 afterCommissionTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(afterCommission, 2));
                 zapayCommissionTitleTV.setText(getString(R.string.zapay_commission));
