@@ -533,7 +533,7 @@
                             android:fontFamily="@font/gotha_pro_reg"
                             android:hint="@string/enter_your_age"
                             android:importantForAutofill="no"
-                            android:inputType="number"
+                            android:inputType="numberPassword"
                             android:maxLines="1"
                             android:paddingStart="0dp"
                             android:paddingTop="0dp"

@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.dialogs.AddBankDialogActivity;
 import com.org.zapayapp.dialogs.ChangeBankDialogActivity;
+import com.org.zapayapp.dialogs.EditProfileDialogActivity;
 import com.org.zapayapp.dialogs.VerifyBankDialogActivity;
 import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
@@ -204,7 +205,7 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
             } else if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("3")) {//bank verify complete
                 addShadowChange.setVisibility(View.INVISIBLE);
             } else if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("0")) {//bank verify complete
-                showSimpleAlert(getString(R.string.complete_profile_alert), getString(R.string.alert_from_profile) );
+                showSimpleAlert(getString(R.string.complete_profile_alert), getString(R.string.alert_from_profile));
             }
         }
     }
@@ -212,7 +213,10 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onSimpleCallback(String from) {
         super.onSimpleCallback(from);
-        if (from.equals(getResources().getString(R.string.alert_from_profile) )) {
+        if (from.equals(getResources().getString(R.string.alert_from_profile))) {
+            Intent intent = new Intent(BankInfoActivity.this, EditProfileDialogActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             finish();
         }
     }
