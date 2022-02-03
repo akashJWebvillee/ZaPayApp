@@ -605,7 +605,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.getApi(getString(R.string.api_get_app_version));
             if (apiCalling != null) {
-                apiCalling.callAPI(zapayApp, call, getString(R.string.api_get_app_version), activityContainer);
+                apiCalling.callAPI2(zapayApp, call, getString(R.string.api_get_app_version), activityContainer);
             }
         } catch (Exception e) {
             e.printStackTrace();
