@@ -19,8 +19,8 @@
             android:id="@+id/historyDetailRecView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:layout_above="@+id/totalPayTV"/>
+            android:layout_above="@+id/totalPayTV"
+            android:layout_marginTop="10dp" />
         <include layout="@layout/view_no_data" />
 
         <TextView
