@@ -250,8 +250,8 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
         //negotiation
         if (transactionModel != null && transactionModel.getAmount() != null && transactionModel.getAmount().length() > 0) {
-            //lendAmountEdtAmount.setText(transactionModel.getAmount());
-            lendAmountEdtAmount.setText(transactionModel.getDue_amount());
+            lendAmountEdtAmount.setText(transactionModel.getAmount());
+            //lendAmountEdtAmount.setText(transactionModel.getDue_amount());
         }
     }
 

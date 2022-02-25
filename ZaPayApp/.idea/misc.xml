@@ -5,9 +5,15 @@
       <map>
         <entry key="..\:/Users/wv147/Desktop/WvProject/zapay_android/ZaPayApp/app/src/main/res/layout-land/activity_wallet.xml" value="0.15873015873015872" />
         <entry key="..\:/Users/wv147/Desktop/WvProject/zapay_android/ZaPayApp/app/src/main/res/layout/activity_add_money_wallet.xml" value="0.3546875" />
+        <entry key="..\:/Users/wv147/Desktop/WvProject/zapay_android/ZaPayApp/app/src/main/res/layout/activity_borrow_summary.xml" value="0.3546875" />
+        <entry key="..\:/Users/wv147/Desktop/WvProject/zapay_android/ZaPayApp/app/src/main/res/layout/activity_common_summery.xml" value="0.3546875" />
         <entry key="..\:/Users/wv147/Desktop/WvProject/zapay_android/ZaPayApp/app/src/main/res/layout/activity_default.xml" value="0.3546875" />
         <entry key="..\:/Users/wv147/Desktop/WvProject/zapay_android/ZaPayApp/app/src/main/res/layout/activity_history_details.xml" value="0.3546875" />
+        <entry key="..\:/Users/wv147/Desktop/WvProject/zapay_android/ZaPayApp/app/src/main/res/layout/activity_lend_borrow.xml" value="0.3546875" />
+        <entry key="..\:/Users/wv147/Desktop/WvProject/zapay_android/ZaPayApp/app/src/main/res/layout/activity_lending_summary.xml" value="0.3546875" />
+        <entry key="..\:/Users/wv147/Desktop/WvProject/zapay_android/ZaPayApp/app/src/main/res/layout/activity_login.xml" value="0.34923076923076923" />
         <entry key="..\:/Users/wv147/Desktop/WvProject/zapay_android/ZaPayApp/app/src/main/res/layout/activity_pdf_view.xml" value="0.3546875" />
+        <entry key="..\:/Users/wv147/Desktop/WvProject/zapay_android/ZaPayApp/app/src/main/res/layout/activity_profile.xml" value="0.3546875" />
         <entry key="..\:/Users/wv147/Desktop/WvProject/zapay_android/ZaPayApp/app/src/main/res/layout/activity_transaction.xml" value="0.3546875" />
         <entry key="..\:/Users/wv147/Desktop/WvProject/zapay_android/ZaPayApp/app/src/main/res/layout/activity_view_all_summary.xml" value="0.3546875" />
         <entry key="..\:/Users/wv147/Desktop/WvProject/zapay_android/ZaPayApp/app/src/main/res/layout/activity_wallet.xml" value="0.1358695652173913" />
@@ -18,6 +24,12 @@
         <entry key="..\:/Users/wv147/Desktop/WvProject/zapay_android/ZaPayApp/app/src/main/res/layout/histry_detail_payback_date_row.xml" value="0.3546875" />
         <entry key="..\:/Users/wv147/Desktop/WvProject/zapay_android/ZaPayApp/app/src/main/res/layout/item_payback_date_list.xml" value="0.3546875" />
         <entry key="..\:/Users/wv147/Desktop/WvProject/zapay_android/ZaPayApp/app/src/main/res/layout/transaction_completed_row.xml" value="0.3546875" />
+        <entry key="..\:/Users/wv147/Desktop/WvProject/zapay_android/ZaPayApp/app/src/main/res/layout/view_amount.xml" value="0.3546875" />
+        <entry key="..\:/Users/wv147/Desktop/WvProject/zapay_android/ZaPayApp/app/src/main/res/layout/view_borrow_summary.xml" value="0.3546875" />
+        <entry key="..\:/Users/wv147/Desktop/WvProject/zapay_android/ZaPayApp/app/src/main/res/layout/view_lending_summary.xml" value="0.3546875" />
+        <entry key="..\:/Users/wv147/Desktop/WvProject/zapay_android/ZaPayApp/app/src/main/res/layout/view_payback.xml" value="0.3546875" />
+        <entry key="..\:/Users/wv147/Desktop/WvProject/zapay_android/ZaPayApp/app/src/main/res/layout/view_payment.xml" value="0.3546875" />
+        <entry key="..\:/Users/wv147/Desktop/WvProject/zapay_android/ZaPayApp/app/src/main/res/layout/view_terms.xml" value="0.3546875" />
       </map>
     </option>
   </component>
