@@ -396,9 +396,9 @@
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/gotha_prolig"
                     android:gravity="start"
-                    android:text="@string/total_to_pay_back"
+                    android:text="@string/total_to_receive_back"
                     android:textColor="@color/navTextColor60Alpha"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/totalReceivedBackTV"
