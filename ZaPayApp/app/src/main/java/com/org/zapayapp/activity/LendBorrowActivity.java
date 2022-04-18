@@ -1339,7 +1339,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             //this is not confirm condition
             // if (!transactionModel.getParent_id().equals("0") && transactionModel.getChild_request_is_accepted().equals("2")) {
             if (!transactionModel.getParent_id().equals("0") && transactionModel.getStatus().equals("2") && transactionModel.getIs_negotiate_after_accept().equals("2")) {
-                parentTransactionRequestId = transactionModel.getParent_id();
+                parentTransactionRequestId = transactionModel.getId(); //id  need to send not parent_id
                 newTransactionRequestId = transactionModel.getId();
                 request_type = "0";
             } else if (!transactionModel.getParent_id().equals("0") && transactionModel.getStatus().equals("1") && transactionModel.getIs_negotiate_after_accept().equals("2")) {
