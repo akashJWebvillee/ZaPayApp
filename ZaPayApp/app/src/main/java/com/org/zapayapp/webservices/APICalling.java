@@ -331,6 +331,87 @@ public class APICalling extends BaseRequestParser implements ServiceCallback<Jso
         });
     }
 
+
+    public void callAPI2(final ZapayApp app, Call<JsonElement> call, final String from, final View view) {
+        gson = new Gson();
+        final APICallback apiCallback = app.getApiCallback();
+        if (from != null)
+            //showLoader(activity);
+        if (hideKeyBoard) {
+            try {
+                CommonMethods.closeKeyboard(activity);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        mFileCache = new FileCache(from, activity);
+        fileName = cacheEnabled ? mFileCache.getFile((from + result).hashCode() + ".req") : null;
+
+        if (!TextUtils.isEmpty(FileCache.readFile(fileName)) && cacheEnabled && (TYPE_NOT_CONNECTED == getConnectivityStatus(activity))) {
+            String lastResponse = FileCache.readFile(fileName);
+            if (apiCallback != null) {
+               // hideLoader(activity);
+                JsonElement element = gson.fromJson(lastResponse, JsonElement.class);
+                JsonObject jsonObj = element.getAsJsonObject();
+                apiCallback.apiCallback(jsonObj, from);
+            }
+            return;
+        }
+
+        call.enqueue(new Callback<JsonElement>() {
+            @Override
+            public void onResponse(@NonNull Call<JsonElement> call, @NonNull Response<JsonElement> response) {
+                int statusCode = response.code();
+              //  hideLoader(activity);
+
+
+                try {
+                    if (statusCode >= 200 && statusCode < 300 && response.isSuccessful()) {
+                        JsonElement user1 = response.body();
+                        result = gson.toJson(user1);
+                        if (null != fileName) {
+                            FileCache.writeFile(fileName, result.getBytes());
+                        }
+                        if (apiCallback != null) {
+                            JsonElement element = gson.fromJson(result, JsonElement.class);
+                            JsonObject jsonObj = element.getAsJsonObject();
+                            apiCallback.apiCallback(jsonObj, from);
+                        }
+                    } else if (statusCode == 401) {
+                        // unauthenticated(response, call, this, view);
+
+                        //this code Write by
+                        JsonObject jsonObject=new JsonObject();
+                        jsonObject.addProperty("status","401");
+                        jsonObject.addProperty("message","Unauthorized Access!");
+                        apiCallback.apiCallback(jsonObject, from);
+
+                    } else if (statusCode >= 400 && statusCode < 500) {
+                        clientError(response, call, this, view);
+                    } else if (statusCode >= 500 && statusCode < 600) {
+                        serverError(response, call, this, view);
+                    } else {
+                        unexpectedError(new RuntimeException("Unexpected response " + response), call, this, view);
+                    }
+                } catch (Exception e) {
+                    CommonMethods.showLogs(TAG, "api calling  " + e.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<JsonElement> call, @NonNull Throwable t) {
+                //hideLoader(activity);
+                Log.e("statusCode","onFailure statusCode=="+call);
+                if (t instanceof IOException) {
+                    networkError((IOException) t, call, this, view);
+                } else {
+                    unexpectedError(t, call, this, view);
+                }
+            }
+        });
+    }
+
     /**
      * Call api.
      *

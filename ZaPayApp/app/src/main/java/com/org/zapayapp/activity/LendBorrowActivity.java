@@ -250,8 +250,8 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
         //negotiation
         if (transactionModel != null && transactionModel.getAmount() != null && transactionModel.getAmount().length() > 0) {
-            //lendAmountEdtAmount.setText(transactionModel.getAmount());
-            lendAmountEdtAmount.setText(transactionModel.getDue_amount());
+            lendAmountEdtAmount.setText(transactionModel.getAmount());
+            //lendAmountEdtAmount.setText(transactionModel.getDue_amount());
         }
     }
 
@@ -1105,9 +1105,9 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 if (SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_TYPE).toString().equalsIgnoreCase("flat")) {
                     lenderCommission = lenderChargeValue;
                 } else if (SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_TYPE).toString().equalsIgnoreCase("percent")) {
-                    lenderCommission = (finalTotalPayBackAmount * lenderChargeValue) / 100;
+                    lenderCommission = (amount * lenderChargeValue) / 100;
                 }
-                borrowerCommission = (finalTotalPayBackAmount * borrowerChargeValue) / 100;
+                borrowerCommission = (amount * borrowerChargeValue) / 100;
 
 
                 //*****this code use for temprary
@@ -1125,7 +1125,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
                 //*****this code use for temprary
 
-                double afterCommission = finalTotalPayBackAmount - borrowerCommission;
+                double afterCommission = amount - borrowerCommission;
                 zapayCommissionTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(borrowerCommission, 2));
                 afterCommissionTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(afterCommission, 2));
                 zapayCommissionTitleTV.setText(getString(R.string.zapay_commission) + "(" + borrowerChargeValue + ")" + borrowerChargeType);
@@ -1135,11 +1135,11 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                     lenderCommission = lenderChargeValue;
                 } else if (SharedPref.getPrefsHelper().getPref(Const.Var.LENDER_CHARGE_TYPE).toString().equalsIgnoreCase("percent")) {
                     //lenderCommission = (amount * lenderChargeValue) / 100;
-                    lenderCommission = (finalTotalPayBackAmount * lenderChargeValue) / 100;
+                    lenderCommission = (amount * lenderChargeValue) / 100;
                 }
 
                 //float afterCommission = amount - borrowerCommission;
-                double afterCommission = finalTotalPayBackAmount - borrowerCommission;
+                double afterCommission = amount - borrowerCommission;
                 zapayCommissionTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(borrowerCommission, 2));
                 afterCommissionTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(afterCommission, 2));
                 zapayCommissionTitleTV.setText(getString(R.string.zapay_commission));
@@ -1339,7 +1339,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             //this is not confirm condition
             // if (!transactionModel.getParent_id().equals("0") && transactionModel.getChild_request_is_accepted().equals("2")) {
             if (!transactionModel.getParent_id().equals("0") && transactionModel.getStatus().equals("2") && transactionModel.getIs_negotiate_after_accept().equals("2")) {
-                parentTransactionRequestId = transactionModel.getParent_id();
+                parentTransactionRequestId = transactionModel.getId(); //id  need to send not parent_id
                 newTransactionRequestId = transactionModel.getId();
                 request_type = "0";
             } else if (!transactionModel.getParent_id().equals("0") && transactionModel.getStatus().equals("1") && transactionModel.getIs_negotiate_after_accept().equals("2")) {

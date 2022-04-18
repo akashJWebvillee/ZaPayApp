@@ -93,8 +93,9 @@ class AddMoneyWalletActivity : AppCompatActivity() ,View.OnClickListener, APICal
     private fun amountAddFunc(){
         val token = SharedPref.getPrefsHelper().getPref<Any>(Const.Var.TOKEN).toString()
         try {
+            var amount = amountEditText.text.toString()
             val values = apiCalling!!.getHashMapObject(
-                    "amount", amountEditText.text.toString(),
+                    "amount", CommonMethods.fmt(amount.toFloat()),
                     "transaction_type","1")  //transaction_type- 1=add, 2=withdrawal
             zapayApp!!.setApiCallback(this)
             val call = restAPI!!.postWithTokenApi(token, getString(R.string.api_add_withdrawal_balance_in_wallet), values)

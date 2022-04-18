@@ -3,7 +3,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
-
+/*https://developer.webvilleedemo.xyz/zapay/api/get_transaction_request_details */
 public class TransactionModel implements Serializable{
     @SerializedName("id")
     @Expose

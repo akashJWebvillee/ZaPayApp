@@ -1,25 +1,30 @@
 package com.org.zapayapp.activity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
 import com.dd.ShadowLayout;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.org.zapayapp.R;
 import com.org.zapayapp.dialogs.AddBankDialogActivity;
 import com.org.zapayapp.dialogs.ChangeBankDialogActivity;
+import com.org.zapayapp.dialogs.EditProfileDialogActivity;
 import com.org.zapayapp.dialogs.VerifyBankDialogActivity;
+import com.org.zapayapp.utils.CommonMethods;
 import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.MySession;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
+
 import retrofit2.Call;
 
 public class BankInfoActivity extends BaseActivity implements View.OnClickListener, APICallback {
     private TextView changeTV, accountNumberTV, routingNumberTV;
     private TextView addTV;
-    private ShadowLayout addShadowLayout,addShadowChange;
+    private ShadowLayout addShadowLayout, addShadowChange;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +146,7 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
                 if (status == 200) {
                     if (json.get("data").getAsJsonObject() != null) {
                         JsonObject jsonObject = json.get("data").getAsJsonObject();
+                        CommonMethods.showLogs(BankInfoActivity.class.getSimpleName(), "jsonObject.toString() :- " + jsonObject.toString());
                         MySession.MakeSession(jsonObject);
                         setData();
                     }
@@ -156,18 +162,18 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
 
     private void setData() {
         if (SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER).toString().length() > 0) {
-          //accountNumberTV.setText(SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER, ""));
+            //accountNumberTV.setText(SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER, ""));
 
-            String acNumber= SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER, "");
-            int acLength=SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER).toString().length();
+            String acNumber = SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER, "");
+            int acLength = SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER).toString().length();
 
-            if (acLength>3){
-             String lastFourDigit= acNumber.substring(acNumber.length() - 4);
-             String acNumberStr="";
-              for (int i=0;i<acNumber.length()-4;i++){
-                  acNumberStr=acNumberStr+"*";
-              }
-              accountNumberTV.setText(acNumberStr+lastFourDigit);
+            if (acLength > 3) {
+                String lastFourDigit = acNumber.substring(acNumber.length() - 4);
+                String acNumberStr = "";
+                for (int i = 0; i < acNumber.length() - 4; i++) {
+                    acNumberStr = acNumberStr + "*";
+                }
+                accountNumberTV.setText(acNumberStr + lastFourDigit);
             }
         }
         if (SharedPref.getPrefsHelper().getPref(Const.Var.ROUTING_NUMBER) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ROUTING_NUMBER).toString().length() > 0) {
@@ -183,21 +189,35 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
                 SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_STATUS).toString().equalsIgnoreCase("verified")) {
             addTV.setVisibility(View.INVISIBLE);
             addShadowLayout.setVisibility(View.INVISIBLE);
-           // addShadowChange.setVisibility(View.VISIBLE);
+            // addShadowChange.setVisibility(View.VISIBLE);
         } else {
             addTV.setVisibility(View.VISIBLE);
             addShadowLayout.setVisibility(View.VISIBLE);
-           // addShadowChange.setVisibility(View.INVISIBLE);
+            // addShadowChange.setVisibility(View.INVISIBLE);
         }
 
-        if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS)!=null&&SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().length()>0){
-            if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("1")){ // 1=bank account add pending
+
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().length() > 0) {
+            if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("1")) { // 1=bank account add pending
                 addShadowChange.setVisibility(View.INVISIBLE);
-            }else if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("2")){ //bank verify pending
+            } else if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("2")) { //bank verify pending
                 addShadowChange.setVisibility(View.VISIBLE);
-            }else if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("3")){//bank verify complete
+            } else if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("3")) {//bank verify complete
                 addShadowChange.setVisibility(View.INVISIBLE);
+            } else if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("0")) {//bank verify complete
+                showSimpleAlert(getString(R.string.complete_profile_alert), getString(R.string.alert_from_profile));
             }
+        }
+    }
+
+    @Override
+    public void onSimpleCallback(String from) {
+        super.onSimpleCallback(from);
+        if (from.equals(getResources().getString(R.string.alert_from_profile))) {
+            Intent intent = new Intent(BankInfoActivity.this, EditProfileDialogActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            finish();
         }
     }
 }

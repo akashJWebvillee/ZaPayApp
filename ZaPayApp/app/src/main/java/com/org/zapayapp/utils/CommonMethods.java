@@ -639,4 +639,12 @@ public class CommonMethods {
         return Character.isDigit(ch) && !(ch >= '0' && ch <= '9');
     }
 
+    public static String fmt(float d)
+    {
+        if(d == (long) d)
+            return String.format("%d",(long)d);
+        else
+            return String.format("%s",d);
+    }
+
 }

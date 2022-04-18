@@ -1,4 +1,5 @@
 package com.org.zapayapp.activity;
+
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +24,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.Socket;
@@ -85,7 +88,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
      */
     protected int MY_PROFILE = 0;
 
-    protected int MY_WALLET=1;
+    protected int MY_WALLET = 1;
     /**
      * The Bank account.
      */
@@ -480,25 +483,44 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
 
             case 1:
                 if (currentScreen != MY_WALLET) {
-                    intent = new Intent(this, WalletActivity.class);
-                    startActivity(intent);
+
+                    if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().length() > 0) {
+                        if (!SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("0")) {
+                            intent = new Intent(this, WalletActivity.class);
+                            startActivity(intent);
+                        } else {
+                            showSimpleAlert(getString(R.string.update_your_profile), getString(R.string.update_your_profile));
+                        }
+                    }
                 }
                 break;
             case 2:
                 if (currentScreen != BANK_ACCOUNT) {
-                    intent = new Intent(this, BankInfoActivity.class);
-                    startActivity(intent);
+                    if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().length() > 0) {
+                        if (!SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("0")) {
+                            intent = new Intent(this, BankInfoActivity.class);
+                            startActivity(intent);
+                        } else {
+                            showSimpleAlert(getString(R.string.update_your_profile), getString(R.string.update_your_profile));
+                        }
+                    }
                 }
                 break;
             case 3:
                 if (Const.isUserDefaulter().equals("1")) {
                     showSimpleAlert(getString(R.string.you_have_defaulter_msg), getString(R.string.you_have_defaulter_msg));
-                }else if (Const.isUserDefaulter().equals("2")){
+                } else if (Const.isUserDefaulter().equals("2")) {
                     showSimpleAlert(getString(R.string.payment_initiated_it_takes_time_to_confirm_the_payment), getString(R.string.payment_initiated_it_takes_time_to_confirm_the_payment));
-                }else {
+                } else {
                     if (currentScreen != TRANSACTION) {
-                        intent = new Intent(this, TransactionActivity.class);
-                        startActivity(intent);
+                        if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().length() > 0) {
+                            if (!SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("0")) {
+                                intent = new Intent(this, TransactionActivity.class);
+                                startActivity(intent);
+                            } else {
+                                showSimpleAlert(getString(R.string.update_your_profile), getString(R.string.update_your_profile));
+                            }
+                        }
                     }
                 }
                 break;
@@ -511,8 +533,14 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
 */
             case 4:
                 if (currentScreen != DEFAULT_TRANSACTION) {
-                    intent = new Intent(this, DefaultTransactionActivity.class);
-                    startActivity(intent);
+                    if (SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().length() > 0) {
+                        if (!SharedPref.getPrefsHelper().getPref(Const.Var.ACTIVITY_STATUS).toString().equals("0")) {
+                            intent = new Intent(this, DefaultTransactionActivity.class);
+                            startActivity(intent);
+                        } else {
+                            showSimpleAlert(getString(R.string.update_your_profile), getString(R.string.update_your_profile));
+                        }
+                    }
                 }
                 break;
             case 5:
@@ -577,7 +605,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.getApi(getString(R.string.api_get_app_version));
             if (apiCalling != null) {
-                apiCalling.callAPI(zapayApp, call, getString(R.string.api_get_app_version), activityContainer);
+                apiCalling.callAPI2(zapayApp, call, getString(R.string.api_get_app_version), activityContainer);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -666,7 +694,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             startActivity(intent);
         } else if (from.equals(getResources().getString(R.string.api_update_transaction_request_status))) {
             finish();
-        }else if (from.equals(getResources().getString(R.string.api_update_running_transaction_request_status))){
+        } else if (from.equals(getResources().getString(R.string.api_update_running_transaction_request_status))) {
             finish();
         } else if (from.equalsIgnoreCase(getString(R.string.api_signup))) {
             moveToLogin();
@@ -680,9 +708,9 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             finish();
         } else if (from.equalsIgnoreCase(getResources().getString(R.string.api_pay_date_request_status_update))) {
             // finish();
-        }else if (from.equalsIgnoreCase(getString(R.string.you_have_defaulter_msg))){
-            Intent intent=new Intent(BaseActivity.this,DefaultTransactionActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        } else if (from.equalsIgnoreCase(getString(R.string.you_have_defaulter_msg))) {
+            Intent intent = new Intent(BaseActivity.this, DefaultTransactionActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
 
         }

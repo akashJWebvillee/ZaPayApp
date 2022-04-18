@@ -1,9 +1,12 @@
 package com.org.zapayapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -11,6 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.org.zapayapp.R;
+import com.org.zapayapp.activity.PdfViewActivity;
+import com.org.zapayapp.model.AgreementPdfDetailModel;
+import com.org.zapayapp.model.AmendmentPdfDetailModel;
 import com.org.zapayapp.model.DateModel;
 import com.org.zapayapp.model.TransactionModel;
 import com.org.zapayapp.utils.CommonMethods;
@@ -44,7 +50,6 @@ public class ViewAllHistoryAndTransactionPaybackDateAdapter extends RecyclerView
             paymentNoTV = itemView.findViewById(R.id.paymentNoTV);
             amountTV = itemView.findViewById(R.id.amountTV);
             parentRL = itemView.findViewById(R.id.parentRL);
-
         }
     }
 

@@ -316,7 +316,7 @@
 
                         <ImageView
                             android:id="@+id/file"
-                            android:layout_width="15dp"
+                            android:layout_width="11dp"
                             android:layout_height="15dp"
                             android:layout_marginStart="50dp"
                             android:layout_marginTop="5dp"

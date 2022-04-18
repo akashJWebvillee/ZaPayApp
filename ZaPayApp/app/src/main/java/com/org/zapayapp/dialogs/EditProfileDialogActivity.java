@@ -70,8 +70,8 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
     private APICalling apiCalling;
     private RestAPI restAPI;
 
-    private CustomTextInputLayout nameEditTextInputLayout, mobileInputLayout, address1InputLayout, address2InputLayout, postalCodeInputLayout, ssnInputLayout, dobInputLayout, ageInputLayout, ethnicityInputLayout;
-    private TextInputEditText nameEditText, mobileEditText, address1EditText, address2EditText, postalCodeEditText, ssnEditText, dobEditText, ageEditText, ethnicityEditText;
+    private CustomTextInputLayout nameEditTextInputLayout, mobileInputLayout, address1InputLayout, address2InputLayout, postalCodeInputLayout, ssnInputLayout, dobInputLayout, ageInputLayout, cityInputLayout, ethnicityInputLayout;
+    private TextInputEditText nameEditText, mobileEditText, address1EditText, address2EditText, postalCodeEditText, ssnEditText, dobEditText, ageEditText, ethnicityEditText, cityEditText;
     private Spinner stateSpinner, citySpinner, genderSpinner, incomeBracketSpinner;
     private List<StateModel> stateList;
     private StateAdapter stateAdapter;
@@ -129,6 +129,7 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         ssnInputLayout = findViewById(R.id.ssnInputLayout);
         dobInputLayout = findViewById(R.id.dobInputLayout);
         ageInputLayout = findViewById(R.id.ageInputLayout);
+        cityInputLayout = findViewById(R.id.cityInputLayout);
 
         nameEditText = findViewById(R.id.nameEditText);
         mobileEditText = findViewById(R.id.mobileEditText);
@@ -139,6 +140,7 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
         dobEditText = findViewById(R.id.dobEditText);
         ageEditText = findViewById(R.id.ageEditText);
         ethnicityEditText = findViewById(R.id.ethnicityEditText);
+        cityEditText = findViewById(R.id.cityEditText);
 
         stateSpinner = findViewById(R.id.stateSpinner);
         citySpinner = findViewById(R.id.citySpinner);
@@ -400,7 +402,7 @@ public class EditProfileDialogActivity extends AppCompatActivity implements View
                     "address1", address1EditText.getText().toString().trim(),
                     "address2", address2EditText.getText().toString().trim(),
                     "state", stateShortCode,
-                    "city", cityName,
+                    "city", cityEditText.getText().toString().trim(),
                     "postal_code", postalCodeEditText.getText().toString().trim(),
                     "ssn", ssnEditText.getText().toString().trim(),
                     "dob", selectDOB,

@@ -567,27 +567,27 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
                     titleTV.setText(getString(R.string.lending_summary));
                     viewAllNameType.setText(getString(R.string.lender));
-                    totalPlayReceiveTV.setText(getString(R.string.total_to_receive_back));
+                    totalPlayReceiveTV.setText(getString(R.string.total_to_pay_back));
                 }
                 if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                     titleTV.setText(getString(R.string.borrow_summary));
                     viewAllNameType.setText(getString(R.string.borrower));
-                    totalPlayReceiveTV.setText(getString(R.string.total_to_pay_back));
+                    totalPlayReceiveTV.setText(getString(R.string.total_to_receive_back));
                 }
             }
         }
         //else if (getString(R.string.history).equalsIgnoreCase(intent.getStringExtra("moveFrom"))) {
         else if (Const.isRequestByMe(transactionModel.getFromId())) {
             if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
-                if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+                if (transactionModel.getRequestBy().equalsIgnoreCase("2")) { //can ch1
                     titleTV.setText(getString(R.string.lending_summary));
                     viewAllNameType.setText(getString(R.string.lender));
-                    totalPlayReceiveTV.setText(getString(R.string.total_to_receive_back));
+                    totalPlayReceiveTV.setText(getString(R.string.total_to_pay_back));
                 }
                 if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
                     titleTV.setText(getString(R.string.borrow_summary));
                     viewAllNameType.setText(getString(R.string.borrower));
-                    totalPlayReceiveTV.setText(getString(R.string.total_to_pay_back));
+                    totalPlayReceiveTV.setText(getString(R.string.total_to_receive_back));
                 }
             }
         }
