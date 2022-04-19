@@ -48,7 +48,7 @@
     <string name="wallet">Wallet</string>
     <string name="bank_account">Bank Account</string>
     <string name="account_type">ACCOUNT TYPE</string>
-    <string name="transaction">Transaction</string>
+    <string name="transaction">Transactions</string>
     <string name="history">History</string>
     <string name="default_transaction">Default Transaction</string>
     <string name="about_us">About Us</string>
