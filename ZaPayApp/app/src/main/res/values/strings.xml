@@ -50,7 +50,7 @@
     <string name="account_type">ACCOUNT TYPE</string>
     <string name="transaction">Transactions</string>
     <string name="history">History</string>
-    <string name="default_transaction">Default Transaction</string>
+    <string name="default_transaction">Default Transactions</string>
     <string name="about_us">About Us</string>
     <string name="terms_and_conditions">Terms &amp; Condition</string>
     <string name="help">Help</string>

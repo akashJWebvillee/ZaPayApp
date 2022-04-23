@@ -648,7 +648,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 if (transactionModel.getRequestBy().equals("1")) {
                     if (transactionModel.getAdmin_commission_from_borrower() != null && transactionModel.getAdmin_commission_from_borrower().length() > 0) {
                         float commission = Float.parseFloat(transactionModel.getAdmin_commission_from_borrower());
-                        float totalAmount = Float.parseFloat(transactionModel.getTotalAmount());
+                        float totalAmount = Float.parseFloat(transactionModel.getAmount());
                         float amount = totalAmount - commission;
                         afterCommissionAmountTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(amount, 2));
                     }
@@ -668,7 +668,7 @@ public class ViewAllSummaryActivity extends BaseActivity implements APICallback,
                 if (transactionModel.getRequestBy().equals("2")) {
                     if (transactionModel.getAdmin_commission_from_borrower() != null && transactionModel.getAdmin_commission_from_borrower().length() > 0) {
                         float commission = Float.parseFloat(transactionModel.getAdmin_commission_from_borrower());
-                        float totalAmount = Float.parseFloat(transactionModel.getTotalAmount());
+                        float totalAmount = Float.parseFloat(transactionModel.getAmount());
                         float amount = totalAmount - commission;
                         afterCommissionAmountTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(amount, 2));
                     }

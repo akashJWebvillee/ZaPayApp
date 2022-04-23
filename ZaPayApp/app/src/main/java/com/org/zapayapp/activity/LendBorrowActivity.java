@@ -1178,7 +1178,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 if (SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE).toString().equalsIgnoreCase("flat")) {
                     borrowerCommission = borrowerChargeValue;
                 } else if (SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE).toString().equalsIgnoreCase("percent")) {
-                    borrowerCommission = (finalTotalPayBackAmount * borrowerChargeValue) / 100;
+                    borrowerCommission = (amount * borrowerChargeValue) / 100;
                 }
 
                 lenderCommission = (finalTotalPayBackAmount * lenderChargeValue) / 100;
@@ -1194,7 +1194,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 if (SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE).toString().equalsIgnoreCase("flat")) {
                     borrowerCommission = borrowerChargeValue;
                 } else if (SharedPref.getPrefsHelper().getPref(Const.Var.BORROWER_CHARGE_TYPE).toString().equalsIgnoreCase("percent")) {
-                    borrowerCommission = (finalTotalPayBackAmount * borrowerChargeValue) / 100;
+                    borrowerCommission = (amount * borrowerChargeValue) / 100;
                 }
                 lenderCommission = lenderChargeValue;
 
