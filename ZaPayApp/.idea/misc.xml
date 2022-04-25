@@ -32,15 +32,18 @@
         <entry key="..\:/Users/wv147/Desktop/WvProject/zapay_android/ZaPayApp/app/src/main/res/layout/view_terms.xml" value="0.3546875" />
         <entry key="app/src/main/res/layout/activity_borrow_summary.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/activity_common_summery.xml" value="0.3229166666666667" />
+        <entry key="app/src/main/res/layout/activity_history_details.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/activity_lend_borrow.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/activity_lending_summary.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/activity_set_pin.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/activity_view_all_summary.xml" value="0.25616921269095183" />
+        <entry key="app/src/main/res/layout/history_details_row.xml" value="0.3229166666666667" />
+        <entry key="app/src/main/res/layout/histry_detail_payback_date_row.xml" value="0.21145833333333333" />
         <entry key="app/src/main/res/layout/view_lending_summary.xml" value="0.3229166666666667" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

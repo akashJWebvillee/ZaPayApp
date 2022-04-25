@@ -174,11 +174,11 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
 
             } else if (context.getString(R.string.history).equalsIgnoreCase(moveFrom)) {
                 if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
-                    if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
+              /*1st*/      if (transactionModel.getRequestBy().equalsIgnoreCase("2")) {
                         holder.commissionTitleTV.setText(context.getString(R.string.zapay_commission) + "(" + commissionModel.getLenderChargeValue() + ")" + commissionModel.getLenderChargeType());
                         holder.commissionValueTV.setText(Const.getCurrency() + transactionModel.getAdmin_commission_from_lender());
                     }
-                    if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {
+                    if (transactionModel.getRequestBy().equalsIgnoreCase("1")) { //2nd
                         holder.commissionTitleTV.setText(context.getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
                         holder.commissionValueTV.setText(Const.getCurrency() + transactionModel.getAdmin_commission_from_borrower());
                     }
@@ -244,7 +244,7 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
                 } else if (transactionModel.getRequestBy().equals("2")) {
                     if (transactionModel.getAdmin_commission_from_borrower() != null && transactionModel.getAdmin_commission_from_borrower().length() > 0) {
                         float commission = Float.parseFloat(transactionModel.getAdmin_commission_from_borrower());
-                        float totalAmount = Float.parseFloat(transactionModel.getTotalAmount());
+                        float totalAmount = Float.parseFloat(transactionModel.getAmount());
                         float amount = totalAmount - commission;
                         holder.afterCommissionAmountTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(amount, 2));
                     }
@@ -263,7 +263,7 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
                 } else if (transactionModel.getRequestBy().equals("1")) {
                     if (transactionModel.getAdmin_commission_from_borrower() != null && transactionModel.getAdmin_commission_from_borrower().length() > 0) {
                         float commission = Float.parseFloat(transactionModel.getAdmin_commission_from_borrower());
-                        float totalAmount = Float.parseFloat(transactionModel.getTotalAmount());
+                        float totalAmount = Float.parseFloat(transactionModel.getAmount());
                         float amount = totalAmount - commission;
                         holder.afterCommissionAmountTV.setText(Const.getCurrency() + CommonMethods.setDigitAfterDecimalValue(amount, 2));
                     }

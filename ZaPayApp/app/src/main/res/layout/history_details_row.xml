@@ -39,7 +39,7 @@
                     android:gravity="start"
                     android:text="@string/borrower"
                     android:textColor="@color/navTextColor60Alpha"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/nameTV"
