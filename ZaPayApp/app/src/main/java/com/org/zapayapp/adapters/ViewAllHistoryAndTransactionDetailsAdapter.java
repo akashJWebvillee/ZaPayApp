@@ -217,6 +217,17 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
             }
             setAdapterFunc(holder.paybackDateRecycler, payDatesList, transactionModel);
         }
+        /*newly added conditions*/
+//        try{
+//        if (transactionModel.getPayDatesList()!=null && transactionModel.getPayDatesList().get(position)!=null &&
+//                transactionModel.getPayDatesList().get(position).getDefault_fee_amount()!=null &&
+//                transactionModel.getPayDatesList().get(position).getDefault_fee_amount().equals("0")){
+//            holder.defaultFeeAmountTV.setVisibility(View.VISIBLE);
+//        }else{
+//            holder.defaultFeeAmountTV.setVisibility(View.GONE);
+//        }}catch (Exception e){
+//            e.printStackTrace();
+//        }
 
      /*   if (context.getString(R.string.transaction).equalsIgnoreCase(moveFrom)) {
             if (transactionModel.getRequestBy().equalsIgnoreCase("1")) {

@@ -1392,6 +1392,15 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 childAmount = newAmount - previousAmount;
             }
         }
+        if (SharedPref.getPrefsHelper().getPref(Const.Var.DEFAULT_FEE_TYPE) != null && SharedPref.getPrefsHelper().getPref(Const.Var.DEFAULT_FEE_TYPE).toString().length() > 0) {
+            if (SharedPref.getPrefsHelper().getPref(Const.Var.DEFAULT_FEE_TYPE).toString().equals("flat")) {
+                defaultFeeAmount = Float.parseFloat(SharedPref.getPrefsHelper().getPref(Const.Var.DEFAULT_FEE_VALUE).toString());
+            } else if (SharedPref.getPrefsHelper().getPref(Const.Var.DEFAULT_FEE_TYPE).toString().equals("percent")) {
+                float defaultFee = Float.parseFloat(SharedPref.getPrefsHelper().getPref(Const.Var.DEFAULT_FEE_VALUE).toString());
+                float percentValue = (finalTotalPayBackAmount * defaultFee) / 100;
+                defaultFeeAmount = finalTotalPayBackAmount + percentValue;
+            }
+        }
 
         HashMap<String, Object> values = apiCalling.getHashMapObject(
                 "to_id", toId,
