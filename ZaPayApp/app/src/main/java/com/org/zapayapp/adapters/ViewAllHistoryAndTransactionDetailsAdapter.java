@@ -170,7 +170,12 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
                         holder.commissionValueTV.setText(Const.getCurrency() + transactionModel.getAdmin_commission_from_borrower());
                     }
                 }
-                holder.defaultFeeAmountTV.setText(Const.getCurrency() + commissionModel.getDefaultFeeValue());
+//                holder.defaultFeeAmountTV.setText(Const.getCurrency() + commissionModel.getDefaultFeeValue());
+                String defaultFee ="0.00";
+                if (transactionModel.getPayDatesList().get(position).getDefault_fee_amount()!=null){
+                    defaultFee = Const.getCurrency() + transactionModel.getPayDatesList().get(position).getDefault_fee_amount();
+                }
+                holder.defaultFeeAmountTV.setText(defaultFee);
 
             } else if (context.getString(R.string.history).equalsIgnoreCase(moveFrom)) {
                 if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
@@ -182,15 +187,23 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
                         holder.commissionTitleTV.setText(context.getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
                         holder.commissionValueTV.setText(Const.getCurrency() + transactionModel.getAdmin_commission_from_borrower());
                     }
+                };
+                String defaultFee ="0";
+                if (transactionModel.getPayDatesList().get(position).getDefault_fee_amount()!=null){
+                    defaultFee = Const.getCurrency() + transactionModel.getPayDatesList().get(position).getDefault_fee_amount();
                 }
-                holder.defaultFeeAmountTV.setText(Const.getCurrency() + commissionModel.getDefaultFeeValue());
-
+                holder.defaultFeeAmountTV.setText(defaultFee);
             } else if (context.getString(R.string.default_transaction).equalsIgnoreCase(moveFrom)) {
                 if (transactionModel.getRequestBy() != null && transactionModel.getRequestBy().length() > 0) {
                     holder.commissionTitleTV.setText(context.getString(R.string.zapay_commission) + "(" + commissionModel.getBorrowerChargeValue() + ")" + commissionModel.getBorrowerChargeType());
                     holder.commissionValueTV.setText(Const.getCurrency() + transactionModel.getAdmin_commission_from_borrower());
                 }
-                holder.defaultFeeAmountTV.setText(Const.getCurrency() + commissionModel.getDefaultFeeValue());
+                String defaultFee ="0";
+                if (transactionModel.getPayDatesList().get(position).getDefault_fee_amount()!=null){
+                    defaultFee = Const.getCurrency() + transactionModel.getPayDatesList().get(position).getDefault_fee_amount();
+                }
+                holder.defaultFeeAmountTV.setText(defaultFee);
+//                holder.defaultFeeAmountTV.setText(Const.getCurrency() + commissionModel.getDefaultFeeValue());
             }
         }
 
