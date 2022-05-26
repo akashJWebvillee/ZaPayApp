@@ -172,8 +172,8 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
                 }
 //                holder.defaultFeeAmountTV.setText(Const.getCurrency() + commissionModel.getDefaultFeeValue());
                 String defaultFee ="0.00";
-                if (transactionModel.getPayDatesList().get(position).getDefault_fee_amount()!=null){
-                    defaultFee = Const.getCurrency() + transactionModel.getPayDatesList().get(position).getDefault_fee_amount();
+                if (transactionModel.getPayDatesList().get(0).getDefault_fee_amount()!=null){
+                    defaultFee = Const.getCurrency() + transactionModel.getPayDatesList().get(0).getDefault_fee_amount();
                 }
                 holder.defaultFeeAmountTV.setText(defaultFee);
 
@@ -189,8 +189,8 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
                     }
                 };
                 String defaultFee ="0";
-                if (transactionModel.getPayDatesList().get(position).getDefault_fee_amount()!=null){
-                    defaultFee = Const.getCurrency() + transactionModel.getPayDatesList().get(position).getDefault_fee_amount();
+                if (transactionModel.getPayDatesList().get(0).getDefault_fee_amount()!=null){
+                    defaultFee = Const.getCurrency() + transactionModel.getPayDatesList().get(0).getDefault_fee_amount();
                 }
                 holder.defaultFeeAmountTV.setText(defaultFee);
             } else if (context.getString(R.string.default_transaction).equalsIgnoreCase(moveFrom)) {
@@ -199,8 +199,8 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
                     holder.commissionValueTV.setText(Const.getCurrency() + transactionModel.getAdmin_commission_from_borrower());
                 }
                 String defaultFee ="0";
-                if (transactionModel.getPayDatesList().get(position).getDefault_fee_amount()!=null){
-                    defaultFee = Const.getCurrency() + transactionModel.getPayDatesList().get(position).getDefault_fee_amount();
+                if (transactionModel.getPayDatesList().get(0).getDefault_fee_amount()!=null){
+                    defaultFee = Const.getCurrency() + transactionModel.getPayDatesList().get(0).getDefault_fee_amount();
                 }
                 holder.defaultFeeAmountTV.setText(defaultFee);
 //                holder.defaultFeeAmountTV.setText(Const.getCurrency() + commissionModel.getDefaultFeeValue());
@@ -219,9 +219,9 @@ public class ViewAllHistoryAndTransactionDetailsAdapter extends RecyclerView.Ada
         }
         /*newly added conditions*/
 //        try{
-//        if (transactionModel.getPayDatesList()!=null && transactionModel.getPayDatesList().get(position)!=null &&
-//                transactionModel.getPayDatesList().get(position).getDefault_fee_amount()!=null &&
-//                transactionModel.getPayDatesList().get(position).getDefault_fee_amount().equals("0")){
+//        if (transactionModel.getPayDatesList()!=null && transactionModel.getPayDatesList().get(0)!=null &&
+//                transactionModel.getPayDatesList().get(0).getDefault_fee_amount()!=null &&
+//                transactionModel.getPayDatesList().get(0).getDefault_fee_amount().equals("0")){
 //            holder.defaultFeeAmountTV.setVisibility(View.VISIBLE);
 //        }else{
 //            holder.defaultFeeAmountTV.setVisibility(View.GONE);

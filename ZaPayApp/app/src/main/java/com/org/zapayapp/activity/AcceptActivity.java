@@ -74,10 +74,10 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
             } else if (transactionModel1.getIs_negotiate_after_accept() != null && transactionModel1.getIs_negotiate_after_accept().length() > 0 && transactionModel1.getIs_negotiate_after_accept().equals("2")) {
                //generateAmendmentPdf("3", DateFormat.getCurrentDate());  // after accept request generate amendment
                 status = intent.getStringExtra("status");
-                generateAgreementPdf();
+                generateAgreementPdf("3"); // updated on 26may
             } else {
                 status = intent.getStringExtra("status");
-                generateAgreementPdf();
+                generateAgreementPdf("1");
             }
         }
     }
@@ -134,10 +134,11 @@ public class AcceptActivity extends BaseActivity implements APICallback, SimpleA
         }
     }
 
-    private void generateAgreementPdf() {
+    private void generateAgreementPdf(String pdfType) {
         String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         HashMap<String, Object> values = apiCalling.getHashMapObject(
-                "transaction_request_id", transactionId);
+                "transaction_request_id", transactionId,
+                                "pdf_type", pdfType);
         try {
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_generate_agreement_pdf), values);
