@@ -37,7 +37,7 @@
         <entry key="app/src/main/res/layout/activity_lending_summary.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/activity_set_pin.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/activity_view_all_summary.xml" value="0.25616921269095183" />
-        <entry key="app/src/main/res/layout/history_details_row.xml" value="0.3229166666666667" />
+        <entry key="app/src/main/res/layout/history_details_row.xml" value="0.6" />
         <entry key="app/src/main/res/layout/histry_detail_payback_date_row.xml" value="0.21145833333333333" />
         <entry key="app/src/main/res/layout/view_lending_summary.xml" value="0.3229166666666667" />
       </map>

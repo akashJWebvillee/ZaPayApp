@@ -300,7 +300,7 @@
     <string name="requested_by">Requested By:</string>
     <string name="self">Self</string>
     <string name="view_all_date">View All Date</string>
-    <string name="default_fee_per_emi">Default fee per EMI</string>
+    <string name="default_fee_per_emi">Default Fee (If Applicable)</string>
     <string name="you_have_defaulter_msg">You have defaulter first complete all payment</string>
     <string name="payment_initiated_it_takes_time_to_confirm_the_payment">Default EMI payment initiated, It takes time to confirm the payment</string>
 
