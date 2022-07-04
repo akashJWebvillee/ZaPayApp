@@ -92,6 +92,7 @@ dependencies {
 //for open PDF file
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
 
+    implementation 'gun0912.ted:tedpermission:2.2.3'
 
     implementation('com.github.nkzawa:socket.io-client:0.6.0') {
         exclude group: 'org.json', module: 'json'

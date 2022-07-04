@@ -1,8 +1,12 @@
 package com.org.zapayapp.activity;
+import android.Manifest;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,10 +14,21 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.FileProvider;
+
 import com.bumptech.glide.Glide;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 import com.org.zapayapp.R;
 import com.org.zapayapp.dialogs.ChangePassDialogActivity;
 import com.org.zapayapp.dialogs.EditProfileDialogActivity;
@@ -26,6 +41,9 @@ import com.org.zapayapp.utils.WFileUtils;
 import com.org.zapayapp.utils.WRuntimePermissions;
 import com.org.zapayapp.webservices.APICalling;
 import java.io.File;
+import java.io.InputStream;
+import java.util.List;
+
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -40,6 +58,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private static final int GALLERY_REQUEST_OLD = 1890;
     private static final int GALLERY_REQUEST = 200;
     private boolean isDataUpdate=true;
+    private Uri fileUri;
+    private boolean isCallApi= true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +73,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     protected void onResume() {
         super.onResume();
         setCurrentScreen(MY_PROFILE);
-        if (isDataUpdate){
+        if (isDataUpdate && isCallApi){
             callAPIGetUserDetail();
         }
     }
@@ -134,18 +154,106 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 startActivity(intent);
                 break;
             case R.id.profileImageView:
-                if (Build.VERSION.SDK_INT >= 23) {
-                    if (runtimePermissions.checkPermissionForStorage()) {
-                        openGallery();
-                    } else {
-                        runtimePermissions.requestPermissionForStorage();
-                    }
-                } else {
-                    openGallery();
-                }
+//                if (Build.VERSION.SDK_INT >= 23) {
+//                    if (runtimePermissions.checkPermissionForStorage()) {
+//                        openGallery();
+//                    } else {
+//                        runtimePermissions.requestPermissionForStorage();
+//                    }
+//                } else {
+//                    openGallery();
+//                }
+                isCallApi = false;
+                TedPermission.with(this)
+                        .setPermissionListener(permissionlistener)
+                        .setDeniedMessage(R.string.if_you_reject_permissions)
+                        .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                        .check();
                 break;
         }
     }
+
+
+    /**
+     * permission listener for CAMERA
+     */
+    PermissionListener permissionlistener = new PermissionListener() {
+        @Override
+        public void onPermissionGranted() {
+            selectImage();
+        }
+
+        @Override
+        public void onPermissionDenied(List<String> deniedPermissions) {
+            CommonMethods.showToast(ProfileActivity.this,"Permission Denied\n" + deniedPermissions.toString());
+            isCallApi = true;
+        }
+
+    };
+
+    /**
+     * choose image dialog
+     */
+    private void selectImage() {
+        try {
+            final CharSequence[] options = {getString(R.string.pick_img), getString(R.string.choose_from_gallery), getString(R.string.cancel)};
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.Theme_AppCompat_Dialog_Alert);
+            builder.setTitle(R.string.select_option);
+            builder.setItems(options, (dialog, item) -> {
+                if (options[item].equals(getString(R.string.pick_img))) {
+                    dialog.dismiss();
+                    captureImage();
+                } else if (options[item].equals(getString(R.string.choose_from_gallery))) {
+                    dialog.dismiss();
+                    openGallery();
+                } else if (options[item].equals(getString(R.string.cancel))) {
+                    dialog.dismiss();
+                }
+            });
+            builder.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void captureImage() {
+
+        long l = System.currentTimeMillis();
+        String time = String.valueOf(l);
+        File photo = new File(WFileUtils.DIR_IMAGE, "image_" + time + ".jpg");
+        fileUri = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".fileprovider", photo);
+
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            ContentValues values = new ContentValues(1);
+            values.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
+            fileUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            activityResultLauncherImageCamera.launch(intent);
+        } else {
+            Toast.makeText(this, getString(R.string.no_sdcard), Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    ActivityResultLauncher<Intent> activityResultLauncherImageCamera = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        try {
+                            if (fileUri != null) {
+                                selectUri(fileUri);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+            });
 
     private void openGallery() {
         try {
@@ -163,6 +271,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 } else {
                     String no_sdcard = "No sd card present";
                     CommonMethods.showToast(this, no_sdcard);
+                    isCallApi = true;
                 }
             }
         } catch (Exception e) {
@@ -228,22 +337,12 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             }
         } else if (requestCode == GALLERY_REQUEST && resultCode == Activity.RESULT_OK) {
             isDataUpdate=false;
+            isCallApi = true;
             if (data != null) {
                 try {
                     Uri selectedUri = data.getData();
                     if (selectedUri != null) {
-                        path = selectedUri.getPath();
-                        try {
-                            if (path != null) {
-                                //path = WFileUtils.getFilePath(this, selectedUri);
-                                Glide.with(ProfileActivity.this).load(selectedUri).placeholder(R.mipmap.ic_user).into(profileImageView);
-                                path = ImagePathUtil.getPath(ProfileActivity.this, selectedUri);
-                                path = ImagePathUtil.compressImage(path);
-                                callAPIUploadFile();
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        selectUri(selectedUri);
                     } else {
                         //CommonMethods.showLogs(TAG, " get file uri is null");
                     }
@@ -251,6 +350,21 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    private void selectUri(Uri selectedUri) {
+        path = selectedUri.getPath();
+        try {
+            if (path != null) {
+                //path = WFileUtils.getFilePath(this, selectedUri);
+                Glide.with(ProfileActivity.this).load(selectedUri).placeholder(R.mipmap.ic_user).into(profileImageView);
+                path = ImagePathUtil.getPath(ProfileActivity.this, selectedUri);
+                path = ImagePathUtil.compressImage(path);
+                callAPIUploadFile();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -303,6 +417,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                             String profile_image = jsonObject.get("profile_image").getAsString();
                             SharedPref.getPrefsHelper().savePref(Const.Var.PROFILE_IMAGE, profile_image);
                         }
+                        isCallApi = true;
                     }
                     showSimpleAlert(msg, "");
                 } else if (status == 401) {

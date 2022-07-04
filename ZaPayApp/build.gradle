@@ -33,3 +33,4 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+//zapay.jks location jks/zapay.jsk keyAliase zapay and pwd : 123456

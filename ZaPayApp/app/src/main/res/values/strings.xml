@@ -261,7 +261,7 @@
     <string name="please_verify_bank_account">Please verify bank account</string>
     <string name="are_you_sure_do_you_want_to_logout">Are you sure? do you want to logout?</string>
     <string name="explore_lending_borrowing">Now borrowing and lending amongst friends is just a click away. Explore the options below.</string>
-    <string name="verify_account_msg">To verify account you can put value for example amount1&#8211;0.10 ,amount2&#8211; 0.03</string>
+    <string name="verify_account_msg">To verify account you can put value for example amount1&#8211;0.10 ,amount2&#8211;0.03</string>
     <string name="do_you_want_to_close_the_application">Do you want to close the application?</string>
     <string name="rate_borrower">Rate Borrower</string>
     <string name="rate_lender">Rate Lender</string>
@@ -321,5 +321,10 @@
     <string name="app_version_change">You are running outdated version of this app. Please update to get new features</string>
     <string name="alert_from_profile">alert_profile_completion</string>
     <string name="complete_profile_alert">Complete your profile before adding bank account</string>
+    <string name="pick_img">Capture Image</string>
+    <string name="choose_from_gallery">From Gallery</string>
+    <string name="select_option">Take Image</string>
+    <string name="no_sdcard">No sd card present</string>
+    <string name="if_you_reject_permissions">CDATA[<![CDATA[If you reject permissions,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]]]>></string>
 
 </resources>
