@@ -25,11 +25,13 @@
 
         <TextView
             android:id="@+id/titleTV"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:paddingStart="56dp"
             android:fontFamily="@font/gotha_promed"
             android:includeFontPadding="false"
+            android:textAlignment="center"
             android:textColor="@color/navTextColor"
             android:textSize="22sp" />
 
