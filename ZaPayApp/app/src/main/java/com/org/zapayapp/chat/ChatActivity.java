@@ -44,6 +44,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     private String senderId = "", receiverId = "", transactionId = "",receiverProfileImg="";
     private int pageNo = 0;
     private TextView noDataTv;
+    TransactionModel transactionModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -280,7 +281,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
             } else if (from.equals(getResources().getString(R.string.api_get_transaction_request_details))) {
                 if (status == 200) {
                     if (json.get("data").getAsJsonObject() != null) {
-                        TransactionModel transactionModel = (TransactionModel) apiCalling.getDataObject(json.get("data").getAsJsonObject(), TransactionModel.class);
+                        transactionModel = (TransactionModel) apiCalling.getDataObject(json.get("data").getAsJsonObject(), TransactionModel.class);
                         setUserDetail(transactionModel);
                     }
                 } else {
@@ -296,23 +297,26 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                     senderId = transactionModel.getFromId();
                     receiverId = transactionModel.getToId();
                     transactionId = transactionModel.getId();
-                    receiverProfileImg = transactionModel.getProfileImage();
 
                     if (Const.isRequestByMe(transactionModel.getFromId())) {
                         titleTV.setText(transactionModel.getReceiver_first_name() + " " + transactionModel.getReceiver_last_name());
+                        receiverProfileImg = transactionModel.getSender_profile_image();
                     } else {
                         titleTV.setText("" + transactionModel.getSender_first_name() + " " + transactionModel.getSender_last_name());
+                        receiverProfileImg = transactionModel.getReceiver_profile_image();
                     }
 
                 } else if (transactionModel.getToId() != null && transactionModel.getToId().length() > 0 && transactionModel.getToId().equals(SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID))) {
                     senderId = transactionModel.getToId();
                     receiverId = transactionModel.getFromId();
                     transactionId = transactionModel.getId();
-                    receiverProfileImg = transactionModel.getProfileImage();
+                    receiverProfileImg = transactionModel.getReceiver_profile_image();
                     if (Const.isRequestByMe(transactionModel.getFromId())) {
                         titleTV.setText(transactionModel.getReceiver_first_name() + " " + transactionModel.getReceiver_last_name());
+                        receiverProfileImg = transactionModel.getSender_profile_image();
                     } else {
                         titleTV.setText("" + transactionModel.getSender_first_name() + " " + transactionModel.getSender_last_name());
+                        receiverProfileImg = transactionModel.getReceiver_profile_image();
                     }
                 }
                 callConversationsMsgListAPI();

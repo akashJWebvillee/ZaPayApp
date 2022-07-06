@@ -1,6 +1,7 @@
 package com.org.zapayapp.chat;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,8 +59,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 if(chatModel.getCreatedAt() != 0 ) {
                     receivedMessageHolder.timeTextView.setText(wvDateLib.milliSecToDate(chatModel.getCreatedAt()));
                 }
-                if(receiverProfileImg != null && receiverProfileImg.length()>0){
-                    Glide.with(context).load(APICalling.getImageUrl(receiverProfileImg)).placeholder(R.mipmap.ic_user).circleCrop().into(receivedMessageHolder.imageViewProfile);
+                if(chatModel.getSenderProfileImage() != null && chatModel.getSenderProfileImage().length()>0){
+                    Glide.with(context).load(APICalling.getImageUrl(chatModel.getSenderProfileImage())).placeholder(R.mipmap.user_dummy).circleCrop().into(receivedMessageHolder.imageViewProfile);
                 }
             } else if (holder instanceof SendMessageHolder) {
                 SendMessageHolder sendMessageHolder =  ((SendMessageHolder) holder);
@@ -124,6 +125,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public void updateUserImg(String image){
-        receiverProfileImg = image;
+//        receiverProfileImg = image;
+        Log.i("TAG", "updateUserImg: "+APICalling.getImageUrl(image));
     }
 }

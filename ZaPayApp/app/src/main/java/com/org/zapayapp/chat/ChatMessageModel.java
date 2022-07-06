@@ -128,6 +128,14 @@ public class ChatMessageModel {
         this.receiverProfileImage = receiverProfileImage;
     }
 
+    public String getReceiverProfileImage() {
+        return receiverProfileImage;
+    }
+
+    public String getSenderProfileImage() {
+        return senderProfileImage;
+    }
+
     public static Comparator<ChatMessageModel> timeComparator = new Comparator<ChatMessageModel>() {
 
         public int compare(ChatMessageModel s1, ChatMessageModel s2) {
