@@ -138,6 +138,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                         jsonObject.put("sender_id", senderId);
                         jsonObject.put("message", messageEditText.getText().toString());
                         jsonObject.put("transaction_request_id", transactionId);
+                        jsonObject.put("profile_image", receiverProfileImg);
                         CommonMethods.showLogs("jsonobject ", "" + jsonObject);
                         mSocket.emit("send_msg", jsonObject.toString());
                     } catch (Exception e) {
@@ -352,6 +353,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
             JSONObject msg_data = null;
             String msg_receiver_id = "", msg_sender_id = "", msg = "", msg_id = "",transaction_request_id="",status="0";
             long created_at = 0;
+            String msg_sender_img = "", msg_receiver_img = "";
+
             try {
                 // if i send msg to another
                 msg_data = jsonObject.getJSONObject("data");
@@ -362,17 +365,16 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 transaction_request_id = msg_data.get("transaction_request_id").toString(); //73
                 status = msg_data.getString("status").toString(); //73
                 created_at = msg_data.getLong("created_at"); //73
+                if (msg_sender_id.equals(senderId)) {
+                    msg_receiver_img = msg_data.getString("profile_image").toString();//receiverImg;
+                } else {
+                    msg_receiver_img = msg_data.getString("profile_image").toString();
+                }
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            String msg_sender_img = "", msg_receiver_img = "";
 
-            if (msg_sender_id.equals(senderId)) {
-                msg_receiver_img = "";//receiverImg;
-            } else {
-                msg_receiver_img = "";//senderImg;
-            }
             ChatMessageModel messageModel = new ChatMessageModel();
             messageModel.setSenderId(msg_sender_id);
             messageModel.setReceiverId(msg_receiver_id);
@@ -385,7 +387,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
             messageModel.setSenderLastName("");
             messageModel.setReceiverFirstName("");
             messageModel.setReceiverLastName("");
-            messageModel.setSenderProfileImage("");
+            messageModel.setSenderProfileImage(msg_receiver_img);
             messageModel.setReceiverProfileImage(msg_receiver_img);
             msgList.add(messageModel);
 

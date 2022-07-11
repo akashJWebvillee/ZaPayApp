@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/noDataTv"
     android:layout_width="match_parent"
@@ -8,3 +9,4 @@
     android:text="@string/no_data_found"
     android:textSize="15sp"
     android:visibility="gone" />
+</layout>

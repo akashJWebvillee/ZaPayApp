@@ -54,6 +54,11 @@ public class Const {
         String DEFAULT_FEE_TYPE = "default_fee_type";
 
         String IsDEFAULTER = "is_defaulter";
+        String DEFAULT_SHARE_MSG ="Friendly lending has just gotten easier! ZaPay is a secure lending app that you can use to track and automate lending amongst friends\n" +
+                "\n" +
+                "Don't just say it.... ZaPay it! \uD83D\uDE0E\n" +
+                "\n" +
+                "Download the ZaPay App now!";
     }
 
     public interface KEY {

@@ -326,5 +326,7 @@
     <string name="select_option">Take Image</string>
     <string name="no_sdcard">No sd card present</string>
     <string name="if_you_reject_permissions">CDATA[<![CDATA[If you reject permissions,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]]]>></string>
+    <string name="need_to_allow_this_contact_read">"Need to allow contacts reading permissions to ZaPay app, App using phone contacts to lend/borrow money from your in app friends"</string>
+    <string name="invite">Invite</string>
 
 </resources>
