@@ -410,15 +410,15 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
         contactRecycler.setLayoutManager(layoutManager);
         contactRecycler.setItemAnimator(new DefaultItemAnimator());
 
-        scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount) {
-                pageNo = page;
-                callAPIGetContactList(pageNo);
-            }
-        };
-
-        contactRecycler.addOnScrollListener(scrollListener);
+//        scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
+//            @Override
+//            public void onLoadMore(int page, int totalItemsCount) {
+//                pageNo = page;
+//                callAPIGetContactList(pageNo);
+//            }
+//        };
+//
+//        contactRecycler.addOnScrollListener(scrollListener);
         pageNo = 0;
         callAPIGetContactList(pageNo);
     }
@@ -800,7 +800,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 int selectPosition = 0;
                 for (int i = 0; i < contactNumberList.size(); i++) {
                     //this work for transaction
-                    if (transactionModel.getFromId().equals(contactNumberList.get(i).getId())) {
+                    if (transactionModel.getFromId().equals(contactNumberList.get(i).getUserPrimaryId())) {
                         selectPosition = i;
                         contactAdapter.setSelected(selectPosition, getString(R.string.negotiation));
                         break;
@@ -812,7 +812,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 int selectPosition = 0;
                 for (int i = 0; i < contactNumberList.size(); i++) {
                     //this work for history
-                    if (transactionModel.getToId().equals(contactNumberList.get(i).getId())) {
+                    if (transactionModel.getToId().equals(contactNumberList.get(i).getUserPrimaryId())) {
                         selectPosition = i;
                         contactAdapter.setSelected(selectPosition, getString(R.string.negotiation));
                         break;
@@ -1510,7 +1510,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void getContact(ContactModel contactModel) {
-        toId = contactModel.getId();
+        toId = contactModel.getUserPrimaryId();
     }
 
     private void callAPIGetContentDisclaimer() {

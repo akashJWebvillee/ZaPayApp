@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_CONTACTS" /> <!--for invites purpose-->
     <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <application
         android:name=".ZapayApp"
@@ -92,14 +93,30 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+            <intent-filter>
+                <data android:scheme="Zapay" android:host="open" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="example.test-app.link" />
+                <data android:scheme="https" android:host="o74qw.app.link" />
                 <!-- example-alternate domain is required for App Links when the Journeys/Web SDK and Deepviews are used inside your website.  -->
-                <data android:scheme="https" android:host="example-alternate.test-app.link" />
+                <data android:scheme="https" android:host="o74qw-alternate.app.link" />
             </intent-filter>
+
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="o74qw.test-app.link" />
+                <data android:scheme="https" android:host="o74qw-alternate.test-app.link" />
+            </intent-filter>
+
 
         </activity>
         <activity
@@ -223,8 +240,8 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
 
-        <meta-data android:name="io.branch.sdk.BranchKey" android:value="key_live_ea2NZQNH5V7yEJLj7tZC9mbnxrnA9b7agewt" />
-        <meta-data android:name="io.branch.sdk.BranchKey.test" android:value="key_test_hlxrWC5Zx16DkYmWu4AHiimdqugRYMr" />
+        <meta-data android:name="io.branch.sdk.BranchKey" android:value="key_live_ea2NZQNH5V7yEJLj7tZC9mbnxrnA9b7a" />
+        <meta-data android:name="io.branch.sdk.BranchKey.test" android:value="key_test_df6M2MNN7TZzxSQm6vZF9mkmsqgz7e5s" />
         <meta-data android:name="io.branch.sdk.TestMode" android:value="false" />
     </application>
 

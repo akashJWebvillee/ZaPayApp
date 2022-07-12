@@ -1,5 +1,9 @@
 package com.org.zapayapp.adapters;
+import static com.org.zapayapp.utils.Const.Var.DEFAULT_SHARE_MSG;
+
+import android.app.Activity;
 import android.content.Context;
+import android.telephony.SmsManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +14,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.org.zapayapp.R;
 import com.org.zapayapp.listener.ContactListener;
 import com.org.zapayapp.model.ContactModel;
+import com.org.zapayapp.utils.Const;
+
 import java.util.List;
+
+import io.branch.indexing.BranchUniversalObject;
+import io.branch.referral.Branch;
+import io.branch.referral.BranchError;
+import io.branch.referral.SharingHelper;
+import io.branch.referral.util.LinkProperties;
+import io.branch.referral.util.ShareSheetStyle;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder> {
     private Context context;
@@ -26,13 +39,15 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
     }
 
     class MyHolder extends RecyclerView.ViewHolder {
-        private TextView contactTxtName;
+        private TextView contactTxtName,btnInvite;
         private ImageView contactImgSelect;
+
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
             contactTxtName = itemView.findViewById(R.id.contactTxtName);
             contactImgSelect = itemView.findViewById(R.id.contactImgSelect);
+            btnInvite = itemView.findViewById(R.id.btnInvite);
         }
     }
 
@@ -47,8 +62,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
     public void onBindViewHolder(@NonNull final MyHolder holder, final int position) {
         final ContactModel model = contactList.get(position);
 
-        if (model.getFirstName() != null && model.getFirstName().length() > 0) {
-            holder.contactTxtName.setText(model.getFirstName()+" "+model.getLastName());
+        if (model.getMobileContactName() != null && model.getMobileContactName().length() > 0) {
+            holder.contactTxtName.setText(model.getMobileContactName());
         }
 
         if (selectedPos == holder.getAdapterPosition()) {
@@ -58,7 +73,13 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
             holder.contactImgSelect.setImageResource(R.drawable.checkbox_unselect);
             holder.contactTxtName.setSelected(false);
         }
-
+        if (model.getIsInvite()==0){
+            holder.btnInvite.setVisibility(View.GONE);
+            holder.contactImgSelect.setVisibility(View.VISIBLE);
+        }else {
+            holder.btnInvite.setVisibility(View.VISIBLE);
+            holder.contactImgSelect.setVisibility(View.INVISIBLE);
+        }
         if (forWhat.equalsIgnoreCase(context.getString(R.string.negotiation))){
             holder.itemView.setClickable(false);
         }else {
@@ -66,13 +87,61 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (selectedPos != holder.getAdapterPosition()) {
-                        selectedPos = holder.getAdapterPosition();
-                        contactListener.getContact(contactList.get(position));
-                        notifyDataSetChanged();
+                    if (model.getIsInvite() == 0) {
+                        if (selectedPos != holder.getAdapterPosition()) {
+                            selectedPos = holder.getAdapterPosition();
+                            contactListener.getContact(contactList.get(position));
+                            notifyDataSetChanged();
+                        }
                     }
                 }
             });
+
+            holder.btnInvite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//                    String msg=
+//                    SmsManager sms = SmsManager.getDefault();
+//                    sms.sendTextMessage(phonenumber, null, message, null, null);
+                    BranchUniversalObject object = new BranchUniversalObject();
+                    object.setTitle("ZaPay");
+                    object.setContentDescription(DEFAULT_SHARE_MSG);
+
+                    LinkProperties linkProperties = new LinkProperties();
+
+                    ShareSheetStyle shareSheetStyle = new ShareSheetStyle(context, "ZaPay", DEFAULT_SHARE_MSG)
+                            .setCopyUrlStyle(context.getResources().getDrawable(android.R.drawable.ic_menu_send), "Copy", "Added to clipboard")
+                            .setMoreOptionStyle(context.getResources().getDrawable(android.R.drawable.ic_menu_search), "Show more")
+                            .addPreferredSharingOption(SharingHelper.SHARE_WITH.FACEBOOK)
+                            .addPreferredSharingOption(SharingHelper.SHARE_WITH.EMAIL)
+                            .setAsFullWidthStyle(true)
+                            .setSharingTitle("Invite Friends");
+
+                    object.showShareSheet((Activity) context, linkProperties, shareSheetStyle, new Branch.BranchLinkShareListener() {
+                        @Override
+                        public void onShareLinkDialogLaunched() {
+
+                        }
+
+                        @Override
+                        public void onShareLinkDialogDismissed() {
+
+                        }
+
+                        @Override
+                        public void onLinkShareResponse(String sharedLink, String sharedChannel, BranchError error) {
+
+                        }
+
+                        @Override
+                        public void onChannelSelected(String channelName) {
+
+                        }
+                    });
+
+                }
+            });
+
         }
 
 
@@ -108,7 +177,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
 
     public String getSelected() {
         if (selectedPos != -1) {
-            return contactList.get(selectedPos).getFirstName();
+            return contactList.get(selectedPos).getMobileContactName();
         }
         return null;
     }

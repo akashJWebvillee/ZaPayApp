@@ -34,6 +34,7 @@ import okhttp3.RequestBody
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException
+import java.lang.NumberFormatException
 import java.util.*
 
 
@@ -80,12 +81,12 @@ class HomeActivity : BaseActivity(), View.OnClickListener, APICallback {
     // used to store Number ,Names and id.
     private val contacts: Unit
         get() {
-            CoroutineScope(Dispatchers.IO).launch {
+//            CoroutineScope(Dispatchers.IO).launch {
                 createCSV()
-                CoroutineScope(Dispatchers.Main).launch {
+//                CoroutineScope(Dispatchers.Main).launch {
                     exportCSV()
-                }
-            }
+//                }
+//            }
 
         }
 
@@ -140,14 +141,19 @@ class HomeActivity : BaseActivity(), View.OnClickListener, APICallback {
                                             ?.replace("-","")
                                             ?.replace("(","")
                                             ?.replace(")","")
-               val phoneNumber = phoneNumberUtil.parse(number1,Locale.getDefault().country)
-               number = phoneNumber.nationalNumber.toString()
-                countyCode = phoneNumber.countryCode.toString()
+                try {
+                    val phoneNumber = phoneNumberUtil.parse(number1,Locale.getDefault().country)
+                    number = phoneNumber.nationalNumber.toString()
+                    countyCode = phoneNumber.countryCode.toString()
 
-                if (number1.equals(number)) {
-                    countyCode ="0"
+                    if (number1.equals(number)) {
+                        countyCode ="0"
+                    }
+                    writer.writeNext("$displayName/${number}/$countyCode".split("/".toRegex()).toTypedArray())
+
+                }catch (e: Exception){
+                    e.printStackTrace()
                 }
-                writer.writeNext("$displayName/${number}/$countyCode".split("/".toRegex()).toTypedArray())
             } while (cursor.moveToNext())
             csv_status = true
         } else {
@@ -162,7 +168,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener, APICallback {
 
 
     private fun exportCSV() {
-        if (csv_status === true) {
+        if (csv_status) {
             //CSV file is created so we need to Export that ...
             val CSVFile:File
 
@@ -178,25 +184,6 @@ class HomeActivity : BaseActivity(), View.OnClickListener, APICallback {
 
             callApiUpdateContacts(CSVFile)
 
-            //Log.i("SEND EMAIL TESTING", "Email sending");
-//            val fileuri=  FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".fileprovider", CSVFile)
-//            Log.i(TAG, "exportCSV: "+CSVFile.absolutePath)
-//            val emailIntent = Intent(Intent.ACTION_SEND)
-//             emailIntent.type = "text/csv"
-//             emailIntent.putExtra(
-//                 Intent.EXTRA_STREAM,
-//                 fileuri
-//             )
-//             emailIntent.type =
-//                 "message/rfc822" // Shows all application that supports SEND activity
-//                try {
-//                    startActivity(Intent.createChooser(emailIntent, "Send mail..."))
-//                } catch (ex: ActivityNotFoundException) {
-//                    Toast.makeText(
-//                        context1,
-//                        "Email client : $ex", Toast.LENGTH_SHORT
-//                    ).show()
-//            }
         } else {
             Toast.makeText(
                 context1,
@@ -230,20 +217,6 @@ class HomeActivity : BaseActivity(), View.OnClickListener, APICallback {
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
-
-        /*  RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("profile_image", file.getName(), requestBody);
-        try {
-            zapayApp.setApiCallback(this);
-            Call<JsonElement> call = restAPI.postWithTokenMultiPartApi(SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString(), getString(R.string.api_update_profile_image), fileToUpload);
-            if (apiCalling != null) {
-                apiCalling.setRunInBackground(false);
-                apiCalling.callAPI(zapayApp, call, getString(R.string.api_update_profile_image), profileImageView);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-
     }
 
     /**
@@ -254,7 +227,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener, APICallback {
     private fun getPrimaryNumber(_id: Long): String? {
         var primaryNumber: String? = null
         try {
-            val cursor: Cursor = context1!!.contentResolver.query(
+            val cursor: Cursor = context1.contentResolver.query(
                 ContactsContract.CommonDataKinds.Phone.CONTENT_URI, arrayOf(ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.TYPE),
                 ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + _id,  // We need to add more selection for phone type
                 null,
