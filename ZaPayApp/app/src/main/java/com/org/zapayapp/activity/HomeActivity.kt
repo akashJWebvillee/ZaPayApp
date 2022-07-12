@@ -81,12 +81,12 @@ class HomeActivity : BaseActivity(), View.OnClickListener, APICallback {
     // used to store Number ,Names and id.
     private val contacts: Unit
         get() {
-//            CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.IO).launch {
                 createCSV()
-//                CoroutineScope(Dispatchers.Main).launch {
+                CoroutineScope(Dispatchers.Main).launch {
                     exportCSV()
-//                }
-//            }
+                }
+            }
 
         }
 
