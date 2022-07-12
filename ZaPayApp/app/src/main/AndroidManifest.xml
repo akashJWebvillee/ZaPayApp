@@ -242,7 +242,7 @@
 
         <meta-data android:name="io.branch.sdk.BranchKey" android:value="key_live_ea2NZQNH5V7yEJLj7tZC9mbnxrnA9b7a" />
         <meta-data android:name="io.branch.sdk.BranchKey.test" android:value="key_test_df6M2MNN7TZzxSQm6vZF9mkmsqgz7e5s" />
-        <meta-data android:name="io.branch.sdk.TestMode" android:value="false" />
+        <meta-data android:name="io.branch.sdk.TestMode" android:value="true" />
     </application>
 
     <queries>

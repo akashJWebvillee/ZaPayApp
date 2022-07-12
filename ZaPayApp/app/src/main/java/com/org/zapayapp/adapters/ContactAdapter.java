@@ -78,7 +78,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
             holder.contactImgSelect.setVisibility(View.VISIBLE);
         }else {
             holder.btnInvite.setVisibility(View.VISIBLE);
-            holder.contactImgSelect.setVisibility(View.INVISIBLE);
+            holder.contactImgSelect.setVisibility(View.GONE);
         }
         if (forWhat.equalsIgnoreCase(context.getString(R.string.negotiation))){
             holder.itemView.setClickable(false);
@@ -110,11 +110,12 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
                     LinkProperties linkProperties = new LinkProperties();
 
                     ShareSheetStyle shareSheetStyle = new ShareSheetStyle(context, "ZaPay", DEFAULT_SHARE_MSG)
-                            .setCopyUrlStyle(context.getResources().getDrawable(android.R.drawable.ic_menu_send), "Copy", "Added to clipboard")
-                            .setMoreOptionStyle(context.getResources().getDrawable(android.R.drawable.ic_menu_search), "Show more")
-                            .addPreferredSharingOption(SharingHelper.SHARE_WITH.FACEBOOK)
-                            .addPreferredSharingOption(SharingHelper.SHARE_WITH.EMAIL)
+//                            .setCopyUrlStyle(context.getResources().getDrawable(android.R.drawable.ic_menu_send), "Copy", "Added to clipboard")
+//                            .setMoreOptionStyle(context.getResources().getDrawable(android.R.drawable.ic_menu_search), "Show more")
+//                            .addPreferredSharingOption(SharingHelper.SHARE_WITH.FACEBOOK)
+//                            .addPreferredSharingOption(SharingHelper.SHARE_WITH.EMAIL)
                             .setAsFullWidthStyle(true)
+                            .setStyleResourceID(R.style.bottomSheetStyleWrapper)
                             .setSharingTitle("Invite Friends");
 
                     object.showShareSheet((Activity) context, linkProperties, shareSheetStyle, new Branch.BranchLinkShareListener() {
@@ -143,6 +144,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
             });
 
         }
+        holder.contactTxtName.setSelected(true);
 
 
         /*if (model.isSelect()){

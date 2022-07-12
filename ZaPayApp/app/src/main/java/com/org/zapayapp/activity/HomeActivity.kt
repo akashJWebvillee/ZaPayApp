@@ -132,6 +132,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener, APICallback {
         )!!
         if (cursor.moveToFirst()) {
             do {
+                try {
                 _id =
                     cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)).toLong()
                 displayName =
@@ -141,7 +142,7 @@ class HomeActivity : BaseActivity(), View.OnClickListener, APICallback {
                                             ?.replace("-","")
                                             ?.replace("(","")
                                             ?.replace(")","")
-                try {
+
                     val phoneNumber = phoneNumberUtil.parse(number1,Locale.getDefault().country)
                     number = phoneNumber.nationalNumber.toString()
                     countyCode = phoneNumber.countryCode.toString()
