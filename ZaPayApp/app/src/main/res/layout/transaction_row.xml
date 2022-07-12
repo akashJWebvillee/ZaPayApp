@@ -86,7 +86,7 @@
 
         <TextView
             android:id="@+id/nameTV"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/layoutIds"
             android:layout_marginStart="14dp"
@@ -94,10 +94,10 @@
             android:ellipsize="end"
             android:fontFamily="@font/gotha_promed"
             android:gravity="start"
-            android:maxLength="25"
-            android:maxLines="1"
             android:textColor="@color/textColor"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/amountTV"/>
 
         <ImageView
             android:id="@+id/dateUpdateIconIV"
@@ -122,7 +122,7 @@
             android:fontFamily="@font/gotha_promed"
             android:gravity="start"
             android:textColor="@color/textColor"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/dateTV"
