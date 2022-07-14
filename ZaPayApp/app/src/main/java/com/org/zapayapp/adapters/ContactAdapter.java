@@ -94,6 +94,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
                             notifyDataSetChanged();
                         }else {
                             selectedPos =-1;
+                            contactListener.getContact(null);
                             notifyDataSetChanged();
                         }
                     }

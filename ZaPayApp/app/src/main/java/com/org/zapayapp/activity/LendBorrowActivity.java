@@ -1510,7 +1510,11 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void getContact(ContactModel contactModel) {
-        toId = contactModel.getUserPrimaryId();
+        if (contactModel!=null) {
+            toId = contactModel.getUserPrimaryId();
+        }else {
+            toId="";
+        }
     }
 
     private void callAPIGetContentDisclaimer() {
