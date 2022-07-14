@@ -92,6 +92,9 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
                             selectedPos = holder.getAdapterPosition();
                             contactListener.getContact(contactList.get(position));
                             notifyDataSetChanged();
+                        }else {
+                            selectedPos =-1;
+                            notifyDataSetChanged();
                         }
                     }
                 }
@@ -100,9 +103,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
             holder.btnInvite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    String msg=
-//                    SmsManager sms = SmsManager.getDefault();
-//                    sms.sendTextMessage(phonenumber, null, message, null, null);
                     BranchUniversalObject object = new BranchUniversalObject();
                     object.setTitle("ZaPay");
                     object.setContentDescription(DEFAULT_SHARE_MSG);
@@ -110,11 +110,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
                     LinkProperties linkProperties = new LinkProperties();
 
                     ShareSheetStyle shareSheetStyle = new ShareSheetStyle(context, "ZaPay", DEFAULT_SHARE_MSG)
-//                            .setCopyUrlStyle(context.getResources().getDrawable(android.R.drawable.ic_menu_send), "Copy", "Added to clipboard")
-//                            .setMoreOptionStyle(context.getResources().getDrawable(android.R.drawable.ic_menu_search), "Show more")
-//                            .addPreferredSharingOption(SharingHelper.SHARE_WITH.FACEBOOK)
-//                            .addPreferredSharingOption(SharingHelper.SHARE_WITH.EMAIL)
-                            .setAsFullWidthStyle(true)
+                           .setAsFullWidthStyle(true)
                             .setStyleResourceID(R.style.bottomSheetStyleWrapper)
                             .setSharingTitle("Invite Friends");
 
@@ -144,33 +140,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
             });
 
         }
-        holder.contactTxtName.setSelected(true);
-
-
-        /*if (model.isSelect()){
-          holder.contactImgSelect.setImageResource(R.mipmap.ic_check_select);
-          holder.contactTxtName.setSelected(true);
-      }else {
-          holder.contactImgSelect.setImageResource(R.drawable.checkbox_unselect);
-          holder.contactTxtName.setSelected(false);
-      }
-
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (model.isSelect()){
-                    holder.contactImgSelect.setImageResource(R.drawable.checkbox_unselect);
-                    holder.contactTxtName.setSelected(false);
-                    model.setSelect(false);
-                }else {
-                    holder.contactImgSelect.setImageResource(R.mipmap.ic_check_select);
-                    holder.contactTxtName.setSelected(true);
-                    model.setSelect(true);
-                }
-                notifyDataSetChanged();
-            }
-        });*/
     }
     @Override
     public int getItemCount() {

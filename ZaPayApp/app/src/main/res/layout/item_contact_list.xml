@@ -29,12 +29,9 @@
         android:includeFontPadding="false"
         android:textColor="@color/textColor"
         android:textSize="20sp"
-        android:singleLine="true"
+        android:maxLines="1"
         android:layout_weight="1"
-        android:ellipsize="marquee"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:focusableInTouchMode="true"
-        android:freezesText="true"/>
+        android:ellipsize="end" />
 
       <TextView
           android:id="@+id/btnInvite"
