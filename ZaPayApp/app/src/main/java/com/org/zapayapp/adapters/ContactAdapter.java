@@ -89,13 +89,18 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder
                 public void onClick(View v) {
                     if (model.getIsInvite() == 0) {
                         if (selectedPos != holder.getAdapterPosition()) {
+                            int temp= selectedPos;
                             selectedPos = holder.getAdapterPosition();
                             contactListener.getContact(contactList.get(position));
-                            notifyDataSetChanged();
+                            notifyItemChanged(selectedPos);
+                            if (temp>-1){
+                                notifyItemChanged(temp);
+                            }
                         }else {
+                            int temp= selectedPos;
                             selectedPos =-1;
                             contactListener.getContact(null);
-                            notifyDataSetChanged();
+                            notifyItemChanged(temp);
                         }
                     }
                 }

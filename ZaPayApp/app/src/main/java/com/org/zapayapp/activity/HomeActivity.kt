@@ -95,14 +95,17 @@ class HomeActivity : BaseActivity(), View.OnClickListener, APICallback {
         var writer: CSVWriter? = null
         try {
             val fileName: String
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-            {
-                fileName =  Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS  +"/zapay_contacts.csv" ).absolutePath
-            }else{
-                fileName = Environment.getExternalStorageDirectory().getAbsolutePath()
-                        .toString() + "/zapay_contacts.csv"
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+//            {
+//                fileName =  Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS  +"/zapay_contacts.csv" ).absolutePath
+//            }else{
+////                fileName = Environment.getExternalStorageDirectory().getAbsolutePath()
+////                        .toString() + "/zapay_contacts.csv"
+//                fileName = context1.cacheDir.absolutePath+"/zapay_contacts.csv"
+//
+//            }
 
-            }
+            fileName = context1.cacheDir.absolutePath+"/zapay_contacts.csv"
 
             writer = CSVWriter(
                 FileWriter(
@@ -173,15 +176,18 @@ class HomeActivity : BaseActivity(), View.OnClickListener, APICallback {
             //CSV file is created so we need to Export that ...
             val CSVFile:File
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-            {
-                CSVFile =  Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS  +"/zapay_contacts.csv" )
-            }else{
-                CSVFile = File(
-                    Environment.getExternalStorageDirectory().getAbsolutePath()
-                        .toString() + "/zapay_contacts.csv"
-                )
-            }
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+//            {
+//                CSVFile =  Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS  +"/zapay_contacts.csv" )
+//
+//            }else{
+//                CSVFile = File(
+//                    Environment.getExternalStorageDirectory().getAbsolutePath()
+//                        .toString() + "/zapay_contacts.csv"
+//                )
+//            }
+
+            CSVFile = File(context1.cacheDir.absolutePath+"/zapay_contacts.csv")
 
             callApiUpdateContacts(CSVFile)
 
