@@ -9,15 +9,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="342dp"
-        android:background="@mipmap/base_bg"/>
+        android:background="@mipmap/base_bg" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/indicatorRecycler"
         android:layout_width="match_parent"
-        android:layout_marginTop="94dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="31dp"
-        android:layout_marginEnd="31dp"
-        android:layout_height="wrap_content"/>
+        android:layout_marginTop="94dp"
+        android:layout_marginEnd="31dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -66,6 +66,7 @@
 
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/nsv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -112,12 +113,15 @@
                     <include
                         layout="@layout/view_lending_summary"/>
 
-                    <include
-                        layout="@layout/view_contact"/>
+
+
                 </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-    </LinearLayout>
+        <include
+            layout="@layout/view_contact"/>
 
+
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

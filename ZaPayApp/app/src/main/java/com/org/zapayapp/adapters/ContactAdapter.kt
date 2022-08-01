@@ -1,171 +1,135 @@
-package com.org.zapayapp.adapters;
-import static com.org.zapayapp.utils.Const.Var.DEFAULT_SHARE_MSG;
+package com.org.zapayapp.adapters
 
-import android.app.Activity;
-import android.content.Context;
-import android.telephony.SmsManager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-import com.org.zapayapp.R;
-import com.org.zapayapp.listener.ContactListener;
-import com.org.zapayapp.model.ContactModel;
-import com.org.zapayapp.utils.Const;
+import com.org.zapayapp.listener.ContactListener
+import com.org.zapayapp.model.ContactModel
+import androidx.recyclerview.widget.RecyclerView
+import android.widget.TextView
+import android.widget.LinearLayout
+import com.org.zapayapp.R
+import android.view.ViewGroup
+import android.view.LayoutInflater
+import io.branch.indexing.BranchUniversalObject
+import com.org.zapayapp.utils.Const.Var
+import io.branch.referral.util.ShareSheetStyle
+import android.app.Activity
+import android.content.Context
+import android.view.View
+import android.widget.ImageView
+import io.branch.referral.Branch.BranchLinkShareListener
+import io.branch.referral.BranchError
+import io.branch.referral.util.LinkProperties
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-import java.util.List;
+class ContactAdapter(
+    private val context: Context,
+    private val contactListener: ContactListener,
+    private val contactList: MutableList<out ContactModel>,
+    private val onClickListener: View.OnClickListener
+) : RecyclerView.Adapter<ContactAdapter.MyHolder>() {
+    var selectedPos = -1
+        private set
+    private var forWhat = ""
+    private val resourceCheck: Int
+    private val resourceUnCheck: Int
 
-import io.branch.indexing.BranchUniversalObject;
-import io.branch.referral.Branch;
-import io.branch.referral.BranchError;
-import io.branch.referral.SharingHelper;
-import io.branch.referral.util.LinkProperties;
-import io.branch.referral.util.ShareSheetStyle;
+    inner class MyHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val contactTxtName: TextView
+        internal val btnInvite: TextView
+        internal val contactImgSelect: ImageView
+        internal val llView: LinearLayout
 
-public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyHolder> {
-    private Context context;
-    private int selectedPos = -1;
-    private List<ContactModel> contactList;
-    private ContactListener contactListener;
-    private String forWhat="";
-
-    public ContactAdapter(Context context, ContactListener contactListener, List<ContactModel> contactList) {
-        this.context = context;
-        this.contactList = contactList;
-        this.contactListener = contactListener;
-    }
-
-    class MyHolder extends RecyclerView.ViewHolder {
-        private TextView contactTxtName,btnInvite;
-        private ImageView contactImgSelect;
-
-
-        public MyHolder(@NonNull View itemView) {
-            super(itemView);
-            contactTxtName = itemView.findViewById(R.id.contactTxtName);
-            contactImgSelect = itemView.findViewById(R.id.contactImgSelect);
-            btnInvite = itemView.findViewById(R.id.btnInvite);
+        init {
+            llView = itemView.findViewById(R.id.llView)
+            contactTxtName = itemView.findViewById(R.id.contactTxtName)
+            contactImgSelect = itemView.findViewById(R.id.contactImgSelect)
+            btnInvite = itemView.findViewById(R.id.btnInvite)
         }
     }
 
-    @NonNull
-    @Override
-    public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_contact_list, parent, false);
-        return new MyHolder(view);
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
+        val view = LayoutInflater.from(context).inflate(R.layout.item_contact_list, parent, false)
+        return MyHolder(view)
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull final MyHolder holder, final int position) {
-        final ContactModel model = contactList.get(position);
-
-        if (model.getMobileContactName() != null && model.getMobileContactName().length() > 0) {
-            holder.contactTxtName.setText(model.getMobileContactName());
-        }
-
-        if (selectedPos == holder.getAdapterPosition()) {
-            holder.contactImgSelect.setImageResource(R.mipmap.ic_check_select);
-            holder.contactTxtName.setSelected(true);
+    override fun onBindViewHolder(holder: MyHolder, position: Int) {
+        val model = contactList[position]
+        val isInvite = model.isInvite
+        if (selectedPos == position) {
+            holder.contactImgSelect.setImageResource(resourceCheck)
+            holder.contactTxtName.isSelected = true
         } else {
-            holder.contactImgSelect.setImageResource(R.drawable.checkbox_unselect);
-            holder.contactTxtName.setSelected(false);
+            holder.contactImgSelect.setImageResource(resourceUnCheck)
+            holder.contactTxtName.isSelected = false
         }
-        if (model.getIsInvite()==0){
-            holder.btnInvite.setVisibility(View.GONE);
-            holder.contactImgSelect.setVisibility(View.VISIBLE);
-        }else {
-            holder.btnInvite.setVisibility(View.VISIBLE);
-            holder.contactImgSelect.setVisibility(View.GONE);
-        }
-        if (forWhat.equalsIgnoreCase(context.getString(R.string.negotiation))){
-            holder.itemView.setClickable(false);
-        }else {
-            holder.itemView.setClickable(true);
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (model.getIsInvite() == 0) {
-                        if (selectedPos != holder.getAdapterPosition()) {
-                            int temp= selectedPos;
-                            selectedPos = holder.getAdapterPosition();
-                            contactListener.getContact(contactList.get(position));
-                            notifyItemChanged(selectedPos);
-                            if (temp>-1){
-                                notifyItemChanged(temp);
+        if (forWhat.equals(context.getString(R.string.negotiation), ignoreCase = true)) {
+            holder.llView.isClickable = false
+        } else {
+            if (isInvite == 0) {
+                holder.btnInvite.visibility = View.GONE
+                holder.contactImgSelect.visibility = View.VISIBLE
+                holder.llView.isClickable = true
+                holder.llView.setTag(position)
+                holder.llView.setOnClickListener(onClickListener)
+
+            } else {
+                holder.btnInvite.visibility = View.VISIBLE
+                holder.contactImgSelect.visibility = View.GONE
+                holder.btnInvite.setOnClickListener {
+                    val `object` = BranchUniversalObject()
+                    `object`.setTitle("ZaPay")
+                    `object`.setContentDescription(Var.DEFAULT_SHARE_MSG)
+                    val linkProperties = LinkProperties()
+                    val shareSheetStyle = ShareSheetStyle(context, "ZaPay", Var.DEFAULT_SHARE_MSG)
+                        .setAsFullWidthStyle(true)
+                        .setStyleResourceID(R.style.bottomSheetStyleWrapper)
+                        .setSharingTitle("Invite Friends")
+                    `object`.showShareSheet(
+                        (context as Activity),
+                        linkProperties,
+                        shareSheetStyle,
+                        object : BranchLinkShareListener {
+                            override fun onShareLinkDialogLaunched() {}
+                            override fun onShareLinkDialogDismissed() {}
+                            override fun onLinkShareResponse(
+                                sharedLink: String,
+                                sharedChannel: String,
+                                error: BranchError
+                            ) {
                             }
-                        }else {
-                            int temp= selectedPos;
-                            selectedPos =-1;
-                            contactListener.getContact(null);
-                            notifyItemChanged(temp);
-                        }
-                    }
+
+                            override fun onChannelSelected(channelName: String) {}
+                        })
                 }
-            });
-
-            holder.btnInvite.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    BranchUniversalObject object = new BranchUniversalObject();
-                    object.setTitle("ZaPay");
-                    object.setContentDescription(DEFAULT_SHARE_MSG);
-
-                    LinkProperties linkProperties = new LinkProperties();
-
-                    ShareSheetStyle shareSheetStyle = new ShareSheetStyle(context, "ZaPay", DEFAULT_SHARE_MSG)
-                           .setAsFullWidthStyle(true)
-                            .setStyleResourceID(R.style.bottomSheetStyleWrapper)
-                            .setSharingTitle("Invite Friends");
-
-                    object.showShareSheet((Activity) context, linkProperties, shareSheetStyle, new Branch.BranchLinkShareListener() {
-                        @Override
-                        public void onShareLinkDialogLaunched() {
-
-                        }
-
-                        @Override
-                        public void onShareLinkDialogDismissed() {
-
-                        }
-
-                        @Override
-                        public void onLinkShareResponse(String sharedLink, String sharedChannel, BranchError error) {
-
-                        }
-
-                        @Override
-                        public void onChannelSelected(String channelName) {
-
-                        }
-                    });
-
-                }
-            });
-
+            }
+        }
+        if (model.mobileContactName != null && model.mobileContactName.length > 0) {
+            holder.contactTxtName.text = model.mobileContactName
         }
     }
-    @Override
-    public int getItemCount() {
-        return contactList.size();
+
+    override fun getItemCount(): Int {
+        return contactList.size
     }
 
-    public String getSelected() {
-        if (selectedPos != -1) {
-            return contactList.get(selectedPos).getMobileContactName();
-        }
-        return null;
+    val selected: String?
+        get() = if (selectedPos != -1) {
+            contactList[selectedPos].mobileContactName
+        } else null
+
+    fun setSelected(position: Int, forWhat: String) {
+        this.forWhat = forWhat
+        selectedPos = position
+        notifyItemChanged(position)
     }
 
-    public int getSelectedPos() {
-        return selectedPos;
+    fun setSelected(position: Int) {
+        selectedPos = position
     }
 
-    public void setSelected(int position,String forWhat) {
-        this.forWhat=forWhat;
-        selectedPos = position;
-        notifyItemChanged(position);
+    init {
+        resourceCheck = R.mipmap.ic_check_select
+        resourceUnCheck = R.drawable.checkbox_unselect
     }
 }

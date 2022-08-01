@@ -21,7 +21,9 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -65,7 +67,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     private List<String> listIndicator;
     private TextView nextButtonTV, backButtonTV;
     private ShadowLayout lendShadowBack, lendShadowNext;
-    private int selectedPos = 0;
+    private int selectedPos = 0, selectedPosContact= -1;
     private IndicatorAdapter indicatorAdapter;
     private TextView lendTxtHeader, lendTxtAmount, lendTermsTxtOption, lendTermsTxtPercent, lendTermsTxtFee, lendTermsTxtDiscount, lendTermsTxtNone;
     private TextInputEditText lendAmountEdtAmount, lendTermsEdtOption, lendPaymentEdtNo;
@@ -83,18 +85,20 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     private RecyclerView paybackRecycler, contactRecycler;
     private List<PabackModel> paybackList;
     private PaybackAdapter paybackAdapter;
-    private ContactAdapter contactAdapter;
+    private ContactAdapter contactAdapter, contactInviteAdapter;
     private Intent intent;
     private boolean isBorrow;
     private boolean isBack;
 
-    private List<ContactModel> contactNumberList;
+    private List<ContactModel> contactNumberList, contactInviteList;
     private EndlessRecyclerViewScrollListener scrollListener;
     private int pageNo = 0;
     private TextView noDataTv;
     private String toId = "";
     private int request_by;
     private String termValue = "";
+    private NestedScrollView nsv;
+    private ConcatAdapter concatAdapter;
 
     //borrow....
     private TextView amountTV, termTV, noOfPaymentTV, paymentDateTV, totalPayBackTV, zapayCommissionTitleTV, zapayCommissionTV, afterCommissionTV;
@@ -116,6 +120,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     private double lenderCommission;
     private double defaultFeeAmount;
     private float discountValue;
+    private int zapayContactCount = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -371,6 +376,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     }
 
     private void initBorrowView() {
+        nsv = findViewById(R.id.nsv);
         lendViewBorrow = findViewById(R.id.lendViewBorrow);
         amountTV = findViewById(R.id.amountTV);
         termTV = findViewById(R.id.termTV);
@@ -402,13 +408,14 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     private void initContactView() {
         //contactList = new ArrayList<>();
         contactNumberList = new ArrayList<>();
+        contactInviteList = new ArrayList<>();
         noDataTv = findViewById(R.id.noDataTv);
 
         lendViewContact = findViewById(R.id.lendViewContact);
         contactRecycler = findViewById(R.id.contactRecycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         contactRecycler.setLayoutManager(layoutManager);
-        contactRecycler.setItemAnimator(new DefaultItemAnimator());
+        contactRecycler.setItemAnimator(null);
 
 //        scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
 //            @Override
@@ -427,6 +434,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.nextButtonTV:
+                scollToZero();
                 if (indicatorAdapter.getSelectedPos() < listIndicator.size() - 1) {
 
                     if (selectedPos == 0) {
@@ -497,6 +505,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                 }
                 break;
             case R.id.backButtonTV:
+                scollToZero();
                 if (indicatorAdapter.getSelectedPos() <= listIndicator.size() - 1) {
                    /* selectedPos = indicatorAdapter.getSelectedPos() - 1;
                     indicatorAdapter.setSelected(selectedPos);
@@ -529,7 +538,32 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             case R.id.lendTermsTxtNone:
                 selectedTermsOption(3);
                 break;
+            case R.id.llView:
+                    int position = Integer.parseInt(v.getTag().toString());
+                    ContactModel model = contactNumberList.get(position);
+                if (selectedPosContact != position) {
+                    int temp = selectedPosContact;
+                    selectedPosContact = position;
+                    contactAdapter.notifyItemChanged(selectedPosContact);
+                    contactAdapter.setSelected(selectedPosContact);
+                    if (temp > -1) {
+                        contactAdapter.notifyItemChanged(temp);
+                    }
+                    toId = model.getUserPrimaryId();
+                } else {
+                    int temp = selectedPosContact;
+                    selectedPosContact = -1;
+                    contactAdapter.notifyItemChanged(temp);
+                    contactAdapter.setSelected(selectedPosContact);
+                    toId="";
+                }
+
+                break;
         }
+    }
+
+    private void scollToZero() {
+//        nsv.scrollTo(0,0);
     }
 
     private boolean isSelectedAllDate() {
@@ -785,13 +819,13 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
     }
 
     private void setContactAdapter() {
-        if (contactAdapter != null) {
-            contactAdapter.notifyDataSetChanged();
-        } else {
-            contactAdapter = new ContactAdapter(this, this, contactNumberList);
-            contactRecycler.setAdapter(contactAdapter);
-        }
 
+        contactAdapter = new ContactAdapter(this, this, contactNumberList,this);
+        contactInviteAdapter = new ContactAdapter(this, this, contactInviteList,this);
+        concatAdapter = new ConcatAdapter();
+        concatAdapter.addAdapter(contactAdapter);
+        concatAdapter.addAdapter(contactInviteAdapter);
+        contactRecycler.setAdapter(concatAdapter);
         if (transactionModel != null && transactionModel.getId() != null && transactionModel.getId().length() > 0) {
             String userId = SharedPref.getPrefsHelper().getPref(Const.Var.USER_ID).toString();
 
@@ -1235,7 +1269,7 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_get_contact_list), values);
             if (apiCalling != null) {
-                apiCalling.setRunInBackground(true);
+                apiCalling.setRunInBackground(false);
                 apiCalling.callAPI(zapayApp, call, getString(R.string.api_get_contact_list), contactRecycler);
             }
         } catch (Exception e) {
@@ -1458,7 +1492,14 @@ public class LendBorrowActivity extends BaseActivity implements View.OnClickList
                     if (list.size() > 0) {
                         noDataTv.setVisibility(View.GONE);
                         contactRecycler.setVisibility(View.VISIBLE);
-                        contactNumberList.addAll(list);
+                        for (int i=0; list.size()>i; i++){
+                            ContactModel model = list.get(i);
+                            if (model.getIsInvite() == 0){
+                                contactNumberList.add(model);
+                            }else{
+                                contactInviteList.add(model);
+                            }
+                        }
                         setContactAdapter();
                     } else {
                         if (pageNo == 0) {

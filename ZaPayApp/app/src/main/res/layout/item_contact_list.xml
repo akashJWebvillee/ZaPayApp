@@ -8,12 +8,13 @@
     android:paddingBottom="11dp"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    tools:ignore="UseCompoundDrawables">
+    android:id="@+id/llView"
+    android:background="?attr/selectableItemBackground">
 
     <ImageView
         android:id="@+id/contactImgSelect"
-        android:layout_width="14dp"
-        android:layout_height="14dp"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
         android:contentDescription="@null"
         android:src="@drawable/checkbox_unselect"
         android:layout_marginStart="23dp"/>
