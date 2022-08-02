@@ -92,16 +92,33 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         intent.putExtra("transaction_request_id", transaction_request_id);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-                        PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis()/* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                        boolean flag = false;
+                        PendingIntent pendingIntent ;
+
+
+                        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.S)
+                        {
+                            pendingIntent=PendingIntent.getActivity(this,(int) System.currentTimeMillis(),intent,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_MUTABLE);
+                        }else {
+                            pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis()/* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        }
+                             boolean flag = false;
                         createImageBuilder(title, message, pendingIntent, flag);
                     } else {
                         intent = new Intent(this, ChatActivity.class);
                         intent.putExtra("transaction_id", transaction_request_id);
 
                         Objects.requireNonNull(intent).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis()/* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                        boolean flag = false;
+                        PendingIntent pendingIntent ;
+
+                        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.S)
+                        {
+                            pendingIntent=PendingIntent.getActivity(this,(int) System.currentTimeMillis(),intent,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_MUTABLE);
+                        }else {
+
+
+                            pendingIntent=  PendingIntent.getActivity(this, (int) System.currentTimeMillis()/* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                        }boolean flag = false;
                         createImageBuilder(title, message, pendingIntent, flag);
                     }
                 } else {
@@ -124,7 +141,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                             intent.putExtra("from_id", from_id);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-                            PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis()/* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                            PendingIntent pendingIntent ;
+
+                            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.S)
+                            {
+                                pendingIntent=PendingIntent.getActivity(this,(int) System.currentTimeMillis(),intent,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_MUTABLE);
+                            }else {
+
+
+                                pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis()/* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                            }
                             boolean flag = false;
                             createImageBuilder(title, message, pendingIntent, flag);
                         } else {
@@ -199,7 +225,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                             //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                             Objects.requireNonNull(intent).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                            PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis()/* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                            PendingIntent pendingIntent ;
+
+                            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.S)
+                            {
+                                pendingIntent=PendingIntent.getActivity(this,(int) System.currentTimeMillis(),intent,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_MUTABLE);
+                            }else {
+                                pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis()/* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                            }
                             boolean flag = false;
                             createImageBuilder(title, message, pendingIntent, flag);
                         }
@@ -209,7 +243,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             } else {
                 intent = new Intent(this, SplashActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis()/* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                PendingIntent pendingIntent ;
+
+                if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.S)
+                {
+                    pendingIntent=PendingIntent.getActivity(this,(int) System.currentTimeMillis(),intent,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_MUTABLE);
+                }else {
+
+                     pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis()/* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                }
                 boolean flag = false;
                 createImageBuilder(title, message, pendingIntent, flag);
             }
