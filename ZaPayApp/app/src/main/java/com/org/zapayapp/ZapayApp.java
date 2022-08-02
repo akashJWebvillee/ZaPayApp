@@ -8,6 +8,8 @@ import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
 import java.net.URISyntaxException;
 
+import io.branch.referral.Branch;
+
 public class ZapayApp extends Application {
 
     private APICallback apiCallback;
@@ -17,6 +19,10 @@ public class ZapayApp extends Application {
     public void onCreate() {
         super.onCreate();
         SharedPref.init(this);
+        Branch.enableLogging();
+
+        // Branch object initialization
+        Branch.getAutoInstance(this);
         try {
             mSocket = IO.socket(APICalling.CHAT_SERVER_URL);
         } catch (URISyntaxException e) {

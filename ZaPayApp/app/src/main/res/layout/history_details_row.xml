@@ -39,7 +39,7 @@
                     android:gravity="start"
                     android:text="@string/borrower"
                     android:textColor="@color/navTextColor60Alpha"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/nameTV"
@@ -399,15 +399,15 @@
                 </LinearLayout>
 
 
-
                 <LinearLayout
                     android:id="@+id/defaultFeeLL"
-                    android:layout_below="@+id/totalPayBackAmountLL"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:layout_below="@+id/totalPayBackAmountLL"
                     android:layout_marginStart="27dp"
-                    android:layout_marginTop="25dp">
+                    android:layout_marginTop="25dp"
+                    android:orientation="vertical">
+
                     <TextView
                         android:id="@+id/defaultFeeTV"
                         android:layout_width="wrap_content"
@@ -423,12 +423,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
+                        android:layout_marginBottom="10dp"
                         android:fontFamily="@font/gotha_promed"
                         android:gravity="start"
                         android:text=""
                         android:textColor="@color/navTextColor"
-                        android:textSize="20sp"
-                        android:layout_marginBottom="10dp"/>
+                        android:textSize="20sp" />
 
                 </LinearLayout>
 

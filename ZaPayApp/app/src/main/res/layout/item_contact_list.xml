@@ -3,22 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="27dp"
-    android:layout_marginTop="22dp"
+
+    android:paddingTop="11dp"
+    android:paddingBottom="11dp"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    tools:ignore="UseCompoundDrawables">
+    android:id="@+id/llView"
+    android:background="?attr/selectableItemBackground">
 
     <ImageView
         android:id="@+id/contactImgSelect"
-        android:layout_width="14dp"
-        android:layout_height="14dp"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
         android:contentDescription="@null"
-        android:src="@drawable/checkbox_unselect" />
+        android:src="@drawable/checkbox_unselect"
+        android:layout_marginStart="23dp"/>
 
     <TextView
         android:id="@+id/contactTxtName"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="23dp"
         android:layout_marginEnd="23dp"
@@ -28,5 +31,24 @@
         android:textColor="@color/textColor"
         android:textSize="20sp"
         android:maxLines="1"
-        android:ellipsize="end"/>
+        android:layout_weight="1"
+        android:ellipsize="end" />
+
+      <TextView
+          android:id="@+id/btnInvite"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginEnd="23dp"
+          android:text="@string/invite"
+          android:textAllCaps="true"
+          android:textColor="@color/colorWhite"
+          android:paddingLeft="8dp"
+          android:paddingRight="8dp"
+          android:paddingTop="2dp"
+          android:paddingBottom="2dp"
+          android:textStyle="bold"
+          android:textSize="12sp"
+          android:background="@color/colorPrimaryDark"
+          android:visibility="gone"/>
+
 </LinearLayout>

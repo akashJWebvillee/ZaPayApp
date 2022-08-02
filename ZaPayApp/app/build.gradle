@@ -10,7 +10,7 @@ android {
         applicationId "com.org.zapayapp"
         minSdkVersion 21
         targetSdkVersion 32
-        versionCode 1
+        versionCode 2
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -61,6 +61,7 @@ dependencies {
     implementation 'com.github.siyamed:android-shape-imageview:0.9.3@aar'
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.test:core-ktx:1.4.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -92,14 +93,25 @@ dependencies {
 //for open PDF file
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
 
+    implementation 'gun0912.ted:tedpermission:2.2.3'
 
     implementation('com.github.nkzawa:socket.io-client:0.6.0') {
         exclude group: 'org.json', module: 'json'
     }
+    implementation 'io.michaelrocks:libphonenumber-android:8.12.51' //to separate country code from phone numbers
+
+    implementation 'io.branch.sdk.android:library:5.+'
+    // required if your app is in the Google Play Store (tip: avoid using bundled play services libs)
+    implementation 'com.google.android.gms:play-services-ads-identifier:17.1.0+'
+    // alte
+    implementation 'androidx.browser:browser:1.0.0'
 
     implementation platform('com.google.firebase:firebase-bom:25.12.0')
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.google.firebase:firebase-analytics'
+    implementation 'androidx.recyclerview:recyclerview:1.3.0-beta01'
+
+
 }
 repositories {
     mavenCentral()

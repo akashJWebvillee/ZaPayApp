@@ -48,7 +48,12 @@ class WalletTransactionAdapter(val context: Context, val transactionList: ArrayL
 
 
         if (model.status.isNotEmpty()) {
-            holder.statusTV.text = model.status
+            holder.statusTV.text = model.status.capitalize(Locale.getDefault())
+            if (model.status.equals("processed")){
+                holder.statusTV.setTextColor(context.resources.getColor(R.color.greenColor))
+            }else{
+                holder.statusTV.setTextColor(context.resources.getColor(R.color.colorRed))
+            }
         }
 
 
