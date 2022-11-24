@@ -41,6 +41,7 @@
                 android:text="@string/verify_account"
                 android:textColor="@color/textColorBold"
                 android:textSize="20sp" />
+
         </RelativeLayout>
 
         <View

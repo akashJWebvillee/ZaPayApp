@@ -59,11 +59,11 @@ public class ImagePathUtil {
                     uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
                 }
                 selection = "_id=?";
-                selectionArgs = new String[]{ split[1] };
+                selectionArgs = new String[]{split[1]};
             }
         }
         if ("content".equalsIgnoreCase(uri.getScheme())) {
-            String[] projection = { MediaStore.Images.Media.DATA };
+            String[] projection = {MediaStore.Images.Media.DATA};
             Cursor cursor = null;
             try {
                 cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
@@ -207,7 +207,7 @@ public class ImagePathUtil {
     public static Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title" + System.currentTimeMillis(), null);
         return Uri.parse(path);
     }
 

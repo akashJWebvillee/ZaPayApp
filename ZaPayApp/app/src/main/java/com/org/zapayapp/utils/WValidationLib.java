@@ -1,14 +1,17 @@
 package com.org.zapayapp.utils;
+
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.org.zapayapp.R;
 import com.org.zapayapp.uihelpers.CustomTextInputLayout;
+
 import java.util.regex.Pattern;
 
 public class WValidationLib {
@@ -16,8 +19,8 @@ public class WValidationLib {
      * Regular Expression
      */
     private static final String EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-   // private static final String PASSWORD_REGEX = "^.{8,15}$";
-   // private static final String PASSWORD_REGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[d$@$!%*?&#])[A-Za-z\\dd$@$!%*?&#]{12,}";
+    // private static final String PASSWORD_REGEX = "^.{8,15}$";
+    // private static final String PASSWORD_REGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[d$@$!%*?&#])[A-Za-z\\dd$@$!%*?&#]{12,}";
     private static final String PASSWORD_REGEX = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{12,}";
 
     private static final String USERNAME_REGEX = "^([-_A-Za-z0-9])*$";
@@ -265,7 +268,7 @@ public class WValidationLib {
             return false;
         }
 
-             if(text.length()<= 11){
+        if (text.length() <= 11) {
             inputLayout.requestFocus();
             //inputLayout.setError(errMsg);
             inputLayout.setErrorEnabled(true);
@@ -275,8 +278,7 @@ public class WValidationLib {
         }
 
 
-
-             // pattern doesn't match so returning false
+        // pattern doesn't match so returning false
         if (required && !Pattern.matches(regex, text)) {
             inputLayout.requestFocus();
             //inputLayout.setError(errMsg);
@@ -593,7 +595,9 @@ public class WValidationLib {
 
 
         float amount1 = Float.parseFloat(text);
-        if (amount1 > 0.11) {
+
+        //  if (amount1 > 0.11) {
+        if (amount1 > 0.1 || amount1 < 0.0) {
             inputLayout.requestFocus();
             //et.setError(errMsg);
             inputLayout.setErrorEnabled(true);
@@ -625,7 +629,8 @@ public class WValidationLib {
         }
 
         float amount2 = Float.parseFloat(text);
-        if (amount2 > 0.03) {
+      //  if (amount2 > 0.03) {
+        if (amount2 > 0.1 || amount2 < 0.0) {
             inputLayout.requestFocus();
             //et.setError(errMsg);
             inputLayout.setErrorEnabled(true);
@@ -866,9 +871,9 @@ public class WValidationLib {
             return false;
         }
 
-        if (text!=null&&text.length()>0){
+        if (text != null && text.length() > 0) {
             float term = Float.parseFloat(text);
-            if (term<1) {
+            if (term < 1) {
                 inputLayout.requestFocus();
                 //et.setError(errMsg);
                 inputLayout.setErrorEnabled(true);
@@ -880,7 +885,6 @@ public class WValidationLib {
 
         return true;
     }
-
 
 
     public boolean isValidNoOfPayment(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
@@ -901,7 +905,7 @@ public class WValidationLib {
             return false;
         }
         float noOfPayment = Float.parseFloat(text);
-        if (noOfPayment<1) {
+        if (noOfPayment < 1) {
             inputLayout.requestFocus();
             //et.setError(errMsg);
             inputLayout.setErrorEnabled(true);

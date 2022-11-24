@@ -3,6 +3,7 @@ package com.org.zapayapp.dialogs;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -138,6 +139,9 @@ public class AddBankDialogActivity extends AppCompatActivity implements View.OnC
                     "bank_account_type", bankAccountType.toLowerCase(),
                     "name", nameEditText.getText().toString().trim());
 
+            Log.e("jsonsadasdsadsads","Hasmap = " + values);
+            Log.e("jsonsadasdsadsads","token = " + token);
+
             zapayApp.setApiCallback(this);
             Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_add_bank_account), values);
             if (apiCalling != null) {
@@ -150,6 +154,10 @@ public class AddBankDialogActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void apiCallback(JsonObject json, String from) {
+
+        Log.e("jsonsadasdsadsads","jsonjsonjson = " + json.toString());
+        Log.e("jsonsadasdsadsads","fromfromfrom = " + from);
+
         if (from != null) {
             int status = 0;
             String msg = "";

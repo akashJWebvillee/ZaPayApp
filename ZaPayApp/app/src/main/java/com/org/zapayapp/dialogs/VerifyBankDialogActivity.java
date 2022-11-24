@@ -1,15 +1,19 @@
 package com.org.zapayapp.dialogs;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -25,16 +29,18 @@ import com.org.zapayapp.utils.WValidationLib;
 import com.org.zapayapp.webservices.APICallback;
 import com.org.zapayapp.webservices.APICalling;
 import com.org.zapayapp.webservices.RestAPI;
+
 import java.util.HashMap;
+
 import retrofit2.Call;
 
-public class VerifyBankDialogActivity extends AppCompatActivity implements View.OnClickListener , APICallback,SimpleAlertFragment.AlertSimpleCallback{
+public class VerifyBankDialogActivity extends AppCompatActivity implements View.OnClickListener, APICallback, SimpleAlertFragment.AlertSimpleCallback {
     private TextView saveTV;
     private ImageView closeTV;
     private String header = "";
 
     private Spinner bankAccountTypeSpinner;
-    private String bankAccountType="";
+    private String bankAccountType = "";
 
     public WValidationLib wValidationLib;
     /*Code for API calling*/
@@ -61,6 +67,7 @@ public class VerifyBankDialogActivity extends AppCompatActivity implements View.
         initAction();
         apicodeInit();
     }
+
     private void getIntentValues() {
         try {
             Intent intent = getIntent();
@@ -82,13 +89,12 @@ public class VerifyBankDialogActivity extends AppCompatActivity implements View.
     }
 
     private void init() {
-        wValidationLib=new WValidationLib(VerifyBankDialogActivity.this);
+        wValidationLib = new WValidationLib(VerifyBankDialogActivity.this);
 
         saveTV = findViewById(R.id.saveTV);
         //accountNumberTV = findViewById(R.id.accountNumberTV);
         //routNumberTV = findViewById(R.id.routNumberTV);
         closeTV = findViewById(R.id.closeTV);
-
 
         amount1InputLayout = findViewById(R.id.amount1InputLayout);
         amount2InputLayout = findViewById(R.id.amount2InputLayout);
@@ -101,7 +107,6 @@ public class VerifyBankDialogActivity extends AppCompatActivity implements View.
     private void initAction() {
         saveTV.setOnClickListener(this);
         closeTV.setOnClickListener(this);
-
     }
 
     @Override
@@ -119,27 +124,24 @@ public class VerifyBankDialogActivity extends AppCompatActivity implements View.
                     }
                 }*/
 
-
-             if (wValidationLib.isValidAmount1(amount1InputLayout, amount1EditText, getString(R.string.important),getString(R.string.amount1ValidationMsg), true)){
-                 if (wValidationLib.isValidAmount2(amount2InputLayout, amount2EditText, getString(R.string.important),getString(R.string.amount2ValidationMsg), true)){
-                     callAPIVerifyBankAccount();
-                 }
-             }
-
-
-
+                if (wValidationLib.isValidAmount1(amount1InputLayout, amount1EditText, getString(R.string.important), getString(R.string.amount1ValidationMsg), true)) {
+                    if (wValidationLib.isValidAmount2(amount2InputLayout, amount2EditText, getString(R.string.important), getString(R.string.amount2ValidationMsg), true)) {
+                        callAPIVerifyBankAccount();
+                    }
+                }
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-        }else if (v.equals(closeTV)){
+        } else if (v.equals(closeTV)) {
             finish();
         }
+
     }
 
     private void callAPIVerifyBankAccount() {
-        String token= SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+        String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
         try {
             HashMap<String, Object> values = apiCalling.getHashMapObject(
                     "id", SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_ID).toString(),
@@ -147,7 +149,8 @@ public class VerifyBankDialogActivity extends AppCompatActivity implements View.
                     "amount2", amount2EditText.getText().toString().trim());
 
             zapayApp.setApiCallback(this);
-            Call<JsonElement> call = restAPI.postWithTokenApi(token,getString(R.string.api_verify_bank_account_by_micro_deposits), values);
+
+            Call<JsonElement> call = restAPI.postWithTokenApi(token, getString(R.string.api_verify_bank_account_by_micro_deposits), values);
             if (apiCalling != null) {
                 apiCalling.callAPI(zapayApp, call, getString(R.string.api_verify_bank_account_by_micro_deposits), saveTV);
             }
@@ -158,6 +161,10 @@ public class VerifyBankDialogActivity extends AppCompatActivity implements View.
 
     @Override
     public void apiCallback(JsonObject json, String from) {
+
+        Log.e("jsonsadasdsadsads","jsonjsonjson = " + json.toString());
+        Log.e("jsonsadasdsadsads","fromfromfrom = " + from);
+
         if (from != null) {
             int status = 0;
             String msg = "";
@@ -169,12 +176,12 @@ public class VerifyBankDialogActivity extends AppCompatActivity implements View.
             }
 
             if (from.equals(getResources().getString(R.string.api_verify_bank_account_by_micro_deposits))) {
-                if (status==200){
-                    bankAccountType="";
+                if (status == 200) {
+                    bankAccountType = "";
                     amount1EditText.setText("");
                     amount2EditText.setText("");
                     showSimpleAlert(msg, getResources().getString(R.string.api_verify_bank_account_by_micro_deposits));
-                }else {
+                } else {
                     showSimpleAlert(msg, "");
                 }
             }
@@ -200,10 +207,11 @@ public class VerifyBankDialogActivity extends AppCompatActivity implements View.
 
     @Override
     public void onSimpleCallback(String from) {
-        if (from.equals(getResources().getString(R.string.api_verify_bank_account_by_micro_deposits))){ ;
-            Intent intent=new Intent();
+        if (from.equals(getResources().getString(R.string.api_verify_bank_account_by_micro_deposits))) {
+            ;
+            Intent intent = new Intent();
             //intent.putExtra("MESSAGE",message);
-            setResult(3,intent);
+            setResult(3, intent);
             finish();//finishing activity
         }
     }
