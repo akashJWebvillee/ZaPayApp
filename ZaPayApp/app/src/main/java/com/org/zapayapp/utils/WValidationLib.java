@@ -593,7 +593,6 @@ public class WValidationLib {
             return false;
         }*/
 
-
         float amount1 = Float.parseFloat(text);
 
         //  if (amount1 > 0.11) {
@@ -608,12 +607,10 @@ public class WValidationLib {
         return true;
     }
 
-
     public boolean isValidAmount2(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
         WValidationLib v_lib = new WValidationLib(wContext);
         return v_lib.validAmount2(inputLayout, editText, requireMsg, errorMsg, required);
     }
-
 
     private boolean validAmount2(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg, String errorMsg, boolean required) {
         String text = inputLayout.getEditText().getText().toString().trim();
