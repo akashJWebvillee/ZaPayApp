@@ -16,6 +16,7 @@ import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.SharedPref;
 
 public class SetPinActivity extends BaseActivity {
+
     private EditText et1, et2, et3, et4, et5, et6;
     private EditText[] editTexts;
     private String pin = "";
@@ -110,7 +111,6 @@ public class SetPinActivity extends BaseActivity {
         et5.setOnKeyListener(new PinOnKeyListener(4));
         et6.setOnKeyListener(new PinOnKeyListener(5));
 
-
         //for confirm pin
         cEditTexts = new EditText[]{cEt1, cEt2, cEt3, cEt4, cEt5, cEt6};
         cEt1.addTextChangedListener(new cPinTextWatcher(0));
@@ -127,14 +127,13 @@ public class SetPinActivity extends BaseActivity {
         cEt5.setOnKeyListener(new cPinOnKeyListener(4));
         cEt6.setOnKeyListener(new cPinOnKeyListener(5));
 
-
-
         forgetPinTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showForceUpdate(getString(R.string.session_expired),getString(R.string.forget_pin_msg), false, getString(R.string.cancel), false);
             }
         });
+
     }
 
 

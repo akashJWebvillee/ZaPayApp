@@ -1,5 +1,7 @@
 package com.org.zapayapp.activity;
 
+import static com.org.zapayapp.R.string.app_version_change;
+
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -639,7 +641,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
                     String versionName = BuildConfig.VERSION_NAME;
                     if (Double.parseDouble(versionName) != Double.parseDouble(android_version)) {
 //                        alertDialogCallback(this);
-                        showForceUpdate(getString(R.string.app_version_change), getString(R.string.app_version_change), false, "", false);
+                        showForceUpdate(getString(app_version_change), getString(app_version_change), false, "", false);
                     }
                 } else {
                     showSimpleAlert(msg, "");
@@ -766,7 +768,7 @@ public class BaseActivity extends AppCompatActivity implements SimpleAlertFragme
             clearLogout();
         } else if (from.equalsIgnoreCase(getString(R.string.do_you_want_to_close_the_application))) {
             finish();
-        } else if (from.equalsIgnoreCase(getString(R.string.app_version_change))) {
+        } else if (from.equalsIgnoreCase(getString(app_version_change))) {
             finish();
         }
     }

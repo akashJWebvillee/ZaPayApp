@@ -243,7 +243,7 @@
     <string name="please_enter_valid_password_same">Password &amp; confirm password should be same.</string>
     <string name="session_expired">Session expired</string>
     <string name="your_session_expired">Your session has expired.\nPlease login again.</string>
-    <string name="amount1ValidationMsg"> Amount should be in between $0.01 - $0.10</string>
+    <string name="amount1ValidationMsg"> Amount should be in between $0.01 - $0.10sss</string>
     <string name="amount2ValidationMsg"> Amount should be in between $0.01 - $0.10</string>
     <string name="enter_message">Type your message here..</string>
     <string name="type_message">Please enter message</string>
