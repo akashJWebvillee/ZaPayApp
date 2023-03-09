@@ -13,8 +13,10 @@ import com.org.zapayapp.utils.Const.Var
 import io.branch.referral.util.ShareSheetStyle
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import com.org.zapayapp.utils.Const
 import io.branch.referral.Branch.BranchLinkShareListener
 import io.branch.referral.BranchError
 import io.branch.referral.util.LinkProperties
@@ -77,8 +79,9 @@ class ContactAdapter(
                 holder.btnInvite.visibility = View.VISIBLE
                 holder.contactImgSelect.visibility = View.GONE
                 holder.btnInvite.setOnClickListener {
+                    Log.e("DEFAULT_SHARE_MSG", "Var.DEFAULT_SHARE_MSG = " + Var.DEFAULT_SHARE_MSG);
                     val `object` = BranchUniversalObject()
-                    `object`.setTitle("ZaPay")
+                    `object`.title = "ZaPay"
                     `object`.setContentDescription(Var.DEFAULT_SHARE_MSG)
                     val linkProperties = LinkProperties()
                     val shareSheetStyle = ShareSheetStyle(context, "ZaPay", Var.DEFAULT_SHARE_MSG)
