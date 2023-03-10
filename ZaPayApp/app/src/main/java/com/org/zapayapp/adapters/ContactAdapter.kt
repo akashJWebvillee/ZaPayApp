@@ -13,9 +13,11 @@ import com.org.zapayapp.utils.Const.Var
 import io.branch.referral.util.ShareSheetStyle
 import android.app.Activity
 import android.content.Context
+import android.os.DeadObjectException
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import com.org.zapayapp.utils.CommonMethods
 import com.org.zapayapp.utils.Const
 import io.branch.referral.Branch.BranchLinkShareListener
 import io.branch.referral.BranchError
@@ -80,36 +82,48 @@ class ContactAdapter(
                 holder.contactImgSelect.visibility = View.GONE
                 holder.btnInvite.setOnClickListener {
                     Log.e("DEFAULT_SHARE_MSG", "Var.DEFAULT_SHARE_MSG = " + Var.DEFAULT_SHARE_MSG);
-                    val `object` = BranchUniversalObject()
-                    `object`.title = "ZaPay"
-                    `object`.setContentDescription(Var.DEFAULT_SHARE_MSG)
-                    val linkProperties = LinkProperties()
-                    val shareSheetStyle = ShareSheetStyle(context, "ZaPay", Var.DEFAULT_SHARE_MSG)
-                        .setAsFullWidthStyle(true)
-                        .setStyleResourceID(R.style.bottomSheetStyleWrapper)
-                        .setSharingTitle("Invite Friends")
-                    `object`.showShareSheet(
-                        (context as Activity),
-                        linkProperties,
-                        shareSheetStyle,
-                        object : BranchLinkShareListener {
-                            override fun onShareLinkDialogLaunched() {}
-                            override fun onShareLinkDialogDismissed() {}
-                            override fun onLinkShareResponse(
-                                sharedLink: String,
-                                sharedChannel: String,
-                                error: BranchError
-                            ) {
-                            }
 
-                            override fun onChannelSelected(channelName: String) {}
-                        })
+                    try {
+                        val `object` = BranchUniversalObject()
+                        `object`.title = "ZaPay"
+                        `object`.setContentDescription(Var.DEFAULT_SHARE_MSG)
+                        val linkProperties = LinkProperties()
+                        val shareSheetStyle = ShareSheetStyle(context, "ZaPay", Var.DEFAULT_SHARE_MSG)
+                            .setAsFullWidthStyle(true)
+                            .setStyleResourceID(R.style.bottomSheetStyleWrapper)
+                            .setSharingTitle("Invite Friends")
+                        `object`.showShareSheet(
+                            (context as Activity),
+                            linkProperties,
+                            shareSheetStyle,
+                            object : BranchLinkShareListener {
+                                override fun onShareLinkDialogLaunched() {}
+                                override fun onShareLinkDialogDismissed() {}
+                                override fun onLinkShareResponse(
+                                    sharedLink: String?,
+                                    sharedChannel: String?,
+                                    error: BranchError?
+                                ) {
+                                }
+
+                                override fun onChannelSelected(channelName: String) {}
+                            })
+
+                    } catch (e: java.lang.Exception) {
+                        Const.logMsg("eeeeee Share Link = " + e.message)
+                    }
                 }
             }
         }
-        if (model.mobileContactName != null && model.mobileContactName.length > 0) {
-            holder.contactTxtName.text = model.mobileContactName
+
+        try {
+            if (model.mobileContactName != null && model.mobileContactName.isNotEmpty()) {
+                holder.contactTxtName.text = model.mobileContactName
+            }
+        } catch (e: java.lang.Exception) {
+            Const.logMsg("eeeeee = " + e.message)
         }
+
     }
 
     override fun getItemCount(): Int {

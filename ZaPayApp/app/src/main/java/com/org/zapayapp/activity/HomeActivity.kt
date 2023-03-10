@@ -92,9 +92,10 @@ class HomeActivity : BaseActivity(), View.OnClickListener, APICallback {
 
 
     private fun createCSV() {
-        var writer: CSVWriter? = null
         try {
-            val fileName: String
+            var writer: CSVWriter? = null
+            try {
+                val fileName: String
 //            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
 //            {
 //                fileName =  Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS  +"/zapay_contacts.csv" ).absolutePath
@@ -105,69 +106,73 @@ class HomeActivity : BaseActivity(), View.OnClickListener, APICallback {
 //
 //            }
 
-            fileName = context1.cacheDir.absolutePath+"/zapay_contacts.csv"
+                fileName = context1.cacheDir.absolutePath+"/zapay_contacts.csv"
 
-            writer = CSVWriter(
-                FileWriter(
-                    fileName
+                writer = CSVWriter(
+                    FileWriter(
+                        fileName
+                    )
                 )
+            } catch (e1: IOException) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace()
+            }
+            var displayName: String
+            var number: String?
+            var countyCode:String
+            var _id: Long
+            val phoneNumberUtil = PhoneNumberUtil.createInstance(context1)
+            val columns = arrayOf(
+                ContactsContract.Contacts._ID,
+                ContactsContract.Contacts.DISPLAY_NAME,
             )
-        } catch (e1: IOException) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace()
-        }
-        var displayName: String
-        var number: String?
-        var countyCode:String
-        var _id: Long
-        val phoneNumberUtil = PhoneNumberUtil.createInstance(context1)
-        val columns = arrayOf(
-            ContactsContract.Contacts._ID,
-            ContactsContract.Contacts.DISPLAY_NAME,
-        )
-        writer!!.writeColumnNames() // Write column header
-        val cursor: Cursor = context1.contentResolver.query(
-            ContactsContract.Contacts.CONTENT_URI,
-            columns,
-            null,
-            null,
-            ContactsContract.Data.DISPLAY_NAME + " COLLATE LOCALIZED ASC"
-        )!!
-        if (cursor.moveToFirst()) {
-            do {
-                try {
-                _id =
-                    cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)).toLong()
-                displayName =
-                    cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
-                        .trim { it <= ' ' }
-               val number1 = getPrimaryNumber(_id)?.replace(" ","")
-                                            ?.replace("-","")
-                                            ?.replace("(","")
-                                            ?.replace(")","")
+            writer!!.writeColumnNames() // Write column header
+            val cursor: Cursor = context1.contentResolver.query(
+                ContactsContract.Contacts.CONTENT_URI,
+                columns,
+                null,
+                null,
+                ContactsContract.Data.DISPLAY_NAME + " COLLATE LOCALIZED ASC"
+            )!!
+            if (cursor.moveToFirst()) {
+                do {
+                    try {
+                        _id =
+                            cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID)).toLong()
+                        displayName =
+                            cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+                                .trim { it <= ' ' }
+                        val number1 = getPrimaryNumber(_id)?.replace(" ","")
+                            ?.replace("-","")
+                            ?.replace("(","")
+                            ?.replace(")","")
 
-                    val phoneNumber = phoneNumberUtil.parse(number1,Locale.getDefault().country)
-                    number = phoneNumber.nationalNumber.toString()
-                    countyCode = phoneNumber.countryCode.toString()
+                        val phoneNumber = phoneNumberUtil.parse(number1,Locale.getDefault().country)
+                        number = phoneNumber.nationalNumber.toString()
+                        countyCode = phoneNumber.countryCode.toString()
 
-                    if (number1.equals(number)) {
-                        countyCode ="0"
+                        if (number1.equals(number)) {
+                            countyCode ="0"
+                        }
+                        writer.writeNext("$displayName/${number}/$countyCode".split("/".toRegex()).toTypedArray())
+
+                    }catch (e: Exception){
+                        e.printStackTrace()
                     }
-                    writer.writeNext("$displayName/${number}/$countyCode".split("/".toRegex()).toTypedArray())
+                } while (cursor.moveToNext())
+                csv_status = true
+            } else {
+                csv_status = false
+            }
+            try {
+                if (writer != null) writer.close()
+            } catch (e: IOException) {
+                Log.w("Test", e.toString())
+            }
+        } catch (e:java.lang.Exception) {
 
-                }catch (e: Exception){
-                    e.printStackTrace()
-                }
-            } while (cursor.moveToNext())
-            csv_status = true
-        } else {
-            csv_status = false
         }
-        try {
-            if (writer != null) writer.close()
-        } catch (e: IOException) {
-            Log.w("Test", e.toString())
-        }
+
     } // Method  close.
 
 

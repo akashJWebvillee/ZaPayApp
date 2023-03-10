@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary"
     android:orientation="vertical">
 
@@ -27,13 +27,13 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/oval_bg"/>
+            android:background="@drawable/oval_bg" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="27dp"
-            android:background="@drawable/rectanguler_bottom_corner"/>
+            android:background="@drawable/rectanguler_bottom_corner" />
     </RelativeLayout>
 
     <LinearLayout
@@ -41,13 +41,14 @@
         android:layout_height="match_parent"
         android:layout_marginStart="18dp"
         android:layout_marginTop="220dp"
-        android:paddingBottom="50dp"
-        android:backgroundTint="@color/colorWhite"
-        android:background="@drawable/rectanguler_bg"
-        android:elevation="3dp"
-        android:layout_marginBottom="35dp"
         android:layout_marginEnd="18dp"
-        android:orientation="vertical">
+        android:layout_marginBottom="35dp"
+        android:background="@drawable/rectanguler_bg"
+        android:backgroundTint="@color/colorWhite"
+        android:elevation="3dp"
+        android:orientation="vertical"
+        android:paddingBottom="50dp">
+
         <TextView
             android:id="@+id/lendTxtHeader"
             android:layout_width="match_parent"
@@ -58,7 +59,8 @@
             android:paddingBottom="27dp"
             android:text="@string/terms"
             android:textColor="@color/textColorBold"
-            android:textSize="24sp"/>
+            android:textSize="24sp" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -70,82 +72,74 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-                <LinearLayout
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/lendTxtAmount"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="78dp"
+                    android:layout_marginStart="19dp"
+                    android:layout_marginTop="27dp"
+
+                    android:layout_marginEnd="19dp"
+                    android:background="@drawable/rectanguler_border_light"
+                    android:fontFamily="@font/gotha_pro_reg"
+                    android:gravity="end|center_vertical"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:text="0"
+                    android:textColor="@color/navTextColor50Alpha"
+                    android:textSize="30sp" />
+
+                <include layout="@layout/view_amount" />
+
+                <include layout="@layout/view_terms" />
+
+                <include layout="@layout/view_payment" />
+
+                <include layout="@layout/view_payback" />
+
+                <include layout="@layout/view_borrow_summary" />
+
+                <include layout="@layout/view_lending_summary" />
 
 
-
-
-                    <TextView
-                        android:id="@+id/lendTxtAmount"
-                        android:layout_width="match_parent"
-                        android:layout_height="78dp"
-                        android:fontFamily="@font/gotha_pro_reg"
-                        android:gravity="end|center_vertical"
-
-                        android:layout_marginTop="27dp"
-                        android:layout_marginStart="19dp"
-                        android:paddingStart="15dp"
-                        android:paddingEnd="15dp"
-                        android:layout_marginEnd="19dp"
-                        android:background="@drawable/rectanguler_border_light"
-                        android:text="0"
-                        android:textColor="@color/navTextColor50Alpha"
-                        android:textSize="30sp"/>
-
-                 <include
-                     layout="@layout/view_amount"/>
-
-                 <include
-                     layout="@layout/view_terms"/>
-
-                    <include
-                        layout="@layout/view_payment"/>
-
-                    <include
-                        layout="@layout/view_payback"/>
-
-                    <include
-                        layout="@layout/view_borrow_summary"/>
-
-                    <include
-                        layout="@layout/view_lending_summary"/>
-
-
-
-                </LinearLayout>
+            </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-        <include
-            layout="@layout/view_contact"/>
+
+        <include layout="@layout/view_contact" />
 
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="38dp"
-        android:elevation="3dp"
-        android:weightSum="1"
         android:layout_marginStart="38dp"
-        android:baselineAligned="false">
+        android:layout_marginEnd="38dp"
+        android:baselineAligned="false"
+        android:elevation="3dp"
+        android:weightSum="1">
 
         <com.dd.ShadowLayout
             android:id="@+id/lendShadowBack"
             android:layout_width="0dp"
-            android:layout_weight="0.5"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:sl_cornerRadius="56dp"
             android:layout_marginEnd="10dp"
+            android:layout_weight="0.5"
             android:elevation="3dp"
+            android:visibility="visible"
+            app:sl_cornerRadius="56dp"
             app:sl_dx="0dp"
             app:sl_dy="10dp"
-            android:visibility="visible"
             app:sl_shadowColor="#3319151B"
             app:sl_shadowRadius="4dp"
 
@@ -157,22 +151,21 @@
                 android:layout_height="53dp"
                 android:background="@drawable/rectanguler_button_bg"
                 android:backgroundTint="@color/textColor"
+                android:fontFamily="@font/gotha_probol"
                 android:gravity="center"
                 android:lineSpacingExtra="5dp"
                 android:text="@string/back"
-                android:fontFamily="@font/gotha_probol"
                 android:textColor="@color/colorWhite"
-                android:textSize="16sp"
-               />
+                android:textSize="16sp" />
         </com.dd.ShadowLayout>
 
         <com.dd.ShadowLayout
             android:id="@+id/lendShadowNext"
             android:layout_width="0dp"
-            android:layout_weight="0.5"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="0.5"
             app:sl_cornerRadius="56dp"
             app:sl_dx="0dp"
             app:sl_dy="10dp"
@@ -185,10 +178,10 @@
                 android:layout_height="53dp"
                 android:background="@drawable/rectanguler_button_bg"
                 android:backgroundTint="@color/colorPrimary"
+                android:fontFamily="@font/gotha_probol"
                 android:gravity="center"
                 android:lineSpacingExtra="5dp"
                 android:text="@string/next"
-                android:fontFamily="@font/gotha_probol"
                 android:textColor="@color/colorWhite"
                 android:textSize="16sp" />
         </com.dd.ShadowLayout>
