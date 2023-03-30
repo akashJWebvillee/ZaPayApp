@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/headerLineView"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:orientation="vertical">
 
@@ -80,6 +80,7 @@
                 android:fontFamily="@font/gotha_promed"
                 android:text="@string/amount1"
                 android:textAllCaps="true"
+                android:layout_marginTop="10dp"
                 android:textColor="@color/textColorBold"
                 android:textSize="11sp"/>
 

@@ -89,11 +89,12 @@ public class VerifyBankDialogActivity extends AppCompatActivity implements View.
     }
 
     private void init() {
+
         wValidationLib = new WValidationLib(VerifyBankDialogActivity.this);
 
         saveTV = findViewById(R.id.saveTV);
-        //accountNumberTV = findViewById(R.id.accountNumberTV);
-        //routNumberTV = findViewById(R.id.routNumberTV);
+        // accountNumberTV = findViewById(R.id.accountNumberTV);
+        // routNumberTV = findViewById(R.id.routNumberTV);
         closeTV = findViewById(R.id.closeTV);
 
         amount1InputLayout = findViewById(R.id.amount1InputLayout);
@@ -118,17 +119,23 @@ public class VerifyBankDialogActivity extends AppCompatActivity implements View.
 
             try {
 
-             /*   if (wValidationLib.isEmpty(amount1InputLayout, amount1EditText, getString(R.string.important),true)) {
+             /* if (wValidationLib.isEmpty(amount1InputLayout, amount1EditText, getString(R.string.important),true)) {
                     if (wValidationLib.isEmpty(amount2InputLayout, amount2EditText, getString(R.string.important), true)) {
                         callAPIVerifyBankAccount();
                     }
                 }*/
 
-                if (wValidationLib.isValidAmount1(amount1InputLayout, amount1EditText, getString(R.string.important), getString(R.string.amount1ValidationMsg), true)) {
-                    if (wValidationLib.isValidAmount2(amount2InputLayout, amount2EditText, getString(R.string.important), getString(R.string.amount2ValidationMsg), true)) {
+                if (wValidationLib.hasText(amount1InputLayout, amount1EditText, getString(R.string.please_enter_amount))) {
+                    if (wValidationLib.hasText(amount2InputLayout, amount2EditText, getString(R.string.please_enter_amount))) {
                         callAPIVerifyBankAccount();
                     }
                 }
+
+//                if (wValidationLib.isValidAmount1(amount1InputLayout, amount1EditText, getString(R.string.important), getString(R.string.amount1ValidationMsg), true)) {
+//                    if (wValidationLib.isValidAmount2(amount2InputLayout, amount2EditText, getString(R.string.important), getString(R.string.amount2ValidationMsg), true)) {
+//
+//                    }
+//                }
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -162,8 +169,8 @@ public class VerifyBankDialogActivity extends AppCompatActivity implements View.
     @Override
     public void apiCallback(JsonObject json, String from) {
 
-        Log.e("jsonsadasdsadsads","jsonjsonjson = " + json.toString());
-        Log.e("jsonsadasdsadsads","fromfromfrom = " + from);
+        Log.e("jsonsadasdsadsads", "jsonjsonjson = " + json.toString());
+        Log.e("jsonsadasdsadsads", "fromfromfrom = " + from);
 
         if (from != null) {
             int status = 0;

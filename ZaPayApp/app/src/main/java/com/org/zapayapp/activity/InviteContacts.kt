@@ -79,7 +79,6 @@ class InviteContacts : Fragment() {
             .check()
     }
 
-
     private fun createCSV() {
         var writer: CSVWriter? = null
         try {

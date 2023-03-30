@@ -243,7 +243,7 @@
     <string name="please_enter_valid_password_same">Password &amp; confirm password should be same.</string>
     <string name="session_expired">Session expired</string>
     <string name="your_session_expired">Your session has expired.\nPlease login again.</string>
-    <string name="amount1ValidationMsg"> Amount should be in between $0.01 - $0.10sss</string>
+    <string name="amount1ValidationMsg"> Amount should be in between $0.01 - $0.10</string>
     <string name="amount2ValidationMsg"> Amount should be in between $0.01 - $0.10</string>
     <string name="enter_message">Type your message here..</string>
     <string name="type_message">Please enter message</string>
@@ -261,7 +261,8 @@
     <string name="please_verify_bank_account">Please verify bank account</string>
     <string name="are_you_sure_do_you_want_to_logout">Are you sure? do you want to logout?</string>
     <string name="explore_lending_borrowing">Now borrowing and lending amongst friends is just a click away. Explore the options below.</string>
-    <string name="verify_account_msg">To verify account you can put value for example amount1&#8211;0.10 ,amount2&#8211;0.03</string>
+<!--    <string name="verify_account_msg">To verify account you can put value for example amount1&#8211;0.10 ,amount2&#8211;0.03</string>-->
+<string name="verify_account_msg">To verify your bank account, enter the two micro deposits below. Please allow 1 – 3 business days if you don\'t see the micro deposits in your bank account.</string>
     <string name="do_you_want_to_close_the_application">Do you want to close the application?</string>
     <string name="rate_borrower">Rate Borrower</string>
     <string name="rate_lender">Rate Lender</string>
@@ -328,5 +329,6 @@
     <string name="if_you_reject_permissions">CDATA[<![CDATA[If you reject permissions,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]]]>></string>
     <string name="need_to_allow_this_contact_read">"Need to allow contacts reading permissions to ZaPay app, App using phone contacts to lend/borrow money from your in app friends"</string>
     <string name="invite">Invite</string>
+    <string name="please_enter_amount">Please enter amount</string>
 
 </resources>

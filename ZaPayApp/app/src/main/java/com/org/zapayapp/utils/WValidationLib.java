@@ -354,7 +354,7 @@ public class WValidationLib {
      */
     // check the input field has any text or not
     // return true if it contains text otherwise false
-    private boolean hasText(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg) {
+    public boolean hasText(TextInputLayout inputLayout, TextInputEditText editText, String requireMsg) {
 
         String text = editText.getText().toString().trim();
         inputLayout.setError(null);

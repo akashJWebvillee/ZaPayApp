@@ -22,6 +22,7 @@ import com.org.zapayapp.webservices.APICallback;
 import retrofit2.Call;
 
 public class BankInfoActivity extends BaseActivity implements View.OnClickListener, APICallback {
+
     private TextView changeTV, accountNumberTV, routingNumberTV;
     private TextView addTV;
     private ShadowLayout addShadowLayout, addShadowChange;
@@ -35,12 +36,16 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void init() {
+
         addShadowChange = findViewById(R.id.addShadowChange);
         accountNumberTV = findViewById(R.id.accountNumberTV);
         routingNumberTV = findViewById(R.id.routingNumberTV);
         addTV = findViewById(R.id.addTV);
         addShadowLayout = findViewById(R.id.addShadowLayout);
-        setData();
+//
+//      Intent intent = new Intent(BankInfoActivity.this, VerifyBankDialogActivity.class);
+//      startActivityForResult(intent, 3);
+
     }
 
     private void initAction() {
@@ -208,6 +213,7 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
                 showSimpleAlert(getString(R.string.complete_profile_alert), getString(R.string.alert_from_profile));
             }
         }
+
     }
 
     @Override

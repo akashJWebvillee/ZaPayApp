@@ -13,6 +13,7 @@ import android.text.style.ClickableSpan;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.text.util.Linkify;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
@@ -53,10 +54,47 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e("WhichMethod","onCreate");
         setContentView(R.layout.activity_login);
         fireBaseToken();
         inIt();
         inItAction();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e("WhichMethod","onResume");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.e("WhichMethod","onStart");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.e("WhichMethod","onRestart");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.e("WhichMethod","onStop");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.e("WhichMethod","onPause");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.e("WhichMethod","onDestroy");
     }
 
     private void inIt() {
