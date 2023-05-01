@@ -1,10 +1,13 @@
 package com.org.zapayapp.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import com.dd.ShadowLayout;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -18,8 +21,18 @@ import com.org.zapayapp.utils.Const;
 import com.org.zapayapp.utils.MySession;
 import com.org.zapayapp.utils.SharedPref;
 import com.org.zapayapp.webservices.APICallback;
+import com.org.zapayapp.webservices.APICalling;
+import com.org.zapayapp.webservices.FileCache;
+import com.org.zapayapp.webservices.MyProgressDialog;
+import com.org.zapayapp.webservices.RestAPI;
 
+import java.io.IOException;
+import java.util.HashMap;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class BankInfoActivity extends BaseActivity implements View.OnClickListener, APICallback {
 
@@ -70,9 +83,91 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
                 Intent intent = new Intent(BankInfoActivity.this, AddBankDialogActivity.class);
                 startActivityForResult(intent, 1);
             } else {
-                Intent intent = new Intent(BankInfoActivity.this, VerifyBankDialogActivity.class);
-                startActivityForResult(intent, 3);
+                callAPIInitiateMicroDeposit();
+//                Intent intent = new Intent(BankInfoActivity.this, VerifyBankDialogActivity.class);
+//                startActivityForResult(intent, 3);
             }
+        }
+    }
+
+    public void showLoader() {
+        MyProgressDialog.getInstance().show(BankInfoActivity.this);
+    }
+
+    public void hideLoader() {
+        MyProgressDialog.getInstance().dismiss();
+    }
+
+    private void callAPIInitiateMicroDeposit() {
+        try {
+
+            showLoader();
+
+            String token = SharedPref.getPrefsHelper().getPref(Const.Var.TOKEN).toString();
+
+//            AndroidNetworking.post("https://developer.webvilleedemo.xyz/zapay/api/initiatemicro")
+//                    .addHeaders("Authorization", token)
+//                    .addBodyParameter("id", SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_ID).toString())
+//                    .build()
+//                    .getAsString(new StringRequestListener() {
+//                        @Override
+//                        public void onResponse(String response) {
+//                            hideLoader();
+//                            CommonMethods.showLogs("onResponseonResponse", "onResponse  " + response);
+//                        }
+//
+//                        @Override
+//                        public void onError(ANError anError) {
+//                            hideLoader();
+//                            CommonMethods.showLogs("onResponseonResponse", "ANError  " + anError.getErrorBody());
+//                        }
+//                    });
+
+            HashMap<String, Object> values = apiCalling.getHashMapObject("id", SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_ID).toString());
+
+            RestAPI restAPI = APICalling.getDwollaRetrofitRestApi();
+
+            Call<ResponseBody> call = restAPI.checkInitiateMicroDeposit(token, values);
+            call.enqueue(new Callback<>() {
+                @Override
+                public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                    int statusCode = response.code();
+
+                    hideLoader();
+
+                    try {
+                        CommonMethods.showLogs("gdfddfdfdfdfdfdf", "gdfddfdfdfdfdfdf  " + statusCode);
+                       // CommonMethods.showLogs("gdfddfdfdfdfdfdf", "gdfddfdfdfdfdfdf  " + response.body().string());
+
+                        if ((statusCode == 201 && response.isSuccessful())) {
+                            Intent intent = new Intent(BankInfoActivity.this, VerifyBankDialogActivity.class);
+                            startActivityForResult(intent, 3);
+                        } else if(statusCode == 400) {
+                            Intent intent = new Intent(BankInfoActivity.this, VerifyBankDialogActivity.class);
+                            startActivityForResult(intent, 3);
+                        } else {
+                            JsonObject jsonObject = new JsonObject();
+                            jsonObject.addProperty("status", statusCode + "");
+                            jsonObject.addProperty("message", getResources().getString(R.string.something_wrong_check_network));
+                            apiCallback(jsonObject, getResources().getString(R.string.api_initiatemicro));
+                        }
+                    } catch (Exception e) {
+                        CommonMethods.showLogs("Failuredddd", "api calling  " + e.toString());
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                    hideLoader();
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("status", 500 + "");
+                    jsonObject.addProperty("message", getResources().getString(R.string.something_wrong_check_network));
+                    apiCallback(jsonObject, getResources().getString(R.string.api_initiatemicro));
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -128,11 +223,15 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void apiCallback(JsonObject json, String from) {
         if (from != null) {
+
             int status = 0;
             String msg = "";
+
             try {
                 status = json.get("status").getAsInt();
+                CommonMethods.showLogs("statusAAAAAAA", "status = " + status);
                 msg = json.get("message").getAsString();
+                CommonMethods.showLogs("statusAAAAAAA", "message = " + msg);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -140,12 +239,18 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
             if (from.equals(getResources().getString(R.string.api_get_bank_account_details))) {
                 if (status == 200) {
                     if (json.get("data").getAsJsonObject() != null) {
+
+                        // Log.e("jsonjsonjkkkkson", json.getAsJsonObject().toString());
+
+                        //  bankId = json.get("id").getAsString();
+
+                        //  Log.e("jsonjsonjkkkkson", "bankId = " + bankId);
+
                         MySession.saveBankData(json.get("data").getAsJsonObject());
                         setData();
                     }
                 } else if (status == 401) {
                     showForceUpdate(getString(R.string.session_expired), getString(R.string.your_session_expired), false, "", false);
-
                 }
             } else if (from.equals(getResources().getString(R.string.api_get_user_details))) {
                 if (status == 200) {
@@ -160,14 +265,29 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
                 } else {
                     showSimpleAlert(msg, "");
                 }
+            } else if (from.equals(getResources().getString(R.string.api_initiatemicro))) {
+                if (status == 201 || status == 400) {
+                    CommonMethods.showLogs("api_initiatemicro", "STATUS == " + status);
+                    CommonMethods.showLogs("api_initiatemicro", "MESSAGE == " + msg);
+                    Intent intent = new Intent(BankInfoActivity.this, VerifyBankDialogActivity.class);
+                    startActivityForResult(intent, 3);
+                } else {
+                    showSimpleAlert(msg, "");
+                }
+            } else {
+               // showSimpleAlert(msg, "");
             }
+
         }
+
     }
 
-
     private void setData() {
+
         if (SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER).toString().length() > 0) {
-            //accountNumberTV.setText(SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER, ""));
+            // accountNumberTV.setText(SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER, ""));
+
+            Log.e("setDatasetDatssssa", "BANK_ACCOUNT_ID = " + SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_ID).toString());
 
             String acNumber = SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER, "");
             int acLength = SharedPref.getPrefsHelper().getPref(Const.Var.ACCOUNT_NUMBER).toString().length();
@@ -181,9 +301,11 @@ public class BankInfoActivity extends BaseActivity implements View.OnClickListen
                 accountNumberTV.setText(acNumberStr + lastFourDigit);
             }
         }
+
         if (SharedPref.getPrefsHelper().getPref(Const.Var.ROUTING_NUMBER) != null && SharedPref.getPrefsHelper().getPref(Const.Var.ROUTING_NUMBER).toString().length() > 0) {
             routingNumberTV.setText(SharedPref.getPrefsHelper().getPref(Const.Var.ROUTING_NUMBER, ""));
         }
+
         if (SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_ID) != null && SharedPref.getPrefsHelper().getPref(Const.Var.BANK_ACCOUNT_ID).toString().length() > 0) {
             addTV.setText(getString(R.string.verify_account));
         } else {

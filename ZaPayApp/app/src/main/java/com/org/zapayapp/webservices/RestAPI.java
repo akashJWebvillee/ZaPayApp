@@ -3,6 +3,7 @@ import com.google.gson.JsonElement;
 import java.util.Map;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -20,6 +21,11 @@ import retrofit2.http.QueryMap;
 import retrofit2.http.Url;
 
 public interface RestAPI {
+
+    @FormUrlEncoded
+    @POST("initiatemicro")
+    Call<ResponseBody> checkInitiateMicroDeposit(@Header("Authorization") String authToken, @FieldMap Map<String, Object> fields);
+
     @GET
     Call<JsonElement> getApi(@Url String remainingURL);
 

@@ -39,13 +39,13 @@ import static com.org.zapayapp.webservices.WNetworkCheck.getConnectivityStatus;
 
 public class APICalling extends BaseRequestParser implements ServiceCallback<JsonElement> {
 
-    private static final String BASE_URL = "https://developer.webvilleedemo.xyz/zapay/api/";
-    public static final String CHAT_SERVER_URL = "http://mean.webvilleedemo.xyz:3005";
-    private static final String IMAGE_URL = "https://developer.webvilleedemo.xyz/zapay/";
+//    private static final String BASE_URL = "https://developer.webvilleedemo.xyz/zapay/api/";
+//    public static final String CHAT_SERVER_URL = "http://mean.webvilleedemo.xyz:3005";
+//    private static final String IMAGE_URL = "https://developer.webvilleedemo.xyz/zapay/";
 
-//    private static final String BASE_URL = "https://zapay.io/api/";
-//    public static final String CHAT_SERVER_URL = "https://chat.zapay.io/";
-//    private static final String IMAGE_URL = "https://zapay.io/";
+    private static final String BASE_URL = "https://zapay.io/api/";
+    public static final String CHAT_SERVER_URL = "https://chat.zapay.io/";
+    private static final String IMAGE_URL = "https://zapay.io/";
 
     private String TAG = "APICalling";
     private Activity activity;
@@ -124,6 +124,14 @@ public class APICalling extends BaseRequestParser implements ServiceCallback<Jso
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient.build())
+                .build();
+        return retrofit.create(RestAPI.class);
+    }
+
+    public static RestAPI getDwollaRetrofitRestApi() {
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL) // REMEMBER TO END with /
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
         return retrofit.create(RestAPI.class);
     }
@@ -556,6 +564,9 @@ public class APICalling extends BaseRequestParser implements ServiceCallback<Jso
 
     public void retry(final Call<JsonElement> call, final Callback<JsonElement> callback, View view) {
         try {
+            Log.e("responseressponse", "Callback = " + callback);
+            Log.e("responseressponse", "call = " + call);
+
             Snackbar.make(view, activity.getResources().getString(R.string.something_wrong_check_network), Snackbar.LENGTH_INDEFINITE).
                     setAction(activity.getResources().getString(R.string.retry), new View.OnClickListener() {
                         @Override
